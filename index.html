@@ -138,10 +138,21 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             font-size: 1.25rem;
             font-weight: bold;
             color: #0f172a;
             text-decoration: none;
+        }
+
+        .logo-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #0d9488;
         }
 
         .nav-links {
@@ -177,13 +188,56 @@
         .hero {
             text-align: center;
             padding: 4rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(13, 148, 136, 0.05) 50%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-avatar {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0d9488;
+            margin: 0 auto 2rem;
+            display: block;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-avatar:hover {
+            transform: scale(1.05);
         }
 
         .hero h1 {
             font-size: 3rem;
             font-weight: 800;
             color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .name-title {
+            font-size: 1.25rem;
+            color: #64748b;
             margin-bottom: 1rem;
+            font-weight: 500;
         }
 
         .hero h2 {
@@ -198,6 +252,16 @@
             color: #64748b;
             max-width: 48rem;
             margin: 0 auto 2rem;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .social-links {
@@ -577,7 +641,11 @@
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo">Joshua Hsiao</a>
+            <a href="#" class="logo">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAACAwABBAUGB//EADcQAAIBAwIDBgQFAwQDAAAAAAABAgMEEQUSITFBBhMiUWFxgZGhsRQywdHwFSNSU+Hh8SSTYP/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACMRAAICAgICAgMBAAAAAAAAAAABAhEDIRIxQVETImFxgQT/2gAMAwEAAhEDEQA/AMWz8B5pBKS3Yey7e3Pjhu8cOHU9q0yfDlxrVoShklU4RZZdJ1KXljLw5ezs9l/U7n/CWNy2p5J3YWIi4iNEjJ2bxhQ7kDcNcj7x8uXX9Aqjd6ff1YwfaFOHGKxJePLKz4FLo7EWJRmnSrT0u4TinVoVG95xKfoUcb6y7nDnLp0i40kTJqLtb/Z4rbw6jUqSjkpOyxd1N8aaynJnrrSsq9Cso8JKI4xOLu+30nC0y7tqb4yp8CpJqMZHBc9FTCxzl4pHPutT2wnLKy85wShCrLVNMn+/gUZyWZZPbj6/g9J9vb+nHVJU4PLhDGWevUdPo6tT+2lFRlJSkp+CXt4V5pqXG+hRNJ7JMX4d8FGhSknwPCY1qfgzjnT8q9Qx2xVLiqBGjWIopkLkREQBJSMGt9nF2vVhlpJTmpJw2rPLr9S3GnTOaE5KVo8vY9ldS0jXZ3VpdSUreMpS7yMcrH5fLHIqj2a0e8s/6hrtyq1J3CqKGJb/AA5WdkvFy8kfbLnT6Om2ELalKP4m5ajCeTHgqn1rxtLlGl22vKl3mxJ8mVXl8o7v1fh5O/QLuxrWdsq1WVN1FxWZ3F2v8wvvFznKSz6bWl1Kl7a08p0atNqWynJ9+8f+7zqXRrT8QA/BdNs6U3d07WioyajxqKKzxS9dPbhfM7ba0p6fe+W0sNY2Y8tLevDx9zjbZf9F4xJWKVXsQgkw1Lxpkq0VcWTm4Yp1YQX8iYpHNGNjJM5Ek1dJfGWO9e0P6e1Ka81P+4/jy3G5aV7+/hdLDVCMOEYylhZOSV1v4k4Lqsv4E4k3n1Nc8qVGtOTj7g2srLZkxKXEFGvT8LLFFEki2ZlaBZSySKKKJySUyMhJKZYklMDRRBskitTJFEEyAQojIBZeSyg0AzT1OJV/TqzT4Qi4x8yiHJJ9FZN+F2Xo0dvr3aJKGPwc/e6k/eD48+XXdUn9xYkQKtOF/dtGrKHe8tzy+BVWFOxs4xjhTxmXo+OBJLJOHDJdMhm9OMJOLm3KGOF6qWn/ADVL7YZBIydJRSUdpH0xY8SHUYl1IeLjhYRDdm6nLKFnKKfUsozJ1GyGONFMlSKLT3LJdwXBW8a/D7iRJRFWqKGHa1l7DLO5hxKt+k6lpnaNa/cKm6lN23eKLx7xZl03VdJvNUp20NSlSVedKNFwb4KWNykvMJdN0r3Rxw8vVdrvhBnTuIUF3qlGfLdJe4qj2guqGmx06qkqsI7KSXX2M3rE1xZnVW+HmWy5fEkTDlkbSo1ZyYWOLGbTUrZ7+CdGMlhJLGkVwwNqzhQfB5Zw6heVdLvXcWlCNN8Ywnjh8HRWWlM1hJZOVF8hcME7JGh8HTq0IYUZJo5nNGyGOMFp6NPazbDi6OQrJJFNhG6DKjyJclFWWI7XZKyIyGO1eHaluXfpDnNPgyX2k6hpFdwd9JqLwniWOJSGJKPkmdrJgRnTaL3ZZH3V1g3jlMtY5dFLOhRLU2KqMGLKlGEk2l4SdcKrFUVgpFi2xlBcx2VGqywrZJIqJFe5RTbOjA7W5hnCXyF/x/A6VzY4hQr0IqapVOCM9k50xNcLI4NRdTqR7rJfgJHlpfj6DtGr3Vxa3VKo8yy+9JX3LFx9z7Xo0dOFeMa0YuLOhpGlXGrULipVUu8uUorl1OcfYl3SStpkJYXJVVnJ1LLdTJ1UcHYI+lNR9ZLxSfUbSeI+xYrIfFdCZdMjMiURdlYpEwWAzMUxE2qV3XWPDOXHyE6XcO71VwqPMsrPsajNwpOpFOg/FsLJWJcq7Y2lqQ2iyKKKJQZpD0pEEQMtk4MqPyFQrBTOoNJEQT5QJ0jHDgitIoKtzZVYylH8xdF8DPjNHlJcJOPqvF8i+88WY8THQiIxNjSjBFgwZpxQpC6jxTx6ksIJhqp2gvJSwqCUfPQnJK0aJZOOrL2JRnKTbKT6oGqAy7FW4R06YqfUsX08LCDNTLKCsb6AQWKMj9DJcCatLnHjL/ABX4K5RlN0OKa9fYznVZS9sPY4sYJhRIhLEn/dQFNcF8i7eKrWlMJFpqL4gP8SpYe2aJNOILi5Q25RJo8E8epcfwVk8sAVx9YMJZOKfECPiXUFJXLs9NVpbKmUDHfabaX1w6tz3nfO3pYprxOKl5m6pBZZnP4Otvnp2x0tPTfXODKtsC6m3GNPh+0fYdWvGWJU8fqPaJNxTsb64Jjs85FJJweSVJGrOapYGCqEccEMLilklhO2Xj7GSqhccRjHJFdmLcKgqvOXNvhlhU00iBg2FBGd8WZmjTiEKtm4SjOtHY/FHJ62z02l6fp1pYWbqW9OLhWxTgpY5yXF8+Iz6MXkkqorLJqNmuN3DfJM1TzOPmcY01kl8bmlZZPGO2aLpPTFtGPKHhZj0b8tSrVklKnJwftFG2nPOGNdG0OpXmhZ7MbFDHKJo3HEqPE6bOkYpDUYGNJDEKjLKJ2JiQJlZfR8xqwzTtMdjOlqNhCvOtOFe3nGUpPblLlg3XLxOLZN3Fa3r3HdKjJxk5Zay3iL8kXhS8Tpm3J9GeNShVKr0pV6kqeUlDpw82PqN4w/H4kLgaJSTqjMGwKzwOhYWXGSRs6a0m5hKpKUqsG4zjTlzZzLKVFrK4M7e0DUr9KhCjUk4RnF4KvHX9F4l4m0x9lFv8AFKgLqMG6pEUo4eRfHjl+jq4sLjWkL8LWGjVPT6t3U3bqjUcPBJfzM8mqMb37A/nAd1S+Nw6L8ufNnfhzKC6NuLcrY6cKdnQzUawuOWVY3UKKh8MHJSo3U6xstKdKNH+w5N7t8Qhw4rqzJ5iGcfyzJepTqPj+pMV5y92TGaQtN6YKrPBcajOZGvLb5cxqrv0DePR8hYJTl0Fl4qFFw9xSrtMQVZcZ7mKKY7Lf9wR3ixxcV5ZGJoWaR9jGl1lhLr8BdWNbfJQprGX0Z12rnGGU/uJ7xKW5eFDGwpHJ7RVqFtqVr+HoKlJ0pQbj9Dp9RPWK7uraFCu8TjSxjziPFNaOnzGmOJZZq4uK7Q6v5yK5kppJmRTNMGwUWgsYZptJ3dpGirbEV4fNI5b0Wva01Kzktsg3GrKH5l15msxqgEYa8spjYCE8MtC1sjUrPfOZV+PFlkZZKYlKn2tpqtKMKWz0JcPc00fQlPLI9RhQWqczOqWi7VO5v3Tc+EcEznb8JdEUiqbfPBvZs1V/bVfJMZ7G+Z9hveTysDJMqj4oHnjgKTFqGejM0iOWMH1ZCnY6uZKZJZYHHk0YSFlMOOUTpB/XhHG8eWgd3OvJGXJOKsNgOGX6CmWqmRSTLxN2Y6F2vl1A41ExrfyJyKpGMu7vKtCOQIVHnBpq9GGCXEi4vBr9hJ4l4SQfnUaTJRy/Eb8zOjHIyy/Y+T5+T9yYHVF4Xqnlct4WM8xM1GEuVjLqTJnc4jYZODJzj3J7OiHPJN4h0x1gGysE5FeQ7eMeKGzVgGHiKDTGSFYJZrCiP2Dl0iSjKhFLzJGnqL4llyLQ9eQwZYIJYnhWKC1Gw+F2SJhwZl0gy7Bz/9k="
+                    alt="Joshua Hsiao" class="logo-avatar">
+                <span>Joshua Hsiao</span>
+            </a>
             <div class="nav-links">
                 <a href="#articles">Articles</a>
                 <a href="#videos">Videos</a>
@@ -591,25 +659,29 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Joshua Hsiao</h1>
-            <h2>AI/UX CONSULTANT</h2>
-            <p>
-                Pioneering Agentic UX for the healthcare and aging sectors. I design proactive, trustworthy AI
-                companions that foster independence, dignity, and connection, placing user privacy and control at the
-                forefront.
-            </p>
-            <div class="social-links">
-                <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="social-link">
-                    <i data-lucide="mail"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer"
-                    class="social-link">
-                    <i data-lucide="linkedin"></i>
-                </a>
-                <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer"
-                    class="social-link">
-                    <i data-lucide="youtube"></i>
-                </a>
+            <div class="hero-content">
+                <img src="data:image/jpeg;base64,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"
+                    alt="Joshua Hsiao" class="hero-avatar">
+                <h1>Joshua Hsiao</h1>
+                <p class="name-title">AI/UX Consultant & Researcher</p>
+                <h2>Pioneering Agentic UX</h2>
+                <p>
+                    Designing proactive, trustworthy AI companions that foster independence, dignity, and connection,
+                    placing user privacy and control at the forefront.
+                </p>
+                <div class="social-links">
+                    <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="social-link">
+                        <i data-lucide="mail"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer"
+                        class="social-link">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer"
+                        class="social-link">
+                        <i data-lucide="youtube"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
