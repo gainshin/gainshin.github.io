@@ -1202,27 +1202,27 @@
             const sections = document.querySelectorAll('section[id]');
             const navItems = document.querySelectorAll('.right-nav-item');
             const progressBar = document.querySelector('.right-nav-progress-bar');
-            
+
             // Calculate scroll progress
             const scrollTop = window.pageYOffset;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
-            
+
             if (progressBar) {
                 progressBar.style.width = `${Math.min(scrollPercent, 100)}%`;
             }
-            
+
             // Update active section
             let currentSection = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - 100;
                 const sectionHeight = section.offsetHeight;
-                
+
                 if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
                     currentSection = section.getAttribute('id');
                 }
             });
-            
+
             // Update nav item states
             navItems.forEach(item => {
                 item.classList.remove('active');
@@ -1232,10 +1232,10 @@
                 }
             });
         }
-        
+
         // Update on scroll
         window.addEventListener('scroll', updateRightNavigation);
-        
+
         // Update on load
         window.addEventListener('load', updateRightNavigation);
     </script>
