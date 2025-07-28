@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joshua Hsiao - AI/UX Consultant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            background: rgba(248, 250, 252, 0.9);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0d9488;
+        }
+
+        .btn-primary {
+            background-color: #0d9488;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0a7a6f;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 6rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: #64748b;
+            max-width: 48rem;
+            margin: 0 auto 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            color: #64748b;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: #cbd5e1;
+        }
+
+        /* Sections */
+        .section {
+            margin: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #0d9488;
+            font-size: 2rem;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-title {
+            color: #0d9488;
+        }
+
+        .card-description {
+            color: #64748b;
+            font-size: 0.875rem;
+            min-height: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            color: #0d9488;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .card-link i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-link i {
+            transform: translateX(0.25rem);
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            border-left: 2px solid #e2e8f0;
+            margin-left: 1.5rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 3rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -11px;
+            top: 4px;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #0d9488;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid #f8fafc;
+        }
+
+        .timeline-dot-inner {
+            width: 0.625rem;
+            height: 0.625rem;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .timeline-role {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .timeline-period {
+            font-size: 0.875rem;
+            color: #64748b;
+            background-color: #f1f5f9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .timeline-company {
+            font-weight: 600;
+            color: #0d9488;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            list-style: disc;
+            padding-left: 1rem;
+            color: #64748b;
+        }
+
+        .timeline-description li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-btn:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h4 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            display: flex;
+            align-items: center;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-list i {
+            color: #0d9488;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 6rem;
+        }
+
+        footer h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        footer p {
+            color: #94a3b8;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0 3rem;
+        }
+
+        .footer-social a {
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-bottom p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.25rem;
+            }
+
+            .timeline {
+                margin-left: 0;
+            }
+
+            .timeline-item {
+                padding-left: 2rem;
+            }
+
+            .timeline-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Hidden class for collapsible content */
+        .hidden {
+            display: none;
+        }
+
+        /* Video overlay */
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            padding: 1rem;
+            color: #0d9488;
+        }
+
+        .video-card {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Joshua Hsiao</a>
+            <div class="nav-links">
+                <a href="#articles">Articles</a>
+                <a href="#videos">Videos</a>
+                <a href="#experience">Experience</a>
+                <a href="#products">Products</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact" class="btn-primary">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Joshua Hsiao</h1>
+            <h2>AI/UX CONSULTANT</h2>
+            <p>
+                Pioneering Agentic UX for the healthcare and aging sectors. I design proactive, trustworthy AI
+                companions that foster independence, dignity, and connection, placing user privacy and control at the
+                forefront.
+            </p>
+            <div class="social-links">
+                <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="social-link">
+                    <i data-lucide="mail"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer"
+                    class="social-link">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer"
+                    class="social-link">
+                    <i data-lucide="youtube"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Recent Articles Section -->
+        <section id="articles" class="section">
+            <h3 class="section-title">
+                <i data-lucide="file-text"></i>
+                Recent Articles
+            </h3>
+            <div class="grid grid-3">
+                <a href="https://www.linkedin.com/pulse/your-design-system-asset-liability-evaluating-agentic-joshua-hsiao-jaxuc/?trackingId=wOTY4DxZ86yUkBl2ek5FNg%3D%3D"
+                    target="_blank" rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/63641fd8a_Screenshot2025-07-28at122002.png"
+                        alt="Traditional Design Systems">
+                    <div class="card-content">
+                        <h4 class="card-title">Traditional Design Systems</h4>
+                        <p class="card-description">Exploring the evolution from static rulebooks to intelligent
+                            'Experience Systems' powered by AI.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/pulse/your-design-system-asset-liability-evaluating-agentic-joshua-hsiao-wlycc/?trackingId=kZfoySUFxd%2F2cTyqQyQ%2FFw%3D%3D"
+                    target="_blank" rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/a603415e2_Screenshot2025-07-28at122021.png"
+                        alt="AIPET: Agency">
+                    <div class="card-content">
+                        <h4 class="card-title">AIPET: Agency</h4>
+                        <p class="card-description">A framework for AI Product Managers to navigate the dilemma between
+                            autonomous agents and helpful copilots.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/pulse/designing-ai-companions-minors-ux-framework-proactive-joshua-hsiao-jj7nf/?trackingId=v6kAz1LrRaexQiLRAeI7mQ%3D%3D"
+                    target="_blank" rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/e562d6509_Screenshot2025-07-28at122038.png"
+                        alt="Design Principles x Token">
+                    <div class="card-content">
+                        <h4 class="card-title">Design Principles x Token</h4>
+                        <p class="card-description">How the AIPET framework translates into machine-readable
+                            instructions through Design Tokens.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="https://privacyux.substack.com/s/ai-literacy-and-privacy-experience" target="_blank"
+                    rel="noopener noreferrer" class="btn-primary">
+                    See More Articles
+                </a>
+            </div>
+        </section>
+
+        <!-- YouTube Videos Section -->
+        <section id="videos" class="section">
+            <h3 class="section-title">
+                <i data-lucide="youtube"></i>
+                YouTube Channel
+            </h3>
+            <div class="grid grid-2">
+                <a href="https://www.youtube.com/watch?v=b6Qb-w9DT60" target="_blank" rel="noopener noreferrer"
+                    class="card video-card">
+                    <div style="position: relative;">
+                        <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6608e0eb0_Screenshot2025-07-27at165130.png"
+                            alt="Agentic UX Series - Part I">
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <i data-lucide="play" style="margin-left: 4px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Agentic UX Series - Part I</h4>
+                        <p class="card-description">Is Your Design System an Asset or a Liability? Evaluating Agentic
+                            Experiences with the AIPET Framework</p>
+                        <div class="card-link">
+                            Watch Video
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=CMyU0GI94NI" target="_blank" rel="noopener noreferrer"
+                    class="card video-card">
+                    <div style="position: relative;">
+                        <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/4568b0cde_Screenshot2025-07-27at185302.png"
+                            alt="Agentic UX Series - Part II">
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <i data-lucide="play" style="margin-left: 4px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Agentic UX Series - Part II</h4>
+                        <p class="card-description">Answering the Skeptics: Why We Need an "Experience System," Not Just
+                            an "Adaptive" One. Evaluating Agentic Experiences with the AIPET Framework</p>
+                        <div class="card-link">
+                            Watch Video
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Professional Experience -->
+        <section id="experience" class="section">
+            <h3 class="section-title">
+                <i data-lucide="briefcase"></i>
+                Professional Experience
+            </h3>
+            <div class="timeline">
+                <!-- Recent Experience (Always visible) -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <div class="timeline-dot-inner"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h4 class="timeline-role">AI/UX Consultant</h4>
+                            <p class="timeline-period">2023 - Present</p>
+                        </div>
+                        <p class="timeline-company">Privacyux consulting ltd • Montreal, Canada</p>
+                        <ul class="timeline-description">
+                            <li>Pioneered Agentic UX framework implementation for 15+ AI startups and academic labs,
+                                resulting in a 40% improvement in user trust metrics.</li>
+                            <li>Developed Privacy-as-Trust design strategy helping clients integrate PIPEDA and GDPR
+                                compliance into product core architecture.</li>
+                            <li>Architected human-centered AI systems focusing on Social Agents, Voice Interaction, and
+                                private Generative AI solutions.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <div class="timeline-dot-inner"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h4 class="timeline-role">AI/UX Strategy Architect</h4>
+                            <p class="timeline-period">2023 - 2024</p>
+                        </div>
+                        <p class="timeline-company">Bondee • Singapore</p>
+                        <ul class="timeline-description">
+                            <li>Successfully launched 5 innovative AI-driven products in 2024, including K12 Educational
+                                Voice Companion and Enterprise-Level Gen-AI assets Library.</li>
+                            <li>Spearheaded internal AI governance and compliance reviews for high-risk AI systems,
+                                reducing legal liability exposure by 60%.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Toggle button -->
+                <button class="toggle-btn" onclick="toggleExperience()">
+                    <span id="toggle-text">Show Earlier Experience</span>
+                    <i data-lucide="chevron-down" id="toggle-icon" style="margin-left: 0.5rem;"></i>
+                </button>
+
+                <!-- Older Experience (Collapsible) -->
+                <div id="older-experience" class="hidden">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background-color: #94a3b8;">
+                            <div class="timeline-dot-inner"></div>
+                        </div>
+                        <div class="timeline-content" style="opacity: 0.9;">
+                            <div class="timeline-header">
+                                <h4 class="timeline-role">Special consultant to CEO</h4>
+                                <p class="timeline-period">2021 - 2023</p>
+                            </div>
+                            <p class="timeline-company">Cyphant group • Beijing, San Francisco Bay Area</p>
+                            <ul class="timeline-description">
+                                <li>Led design and implementation of user-centric Generative AI/LLM solutions in
+                                    production environments for enterprise clients.</li>
+                                <li>Orchestrated data-driven design methodologies for contextual AI interactions.</li>
+                                <li>Championed UX best practices across engineering teams, establishing user-first
+                                    design culture.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background-color: #94a3b8;">
+                            <div class="timeline-dot-inner"></div>
+                        </div>
+                        <div class="timeline-content" style="opacity: 0.9;">
+                            <div class="timeline-header">
+                                <h4 class="timeline-role">User Experience Architect</h4>
+                                <p class="timeline-period">2017 - 2018</p>
+                            </div>
+                            <p class="timeline-company">Alibaba.com • Hangzhou, China</p>
+                            <ul class="timeline-description">
+                                <li>Founded Alibaba Design University, a comprehensive design education program for 500+
+                                    designers.</li>
+                                <li>Pioneered "Alimama AI-Copywriter" - a groundbreaking ML-powered content generation
+                                    tool processing 100+ million copy samples.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Demos -->
+        <section id="products" class="section">
+            <h3 class="section-title">
+                <i data-lucide="app-window"></i>
+                Product Demos
+            </h3>
+            <div class="grid grid-3">
+                <a href="https://app--aipet-studio-ddc44a58.base44.app/Dashboard" target="_blank"
+                    rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/ecc1cfcd1_Screenshot2025-07-28at122139.png"
+                        alt="AIPET Studio Platform" style="object-position: top;">
+                    <div class="card-content">
+                        <h4 class="card-title">AIPET Studio Platform</h4>
+                        <p class="card-description">A learning platform for Figma Design Tokens and AIPET framework
+                            practice, built for designers.</p>
+                        <div class="card-link">
+                            View Demo
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://app--aipet-studio-ddc44a58.base44.app/Dashboard" target="_blank"
+                    rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/302099382_Screenshot2025-07-28at122913.png"
+                        alt="Token Analyzer" style="object-position: top;">
+                    <div class="card-content">
+                        <h4 class="card-title">Token Analyzer</h4>
+                        <p class="card-description">Automatically analyze Figma exports or code to extract and create
+                            Design Tokens, bridging design and development.</p>
+                        <div class="card-link">
+                            View Demo
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://app--aipet-studio-ddc44a58.base44.app/Dashboard" target="_blank"
+                    rel="noopener noreferrer" class="card">
+                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/aad130959_Screenshot2025-07-28at123326.png"
+                        alt="Research Tracking Matrix" style="object-position: top;">
+                    <div class="card-content">
+                        <h4 class="card-title">Research Tracking Matrix</h4>
+                        <p class="card-description">Automatically generates tracking points based on your research scope
+                            across six key areas: Priority, Theory, Tech, Industry, Academia, and Key Opinion Leaders.
+                        </p>
+                        <div class="card-link">
+                            View Demo
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <h3 class="section-title">
+                <i data-lucide="brain-circuit"></i>
+                Core Competencies
+            </h3>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>AI & Agentic UX</h4>
+                    <ul class="skill-list">
+                        <li><i data-lucide="shield-check"></i>AI agent workflow</li>
+                        <li><i data-lucide="shield-check"></i>Agentic UX</li>
+                        <li><i data-lucide="shield-check"></i>Human-Centered AI</li>
+                        <li><i data-lucide="shield-check"></i>AI Trend Analysis & Foresight</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h4>Privacy & Ethics</h4>
+                    <ul class="skill-list">
+                        <li><i data-lucide="shield-check"></i>Privacy-first Design</li>
+                        <li><i data-lucide="shield-check"></i>AI Ethics & Governance</li>
+                        <li><i data-lucide="shield-check"></i>GDPR & PIPEDA Compliance</li>
+                        <li><i data-lucide="shield-check"></i>Data Governance Strategy</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h4>Design & Strategy</h4>
+                    <ul class="skill-list">
+                        <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
+                        <li><i data-lucide="shield-check"></i>AI Product Strategy & Roadmapping</li>
+                        <li><i data-lucide="shield-check"></i>Service Design Strategy</li>
+                        <li><i data-lucide="shield-check"></i>Startup Consulting & Mentoring</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <h3>Get In Touch</h3>
+            <p>
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious
+                vision.
+            </p>
+            <div>
+                <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="btn-primary"
+                    style="display: inline-block; margin-top: 1rem;">
+                    Say Hello
+                </a>
+            </div>
+            <div class="footer-social">
+                <a href="mailto:gainshin.hsiao@mail.mcgill.ca">
+                    <i data-lucide="mail"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="youtube"></i>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Joshua Hsiao. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Toggle experience function
+        function toggleExperience() {
+            const olderExperience = document.getElementById('older-experience');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleIcon = document.getElementById('toggle-icon');
+
+            if (olderExperience.classList.contains('hidden')) {
+                olderExperience.classList.remove('hidden');
+                toggleText.textContent = 'Show Less Experience';
+                toggleIcon.setAttribute('data-lucide', 'chevron-up');
+            } else {
+                olderExperience.classList.add('hidden');
+                toggleText.textContent = 'Show Earlier Experience';
+                toggleIcon.setAttribute('data-lucide', 'chevron-down');
+            }
+
+            // Re-initialize icons after changing them
+            lucide.createIcons();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
