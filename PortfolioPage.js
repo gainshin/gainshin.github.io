@@ -62,7 +62,7 @@ const products = [
     {
         title: "Research Tracking Matrix",
         description: "Automatically generates tracking points based on your research scope across six key areas: Priority, Theory, Tech, Industry, Academia, and Key Opinion Leaders.",
-        url: "https://app--aipet-studio-ddc44a58.base44.app/Dashboard",
+        url: "https://app--aiux-pulse-709cc847.base44.app/",
         image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/aad130959_Screenshot2025-07-28at123326.png"
     }
 ];

@@ -129,7 +129,7 @@ Website/
 ## 📞 聯絡資訊
 
 - **電子郵件**: [gainshin.hsiao@mail.mcgill.ca]
-- **LinkedIn**: [Joshua Hsiao LinkedIn Profile](https://www.linkedin.com/in/joshuahsiao/)]
+- **LinkedIn**: [[Joshua Hsiao LinkedIn Profile](https://www.linkedin.com/in/joshuahsiao/)]
 - **專業諮詢**: Privacyux Consulting Ltd.
 
 ## 📄 授權
