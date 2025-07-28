@@ -604,6 +604,86 @@
             }
         }
 
+        /* Mobile Sticky Navigation */
+        @media (max-width: 1023px) {
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(12px);
+                border-top: 1px solid #e2e8f0;
+                padding: 0.75rem 1rem;
+                z-index: 50;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                display: block;
+            }
+
+            .mobile-nav.visible {
+                transform: translateY(0);
+            }
+
+            .mobile-nav-menu {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-decoration: none;
+                color: #64748b;
+                font-size: 0.75rem;
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+                transition: all 0.3s ease;
+                min-width: 3rem;
+            }
+
+            .mobile-nav-item:hover,
+            .mobile-nav-item.active {
+                color: #0d9488;
+                background-color: rgba(13, 148, 136, 0.1);
+            }
+
+            .mobile-nav-item i {
+                margin-bottom: 0.25rem;
+                font-size: 1.25rem;
+            }
+
+            .mobile-nav-item span {
+                font-size: 0.65rem;
+                font-weight: 500;
+            }
+
+            /* Hide mobile nav when desktop nav is visible */
+            .right-nav {
+                display: none;
+            }
+
+            /* Add padding to body to prevent content being hidden behind mobile nav */
+            body {
+                padding-bottom: 5rem;
+            }
+
+            /* Adjust footer margin for mobile */
+            footer {
+                margin-bottom: 5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-nav {
+                display: none !important;
+            }
+        }
+
         /* Hidden class for collapsible content */
         .hidden {
             display: none;
@@ -772,6 +852,36 @@
             </a>
             <a href="#contact" class="right-nav-item" data-tooltip="Contact">
                 <i data-lucide="mail"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Mobile Sticky Navigation -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-menu">
+            <a href="#articles" class="mobile-nav-item">
+                <i data-lucide="file-text"></i>
+                <span>Articles</span>
+            </a>
+            <a href="#videos" class="mobile-nav-item">
+                <i data-lucide="youtube"></i>
+                <span>Videos</span>
+            </a>
+            <a href="#experience" class="mobile-nav-item">
+                <i data-lucide="briefcase"></i>
+                <span>Experience</span>
+            </a>
+            <a href="#products" class="mobile-nav-item">
+                <i data-lucide="app-window"></i>
+                <span>Products</span>
+            </a>
+            <a href="#skills" class="mobile-nav-item">
+                <i data-lucide="brain-circuit"></i>
+                <span>Skills</span>
+            </a>
+            <a href="#contact" class="mobile-nav-item">
+                <i data-lucide="mail"></i>
+                <span>Contact</span>
             </a>
         </div>
     </nav>
@@ -1233,11 +1343,53 @@
             });
         }
 
+        // Mobile Navigation functionality
+        function updateMobileNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            const mobileNav = document.getElementById('mobile-nav');
+            const scrollTop = window.pageYOffset;
+            const heroSection = document.querySelector('.hero');
+            
+            // Show mobile nav after scrolling past hero section
+            if (heroSection && scrollTop > heroSection.offsetHeight / 2) {
+                mobileNav.classList.add('visible');
+            } else {
+                mobileNav.classList.remove('visible');
+            }
+
+            // Update active section for mobile nav
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+
+                if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            // Update mobile nav item states
+            mobileNavItems.forEach(item => {
+                item.classList.remove('active');
+                const href = item.getAttribute('href');
+                if (href === `#${currentSection}`) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Combined navigation update function
+        function updateNavigation() {
+            updateRightNavigation();
+            updateMobileNavigation();
+        }
+
         // Update on scroll
-        window.addEventListener('scroll', updateRightNavigation);
+        window.addEventListener('scroll', updateNavigation);
 
         // Update on load
-        window.addEventListener('load', updateRightNavigation);
+        window.addEventListener('load', updateNavigation);
     </script>
 </body>
 
