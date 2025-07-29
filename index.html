@@ -1441,6 +1441,38 @@
             background: linear-gradient(90deg, var(--ai-primary), var(--ux-primary));
         }
 
+        /* Country border decorations */
+        .client-card-horizontal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 4px;
+            opacity: 0.3;
+        }
+
+        /* Individual country border colors */
+        .client-card-horizontal:nth-child(1)::after {
+            background: #BC002D; /* Japan red */
+        }
+
+        .client-card-horizontal:nth-child(2)::after {
+            background: #0052CC; /* USA blue */
+        }
+
+        .client-card-horizontal:nth-child(3)::after {
+            background: #FF6B35; /* Hong Kong orange */
+        }
+
+        .client-card-horizontal:nth-child(4)::after {
+            background: #00A86B; /* Taiwan green */
+        }
+
+        .client-card-horizontal:nth-child(5)::after {
+            background: #DE2910; /* China red */
+        }
+
         .client-logo-horizontal {
             width: 80px;
             height: 80px;
@@ -1466,6 +1498,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
         }
 
         .client-info-horizontal .client-name {
@@ -1476,15 +1509,18 @@
         }
 
         .client-info-horizontal .client-location {
-            display: inline-block;
+            position: absolute;
+            top: -1.5rem;
+            right: -1.5rem;
             background: linear-gradient(135deg, var(--ai-primary), var(--ux-primary));
             color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            align-self: flex-start;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0 0 0 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
         .client-info-horizontal .client-description {
@@ -1492,6 +1528,7 @@
             font-size: 0.85rem;
             line-height: 1.4;
             margin: 0;
+            margin-top: 0.5rem;
         }
 
         /* Individual horizontal logo backgrounds */
@@ -1592,12 +1629,12 @@
             .carousel-container {
                 padding: 0 40px;
             }
-            
+
             .client-card-horizontal {
                 min-width: 100%;
                 margin-right: 0;
             }
-            
+
             .carousel-btn {
                 opacity: 1;
                 visibility: visible;
@@ -2308,13 +2345,13 @@
             const slideWidth = 100 / slidesPerView;
             const translateX = -currentSlide * slideWidth;
             track.style.transform = `translateX(${translateX}%)`;
-            
+
             // Update indicators - show active range
             indicators.forEach((indicator, index) => {
                 const isActive = index >= currentSlide && index < currentSlide + slidesPerView;
                 indicator.classList.toggle('active', isActive);
             });
-            
+
             // Update button visibility
             if (prevBtn) prevBtn.style.display = currentSlide > 0 ? 'flex' : 'none';
             if (nextBtn) nextBtn.style.display = currentSlide < maxSlide ? 'flex' : 'none';
