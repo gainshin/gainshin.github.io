@@ -800,11 +800,19 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
+            width: 100%;
         }
 
-        @media (max-width: 1000px) {
+        /* 桌面版固定三列 */
+        @media (min-width: 1001px) {
+            .skills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* 平板版響應式 */
+        @media (max-width: 1000px) and (min-width: 769px) {
             .skills-grid {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
