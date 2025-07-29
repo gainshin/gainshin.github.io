@@ -1673,7 +1673,7 @@
         /* Mobile responsive */
         @media (max-width: 768px) {
             .carousel-container {
-                padding: 0 40px;
+                padding: 0 20px;
             }
 
             .client-card-horizontal {
@@ -1682,8 +1682,42 @@
             }
 
             .carousel-btn {
-                opacity: 1;
-                visibility: visible;
+                display: none !important;
+            }
+
+            .carousel-wrapper {
+                touch-action: pan-x;
+                cursor: grab;
+            }
+
+            .carousel-wrapper:active {
+                cursor: grabbing;
+            }
+
+            .carousel-track {
+                will-change: transform;
+            }
+
+            /* 手勢提示 */
+            .carousel-container::before {
+                content: "← 滑動查看更多 →";
+                position: absolute;
+                top: -2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(99, 102, 241, 0.1);
+                color: var(--ai-primary);
+                padding: 0.5rem 1rem;
+                border-radius: 1rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                z-index: 5;
+                animation: fadeInOut 3s ease-in-out infinite;
+            }
+
+            @keyframes fadeInOut {
+                0%, 100% { opacity: 0.6; }
+                50% { opacity: 1; }
             }
         }
 
@@ -2428,19 +2462,34 @@
         const indicators = document.querySelectorAll('.carousel-indicator');
 
         function updateCarousel() {
-            const slideWidth = 100 / slidesPerView;
+            const isMobile = window.innerWidth <= 768;
+            const slidesToShow = isMobile ? 1 : slidesPerView;
+            const slideWidth = 100 / slidesToShow;
             const translateX = -currentSlide * slideWidth;
+            
             track.style.transform = `translateX(${translateX}%)`;
 
             // Update indicators - show active range
             indicators.forEach((indicator, index) => {
-                const isActive = index >= currentSlide && index < currentSlide + slidesPerView;
+                let isActive;
+                if (isMobile) {
+                    isActive = index === currentSlide;
+                } else {
+                    isActive = index >= currentSlide && index < currentSlide + slidesPerView;
+                }
                 indicator.classList.toggle('active', isActive);
             });
 
-            // Always show buttons for infinite loop
-            if (prevBtn) prevBtn.style.display = 'flex';
-            if (nextBtn) nextBtn.style.display = 'flex';
+            // Always show buttons for infinite loop on desktop, hide on mobile
+            if (prevBtn && nextBtn) {
+                if (isMobile) {
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                } else {
+                    prevBtn.style.display = 'flex';
+                    nextBtn.style.display = 'flex';
+                }
+            }
         }
 
         function nextSlide() {
@@ -2491,6 +2540,87 @@
 
         window.addEventListener('resize', handleResize);
         handleResize(); // Initialize
+
+        // Mobile touch/swipe functionality
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+        let startTransform = 0;
+
+        const carouselWrapper = document.querySelector('.carousel-wrapper');
+
+        function handleTouchStart(e) {
+            if (window.innerWidth > 768) return; // Only on mobile
+            
+            startX = e.touches ? e.touches[0].clientX : e.clientX;
+            startY = e.touches ? e.touches[0].clientY : e.clientY;
+            isDragging = true;
+            
+            // Get current transform value
+            const matrix = window.getComputedStyle(track).transform;
+            if (matrix !== 'none') {
+                const values = matrix.split('(')[1].split(')')[0].split(',');
+                startTransform = parseFloat(values[4]) || 0;
+            } else {
+                startTransform = 0;
+            }
+            
+            track.style.transition = 'none';
+        }
+
+        function handleTouchMove(e) {
+            if (!isDragging || window.innerWidth > 768) return;
+            
+            e.preventDefault();
+            const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+            const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const deltaX = currentX - startX;
+            const deltaY = currentY - startY;
+            
+            // Only handle horizontal swipes
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                const newTransform = startTransform + deltaX;
+                track.style.transform = `translateX(${newTransform}px)`;
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!isDragging || window.innerWidth > 768) return;
+            
+            isDragging = false;
+            track.style.transition = 'transform 0.3s ease-in-out';
+            
+            const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            const deltaX = endX - startX;
+            const threshold = 50; // Minimum swipe distance
+            
+            if (Math.abs(deltaX) > threshold) {
+                if (deltaX > 0) {
+                    // Swipe right - previous slide
+                    prevSlide();
+                } else {
+                    // Swipe left - next slide
+                    nextSlide();
+                }
+            } else {
+                // Snap back to current position
+                updateCarousel();
+            }
+        }
+
+        // Touch events
+        if (carouselWrapper) {
+            carouselWrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
+            carouselWrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
+            carouselWrapper.addEventListener('touchend', handleTouchEnd, { passive: false });
+            
+            // Mouse events for desktop testing
+            carouselWrapper.addEventListener('mousedown', handleTouchStart);
+            carouselWrapper.addEventListener('mousemove', handleTouchMove);
+            carouselWrapper.addEventListener('mouseup', handleTouchEnd);
+            carouselWrapper.addEventListener('mouseleave', handleTouchEnd);
+        }
     </script>
 </body>
 
