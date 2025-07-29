@@ -1522,21 +1522,26 @@
         }
 
         .client-card-horizontal:nth-child(3)::after {
+            border-color: #28A745;
+            /* Singapore green - Metadream Tech */
+        }
+
+        .client-card-horizontal:nth-child(4)::after {
             border-color: #0052CC;
             /* USA blue - Cyphant */
         }
 
-        .client-card-horizontal:nth-child(4)::after {
+        .client-card-horizontal:nth-child(5)::after {
             border-color: #FF6B35;
             /* Hong Kong orange - Dramaly */
         }
 
-        .client-card-horizontal:nth-child(5)::after {
+        .client-card-horizontal:nth-child(6)::after {
             border-color: #00A86B;
             /* Taiwan green - UserXper */
         }
 
-        .client-card-horizontal:nth-child(6)::after {
+        .client-card-horizontal:nth-child(7)::after {
             border-color: #DE2910;
             /* China red - Yidianzixun */
         }
@@ -1745,15 +1750,20 @@
         }
 
         .client-card-horizontal:nth-child(4) .client-logo-horizontal {
-            background: #F0F0F0;
-        }
-
-        .client-card-horizontal:nth-child(5) .client-logo-horizontal {
             background: #FFFFFF;
             border: 1px solid var(--neutral-200);
         }
 
+        .client-card-horizontal:nth-child(5) .client-logo-horizontal {
+            background: #F0F0F0;
+        }
+
         .client-card-horizontal:nth-child(6) .client-logo-horizontal {
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .client-card-horizontal:nth-child(7) .client-logo-horizontal {
             background: #FFFFFF;
             border: 1px solid var(--neutral-200);
         }
@@ -2232,6 +2242,17 @@
 
                         <div class="client-card-horizontal">
                             <div class="client-logo-horizontal">
+                                <img src="assets/Metadream.png" alt="Metadream Tech">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ Metadream Tech</h4>
+                                <span class="client-location">Singapore</span>
+                                <p class="client-description">VR/AR User Experience Strategy</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
                                 <img src="assets/Cyphant.png" alt="Cyphant Group">
                             </div>
                             <div class="client-info-horizontal">
@@ -2292,6 +2313,7 @@
                     <button class="carousel-indicator" data-slide="3"></button>
                     <button class="carousel-indicator" data-slide="4"></button>
                     <button class="carousel-indicator" data-slide="5"></button>
+                    <button class="carousel-indicator" data-slide="6"></button>
                 </div>
             </div>
         </section>
@@ -2462,7 +2484,7 @@
 
         // Carousel functionality
         let currentSlide = 0;
-        const totalSlides = 6;
+        const totalSlides = 7;
         const slidesPerView = 3;
         const track = document.getElementById('carousel-track');
         const prevBtn = document.getElementById('carousel-prev');
@@ -2503,7 +2525,7 @@
         function nextSlide() {
             const isMobile = window.innerWidth <= 768;
             currentSlide++;
-            
+
             if (isMobile) {
                 // On mobile, loop through all individual slides (0 to totalSlides-1)
                 if (currentSlide >= totalSlides) {
@@ -2521,7 +2543,7 @@
         function prevSlide() {
             const isMobile = window.innerWidth <= 768;
             currentSlide--;
-            
+
             if (isMobile) {
                 // On mobile, loop through all individual slides
                 if (currentSlide < 0) {
