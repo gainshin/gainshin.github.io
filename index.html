@@ -796,25 +796,21 @@
         /* Skills */
         .skills-container {
             position: relative;
+            width: 100%;
+            max-width: none;
         }
 
         .skills-grid {
-            display: grid;
+            display: grid !important;
             gap: 2rem;
             width: 100%;
+            grid-template-columns: repeat(3, 1fr) !important;
         }
 
-        /* 桌面版固定三列 */
-        @media (min-width: 1001px) {
+        /* 只在小螢幕時使用響應式布局 */
+        @media (max-width: 900px) {
             .skills-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* 平板版響應式 */
-        @media (max-width: 1000px) and (min-width: 769px) {
-            .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
             }
         }
 
@@ -896,6 +892,22 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        /* 桌面版強制三列布局 */
+        @media (min-width: 901px) {
+            .skills-grid.desktop-only {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 2rem !important;
+                width: 100% !important;
+            }
+            
+            .skills-grid.desktop-only .skill-category {
+                width: auto !important;
+                flex: none !important;
+            }
         }
 
         .skill-category::after {
