@@ -1672,6 +1672,13 @@
                 margin-bottom: 1rem;
             }
 
+            .footer-header lottie-player {
+                width: 160px !important;
+                height: 160px !important;
+                transform: scale(1.3);
+                margin: -15px 0;
+            }
+
             /* 強制手機版使用深色文字 */
             footer,
             footer *,
@@ -2076,6 +2083,14 @@
             padding: 0;
             backdrop-filter: none;
             border: none;
+            margin: 0;
+            display: block;
+        }
+
+        /* Footer Lottie Player Optimization */
+        .footer-header lottie-player {
+            transform: scale(1.2);
+            margin: -10px 0;
         }
 
         /* Footer Contact Header */
@@ -2769,7 +2784,7 @@
             <div class="footer-content">
                 <div class="footer-header">
                     <lottie-player src="assets/lotties/paperplane.json" background="transparent" speed="1"
-                        style="width: 120px; height: 120px;" loop autoplay>
+                        style="width: 200px; height: 200px;" loop autoplay>
                     </lottie-player>
                 </div>
                 <div class="footer-card-container">
