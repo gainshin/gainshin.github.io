@@ -877,26 +877,26 @@
             box-sizing: border-box;
         }
 
-                /* Skills 手勢提示和手機版樣式 */
+        /* Skills 手勢提示和手機版樣式 */
         @media (max-width: 768px) {
             .skills-carousel {
                 display: block !important;
             }
-            
+
             .skills-carousel-wrapper {
                 margin: 0 1rem;
             }
-            
+
             .skill-slide {
                 width: calc(100vw - 2rem);
                 min-width: calc(100vw - 2rem);
                 max-width: calc(100vw - 2rem);
             }
-            
+
             .skills-carousel-container::before {
                 content: "← Swipe →";
                 position: absolute;
-                top: -2rem;
+                top: -2.5rem;
                 left: 50%;
                 transform: translateX(-50%);
                 background: rgba(99, 102, 241, 0.05);
@@ -905,8 +905,20 @@
                 border-radius: 1rem;
                 font-size: 0.75rem;
                 font-weight: 500;
-                z-index: 5;
-                animation: fadeInOut 3s ease-in-out infinite;
+                z-index: 10;
+                animation: skillsFadeInOut 3s ease-in-out infinite;
+                white-space: nowrap;
+            }
+        }
+
+        @keyframes skillsFadeInOut {
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
             }
         }
 
