@@ -824,6 +824,7 @@
         }
 
         @media (max-width: 768px) {
+
             .desktop-only,
             .skills-grid.desktop-only {
                 display: none !important;
@@ -845,7 +846,7 @@
             position: relative;
             width: 100%;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0;
         }
 
         .skills-carousel-wrapper {
@@ -854,6 +855,7 @@
             overflow: hidden;
             border-radius: 1rem;
             cursor: grab;
+            margin: 0 1rem;
         }
 
         .skills-carousel-wrapper:active {
@@ -867,18 +869,30 @@
         }
 
         .skill-slide {
-            min-width: 100%;
-            max-width: 100%;
+            width: calc(100vw - 2rem);
+            min-width: calc(100vw - 2rem);
+            max-width: calc(100vw - 2rem);
             margin-right: 0;
             flex-shrink: 0;
+            box-sizing: border-box;
         }
 
-        /* Skills 手勢提示和手機版樣式 */
+                /* Skills 手勢提示和手機版樣式 */
         @media (max-width: 768px) {
             .skills-carousel {
                 display: block !important;
             }
-
+            
+            .skills-carousel-wrapper {
+                margin: 0 1rem;
+            }
+            
+            .skill-slide {
+                width: calc(100vw - 2rem);
+                min-width: calc(100vw - 2rem);
+                max-width: calc(100vw - 2rem);
+            }
+            
             .skills-carousel-container::before {
                 content: "← Swipe →";
                 position: absolute;
@@ -921,7 +935,7 @@
                 width: auto !important;
                 flex: none !important;
             }
-            
+
             .skills-carousel.mobile-only {
                 display: none !important;
             }
