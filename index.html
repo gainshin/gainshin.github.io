@@ -96,13 +96,14 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
         :root {
             /* Primary Colors - 基於背景圖片 */
-            --ai-primary: #6366f1;
-            /* 藍紫色 - AI 策略師 */
-            --ai-secondary: #8b5cf6;
-            /* 紫色 */
+            --ai-primary: #8b5cf6;
+            /* 紫色 - AI 策略師 */
+            --ai-secondary: #a855f7;
+            /* 亮紫色 */
             --ai-accent: #ec4899;
             /* 粉紫色 */
 
@@ -113,25 +114,27 @@
             --ux-accent: #14b8a6;
             /* 青綠色 */
 
-            /* Neutral Colors */
-            --neutral-50: #f8fafc;
-            --neutral-100: #f1f5f9;
-            --neutral-200: #e2e8f0;
-            --neutral-300: #cbd5e1;
-            --neutral-400: #94a3b8;
-            --neutral-500: #64748b;
-            --neutral-600: #475569;
-            --neutral-700: #334155;
-            --neutral-800: #1e293b;
-            --neutral-900: #0f172a;
+            /* Dark Theme Colors */
+            --neutral-50: #0f172a;
+            --neutral-100: #1e293b;
+            --neutral-200: #334155;
+            --neutral-300: #475569;
+            --neutral-400: #64748b;
+            --neutral-500: #94a3b8;
+            --neutral-600: #cbd5e1;
+            --neutral-700: #e2e8f0;
+            --neutral-800: #f1f5f9;
+            --neutral-900: #f8fafc;
 
             /* Functional Colors */
             --brand-primary: var(--ux-primary);
             --brand-hover: var(--ai-primary);
             --text-primary: var(--neutral-900);
-            --text-secondary: var(--neutral-500);
-            --surface: white;
-            --surface-hover: var(--neutral-50);
+            --text-secondary: var(--neutral-600);
+            --surface: var(--neutral-100);
+            --surface-hover: var(--neutral-200);
+            --surface-card: var(--neutral-100);
+            --border-color: var(--neutral-300);
         }
 
         * {
@@ -148,8 +151,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: var(--neutral-50);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
             width: 100%;
@@ -166,12 +169,12 @@
 
         /* Header */
         header {
-            background: rgba(var(--neutral-50), 0.95);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 50;
-            border-bottom: 1px solid var(--neutral-200);
+            border-bottom: 1px solid var(--border-color);
         }
 
         nav {
@@ -577,10 +580,10 @@
 
         /* Cards */
         .card {
-            background: var(--surface);
+            background: var(--surface-card);
             border-radius: 0.5rem;
-            border: 1px solid var(--neutral-200);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             transition: all 0.3s;
             text-decoration: none;
@@ -702,11 +705,11 @@
         }
 
         .timeline-content {
-            background: white;
+            background: var(--surface-card);
             padding: 1.5rem;
             border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .timeline-header {
@@ -777,11 +780,11 @@
         }
 
         .skill-category {
-            background: white;
+            background: var(--surface-card);
             padding: 1.5rem;
             border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -978,10 +981,11 @@
 
         /* Footer */
         footer {
-            background-color: var(--neutral-800);
-            color: white;
+            background-color: var(--neutral-100);
+            color: var(--text-primary);
             padding: 4rem 0 2rem;
             margin-top: 6rem;
+            border-top: 1px solid var(--border-color);
         }
 
         .footer-content {
@@ -1461,9 +1465,9 @@
             align-items: center;
             gap: 1.5rem;
             padding: 1.5rem;
-            background: white;
-            border: 1px solid var(--neutral-200);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
             margin-right: 1rem;
@@ -1735,37 +1739,134 @@
 
         /* Individual horizontal logo backgrounds */
         .client-card-horizontal:nth-child(1) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
         }
 
         .client-card-horizontal:nth-child(2) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
         }
 
         .client-card-horizontal:nth-child(3) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
         }
 
         .client-card-horizontal:nth-child(4) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
         }
 
         .client-card-horizontal:nth-child(5) .client-logo-horizontal {
-            background: #F0F0F0;
+            background: var(--neutral-300);
         }
 
         .client-card-horizontal:nth-child(6) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
         }
 
         .client-card-horizontal:nth-child(7) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: var(--neutral-200);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Lottie 動效裝飾 */
+        .lottie-decoration {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .lottie-float-1 {
+            top: 10%;
+            right: 5%;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lottie-float-2 {
+            bottom: 20%;
+            left: 3%;
+            width: 60px;
+            height: 60px;
+        }
+
+        .lottie-float-3 {
+            top: 30%;
+            left: 8%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .lottie-skills-1 {
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            opacity: 0.4;
+        }
+
+        .lottie-skills-2 {
+            bottom: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.3;
+        }
+
+        .lottie-client-1 {
+            top: 50%;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        /* 動畫效果 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .lottie-decoration {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .lottie-decoration:nth-child(odd) {
+            animation-delay: -3s;
         }
     </style>
 </head>
@@ -1868,6 +1969,22 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
+            <!-- Lottie 浮動動效 -->
+            <lottie-player class="lottie-decoration lottie-float-1"
+                src="https://lottie.host/4c8e6d3c-5f44-4b8c-9c4a-3b2e5f1a7d8c/KqRrZ8Cjqh.json" background="transparent"
+                speed="1" loop autoplay>
+            </lottie-player>
+
+            <lottie-player class="lottie-decoration lottie-float-2"
+                src="https://lottie.host/3e7f9d2a-4c5b-8a9e-1f3d-6b8e9c1a5f2d/YnTkW9Pqmr.json" background="transparent"
+                speed="0.8" loop autoplay>
+            </lottie-player>
+
+            <lottie-player class="lottie-decoration lottie-float-3"
+                src="https://lottie.host/2d8c6e1f-9a4b-7c5e-3f1d-8a9c6e2f5b1d/XmVkR7Hljs.json" background="transparent"
+                speed="1.2" loop autoplay>
+            </lottie-player>
+
             <div class="hero-content">
                 <div class="container">
                     <!-- Split Identity Showcase -->
@@ -1914,6 +2031,12 @@
             </h3>
             <div class="skills-grid">
                 <div class="skill-category">
+                    <!-- AI技能卡片動效 -->
+                    <lottie-player class="lottie-decoration lottie-skills-1"
+                        src="https://lottie.host/5f8a9b2c-6d4e-7c9a-2b5f-8c9e3f1a6d2b/BrainAI.json"
+                        background="transparent" speed="0.5" loop autoplay>
+                    </lottie-player>
+
                     <h4>AI & Agentic UX</h4>
                     <ul class="skill-list">
                         <li><i data-lucide="shield-check"></i>AI agent workflow</li>
@@ -1934,6 +2057,12 @@
                 </div>
 
                 <div class="skill-category">
+                    <!-- 設計策略動效 -->
+                    <lottie-player class="lottie-decoration lottie-skills-2"
+                        src="https://lottie.host/1a9f8c2d-3e5b-4f7a-6c8e-9f2a5b8c1e4d/DesignThinking.json"
+                        background="transparent" speed="0.7" loop autoplay>
+                    </lottie-player>
+
                     <h4>Design & Strategy</h4>
                     <ul class="skill-list">
                         <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
