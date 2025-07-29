@@ -1159,12 +1159,12 @@
         }
 
         .footer-social a {
-            color: #ffffff;
+            color: #1e293b;
             transition: color 0.3s;
         }
 
         .footer-social a:hover {
-            color: #f1f5f9;
+            color: #334155;
         }
 
         .footer-bottom {
@@ -1584,6 +1584,22 @@
 
             footer {
                 padding: 2rem 0 1rem;
+            }
+
+            /* 強制手機版使用深色文字 */
+            footer,
+            footer *,
+            .footer-header h3,
+            .footer-contact-social a,
+            .footer-social a,
+            .footer-bottom p {
+                color: #1e293b !important;
+            }
+
+            .footer-contact-social a:hover,
+            .footer-social a:hover {
+                color: #ffffff !important;
+                background: #1e293b !important;
             }
         }
 
