@@ -947,16 +947,42 @@
             }
 
             .timeline {
-                margin-left: 0;
+                margin-left: 1rem;
             }
 
             .timeline-item {
-                padding-left: 2rem;
+                padding-left: 2.5rem;
+            }
+
+            .timeline-dot {
+                left: -9px;
             }
 
             .timeline-header {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            /* Fix card overflow issues on mobile */
+            .grid {
+                gap: 1.5rem;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .container {
+                padding: 0 1rem;
+                max-width: 100%;
+                overflow-x: hidden;
             }
         }
 
