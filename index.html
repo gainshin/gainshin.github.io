@@ -547,43 +547,6 @@
                 padding: 1rem;
             }
 
-            .hero {
-                aspect-ratio: 4/3;
-                padding: 0;
-                min-height: auto;
-            }
-
-            .identity-showcase {
-                grid-template-columns: 1fr;
-                gap: 0;
-                margin: 0;
-            }
-
-            .identity-side {
-                min-height: auto;
-                padding: 1.5rem 1rem;
-            }
-
-            .identity-content {
-                opacity: 0;
-                transform: translateY(20px);
-                pointer-events: none;
-            }
-
-            .identity-side:hover .identity-content {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            .identity-side:hover::before {
-                background: transparent;
-            }
-
-            .hero-introduction {
-                margin: 0.5rem auto;
-                padding: 1rem;
-            }
-
             .timeline {
                 margin-left: 0;
             }
@@ -843,6 +806,103 @@
             color: #0d9488;
             margin-right: 0.75rem;
             flex-shrink: 0;
+        }
+
+        /* Clients/Partners */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .client-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--neutral-200);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ai-primary), var(--ux-primary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .client-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .client-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            border-color: var(--neutral-300);
+        }
+
+        .client-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: var(--neutral-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .client-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .client-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .client-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .client-location {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--ai-primary), var(--ux-primary));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .client-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
         }
 
         /* Footer */
@@ -1326,6 +1386,9 @@
             <a href="#skills" class="right-nav-item" data-tooltip="Skills">
                 <i data-lucide="brain-circuit"></i>
             </a>
+            <a href="#clients" class="right-nav-item" data-tooltip="Clients">
+                <i data-lucide="handshake"></i>
+            </a>
             <a href="#contact" class="right-nav-item" data-tooltip="Contact">
                 <i data-lucide="mail"></i>
             </a>
@@ -1355,6 +1418,10 @@
                 <i data-lucide="brain-circuit"></i>
                 <span>Skills</span>
             </a>
+            <a href="#clients" class="mobile-nav-item">
+                <i data-lucide="handshake"></i>
+                <span>Clients</span>
+            </a>
             <a href="#contact" class="mobile-nav-item">
                 <i data-lucide="mail"></i>
                 <span>Contact</span>
@@ -1374,6 +1441,7 @@
                 <a href="#experience">Experience</a>
                 <a href="#products">Products</a>
                 <a href="#skills">Skills</a>
+                <a href="#clients">Clients</a>
                 <div class="nav-social-links">
                     <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="nav-social-link">
                         <i data-lucide="mail"></i>
@@ -1731,6 +1799,70 @@
                         <li><i data-lucide="shield-check"></i>Service Design Strategy</li>
                         <li><i data-lucide="shield-check"></i>Startup Consulting & Mentoring</li>
                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients/Partners Section -->
+        <section id="clients" class="section">
+            <h3 class="section-title">
+                <i data-lucide="handshake"></i>
+                Clients / Partners
+            </h3>
+            <div class="clients-grid">
+                <div class="client-card">
+                    <div class="client-logo">
+                        <img src="assets/bondee-logo.png" alt="Bondee">
+                    </div>
+                    <div class="client-info">
+                        <h4 class="client-name">@ Bondee</h4>
+                        <span class="client-location">Japan</span>
+                        <p class="client-description">AI Privacy & Compliance Framework</p>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-logo">
+                        <img src="assets/cyphant-logo.png" alt="Cyphant Group">
+                    </div>
+                    <div class="client-info">
+                        <h4 class="client-name">@ Cyphant Group</h4>
+                        <span class="client-location">San Francisco</span>
+                        <p class="client-description">Strategic UX Planning</p>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-logo">
+                        <img src="assets/dramaly-logo.png" alt="Dramaly">
+                    </div>
+                    <div class="client-info">
+                        <h4 class="client-name">@ Dramaly</h4>
+                        <span class="client-location">Hong Kong</span>
+                        <p class="client-description">AI Development Lifecycle Consulting</p>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-logo">
+                        <img src="assets/userxper-logo.png" alt="UserXper">
+                    </div>
+                    <div class="client-info">
+                        <h4 class="client-name">@ UserXper</h4>
+                        <span class="client-location">Taiwan</span>
+                        <p class="client-description">Organizational AI Transformation</p>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-logo">
+                        <img src="assets/yidianzixun-logo.png" alt="Yidianzixun">
+                    </div>
+                    <div class="client-info">
+                        <h4 class="client-name">@ Yidianzixun</h4>
+                        <span class="client-location">China</span>
+                        <p class="client-description">AI Solution Evaluation</p>
+                    </div>
                 </div>
             </div>
         </section>
