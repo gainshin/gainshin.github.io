@@ -1470,28 +1470,33 @@
 
         /* Individual country arc colors */
         .client-card-horizontal:nth-child(1)::after {
-            border-color: #BC002D;
-            /* Japan red */
+            border-color: #FF6B35;
+            /* Hong Kong orange - HSBC */
         }
 
         .client-card-horizontal:nth-child(2)::after {
-            border-color: #0052CC;
-            /* USA blue */
+            border-color: #BC002D;
+            /* Japan red - Bondee */
         }
 
         .client-card-horizontal:nth-child(3)::after {
-            border-color: #FF6B35;
-            /* Hong Kong orange */
+            border-color: #0052CC;
+            /* USA blue - Cyphant */
         }
 
         .client-card-horizontal:nth-child(4)::after {
-            border-color: #00A86B;
-            /* Taiwan green */
+            border-color: #FF6B35;
+            /* Hong Kong orange - Dramaly */
         }
 
         .client-card-horizontal:nth-child(5)::after {
+            border-color: #00A86B;
+            /* Taiwan green - UserXper */
+        }
+
+        .client-card-horizontal:nth-child(6)::after {
             border-color: #DE2910;
-            /* China red */
+            /* China red - Yidianzixun */
         }
 
         .client-logo-horizontal {
@@ -1642,24 +1647,29 @@
 
         /* Individual horizontal logo backgrounds */
         .client-card-horizontal:nth-child(1) .client-logo-horizontal {
-            background: #60C3F7;
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
         }
 
         .client-card-horizontal:nth-child(2) .client-logo-horizontal {
-            background: #FFFFFF;
-            border: 1px solid var(--neutral-200);
+            background: #60C3F7;
         }
 
         .client-card-horizontal:nth-child(3) .client-logo-horizontal {
-            background: #F0F0F0;
-        }
-
-        .client-card-horizontal:nth-child(4) .client-logo-horizontal {
             background: #FFFFFF;
             border: 1px solid var(--neutral-200);
         }
 
+        .client-card-horizontal:nth-child(4) .client-logo-horizontal {
+            background: #F0F0F0;
+        }
+
         .client-card-horizontal:nth-child(5) .client-logo-horizontal {
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .client-card-horizontal:nth-child(6) .client-logo-horizontal {
             background: #FFFFFF;
             border: 1px solid var(--neutral-200);
         }
@@ -2116,6 +2126,17 @@
                     <div class="carousel-track" id="carousel-track">
                         <div class="client-card-horizontal">
                             <div class="client-logo-horizontal">
+                                <img src="assets/HSBC.png" alt="HSBC">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ HSBC</h4>
+                                <span class="client-location">Hong Kong</span>
+                                <p class="client-description">Digital Banking UX Strategy & AI Implementation</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
                                 <img src="assets/Bondee.png" alt="Bondee">
                             </div>
                             <div class="client-info-horizontal">
@@ -2186,6 +2207,7 @@
                     <button class="carousel-indicator" data-slide="2"></button>
                     <button class="carousel-indicator" data-slide="3"></button>
                     <button class="carousel-indicator" data-slide="4"></button>
+                    <button class="carousel-indicator" data-slide="5"></button>
                 </div>
             </div>
         </section>
@@ -2356,7 +2378,7 @@
 
         // Carousel functionality
         let currentSlide = 0;
-        const totalSlides = 5;
+        const totalSlides = 6;
         const slidesPerView = 3;
         const track = document.getElementById('carousel-track');
         const prevBtn = document.getElementById('carousel-prev');
