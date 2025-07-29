@@ -1716,8 +1716,15 @@
             }
 
             @keyframes fadeInOut {
-                0%, 100% { opacity: 0.6; }
-                50% { opacity: 1; }
+
+                0%,
+                100% {
+                    opacity: 0.6;
+                }
+
+                50% {
+                    opacity: 1;
+                }
             }
         }
 
@@ -1728,7 +1735,8 @@
         }
 
         .client-card-horizontal:nth-child(2) .client-logo-horizontal {
-            background: #60C3F7;
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
         }
 
         .client-card-horizontal:nth-child(3) .client-logo-horizontal {
@@ -2466,7 +2474,7 @@
             const slidesToShow = isMobile ? 1 : slidesPerView;
             const slideWidth = 100 / slidesToShow;
             const translateX = -currentSlide * slideWidth;
-            
+
             track.style.transform = `translateX(${translateX}%)`;
 
             // Update indicators - show active range
@@ -2551,11 +2559,11 @@
 
         function handleTouchStart(e) {
             if (window.innerWidth > 768) return; // Only on mobile
-            
+
             startX = e.touches ? e.touches[0].clientX : e.clientX;
             startY = e.touches ? e.touches[0].clientY : e.clientY;
             isDragging = true;
-            
+
             // Get current transform value
             const matrix = window.getComputedStyle(track).transform;
             if (matrix !== 'none') {
@@ -2564,20 +2572,20 @@
             } else {
                 startTransform = 0;
             }
-            
+
             track.style.transition = 'none';
         }
 
         function handleTouchMove(e) {
             if (!isDragging || window.innerWidth > 768) return;
-            
+
             e.preventDefault();
             const currentX = e.touches ? e.touches[0].clientX : e.clientX;
             const currentY = e.touches ? e.touches[0].clientY : e.clientY;
-            
+
             const deltaX = currentX - startX;
             const deltaY = currentY - startY;
-            
+
             // Only handle horizontal swipes
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 const newTransform = startTransform + deltaX;
@@ -2587,14 +2595,14 @@
 
         function handleTouchEnd(e) {
             if (!isDragging || window.innerWidth > 768) return;
-            
+
             isDragging = false;
             track.style.transition = 'transform 0.3s ease-in-out';
-            
+
             const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
             const deltaX = endX - startX;
             const threshold = 50; // Minimum swipe distance
-            
+
             if (Math.abs(deltaX) > threshold) {
                 if (deltaX > 0) {
                     // Swipe right - previous slide
@@ -2614,7 +2622,7 @@
             carouselWrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
             carouselWrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
             carouselWrapper.addEventListener('touchend', handleTouchEnd, { passive: false });
-            
+
             // Mouse events for desktop testing
             carouselWrapper.addEventListener('mousedown', handleTouchStart);
             carouselWrapper.addEventListener('mousemove', handleTouchMove);
