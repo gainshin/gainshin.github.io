@@ -2358,7 +2358,6 @@
         let currentSlide = 0;
         const totalSlides = 5;
         const slidesPerView = 3;
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
         const track = document.getElementById('carousel-track');
         const prevBtn = document.getElementById('carousel-prev');
         const nextBtn = document.getElementById('carousel-next');
@@ -2375,27 +2374,29 @@
                 indicator.classList.toggle('active', isActive);
             });
 
-            // Update button visibility
-            if (prevBtn) prevBtn.style.display = currentSlide > 0 ? 'flex' : 'none';
-            if (nextBtn) nextBtn.style.display = currentSlide < maxSlide ? 'flex' : 'none';
+            // Always show buttons for infinite loop
+            if (prevBtn) prevBtn.style.display = 'flex';
+            if (nextBtn) nextBtn.style.display = 'flex';
         }
 
         function nextSlide() {
-            if (currentSlide < maxSlide) {
-                currentSlide++;
-                updateCarousel();
+            currentSlide++;
+            if (currentSlide > totalSlides - slidesPerView) {
+                currentSlide = 0; // Loop back to start
             }
+            updateCarousel();
         }
 
         function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateCarousel();
+            currentSlide--;
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - slidesPerView; // Loop to end
             }
+            updateCarousel();
         }
 
         function goToSlide(slideIndex) {
-            currentSlide = Math.min(slideIndex, maxSlide);
+            currentSlide = Math.min(Math.max(slideIndex, 0), totalSlides - slidesPerView);
             updateCarousel();
         }
 
@@ -2410,13 +2411,16 @@
         // Initialize carousel
         updateCarousel();
 
-        // Auto-play carousel (removed for better user control)
         // Responsive handling
         function handleResize() {
             const isMobile = window.innerWidth <= 768;
             if (isMobile) {
-                // Reset to single slide view on mobile
-                currentSlide = 0;
+                // On mobile, allow full loop through all slides
+                currentSlide = Math.min(currentSlide, totalSlides - 1);
+                updateCarousel();
+            } else {
+                // On desktop, ensure we don't exceed the valid range
+                currentSlide = Math.min(currentSlide, totalSlides - slidesPerView);
                 updateCarousel();
             }
         }
