@@ -834,6 +834,11 @@
         }
 
         /* Skills Carousel Styles */
+        .skills-carousel {
+            width: 100%;
+            overflow: hidden;
+        }
+
         .skills-carousel-container {
             position: relative;
             width: 100%;
@@ -864,8 +869,12 @@
             margin-right: 0;
         }
 
-        /* Skills 手勢提示 */
+        /* Skills 手勢提示和手機版樣式 */
         @media (max-width: 768px) {
+            .skills-carousel {
+                display: block !important;
+            }
+            
             .skills-carousel-container::before {
                 content: "← Swipe →";
                 position: absolute;
