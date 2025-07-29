@@ -520,7 +520,7 @@
             }
 
             .identity-title {
-                font-size: 2rem;
+            font-size: 2rem;
             }
 
             .hero-name {
@@ -1390,6 +1390,190 @@
                 justify-content: center;
             }
         }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .client-card-horizontal {
+            min-width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: white;
+            border: 1px solid var(--neutral-200);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-card-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ai-primary), var(--ux-primary));
+        }
+
+        .client-logo-horizontal {
+            width: 120px;
+            height: 120px;
+            border-radius: 1rem;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--neutral-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .client-logo-horizontal img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .client-info-horizontal {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .client-info-horizontal .client-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .client-info-horizontal .client-location {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--ai-primary), var(--ux-primary));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+
+        .client-info-horizontal .client-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Individual horizontal logo backgrounds */
+        .client-card-horizontal:nth-child(1) .client-logo-horizontal {
+            background: #60C3F7;
+        }
+
+        .client-card-horizontal:nth-child(2) .client-logo-horizontal {
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .client-card-horizontal:nth-child(3) .client-logo-horizontal {
+            background: #F0F0F0;
+        }
+
+        .client-card-horizontal:nth-child(4) .client-logo-horizontal {
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .client-card-horizontal:nth-child(5) .client-logo-horizontal {
+            background: #FFFFFF;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn-prev {
+            left: -24px;
+        }
+
+        .carousel-btn-next {
+            right: -24px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-indicator {
+            background: var(--neutral-300);
+            border: none;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: linear-gradient(135deg, var(--ai-primary), var(--ux-primary));
+            transform: scale(1.2);
+        }
+
+        .carousel-indicator:hover {
+            background: var(--neutral-400);
+        }
+
+        .carousel-indicator.active:hover {
+            background: linear-gradient(135deg, var(--ai-primary), var(--ux-primary));
+        }
     </style>
 </head>
 
@@ -1838,60 +2022,81 @@
                 <i data-lucide="handshake"></i>
                 Clients / Partners
             </h3>
-            <div class="clients-grid">
-                <div class="client-card">
-                    <div class="client-logo">
-                        <img src="assets/Bondee.png" alt="Bondee">
-                    </div>
-                    <div class="client-info">
-                        <h4 class="client-name">@ Bondee</h4>
-                        <span class="client-location">Japan</span>
-                        <p class="client-description">AI Privacy & Compliance Framework</p>
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
+                                <img src="assets/Bondee.png" alt="Bondee">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ Bondee</h4>
+                                <span class="client-location">Japan</span>
+                                <p class="client-description">AI Privacy & Compliance Framework</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
+                                <img src="assets/Cyphant.png" alt="Cyphant Group">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ Cyphant Group</h4>
+                                <span class="client-location">San Francisco</span>
+                                <p class="client-description">Strategic UX Planning</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
+                                <img src="assets/Dramaly.png" alt="Dramaly">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ Dramaly</h4>
+                                <span class="client-location">Hong Kong</span>
+                                <p class="client-description">AI Development Lifecycle Consulting</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
+                                <img src="assets/UserXper.png" alt="UserXper">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ UserXper</h4>
+                                <span class="client-location">Taiwan</span>
+                                <p class="client-description">Organizational AI Transformation</p>
+                            </div>
+                        </div>
+
+                        <div class="client-card-horizontal">
+                            <div class="client-logo-horizontal">
+                                <img src="assets/Yidianzixun.png" alt="Yidianzixun">
+                            </div>
+                            <div class="client-info-horizontal">
+                                <h4 class="client-name">@ Yidianzixun</h4>
+                                <span class="client-location">China</span>
+                                <p class="client-description">AI Solution Evaluation</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="client-card">
-                    <div class="client-logo">
-                        <img src="assets/Cyphant.png" alt="Cyphant Group">
-                    </div>
-                    <div class="client-info">
-                        <h4 class="client-name">@ Cyphant Group</h4>
-                        <span class="client-location">San Francisco</span>
-                        <p class="client-description">Strategic UX Planning</p>
-                    </div>
-                </div>
-
-                <div class="client-card">
-                    <div class="client-logo">
-                        <img src="assets/Dramaly.png" alt="Dramaly">
-                    </div>
-                    <div class="client-info">
-                        <h4 class="client-name">@ Dramaly</h4>
-                        <span class="client-location">Hong Kong</span>
-                        <p class="client-description">AI Development Lifecycle Consulting</p>
-                    </div>
-                </div>
-
-                <div class="client-card">
-                    <div class="client-logo">
-                        <img src="assets/UserXper.png" alt="UserXper">
-                    </div>
-                    <div class="client-info">
-                        <h4 class="client-name">@ UserXper</h4>
-                        <span class="client-location">Taiwan</span>
-                        <p class="client-description">Organizational AI Transformation</p>
-                    </div>
-                </div>
-
-                <div class="client-card">
-                    <div class="client-logo">
-                        <img src="assets/Yidianzixun.png" alt="Yidianzixun">
-                    </div>
-                    <div class="client-info">
-                        <h4 class="client-name">@ Yidianzixun</h4>
-                        <span class="client-location">China</span>
-                        <p class="client-description">AI Solution Evaluation</p>
-                    </div>
+                
+                <!-- Carousel Controls -->
+                <button class="carousel-btn carousel-btn-prev" id="carousel-prev">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <button class="carousel-btn carousel-btn-next" id="carousel-next">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+                
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    <button class="carousel-indicator active" data-slide="0"></button>
+                    <button class="carousel-indicator" data-slide="1"></button>
+                    <button class="carousel-indicator" data-slide="2"></button>
+                    <button class="carousel-indicator" data-slide="3"></button>
+                    <button class="carousel-indicator" data-slide="4"></button>
                 </div>
             </div>
         </section>
@@ -1910,22 +2115,22 @@
                     </p>
                 </div>
                 <div class="footer-contact">
-                    <h3>Get In Touch</h3>
-                    <p>
+            <h3>Get In Touch</h3>
+            <p>
                         I'm always open to discussing new projects, creative ideas, or opportunities to be part of an
                         ambitious
-                        vision.
-                    </p>
+                vision.
+            </p>
                     <div class="footer-contact-social">
-                        <a href="mailto:gainshin.hsiao@mail.mcgill.ca">
-                            <i data-lucide="mail"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer">
-                            <i data-lucide="linkedin"></i>
-                        </a>
-                        <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer">
-                            <i data-lucide="youtube"></i>
-                        </a>
+                <a href="mailto:gainshin.hsiao@mail.mcgill.ca">
+                    <i data-lucide="mail"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/joshuahsiao" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="https://www.youtube.com/@PrivacyUX" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="youtube"></i>
+                </a>
                     </div>
                 </div>
             </div>
@@ -2059,6 +2264,68 @@
 
         // Update on load
         window.addEventListener('load', updateNavigation);
+
+        // Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 5;
+        const track = document.getElementById('carousel-track');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+
+        function updateCarousel() {
+            const translateX = -currentSlide * 100;
+            track.style.transform = `translateX(${translateX}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateCarousel();
+        }
+
+        // Event listeners
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => goToSlide(index));
+        });
+
+        // Auto-play carousel (optional)
+        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+        // Pause auto-play on hover
+        const carouselContainer = document.querySelector('.carousel-container');
+        let autoPlayInterval;
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+            carouselContainer.addEventListener('mouseleave', startAutoPlay);
+            startAutoPlay();
+        }
     </script>
 </body>
 
