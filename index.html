@@ -2501,23 +2501,50 @@
         }
 
         function nextSlide() {
+            const isMobile = window.innerWidth <= 768;
             currentSlide++;
-            if (currentSlide > totalSlides - slidesPerView) {
-                currentSlide = 0; // Loop back to start
+            
+            if (isMobile) {
+                // On mobile, loop through all individual slides (0 to totalSlides-1)
+                if (currentSlide >= totalSlides) {
+                    currentSlide = 0; // Loop back to start
+                }
+            } else {
+                // On desktop, loop through group positions
+                if (currentSlide > totalSlides - slidesPerView) {
+                    currentSlide = 0; // Loop back to start
+                }
             }
             updateCarousel();
         }
 
         function prevSlide() {
+            const isMobile = window.innerWidth <= 768;
             currentSlide--;
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - slidesPerView; // Loop to end
+            
+            if (isMobile) {
+                // On mobile, loop through all individual slides
+                if (currentSlide < 0) {
+                    currentSlide = totalSlides - 1; // Loop to last slide
+                }
+            } else {
+                // On desktop, loop through group positions
+                if (currentSlide < 0) {
+                    currentSlide = totalSlides - slidesPerView; // Loop to end
+                }
             }
             updateCarousel();
         }
 
         function goToSlide(slideIndex) {
-            currentSlide = Math.min(Math.max(slideIndex, 0), totalSlides - slidesPerView);
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                // On mobile, allow direct navigation to any slide
+                currentSlide = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+            } else {
+                // On desktop, ensure we don't exceed the valid range for group viewing
+                currentSlide = Math.max(0, Math.min(slideIndex, totalSlides - slidesPerView));
+            }
             updateCarousel();
         }
 
@@ -2536,14 +2563,13 @@
         function handleResize() {
             const isMobile = window.innerWidth <= 768;
             if (isMobile) {
-                // On mobile, allow full loop through all slides
-                currentSlide = Math.min(currentSlide, totalSlides - 1);
-                updateCarousel();
+                // On mobile, each slide can be viewed individually (0 to totalSlides-1)
+                currentSlide = Math.max(0, Math.min(currentSlide, totalSlides - 1));
             } else {
-                // On desktop, ensure we don't exceed the valid range
-                currentSlide = Math.min(currentSlide, totalSlides - slidesPerView);
-                updateCarousel();
+                // On desktop, ensure we don't exceed the valid range for group viewing
+                currentSlide = Math.max(0, Math.min(currentSlide, totalSlides - slidesPerView));
             }
+            updateCarousel();
         }
 
         window.addEventListener('resize', handleResize);
