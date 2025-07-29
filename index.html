@@ -1771,103 +1771,6 @@
             background: var(--neutral-200);
             border: 1px solid var(--border-color);
         }
-
-        /* Lottie 動效裝飾 */
-        .lottie-decoration {
-            position: absolute;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.6;
-        }
-
-        .lottie-float-1 {
-            top: 10%;
-            right: 5%;
-            width: 80px;
-            height: 80px;
-        }
-
-        .lottie-float-2 {
-            bottom: 20%;
-            left: 3%;
-            width: 60px;
-            height: 60px;
-        }
-
-        .lottie-float-3 {
-            top: 30%;
-            left: 8%;
-            width: 40px;
-            height: 40px;
-        }
-
-        .lottie-skills-1 {
-            top: -20px;
-            right: -20px;
-            width: 100px;
-            height: 100px;
-            opacity: 0.4;
-        }
-
-        .lottie-skills-2 {
-            bottom: -20px;
-            left: -20px;
-            width: 80px;
-            height: 80px;
-            opacity: 0.3;
-        }
-
-        .lottie-client-1 {
-            top: 50%;
-            right: -50px;
-            width: 120px;
-            height: 120px;
-            opacity: 0.3;
-            transform: translateY(-50%);
-        }
-
-        /* 動畫效果 */
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 0.6;
-            }
-        }
-
-        .lottie-decoration {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .lottie-decoration:nth-child(odd) {
-            animation-delay: -3s;
-        }
     </style>
 </head>
 
@@ -1969,22 +1872,6 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <!-- Lottie 浮動動效 -->
-            <lottie-player class="lottie-decoration lottie-float-1"
-                src="https://lottie.host/4c8e6d3c-5f44-4b8c-9c4a-3b2e5f1a7d8c/KqRrZ8Cjqh.json" background="transparent"
-                speed="1" loop autoplay>
-            </lottie-player>
-
-            <lottie-player class="lottie-decoration lottie-float-2"
-                src="https://lottie.host/3e7f9d2a-4c5b-8a9e-1f3d-6b8e9c1a5f2d/YnTkW9Pqmr.json" background="transparent"
-                speed="0.8" loop autoplay>
-            </lottie-player>
-
-            <lottie-player class="lottie-decoration lottie-float-3"
-                src="https://lottie.host/2d8c6e1f-9a4b-7c5e-3f1d-8a9c6e2f5b1d/XmVkR7Hljs.json" background="transparent"
-                speed="1.2" loop autoplay>
-            </lottie-player>
-
             <div class="hero-content">
                 <div class="container">
                     <!-- Split Identity Showcase -->
@@ -2031,12 +1918,6 @@
             </h3>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <!-- AI技能卡片動效 -->
-                    <lottie-player class="lottie-decoration lottie-skills-1"
-                        src="https://lottie.host/5f8a9b2c-6d4e-7c9a-2b5f-8c9e3f1a6d2b/BrainAI.json"
-                        background="transparent" speed="0.5" loop autoplay>
-                    </lottie-player>
-
                     <h4>AI & Agentic UX</h4>
                     <ul class="skill-list">
                         <li><i data-lucide="shield-check"></i>AI agent workflow</li>
@@ -2057,12 +1938,6 @@
                 </div>
 
                 <div class="skill-category">
-                    <!-- 設計策略動效 -->
-                    <lottie-player class="lottie-decoration lottie-skills-2"
-                        src="https://lottie.host/1a9f8c2d-3e5b-4f7a-6c8e-9f2a5b8c1e4d/DesignThinking.json"
-                        background="transparent" speed="0.7" loop autoplay>
-                    </lottie-player>
-
                     <h4>Design & Strategy</h4>
                     <ul class="skill-list">
                         <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
