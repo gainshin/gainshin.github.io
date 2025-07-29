@@ -782,6 +782,48 @@
             border-radius: 0.5rem;
             border: 1px solid #e2e8f0;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid;
+            border-left: none;
+            border-radius: 0;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+        }
+
+        .skill-category:nth-child(1)::after {
+            border-color: var(--ai-primary);
+        }
+
+        .skill-category:nth-child(2)::after {
+            border-color: var(--ux-primary);
+        }
+
+        .skill-category:nth-child(3)::after {
+            border-color: var(--ai-accent);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+            border-color: var(--neutral-300);
+        }
+
+        .skill-category:hover::after {
+            opacity: 0.6;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .skill-category h4 {
