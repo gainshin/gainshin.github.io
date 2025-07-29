@@ -794,10 +794,83 @@
         }
 
         /* Skills */
+        .skills-container {
+            position: relative;
+        }
+
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+        }
+
+        /* Desktop/Mobile Display Control */
+        .desktop-only {
+            display: block;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+
+            .mobile-only {
+                display: block;
+            }
+        }
+
+        /* Skills Carousel Styles */
+        .skills-carousel-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .skills-carousel-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            cursor: grab;
+        }
+
+        .skills-carousel-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .skills-carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+        }
+
+        .skill-slide {
+            min-width: 100%;
+            margin-right: 0;
+        }
+
+        /* Skills 手勢提示 */
+        @media (max-width: 768px) {
+            .skills-carousel-container::before {
+                content: "← Swipe →";
+                position: absolute;
+                top: -2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(99, 102, 241, 0.05);
+                color: #E0F9E3;
+                padding: 0.5rem 1rem;
+                border-radius: 1rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                z-index: 5;
+                animation: fadeInOut 3s ease-in-out infinite;
+            }
         }
 
         .skill-category {
@@ -1002,11 +1075,11 @@
 
         /* Footer */
         footer {
-            background-color: #78D79D;
+            background-color: #74CF96;
             color: #000000;
             padding: 2.5rem 0 1.5rem;
             margin-top: 6rem;
-            border-top: 1px solid #78D79D;
+            border-top: 1px solid #74CF96;
         }
 
         .footer-content {
@@ -1036,7 +1109,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin: 0;
-            color: #000000;
+            color: #1e293b;
             text-align: center;
         }
 
@@ -1047,7 +1120,7 @@
         }
 
         .footer-contact-social a {
-            color: #000000;
+            color: #1e293b;
             transition: all 0.3s ease;
             font-size: 1.5rem;
             padding: 0.5rem;
@@ -1063,7 +1136,7 @@
             left: 0;
             width: 0;
             height: 3px;
-            background: #000000;
+            background: #1e293b;
             transition: width 0.3s ease;
         }
 
@@ -1073,7 +1146,7 @@
 
         .footer-contact-social a:hover {
             color: #ffffff;
-            background: #000000;
+            background: #1e293b;
             transform: translateY(-3px) scale(1.1);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
@@ -1102,7 +1175,7 @@
         }
 
         .footer-bottom p {
-            color: #000000;
+            color: #1e293b;
             font-size: 0.875rem;
         }
 
@@ -1240,8 +1313,8 @@
             }
 
             .mission-statement {
-                padding: 1.6rem 0;
-                margin: 0.8rem 0;
+                padding: 0.8rem 0;
+                margin: 0.4rem 0;
             }
 
             .mission-title {
@@ -1790,13 +1863,13 @@
 
             /* 手勢提示 */
             .carousel-container::before {
-                content: "← 滑動查看更多 →";
+                content: "← Swipe →";
                 position: absolute;
                 top: -2rem;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgba(99, 102, 241, 0.1);
-                color: var(--ai-primary);
+                background: rgba(99, 102, 241, 0.05);
+                color: #E0F9E3;
                 padding: 0.5rem 1rem;
                 border-radius: 1rem;
                 font-size: 0.75rem;
@@ -1943,9 +2016,9 @@
 
         /* Mission Statement Section */
         .mission-statement {
-            padding: 4rem 0;
+            padding: 2rem 0;
             text-align: center;
-            margin: 2rem 0;
+            margin: 1rem 0;
         }
 
         .mission-content {
@@ -2131,35 +2204,77 @@
                 <i data-lucide="brain-circuit"></i>
                 Core Competencies
             </h3>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h4>AI & Agentic UX</h4>
-                    <ul class="skill-list">
-                        <li><i data-lucide="shield-check"></i>AI agent workflow</li>
-                        <li><i data-lucide="shield-check"></i>Agentic UX</li>
-                        <li><i data-lucide="shield-check"></i>Human-Centered AI</li>
-                        <li><i data-lucide="shield-check"></i>AI Trend Analysis & Foresight</li>
-                    </ul>
+            <div class="skills-container">
+                <!-- Desktop Grid View -->
+                <div class="skills-grid desktop-only">
+                    <div class="skill-category">
+                        <h4>AI & Agentic UX</h4>
+                        <ul class="skill-list">
+                            <li><i data-lucide="shield-check"></i>AI agent workflow</li>
+                            <li><i data-lucide="shield-check"></i>Agentic UX</li>
+                            <li><i data-lucide="shield-check"></i>Human-Centered AI</li>
+                            <li><i data-lucide="shield-check"></i>AI Trend Analysis & Foresight</li>
+                        </ul>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Privacy & Ethics</h4>
+                        <ul class="skill-list">
+                            <li><i data-lucide="shield-check"></i>Privacy-first Design</li>
+                            <li><i data-lucide="shield-check"></i>AI Ethics & Governance</li>
+                            <li><i data-lucide="shield-check"></i>GDPR & PIPEDA Compliance</li>
+                            <li><i data-lucide="shield-check"></i>Data Governance Strategy</li>
+                        </ul>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Design & Strategy</h4>
+                        <ul class="skill-list">
+                            <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
+                            <li><i data-lucide="shield-check"></i>AI Product Strategy & Roadmapping</li>
+                            <li><i data-lucide="shield-check"></i>Service Design Strategy</li>
+                            <li><i data-lucide="shield-check"></i>Startup Consulting & Mentoring</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="skill-category">
-                    <h4>Privacy & Ethics</h4>
-                    <ul class="skill-list">
-                        <li><i data-lucide="shield-check"></i>Privacy-first Design</li>
-                        <li><i data-lucide="shield-check"></i>AI Ethics & Governance</li>
-                        <li><i data-lucide="shield-check"></i>GDPR & PIPEDA Compliance</li>
-                        <li><i data-lucide="shield-check"></i>Data Governance Strategy</li>
-                    </ul>
-                </div>
+                <!-- Mobile Carousel View -->
+                <div class="skills-carousel mobile-only">
+                    <div class="skills-carousel-container">
+                        <div class="skills-carousel-wrapper">
+                            <div class="skills-carousel-track" id="skills-carousel-track">
+                                <div class="skill-category skill-slide">
+                                    <h4>AI & Agentic UX</h4>
+                                    <ul class="skill-list">
+                                        <li><i data-lucide="shield-check"></i>AI agent workflow</li>
+                                        <li><i data-lucide="shield-check"></i>Agentic UX</li>
+                                        <li><i data-lucide="shield-check"></i>Human-Centered AI</li>
+                                        <li><i data-lucide="shield-check"></i>AI Trend Analysis & Foresight</li>
+                                    </ul>
+                                </div>
 
-                <div class="skill-category">
-                    <h4>Design & Strategy</h4>
-                    <ul class="skill-list">
-                        <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
-                        <li><i data-lucide="shield-check"></i>AI Product Strategy & Roadmapping</li>
-                        <li><i data-lucide="shield-check"></i>Service Design Strategy</li>
-                        <li><i data-lucide="shield-check"></i>Startup Consulting & Mentoring</li>
-                    </ul>
+                                <div class="skill-category skill-slide">
+                                    <h4>Privacy & Ethics</h4>
+                                    <ul class="skill-list">
+                                        <li><i data-lucide="shield-check"></i>Privacy-first Design</li>
+                                        <li><i data-lucide="shield-check"></i>AI Ethics & Governance</li>
+                                        <li><i data-lucide="shield-check"></i>GDPR & PIPEDA Compliance</li>
+                                        <li><i data-lucide="shield-check"></i>Data Governance Strategy</li>
+                                    </ul>
+                                </div>
+
+                                <div class="skill-category skill-slide">
+                                    <h4>Design & Strategy</h4>
+                                    <ul class="skill-list">
+                                        <li><i data-lucide="shield-check"></i>UX/Design Leadership</li>
+                                        <li><i data-lucide="shield-check"></i>AI Product Strategy & Roadmapping</li>
+                                        <li><i data-lucide="shield-check"></i>Service Design Strategy</li>
+                                        <li><i data-lucide="shield-check"></i>Startup Consulting & Mentoring</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2902,6 +3017,77 @@
             carouselWrapper.addEventListener('mousemove', handleTouchMove);
             carouselWrapper.addEventListener('mouseup', handleTouchEnd);
             carouselWrapper.addEventListener('mouseleave', handleTouchEnd);
+        }
+
+        // Skills Carousel functionality
+        let currentSkillSlide = 0;
+        const totalSkillSlides = 3;
+        const skillsTrack = document.getElementById('skills-carousel-track');
+
+        function updateSkillsCarousel() {
+            const translateX = -currentSkillSlide * 100;
+            if (skillsTrack) {
+                skillsTrack.style.transform = `translateX(${translateX}%)`;
+            }
+        }
+
+        function nextSkillSlide() {
+            currentSkillSlide = (currentSkillSlide + 1) % totalSkillSlides;
+            updateSkillsCarousel();
+        }
+
+        function prevSkillSlide() {
+            currentSkillSlide = (currentSkillSlide - 1 + totalSkillSlides) % totalSkillSlides;
+            updateSkillsCarousel();
+        }
+
+        // Initialize skills carousel
+        updateSkillsCarousel();
+
+        // Skills Carousel touch/swipe support
+        const skillsCarouselWrapper = document.querySelector('.skills-carousel-wrapper');
+        if (skillsCarouselWrapper) {
+            let skillsStartX = 0;
+            let skillsCurrentX = 0;
+            let skillsIsDragging = false;
+
+            function handleSkillsTouchStart(e) {
+                skillsStartX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+                skillsIsDragging = true;
+            }
+
+            function handleSkillsTouchMove(e) {
+                if (!skillsIsDragging) return;
+                e.preventDefault();
+                skillsCurrentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+            }
+
+            function handleSkillsTouchEnd() {
+                if (!skillsIsDragging) return;
+                skillsIsDragging = false;
+
+                const diff = skillsStartX - skillsCurrentX;
+                const threshold = 50;
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        nextSkillSlide();
+                    } else {
+                        prevSkillSlide();
+                    }
+                }
+            }
+
+            // Touch events
+            skillsCarouselWrapper.addEventListener('touchstart', handleSkillsTouchStart, { passive: false });
+            skillsCarouselWrapper.addEventListener('touchmove', handleSkillsTouchMove, { passive: false });
+            skillsCarouselWrapper.addEventListener('touchend', handleSkillsTouchEnd, { passive: false });
+
+            // Mouse events for desktop testing
+            skillsCarouselWrapper.addEventListener('mousedown', handleSkillsTouchStart);
+            skillsCarouselWrapper.addEventListener('mousemove', handleSkillsTouchMove);
+            skillsCarouselWrapper.addEventListener('mouseup', handleSkillsTouchEnd);
+            skillsCarouselWrapper.addEventListener('mouseleave', handleSkillsTouchEnd);
         }
     </script>
 </body>
