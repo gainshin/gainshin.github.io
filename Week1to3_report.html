@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1-3 Progress Report - Research - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font: 62.5% Georgia, Times, serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        /* Floating Table of Contents */
+        .toc-container {
+            position: sticky;
+            top: 20px;
+            width: 220px;
+            min-width: 220px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 6px;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1100px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                max-width: 900px;
+            }
+        }
+
+        /* Markdown Styles matching Zotero */
+        .markdown-body {
+            font-size: 1.4em;
+            line-height: 1.5em;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #555;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.2em 0 0.4em;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.3em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .markdown-body a:hover {
+            color: #777;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #ccc;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 0.75em 1em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        .markdown-body table {
+            border: 1px #ccc solid;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0 1em;
+            font-size: 0.9em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px #ccc solid;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/joshua.png" alt="Joshua" class="logo">
+            <span class="title">Research Notes</span>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Weekly Reports</div>
+            <nav>
+                <a href="Research.html" class="sidebar-nav-item">
+                    <i data-lucide="home"></i>
+                    <span>Welcome</span>
+                </a>
+                <a href="Week1to3_report.html" class="sidebar-nav-item active">
+                    <i data-lucide="file-text"></i>
+                    <span>Week 1-3 Progress Report</span>
+                </a>
+                <a href="Zotero_round1.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 1)</span>
+                </a>
+                <a href="Zotero_round2.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 2)</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="index.html">
+                <i data-lucide="arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Week 1-3</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body" id="main-body">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <article class="markdown-body" id="markdown-content">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading content...</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Floating Table of Contents -->
+                <aside class="toc-container" id="toc-container">
+                    <div class="toc-title">Table of Contents</div>
+                    <ul class="toc-list" id="toc-list">
+                        <li><a href="#section-summary" data-section="section-summary">Executive Summary</a></li>
+                        <li><a href="#section-objectives" data-section="section-objectives">Research Objectives</a></li>
+                        <li><a href="#section-topics" data-section="section-topics">Thematic Areas & Seeds</a></li>
+                        <li><a href="#section-results" data-section="section-results">Search Results</a></li>
+                        <li><a href="#section-analysis" data-section="section-analysis">Status & Strategies</a></li>
+                        <li><a href="#section-strategy" data-section="section-strategy">Revised Strategies</a></li>
+                        <li><a href="#section-plan" data-section="section-plan">Action Plan</a></li>
+                        <li><a href="#section-appendix" data-section="section-appendix">Appendix</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Setup mobile menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // Load markdown content
+        async function loadMarkdown() {
+            const contentEl = document.getElementById('markdown-content');
+
+            try {
+                // Try to fetch the markdown file
+                const response = await fetch('assets/Content/Week1to3_report_EN.md');
+                if (!response.ok) throw new Error('Failed to load');
+                const markdown = await response.text();
+                contentEl.innerHTML = marked.parse(markdown);
+            } catch (error) {
+                // If fetch fails (e.g., file:// protocol), show embedded content
+                contentEl.innerHTML = marked.parse(fallbackContent);
+            }
+
+            // After content loads, add anchor IDs to headings
+            addAnchorIds();
+            setupScrollHighlighting();
+        }
+
+        // Section mapping for anchor IDs
+        const sectionMapping = {
+            '1. Executive Summary': 'section-summary',
+            'Executive Summary': 'section-summary',
+            '2. Research Objectives and Tasks': 'section-objectives',
+            'Research Objectives': 'section-objectives',
+            '3. Four Thematic Areas and Seed Papers': 'section-topics',
+            'Thematic Areas': 'section-topics',
+            '4. Search Results Analysis': 'section-results',
+            'Search Results': 'section-results',
+            '5. Current Status Analysis and Improvement Strategies': 'section-analysis',
+            'Current Status': 'section-analysis',
+            '6. Revised Search Strategies': 'section-strategy',
+            'Revised Search': 'section-strategy',
+            '7. Action Plan and Timeline': 'section-plan',
+            'Action Plan': 'section-plan',
+            'Appendix: Search Strings and Tools': 'section-appendix',
+            'Appendix': 'section-appendix'
+        };
+
+        // Add anchor IDs to headings
+        function addAnchorIds() {
+            const contentEl = document.getElementById('markdown-content');
+            const headings = contentEl.querySelectorAll('h1, h2');
+
+            headings.forEach(heading => {
+                const text = heading.textContent.trim();
+                for (const [key, id] of Object.entries(sectionMapping)) {
+                    if (text.includes(key) || text === key) {
+                        heading.id = id;
+                        break;
+                    }
+                }
+            });
+        }
+
+        // Setup scroll highlighting for TOC
+        function setupScrollHighlighting() {
+            const mainBody = document.getElementById('main-body');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = Array.from(tocLinks).map(link => {
+                const id = link.getAttribute('data-section');
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            // Handle TOC link clicks with smooth scroll
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-section');
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Highlight TOC on scroll
+            mainBody.addEventListener('scroll', () => {
+                let currentSection = null;
+                sections.forEach(section => {
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        const mainBodyRect = mainBody.getBoundingClientRect();
+                        const offset = rect.top - mainBodyRect.top;
+                        if (offset <= 100) {
+                            currentSection = section.id;
+                        }
+                    }
+                });
+
+                if (currentSection) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Fallback content (English summary for file:// protocol)
+        const fallbackContent = `# INFS 603 Literature Review - Week 1-3 Progress Report
+
+> **Research Question**: How do current UX design practices fail to account for older adults' AI literacy and privacy risk perception, and where does the gap lie between high-level principles (WHO, NIST) and interface-level implementation?
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#section-summary)
+2. [Research Objectives and Tasks](#section-objectives)
+3. [Four Thematic Areas and Seed Papers](#section-topics)
+4. [Search Results Analysis](#section-results)
+5. [Current Status Analysis and Improvement Strategies](#section-analysis)
+6. [Revised Search Strategies](#section-strategy)
+7. [Action Plan and Timeline](#section-plan)
+8. [Appendix: Search Strings and Tools](#section-appendix)
+
+---
+
+# 1. Executive Summary
+
+## 1.1 Week 1-3 Completion Overview
+
+| Item | Target | Actual Completion | Status |
+|------|--------|-------------------|--------|
+| Seed Paper Identification | 20-32 papers (5-8 per theme) | 21 papers evaluated (6 Tier 1, 4 Tier 2, 1 Tier 3, 7 Unaccepted, 3 pending) | 🟡 In Progress |
+| Theme 1 Coverage | 100% | 100% (8 papers: 1 Tier 1, 3 Tier 2, 2 Tier 3) | 🟢 Good |
+| Theme 2 Coverage | 100% | 60% (3/5 papers, all Tier 1) | 🟢 Core Complete |
+| Theme 3 Coverage | 100% | 20% (1 Tier 2, 5 Unaccepted) | 🟡 Needs Supplementation |
+| Theme 4 Coverage | 100% | 80% (6 papers: 2 Tier 1, 4 grey literature) | 🟢 Good |
+| Tier 1 Literature Ratio | 40-50% | 29% (6 papers) | 🟡 Needs Supplementation |
+
+## 1.2 Key Findings
+
+### Completed Milestones
+1. **Classification System**: Established systematic paper classification framework (Tier 1-3 + Unaccepted)
+2. **Round 2 Evaluation**: 21 papers evaluated and classified
+3. **Core Literature Collection**: Themes 1, 2, and 4 core literature collected
+
+### Areas for Improvement
+1. **Theme 2 Supplementary Search** 🟠 — Need 1-2 additional papers
+2. **Theme 3 Re-evaluation** 🔴 — Most papers marked Unaccepted
+3. **Tier 1 Literature Ratio** 🟠 — Currently 29%, target 40-50%
+
+---
+
+# 2. Research Objectives and Tasks
+
+According to INFS 603 course requirements, this phase needs to complete:
+
+1. **Read Background Literature** — Establish foundational knowledge in AI health services
+2. **Learn Key Concepts** — Understand HCI and UX applications in healthcare
+3. **Identify Seed Papers** — Select 5-8 core papers per thematic area
+4. **Citation Tracking Preparation** — Establish starting points for backward/forward chaining
+
+---
+
+# 3. Four Thematic Areas and Seed Papers
+
+| Theme | Research Focus | Coverage |
+|-------|----------------|----------|
+| **Theme 1** | HCI & Conversational Agents/Intelligent Systems (Older Adults) | 🟢 100% |
+| **Theme 2** | AI Dark Patterns & Manipulation | 🟢 60% |
+| **Theme 3** | Digital Health, Aging, Usability & Chatbots | 🟡 20% |
+| **Theme 4** | Governance, Risk & Responsible AI | 🟢 80% |
+
+### Theme 2: Core Literature (Tier 1)
+- **Gray et al. (2018)** - "The Dark (Patterns) Side of UX Design" - CHI 2018
+- **Susser et al. (2019)** - "Technology, Autonomy, and Manipulation" - Internet Policy Review
+- **Brignull (2023/2024)** - "Deceptive Patterns" - Book
+
+---
+
+# 4. Search Results Analysis
+
+## 4.1 Search Coverage Overview
+
+| Thematic Area | Target | Actual Collection | Coverage |
+|---------------|--------|-------------------|----------|
+| Theme 1: HCI & Conversational Agents | 5-8 papers | 8 papers | 100% |
+| Theme 2: AI Dark Patterns & Manipulation | 5-8 papers | 3 papers (all Tier 1) | 60% |
+| Theme 3: Digital Health, Aging | 5-8 papers | 6 papers (1 Tier 2, 5 Unaccepted) | 20% |
+| Theme 4: Governance & Responsible AI | 5-8 papers | 6 papers (2 Tier 1, 4 grey lit) | 80% |
+
+---
+
+# 5. Current Status Analysis and Improvement Strategies
+
+## Theme 2: Dark Patterns Literature Collection
+
+**Completed**: Three core papers (Gray, Susser, Brignull) located, downloaded, and rated Tier 1.
+
+**Supplementation Strategies**:
+- Check Gull (2025) access via McGill Library
+- Search FAccT conference papers (target: 60% → 80-100%)
+
+---
+
+# 6. Revised Search Strategies
+
+## Core Principle Adjustments
+
+| Current Strategy | Problem | Improved Strategy |
+|-----------------|---------|-------------------|
+| All conditions with AND | Intersection too small | **Layered Search**: Broad first, then narrow |
+| One search contains all concepts | Misses partially matching papers | **Multiple Simplified Searches** → Merge results |
+
+---
+
+# 7. Action Plan and Timeline
+
+| Priority | Task | Deadline |
+|----------|------|----------|
+| ✅ Completed | Locate and download dark patterns core literature | ✅ Completed |
+| ✅ Completed | Complete Tier evaluation of Theme 2 literature | ✅ Completed |
+| 🔴 Highest | Re-search Theme 3 literature | Week 3 Beginning |
+| 🟠 High | Theme 2 supplementary search (Gull 2025, FAccT) | Week 3 Beginning |
+| 🟠 High | Supplement Tier 1 literature to 40-50% | Week 3 Mid |
+
+---
+
+# Appendix: Search Strings and Tools
+
+## A.1 Complete Search String Reference
+
+### Theme 1: HCI & Conversational Agents/Intelligent Systems (Older Adults)
+
+**Web of Science / Scopus**
+
+\`\`\`
+TS=((("older adult*" OR "elderly" OR "senior*" OR "aging" OR "ageing") 
+AND ("conversational agent*" OR "voice assistant*" OR "intelligent system*" 
+OR "chatbot*" OR "virtual assistant*" OR "smart speaker*" OR "dialogue system*") 
+AND ("health*" OR "healthcare" OR "wellbeing" OR "independence" OR "aging in place"))
+AND ("HCI" OR "human-computer interaction" OR "user experience" OR "UX" 
+OR "interaction design" OR "usability"))
+\`\`\`
+
+**IEEE Xplore**
+
+\`\`\`
+("older adults" OR elderly OR seniors OR aging) 
+AND ("conversational agents" OR "voice assistants" OR "intelligent systems" 
+OR chatbots OR "virtual assistants") 
+AND (health OR healthcare OR independence) 
+AND (HCI OR "human-computer interaction" OR "user experience" OR usability)
+\`\`\`
+
+**ACM Digital Library**
+
+\`\`\`
+[Title or Abstract]: ("older adults" OR elderly OR seniors) 
+AND ("conversational agents" OR "voice assistants" OR "intelligent systems") 
+AND (health OR healthcare) 
+AND (HCI OR "user experience" OR "interaction design")
+\`\`\`
+
+### Theme 2: AI Dark Patterns & Manipulation
+
+**Web of Science / Scopus**
+
+\`\`\`
+TS=(("dark pattern*" OR "deceptive design" OR "manipulative design" 
+OR "persuasive technology" OR "nudge" OR "digital manipulation") 
+AND ("user interface" OR "UI" OR "UX" OR "interaction design" 
+OR "artificial intelligence" OR "AI" OR "machine learning"))
+AND ("ethics" OR "user autonomy" OR "transparency" OR "consent" 
+OR "privacy" OR "trust")
+\`\`\`
+
+**ACM Digital Library**
+
+\`\`\`
+[Title or Abstract]: ("dark patterns" OR "deceptive design" OR manipulation) 
+AND (AI OR "user interface" OR "interaction design") 
+AND (ethics OR autonomy OR transparency)
+\`\`\`
+
+### Theme 3: Digital Health, Aging, Usability & Chatbots
+
+**Web of Science / Scopus**
+
+\`\`\`
+TS=((("older adult*" OR "elderly" OR "senior*" OR "aging" OR "ageing") 
+AND ("digital health" OR "mHealth" OR "mobile health" OR "eHealth" 
+OR "patient portal*" OR "health app*" OR "healthcare chatbot*" 
+OR "conversational health agent*"))
+AND ("usability" OR "accessibility" OR "user experience" OR "UX" 
+OR "adoption" OR "attrition" OR "engagement" OR "trust" OR "privacy"))
+\`\`\`
+
+### Theme 4: Governance, Risk & Responsible AI
+
+**Web of Science / Scopus**
+
+\`\`\`
+TS=(("AI governance" OR "AI ethics" OR "responsible AI" OR "trustworthy AI" 
+OR "AI risk management" OR "AI accountability" OR "AI transparency") 
+AND ("healthcare" OR "health" OR "medical" OR "clinical"))
+AND ("framework" OR "guideline*" OR "policy" OR "regulation" 
+OR "design principle*" OR "implementation")
+\`\`\`
+
+---
+
+## A.2 Database-Specific Tips
+
+### Web of Science
+- Use Cited Reference Search for backward tracking
+- Utilize Times Cited sorting to find high-impact papers
+- Filters: Document Types (Article, Review), Research Areas (Computer Science, Health Care Sciences)
+
+### Scopus
+- Use Analyze search results to view main authors, institutions, sources
+- Citation Tracker function to track citations
+- Filters: Subject Area (Computer Science, Medicine), Document Type
+
+### IEEE Xplore
+- Restrict Content Type: Conferences, Journals & Magazines
+- Key Conferences: CHI, ASSETS, IEEE VR, EMBC
+
+### ACM Digital Library
+- Use The ACM Guide to Computing Literature for more comprehensive search
+- Filter Publication Type: Research Article, Review Article
+- Key Conference Series: CHI, CSCW, UIST, DIS, ASSETS, FAccT
+
+---
+
+## A.3 Boolean Operator Usage Tips
+
+| Operator | Function | Example |
+|----------|----------|---------|
+| **AND** | Narrow scope (all conditions must be met) | "older adults" AND "chatbot" |
+| **OR** | Expand scope (any condition met) | "elderly" OR "seniors" |
+| **Quotes " "** | Exact phrase match | "dark patterns" |
+| **Asterisk \\*** | Word root variation | design* = design, designs, designed |
+| **Parentheses ( )** | Control operation priority | ("older adults" OR elderly) AND health |
+
+---
+
+## A.4 Search Record Template
+
+| Search ID | Date | Database | Theme | Filters | Total | Relevant | Included | Notes |
+|-----------|------|----------|-------|---------|-------|----------|----------|-------|
+| S1A | 2026-01-24 | WoS | Topic 1 | 2018-2026, CS | 342 | 87 | 12 | Manual filtering |
+| S2A | 2026-01-24 | ACM DL | Topic 2 | 2010-2026 | 78 | 45 | 8 | Found Gray 2018 ✓ |
+
+### Detailed Search Record Template
+
+**Search records should include**:
+1. **Basic Information**: Search date, database name, search theme
+2. **Search Strategy**: Complete search string, filters used, search fields
+3. **Result Processing**: Total count, relevant count, final inclusion, exclusion reasons
+4. **Key Findings**: Core literature found, unexpected findings
+5. **Follow-up Actions**: Strategy adjustments, supplementary searches
+
+---
+
+## A.5 Zotero Tag System Recommendations
+
+\`\`\`
+Theme Tags:
+#Topic1_HCI_Older_Adults_ConvAI
+#Topic2_DarkPatterns_Manipulation
+#Topic3_Digital_Health_Usability
+#Topic4_AI_Governance_Ethics
+
+Cross Tags: #Cross_Privacy, #Cross_Trust, #Cross_Transparency, #Cross_Autonomy
+
+Method Tags: #Method_Empirical, #Method_Review, #Method_Framework, #Method_PolicyGrey
+
+Status Tags: #Seed_Confirmed, #Seed_Candidate, #Background_Only, #Citation_Tracing_Source
+\`\`\`
+
+---
+
+## A.6 Quality Screening Criteria
+
+### Inclusion Criteria
+- Published in peer-reviewed journals or top-tier conferences
+- Clear research methods (empirical research, systematic reviews, framework development)
+- Directly relevant to research question
+- Provides rich references usable for citation tracking
+
+### Exclusion Criteria
+- Technical implementation only (no HCI perspective)
+- Non-English literature (unless particularly important)
+- Conference abstracts (prefer full papers)
+- Too broad or unrelated to theme
+
+---
+
+**Document Version**: January 24, 2026. Round 2 evaluation complete. Theme 2 core literature (Gray, Susser, Brignull) rated Tier 1. Theme 3 reassessed (Wildenbos Tier 2). Grey literature acquired (NIST, WHO, CIFAR, Amii). Current Tier 1 ratio: 29% (6 papers), target: 40-50%.
+`;
+
+        // Load content on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+
+</html>

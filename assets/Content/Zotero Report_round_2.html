@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none'; img-src data:; style-src 'unsafe-inline' data:" />
+	<title>Zotero Report</title>
+	<link rel="stylesheet" type="text/css"
+		href="data:text/css;base64,Ym9keSB7Cgljb2xvci1zY2hlbWU6IGxpZ2h0IGRhcms7CgkvKiBUaGVzZSBzaG91bGQgYmUgdGhlIGRlZmF1bHRzLCBidXQganVzdCBpbiBjYXNlOiAqLwoJYmFja2dyb3VuZDogQ2FudmFzOwoJY29sb3I6IENhbnZhc1RleHQ7Cn0KCmEgewoJdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Cn0KCmJvZHkgewoJcGFkZGluZzogMDsKfQoKdWwucmVwb3J0IGxpLml0ZW0gewoJYm9yZGVyLXRvcDogNHB4IHNvbGlkICM1NTU7CglwYWRkaW5nLXRvcDogMWVtOwoJcGFkZGluZy1sZWZ0OiAxZW07CglwYWRkaW5nLXJpZ2h0OiAxZW07CgltYXJnaW4tYm90dG9tOiAyZW07Cn0KCmgxLCBoMiwgaDMsIGg0LCBoNSwgaDYgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDIgewoJbWFyZ2luOiAwIDAgLjVlbTsKfQoKaDIucGFyZW50SXRlbSB7Cglmb250LXdlaWdodDogNjAwOwoJZm9udC1zaXplOiAxZW07CglwYWRkaW5nOiAwIDAgLjVlbTsKCWJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjY2NjOwp9CgovKiBJZiBjb21iaW5pbmcgY2hpbGRyZW4sIGRpc3BsYXkgcGFyZW50IHNsaWdodGx5IGxhcmdlciAqLwp1bC5yZXBvcnQuY29tYmluZUNoaWxkSXRlbXMgaDIucGFyZW50SXRlbSB7Cglmb250LXNpemU6IDEuMWVtOwoJcGFkZGluZy1ib3R0b206IC43NWVtOwoJbWFyZ2luLWJvdHRvbTogLjRlbTsKfQoKaDIucGFyZW50SXRlbSAudGl0bGUgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDMgewoJbWFyZ2luLWJvdHRvbTogLjZlbTsKCWZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDsKCWZvbnQtc2l6ZTogMWVtOwoJZGlzcGxheTogYmxvY2s7Cn0KCi8qIE1ldGFkYXRhIHRhYmxlICovCnRoIHsKCXZlcnRpY2FsLWFsaWduOiB0b3A7Cgl0ZXh0LWFsaWduOiByaWdodDsKCXdpZHRoOiAxNSU7Cgl3aGl0ZS1zcGFjZTogbm93cmFwOwp9Cgp0ZCB7CglwYWRkaW5nLWxlZnQ6IC41ZW07Cn0KCgp1bC5yZXBvcnQsIHVsLm5vdGVzLCB1bC50YWdzIHsKCWxpc3Qtc3R5bGU6IG5vbmU7CgltYXJnaW4tbGVmdDogMDsKCXBhZGRpbmctbGVmdDogMDsKfQoKLyogVGFncyAqLwpoMy50YWdzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLnRhZ3MgewoJbGluZS1oZWlnaHQ6IDEuNzVlbTsKCWxpc3Qtc3R5bGU6IG5vbmU7Cn0KCnVsLnRhZ3MgbGkgewoJZGlzcGxheTogaW5saW5lOwp9Cgp1bC50YWdzIGxpOm5vdCg6bGFzdC1jaGlsZCk6YWZ0ZXIgewoJY29udGVudDogJywgJzsKfQoKCi8qIENoaWxkIG5vdGVzICovCmgzLm5vdGVzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLm5vdGVzIHsKCW1hcmdpbi1ib3R0b206IDEuMmVtOwp9Cgp1bC5ub3RlcyA+IGxpOmZpcnN0LWNoaWxkIHAgewoJbWFyZ2luLXRvcDogMDsKfQoKdWwubm90ZXMgPiBsaSB7CglwYWRkaW5nOiAuN2VtIDA7Cn0KCnVsLm5vdGVzID4gbGk6bm90KDpsYXN0LWNoaWxkKSB7Cglib3JkZXItYm90dG9tOiAxcHggI2NjYyBzb2xpZDsKfQoKCnVsLm5vdGVzID4gbGkgcDpmaXJzdC1jaGlsZCB7CgltYXJnaW4tdG9wOiAwOwp9Cgp1bC5ub3RlcyA+IGxpIHA6bGFzdC1jaGlsZCB7CgltYXJnaW4tYm90dG9tOiAwOwp9CgovKiBBZGQgcXVvdGF0aW9uIG1hcmtzIGFyb3VuZCBibG9ja3F1b3RlICovCnVsLm5vdGVzID4gbGkgYmxvY2txdW90ZSBwOm5vdCg6ZW1wdHkpOmJlZm9yZSwKbGkubm90ZSBibG9ja3F1b3RlIHA6bm90KDplbXB0eSk6YmVmb3JlIHsKCWNvbnRlbnQ6ICfigJwnOwp9Cgp1bC5ub3RlcyA+IGxpIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyLApsaS5ub3RlIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyIHsKCWNvbnRlbnQ6ICfigJ0nOwp9CgovKiBQcmVzZXJ2ZSB3aGl0ZXNwYWNlIG9uIHBsYWludGV4dCBub3RlcyAqLwp1bC5ub3RlcyBsaSBwLnBsYWludGV4dCwgbGkubm90ZSBwLnBsYWludGV4dCwgZGl2Lm5vdGUgcC5wbGFpbnRleHQgewoJd2hpdGUtc3BhY2U6IHByZS13cmFwOwp9CgovKiBEaXNwbGF5IHRhZ3Mgd2l0aGluIGNoaWxkIG5vdGVzIGlubGluZSAqLwp1bC5ub3RlcyBoMy50YWdzIHsKCWRpc3BsYXk6IGlubGluZTsKCWZvbnQtc2l6ZTogMWVtOwp9Cgp1bC5ub3RlcyBoMy50YWdzOmFmdGVyIHsKCWNvbnRlbnQ6ICcgJzsKfQoKdWwubm90ZXMgdWwudGFncyB7CglkaXNwbGF5OiBpbmxpbmU7Cn0KCnVsLm5vdGVzIHVsLnRhZ3MgbGk6bm90KDpsYXN0LWNoaWxkKTphZnRlciB7Cgljb250ZW50OiAnLCAnOwp9CgoKLyogQ2hpbGQgYXR0YWNobWVudHMgKi8KaDMuYXR0YWNobWVudHMgewoJZm9udC1zaXplOiAxLjFlbTsKfQoKdWwuYXR0YWNobWVudHMgbGkgewoJcGFkZGluZy10b3A6IC41ZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHsKCW1hcmdpbi1sZWZ0OiAyZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHA6Zmlyc3QtY2hpbGQgewoJbWFyZ2luLXRvcDogLjc1ZW07Cn0KCmRpdiB0YWJsZSB7Cglib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwp9CgpkaXYgdGFibGUgdGQsIGRpdiB0YWJsZSB0aCB7Cglib3JkZXI6IDFweCAjY2NjIHNvbGlkOwoJYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKCXdvcmQtYnJlYWs6IGJyZWFrLWFsbDsKfQoKZGl2IHRhYmxlIHRkIHA6ZW1wdHk6OmFmdGVyLCBkaXYgdGFibGUgdGggcDplbXB0eTo6YWZ0ZXIgewoJY29udGVudDogIlwwMGEwIjsKfQoKZGl2IHRhYmxlIHRkICo6Zmlyc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmZpcnN0LWNoaWxkIHsKCW1hcmdpbi10b3A6IDA7Cn0KCmRpdiB0YWJsZSB0ZCAqOmxhc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmxhc3QtY2hpbGQgewoJbWFyZ2luLWJvdHRvbTogMDsKfQo=" />
+	<link rel="stylesheet" type="text/css" media="screen,projection"
+		href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg==" />
+	<link rel="stylesheet" type="text/css" media="print"
+		href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg==" />
+</head>
+
+<body>
+	<ul class="report combineChildItems">
+		<li id="item_UQY8PTHZ" class="item preprint">
+			<h2>Who Benefits from AI Explanations? Towards Accessible and Interpretable Systems</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Preprint</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Maria J. P. Peixoto</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Akriti Pandey</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Ahsan Zaman</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Peter R. Lewis</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>As AI systems are increasingly deployed to support decision-making in critical domains,
+						explainability has become a means to enhance the understandability of these outputs and enable
+						users to make more informed and conscious choices. However, despite growing interest in the
+						usability of eXplainable AI (XAI), the accessibility of these methods, particularly for users
+						with vision impairments, remains underexplored. This paper investigates accessibility gaps in
+						XAI through a two-pronged approach. First, a literature review of 79 studies reveals that
+						evaluations of XAI techniques rarely include disabled users, with most explanations relying on
+						inherently visual formats. Second, we present a fourpart methodological proof of concept that
+						operationalizes inclusive XAI design: (1) categorization of AI systems, (2) persona definition
+						and contextualization, (3) prototype design and implementation, and (4) expert and user
+						assessment of XAI techniques for accessibility. Preliminary findings suggest that simplified
+						explanations are more comprehensible for non-visual users than detailed ones, and that
+						multimodal presentation is required for more equitable interpretability.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2025-08-14</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Who Benefits from AI Explanations?</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>arXiv.org</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://arxiv.org/abs/2508.10806">http://arxiv.org/abs/2508.10806</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:42 p.m.</td>
+				</tr>
+				<tr>
+					<th>Extra</th>
+					<td>arXiv:2508.10806 [cs]</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.48550/arXiv.2508.10806">10.48550/arXiv.2508.10806</a></td>
+				</tr>
+				<tr>
+					<th>Repository</th>
+					<td>arXiv</td>
+				</tr>
+				<tr>
+					<th>Archive ID</th>
+					<td>arXiv:2508.10806</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:42 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:42 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="tags">Tags:</h3>
+			<ul class="tags">
+				<li>Computer Science - Artificial Intelligence</li>
+			</ul>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_T5JIR5DM">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1</p>
+							<p>Paper accepted for the IJCAI 2025 Workshop on Explainable Artificial Intelligence (XAI):
+								https://sites.google.com/view/xai2025/proceedings</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>AI Explainability/Transparency</strong>: Questioning "for whom are
+											explanations?"—Do older adults truly benefit?
+										</li>
+										<li>
+											<strong>Usability</strong>: Issues of accessibility and comprehensibility of
+											AI explanations
+										</li>
+										<li>
+											<strong>Persuasive Design</strong> (implicit): If explanations are
+											inaccessible, is it a design flaw or intentional exclusion?
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Reveals the <strong>illusion of
+										transparency</strong>—providing explanations ≠ user understanding, especially
+									for older adults.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Argues that high-level principles of
+									"transparency" fail at the interface level, potentially becoming <strong>compliance
+										theater</strong>.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_M9KXNZMA">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_XQWT2XSN" class="item journalArticle">
+			<h2>Conversational Agents for Older Adults&apos; Health: A Systematic Literature Review</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jiaxin An</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Siqi Yi</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yao Lyu</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Houjiang Liu</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yan Zhang</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2025</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://arxiv.org/abs/2503.23153">https://arxiv.org/abs/2503.23153</a></td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>arXiv</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>arXiv.org</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.48550/ARXIV.2503.23153">10.48550/ARXIV.2503.23153</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_8V8GCQMW">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 2<br></p>
+							<h3><strong>1. Usability Dimension</strong> ✅ <strong>Highly Relevant</strong></h3>
+							<ul>
+								<li>
+									As a systematic literature review, it necessarily covers usability research on
+									conversational agents
+								</li>
+								<li>
+									May compile a <strong>barrier list</strong> for older adults using conversational
+									health agents
+								</li>
+								<li>
+									Provides usability patterns and design recommendations across studies
+								</li>
+							</ul>
+							<h3><strong>2. AI Explainability/Transparency Dimension</strong> ⚠️ <strong>Needs
+									Confirmation</strong></h3>
+							<ul>
+								<li>
+									The systematic review <strong>may</strong> include transparency-related research,
+									but it may not be the primary focus
+								</li>
+								<li>
+									Need to check: Does the literature discuss older adults' understanding of agent
+									decision-making processes?
+								</li>
+								<li>
+									Need to check: Does it mention transparency issues regarding data usage?
+								</li>
+							</ul>
+							<h3><strong>3. Persuasive Design + Dark Pattern Dimension</strong> ❓ <strong>Potentially
+									Missing</strong></h3>
+							<ul>
+								<li>
+									Most systematic reviews in health domains treat persuasive design as a
+									<strong>positive feature</strong> (behavior change technology)
+								</li>
+								<li>
+									<strong>Key Question</strong>: Does the literature distinguish between "benign
+									persuasion" and "manipulative dark patterns"?
+								</li>
+								<li>
+									<p><strong>Possible Scenario</strong>: The literature discusses persuasiveness but
+										does not critically examine its ethical boundaries</p>
+									<p></p>
+								</li>
+							</ul>
+							<h3><strong>Rationale for Inclusion</strong></h3>
+							<p></p>
+							<p><strong>1. Provides Domain Landscape Map</strong></p>
+							<ul>
+								<li>
+									As a systematic review, it can help establish the <strong>knowledge boundaries of
+										existing research</strong>
+								</li>
+								<li>
+									You can identify: Which design issues are adequately studied? Which are
+									systematically neglected?
+								</li>
+							</ul>
+							<p><strong>2. Exposes Research Gaps</strong></p>
+							<ul>
+								<li>
+									If this review <strong>does not adequately discuss transparency or dark
+										patterns</strong>, this itself is evidence
+								</li>
+								<li>
+									You can argue: "Even the most comprehensive systematic review fails to address the
+									ethical tensions of persuasive design"
+								</li>
+							</ul>
+							<p><strong>3. Specificity of Health Domain</strong></p>
+							<ul>
+								<li>
+									Health conversational agents involve <strong>high-risk decisions</strong>
+									(medication, medical consultation, behavior change)
+								</li>
+								<li>
+									The literature may reveal: How health contexts amplify the potential harms of
+									persuasive design
+								</li>
+							</ul>
+							<p><strong>4. Methodological Value</strong></p>
+							<ul>
+								<li>
+									Can analyze: How do existing studies <strong>evaluate</strong> conversational
+									agents?
+								</li>
+								<li>
+									Do evaluation methods overlook measurement of transparency and persuasiveness?
+								</li>
+							</ul>
+							<h3><strong>⚠️ Limitations to Note</strong></h3>
+							<p><strong>1. May Be Too Descriptive</strong></p>
+							<ul>
+								<li>
+									Systematic reviews may only compile existing findings, lacking critical analysis
+								</li>
+								<li>
+									You need to "read what is unsaid"—which dimensions are neglected?
+								</li>
+							</ul>
+							<p><strong>2. May Treat Persuasion as Positive Feature</strong></p>
+							<ul>
+								<li>
+									Health informatics typically views persuasive design as a <strong>tool for behavior
+										change</strong>
+								</li>
+								<li>
+									Requires you to critically reinterpret these findings
+								</li>
+							</ul>
+							<p><strong>3. May Lack HCI Depth</strong></p>
+							<ul>
+								<li>
+									If the review primarily evaluates from a medical effectiveness perspective, it may
+									lack detailed discussion at the interface design level
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_A6BCWA92" class="item journalArticle">
+			<h2>A SCOPING REVIEW OF THE ARTIFICIAL IN℡LIGENCE–BASED CONVERSATIONAL AGENTS ON MENTAL HEALTH CARE FOR
+				OLDER ADULTS</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Xiayu Chen</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Wan Wen</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2024-12</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1093/geroni/igae098.0831">http://dx.doi.org/10.1093/geroni/igae098.0831</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>8</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Oxford University Press (OUP)</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>257–257</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Innovation in Aging</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1093/geroni/igae098.0831">10.1093/geroni/igae098.0831</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>Supplement‗1</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2399-5300</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_RPQMGLC3">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted</p>
+							<p><strong>Exclusion Reason</strong>: Valuable as a general review, but if it does not
+								deeply discuss the interaction of the three dimensions, priority is reduced. Can serve
+								as supplementary but not core.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_QK7TZDQN" class="item journalArticle">
+			<h2>&quot;I don&apos;t know how to help with that&quot; - Learning from Limitations of Modern Conversational
+				Agent Systems in Caregiving Networks</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Tamara Zubatiy</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Niharika Mathur</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Larry Heck</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Kayci L. Vickers</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Agata Rozga</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Elizabeth D. Mynatt</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2023-09-28</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://dx.doi.org/10.1145/3610170">http://dx.doi.org/10.1145/3610170</a></td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>7</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Association for Computing Machinery (ACM)</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1–28</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Proceedings of the ACM on Human-Computer Interaction</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3610170">10.1145/3610170</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>CSCW2</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2573-0142</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_A9HPM3Q9">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 2<br></p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Usability</strong>: Systematic review of existing conversational AI
+											design principles
+										</li>
+										<li>
+											<strong>Transparency</strong> (indirect): Which design frameworks mention
+											transparency? How do they mention it?
+										</li>
+										<li>
+											<strong>Persuasive Design</strong> (gap): Does existing literature ignore
+											persuasiveness issues?
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Provides a <strong>panorama of existing design
+										practices</strong>, allowing you to mark the <strong>absence</strong> of the
+									"persuasive design" dimension in existing frameworks.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Argues that existing HCI design frameworks
+									(e.g., MOLD-US) inadequately address persuasiveness in agent systems, thus powerless
+									against dark patterns.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_CZLDH8T9" class="item journalArticle">
+			<h2>Exploring Older Adults’ Beliefs About the Use of Intelligent Assistants for Consumer Health Information
+				Management: A Participatory Design Study</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Aqueasha Martin-Hammond</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Sravani Vemireddy</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Kartik Rao</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2019-12-11</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://dx.doi.org/10.2196/15381">http://dx.doi.org/10.2196/15381</a></td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>2</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>JMIR Publications Inc.</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>e15381</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>JMIR Aging</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.2196/15381">10.2196/15381</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>2</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2561-7605</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_ZZEXPFHZ">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted</p>
+							<p><strong>Exclusion Reason</strong>: If it only explores attitudes and beliefs without
+								analyzing how these beliefs are shaped or exploited by interface design, then its
+								relevance to your research question is weak.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_K6IH5EJK" class="item journalArticle">
+			<h2>An Empirical Study of Older Adult’s Voice Assistant Use for Health Information Seeking</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Robin Brewer</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Casey Pierce</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Pooja Upadhyay</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Leeseul Park</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2022-06-30</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://dx.doi.org/10.1145/3484507">http://dx.doi.org/10.1145/3484507</a></td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>12</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Association for Computing Machinery (ACM)</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1–32</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>ACM Transactions on Interactive Intelligent Systems</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3484507">10.1145/3484507</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>2</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2160-6455</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_H5KSJEQK">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 3</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Usability</strong>: Actual usage patterns and barriers
+										</li>
+										<li>
+											<strong>Transparency</strong>: Users' understanding of data collection
+										</li>
+										<li>
+											<strong>Persuasive Design</strong>: Do users perceive being guided?
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Provides <strong>empirical data</strong> showing
+									where older adults over-trust or misunderstand agents.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Uses real cases to illustrate how theoretical
+									dark patterns function in actual use.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_JYJPR8IB" class="item journalArticle">
+			<h2>Benefits and challenges of conversational agents in older adults</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Christiane Even</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Torsten Hammann</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Vera Heyl</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Christian Rietz</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Hans-Werner Wahl</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Peter Zentel</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Anna Schlomann</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2022-07-19</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1007/s00391-022-02085-9">http://dx.doi.org/10.1007/s00391-022-02085-9</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>55</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Springer Science and Business Media LLC</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>381–387</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Zeitschrift f\&quot; ur Gerontologie und Geriatrie</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1007/s00391-022-02085-9">10.1007/s00391-022-02085-9</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>5</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>0948-6704</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_L8D5NV7C">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 2<br></p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Usability</strong>: Usability differences between CUI vs. GUI
+										</li>
+										<li>
+											<strong>Transparency</strong> (implicit): Issues of predictability in
+											conversational flows
+										</li>
+										<li>
+											<strong>Persuasive Design</strong> (gap): Literature may not discuss this,
+											which is precisely your contribution point
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Identifies <strong>failure points in design
+										knowledge transfer from GUI to CUI</strong>.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Argues how traditional usability principles
+									are hijacked by persuasive design in conversational interfaces.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_WRUTPAC7" class="item journalArticle">
+			<h2>Artificial intelligence in elderly healthcare: A scoping review</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Bingxin Ma</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jin Yang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Frances Kam Yuet Wong</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Arkers Kwan Ching Wong</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Tingting Ma</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jianan Meng</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yue Zhao</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yaogang Wang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Qi Lu</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>The ageing population has led to a surge in the adoption of artificial intelligence (AI)
+						technologies in elderly healthcare worldwide. However, in the advancement of AI technologies,
+						there is currently a lack of clarity about the types and roles of AI technologies in elderly
+						healthcare. This scoping review aimed to provide a comprehensive overview of AI technologies in
+						elderly healthcare by exploring the types of AI technologies employed, and identifying their
+						roles in elderly healthcare based on existing studies. A total of 10 databases were searched for
+						this review, from January 1 2000 to July 31 2022. Based on the inclusion criteria, 105 studies
+						were included. The AI devices utilized in elderly healthcare were summarised as robots,
+						exoskeleton devices, intelligent homes, AI-enabled health smart applications and wearables,
+						voice-activated devices, and virtual reality. Five roles of AI technologies were identified:
+						rehabilitation therapists, emotional supporters, social facilitators, supervisors, and cognitive
+						promoters. Results showed that the impact of AI technologies on elderly healthcare is promising
+						and that AI technologies are capable of satisfying the unmet care needs of older adults and
+						demonstrating great potential in its further development in this area. More well-designed
+						randomised controlled trials are needed in the future to validate the roles of AI technologies
+						in elderly healthcare.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>01/2023</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Artificial intelligence in elderly healthcare</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="https://linkinghub.elsevier.com/retrieve/pii/S1568163722002501">https://linkinghub.elsevier.com/retrieve/pii/S1568163722002501</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:29 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>83</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>101808</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Ageing Research Reviews</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1016/j.arr.2022.101808">10.1016/j.arr.2022.101808</a></td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>Ageing Research Reviews</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>15681637</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:29 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:30 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_BNU7VNSD">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted<br><br><strong>Exclusion Reason</strong>: Focuses on AI technology
+								applications rather than interaction design, cannot provide interface-level insights.
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_KIKN63GR">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_7S7KLR5I" class="item journalArticle">
+			<h2>The Halo Effect: Perceptions of Information Privacy Among Healthcare Chatbot Users</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jessica R. Ellis</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Natalia S. Dellavalle</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Mika K. Hamer</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Marlee Akerson</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Matt Andazola</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Annie A. Moore</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Eric G. Campbell</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Matthew DeCamp</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>Background: Patient-facing chatbots can be used for administrative tasks, personalized care
+						reminders, and overcoming transportation or geographic barriers in healthcare. Although some
+						data suggest older adults see privacy as an ethical barrier to adopting digital technologies,
+						little is known about privacy concerns regarding information shared with novel patient-facing
+						chatbots. We sought to examine attitudes toward privacy based on age or other sociodemographic
+						characteristics.
+						Methods: We conducted a sequential mixed methods study among patient users of a large healthcare
+						system chatbot. We purposively oversampled by race and ethnicity to survey 3089 patient chatbot
+						users online using de novo and validated items. Next, we conducted semi-structured interviews
+						with users (n = 46) purposively sampled based on diversity or select survey responses. We used
+						multivariable logistic regression to analyze survey data and modified grounded theory to analyze
+						interviews. We integrated data using simultaneous visualization and triangulation.
+						Results: We received 617/3089 surveys (response rate, 20.0%). Overall, 370/597 (63.9%) expressed
+						worry about the privacy of information shared with the chatbot. Logistic regression found that
+						users ≥ 65 years were 26% points less likely to be worried about information privacy compared to
+						those 18–34 years old (p &lt; 0.001). We found less worry among Black, non-Hispanic users and
+						more worry among those with more than a four-year college degree [Correction added on 4 April
+						2025, after first online publication: The preceding sentence has been revised in this version.].
+						By integrating our survey and interview data, we observed that older adult users experienced a
+						halo effect: they worried less because they saw the chatbot as associated with a trusted health
+						system and experienced lower medical mistrust.
+						Conclusion: Contrary to some prior research, adults aged 65 and older expressed less concern
+						about chatbot privacy than younger adults because of their trust in health care. To maintain
+						this trust and build it among all users, health systems using patient-facing chatbots need to
+						take active steps to maintain and communicate patient privacy protections.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>05/2025</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>The Halo Effect</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.19393">https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.19393</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:32 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>73</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1472-1483</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Journal of the American Geriatrics Society</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1111/jgs.19393">10.1111/jgs.19393</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>5</td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>J American Geriatrics Society</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>0002-8614, 1532-5415</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:32 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:32 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_TFJZZIE3">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted<br><br><strong>Exclusion Reason</strong>: Privacy perception is important, but
+								if the literature does not link to <strong>how interface design affects privacy risk
+									perception</strong> (transparency dimension), it cannot directly support your
+								argument.
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_KBZLMBA9">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_9S8G3W5L" class="item journalArticle">
+			<h2>Patient Portal Barriers and Group Differences: Cross-Sectional National Survey Study</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Kea Turner</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Alecia Clary</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Young-Rock Hong</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Amir Alishahi Tabriz</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Christopher M Shea</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>Background: Past studies examining barriers to patient portal adoption have been conducted with
+						a small number of patients and health care settings, limiting generalizability.
+						Objective: This study had the following two objectives: (1) to assess the prevalence of barriers
+						to patient portal adoption among nonadopters and (2) to examine the association between
+						nonadopter characteristics and reported barriers in a nationally representative sample.
+						Methods: Data from this study were obtained from the 2019 Health Information National Trends
+						Survey. We calculated descriptive statistics to determine the most prevalent barriers and
+						conducted multiple variable logistic regression analysis to examine which characteristics were
+						associated with the reported barriers.
+						Results: The sample included 4815 individuals. Among these, 2828 individuals (58.73%) had not
+						adopted a patient portal. Among the nonadopters (n=2828), the most prevalent barriers were
+						patient preference for in-person communication (1810/2828, 64.00%), no perceived need for the
+						patient portal (1385/2828, 48.97%), and lack of comfort and experience with computers (735/2828,
+						25.99%). Less commonly, individuals reported having no patient portal (650/2828, 22.98%), no
+						internet access (650/2828, 22.98%), privacy concerns (594/2828, 21.00%), difficulty logging on
+						(537/2828, 18.99%), and multiple patient portals (255/2828, 9.02%) as barriers. Men had
+						significantly lower odds of indicating a preference for speaking directly to a provider compared
+						with women (odds ratio [OR] 0.75, 95% CI 0.60-0.94; P=.01). Older age (OR 1.01, 95% CI
+						1.00-1.02; P&lt;.001), having a chronic condition (OR 1.83, 95% CI 1.44-2.33; P&lt;.001), and
+						having an income lower than US $20,000 (OR 1.61, 95% CI 1.11-2.34; P=.01) were positively
+						associated with indicating a preference for speaking directly to a provider. Hispanic
+						individuals had significantly higher odds of indicating that they had no need for a patient
+						portal (OR 1.59, 95% CI 1.24-2.05; P&lt;.001) compared with non-Hispanic individuals. Older
+						individuals (OR 1.05, 95% CI 1.04-1.06; P&lt;.001), individuals with less than a high school
+						diploma (OR 3.15, 95% CI 1.79-5.53; P&lt;.001), and individuals with a household income of less
+						than US $20,000 (OR 2.78, 95% CI 1.88-4.11; P&lt;.001) had significantly higher odds of
+						indicating that they were uncomfortable with a computer.
+						Conclusions: The most common barriers to patient portal adoption are preference for in-person
+						communication, not having a need for the patient portal, and feeling uncomfortable with
+						computers, which are barriers that are modifiable and can be intervened</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2020-9-17</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Patient Portal Barriers and Group Differences</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://www.jmir.org/2020/9/e18870/">http://www.jmir.org/2020/9/e18870/</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:35 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>22</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>e18870</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Journal of Medical Internet Research</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.2196/18870">10.2196/18870</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>9</td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>J Med Internet Res</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>1438-8871</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:35 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:35 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_2AVXBJI6">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted<br></p>
+							<ol>
+								<li>
+									<strong>Exclusion Reason</strong>: Focuses on barrier analysis of medical
+									information systems, lacks discussion of AI transparency or persuasive design.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_XWZNALUX">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_JD3MAYA8" class="item journalArticle">
+			<h2>Patient Portal Use and Experience Among Older Adults: Systematic Review</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Dawn K Sakaguchi-Tang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Alyssa L Bosold</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yong K Choi</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Anne M Turner</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>Background: The older adult population (65 years or older) in the United States is growing, and
+						it is important for communities to consider ways to support the aging population. Patient
+						portals and electronic personal health records (ePHRs) are technologies that could better serve
+						populations with the highest health care needs, such as older adults.
+						Objective: The aim of this study was to assess the existing research landscape related to
+						patient portal and ePHR use and experience among older adults and to understand the benefits and
+						barriers to older adults’ use and adoption of patient portals and ePHRs.
+						Methods: We searched six pertinent bibliographic databases for papers, published from 2006 to
+						2016 and written in English, that focused on adults 60 years or older and their use of or
+						experience with patient portals or ePHRs. We adapted preferred reporting items for systematic
+						reviews and meta-analyses (PRISMA) guidelines to review papers based on exclusion and inclusion
+						criteria. We then applied thematic analysis to identify key themes around use, experience, and
+						adoption.
+						Results: We retrieved 199 papers after an initial screening and removal of duplicate papers.
+						Then we applied an inclusion and exclusion criteria, resulting in a final set of 17 papers that
+						focused on 15 separate projects. The majority of papers described studies involving qualitative
+						research, including interviews and focus groups. They looked at the experience and use of ePHRs
+						and patient portals. Overall, we found 2 main barriers to use: (1) privacy and security and (2)
+						access to and ability to use technology and the Internet. We found 2 facilitators: (1) technical
+						assistance and (2) family and provider advice. We also reported on older adults’ experience,
+						including satisfaction with the system and improvement of the quality of their health care.
+						Several studies captured features that older adults wanted from these systems such as further
+						assistance managing health-related tasks and contextual health advice and tips.
+						Conclusions: More research is needed to better understand the patient portal experience among
+						older adults from initial use to adoption. There are also opportunities to explore the role of
+						design in addressing barriers and supporting facilitators to patient portal and ePHR use.
+						Finally, the future use of these systems by older adults should be anticipated and considered in
+						the design process.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2017-10-16</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Patient Portal Use and Experience Among Older Adults</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://medinform.jmir.org/2017/4/e38/">http://medinform.jmir.org/2017/4/e38/</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:38 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>5</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>e38</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>JMIR Medical Informatics</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.2196/medinform.8092">10.2196/medinform.8092</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>4</td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>JMIR Med Inform</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2291-9694</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:38 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:38 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_3Q6DQXJV">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted</p>
+							<p></p>
+							<ol>
+								<li>
+									<strong>Exclusion Reason</strong>: Primarily focuses on usability barriers of
+									traditional GUI interfaces, not directly related to persuasive design of
+									conversational agents.
+								</li>
+								<li>
+									<strong>Retention Value</strong>: Can serve as background comparison, but not
+									included in core 10 papers.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_YWFUT2XS">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_FXHQWYCL" class="item journalArticle">
+			<h2>When and Why Adults Abandon Lifestyle Behavior and Mental Health Mobile Apps: Scoping Review</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Patrick G Kidman</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Rachel G Curtis</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Amanda Watson</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Carol A Maher</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>Background: With 1 in 3 adults globally living with chronic conditions and the rise in
+						smartphone ownership, mobile health apps have become a prominent tool for managing
+						lifestyle-related health behaviors and mental health. However, high rates of app abandonment
+						pose challenges to their effectiveness.
+						Objective: We explored the abandonment of apps used for managing physical activity, diet,
+						alcohol, smoking, and mental health in free-living conditions, examining the duration of app use
+						before abandonment and the underlying reasons.
+						Methods: A scoping review was conducted based on the PRISMA-ScR (Preferred Reporting Items for
+						Systematic reviews and Meta-Analyses extension for Scoping Reviews) guidelines and eligibility
+						criteria were designed according to the SPIDER (Sample, Phenomenon of Interest, Design,
+						Evaluation, Research type) framework. In total, 4 databases were searched (MEDLINE, Scopus,
+						Embase, and PsycINFO) to identify quantitative and qualitative studies with outcome measures
+						related to app abandonment in adults with free-living conditions, including reasons for
+						abandonment and duration of use, for mobile apps related to WHO (World Health Organization)
+						modifiable health behaviors and mental health. The included studies’ risk of bias was appraised
+						based on the STROBE (Strengthening the Reporting of Observational Studies in Epidemiology) and
+						COREQ (Consolidated Criteria for Reporting Qualitative Research) checklists. To enable data
+						synthesis across different methodologies, app domains, demographic data, and outcome measures
+						were categorized. Results are presented in 2 sections: quantitatively in a scatterplot to
+						understand when users abandon apps and qualitatively through basic qualitative content analysis
+						to identify the underlying reasons.
+						Results: Eighteen eligible studies (525,824 participants) published between 2014 and 2022,
+						predominantly from the United States, Canada, the United Kingdom, and Germany, were identified.
+						Findings revealed a curvilinear pattern of app abandonment, with sharper abandonment soon after
+						acquisition, followed by a slowing rate of abandonment over time. Taken together, a median of
+						70% of users discontinued use within the first 100 days. The abandonment rate appeared to vary
+						by app domain, with apps focusing on alcohol and smoking exhibiting faster abandonment, and
+						physical activity and mental health exhibiting longer usage durations. In total, 22 unique
+						reasons for abandonment were organized into six categories: (1) technical and functional issues,
+						(2) privacy concerns, (3) poor user experience, (4) content and features, (5) time and financial
+						costs, and (6) evolving user needs and goals.
+						Conclusions: This study highlights the complex nature of health app abandonment and the need for
+						an improved understanding of user engagement over time, underscoring the importance of
+						addressing various factors contributing to abandonment, from technical issues to evolving user
+						needs. Our findings also emphasize the need for longitudinal studies and a consistent definition
+						of app abandonment to better understand and mitigate this phenomenon, thereby enhancing the
+						effectiveness of health apps in supporting public health initiatives.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2024-12-18</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>When and Why Adults Abandon Lifestyle Behavior and Mental Health Mobile Apps</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://www.jmir.org/2024/1/e56897">https://www.jmir.org/2024/1/e56897</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:40 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>26</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>e56897</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Journal of Medical Internet Research</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.2196/56897">10.2196/56897</a></td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>J Med Internet Res</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>1438-8871</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:40 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:40 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_TV9DDRHI">
+					<div>
+						<div data-schema-version="9">
+							<p>Unaccepted</p>
+							<p><strong>Exclusion Reason</strong>: If it primarily explores abandonment behavior from a
+								behavioral science perspective rather than analyzing persuasion failure points from an
+								interface design perspective, then exclude.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_VFUSJIYF">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_Y89FTXUT" class="item conferencePaper">
+			<h2>Designing Conversational AI for Aging: A Systematic Review of Older Adults&apos; Perceptions and Needs
+			</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yuanhui Huang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Quan Zhou</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Anne Marie Piper</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2025-04-25</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1145/3706598.3713578">http://dx.doi.org/10.1145/3706598.3713578</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>ACM</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1–20</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3706598.3713578">10.1145/3706598.3713578</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+			</table>
+		</li>
+
+
+		<li id="item_DE6VYSBF" class="item conferencePaper">
+			<h2>Enhancing Older Adults&apos; Lives with Conversational Agents: A Systematic Review of Contexts,
+				Capabilities, and User-Centered Design Strategies</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jiachen Du</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Tongtong Jin</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Ruowen Niu</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yuxiang Zhai</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Xinyi Fu</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2024-11-22</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1145/3758871.3758891">http://dx.doi.org/10.1145/3758871.3758891</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>ACM</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>258–268</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>Proceedings of the Twelfth International Symposium of Chinese CHI</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3758871.3758891">10.1145/3758871.3758891</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:16 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_AZSD2CQK">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 3<br></p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Usability</strong>: Systematic review of design and evaluation
+											methods
+										</li>
+										<li>
+											<strong>Transparency/Persuasive Design</strong>: How existing literature
+											does (or does not) address these issues
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Establishes a <strong>literature gap
+										map</strong>—which design issues are adequately studied? Which are neglected?
+								</li>
+								<li>
+									<strong>Research Application</strong>: Supports your argument: existing HCI research
+									over-focuses on usability, ignoring the tension between persuasiveness and
+									transparency.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_QETG2ATH" class="item conferencePaper">
+			<h2>“If Alexa knew the state I was in, it would cry”: Older Adults’ Perspectives of Voice Assistants for
+				Health</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Robin N. Brewer</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2022-04-27</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1145/3491101.3519642">http://dx.doi.org/10.1145/3491101.3519642</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>ACM</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1–8</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>CHI Conference on Human Factors in Computing Systems Extended Abstracts</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3491101.3519642">10.1145/3491101.3519642</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_H5VAK53D">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1<br></p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Persuasive Design</strong>: Anthropomorphism as a persuasion
+											strategy—making users lower their guard
+										</li>
+										<li>
+											<strong>Usability</strong> (reverse): Anthropomorphism appears to enhance
+											usability but actually blurs control boundaries
+										</li>
+										<li>
+											<strong>Transparency</strong>: Users misunderstand agents' "knowledge" and
+											"capabilities"
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Direct evidence showing how older adults'
+									<strong>emotional projection</strong> is exploited by conversational design, a dark
+									pattern unique to agent systems.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Argues that traditional GUI usability
+									principles (e.g., consistency, visibility) are <strong>deliberately blurred</strong>
+									in CUI to enhance persuasiveness.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</li>
+
+
+		<li id="item_5A5NVDJC" class="item conferencePaper">
+			<h2>Technology Adoption and Learning Preferences for Older Adults: Evolving Perceptions, Ongoing Challenges,
+				and Emerging Design Opportunities</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Carolyn Pang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Zhiqin Collin Wang</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Joanna McGrenere</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Rock Leung</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Jiamin Dai</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Karyn Moffatt</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2021-05-06</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Technology Adoption and Learning Preferences for Older Adults</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="https://dl.acm.org/doi/10.1145/3411764.3445702">https://dl.acm.org/doi/10.1145/3411764.3445702</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:43 p.m.</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Yokohama Japan</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>ACM</td>
+				</tr>
+				<tr>
+					<th>ISBN</th>
+					<td>978-1-4503-8096-6</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1-13</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>Conference Name</th>
+					<td>CHI &apos;21: CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3411764.3445702">10.1145/3411764.3445702</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:43 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:43 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_MYPB9SWK">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_RD5FFAYX" class="item conferencePaper">
+			<h2>Towards Directive Explanations: Crafting Explainable AI Systems for Actionable Human-AI Interactions
+			</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Aditya Bhattacharya</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>With Artificial Intelligence (AI) becoming ubiquitous in every application domain, the need for
+						explanations is paramount to enhance transparency and trust among non-technical users. Despite
+						the potential shown by Explainable AI (XAI) for enhancing understanding of complex AI systems,
+						most XAI methods are designed for technical AI experts rather than non-technical consumers.
+						Consequently, such explanations are overwhelmingly complex and seldom guide users in achieving
+						their desired predicted outcomes. This paper presents ongoing research for crafting XAI systems
+						tailored to guide users in achieving desired outcomes through improved human-AI interactions.
+						This paper highlights the research objectives and methods, key takeaways and implications
+						learned from user studies. It outlines open questions and challenges for enhanced human-AI
+						collaboration, which the author aims to address in future work.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2024-05-11</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Towards Directive Explanations</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>arXiv.org</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://arxiv.org/abs/2401.04118">http://arxiv.org/abs/2401.04118</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-15, 12:32:47 p.m.</td>
+				</tr>
+				<tr>
+					<th>Extra</th>
+					<td>arXiv:2401.04118 [cs]</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1-6</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3613905.3638177">10.1145/3613905.3638177</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:32:47 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:32:47 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="tags">Tags:</h3>
+			<ul class="tags">
+				<li>Computer Science - Human-Computer Interaction</li>
+			</ul>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_AEFJPD5N">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1</p>
+							<p>Pre-print version. Will check the published version in ACM CHI 2024 from the related DOI
+							</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>AI Explainability/Transparency</strong>: Explores design choices
+											between "directive explanations" vs. "descriptive explanations"
+										</li>
+										<li>
+											<strong>Persuasive Design</strong>: "Directive" is essentially
+											persuasion—when does it cross into manipulation?
+										</li>
+										<li>
+											<strong>Usability</strong>: Can older adults understand different types of
+											explanations?
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Directly reveals that <strong>explanation
+										interfaces themselves can be dark patterns</strong>—superficially providing
+									transparency while actually guiding users to make system-desired decisions.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Argues the contradiction between "WHO says to
+									be transparent" and "transparency interfaces may themselves be persuasion tools."
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_N2FY3E9V">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_EGC4RMXM" class="item bookSection">
+			<h2>Expert Insights for Designing Conversational User Interfaces as Virtual Assistants and Companions for
+				Older Adults with Cognitive Impairments</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Book Section</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Kathrin Koebel</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Martin Lacayo</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Madhumitha Murali</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Ioannis Tarnanas</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Arzu Ç\&quot; oltekin</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2022</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a
+							href="http://dx.doi.org/10.1007/978-3-030-94890-0_2">http://dx.doi.org/10.1007/978-3-030-94890-0_2</a>
+					</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Springer International Publishing</td>
+				</tr>
+				<tr>
+					<th>ISBN</th>
+					<td>978-3-030-94889-4</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>23–38</td>
+				</tr>
+				<tr>
+					<th>Book Title</th>
+					<td>Lecture Notes in Computer Science</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1007/978-3-030-94890-0_2">10.1007/978-3-030-94890-0_2</a></td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>0302-9743</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-15, 12:19:17 p.m.</td>
+				</tr>
+			</table>
+		</li>
+
+
+		<li id="item_2KNWWS9T" class="item conferencePaper">
+			<h2>The Dark (Patterns) Side of UX Design</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Conference Paper</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Colin M. Gray</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Yubo Kou</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Bryan Battles</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Joseph Hoggatt</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Austin L. Toombs</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2018-04-21</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://dl.acm.org/doi/10.1145/3173574.3174108">https://dl.acm.org/doi/10.1145/3173574.3174108</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-24, 2:12:22 p.m.</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Montreal QC Canada</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>ACM</td>
+				</tr>
+				<tr>
+					<th>ISBN</th>
+					<td>978-1-4503-5620-6</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>1-14</td>
+				</tr>
+				<tr>
+					<th>Proceedings Title</th>
+					<td>Proceedings of the 2018 CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>Conference Name</th>
+					<td>CHI &apos;18: CHI Conference on Human Factors in Computing Systems</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1145/3173574.3174108">10.1145/3173574.3174108</a></td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 2:12:22 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 2:12:22 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_GRAY_TIER1">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Harm/Pattern Identification</strong>: Provides a taxonomy of dark patterns that can be applied to identify manipulative design elements in health chatbots
+										</li>
+										<li>
+											<strong>Trust/Exploitation</strong>: Documents how dark patterns exploit user trust and cognitive biases, crucial for understanding how older adults might be particularly vulnerable
+										</li>
+										<li>
+											<strong>Design/Analysis</strong>: Establishes a methodological framework for analyzing and categorizing deceptive design practices that can be adapted to conversational interfaces
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Foundational HCI work that systematically categorizes and defines dark patterns in user interface design, providing the theoretical basis for analyzing manipulative design in health chatbots.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Offers a taxonomy and methodological framework that can be directly applied to identify and analyze dark patterns in conversational health agents for older adults.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_JZSKLIZI">Full Text </li>
+			</ul>
+		</li>
+
+
+		<li id="item_E5Q966VV" class="item journalArticle">
+			<h2>Technology, autonomy, and manipulation</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Daniel Susser</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Beate Roessler</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Helen Nissenbaum</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2019-06-30</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://policyreview.info/node/1410">https://policyreview.info/node/1410</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-24, 2:02:43 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>8</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>Internet Policy Review</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.14763/2019.2.1410">10.14763/2019.2.1410</a></td>
+				</tr>
+				<tr>
+					<th>Issue</th>
+					<td>2</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>2197-6775</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 2:02:43 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 2:02:43 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_SUSSER_TIER1">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Harm/Autonomy</strong>: Articulates how manipulative design patterns constitute a form of harm that violates user autonomy and informed consent
+										</li>
+										<li>
+											<strong>Trust/Manipulation</strong>: Explains how manipulation operates through exploiting cognitive biases and information asymmetries, directly relating to how dark patterns function in health chatbots
+										</li>
+										<li>
+											<strong>Design/Ethics</strong>: Offers conceptual tools to identify and evaluate manipulative design elements in conversational interfaces, supporting the project's analysis of dark patterns
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Provides a philosophical and ethical framework for understanding manipulation in technology design, distinguishing between legitimate influence and manipulative practices that undermine autonomy.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Offers theoretical foundation for analyzing when design patterns cross the line from persuasion to manipulation, particularly relevant for health chatbots targeting older adults.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_CPN9HYLK">Full Text </li>
+			</ul>
+		</li>
+
+
+		<li id="item_7FDWI7YT" class="item book">
+			<h2>Deceptive Patterns: exposing the tricks tech companies use to control you</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Book</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Harry Brignull</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2023</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>eng</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Deceptive Patterns</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>K10plus ISBN</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Eastbourne, England</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>Testimonium Ltd</td>
+				</tr>
+				<tr>
+					<th>ISBN</th>
+					<td>978-1-7394544-1-8 978-1-7394544-0-1 978-1-7394544-2-5</td>
+				</tr>
+				<tr>
+					<th>Edition</th>
+					<td>First edition: 2 January 2024</td>
+				</tr>
+				<tr>
+					<th># of Pages</th>
+					<td>263</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 2:04:32 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 2:04:33 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_BRIGNULL_TIER1">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 1</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Harm/Pattern Recognition</strong>: Provides an extensive taxonomy of dark patterns with concrete examples that can be identified in health chatbot interfaces
+										</li>
+										<li>
+											<strong>Trust/Deception</strong>: Explains how these patterns exploit user trust and create false impressions of choice and control, particularly relevant for older adults' interactions with health systems
+										</li>
+										<li>
+											<strong>Design/Practice</strong>: Offers a practical framework for recognizing and analyzing deceptive design elements that can be applied to conversational interfaces, supporting the project's empirical analysis of dark patterns in health chatbots
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: Comprehensive, practitioner-oriented guide to deceptive patterns (dark patterns) that catalogs real-world examples and categorizes manipulative design techniques.
+								</li>
+								<li>
+									<strong>Research Application</strong>: Provides practical tools and examples for identifying dark patterns in health chatbot interfaces, complementing the theoretical frameworks from Gray and Susser.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_4KVW52DZ">Ebook </li>
+			</ul>
+		</li>
+
+
+		<li id="item_XIFE5VGD" class="item report">
+			<h2>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Report</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Elham Tabassi</td>
+				</tr>
+				<tr>
+					<th>Abstract</th>
+					<td>As directed by the National Artificial Intelligence Initiative Act of 2020 (P.L. 116-283), the goal of the AI RMF is to offer a resource to the organizations designing, developing, deploying, or using AI systems to help manage the many risks of AI and promote trustworthy and responsible development and use of AI systems. The Framework is intended to be voluntary, rights-preserving, non-sector specific, and use-case agnostic, providing flexibility to organizations of all sizes and in all sectors and throughout society to implement the approaches in the Framework.   The AI RMF is intended to be practical, to adapt to the AI landscape as AI technologies continue to develop, and to be operationalized by organizations in varying degrees and capacities so society can benefit from AI while also being protected from its potential harms.</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2023-01-26</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="http://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">http://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-24, 1:30:21 p.m.</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Gaithersburg, MD</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>NIST AI 100-1</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.6028/NIST.AI.100-1">10.6028/NIST.AI.100-1</a></td>
+				</tr>
+				<tr>
+					<th>Report Number</th>
+					<td>NIST AI 100-1</td>
+				</tr>
+				<tr>
+					<th>Institution</th>
+					<td>National Institute of Standards and Technology (U.S.)</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 1:30:21 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 1:30:21 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_NIST_RMF_RATIONALE">
+					<p class="plaintext">This report is included as a core governance and risk framework that defines high‑level AI risk concepts—such as safety, security, privacy, and explainability—in a system‑lifecycle perspective. It provides a vocabulary and set of functions (Map, Measure, Manage, Govern) that can be mapped onto interface‑level design interventions in health chatbots. The framework supports the project's three dimensions by: (1) clarifying what counts as harmful or risky behavior in AI systems (harm dimension), (2) emphasizing organizational responsibilities and documentation that shape users' perceptions and expectations (trust/legitimacy dimension), and (3) offering a structured way to classify and prioritize design changes that mitigate specific risks (design/interaction dimension).</p>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_L7SGHNYW">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_SG7FSBZ6" class="item book">
+			<h2>Ethics and Governance of Artificial Intelligence for Health: WHO Guidance</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Book</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2021</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Ethics and Governance of Artificial Intelligence for Health</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>K10plus ISBN</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Geneva</td>
+				</tr>
+				<tr>
+					<th>Publisher</th>
+					<td>World Health Organization</td>
+				</tr>
+				<tr>
+					<th>ISBN</th>
+					<td>978-92-4-002920-0</td>
+				</tr>
+				<tr>
+					<th>Edition</th>
+					<td>1st ed</td>
+				</tr>
+				<tr>
+					<th># of Pages</th>
+					<td>1</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 1:30:47 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 1:30:47 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_WHO_RATIONALE">
+					<p class="plaintext">This report is included as a global normative reference that articulates ethical principles—such as transparency, accountability, equity, and respect for human autonomy—for AI in health. It supports the project by: (1) providing a widely recognized ethical baseline against which to evaluate design patterns in health chatbots (normative/harms dimension), (2) emphasizing the need to protect vulnerable populations and avoid exploitation, which aligns with concerns about dark patterns affecting older adults (equity/protection dimension), and (3) helping translate individual interface issues (e.g., consent dialogs, explanations, nudges) into broader governance and policy questions (governance/implementation dimension).</p>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_4I3L7TYE">WHO_2021 </li>
+			</ul>
+		</li>
+
+
+		<li id="item_CIFAR2023" class="item report">
+			<h2>AICan: The Impact of the Pan-Canadian AI Strategy</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Report</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Canadian Institute for Advanced Research (CIFAR)</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>2023-10</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>AICan: The Impact of the Pan-Canadian AI Strategy</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://cifar.ca/wp-content/uploads/2023/11/aican-impact-2023-eng.pdf">https://cifar.ca/wp-content/uploads/2023/11/aican-impact-2023-eng.pdf</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-24</td>
+				</tr>
+				<tr>
+					<th>Place</th>
+					<td>Toronto, ON, Canada</td>
+				</tr>
+				<tr>
+					<th>Institution</th>
+					<td>Canadian Institute for Advanced Research (CIFAR)</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_CIFAR_RATIONALE">
+					<p class="plaintext">This report is included as a comprehensive overview of Canada's Pan-Canadian AI Strategy and its emphasis on responsible AI development, governance, and ethical deployment. It contributes to the project's three dimensions by: (1) documenting how national AI strategies address risks and harms through governance frameworks and responsible AI initiatives, providing context for understanding how policy-level interventions relate to interface-level design concerns (harm/governance dimension), (2) highlighting the importance of trust, transparency, and ethical considerations in AI deployment, particularly through programs focused on responsible AI and embedded ethics that shape user expectations and institutional legitimacy (trust/legitimacy dimension), and (3) illustrating how governance frameworks translate into practical programs and partnerships that influence AI design practices, offering insights into how national-level responsible AI initiatives can inform design interventions in health chatbots (design/governance dimension).</p>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_CIFAR2023_PDF">PDF </li>
+			</ul>
+		</li>
+
+
+		<li id="item_ZDJ2V9GW" class="item journalArticle">
+			<h2>Aging barriers influencing mobile health usability for older adults: A literature based framework (MOLD-US)</h2>
+			<table>
+				<tr>
+					<th>Item Type</th>
+					<td>Journal Article</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>G.A. Wildenbos</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Linda Peute</td>
+				</tr>
+				<tr>
+					<th class="author">Author</th>
+					<td>Monique Jaspers</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>06/2018</td>
+				</tr>
+				<tr>
+					<th>Language</th>
+					<td>en</td>
+				</tr>
+				<tr>
+					<th>Short Title</th>
+					<td>Aging barriers influencing mobile health usability for older adults</td>
+				</tr>
+				<tr>
+					<th>Library Catalog</th>
+					<td>DOI.org (Crossref)</td>
+				</tr>
+				<tr>
+					<th>URL</th>
+					<td><a href="https://linkinghub.elsevier.com/retrieve/pii/S1386505618302454">https://linkinghub.elsevier.com/retrieve/pii/S1386505618302454</a></td>
+				</tr>
+				<tr>
+					<th>Accessed</th>
+					<td>2026-01-24, 1:27:06 p.m.</td>
+				</tr>
+				<tr>
+					<th>Volume</th>
+					<td>114</td>
+				</tr>
+				<tr>
+					<th>Pages</th>
+					<td>66-75</td>
+				</tr>
+				<tr>
+					<th>Publication</th>
+					<td>International Journal of Medical Informatics</td>
+				</tr>
+				<tr>
+					<th>DOI</th>
+					<td><a href="http://doi.org/10.1016/j.ijmedinf.2018.03.012">10.1016/j.ijmedinf.2018.03.012</a></td>
+				</tr>
+				<tr>
+					<th>Journal Abbr</th>
+					<td>International Journal of Medical Informatics</td>
+				</tr>
+				<tr>
+					<th>ISSN</th>
+					<td>13865056</td>
+				</tr>
+				<tr>
+					<th>Date Added</th>
+					<td>2026-01-24, 1:27:06 p.m.</td>
+				</tr>
+				<tr>
+					<th>Modified</th>
+					<td>2026-01-24, 1:27:06 p.m.</td>
+				</tr>
+			</table>
+			<h3 class="notes">Notes:</h3>
+			<ul class="notes">
+				<li id="item_WILDENBOS_TIER2">
+					<div>
+						<div data-schema-version="9">
+							<p>Tier 2</p>
+							<ol>
+								<li>
+									<p><strong>Three-Dimensional Coverage</strong>:</p>
+									<p></p>
+									<ul>
+										<li>
+											<strong>Usability/Harm Dimension</strong>: ✅ <strong>Highly Relevant</strong> - The MOLD-US framework systematically identifies four major categories of aging barriers (Cognition, Motivation, Physical Ability, Perception) and maps these barriers to Nielsen's usability heuristics. The framework can be directly applied to analyze usability issues in conversational agents, identifying design flaws such as cognitive load and declining perceptual abilities that may lead to harm.
+										</li>
+										<li>
+											<strong>Transparency/Trust Dimension</strong>: ⚠️ <strong>Indirectly Relevant</strong> - The Cognition barriers in the framework implicitly address transparency issues: if interfaces are opaque, cognitive load will be higher; older adults struggle to understand system operation logic. However, the framework itself does not explicitly discuss AI transparency or explainability, requiring further argumentation for its applicability in conversational agent contexts.
+										</li>
+										<li>
+											<strong>Persuasive Design/Manipulation Dimension</strong>: ⚠️ <strong>Potentially Relevant but Not Explicit</strong> - Motivation barriers may be exploited by dark patterns: older adults' technology anxiety may be manipulated (e.g., "if you don't use this, you'll fall behind"), and low-motivation users are more susceptible to persuasive design influences. However, the framework does not discuss the ethical boundaries of persuasive design, nor does it cover dark pattern dimensions. As Zubatiy et al. (2023) note, the MOLD-US framework inadequately addresses persuasiveness in agent systems.
+										</li>
+									</ul>
+								</li>
+								<li>
+									<strong>Key Contribution</strong>: MOLD-US is one of the few systematic frameworks specifically designed for mobile health usability for older adults, providing a structured approach to identify and analyze usability barriers for older users. The framework has high impact (555+ citations) and serves as a standard reference in the field, with subsequent research widely using MOLD-US for usability analysis.
+								</li>
+								<li>
+									<strong>Research Application</strong>: This research can critically extend the MOLD-US framework by highlighting its limitations in conversational agent contexts: the framework focuses on traditional mHealth applications (GUI interfaces) rather than CUI (conversational interfaces), and does not cover three-dimensional interactions (primarily a usability framework, without in-depth discussion of transparency and persuasive design). The research can create a comparison table demonstrating how to extend MOLD-US's four barrier categories into a comprehensive framework that includes AI transparency, explainability, and dark pattern identification.
+								</li>
+								<li>
+									<strong>Citation Value</strong>: High citation count (555+) makes this an important starting point for citation tracking. Forward citation can identify which papers cite MOLD-US and apply it to conversational agents; backward citation can trace the aging usability literature cited by Wildenbos, establishing a more complete literature network.
+								</li>
+							</ol>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="attachments">Attachments</h3>
+			<ul class="attachments">
+				<li id="item_WILDENBOS_PDF">PDF </li>
+			</ul>
+		</li>
+
+	</ul>
+</body>
+
+</html>
