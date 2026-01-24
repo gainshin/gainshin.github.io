@@ -475,6 +475,69 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Collapsible Sections */
+        .collapsible-section {
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding-right: 10px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header h1,
+        .section-header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .collapse-indicator {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .collapsible-section.collapsed .collapse-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        /* Print styles - expand all sections */
+        @media print {
+            .collapsible-section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+
+            .collapse-indicator {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -552,16 +615,27 @@
 
                 <!-- Floating Table of Contents -->
                 <aside class="toc-container" id="toc-container">
-                    <div class="toc-title">Table of Contents</div>
                     <ul class="toc-list" id="toc-list">
-                        <li><a href="#section-summary" data-section="section-summary">Executive Summary</a></li>
-                        <li><a href="#section-objectives" data-section="section-objectives">Research Objectives</a></li>
-                        <li><a href="#section-topics" data-section="section-topics">Thematic Areas & Seeds</a></li>
-                        <li><a href="#section-results" data-section="section-results">Search Results</a></li>
-                        <li><a href="#section-analysis" data-section="section-analysis">Status & Strategies</a></li>
-                        <li><a href="#section-strategy" data-section="section-strategy">Revised Strategies</a></li>
-                        <li><a href="#section-plan" data-section="section-plan">Action Plan</a></li>
-                        <li><a href="#section-appendix" data-section="section-appendix">Appendix</a></li>
+                        <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
+                        <li style="margin-top: 8px;"><a href="#1-executive-summary"
+                                data-section="1-executive-summary">Executive Summary</a></li>
+                        <li><a href="#2-research-objectives-and-tasks"
+                                data-section="2-research-objectives-and-tasks">Research Objectives</a></li>
+                        <li><a href="#3-four-thematic-areas-and-seed-papers"
+                                data-section="3-four-thematic-areas-and-seed-papers">Thematic Areas & Seeds</a></li>
+                        <li><a href="#4-search-results-analysis" data-section="4-search-results-analysis">Search
+                                Results</a></li>
+                        <li><a href="#5-current-status-analysis-and-improvement-strategies"
+                                data-section="5-current-status-analysis-and-improvement-strategies">Status &
+                                Strategies</a></li>
+                        <li><a href="#6-revised-search-strategies" data-section="6-revised-search-strategies">Revised
+                                Strategies</a></li>
+                        <li><a href="#7-action-plan-and-timeline" data-section="7-action-plan-and-timeline">Action
+                                Plan</a></li>
+                        <li><a href="#appendix-search-strings-and-tools"
+                                data-section="appendix-search-strings-and-tools">Appendix</a></li>
+                        <li style="margin-top: 8px;"><a href="Zotero_round1.html"
+                                style="color: var(--accent-color);">Zotero Reports →</a></li>
                     </ul>
                 </aside>
             </div>
@@ -587,6 +661,39 @@
             overlay.classList.remove('active');
         });
 
+        // Configure marked.js with custom renderer to generate header IDs
+        const renderer = new marked.Renderer();
+        renderer.heading = function (arg1, arg2, arg3) {
+            // Handle both old and new marked.js API signatures
+            let text, level, raw;
+            if (typeof arg1 === 'object') {
+                // New API: {text, depth, raw}
+                text = arg1.text;
+                level = arg1.depth;
+                raw = arg1.raw;
+            } else {
+                // Old API: (text, level, raw)
+                text = arg1;
+                level = arg2;
+                raw = arg3 || text;
+            }
+
+            // Generate ID from heading text
+            const id = raw
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            return `<h${level} id="${id}">${text}</h${level}>\n`;
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            headerIds: true,
+            mangle: false
+        });
+
         // Load markdown content
         async function loadMarkdown() {
             const contentEl = document.getElementById('markdown-content');
@@ -602,44 +709,108 @@
                 contentEl.innerHTML = marked.parse(fallbackContent);
             }
 
-            // After content loads, add anchor IDs to headings
-            addAnchorIds();
+            // Wrap major sections in collapsible containers
+            wrapSectionsInCollapsible();
+
+            // marked.js automatically generates anchor IDs from headings via custom renderer
+            // Setup scroll highlighting after content loads
             setupScrollHighlighting();
         }
 
-        // Section mapping for anchor IDs
-        const sectionMapping = {
-            '1. Executive Summary': 'section-summary',
-            'Executive Summary': 'section-summary',
-            '2. Research Objectives and Tasks': 'section-objectives',
-            'Research Objectives': 'section-objectives',
-            '3. Four Thematic Areas and Seed Papers': 'section-topics',
-            'Thematic Areas': 'section-topics',
-            '4. Search Results Analysis': 'section-results',
-            'Search Results': 'section-results',
-            '5. Current Status Analysis and Improvement Strategies': 'section-analysis',
-            'Current Status': 'section-analysis',
-            '6. Revised Search Strategies': 'section-strategy',
-            'Revised Search': 'section-strategy',
-            '7. Action Plan and Timeline': 'section-plan',
-            'Action Plan': 'section-plan',
-            'Appendix: Search Strings and Tools': 'section-appendix',
-            'Appendix': 'section-appendix'
-        };
-
-        // Add anchor IDs to headings
-        function addAnchorIds() {
+        // Wrap each major section (H1) in a collapsible container
+        function wrapSectionsInCollapsible() {
             const contentEl = document.getElementById('markdown-content');
-            const headings = contentEl.querySelectorAll('h1, h2');
+            const allElements = Array.from(contentEl.children);
 
-            headings.forEach(heading => {
-                const text = heading.textContent.trim();
-                for (const [key, id] of Object.entries(sectionMapping)) {
-                    if (text.includes(key) || text === key) {
-                        heading.id = id;
-                        break;
+            // Find all H1 elements (major sections)
+            const h1Indices = [];
+            allElements.forEach((el, idx) => {
+                if (el.tagName === 'H1') {
+                    h1Indices.push(idx);
+                }
+            });
+
+            // If no H1s found, don't wrap anything
+            if (h1Indices.length === 0) return;
+
+            // Process sections in reverse order to maintain indices
+            for (let i = h1Indices.length - 1; i >= 0; i--) {
+                const startIdx = h1Indices[i];
+                const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
+
+                const h1 = allElements[startIdx];
+                const sectionId = h1.id || `section-${i}`;
+
+                // Create collapsible section wrapper
+                const section = document.createElement('div');
+                section.className = 'collapsible-section';
+                section.dataset.sectionId = sectionId;
+
+                // Create header with collapse indicator
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="collapse-indicator">▾</span>`;
+
+                // Move H1 into header
+                header.insertBefore(h1.cloneNode(true), header.firstChild);
+
+                // Create content container
+                const content = document.createElement('div');
+                content.className = 'section-content';
+
+                // Move all elements between this H1 and next H1 into content
+                for (let j = startIdx + 1; j < endIdx; j++) {
+                    content.appendChild(allElements[j].cloneNode(true));
+                }
+
+                section.appendChild(header);
+                section.appendChild(content);
+
+                // Add click handler to header
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+
+                // Replace original H1 with the collapsible section
+                allElements[startIdx].replaceWith(section);
+
+                // Remove original content elements
+                for (let j = endIdx - 1; j > startIdx; j--) {
+                    if (allElements[j] && allElements[j].parentNode === contentEl) {
+                        allElements[j].remove();
                     }
                 }
+            }
+        }
+
+        // Navigate to section (collapse others, expand target, scroll)
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.collapsible-section');
+            const mainBody = document.getElementById('main-body');
+
+            // Collapse all sections except target
+            sections.forEach(section => {
+                if (section.dataset.sectionId === sectionId) {
+                    section.classList.remove('collapsed');
+                } else {
+                    section.classList.add('collapsed');
+                }
+            });
+
+            // Scroll to target after a short delay for animation
+            setTimeout(() => {
+                const targetEl = document.getElementById(sectionId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        // Expand all sections
+        function expandAllSections() {
+            const sections = document.querySelectorAll('.collapsible-section');
+            sections.forEach(section => {
+                section.classList.remove('collapsed');
             });
         }
 
@@ -649,26 +820,51 @@
             const tocLinks = document.querySelectorAll('.toc-list a');
             const sections = Array.from(tocLinks).map(link => {
                 const id = link.getAttribute('data-section');
+                if (id === 'top') return null;
                 return document.getElementById(id);
             }).filter(Boolean);
 
-            // Handle TOC link clicks with smooth scroll
+            // Handle TOC link clicks with collapse and smooth scroll
             tocLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
+                    // Skip for external links (like Zotero)
+                    if (!link.getAttribute('data-section')) return;
+
                     e.preventDefault();
                     const targetId = link.getAttribute('data-section');
-                    const targetEl = document.getElementById(targetId);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // Handle scroll to top - expand all sections first
+                    if (targetId === 'top') {
+                        expandAllSections();
+                        mainBody.scrollTo({ top: 0, behavior: 'smooth' });
                         tocLinks.forEach(l => l.classList.remove('active'));
                         link.classList.add('active');
+                        return;
                     }
+
+                    // Navigate to section (collapse others, expand target, scroll)
+                    navigateToSection(targetId);
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
                 });
             });
 
             // Highlight TOC on scroll
             mainBody.addEventListener('scroll', () => {
                 let currentSection = null;
+                const scrollTop = mainBody.scrollTop;
+
+                // If near top, highlight the "Table of Contents" link
+                if (scrollTop < 100) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'top') {
+                            link.classList.add('active');
+                        }
+                    });
+                    return;
+                }
+
                 sections.forEach(section => {
                     if (section) {
                         const rect = section.getBoundingClientRect();
@@ -700,14 +896,15 @@
 
 ## Table of Contents
 
-1. [Executive Summary](#section-summary)
-2. [Research Objectives and Tasks](#section-objectives)
-3. [Four Thematic Areas and Seed Papers](#section-topics)
-4. [Search Results Analysis](#section-results)
-5. [Current Status Analysis and Improvement Strategies](#section-analysis)
-6. [Revised Search Strategies](#section-strategy)
-7. [Action Plan and Timeline](#section-plan)
-8. [Appendix: Search Strings and Tools](#section-appendix)
+1. Executive Summary
+2. Research Objectives and Tasks
+3. Four Thematic Areas and Seed Papers
+4. Search Results Analysis
+5. Current Status Analysis and Improvement Strategies
+6. Revised Search Strategies
+7. Action Plan and Timeline
+8. Appendix: Search Strings and Tools
+9. Zotero Reports
 
 ---
 

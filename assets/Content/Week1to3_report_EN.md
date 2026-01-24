@@ -6,15 +6,15 @@
 
 ## Table of Contents
 
-1. [Executive Summary](#1-executive-summary)
-2. [Research Objectives and Tasks](#2-research-objectives-and-tasks)
-3. [Four Thematic Areas and Seed Papers](#3-four-thematic-areas-and-seed-papers)
-4. [Search Results Analysis](#4-search-results-analysis)
-5. [Current Status Analysis and Improvement Strategies](#5-current-status-analysis-and-improvement-strategies)
-6. [Revised Search Strategies](#6-revised-search-strategies)
-7. [Action Plan and Timeline](#7-action-plan-and-timeline)
-8. [Appendix: Search Strings and Tools](#appendix-search-strings-and-tools)
-9. Zotero pages
+1. Executive Summary
+2. Research Objectives and Tasks
+3. Four Thematic Areas and Seed Papers
+4. Search Results Analysis
+5. Current Status Analysis and Improvement Strategies
+6. Revised Search Strategies
+7. Action Plan and Timeline
+8. Appendix: Search Strings and Tools
+9. Zotero Reports
 
 ---
 
