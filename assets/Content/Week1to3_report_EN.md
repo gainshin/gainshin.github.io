@@ -158,7 +158,7 @@ Understand interaction patterns between older adults and conversational AI syste
 | An et al. (2025)           | arXiv               | ✅ Collected | **Tier 2**         | Systematic literature review of conversational agents for older adults' health; coverage of usability, transparency, and persuasive design needs confirmation |
 | Even et al. (2022)         | Z Gerontol Geriatr  | ✅ Collected | **Tier 2**         | Benefits and challenges of conversational agents for older adults; Coverage: Usability, Transparency (implicit), Persuasive Design (gap) |
 | Martin-Hammond et al. (2019) | JMIR Aging          | ✅ Collected | ❌ **Unaccepted**   | Only explores attitudes and beliefs, does not analyze how interface design affects these beliefs |
-| Brewer (2022) CHI EA       | CHI EA              | ✅ Collected | **Tier 1**         | "If Alexa knew the state I was in" - Addresses persuasive design (anthropomorphism), usability, and transparency |
+| Brewer (2022) CHI EA       | CHI EA              | ✅ Collected | **Tier 1**         | Empirical interview study (n=10); "If Alexa knew the state I was in"; Feminist data principles (Subjectivity, Intelligibility) |
 | Huang et al. (2025)        | CHI 2025            | ✅ Collected | ⏳ Awaiting Evaluation | Systematic review of designing conversational AI |
 | Du et al. (2024)           | Chinese CHI 2024    | ✅ Collected | **Tier 3**         | Systematic review of conversational agents enhancing older adults' lives |
 
@@ -311,7 +311,10 @@ NIST, WHO, CIFAR, and Amii framework documents have been downloaded and added to
 **New Literature (Round 2)**:
 6. **Huang et al. (2025)** - "Designing Conversational AI for Aging: A Systematic Review" - CHI 2025 - Awaiting Evaluation
 7. **Du et al. (2024)** - "Enhancing Older Adults' Lives with Conversational Agents" - Chinese CHI 2024 - **Tier 3**
-8. **Brewer (2022) CHI EA** - "If Alexa knew the state I was in, it would cry" - CHI EA 2022 - **Tier 1** (Addresses persuasive design, usability, and transparency)
+8. **Brewer (2022) CHI EA** - "If Alexa knew the state I was in, it would cry" - CHI EA 2022 - **Tier 1**
+   - **Method**: Empirical qualitative interview study (speculative inquiry) with 10 older adults in assisted living (not a systematic review).
+   - **Key Findings**: Older adults prefer positive health representations (Subjectivity) and require understandable, verifiable data summaries (Intelligibility).
+   - **Relevance**: Directly addresses persuasive design (managing emotional well-being) and transparency (intelligibility of algorithms).
 
 ### Theme 2: AI Dark Patterns & Manipulation
 

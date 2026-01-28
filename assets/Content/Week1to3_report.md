@@ -155,7 +155,7 @@ Week 3：補充搜索 → 確認種子論文 → 準備引文追蹤
 | An et al. (2025)             | arXiv              | ✅ 已收集 | **Tier 2**       | 老年人健康對話代理系統性文獻回顧；覆蓋 Usability，Transparency 和 Persuasive Design 需確認                     |
 | Even et al. (2022)           | Z Gerontol Geriatr | ✅ 已收集 | **Tier 2**       | 對話代理對老年人的益處與挑戰；覆蓋 Usability, Transparency (implicit), Persuasive Design (gap)                 |
 | Martin-Hammond et al. (2019) | JMIR Aging         | ✅ 已收集 | ❌ **Unaccepted** | 僅探索態度信念，未分析界面設計如何影響這些信念                                                                 |
-| Brewer (2022) CHI EA         | CHI EA             | ✅ 已收集 | **Tier 1**       | "If Alexa knew the state I was in" - 三維度覆蓋：Persuasive Design (anthropomorphism), Usability, Transparency |
+| Brewer (2022) CHI EA         | CHI EA             | ✅ 已收集 | **Tier 1**       | 經驗性訪談研究 (n=10)；"If Alexa knew..."；提出女性主義數據原則：主體性 (Subjectivity) 與可理解性 (Intelligibility) |
 | Huang et al. (2025)          | CHI 2025           | ✅ 已收集 | ⏳ 待評估         | 設計對話式 AI 的系統性回顧                                                                                     |
 | Du et al. (2024)             | Chinese CHI 2024   | ✅ 已收集 | **Tier 3**       | 增強老年人生活的對話代理系統性回顧                                                                             |
 
@@ -313,7 +313,10 @@ Week 3：補充搜索 → 確認種子論文 → 準備引文追蹤
 **新增文獻（Round 2）**：
 6. **Huang et al. (2025)** - "Designing Conversational AI for Aging: A Systematic Review" - CHI 2025 - ⏳ 待評估
 7. **Du et al. (2024)** - "Enhancing Older Adults' Lives with Conversational Agents" - Chinese CHI 2024 - ✅ **Tier 3**
-8. **Brewer (2022) CHI EA** - "If Alexa knew the state I was in, it would cry" - CHI EA 2022 - ✅ **Tier 1**（三維度覆蓋：Persuasive Design, Usability, Transparency）
+8. **Brewer (2022) CHI EA** - "If Alexa knew the state I was in, it would cry" - CHI EA 2022 - ✅ **Tier 1**
+   - **方法**: 經驗性定性訪談研究 (Speculative Inquiry)，針對 10 位輔助生活社區的老年人（⚠️ 注意：網站曾誤標為系統性綜述，特此更正）。
+   - **核心發現**: 老年人偏好正面的健康呈現 (Subjectivity)，並要求數據摘要具備可理解性和可驗證性 (Intelligibility)。
+   - **相關性**: 直接解決說服設計（管理情緒健康）和透明度（演算法的可理解性）缺口。
 
 ### 主題二：AI 暗黑模式與操縱
 
