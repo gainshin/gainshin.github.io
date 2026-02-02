@@ -1,4 +1,4 @@
-# INFS 611 Research Project: Designing Safer and More Responsible AI Health Services
+ # INFS 611 Research Project: Designing Safer and More Responsible AI Health Services
 ## The Intersection of AI Literacy, Design Risks, and Governance Frameworks
 
 ---
