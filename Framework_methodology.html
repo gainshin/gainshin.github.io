@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narrative Review Methodology - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            flowchart: {
+                nodeSpacing: 80,
+                rankSpacing: 100,
+                curve: 'basis'
+            },
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+    </script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Georgia, Times, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid #555;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.25rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .mermaid {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Zoom controls */
+        .diagram-container {
+            position: relative;
+            width: 100%;
+            overflow: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fafafa;
+            margin-bottom: 40px;
+        }
+
+        .diagram-wrapper {
+            min-width: 100%;
+            padding: 20px;
+            transform-origin: top left;
+            transition: transform 0.2s ease;
+        }
+
+        .diagram-wrapper .mermaid {
+            margin-bottom: 0;
+        }
+
+        .zoom-controls {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .zoom-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--bg-hover);
+            border-color: #ccc;
+        }
+
+        .zoom-btn:active {
+            transform: scale(0.98);
+        }
+
+        .zoom-level {
+            padding: 8px 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Mermaid font size enhancement */
+        .mermaid svg {
+            font-size: 16px !important;
+        }
+
+        .mermaid .nodeLabel {
+            font-size: 14px !important;
+            line-height: 1.4 !important;
+        }
+
+        .mermaid .edgeLabel {
+            font-size: 12px !important;
+        }
+
+        .mermaid .cluster-label {
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/joshua.png" alt="Joshua" class="logo">
+            <span class="title">Research Notes</span>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Weekly Reports</div>
+            <nav>
+                <a href="Research.html" class="sidebar-nav-item">
+                    <i data-lucide="home"></i>
+                    <span>Welcome</span>
+                </a>
+                <a href="Framework.html" class="sidebar-nav-item active">
+                    <i data-lucide="network"></i>
+                    <span>Research Framework</span>
+                </a>
+                <a href="Week1to3_report.html" class="sidebar-nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>Week 1-3 Progress Report</span>
+                </a>
+                <a href="Zotero_round1.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 1)</span>
+                </a>
+                <a href="Zotero_round2.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 2)</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="index.html">
+                <i data-lucide="arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <a href="Framework.html">Framework</a>
+                    <span class="separator">/</span>
+                    <span class="current">Methodology</span>
+                </div>
+            </div>
+            <a href="Framework.html"
+                style="font-size: 0.9em; color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 4px;">
+                <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+                Back to Framework
+            </a>
+        </header>
+
+        <div class="main-body">
+            <div class="content-wrapper">
+                <h1>敘述性審查：針對對話式健康代理與高齡者的 UX 設計實踐</h1>
+
+
+                <div class="diagram-container">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out">
+                            <i data-lucide="zoom-out" style="width: 16px; height: 16px;"></i>
+                            縮小
+                        </button>
+                        <span class="zoom-level" id="zoom-level">100%</span>
+                        <button class="zoom-btn" id="zoom-in">
+                            <i data-lucide="zoom-in" style="width: 16px; height: 16px;"></i>
+                            放大
+                        </button>
+                        <button class="zoom-btn" id="zoom-reset">
+                            <i data-lucide="maximize-2" style="width: 16px; height: 16px;"></i>
+                            重置
+                        </button>
+                        <button class="zoom-btn" id="zoom-fit">
+                            <i data-lucide="scan" style="width: 16px; height: 16px;"></i>
+                            適應視窗
+                        </button>
+                    </div>
+                    <div class="diagram-wrapper" id="diagram-wrapper">
+                        <div class="mermaid">
+                            graph TD
+                            %% 定義樣式
+                            classDef TitleBox fill:#f0f0f0,stroke:#333,stroke-width:2px,font-size:18px,font-weight:bold;
+                            classDef FrameworkCol fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+                            classDef MethodCol fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+                            classDef OutcomeBox fill:#fff9c4,stroke:#fbc02d,stroke-dasharray: 5 5;
+                            classDef NoteBox fill:#fff,stroke:#999,font-style:italic,font-size:12px;
+
+                            %% 總標題
+                            MainTitle["敘述性審查：針對對話式健康代理與高齡者的 UX 設計實踐"]:::TitleBox
+
+                            %% 泳道標題
+                            subgraph LeftColumn ["左欄：研究框架圖譜 (內容流)"]
+                            LC_Header["**研究框架圖譜**"]:::FrameworkCol
+                            end
+                            subgraph RightColumn ["右欄：敘述性審查方法論 (過程流)"]
+                            RC_Header["**敘述性審查方法論**"]:::MethodCol
+                            end
+
+                            MainTitle --> LC_Header
+                            MainTitle --> RC_Header
+
+                            %% --- Row 1: Research Question & Stage 1 ---
+                            subgraph Row1 ["第一階段：問題定義"]
+                            direction LR
+                            L1["**研究問題**<br>對話式健康代理的 UX 設計如何未能顧及<br>高齡者的 AI 素養與隱私風險？<br>原則 (WHO/NIST)
+                            與實踐之間的差距在哪裡？"]:::FrameworkCol
+                            R1["**階段 1：問題識別與基本原理**<br>• 定義清晰的研究問題與受眾<br>• 論證選擇敘述性審查的理由 (新興/複雜領域)<br>• 建立主觀主義/解釋主義範式<br>•
+                            初步範圍：對話式健康代理 × 高齡者 × AI 素養 × 隱私"]:::MethodCol
+                            R1 --"定義與確立"--> L1
+                            end
+                            LC_Header --> L1
+                            RC_Header --> R1
+
+                            %% --- Row 2: Theme 1 & Stage 2 ---
+                            subgraph Row2 ["第二階段：範圍與背景"]
+                            direction LR
+                            L2["**主題 1：用戶層面背景**<br>**焦點：** 理解用戶能力與限制<br>• 關鍵文獻: 高齡者特徵, 可用性障礙, 隱私感知, AI
+                            素養與信任"]:::FrameworkCol
+                            L2_Out("↓ 已識別的風險脆弱性：<br>- 認知能力下降<br>- 數位信心低<br>- 隱私焦慮<br>- 「暈輪效應」"):::OutcomeBox
+                            R2["**階段 2：範圍定義與邊界**<br>**建立納入標準：**<br>• 資料庫 (ACM, PubMed 等), 關鍵詞, 時間範圍 (2018-2026)<br>•
+                            包含灰色文獻
+                            (WHO/NIST 指引)"]:::MethodCol
+                            R2_Out("↓ 迭代優化：<br>主題 1 建立了基礎用戶背景"):::NoteBox
+
+                            L1 --> L2
+                            L2 --> L2_Out
+                            R1 --> R2
+                            R2 --> R2_Out
+                            R2 --"根據主題焦點設定邊界"--> L2
+                            end
+
+                            %% --- Row 3: Theme 2 & Stage 3 ---
+                            subgraph Row3 ["第三階段：文獻搜尋 (風險聚焦)"]
+                            direction LR
+                            L3["**主題 2：設計風險與暗黑模式**<br>**焦點：** 分析介面如何影響行為<br>• 關鍵文獻: 操縱策略, 說服 vs. 強制, 暗黑模式分類, 數位助推 +
+                            淤泥"]:::FrameworkCol
+                            L3_Out("↓ 機制：設計如何剝削用戶：<br>- 隱藏的影響力<br>- 利用認知偏差<br>- 顛覆自主性"):::OutcomeBox
+                            R3["**階段 3：文獻搜尋與選擇**<br>**搜尋策略 (聚焦主題 2)：**<br>• 額外關鍵詞 (暗黑模式, 說服性設計等)<br>• 識別開創性論文 (Gray,
+                            Susser)<br>• 反身性註釋：受先前專案影響的選擇"]:::MethodCol
+                            R3_Out("↓ 理由：<br>選擇主題 2 文獻以覆蓋數位健康背景下的操縱機制"):::NoteBox
+
+                            L2_Out --> L3
+                            L3 --> L3_Out
+                            R2_Out --> R3
+                            R3 --> R3_Out
+                            R3 --"針對主題焦點進行搜尋"--> L3
+                            end
+
+                            %% --- Row 4: Theme 3 & Stage 4 ---
+                            subgraph Row4 ["第四階段：分析與組織 (技術聚焦)"]
+                            direction LR
+                            L4["**主題 3：HCI 與代理 AI 系統**<br>**焦點：** 技術與互動景觀<br>• 關鍵文獻: 互動模式, 設計工作流程, 權威分配, 工具使用,
+                            能力差距"]:::FrameworkCol
+                            L4_Out("↓ 解決方案空間：<br>- 透明度機制<br>- 用戶控制介面<br>- 個性化選項<br>- 自適應設計模式"):::OutcomeBox
+                            R4["**階段 4：主題分析與組織**<br>**分析過程：**<br>• 將文獻分組為 4 個主題集群<br>• 識別連接：用戶脆弱性(T1) × 設計風險(T2) ×
+                            技術能力(T3)<br>•
+                            映射模式：減輕或加劇風險的互動設計<br>• 飽和度聲明"]:::MethodCol
+                            R4_Out("↓ 跨主題綜合：<br>將技術解決方案(T3)對應用戶需求(T1)和設計風險(T2)"):::NoteBox
+
+                            L3_Out --> L4
+                            L4 --> L4_Out
+                            R3_Out --> R4
+                            R4 --> R4_Out
+                            R4 --"組織並映射技術模式"--> L4
+                            end
+
+                            %% --- Row 5: Theme 4 & Stage 5 ---
+                            subgraph Row5 ["第五階段：批判性綜合 (治理聚焦)"]
+                            direction LR
+                            L5["**主題 4：治理與原則**<br>**焦點：** 倫理規則與實施差距<br>• 關鍵框架: WHO 健康 AI 倫理原則, NIST AI 風險管理框架, IMDA 代理
+                            AI
+                            框架"]:::FrameworkCol
+                            L5_Out("↓ 已識別的實施差距：<br>原則 → 實踐"):::OutcomeBox
+                            R5["**階段 5：批判性綜合**<br>**綜合活動：**<br>• 比較治理原則(T4)與記錄的設計實踐(T2 & T3)<br>• 識別矛盾：原則強調透明，但實施缺乏<br>•
+                            記錄差距：高層倫理指南 vs. 低層 UI 實施"]:::MethodCol
+                            R5_Out("↓ 解讀：<br>倫理框架與實際介面設計之間的差距成為關鍵發現"):::NoteBox
+
+                            L4_Out --> L5
+                            L5 --> L5_Out
+                            R4_Out --> R5
+                            R5 --> R5_Out
+                            R5 --"比較原則與實踐進行綜合"--> L5
+                            end
+
+                            %% --- Row 6: Output & Stage 6 ---
+                            subgraph Row6 ["第六階段：最終產出與解讀"]
+                            direction LR
+                            L6["**前瞻性設計介入**<br>(研究產出)<br>• 透明的控制機制<br>• 易懂的解釋 (淺顯語言)<br>• 初始設置的鷹架支持<br>• 錯誤恢復路徑<br>•
+                            隱私意識的預設設置<br>• 高齡者共同設計方法"]:::FrameworkCol
+                            R6["**階段 6：解讀與知識整合**<br>**最終綜合以獲取設計啟示：**<br>• 將發現轉化為可操作的設計介入<br>• 彌合差距：創建操作化倫理原則的 UI 模式<br>•
+                            提出未來研究：透過共同設計進行實證驗證<br>• 充分性聲明"]:::MethodCol
+
+                            L5_Out --> L6
+                            R5_Out --> R6
+                            R6 --"轉化發現為介入措施"--> L6
+                            end
+
+                            %% --- Visual Flow Summary at bottom ---
+                            subgraph Summary ["視覺化流程總結 (Visual Flow Summary)"]
+                            direction TB
+                            S_Logic["**框架邏輯 (左欄):** 用戶背景 → 設計風險 → 技術解決方案 → 治理差距 → 設計介入"]:::NoteBox
+                            S_Method["**方法論邏輯 (右欄):** 問題定義 → 邊界設定 → 文獻搜尋 → 主題組織 → 批判性綜合 → 解讀"]:::NoteBox
+                            end
+                            L6 --> S_Logic
+                            R6 --> S_Method
+
+                            %% Global Styling for arrows
+                            linkStyle default stroke-width:2px,fill:none,stroke:black;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // Zoom functionality
+        let currentZoom = 1;
+        const minZoom = 0.25;
+        const maxZoom = 5;
+        const zoomStep = 0.25;
+
+        const wrapper = document.getElementById('diagram-wrapper');
+        const zoomLevelDisplay = document.getElementById('zoom-level');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const zoomResetBtn = document.getElementById('zoom-reset');
+        const zoomFitBtn = document.getElementById('zoom-fit');
+
+        function updateZoom() {
+            wrapper.style.transform = `scale(${currentZoom})`;
+            zoomLevelDisplay.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        zoomInBtn.addEventListener('click', () => {
+            if (currentZoom < maxZoom) {
+                currentZoom = Math.min(maxZoom, currentZoom + zoomStep);
+                updateZoom();
+            }
+        });
+
+        zoomOutBtn.addEventListener('click', () => {
+            if (currentZoom > minZoom) {
+                currentZoom = Math.max(minZoom, currentZoom - zoomStep);
+                updateZoom();
+            }
+        });
+
+        zoomResetBtn.addEventListener('click', () => {
+            currentZoom = 1;
+            updateZoom();
+        });
+
+        zoomFitBtn.addEventListener('click', () => {
+            const container = document.querySelector('.diagram-container');
+            const svg = wrapper.querySelector('svg');
+            if (svg) {
+                const containerWidth = container.clientWidth - 40;
+                const svgWidth = svg.getBoundingClientRect().width / currentZoom;
+                currentZoom = Math.min(1, containerWidth / svgWidth);
+                updateZoom();
+            }
+        });
+
+        // Re-initialize Lucide icons after page load
+        setTimeout(() => lucide.createIcons(), 100);
+    </script>
+</body>
+
+</html>
