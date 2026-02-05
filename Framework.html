@@ -8,7 +8,16 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
+        mermaid.initialize({ startOnLoad: false });
+        window.mermaid = mermaid;
+
+        // Only render visible diagrams on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const visibleDiagrams = document.querySelectorAll('.framework-version.active .mermaid');
+            if (visibleDiagrams.length > 0) {
+                mermaid.run({ nodes: Array.from(visibleDiagrams) });
+            }
+        });
     </script>
     <style>
         :root {
@@ -292,6 +301,58 @@
             margin-bottom: 40px;
             text-align: center;
         }
+
+        /* Tab Navigation */
+        .framework-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .framework-version {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .framework-version.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -319,6 +380,10 @@
                 <a href="Week1to3_report.html" class="sidebar-nav-item">
                     <i data-lucide="file-text"></i>
                     <span>Week 1-3 Progress Report</span>
+                </a>
+                <a href="Week4_report.html" class="sidebar-nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>Week 4 Progress Report</span>
                 </a>
                 <a href="Zotero_round1.html" class="sidebar-nav-item" style="padding-left: 32px;">
                     <i data-lucide="bookmark"></i>
@@ -358,171 +423,297 @@
 
         <div class="main-body">
             <div class="content-wrapper">
-                <h1>Initial framing of the research problem</h1>
+                <h1>Research Framework</h1>
 
-                <div class="mermaid">
-                    graph TD
-                    %% Define styles
-                    classDef header fill:#EDE7F6,stroke:#673AB7,stroke-width:2px,color:#000000,font-weight:bold;
-                    classDef themeBox fill:#FFFFFF,stroke:#333333,stroke-width:1px,color:#000000;
-                    classDef subBox fill:#F5F5F5,stroke:#999999,stroke-width:1px,color:#333333,font-size:90%;
-                    classDef intervention fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000000;
-
-                    %% Initial Framing
-
-
-                    %% Theme 1: User-Level Context
-                    subgraph SG1 [ ]
-                    direction TB
-                    T1["<b>THEME 1: User-Level Context</b>
-                    <hr>• Older Adults Profile (Zubatiy, Brewer)<br>• Usability Barriers (Wildenbos,
-                    Sakaguchi-Tang)<br>• Privacy Perceptions (Ellis)<br>• AI Literacy & Trust (Huang)"]:::themeBox
-                    T1_Sub["<i>Risk Vulnerabilities</i><br>- Cognitive decline<br>- Low digital confidence<br>- Privacy
-                    anxiety<br>- 'Halo effect'"]:::subBox
-                    T1 --- T1_Sub
-                    end
-
-                    %% Theme 2: Design Risk & Dark Patterns
-                    subgraph SG2 [ ]
-                    direction TB
-                    T2["<b>THEME 2: Design Risk & Dark Patterns</b>
-                    <hr>• Manipulation Tactics (Gray, Susser, Brignull)<br>• Persuasion vs. Coercion vs. Manipulation
-                    Framework<br>• Dark Patterns Taxonomy (5 types)<br>• Digital Nudges + Sludge (Duane et
-                    al.)"]:::themeBox
-                    T2_Sub["<i>Gap: Why governance principles fail to shape interface design</i><br>- Policies define
-                    autonomy & transparency, but rarely specify concrete UI patterns<br>- Organizational KPIs override
-                    ethical intentions<br>- Commercial constraints incentivize dark-pattern-like flows<br>- Limited UX
-                    tooling for operationalizing WHO / NIST principles<br>- Little empirical work on how designers apply
-                    AI ethics"]:::subBox
-                    T2 --- T2_Sub
-                    end
-
-                    %% Theme 3: HCI & Agentic AI Systems
-                    subgraph SG3 [ ]
-                    direction TB
-                    T3["<b>THEME 3: HCI & Agentic AI Systems</b>
-                    <hr>• Interaction Patterns (Zubatiy, Huang)<br>• Design Workflows (Imagining Design Workflows (OZCHI
-                    2025))<br>• Authority
-                    Distribution (Agentic roles)<br>• Tool Use & Memory Management<br>• Capability Gaps (Semantic
-                    Commit)"]:::themeBox
-                    T3_Sub["<i>Solution Space</i><br>- Transparency<br>- Control<br>- Personalization<br>- Adaptive
-                    design"]:::subBox
-                    T3 --- T3_Sub
-                    end
-
-                    %% Theme 4: Governance & Principles
-                    T4["<b>THEME 4: Governance & Principles</b>
-                    <hr>• WHO Ethical Principles<br>• NIST AI RMF<br>• IMDA Agentic AI MGF<br>• Responsibility &
-                    Accountability<br>• Implementation Gap (principles → UI)"]:::themeBox
-
-                    %% Design Interventions
-                    EndNode["<b>Prospective DESIGN INTERVENTIONS (Research Output for 604/605)</b>
-                    <hr>• Transparent controls<br>• Accessible explanations<br>• Scaffolding for setup<br>• Error
-                    recovery paths<br>• Privacy-aware defaults<br>• Older adult co-design"]:::intervention
-
-                    %% Connections
-
-
-                    T1_Sub --> T4
-                    T2_Sub --> T4
-                    T3_Sub --> T4
-
-                    T4 --> EndNode
-
-                    %% Styling
-                    style SG1 fill:none,stroke:none
-                    style SG2 fill:none,stroke:none
-                    style SG3 fill:none,stroke:none
+                <!-- Tab Navigation -->
+                <div class="framework-tabs">
+                    <button class="tab-btn active" onclick="switchVersion('v1')">Version 1: Initial (Week 1-3)</button>
+                    <button class="tab-btn" onclick="switchVersion('v2')">Version 2: Pivot (Week 4)</button>
                 </div>
 
-                <h2>Framework Details</h2>
+                <!-- Version 1 Content -->
+                <div id="v1" class="framework-version active">
+                    <h2>Initial framing of the research problem</h2>
+                    <div class="mermaid">
+                        graph TD
+                        %% Define styles
+                        classDef header fill:#EDE7F6,stroke:#673AB7,stroke-width:2px,color:#000000,font-weight:bold;
+                        classDef themeBox fill:#FFFFFF,stroke:#333333,stroke-width:1px,color:#000000;
+                        classDef subBox fill:#F5F5F5,stroke:#999999,stroke-width:1px,color:#333333,font-size:90%;
+                        classDef intervention fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000000;
 
-                <h3>Initial Framing</h3>
-                <p><strong>How do UX design practices for conversational health agents fail to account for older adults'
-                        AI literacy and privacy risk, and where is the gap between principles (WHO/NIST) and
-                        practice?</strong></p>
-                <p>In INFS 611, this broad question is scoped down to a narrative literature review (7–10 articles) that
-                    focuses on the misalignment between AI governance principles and actual interface‑level design
-                    choices in commercial health/AI systems for older adults.</p>
+                        %% Initial Framing
 
-                <h3>THEME 1: User-Level Context</h3>
-                <p><em>Focus: Understanding the user's capabilities and constraints.</em></p>
-                <ul>
-                    <li><strong>Older Adults Profile</strong> (Zubatiy, Brewer)</li>
-                    <li><strong>Usability Barriers</strong> (Wildenbos, Sakaguchi-Tang)</li>
-                    <li><strong>Privacy Perceptions</strong> (Ellis)</li>
-                    <li><strong>AI Literacy & Trust</strong> (Huang)</li>
-                </ul>
-                <p><strong>Risk Vulnerabilities:</strong></p>
-                <ul>
-                    <li>Cognitive decline</li>
-                    <li>Low digital confidence</li>
-                    <li>Privacy anxiety</li>
-                    <li>"Halo effect"</li>
-                </ul>
 
-                <h3>THEME 2: Design Risk & Dark Patterns</h3>
-                <p><em>Focus: Analyzing how interfaces influence behavior.</em></p>
-                <ul>
-                    <li><strong>Manipulation Tactics</strong> (Gray, Susser, Brignull)</li>
-                    <li><strong>Persuasion vs. Coercion vs. Manipulation Framework</strong></li>
-                    <li><strong>Dark Patterns Taxonomy</strong> (5 types)</li>
-                    <li><strong>Digital Nudges + Sludge</strong> (Duane et al.)</li>
-                </ul>
-                <p><strong>Gap: Why governance principles fail to shape interface design:</strong></p>
-                <ul>
-                    <li>Policies define autonomy & transparency, but rarely specify concrete UI patterns</li>
-                    <li>Organizational KPIs (engagement, conversion) systematically override ethical intentions</li>
-                    <li>Commercial constraints incentivize persuasive / dark‑pattern‑like flows</li>
-                    <li>Limited UX tooling and patterns for operationalizing WHO / NIST principles in practice</li>
-                    <li>Little empirical work on how designers interpret and apply AI ethics in real projects</li>
-                </ul>
-                <p style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 10px;">(The INFS 611 individual
-                    project uses a 7–10‑paper narrative literature review (with the 5C framework) to refine this
-                    dark‑patterns / manipulation lens, identifying which mechanisms are most relevant to health chatbots
-                    for older adults and what empirical gaps remain.)</p>
+                        %% Theme 1: User-Level Context
+                        subgraph SG1 [ ]
+                        direction TB
+                        T1["<b>THEME 1: User-Level Context</b>
+                        <hr>• Older Adults Profile (Zubatiy, Brewer)<br>• Usability Barriers (Wildenbos,
+                        Sakaguchi-Tang)<br>• Privacy Perceptions (Ellis)<br>• AI Literacy & Trust (Huang)"]:::themeBox
+                        T1_Sub["<i>Risk Vulnerabilities</i><br>- Cognitive decline<br>- Low digital confidence<br>-
+                        Privacy
+                        anxiety<br>- 'Halo effect'"]:::subBox
+                        T1 --- T1_Sub
+                        end
 
-                <h3>THEME 3: HCI & Agentic AI Systems</h3>
-                <p><em>Focus: The technical and interaction landscape.</em></p>
-                <ul>
-                    <li><strong>Interaction Patterns</strong> (Zubatiy, Huang)</li>
-                    <li><strong>Design Workflows</strong> (Imagining Design Workflows (OZCHI 2025))</li>
-                    <li><strong>Authority Distribution</strong> (Agentic roles)</li>
-                    <li><strong>Tool Use & Memory Management</strong></li>
-                    <li><strong>Capability Gaps</strong> (Semantic Commit)</li>
-                </ul>
-                <p><strong>Solution Space:</strong></p>
-                <ul>
-                    <li>Transparency</li>
-                    <li>Control</li>
-                    <li>Personalization</li>
-                    <li>Adaptive design</li>
-                </ul>
+                        %% Theme 2: Design Risk & Dark Patterns
+                        subgraph SG2 [ ]
+                        direction TB
+                        T2["<b>THEME 2: Design Risk & Dark Patterns</b>
+                        <hr>• Manipulation Tactics (Gray, Susser, Brignull)<br>• Persuasion vs. Coercion vs.
+                        Manipulation
+                        Framework<br>• Dark Patterns Taxonomy (5 types)<br>• Digital Nudges + Sludge (Duane et
+                        al.)"]:::themeBox
+                        T2_Sub["<i>Gap: Why governance principles fail to shape interface design</i><br>- Policies
+                        define
+                        autonomy & transparency, but rarely specify concrete UI patterns<br>- Organizational KPIs
+                        override
+                        ethical intentions<br>- Commercial constraints incentivize dark-pattern-like flows<br>- Limited
+                        UX
+                        tooling for operationalizing WHO / NIST principles<br>- Little empirical work on how designers
+                        apply
+                        AI ethics"]:::subBox
+                        T2 --- T2_Sub
+                        end
 
-                <h3>THEME 4: Governance & Principles</h3>
-                <p><em>Focus: The ethical rules and implementation gaps.</em></p>
-                <ul>
-                    <li><strong>WHO Ethical Principles</strong></li>
-                    <li><strong>NIST AI RMF</strong></li>
-                    <li><strong>IMDA Agentic AI MGF</strong></li>
-                    <li><strong>Responsibility & Accountability</strong></li>
-                    <li><strong>Implementation Gap</strong> (AI governance policies → UX principles)</li>
-                </ul>
-                <p style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 10px;">(The INFS 611 individual
-                    project also engages with governance and ethics, and is treated as normative literature in the INFS
-                    611 synthesis/proposal, used to motivate why interface‑level dark patterns constitute a failure of
-                    governance implementation.)</p>
+                        %% Theme 3: HCI & Agentic AI Systems
+                        subgraph SG3 [ ]
+                        direction TB
+                        T3["<b>THEME 3: HCI & Agentic AI Systems</b>
+                        <hr>• Interaction Patterns (Zubatiy, Huang)<br>• Design Workflows (Imagining Design Workflows
+                        (OZCHI
+                        2025))<br>• Authority
+                        Distribution (Agentic roles)<br>• Tool Use & Memory Management<br>• Capability Gaps (Semantic
+                        Commit)"]:::themeBox
+                        T3_Sub["<i>Solution Space</i><br>- Transparency<br>- Control<br>- Personalization<br>- Adaptive
+                        design"]:::subBox
+                        T3 --- T3_Sub
+                        end
 
-                <h3>Prospective DESIGN INTERVENTIONS (Research Output for 604/605)</h3>
-                <p><em>Proposed solutions and research goals.</em></p>
-                <ul>
-                    <li>Transparent controls</li>
-                    <li>Accessible explanations</li>
-                    <li>Scaffolding for setup</li>
-                    <li>Error recovery paths</li>
-                    <li>Privacy-aware defaults</li>
-                    <li>Older adult co-design</li>
-                </ul>
+                        %% Theme 4: Governance & Principles
+                        T4["<b>THEME 4: Governance & Principles</b>
+                        <hr>• WHO Ethical Principles<br>• NIST AI RMF<br>• IMDA Agentic AI MGF<br>• Responsibility &
+                        Accountability<br>• Implementation Gap (principles → UI)"]:::themeBox
+
+                        %% Design Interventions
+                        EndNode["<b>Prospective DESIGN INTERVENTIONS (Research Output for 604/605)</b>
+                        <hr>• Transparent controls<br>• Accessible explanations<br>• Scaffolding for setup<br>• Error
+                        recovery paths<br>• Privacy-aware defaults<br>• Older adult co-design"]:::intervention
+
+                        %% Connections
+
+
+                        T1_Sub --> T4
+                        T2_Sub --> T4
+                        T3_Sub --> T4
+
+                        T4 --> EndNode
+
+                        %% Styling
+                        style SG1 fill:none,stroke:none
+                        style SG2 fill:none,stroke:none
+                        style SG3 fill:none,stroke:none
+                    </div>
+
+                    <h2>Framework Details (v1)</h2>
+
+                    <h3>Initial Framing</h3>
+                    <p><strong>How do UX design practices for conversational health agents fail to account for older
+                            adults'
+                            AI literacy and privacy risk, and where is the gap between principles (WHO/NIST) and
+                            practice?</strong></p>
+                    <p>In INFS 611, this broad question is scoped down to a narrative literature review (7–10 articles)
+                        that
+                        focuses on the misalignment between AI governance principles and actual interface‑level design
+                        choices in commercial health/AI systems for older adults.</p>
+
+                    <h3>THEME 1: User-Level Context</h3>
+                    <p><em>Focus: Understanding the user's capabilities and constraints.</em></p>
+                    <ul>
+                        <li><strong>Older Adults Profile</strong> (Zubatiy, Brewer)</li>
+                        <li><strong>Usability Barriers</strong> (Wildenbos, Sakaguchi-Tang)</li>
+                        <li><strong>Privacy Perceptions</strong> (Ellis)</li>
+                        <li><strong>AI Literacy & Trust</strong> (Huang)</li>
+                    </ul>
+                    <p><strong>Risk Vulnerabilities:</strong></p>
+                    <ul>
+                        <li>Cognitive decline</li>
+                        <li>Low digital confidence</li>
+                        <li>Privacy anxiety</li>
+                        <li>"Halo effect"</li>
+                    </ul>
+
+                    <h3>THEME 2: Design Risk & Dark Patterns</h3>
+                    <p><em>Focus: Analyzing how interfaces influence behavior.</em></p>
+                    <ul>
+                        <li><strong>Manipulation Tactics</strong> (Gray, Susser, Brignull)</li>
+                        <li><strong>Persuasion vs. Coercion vs. Manipulation Framework</strong></li>
+                        <li><strong>Dark Patterns Taxonomy</strong> (5 types)</li>
+                        <li><strong>Digital Nudges + Sludge</strong> (Duane et al.)</li>
+                    </ul>
+                    <p><strong>Gap: Why governance principles fail to shape interface design:</strong></p>
+                    <ul>
+                        <li>Policies define autonomy & transparency, but rarely specify concrete UI patterns</li>
+                        <li>Organizational KPIs (engagement, conversion) systematically override ethical intentions</li>
+                        <li>Commercial constraints incentivize persuasive / dark‑pattern‑like flows</li>
+                        <li>Limited UX tooling and patterns for operationalizing WHO / NIST principles in practice</li>
+                        <li>Little empirical work on how designers interpret and apply AI ethics in real projects</li>
+                    </ul>
+                    <p style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 10px;">(The INFS 611
+                        individual
+                        project uses a 7–10‑paper narrative literature review (with the 5C framework) to refine this
+                        dark‑patterns / manipulation lens, identifying which mechanisms are most relevant to health
+                        chatbots
+                        for older adults and what empirical gaps remain.)</p>
+
+                    <h3>THEME 3: HCI & Agentic AI Systems</h3>
+                    <p><em>Focus: The technical and interaction landscape.</em></p>
+                    <ul>
+                        <li><strong>Interaction Patterns</strong> (Zubatiy, Huang)</li>
+                        <li><strong>Design Workflows</strong> (Imagining Design Workflows (OZCHI 2025))</li>
+                        <li><strong>Authority Distribution</strong> (Agentic roles)</li>
+                        <li><strong>Tool Use & Memory Management</strong></li>
+                        <li><strong>Capability Gaps</strong> (Semantic Commit)</li>
+                    </ul>
+                    <p><strong>Solution Space:</strong></p>
+                    <ul>
+                        <li>Transparency</li>
+                        <li>Control</li>
+                        <li>Personalization</li>
+                        <li>Adaptive design</li>
+                    </ul>
+
+                    <h3>THEME 4: Governance & Principles</h3>
+                    <p><em>Focus: The ethical rules and implementation gaps.</em></p>
+                    <ul>
+                        <li><strong>WHO Ethical Principles</strong></li>
+                        <li><strong>NIST AI RMF</strong></li>
+                        <li><strong>IMDA Agentic AI MGF</strong></li>
+                        <li><strong>Responsibility & Accountability</strong></li>
+                        <li><strong>Implementation Gap</strong> (AI governance policies → UX principles)</li>
+                    </ul>
+                    <p style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 10px;">(The INFS 611
+                        individual
+                        project also engages with governance and ethics, and is treated as normative literature in the
+                        INFS
+                        611 synthesis/proposal, used to motivate why interface‑level dark patterns constitute a failure
+                        of
+                        governance implementation.)</p>
+
+                    <h3>Prospective DESIGN INTERVENTIONS (Research Output for 604/605)</h3>
+                    <p><em>Proposed solutions and research goals.</em></p>
+                    <ul>
+                        <li>Transparent controls</li>
+                        <li>Accessible explanations</li>
+                        <li>Scaffolding for setup</li>
+                        <li>Error recovery paths</li>
+                        <li>Privacy-aware defaults</li>
+                        <li>Older adult co-design</li>
+                    </ul>
+                </div>
+
+                <!-- Version 2 Content (Placeholder) -->
+                <div id="v2" class="framework-version">
+                    <h2>Pivot: Actionable Evaluation for Agentic AI</h2>
+                    <p class="text-secondary" style="margin-bottom: 2rem; font-style: italic;">
+                        This updated framework shifts focus from static dark patterns to dynamic AI risks (Hypernudges)
+                        and centers on equipping designers with heuristic evaluation tools.
+                    </p>
+
+                    <div class="mermaid">
+                        graph TD
+                        classDef themeBox fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+                        classDef riskBox fill:#FFEBEE,stroke:#C62828,stroke-width:2px
+                        classDef govBox fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+                        classDef toolBox fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+
+                        T1[THEME 1: User Context]:::themeBox
+                        T1_Sub[Halo Effect Vulnerability]
+
+                        T3[THEME 3: Agentic AI]:::themeBox
+                        T3_Sub[Memory + Autonomy]
+
+                        T2[THEME 2: Dynamic Risk]:::riskBox
+                        T2_Sub[Hypernudging]
+
+                        T4[THEME 4: Audit Gap]:::govBox
+                        EndNode[OUTPUT: Heuristic Audit Tool]:::toolBox
+
+                        T1 --> T1_Sub
+                        T3 --> T3_Sub
+                        T1_Sub -->|Exploited by| T2
+                        T3_Sub -->|Enables| T2
+                        T2 --> T2_Sub
+                        T2 -->|Violates| T4
+                        T4 -->|Requires| EndNode
+                    </div>
+
+                    <h2>Framework Details (v2)</h2>
+
+                    <h3>THEME 1: User-Level Context (Trust)</h3>
+                    <p><em>Focus: The "Halo Effect" vulnerability in older adults.</em></p>
+                    <ul>
+                        <li><strong>Trust Transfer:</strong> Users transfer their trust in a reputable health brand
+                            (e.g., Mayo Clinic) to the AI agent.</li>
+                        <li><strong>Lowered Defenses:</strong> Because of this "medical authority," older adults lower
+                            their privacy guards and skepticism.</li>
+                        <li><strong>Vulnerability Mechanism:</strong> The user assumes the agent is purely benevolent,
+                            missing potential commercial or engagement-driven manipulation.</li>
+                    </ul>
+
+                    <h3>THEME 3: Agentic AI Capabilities</h3>
+                    <p><em>Focus: The new powers of "Agentic" systems (vs. static chatbots).</em></p>
+                    <ul>
+                        <li><strong>Long-term Memory:</strong> The ability to remember preferences and medical history
+                            across sessions.</li>
+                        <li><strong>Autonomy:</strong> The agent acts without explicit commands (e.g., suggesting a
+                            refill before asked).</li>
+                        <li><strong>Semantic Commit:</strong> The ability to "lock in" user intent based on vague
+                            interactions.</li>
+                    </ul>
+
+                    <h3>THEME 2: The Mechanism (Dynamic Risk)</h3>
+                    <p><em>Focus: How "Hypernudging" exploits the Trust/Capability combination.</em></p>
+                    <ul>
+                        <li><strong>Hypernudging (Duane et al., 2025):</strong> Unlike static dark patterns (a confusing
+                            button), hypernudges are data-driven, personalized, and real-time.</li>
+                        <li><strong>Hidden Influence:</strong> The manipulation is invisible because it adapts to the
+                            user's current specific context and profile.</li>
+                        <li><strong>Fluid Strategy:</strong> It's not a single UI element; it's a conversational
+                            strategy designed to optimize metrics (engagement/retention) over user wellbeing.</li>
+                    </ul>
+
+                    <h3>THEME 4: The Audit Gap</h3>
+                    <p><em>Focus: Why current governance fails.</em></p>
+                    <ul>
+                        <li><strong>Principles vs. Practice:</strong> High-level principles (WHO/NIST) are abstract.
+                        </li>
+                        <li><strong>Invisibility:</strong> Designers working on static screens (Figma) cannot "see"
+                            these dynamic behaviors.</li>
+                        <li><strong>Lack of Tools:</strong> There are no standard "testing kits" for finding these
+                            hypernudges before deployment.</li>
+                    </ul>
+
+                    <h3>OUTPUT: Heuristic Audit Tool</h3>
+                    <p><em>The proposed contribution of this research.</em></p>
+                    <ul>
+                        <li><strong>Test for Seams:</strong> Ensuring the AI's nature is visible to break the Halo
+                            Effect.</li>
+                        <li><strong>Contestability Checks:</strong> Can the user challenge the AI's "advice"?</li>
+                        <li><strong>Pre-deployment Stress Testing:</strong> A set of scenarios to trigger and detect
+                            hypernudging behaviors.</li>
+                    </ul>
+
+                    <div
+                        style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <h3>Read the Full Report</h3>
+                        <p>For a detailed breakdown of the research pivot and literature review, please see the Week 4
+                            Report.</p>
+                        <p style="margin-top: 1rem;"><a href="Week4_report.html"
+                                style="color: var(--accent-color);">Read Week 4 Pivot Report →</a></p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -543,6 +734,32 @@
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
         });
+
+        function switchVersion(versionId) {
+            // Update Tab Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update Content Visibility
+            document.querySelectorAll('.framework-version').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(versionId).classList.add('active');
+
+            // Re-render Mermaid diagrams in the newly visible tab
+            if (window.mermaid) {
+                const container = document.getElementById(versionId);
+                const diagrams = container.querySelectorAll('.mermaid');
+                diagrams.forEach(diagram => {
+                    // Only re-render if not already rendered
+                    if (!diagram.querySelector('svg')) {
+                        window.mermaid.run({ nodes: [diagram] });
+                    }
+                });
+            }
+        }
     </script>
 </body>
 

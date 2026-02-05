@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4 Progress Report - Research Pivot - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font: 62.5% Georgia, Times, serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        /* Floating Table of Contents */
+        .toc-container {
+            position: sticky;
+            top: 20px;
+            width: 220px;
+            min-width: 220px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 6px;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1100px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                max-width: 900px;
+            }
+        }
+
+        /* Markdown Styles matching Zotero */
+        .markdown-body {
+            font-size: 1.4em;
+            line-height: 1.5em;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #555;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.2em 0 0.4em;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.3em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .markdown-body a:hover {
+            color: #777;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #ccc;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 0.75em 1em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        .markdown-body table {
+            border: 1px #ccc solid;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0 1em;
+            font-size: 0.9em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px #ccc solid;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Collapsible Sections */
+        .collapsible-section {
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding-right: 10px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header h1,
+        .section-header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .collapse-indicator {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .collapsible-section.collapsed .collapse-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        /* Print styles - expand all sections */
+        @media print {
+            .collapsible-section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+
+            .collapse-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/joshua.png" alt="Joshua" class="logo">
+            <span class="title">Research Notes</span>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Weekly Reports</div>
+            <nav>
+                <a href="Research.html" class="sidebar-nav-item">
+                    <i data-lucide="home"></i>
+                    <span>Welcome</span>
+                </a>
+                <a href="Framework.html" class="sidebar-nav-item">
+                    <i data-lucide="network"></i>
+                    <span>Research Framework</span>
+                </a>
+                <a href="Week1to3_report.html" class="sidebar-nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>Week 1-3 Progress Report</span>
+                </a>
+                <a href="Week4_report.html" class="sidebar-nav-item active">
+                    <i data-lucide="file-text"></i>
+                    <span>Week 4 Progress Report</span>
+                </a>
+                <a href="Zotero_round1.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 1)</span>
+                </a>
+                <a href="Zotero_round2.html" class="sidebar-nav-item" style="padding-left: 32px;">
+                    <i data-lucide="bookmark"></i>
+                    <span>Zotero Report (Round 2)</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="index.html">
+                <i data-lucide="arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Week 4</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body" id="main-body">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <article class="markdown-body" id="markdown-content">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading content...</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Floating Table of Contents -->
+                <aside class="toc-container" id="toc-container">
+                    <ul class="toc-list" id="toc-list">
+                        <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
+                        <li style="margin-top: 8px;"><a href="#1-research-pivot"
+                                data-section="1-research-pivot">Research Pivot</a></li>
+                        <li><a href="#2-revised-research-framework" data-section="2-revised-research-framework">Revised
+                                Framework</a></li>
+                        <li><a href="#3-current-literature-review" data-section="3-current-literature-review">Literature
+                                Review</a></li>
+                        <li><a href="#4-refined-contribution-statement"
+                                data-section="4-refined-contribution-statement">Contribution
+                                Statement</a></li>
+                        <li><a href="#5-next-steps" data-section="5-next-steps">Next Steps</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Setup mobile menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // Configure marked.js with custom renderer to generate header IDs
+        const renderer = new marked.Renderer();
+        renderer.heading = function (arg1, arg2, arg3) {
+            // Handle both old and new marked.js API signatures
+            let text, level, raw;
+            if (typeof arg1 === 'object') {
+                // New API: {text, depth, raw}
+                text = arg1.text;
+                level = arg1.depth;
+                raw = arg1.raw;
+            } else {
+                // Old API: (text, level, raw)
+                text = arg1;
+                level = arg2;
+                raw = arg3 || text;
+            }
+
+            // Generate ID from heading text
+            const id = raw
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            return `<h${level} id="${id}">${text}</h${level}>\n`;
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            headerIds: true,
+            mangle: false
+        });
+
+        // Load markdown content
+        async function loadMarkdown() {
+            const contentEl = document.getElementById('markdown-content');
+
+            try {
+                // Try to fetch the markdown file
+                const response = await fetch('assets/Content/Week4_report_EN.md');
+                if (!response.ok) throw new Error('Failed to load');
+                const markdown = await response.text();
+                contentEl.innerHTML = marked.parse(markdown);
+            } catch (error) {
+                // If fetch fails (e.g., file:// protocol), show embedded content
+                contentEl.innerHTML = marked.parse(fallbackContent);
+            }
+
+            // Wrap major sections in collapsible containers
+            wrapSectionsInCollapsible();
+
+            // marked.js automatically generates anchor IDs from headings via custom renderer
+            // Setup scroll highlighting after content loads
+            setupScrollHighlighting();
+        }
+
+        // Wrap each major section (H1) in a collapsible container
+        function wrapSectionsInCollapsible() {
+            const contentEl = document.getElementById('markdown-content');
+            const allElements = Array.from(contentEl.children);
+
+            // Find all H1 elements (major sections)
+            const h1Indices = [];
+            allElements.forEach((el, idx) => {
+                if (el.tagName === 'H1') {
+                    h1Indices.push(idx);
+                }
+            });
+
+            // If no H1s found, don't wrap anything
+            if (h1Indices.length === 0) return;
+
+            // Process sections in reverse order to maintain indices
+            for (let i = h1Indices.length - 1; i >= 0; i--) {
+                const startIdx = h1Indices[i];
+                const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
+
+                const h1 = allElements[startIdx];
+                const sectionId = h1.id || `section-${i}`;
+
+                // Create collapsible section wrapper
+                const section = document.createElement('div');
+                section.className = 'collapsible-section';
+                section.dataset.sectionId = sectionId;
+
+                // Create header with collapse indicator
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="collapse-indicator">▾</span>`;
+
+                // Move H1 into header
+                header.insertBefore(h1.cloneNode(true), header.firstChild);
+
+                // Create content container
+                const content = document.createElement('div');
+                content.className = 'section-content';
+
+                // Move all elements between this H1 and next H1 into content
+                for (let j = startIdx + 1; j < endIdx; j++) {
+                    content.appendChild(allElements[j].cloneNode(true));
+                }
+
+                section.appendChild(header);
+                section.appendChild(content);
+
+                // Add click handler to header
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+
+                // Replace original H1 with the collapsible section
+                allElements[startIdx].replaceWith(section);
+
+                // Remove original content elements
+                for (let j = endIdx - 1; j > startIdx; j--) {
+                    if (allElements[j] && allElements[j].parentNode === contentEl) {
+                        allElements[j].remove();
+                    }
+                }
+            }
+        }
+
+        // Navigate to section (collapse others, expand target, scroll)
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.collapsible-section');
+            const mainBody = document.getElementById('main-body');
+
+            // Collapse all sections except target
+            sections.forEach(section => {
+                if (section.dataset.sectionId === sectionId) {
+                    section.classList.remove('collapsed');
+                } else {
+                    section.classList.add('collapsed');
+                }
+            });
+
+            // Scroll to target after a short delay for animation
+            setTimeout(() => {
+                const targetEl = document.getElementById(sectionId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        // Expand all sections
+        function expandAllSections() {
+            const sections = document.querySelectorAll('.collapsible-section');
+            sections.forEach(section => {
+                section.classList.remove('collapsed');
+            });
+        }
+
+        // Setup scroll highlighting for TOC
+        function setupScrollHighlighting() {
+            const mainBody = document.getElementById('main-body');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = Array.from(tocLinks).map(link => {
+                const id = link.getAttribute('data-section');
+                if (id === 'top') return null;
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            // Handle TOC link clicks with collapse and smooth scroll
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Skip for external links (like Zotero)
+                    if (!link.getAttribute('data-section')) return;
+
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-section');
+
+                    // Handle scroll to top - expand all sections first
+                    if (targetId === 'top') {
+                        expandAllSections();
+                        mainBody.scrollTo({ top: 0, behavior: 'smooth' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        return;
+                    }
+
+                    // Navigate to section (collapse others, expand target, scroll)
+                    navigateToSection(targetId);
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Highlight TOC on scroll
+            mainBody.addEventListener('scroll', () => {
+                let currentSection = null;
+                const scrollTop = mainBody.scrollTop;
+
+                // If near top, highlight the "Table of Contents" link
+                if (scrollTop < 100) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'top') {
+                            link.classList.add('active');
+                        }
+                    });
+                    return;
+                }
+
+                sections.forEach(section => {
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        const mainBodyRect = mainBody.getBoundingClientRect();
+                        const offset = rect.top - mainBodyRect.top;
+                        if (offset <= 100) {
+                            currentSection = section.id;
+                        }
+                    }
+                });
+
+                if (currentSection) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Fallback content (English summary for file:// protocol)
+        const fallbackContent = `# Week 4 Progress Report - Research Pivot
+
+> **Research Question**: How can we equip designers with actionable tools to evaluate and mitigate dynamic manipulation risks (like hyper-nudging) in Agentic AI systems, specifically to protect older adults from the "Halo Effect"?
+
+---
+
+## Table of Contents
+1. Research Pivot
+2. Revised Research Framework
+3. Current Literature Review
+4. Refined Contribution Statement
+5. Next Steps
+
+---
+
+# 1. Research Pivot
+I have **pivoted** my research scope. I agree that I should move away from addressing the "intent to manipulate" (which is a business/legal issue) and focus strictly on an HCI-centred approach: equipping designers with the tools to evaluate and handle these new technological challenges.
+
+# 2. Revised Research Framework
+Here is my revised research framework, focusing on **actionable evaluation** rather than abstract frameworks:
+
+### 2.1 The "What": Shifting from Static Patterns to Dynamic AI Risks
+I am shifting my theoretical anchor from Gray et al. (2018) to **Duane et al. (2025)**. While Gray focuses on static UI, Duane’s concept of "AI-powered nudges" and "Hypernudges" addresses how Agentic AI dynamically adjusts manipulation based on real-time data. My focus is now on helping designers evaluate whether an AI agent is exerting "Hidden Influence" (Susser, 2019) that they might not have intended.
+
+### 2.2 The "Who": Addressing Vulnerability and the "Halo Effect"
+I will specifically target the risks identified by **Ellis et al.** regarding the "Halo Effect." Since older adults often lower their privacy guard due to trust in healthcare systems, they have lower "manipulation defense." My proposed evaluation tool will specifically detect design elements that exploit this over-trust.
+
+### 2.3 The "How": From Principles to Heuristics
+Recognizing that UX designers cannot apply high-level governance (like NIST) in a daily Design Sprint, I aim to translate these principles into **"Design Heuristics"** or an **"Audit Tool."**
+
+# 3. Current Literature Review
+I am currently reviewing recent literature (2023-2025) from **CHI, DIS, and CSCW**, focusing on:
+
+* **AI Auditing Tools for Designers:** How to "test" for breakdown points (Zubatiy, 2023) pre-deployment.
+* **Seams & Positive Friction:** Exploring the idea that seamlessness isn't always good. We may need "Beautiful Seams" (or distinct cues) to break the Halo Effect and remind older adults that they are interacting with an AI.
+
+# 4. Refined Contribution Statement
+Based on the above, I have crystallized my contribution as follows:
+
+> "My contribution is a set of **heuristic evaluation guidelines tailored for Agentic AI**, that enables **UX practitioners and interaction designers** to systematically identify and mitigate **dynamic manipulation risks (such as hyper-nudging)** specifically for **vulnerable older adults** during the pre-deployment phase, for the **HCI and Responsible AI community**."
+
+# 5. Next Steps
+I will proceed with the literature review on "Contestability" and "Design Friction" as the next step.
+`;
+
+        // Load content on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+
+</html>
