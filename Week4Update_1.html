@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Advisor Meeting Cover</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .serif-text {
+            font-family: 'Merriweather', serif;
+        }
+
+        .accent-bar {
+            width: 120px;
+            height: 6px;
+            background-color: #0ea5e9;
+            /* Sky 500 */
+            margin-bottom: 32px;
+        }
+
+        .top-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%);
+            /* Replacing gradient with solid color due to constraint */
+            background-color: #3b82f6;
+        }
+
+        .bg-pattern {
+            position: absolute;
+            right: -100px;
+            bottom: -100px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            border: 80px solid #f0f9ff;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        .bg-pattern-2 {
+            position: absolute;
+            right: 200px;
+            bottom: 200px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 40px solid #f8fafc;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .content-wrapper {
+            z-index: 10;
+            padding-left: 120px;
+            padding-right: 120px;
+        }
+    </style>
+</head>
+
+<body style="">
+    <div class="slide-container">
+        <!-- Decorative Elements -->
+        <div class="top-decoration"></div>
+        <div class="bg-pattern"></div>
+        <div class="bg-pattern-2"></div>
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <div class="accent-bar"></div>
+            <p class="text-sm font-bold tracking-widest text-blue-600 uppercase mb-4">Research Progress Report</p>
+            <h1 class="text-5xl font-bold text-gray-900 leading-tight mb-6 serif-text max-w-4xl">
+                Bridging the Gap: Design and Governance of Health AI for Older Adults
+            </h1>
+            <p class="text-2xl text-gray-600 font-light mb-12 max-w-3xl">
+                Narrative Review Progress Report (INFS 603) — Advisor Meeting
+            </p>
+            <!-- Details Grid -->
+            <div class="grid grid-cols-2 gap-12 mt-12 border-t border-gray-200 pt-8 max-w-3xl">
+                <div>
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Presenter</p>
+                    <p class="text-lg font-medium text-gray-800">Gainshin Hsiao</p>
+                    <p class="text-sm text-gray-500">INFS 603&nbsp;</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Date</p>
+                    <p class="text-lg font-medium text-gray-800">February 5, 2026</p>
+                    <p class="text-sm text-gray-500">Weekly Progress Update</p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="absolute bottom-8 left-12 text-xs text-gray-400">
+
+        </div>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; gap: 12px; align-items: center;">
+        <span
+            style="background: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #64748b; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Page
+            1 of 7</span>
+        <!-- Prev button hidden on first page -->
+        <a href="Week4Update_2.html"
+            style="text-decoration: none; width: 40px; height: 40px; border-radius: 50%; background: #0ea5e9; color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.3), 0 2px 4px -1px rgba(14, 165, 233, 0.1); transition: all 0.2s;"
+            onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+</body>
+
+</html>
