@@ -12,9 +12,25 @@
 		href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg==" />
 	<link rel="stylesheet" type="text/css" media="print"
 		href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg==" />
-</head>
+	<style>
+		.professor-feedback { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 1em 1.2em; margin: 0 0 1.5em 0; font-size: 0.95em; }
+		.professor-feedback strong { color: #0d47a1; }
+		.tier-upgrade { background: #fff3cd; padding: 0.15em 0.3em; }
+		.tier-core { background: #d4edda; padding: 0.15em 0.3em; }
+		.gap-section { background: #fff8e1; border: 1px solid #ffc107; padding: 1em; margin: 1em 0; }
+		.gap-section h3 { margin-top: 0; font-size: 1em; color: #856404; }
+	</style>
+	</head>
 
 <body>
+	<div class="professor-feedback">
+		<strong>Advising Note (2025-02-09)</strong> — Literature priority adjusted for Week 4 Pivot: <em>Equipping designers with heuristics to evaluate and mitigate AI risks, specifically using Contestability and Design Friction</em>.
+	</div>
+	<div class="gap-section">
+		<h3>Literature Gaps to Address</h3>
+		<p><strong>Gap 1 — Design Friction / Seamful Design:</strong> Search "Seamful design HCI", "Positive friction in UX", "Disfluency in AI interaction". Consider Chalmers &amp; Galani (Seamful Design) or Cox et al. (Design Friction). <em>Define what constitutes "good friction" — slowing down at critical moments (e.g., medical decisions) without making interfaces unusable.</em></p>
+		<p><strong>Gap 2 — Contestability Definition:</strong> Search "Contestability by design AI", "Human-AI interaction contestability", "Right to contest" GDPR/AI Act. Consider Mulligan et al. or Hirsch et al. <em>Heuristics require a clear standard; without a definition of Contestability, AI cannot be evaluated for this property.</em></p>
+	</div>
 	<ul class="report combineChildItems">
 		<li id="item_UQY8PTHZ" class="item preprint">
 			<h2>Who Benefits from AI Explanations? Towards Accessible and Interpretable Systems</h2>
@@ -505,7 +521,7 @@
 				<li id="item_A9HPM3Q9">
 					<div>
 						<div data-schema-version="9">
-							<p>Tier 2<br></p>
+							<p><span class="tier-upgrade">Tier 2 → Repositioned (2025-02-09)</span><br></p>
 							<ol>
 								<li>
 									<p><strong>Three-Dimensional Coverage</strong>:</p>
@@ -534,6 +550,10 @@
 									<strong>Research Application</strong>: Argues that existing HCI design frameworks
 									(e.g., MOLD-US) inadequately address persuasiveness in agent systems, thus powerless
 									against dark patterns.
+								</li>
+								<li>
+									<p><span class="tier-upgrade"><strong>Updated (2025-02-09): Reinterpret as Lack of Contestability failure case</strong></span></p>
+									<p>Do not treat this only as "AI limitations." Frame it as <em>Lack of Contestability</em>. When AI errs, older adults cannot contest or correct; they can only rely on caregivers (scaffolding). This proves that Design Heuristics must include <strong>error recovery and correction mechanisms</strong>.</p>
 								</li>
 							</ol>
 						</div>
@@ -1127,11 +1147,9 @@
 				<li id="item_TFJZZIE3">
 					<div>
 						<div data-schema-version="9">
-							<p>Unaccepted<br><br><strong>Exclusion Reason</strong>: Privacy perception is important, but
-								if the literature does not link to <strong>how interface design affects privacy risk
-									perception</strong> (transparency dimension), it cannot directly support your
-								argument.
-							</p>
+							<p><span class="tier-core"><strong>Tier 1 — The Anchor (Professor 2025-02-09)</strong></span></p>
+							<p><strong>New Role: Design Friction raison d'être.</strong> Ellis et al. provides the fundamental reason for introducing Design Friction. Because older adults exhibit the Halo Effect (Ellis demonstrates this empirically), traditional "Seamless Design" is dangerous for them. We must introduce <strong>Positive Friction</strong> to break the halo and force System 2 thinking (critical reflection).</p>
+							<p><em>Previously considered for exclusion; now repositioned as the empirical foundation justifying Design Friction.</em></p>
 						</div>
 					</div>
 				</li>
@@ -2005,9 +2023,8 @@
 				<li id="item_AEFJPD5N">
 					<div>
 						<div data-schema-version="9">
-							<p>Tier 1</p>
-							<p>Pre-print version. Will check the published version in ACM CHI 2024 from the related DOI
-							</p>
+							<p><span class="tier-core">Tier 1 — The "Anti-Pattern" Warning (Professor 2025-02-09)</span></p>
+							<p>Pre-print version. Will check the published version in ACM CHI 2024 from the related DOI.</p>
 							<ol>
 								<li>
 									<p><strong>Three-Dimensional Coverage</strong>:</p>
@@ -2035,6 +2052,10 @@
 								<li>
 									<strong>Research Application</strong>: Argues the contradiction between "WHO says to
 									be transparent" and "transparency interfaces may themselves be persuasion tools."
+								</li>
+								<li>
+									<p><span class="tier-upgrade"><strong>Updated (2025-02-09): Design Friction rationale</strong></span></p>
+									<p>Warns that explanations themselves can be <strong>directive</strong> (guiding). This justifies Design Friction: we need friction to make users pause and think, rather than blindly accepting AI "explanations." If explanations are too seamless, older adults will accept them wholesale due to the Halo Effect.</p>
 								</li>
 							</ol>
 						</div>

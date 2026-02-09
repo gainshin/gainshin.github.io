@@ -635,9 +635,14 @@
                         <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
                         <li style="margin-top: 8px;"><a href="#1-introduction"
                                 data-section="1-introduction">Introduction</a></li>
-                        <li><a href="#2-taxonomy-of-nudges" data-section="2-taxonomy-of-nudges">Taxonomy of Nudges</a></li>
-                        <li><a href="#3-vulnerabilities-of-older-adults" data-section="3-vulnerabilities-of-older-adults">Vulnerabilities of Older Adults</a></li>
-                        <li><a href="#4-theoretical-anchor-shift" data-section="4-theoretical-anchor-shift">Theoretical Anchor Shift</a></li>
+                        <li><a href="#2-taxonomy-of-nudges" data-section="2-taxonomy-of-nudges">Taxonomy of Nudges</a>
+                        </li>
+                        <li><a href="#3-vulnerabilities-of-older-adults"
+                                data-section="3-vulnerabilities-of-older-adults">Vulnerabilities of Older Adults</a>
+                        </li>
+                        <li><a href="#4-theoretical-anchor-shift" data-section="4-theoretical-anchor-shift">Theoretical
+                                Anchor Shift</a></li>
+                        <li><a href="#5-to-do" data-section="5-to-do">To-Do</a></li>
                     </ul>
                 </aside>
             </div>
@@ -890,7 +895,7 @@
         }
 
         // Fallback content (English summary for file:// protocol)
-        const fallbackContent = `# Week 5 Progress Report - INFS603 Literature Review
+        const fallbackContent = `# Week 5 Progress Report - Literature Review Strategy update
 
 > **Note**: This section outlines the rationale for selecting the initial eight primary research articles for the literature review. Content developed here will be expanded in **INFS 611** for the individual research project.
 
@@ -901,6 +906,7 @@
 2. Taxonomy of Nudges
 3. Vulnerabilities of Older Adults
 4. Theoretical Anchor Shift
+5. To-Do
 
 ---
 
@@ -918,7 +924,58 @@ Older adults present distinct vulnerabilities to this dynamic manipulation. Usin
 
 # 4. Theoretical Anchor Shift
 
-I am shifting my theoretical anchor from Gray et al. (2018) to Duane et al. (2025). While Gray focuses on static UI, Duane's concept of "AI-powered nudges" and "Hypernudges" addresses how Agentic AI dynamically adjusts manipulation based on real-time data. My focus is now on helping designers evaluate whether an AI agent is exerting "Hidden Influence" (Susser, 2019) that they might not have intended. This direction will be further developed in INFS 611 for the individual research project...
+I am shifting my theoretical anchor from Gray et al. (2018) to Duane et al. (2025). While Gray focuses on static UI, Duane's concept of "AI-powered nudges" and "Hypernudges" addresses how Agentic AI dynamically adjusts manipulation based on real-time data. My focus is now on helping designers evaluate whether an AI agent is exerting "Hidden Influence" (Susser, 2019) that they might not have intended. This direction will be further developed in INFS 611 for the individual research project.
+
+---
+
+# 5. To-Do
+
+## A. New Anchor: Duane et al. (2025) with Chain Search Strategy
+
+I will treat Duane et al. (2025) as the new core anchor. Since it is a very recent 2025 article, I must combine **Backward** (tracing prior work) and **Lateral/Semantic** (concept-based) chain search rather than relying on forward citations.
+
+**A1. Theoretical source of "Hypernudge"** — I will read **Yeung (2017)** and extract her definition of "hypernudge" and its specific threat to autonomy to serve as the theoretical basis for my "Hidden Influence" concept.
+
+*Verification:* I need to establish the theoretical chain: **Thaler & Sunstein (nudge) → Yeung (hypernudge) → Duane (AI-powered / hypernudge in healthcare)**.
+
+**A2. Counter-design for specific mechanisms** — Duane categorizes "Predictive Nudges" and "Real-time personalization." I need to search for literature on counter-designs targeting these mechanisms.
+
+I will filter **CHI/DIS/CSCW** articles regarding **"seamful design"** or **"positive friction"** in the context of **AI** or **health apps** to synthesize strategies for **"reducing trust over-reliance."**
+
+**Chain Search Queries (Google Scholar / ACM Library):**
+- "Seamful design" AND "AI agency"
+- "Design friction" AND "recommender systems"
+- "Cognitive forcing functions" AND "AI interaction"
+- "Explainable nudging" OR "controllable nudging" OR "calibration of AI nudges" (Focus: HCI & Responsible AI venues)
+
+**Venues:** CHI, DIS, and CSCW.
+
+---
+
+## B. Existing Literature Connections: Vaithilingam (2024, 2025)
+
+This anchor connects directly to Vaithilingam (2024, 2025) in my current collection.
+
+**New strategy:** I will search backward through Vaithilingam's references to find foundational papers that define "Contestability in AI" — likely candidates include **Kluttz et al. (2019)**, **Hirsch et al. (2017)**, or **Almada (2019)**.
+
+I will extract definitions and design principles for "contestable AI" and identify clauses that can be converted into **UX heuristics** (e.g., "understandable nudging," "correctable suggestions").
+
+---
+
+## C. Context Filter: Older Adults and Halo Effect
+
+**Purpose:** Situate Duane's mechanisms within the *Older Adults / Halo Effect* context. Duane may address algorithmic nudges in general, not specifically older adults. I need to verify whether his "Algorithmic Nudges" manifest differently for older adults.
+
+**Chain Search Queries:**
+- "Dark patterns" AND "older adults" AND "trust"
+- "Algorithmic aversion" OR "appreciation" AND "older adults"
+
+**Synthesis:**
+I will synthesize 2–3 studies on older adults and **algorithmic trust/aversion** to highlight design implications such as **simplified interfaces**, **human-in-the-loop messaging**, and **clear distinction between AI and Doctor roles**.
+
+**Existing connection:** This connects directly to Ellis (2025) on Halo Effect.
+
+**Gap:** Duane's nudges may produce **Amplified Harm** in Ellis's audience.
 `;
 
         // Load content on DOMContentLoaded
