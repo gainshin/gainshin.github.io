@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Status Summary - Research - Joshua Hsiao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #2eaadc;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Table styles */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead {
+            background-color: var(--bg-secondary);
+        }
+
+        th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag-unaccepted {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .tag-tier2 {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .tag-tier1 {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .tag-round {
+            background-color: #E0E7FF;
+            color: #3730A3;
+        }
+
+        /* Pattern cards */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .pattern-card {
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .pattern-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pattern-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .callout {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .callout-info {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+        }
+
+        .callout-success {
+            background: #F0FDF4;
+            border-color: #22C55E;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Sidebar content will be rendered by sidebar.js -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Library Status Summary</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-body">
+            <div class="content-wrapper">
+                <h1>Zotero Library Status Summary</h1>
+                <p class="subtitle">
+                    Library status overview — tracking screening decisions, downgrade rationales, and final core library composition across all Zotero report rounds (1–5).
+                    Round 4 added 3 core solution chain papers (Seamful Design → Positive Friction → Contestability). Round 5 consolidated grouped tier evaluation across 13 papers.
+                </p>
+
+                <!-- Stats -->
+                <div class="stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-number">36</div>
+                        <div class="stat-label">Core Library (R1–R5)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Downgraded / Excluded</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Zotero Rounds</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Exclusion Patterns</div>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <strong>Screening Criteria:</strong> Multiple papers across Zotero rounds were marked "Unaccepted" or assigned an "Exclusion Reason," primarily for insufficient coverage of the three-dimensional framework (Usability, Transparency, Persuasive Design). Downgrade/exclusion decisions are based on whether the paper directly supports the core research question: dark patterns in health chatbots, AI transparency, and older adult interaction.
+                </div>
+
+                <!-- Downgraded Table -->
+                <h2>Downgraded / Excluded Literature</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Literature</th>
+                                <th>Round</th>
+                                <th>Status</th>
+                                <th>Exclusion Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>A Scoping Review of the AI-Based Conversational Agents on Mental Health Care
+                                        for Older Adults</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Xiayu Chen et al.,
+                                        2024</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Valuable as general review, but does not deeply discuss the interaction of the three
+                                    dimensions, priority reduced.<br><em
+                                        style="color: var(--text-tertiary); font-size: 0.8rem;">General review only; lacks three-dimensional depth</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Exploring Older Adults' Beliefs About the Use of Intelligent
+                                        Assistants...</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Aqueasha
+                                        Martin-Hammond et al., 2019</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>If it only explores attitudes without analyzing how beliefs shaped/exploited by
+                                    interface design, relevance weak.<br><em
+                                        style="color: var(--text-tertiary); font-size: 0.8rem;">Attitude exploration only; no interface design analysis</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>The Halo Effect...</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Jessica R. Ellis et
+                                        al., 2025</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Privacy perception important, but no link to how interface design affects privacy
+                                    risk perception (transparency dimension).<br><em
+                                        style="color: var(--text-tertiary); font-size: 0.8rem;">Privacy perception without interface link</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Patient Portal Barriers...</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Kea Turner et al.,
+                                        2020</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Focuses on barrier analysis of medical info systems, lacks AI
+                                    transparency/persuasive design discussion.<br><em
+                                        style="color: var(--text-tertiary); font-size: 0.8rem;">No AI transparency / persuasive design</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Artificial Intelligence in Elderly Healthcare</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Bingxin Ma et al.,
+                                        2023</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2/3</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Focuses on AI applications rather than interaction design, no interface-level
+                                    insights.<br><em
+                                        style="color: var(--text-tertiary); font-size: 0.8rem;">Applications, not interaction design</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Patient Portal Use...</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Dawn K.
+                                        Sakaguchi-Tang et al., 2017</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Primarily GUI usability barriers, not conversational agents persuasive
+                                    design.<br><em style="color: var(--text-tertiary); font-size: 0.8rem;">GUI barriers, not conversational agents</em></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>When and Why Adults Abandon...</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Patrick G. Kidman et
+                                        al., 2024</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 2</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>Behavioral science perspective on abandonment, not interface persuasion failure
+                                    points.<br><em style="color: var(--text-tertiary); font-size: 0.8rem;">Behavioral, not interface persuasion</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Friction Mapping (LinkedIn)</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;">Industry tool discussion</span>
+                                </td>
+                                <td><span class="tag tag-round">Round 5</span></td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>General tool discussion with no three-dimensional interaction analysis; not empirical HCI.<br><em style="color: var(--text-tertiary); font-size: 0.8rem;">Non-empirical tool discussion; no interface design</em>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Common Patterns -->
+                <h2>Common Downgrade Patterns</h2>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card">
+                        <h4>Three-Dimension Incomplete</h4>
+                        <p>Most papers only cover Usability, neglecting the Transparency or Persuasive Design / Dark Patterns dimensions.</p>
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Non-Core Focus</h4>
+                        <p>General reviews or background literature without interface / HCI depth analysis; cannot directly support the core research question.</p>
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Non-Empirical / Tool Discussion</h4>
+                        <p>Industry tool discussions or attitude explorations without empirical HCI evidence or interface design analysis (e.g., Friction Mapping).</p>
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Tier Rating System</h4>
+                        <p>Tier 2 papers serve as supplements; Tier 1 is reserved for core theoretical / empirical pillars (e.g., Gray 2018); Tier 1 Highest for chain-critical papers (e.g., Seamful XAI, Contestable XAI).</p>
+                    </div>
+                </div>
+
+                <!-- Core Library Status -->
+                <h2>Core Library Status (Week 6 + Round 4/5)</h2>
+
+                <div class="callout callout-success">
+                    <strong>Cumulative Core Library (36 papers):</strong> Week 6 base (25 papers) + Round 4 core chain (3 papers) + Round 5 tier-evaluated additions (8 papers). All passed screening with no downgrade records. Built via Genealogical Tracing into a four-layer architecture (User Vulnerability → Design Risk → HCI Countermeasures → Governance), with each paper assigned a clear chain role.
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Layer</th>
+                                <th>Focus</th>
+                                <th>Core Sources</th>
+                                <th>Tier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Layer 1</strong><br>User Vulnerability</td>
+                                <td>Halo Effect, AI Literacy Gap, MOLD-US Barriers</td>
+                                <td>Ellis 2025, Sakaguchi-Tang 2017, Peixoto 2025, Wildenbos 2018</td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layer 2</strong><br>Design Risk</td>
+                                <td>Nudge → Hypernudge → AI-Powered Nudge, Dark Patterns, Computational Manipulation</td>
+                                <td>Thaler & Sunstein 2008, Yeung 2017, Duane 2025, Gray 2018, Brignull 2024, <strong>Faraoni 2023</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span>, <strong>Yu & Chen 2024</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span></td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layer 3</strong><br>HCI Countermeasures</td>
+                                <td>Seamful Design, Cognitive Forcing Functions, Trust Calibration, Positive Friction, Audio Nudges</td>
+                                <td>Gull 2025, Lee & See 2004, Zubatiy 2023, Brewer 2022, <strong>İnan 2025</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R4</span>, <strong>Ehsan 2024</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R4</span>, <strong>Jamshed 2025</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span>, <strong>Cammisuli 2022</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span></td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layer 4</strong><br>Governance</td>
+                                <td>Contestability, Legal/Rights-Based, Institutional Anchors, GenAI Mental Models</td>
+                                <td>Vaithilingam 2024/2025, Kluttz 2019, Hirsch 2017, Almada 2019, WHO 2021, NIST 2023, <strong>Hirsch 2017</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R4</span>, <strong>Schmude 2025</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span>, <strong>Wang 2025</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span></td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cross-Layer</strong><br>Layer 3 ↔ 4</td>
+                                <td>Seamful XAI (Expose + Accountability), MYLO RCT (Chatbot + Older Adults)</td>
+                                <td><strong>Ehsan 2024</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R4/R5</span>, <strong>Bennion 2020</strong> <span class="tag tag-round" style="font-size: 0.7rem;">R5</span></td>
+                                <td><span class="tag tag-tier1" style="background-color: #EDE9FE; color: #6D28D9;">Highest</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div
+                    style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                    <h3>Related Reports</h3>
+                    <p style="margin-bottom: 0.75rem;">For the complete literature map and annotated bibliography, see the Week 6 Report. Original Zotero reports for each round are linked below.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <a href="Week6_report.html" style="color: var(--accent-color);">Week 6 Report →</a>
+                        <a href="Zotero_round1.html" style="color: var(--accent-color);">Zotero Round 1 →</a>
+                        <a href="Zotero_round2.html" style="color: var(--accent-color);">Zotero Round 2 →</a>
+                        <a href="Zotero_round3.html" style="color: var(--accent-color);">Zotero Round 3 →</a>
+                        <a href="Zotero_round4.html" style="color: var(--accent-color);">Zotero Round 4 →</a>
+                        <a href="Zotero_round5.html" style="color: var(--accent-color);">Zotero Round 5 →</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar('zotero-summary');
+        });
+
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+
+</html>

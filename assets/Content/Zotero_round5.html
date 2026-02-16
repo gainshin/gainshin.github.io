@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline' data:" />
+		<title>Zotero Report</title>
+		<link rel="stylesheet" type="text/css" href="data:text/css;base64,Ym9keSB7Cgljb2xvci1zY2hlbWU6IGxpZ2h0IGRhcms7CgkvKiBUaGVzZSBzaG91bGQgYmUgdGhlIGRlZmF1bHRzLCBidXQganVzdCBpbiBjYXNlOiAqLwoJYmFja2dyb3VuZDogQ2FudmFzOwoJY29sb3I6IENhbnZhc1RleHQ7Cn0KCmEgewoJdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Cn0KCmJvZHkgewoJcGFkZGluZzogMDsKfQoKdWwucmVwb3J0IGxpLml0ZW0gewoJYm9yZGVyLXRvcDogNHB4IHNvbGlkICM1NTU7CglwYWRkaW5nLXRvcDogMWVtOwoJcGFkZGluZy1sZWZ0OiAxZW07CglwYWRkaW5nLXJpZ2h0OiAxZW07CgltYXJnaW4tYm90dG9tOiAyZW07Cn0KCmgxLCBoMiwgaDMsIGg0LCBoNSwgaDYgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDIgewoJbWFyZ2luOiAwIDAgLjVlbTsKfQoKaDIucGFyZW50SXRlbSB7Cglmb250LXdlaWdodDogNjAwOwoJZm9udC1zaXplOiAxZW07CglwYWRkaW5nOiAwIDAgLjVlbTsKCWJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjY2NjOwp9CgovKiBJZiBjb21iaW5pbmcgY2hpbGRyZW4sIGRpc3BsYXkgcGFyZW50IHNsaWdodGx5IGxhcmdlciAqLwp1bC5yZXBvcnQuY29tYmluZUNoaWxkSXRlbXMgaDIucGFyZW50SXRlbSB7Cglmb250LXNpemU6IDEuMWVtOwoJcGFkZGluZy1ib3R0b206IC43NWVtOwoJbWFyZ2luLWJvdHRvbTogLjRlbTsKfQoKaDIucGFyZW50SXRlbSAudGl0bGUgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDMgewoJbWFyZ2luLWJvdHRvbTogLjZlbTsKCWZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDsKCWZvbnQtc2l6ZTogMWVtOwoJZGlzcGxheTogYmxvY2s7Cn0KCi8qIE1ldGFkYXRhIHRhYmxlICovCnRoIHsKCXZlcnRpY2FsLWFsaWduOiB0b3A7Cgl0ZXh0LWFsaWduOiByaWdodDsKCXdpZHRoOiAxNSU7Cgl3aGl0ZS1zcGFjZTogbm93cmFwOwp9Cgp0ZCB7CglwYWRkaW5nLWxlZnQ6IC41ZW07Cn0KCgp1bC5yZXBvcnQsIHVsLm5vdGVzLCB1bC50YWdzIHsKCWxpc3Qtc3R5bGU6IG5vbmU7CgltYXJnaW4tbGVmdDogMDsKCXBhZGRpbmctbGVmdDogMDsKfQoKLyogVGFncyAqLwpoMy50YWdzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLnRhZ3MgewoJbGluZS1oZWlnaHQ6IDEuNzVlbTsKCWxpc3Qtc3R5bGU6IG5vbmU7Cn0KCnVsLnRhZ3MgbGkgewoJZGlzcGxheTogaW5saW5lOwp9Cgp1bC50YWdzIGxpOm5vdCg6bGFzdC1jaGlsZCk6YWZ0ZXIgewoJY29udGVudDogJywgJzsKfQoKCi8qIENoaWxkIG5vdGVzICovCmgzLm5vdGVzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLm5vdGVzIHsKCW1hcmdpbi1ib3R0b206IDEuMmVtOwp9Cgp1bC5ub3RlcyA+IGxpOmZpcnN0LWNoaWxkIHAgewoJbWFyZ2luLXRvcDogMDsKfQoKdWwubm90ZXMgPiBsaSB7CglwYWRkaW5nOiAuN2VtIDA7Cn0KCnVsLm5vdGVzID4gbGk6bm90KDpsYXN0LWNoaWxkKSB7Cglib3JkZXItYm90dG9tOiAxcHggI2NjYyBzb2xpZDsKfQoKCnVsLm5vdGVzID4gbGkgcDpmaXJzdC1jaGlsZCB7CgltYXJnaW4tdG9wOiAwOwp9Cgp1bC5ub3RlcyA+IGxpIHA6bGFzdC1jaGlsZCB7CgltYXJnaW4tYm90dG9tOiAwOwp9CgovKiBBZGQgcXVvdGF0aW9uIG1hcmtzIGFyb3VuZCBibG9ja3F1b3RlICovCnVsLm5vdGVzID4gbGkgYmxvY2txdW90ZSBwOm5vdCg6ZW1wdHkpOmJlZm9yZSwKbGkubm90ZSBibG9ja3F1b3RlIHA6bm90KDplbXB0eSk6YmVmb3JlIHsKCWNvbnRlbnQ6ICfigJwnOwp9Cgp1bC5ub3RlcyA+IGxpIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyLApsaS5ub3RlIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyIHsKCWNvbnRlbnQ6ICfigJ0nOwp9CgovKiBQcmVzZXJ2ZSB3aGl0ZXNwYWNlIG9uIHBsYWludGV4dCBub3RlcyAqLwp1bC5ub3RlcyBsaSBwLnBsYWludGV4dCwgbGkubm90ZSBwLnBsYWludGV4dCwgZGl2Lm5vdGUgcC5wbGFpbnRleHQgewoJd2hpdGUtc3BhY2U6IHByZS13cmFwOwp9CgovKiBEaXNwbGF5IHRhZ3Mgd2l0aGluIGNoaWxkIG5vdGVzIGlubGluZSAqLwp1bC5ub3RlcyBoMy50YWdzIHsKCWRpc3BsYXk6IGlubGluZTsKCWZvbnQtc2l6ZTogMWVtOwp9Cgp1bC5ub3RlcyBoMy50YWdzOmFmdGVyIHsKCWNvbnRlbnQ6ICcgJzsKfQoKdWwubm90ZXMgdWwudGFncyB7CglkaXNwbGF5OiBpbmxpbmU7Cn0KCnVsLm5vdGVzIHVsLnRhZ3MgbGk6bm90KDpsYXN0LWNoaWxkKTphZnRlciB7Cgljb250ZW50OiAnLCAnOwp9CgoKLyogQ2hpbGQgYXR0YWNobWVudHMgKi8KaDMuYXR0YWNobWVudHMgewoJZm9udC1zaXplOiAxLjFlbTsKfQoKdWwuYXR0YWNobWVudHMgbGkgewoJcGFkZGluZy10b3A6IC41ZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHsKCW1hcmdpbi1sZWZ0OiAyZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHA6Zmlyc3QtY2hpbGQgewoJbWFyZ2luLXRvcDogLjc1ZW07Cn0KCmRpdiB0YWJsZSB7Cglib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwp9CgpkaXYgdGFibGUgdGQsIGRpdiB0YWJsZSB0aCB7Cglib3JkZXI6IDFweCAjY2NjIHNvbGlkOwoJYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKCXdvcmQtYnJlYWs6IGJyZWFrLWFsbDsKfQoKZGl2IHRhYmxlIHRkIHA6ZW1wdHk6OmFmdGVyLCBkaXYgdGFibGUgdGggcDplbXB0eTo6YWZ0ZXIgewoJY29udGVudDogIlwwMGEwIjsKfQoKZGl2IHRhYmxlIHRkICo6Zmlyc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmZpcnN0LWNoaWxkIHsKCW1hcmdpbi10b3A6IDA7Cn0KCmRpdiB0YWJsZSB0ZCAqOmxhc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmxhc3QtY2hpbGQgewoJbWFyZ2luLWJvdHRvbTogMDsKfQo="/>
+		<link rel="stylesheet" type="text/css" media="screen,projection" href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg=="/>
+		<link rel="stylesheet" type="text/css" media="print" href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg=="/>
+	</head>
+	<body>
+		<ul class="report combineChildItems">
+			<li id="item_93BQVVWX" class="item journalArticle">
+			<h2>Seamful XAI: Operationalizing Seamful Design in Explainable AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Upol Ehsan</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Q. Vera Liao</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Samir Passi</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Mark O. Riedl</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Hal Daumé</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Mistakes in AI systems are inevitable, arising from both technical limitations and sociotechnical gaps. While black-boxing AI systems can make the user experience seamless, hiding the seams risks disempowering users to mitigate fallouts from AI mistakes. Instead of hiding these AI imperfections, can we leverage them to help the user? While Explainable AI (XAI) has predominantly tackled algorithmic opaqueness, we propose that seamful design can foster AI explainability by revealing and leveraging sociotechnical and infrastructural mismatches. We introduce the concept of Seamful XAI by (1) conceptually transferring &quot;seams&quot; to the AI context and (2) developing a design process that helps stakeholders anticipate and design with seams. We explore this process with 43 AI practitioners and real end-users, using a scenario-based co-design activity informed by real-world use cases. We found that the Seamful XAI design process helped users foresee AI harms, identify underlying reasons (seams), locate them in the AI&apos;s lifecycle, learn how to leverage seamful information to improve XAI and user agency. We share empirical insights, implications, and reflections on how this process can help practitioners anticipate and craft seams in AI, how seamfulness can improve explainability, empower end-users, and facilitate Responsible AI.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2024-04-17</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Seamful XAI</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3637396">https://dl.acm.org/doi/10.1145/3637396</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:29:35 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-29</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Proceedings of the ACM on Human-Computer Interaction</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3637396">10.1145/3637396</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>CSCW1</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Proc. ACM Hum.-Comput. Interact.</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2573-0142</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:29:35 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:29:35 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 (Highest) : CSCW</strong></p>
+<p>This empirical study, through co-design with 43 practitioners and end-users, operationalizes the Seamful Design concept into an XAI process, demonstrating that exposing system "seams" helps users foresee AI harms and enhances their agency.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Solution-oriented:</strong> This paper goes beyond theory to emphasize "operationalizing," directly echoing the goal of providing actionable tools for designers.</p></li>
+<li><p><strong>Countering the Halo Effect:</strong> Seamful Design is the core countermeasure against "seamless manipulation." It provides an empirical basis for explaining how interface "seams" can break older adults' blind trust (Halo Effect).</p></li>
+</ul>
+<p>These three papers form the core solution chain: <strong>Seamful Design (Expose Issues) → Positive Friction (Trigger Reflection) → Contestability (Enable Correction)</strong>, directly supporting the development of an Audit Tool and design heuristics for older adults' healthcare AI.</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_HGH5JK9X">Submitted Version					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_ET6K2FHY" class="item journalArticle">
+			<h2>Persuasive Technology and computational manipulation: hypernudging out of mental self-determination</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Stefano Faraoni</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Artificial Intelligence, unperceived, can acquire the user&apos;s data, find connections not visible by a human being, profile the users, and aim at persuading them, resulting in Persuasive Technology (PT). During the persuasive process, PT can use manipulation, finding and using routes to affect System 1, the primordial brain of individuals, in the absence of their awareness, undermining their decision-making processes. Multiple international and European bodies recognized that AI systems could use manipulation at an unprecedented degree via second-generation dark patterns such as the hypernudge and that computational manipulation constitutes a risk for autonomy and different, overlapping, fundamental rights such as privacy, informational self-determination and freedom of thought. However, there is a lack of shared ideas regarding which fundamental rights are violated by computational manipulation and which fundamental rights can protect individuals against it. The right to be let alone and the right to hold and express a thought differ from the right to create a thought, being in control of the decision-making process and free from cognitive interferences operated by computational manipulation. Therefore, this paper argues in favor of recognizing a newly emerged fundamental right, the right to mental self-determination, tailored to the unprecedented abilities of AI-driven manipulative technologies.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2023-7-4</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Persuasive Technology and computational manipulation</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.frontiersin.org/articles/10.3389/frai.2023.1216340/full">https://www.frontiersin.org/articles/10.3389/frai.2023.1216340/full</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:28:54 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>6</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1216340</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Frontiers in Artificial Intelligence</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.3389/frai.2023.1216340">10.3389/frai.2023.1216340</a></td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Front. Artif. Intell.</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2624-8212</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:28:54 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:28:54 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 2 : Frontiers in AI</strong></p>
+<p>Argues for recognizing a new fundamental right — the right to mental self-determination — to counter AI-driven manipulative technologies including second-generation dark patterns (hypernudge).</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Layer 2 risk framing:</strong> Provides the conceptual bridge between persuasive technology, computational manipulation, and fundamental rights (privacy, informational self-determination, freedom of thought).</p></li>
+<li><p><strong>Caution:</strong> Not older adults–specific; theoretical rather than empirical HCI; comparable to Round 2 pattern "No AI transparency persuasive design." Serves as supplementary rather than core.</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_ZUE6UBC2">Full Text					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_TXVUBSFN" class="item journalArticle">
+			<h2>Improving wellbeing of community-dwelling people with mild cognitive impairment: the SENIOR (SystEm of Nudge theory based ICT applications for OldeR citizens) project</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>DavideMaria Cammisuli</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Giada Pietrabissa</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Gianluca Castelnuovo</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2022</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Improving wellbeing of community-dwelling people with mild cognitive impairment</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://journals.lww.com/preprintarticle.asp?id=297063;type=0">https://journals.lww.com/preprintarticle.asp?id=297063;type=0</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:28:37 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>0</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>0</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Neural Regeneration Research</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.4103/1673-5374.297063">10.4103/1673-5374.297063</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>0</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Neural Regen Res</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1673-5374</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:28:37 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:28:37 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 : Neural Regeneration Research</strong></p>
+<p>The SENIOR (SystEm of Nudge theory based ICT applications for OldeR citizens) project integrates nudge theory into ICT applications for older adults with mild cognitive impairment.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Three-dimensional coverage:</strong> Usability (real-time smartwatch monitoring), Persuasive (lifestyle nudge interventions), Transparency (ML-based alert disclosure to users and caregivers).</p></li>
+<li><p><strong>Target population match:</strong> Empirical evidence specifically with MCI seniors — directly relevant to the core RQ on older adults' interaction with health AI.</p></li>
+<li><p><strong>Pre-2020 HCI foundation:</strong> Establishes the nudge-based ICT approach for older citizens that later work (İnan 2025, Gull 2025) extends with friction and forcing functions.</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_LE4MWTIC" class="item journalArticle">
+			<h2>Usability, Acceptability, and Effectiveness of Web-Based Conversational Agents to Facilitate Problem Solving in Older Adults: Controlled Study</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Matthew Russell Bennion</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Gillian E Hardy</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Roger K Moore</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Stephen Kellett</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Abigail Millings</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Background
+              The usability and effectiveness of conversational agents (chatbots) that deliver psychological therapies is under-researched.
+            
+            
+              Objective
+              This study aimed to compare the system usability, acceptability, and effectiveness in older adults of 2 Web-based conversational agents that differ in theoretical orientation and approach.
+            
+            
+              Methods
+              In a randomized study, 112 older adults were allocated to 1 of the following 2 fully automated interventions: Manage Your Life Online (MYLO; ie, a chatbot that mimics a therapist using a method of levels approach) and ELIZA (a chatbot that mimics a therapist using a humanistic counseling approach). The primary outcome was problem distress and resolution, with secondary outcome measures of system usability and clinical outcome.
+            
+            
+              Results
+              MYLO participants spent significantly longer interacting with the conversational agent. Posthoc tests indicated that MYLO participants had significantly lower problem distress at follow-up. There were no differences between MYLO and ELIZA in terms of problem resolution. MYLO was rated as significantly more helpful and likely to be used again. System usability of both the conversational agents was associated with helpfulness of the agents and the willingness of the participants to reuse. Adherence was high. A total of 12% (7/59) of the MYLO group did not carry out their conversation with the chatbot.
+            
+            
+              Conclusions
+              Controlled studies of chatbots need to be conducted in clinical populations across different age groups. The potential integration of chatbots into psychological care in routine services is discussed.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2020-5-27</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Usability, Acceptability, and Effectiveness of Web-Based Conversational Agents to Facilitate Problem Solving in Older Adults</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="http://www.jmir.org/2020/5/e16794/">http://www.jmir.org/2020/5/e16794/</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:28:16 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>22</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>e16794</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Journal of Medical Internet Research</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.2196/16794">10.2196/16794</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>5</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>J Med Internet Res</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1438-8871</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:28:16 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:28:16 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 : JMIR</strong></p>
+<p>Randomized controlled study comparing two web-based conversational agents (MYLO vs. ELIZA) with 112 older adults, measuring system usability, acceptability, and effectiveness.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Rigorous RCT design:</strong> 112 older adults randomly allocated; MYLO (Method of Levels approach) significantly reduced problem distress; high adherence rate (88%).</p></li>
+<li><p><strong>SUS validation:</strong> System Usability Scale scores demonstrate measurable usability metrics for chatbot interfaces with older adults — directly applicable to Audit Tool benchmarking.</p></li>
+<li><p><strong>Three-dimensional interaction:</strong> Usability (SUS), Effectiveness/Persuasive (therapeutic problem-solving outcomes), Transparency (users understood what the chatbot was doing via Method of Levels prompts).</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_3VVTFSJB">Full Text					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_DIEESLYW" class="item journalArticle">
+			<h2>Understanding older adults’ acceptance of Chatbots in healthcare delivery: an extended UTAUT model</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Shulan Yu</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Tianyue Chen</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Background
+              Chatbots are increasingly integrated into the lives of older adults to assist with health and wellness tasks. This study aimed to understand the factors that enhance older adults’ acceptance of chatbots in healthcare delivery.
+            
+            
+              Methods
+              This study proposed an extended Unified Theory of Acceptance and Use of Technology model (UTAUT), including aging factors of perceived physical condition, self-actualization needs, and technology anxiety. The model was tested by PLS (Partial Least Squares) with data collected from 428 Chinese citizens aged 60 and above.
+            
+            
+              Results
+              The results reveal that performance expectancy, effort expectancy, and social influence significantly affected older adults’ behavioral intention to use chatbots. The facilitating conditions, self-actualization needs, and perceived physical condition significantly affected the actual use behavior of chatbots by older adults, whereas technology anxiety did not. Furthermore, the influence of effort expectancy and social influence on behavioral intention were moderated by experience.
+            
+            
+              Conclusion
+              The behavioral intentions of older adults with low experience are more strongly influenced by social influences and effort expectancy. Furthermore, healthcare providers, designers, and policymakers should emphasize the impact of facilitating conditions, self-actualization needs, and perceived physical conditions on chatbot applications among older adults.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2024-11-19</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Understanding older adults’ acceptance of Chatbots in healthcare delivery</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.frontiersin.org/articles/10.3389/fpubh.2024.1435329/full">https://www.frontiersin.org/articles/10.3389/fpubh.2024.1435329/full</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:27:28 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>12</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1435329</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Frontiers in Public Health</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.3389/fpubh.2024.1435329">10.3389/fpubh.2024.1435329</a></td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Front. Public Health</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2296-2565</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:27:29 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:27:29 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 : Frontiers in Public Health</strong></p>
+<p>Extended UTAUT model incorporating aging-specific factors (perceived physical condition, self-actualization needs, technology anxiety), tested with 428 Chinese older adults aged 60+.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Large-scale empirical evidence:</strong> PLS analysis with 428 participants provides robust statistical evidence on chatbot acceptance factors among older adults.</p></li>
+<li><p><strong>Aging-specific insights:</strong> Identifies that effort expectancy and social influence are moderated by experience — low-experience older adults are more susceptible to social influence, directly linking to hypernudge vulnerability (Layer 2).</p></li>
+<li><p><strong>Three-dimensional coverage:</strong> Usability (UTAUT effort expectancy = low cognitive load), Transparency (privacy and facilitating conditions), Persuasive (social influence as a nudge vector for AI profiling).</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_I7BSLV3N" class="item conferencePaper">
+			<h2>Explainability and Contestability for the Responsible Use of Public Sector AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Timothée Schmude</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-26</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3706599.3721096">https://dl.acm.org/doi/10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:25:35 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Yokohama Japan</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-1395-8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-6</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI EA &apos;25: Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3706599.3721096">10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:25:35 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:25:35 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 (Highest) : CHI EA '25</strong></p>
+<p>Proposes a framework linking explainability and contestability for responsible AI in public sector applications, with implications for healthcare governance.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Layer 4 governance anchor:</strong> Directly maps to the Contestability chain (Chain B) — provides a CAS (Contestability Assessment Scale) that can be operationalized into the Audit Tool.</p></li>
+<li><p><strong>Bridges XAI → Agency:</strong> Goes beyond explanation to enable user correction — aligning with the full chain: Expose (Seamful) → Reflect (Friction) → Correct (Contest).</p></li>
+<li><p><strong>Public sector relevance:</strong> Healthcare AI is a public sector concern; the responsible use framework directly supports regulatory alignment (EU AI Act, NIST).</p></li>
+</ul>
+<p><em>Note: Appears twice in the Zotero collection (duplicate entry). Both entries reference the same DOI (10.1145/3706599.3721096).</em></p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_GYVKUAZ8" class="item conferencePaper">
+			<h2>Users&apos; Mental Models of Generative AI Chatbot Ecosystems</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Xingyi Wang</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Xiaozheng Wang</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Sunyup Park</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Yaxing Yao</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>The capability of GenAI-based chatbots, such as ChatGPT and Gemini, has expanded quickly in recent years, turning them into GenAI Chatbot Ecosystems. Yet, users&apos; understanding of how such ecosystems work remains unknown. In this paper, we investigate users&apos; mental models of how GenAI Chatbot Ecosystems work. This is an important question because users&apos; mental models guide their behaviors, including making decisions that impact their privacy. Through 21 semi-structured interviews, we uncovered users&apos; four mental models towards first-party (e.g., Google Gemini) and third-party (e.g., ChatGPT) GenAI Chatbot Ecosystems. These mental models centered around the role of the chatbot in the entire ecosystem. We further found that participants held a more consistent and simpler mental model towards third-party ecosystems than the first-party ones, resulting in higher trust and fewer concerns towards the third-party ecosystems. We discuss the design and policy implications based on our results.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-03-24</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>arXiv.org</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="http://arxiv.org/abs/2501.19211">http://arxiv.org/abs/2501.19211</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:25:15 p.m.</td>
+					</tr>
+					<tr>
+					<th>Extra</th>
+						<td>arXiv:2501.19211 [cs]</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1016-1031</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the 30th International Conference on Intelligent User Interfaces</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3708359.3712125">10.1145/3708359.3712125</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:25:15 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:25:15 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="tags">Tags:</h3>
+				<ul class="tags">
+					<li>Computer Science - Human-Computer Interaction</li>
+				</ul>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 : IUI '25</strong></p>
+<p>Investigates users' mental models of GenAI chatbot ecosystems (first-party vs. third-party) through 21 semi-structured interviews, revealing four distinct mental models and trust asymmetries.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Mental model evidence:</strong> Users hold simpler, more consistent models toward third-party ecosystems (e.g., ChatGPT), resulting in higher trust and fewer concerns — a potential vulnerability vector for hypernudge exploitation.</p></li>
+<li><p><strong>Transparency dimension:</strong> Directly informs how chatbot ecosystem opacity shapes user trust and privacy decisions, supporting the Transparency pillar of the three-dimensional framework.</p></li>
+<li><p><strong>Design + policy implications:</strong> Provides actionable recommendations for chatbot interface design and data governance, bridging Layer 3 (HCI) and Layer 4 (Governance).</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_UAK2CLI7">Snapshot					</li>
+					<li id="item_QRYPB7Z3">Preprint PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_UIG5THXZ" class="item conferencePaper">
+			<h2>Explainability and Contestability for the Responsible Use of Public Sector AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Timothée Schmude</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-26</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3706599.3721096">https://dl.acm.org/doi/10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:25:02 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Yokohama Japan</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-1395-8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-6</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI EA &apos;25: Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3706599.3721096">10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:25:02 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:25:02 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Duplicate entry.</strong> See item_I7BSLV3N above for full Tier 1 (Highest) evaluation. Same DOI: 10.1145/3706599.3721096.</p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_YD2L2BGL" class="item conferencePaper">
+			<h2>Designing Accessible Audio Nudges for Voice Interfaces</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Hira Jamshed</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Novia Nurain</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Robin N. Brewer</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-26</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3706598.3713563">https://dl.acm.org/doi/10.1145/3706598.3713563</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-16, 12:24:26 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Yokohama Japan</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-1394-1</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-16</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI 2025: CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3706598.3713563">10.1145/3706598.3713563</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-16, 12:24:26 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-16, 12:24:26 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li>
+<div><div data-schema-version="9"><p><strong>Tier 1 : CHI '25</strong></p>
+<p>Designs accessible audio nudges for voice interfaces, addressing the unique challenges of non-visual interaction modalities for older adults and users with accessibility needs.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><p><strong>Accessibility-first nudge design:</strong> Usability dimension — voice nudges bypass visual literacy barriers common among older adults, providing an alternative friction pathway (Layer 3).</p></li>
+<li><p><strong>Uncertainty disclosure:</strong> Transparency dimension — audio cues signal AI uncertainty to users, enabling informed decision-making without requiring screen-based interfaces.</p></li>
+<li><p><strong>Critical thinking promotion:</strong> Persuasive dimension — nudges designed to trigger reflection rather than compliance, directly countering the "frictionless persuasion" of hypernudge patterns.</p></li>
+<li><p><strong>Older adults evidence:</strong> Empirical study with older adults on voice interface interactions — directly supports Chain A2 (friction countermeasures for vulnerable populations).</p></li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</body>
+</html>

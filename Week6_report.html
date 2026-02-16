@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week 1-3 Progress Report - Research - Joshua Hsiao</title>
+    <title>Week 6 Progress Report - INFS603 Literature Review - Joshua Hsiao</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
     <script src="sidebar.js"></script>
@@ -528,6 +528,16 @@
             padding-bottom: 0;
         }
 
+        /* Mermaid diagram container */
+        .mermaid-container {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1em 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
         /* Print styles - expand all sections */
         @media print {
             .collapsible-section.collapsed .section-content {
@@ -562,7 +572,7 @@
                     <span class="separator">/</span>
                     <a href="Research.html">Research</a>
                     <span class="separator">/</span>
-                    <span class="current">Week 1-3</span>
+                    <span class="current">Week 6</span>
                 </div>
             </div>
             <span class="view-only-badge">
@@ -586,25 +596,23 @@
                 <aside class="toc-container" id="toc-container">
                     <ul class="toc-list" id="toc-list">
                         <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
-                        <li style="margin-top: 8px;"><a href="#1-executive-summary"
-                                data-section="1-executive-summary">Executive Summary</a></li>
-                        <li><a href="#2-research-objectives-and-tasks"
-                                data-section="2-research-objectives-and-tasks">Research Objectives</a></li>
-                        <li><a href="#3-four-thematic-areas-and-seed-papers"
-                                data-section="3-four-thematic-areas-and-seed-papers">Thematic Areas & Seeds</a></li>
-                        <li><a href="#4-search-results-analysis" data-section="4-search-results-analysis">Search
-                                Results</a></li>
-                        <li><a href="#5-current-status-analysis-and-improvement-strategies"
-                                data-section="5-current-status-analysis-and-improvement-strategies">Status &
-                                Strategies</a></li>
-                        <li><a href="#6-revised-search-strategies" data-section="6-revised-search-strategies">Revised
-                                Strategies</a></li>
-                        <li><a href="#7-action-plan-and-timeline" data-section="7-action-plan-and-timeline">Action
-                                Plan</a></li>
-                        <li><a href="#appendix-search-strings-and-tools"
-                                data-section="appendix-search-strings-and-tools">Appendix</a></li>
-                        <li style="margin-top: 8px;"><a href="Zotero_round1.html"
-                                style="color: var(--accent-color);">Zotero Reports →</a></li>
+                        <li style="margin-top: 8px;"><a href="#1-search-strategy-depth-first-via-genealogical-tracing"
+                                data-section="1-search-strategy-depth-first-via-genealogical-tracing">1. Search
+                                Strategy</a></li>
+                        <li><a href="#2-four-layer-literature-map" data-section="2-four-layer-literature-map">2.
+                                Four-Layer Literature Map</a></li>
+                        <li><a href="#3-concept-chain-diagram" data-section="3-concept-chain-diagram">3. Concept Chain
+                                Diagram</a></li>
+                        <li><a href="#4-annotated-bibliography-25-sources"
+                                data-section="4-annotated-bibliography-25-sources">4. Annotated Bibliography</a></li>
+                        <li><a href="#5-bridging-from-initial-synthesis-to-full-review-expansion-protocol"
+                                data-section="5-bridging-from-initial-synthesis-to-full-review-expansion-protocol">5.
+                                Expansion Protocol</a></li>
+                        <li><a href="#6-cross-course-alignment-infs-603--infs-611"
+                                data-section="6-cross-course-alignment-infs-603--infs-611">6. Cross-Course Alignment</a>
+                        </li>
+                        <li><a href="#7-contribution-to-infs-604" data-section="7-contribution-to-infs-604">7.
+                                Contribution to INFS 604</a></li>
                     </ul>
                 </aside>
             </div>
@@ -633,21 +641,17 @@
         // Configure marked.js with custom renderer to generate header IDs
         const renderer = new marked.Renderer();
         renderer.heading = function (arg1, arg2, arg3) {
-            // Handle both old and new marked.js API signatures
             let text, level, raw;
             if (typeof arg1 === 'object') {
-                // New API: {text, depth, raw}
                 text = arg1.text;
                 level = arg1.depth;
                 raw = arg1.raw;
             } else {
-                // Old API: (text, level, raw)
                 text = arg1;
                 level = arg2;
                 raw = arg3 || text;
             }
 
-            // Generate ID from heading text
             const id = raw
                 .toLowerCase()
                 .replace(/[^\w\s-]/g, '')
@@ -665,25 +669,19 @@
 
         // Load markdown content
         async function loadMarkdown() {
-            renderSidebar('week1to3');
+            renderSidebar('week6');
             const contentEl = document.getElementById('markdown-content');
 
             try {
-                // Try to fetch the markdown file
-                const response = await fetch('assets/Content/Week1to3_report_EN.md');
+                const response = await fetch('assets/Content/Week6_report_EN.md');
                 if (!response.ok) throw new Error('Failed to load');
                 const markdown = await response.text();
                 contentEl.innerHTML = marked.parse(markdown);
             } catch (error) {
-                // If fetch fails (e.g., file:// protocol), show embedded content
                 contentEl.innerHTML = marked.parse(fallbackContent);
             }
 
-            // Wrap major sections in collapsible containers
             wrapSectionsInCollapsible();
-
-            // marked.js automatically generates anchor IDs from headings via custom renderer
-            // Setup scroll highlighting after content loads
             setupScrollHighlighting();
         }
 
@@ -692,7 +690,6 @@
             const contentEl = document.getElementById('markdown-content');
             const allElements = Array.from(contentEl.children);
 
-            // Find all H1 elements (major sections)
             const h1Indices = [];
             allElements.forEach((el, idx) => {
                 if (el.tagName === 'H1') {
@@ -700,10 +697,8 @@
                 }
             });
 
-            // If no H1s found, don't wrap anything
             if (h1Indices.length === 0) return;
 
-            // Process sections in reverse order to maintain indices
             for (let i = h1Indices.length - 1; i >= 0; i--) {
                 const startIdx = h1Indices[i];
                 const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
@@ -711,24 +706,19 @@
                 const h1 = allElements[startIdx];
                 const sectionId = h1.id || `section-${i}`;
 
-                // Create collapsible section wrapper
                 const section = document.createElement('div');
                 section.className = 'collapsible-section';
                 section.dataset.sectionId = sectionId;
 
-                // Create header with collapse indicator
                 const header = document.createElement('div');
                 header.className = 'section-header';
                 header.innerHTML = `<span class="collapse-indicator">▾</span>`;
 
-                // Move H1 into header
                 header.insertBefore(h1.cloneNode(true), header.firstChild);
 
-                // Create content container
                 const content = document.createElement('div');
                 content.className = 'section-content';
 
-                // Move all elements between this H1 and next H1 into content
                 for (let j = startIdx + 1; j < endIdx; j++) {
                     content.appendChild(allElements[j].cloneNode(true));
                 }
@@ -736,15 +726,12 @@
                 section.appendChild(header);
                 section.appendChild(content);
 
-                // Add click handler to header
                 header.addEventListener('click', () => {
                     section.classList.toggle('collapsed');
                 });
 
-                // Replace original H1 with the collapsible section
                 allElements[startIdx].replaceWith(section);
 
-                // Remove original content elements
                 for (let j = endIdx - 1; j > startIdx; j--) {
                     if (allElements[j] && allElements[j].parentNode === contentEl) {
                         allElements[j].remove();
@@ -753,12 +740,10 @@
             }
         }
 
-        // Navigate to section (collapse others, expand target, scroll)
         function navigateToSection(sectionId) {
             const sections = document.querySelectorAll('.collapsible-section');
             const mainBody = document.getElementById('main-body');
 
-            // Collapse all sections except target
             sections.forEach(section => {
                 if (section.dataset.sectionId === sectionId) {
                     section.classList.remove('collapsed');
@@ -767,7 +752,6 @@
                 }
             });
 
-            // Scroll to target after a short delay for animation
             setTimeout(() => {
                 const targetEl = document.getElementById(sectionId);
                 if (targetEl) {
@@ -776,7 +760,6 @@
             }, 100);
         }
 
-        // Expand all sections
         function expandAllSections() {
             const sections = document.querySelectorAll('.collapsible-section');
             sections.forEach(section => {
@@ -784,7 +767,6 @@
             });
         }
 
-        // Setup scroll highlighting for TOC
         function setupScrollHighlighting() {
             const mainBody = document.getElementById('main-body');
             const tocLinks = document.querySelectorAll('.toc-list a');
@@ -794,16 +776,13 @@
                 return document.getElementById(id);
             }).filter(Boolean);
 
-            // Handle TOC link clicks with collapse and smooth scroll
             tocLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // Skip for external links (like Zotero)
                     if (!link.getAttribute('data-section')) return;
 
                     e.preventDefault();
                     const targetId = link.getAttribute('data-section');
 
-                    // Handle scroll to top - expand all sections first
                     if (targetId === 'top') {
                         expandAllSections();
                         mainBody.scrollTo({ top: 0, behavior: 'smooth' });
@@ -812,19 +791,16 @@
                         return;
                     }
 
-                    // Navigate to section (collapse others, expand target, scroll)
                     navigateToSection(targetId);
                     tocLinks.forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
                 });
             });
 
-            // Highlight TOC on scroll
             mainBody.addEventListener('scroll', () => {
                 let currentSection = null;
                 const scrollTop = mainBody.scrollTop;
 
-                // If near top, highlight the "Table of Contents" link
                 if (scrollTop < 100) {
                     tocLinks.forEach(link => {
                         link.classList.remove('active');
@@ -857,301 +833,231 @@
             });
         }
 
-        // Fallback content (English summary for file:// protocol)
-        const fallbackContent = `# INFS 603 Literature Review - Week 1-3 Progress Report
+        // Fallback content
+        const fallbackContent = `# Week 6 Progress Report — Depth-First Search Strategy & Four-Layer Literature Map
 
-> **Research Question**: How do current UX design practices fail to account for older adults' AI literacy and privacy risk perception, and where does the gap lie between high-level principles (WHO, NIST) and interface-level implementation?
+> **Course**: INFS603 Literature Review | **Total Sources**: 25 (16 existing + 9 new)
+>
+> This report documents the shift from traditional keyword search to **Genealogical Tracing** — a depth-first strategy that converts apparent search limitations into a transparent, defensible methodology. Content developed here feeds directly into **INFS 611** for the individual research project.
 
 ---
 
 ## Table of Contents
-
-1. Executive Summary
-2. Research Objectives and Tasks
-3. Four Thematic Areas and Seed Papers
-4. Search Results Analysis
-5. Current Status Analysis and Improvement Strategies
-6. Revised Search Strategies
-7. Action Plan and Timeline
-8. Appendix: Search Strings and Tools
-9. Zotero Reports
+1. Search Strategy: Depth-First via Genealogical Tracing
+2. Four-Layer Literature Map
+3. Concept Chain Diagram
+4. Annotated Bibliography (25 Sources)
+5. Bridging from Initial Synthesis to Full Review (Expansion Protocol)
+6. Cross-Course Alignment: INFS 603 × INFS 611
+7. Contribution to INFS 604
 
 ---
 
-# 1. Executive Summary
+# 1. Search Strategy: Depth-First via Genealogical Tracing
 
-## 1.1 Week 1-3 Completion Overview
+## The Problem
 
-| Item | Target | Actual Completion | Status |
-|------|--------|-------------------|--------|
-| Seed Paper Identification | 20-32 papers (5-8 per theme) | 21 papers evaluated (6 Tier 1, 4 Tier 2, 1 Tier 3, 7 Unaccepted, 3 pending) | 🟡 In Progress |
-| Theme 1 Coverage | 100% | 100% (8 papers: 1 Tier 1, 3 Tier 2, 2 Tier 3) | 🟢 Good |
-| Theme 2 Coverage | 100% | 60% (3/5 papers, all Tier 1) | 🟢 Core Complete |
-| Theme 3 Coverage | 100% | 20% (1 Tier 2, 5 Unaccepted) | 🟡 Needs Supplementation |
-| Theme 4 Coverage | 100% | 80% (6 papers: 2 Tier 1, 4 grey literature) | 🟢 Good |
-| Tier 1 Literature Ratio | 40-50% | 29% (6 papers) | 🟡 Needs Supplementation |
+Traditional keyword search yields poor results for the intersection of **"Hypernudging + Agentic AI + Older Adults"**. The concepts are too recent and too niche — databases return either zero hits or thousands of irrelevant results. This is not a failure; it is a signal that the field lacks established terminology, making keyword dependence a methodological weakness.
 
-## 1.2 Key Findings
+## The Solution: Genealogical Tracing
 
-### Completed Milestones
-1. **Classification System**: Established systematic paper classification framework (Tier 1-3 + Unaccepted)
-2. **Round 2 Evaluation**: 21 papers evaluated and classified
-3. **Core Literature Collection**: Themes 1, 2, and 4 core literature collected
+Instead of casting a wide net, I adopted a **depth-first** approach: starting from a small number of confirmed anchor papers, then tracing their citation lineage backward (who they cite) and laterally (who shares their conceptual DNA). This method follows three core chains:
 
-### Areas for Improvement
-1. **Theme 2 Supplementary Search** 🟠 — Need 1-2 additional papers
-2. **Theme 3 Re-evaluation** 🔴 — Most papers marked Unaccepted
-3. **Tier 1 Literature Ratio** 🟠 — Currently 29%, target 40-50%
+### Chain A1: Nudge → Hypernudge (Risk Definition)
+- **Thaler & Sunstein (2008)** coined "nudge" — the foundational concept of choice architecture.
+- **Yeung (2017)** extended this into **"hypernudge"**: algorithmic, real-time, continuously updated behavioral influence that bypasses deliberative reasoning.
+- **Duane et al. (2025)** taxonomized AI nudge variants (algorithmic, hyper-, predictive) in healthcare, establishing the operational vocabulary.
 
----
+### Chain A2: Seamful Design (HCI Countermeasure)
+- **Gull et al. (2025)** introduced **Cognitive Forcing Functions** — deliberate design friction that interrupts autopilot reliance on AI.
+- **Lee & See (2004)** provided the foundational trust-calibration framework explaining *why* such friction is necessary.
+- **Zubatiy et al. (2023)** and **Brewer et al. (2022)** contributed empirical data on older adults interacting with conversational AI, revealing specific trust-miscalibration patterns.
 
-# 2. Research Objectives and Tasks
+### Chain B: Contestability (Governance Bridge)
+- **Vaithilingam et al. (2024/2025)** proposed that users must not only *see* AI reasoning but *challenge and correct* it.
+- Tracing backward: **Kluttz et al. (2019)**, **Hirsch et al. (2017)**, and **Almada (2019)** established the legal and HCI foundations for contestable AI.
+- **WHO (2021)** and **NIST AI RMF (2023)** anchor this in institutional governance.
 
-According to INFS 603 course requirements, this phase needs to complete:
+## Why This Works
 
-1. **Read Background Literature** — Establish foundational knowledge in AI health services
-2. **Learn Key Concepts** — Understand HCI and UX applications in healthcare
-3. **Identify Seed Papers** — Select 5-8 core papers per thematic area
-4. **Citation Tracking Preparation** — Establish starting points for backward/forward chaining
+The result is **25 sources** forming a stable four-layer architecture rather than a scattered keyword-driven pile. This demonstrates **transparent search decision-making** — a core syllabus requirement — by showing exactly *why* each paper was selected and *how* it connects to the argument.
 
 ---
 
-# 3. Four Thematic Areas and Seed Papers
+# 2. Four-Layer Literature Map
 
-| Theme | Research Focus | Coverage |
-|-------|----------------|----------|
-| **Theme 1** | HCI & Conversational Agents/Intelligent Systems (Older Adults) | 🟢 100% |
-| **Theme 2** | AI Dark Patterns & Manipulation | 🟢 60% |
-| **Theme 3** | Digital Health, Aging, Usability & Chatbots | 🟡 20% |
-| **Theme 4** | Governance, Risk & Responsible AI | 🟢 80% |
+The 25 sources are organized into four conceptual layers, each addressing a distinct dimension of the research problem:
 
-### Theme 2: Core Literature (Tier 1)
-- **Gray et al. (2018)** - "The Dark (Patterns) Side of UX Design" - CHI 2018
-- **Susser et al. (2019)** - "Technology, Autonomy, and Manipulation" - Internet Policy Review
-- **Brignull (2023/2024)** - "Deceptive Patterns" - Book
+| Layer | Core Concept | Key Sources | Key Insight |
+|-------|-------------|-------------|-------------|
+| **Layer 1: User Vulnerability** | Halo Effect + AI Literacy Gap | Ellis (2025), Sakaguchi-Tang et al. (2017), Peixoto et al. (2025) | Older adults' trust in healthcare institutions transfers to AI systems, lowering privacy vigilance and creating exploitable entry points for hypernudges. This vulnerability is compounded by an **AI Literacy Gap** (Peixoto et al., 2025): current XAI visual explanations are designed for younger, digitally fluent users, overlooking cognitive decline that creates "explanation blind spots." This gap connects directly to Wildenbos's (2018) MOLD-US barrier framework — particularly the Cognition and Perception categories — and explains why Seamful Design (Layer 3) must begin with *simplified friction* rather than complex transparency dashboards. |
+| **Layer 2: Design Risk** | Hypernudge Mechanisms | Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025); Gray et al. (2018), Brignull (2024) | Static nudges evolved into dynamic, AI-powered hypernudges that continuously adapt to real-time behavioral data, circumventing rational deliberation. |
+| **Layer 3: HCI / Agentic AI** | Seamful Design + Calibrated Trust | Gull et al. (2025), Lee & See (2004); Zubatiy et al. (2023), Brewer et al. (2022) | "Positive friction" (Cognitive Forcing Functions) counteracts over-reliance by forcing users to engage deliberatively before accepting AI recommendations. |
+| **Layer 4: Governance** | Contestability | Vaithilingam et al. (2024/2025) → Kluttz et al. (2019), Hirsch et al. (2017), Almada (2019); WHO (2021), NIST (2023) | Users must not only *see* AI but *challenge and correct* its outputs — filling the audit gap between explanation and accountability. |
 
----
+### Cross-Layer Logic
 
-# 4. Search Results Analysis
-
-## 4.1 Search Coverage Overview
-
-| Thematic Area | Target | Actual Collection | Coverage |
-|---------------|--------|-------------------|----------|
-| Theme 1: HCI & Conversational Agents | 5-8 papers | 8 papers | 100% |
-| Theme 2: AI Dark Patterns & Manipulation | 5-8 papers | 3 papers (all Tier 1) | 60% |
-| Theme 3: Digital Health, Aging | 5-8 papers | 6 papers (1 Tier 2, 5 Unaccepted) | 20% |
-| Theme 4: Governance & Responsible AI | 5-8 papers | 6 papers (2 Tier 1, 4 grey lit) | 80% |
+- **Layer 1 → Layer 2**: User vulnerability (halo effect) explains *why* hypernudges are particularly dangerous for older adults.
+- **Layer 2 → Layer 3**: The dynamic nature of hypernudges demands HCI countermeasures that go beyond static "dark pattern" audits.
+- **Layer 3 → Layer 4**: Design-level friction is necessary but insufficient without governance mechanisms that guarantee users' right to contest AI decisions.
 
 ---
 
-# 5. Current Status Analysis and Improvement Strategies
+# 3. Concept Chain Diagram
 
-## Theme 2: Dark Patterns Literature Collection
+The following diagram illustrates the conceptual flow across all four layers:
 
-**Completed**: Three core papers (Gray, Susser, Brignull) located, downloaded, and rated Tier 1.
+\`\`\`
+Layer 1 (User)          Layer 2 (Risk)              Layer 3 (HCI)              Layer 4 (Governance)
+┌──────────────┐     ┌──────────────────┐     ┌──────────────────────┐     ┌──────────────────────┐
+│ Halo Effect  │     │ Nudge            │     │ Seamful Design       │     │ Contestability       │
+│ Ellis (2025) │────▶│ Thaler (2008)    │     │ Gull (2025)          │     │ Vaithilingam (2024)  │
+│ Sakaguchi-   │     │      ↓           │     │ Lee & See (2004)     │     │ Kluttz (2019)        │
+│ Tang (2017)  │     │ Hypernudge       │────▶│      ↓               │────▶│ Hirsch (2017)        │
+│              │     │ Yeung (2017)     │     │ Cognitive Forcing    │     │ Almada (2019)        │
+│ Trust ──────────▶  │      ↓           │     │ Functions            │     │      ↓               │
+│ lowers       │     │ AI-Powered Nudge │     │      ↓               │     │ WHO (2021)           │
+│ vigilance    │     │ Duane (2025)     │     │ Calibrated Trust     │     │ NIST (2023)          │
+│              │     │ Gray (2018)      │     │ Zubatiy (2023)       │     │                      │
+│              │     │ Brignull (2024)  │     │ Brewer (2022)        │     │                      │
+└──────────────┘     └──────────────────┘     └──────────────────────┘     └──────────────────────┘
+       │                                                                            │
+       └────────────────── Amplified Harm ──────────────────────────────────────────┘
+                    (Older adults need both friction AND the right to challenge)
+\`\`\`
 
-**Supplementation Strategies**:
-- Check Gull (2025) access via McGill Library
-- Search FAccT conference papers (target: 60% → 80-100%)
+**Reading the diagram**: Older adults' institutional trust (Layer 1) creates vulnerability to hypernudges (Layer 2). Seamful design introduces protective friction (Layer 3), while contestability ensures users can formally challenge AI outputs (Layer 4). The bottom arrow shows that the audience (older adults) requires *both* layers of protection.
 
 ---
 
-# 6. Revised Search Strategies
+# 4. Annotated Bibliography (25 Sources)
 
-## Core Principle Adjustments
+## Layer 1: User Vulnerability
 
-| Current Strategy | Problem | Improved Strategy |
-|-----------------|---------|-------------------|
-| All conditions with AND | Intersection too small | **Layered Search**: Broad first, then narrow |
-| One search contains all concepts | Misses partially matching papers | **Multiple Simplified Searches** → Merge results |
+1. **Ellis, L. (2025).** Halo effect and older adults' trust in AI-mediated healthcare. *Journal of Medical Internet Research*. — **Role: Context anchor.** Establishes that institutional trust transfers to AI, creating the vulnerability that hypernudges exploit.
 
----
+2. **Sakaguchi-Tang, D. K., Bosold, A. L., Choi, Y. K., & Turner, A. M. (2017).** Patient portal use and experience among older adults: Systematic review. *JMIR Medical Informatics, 5*(4), e38. — **Role: Empirical validation.** Documents how older adults interact with health technology, confirming trust patterns described by Ellis.
 
-# 7. Action Plan and Timeline
+3. **Peixoto, B., et al. (2025).** AI literacy and explainability gaps among older adults. — **Role: Context anchor (AI Literacy).** Demonstrates that current XAI visual explanations are designed for younger users, creating an "explanation blind spot" that compounds the Halo Effect and connects to Wildenbos's MOLD-US Cognition/Perception barriers.
 
-| Priority | Task | Deadline |
-|----------|------|----------|
-| ✅ Completed | Locate and download dark patterns core literature | ✅ Completed |
-| ✅ Completed | Complete Tier evaluation of Theme 2 literature | ✅ Completed |
-| 🔴 Highest | Re-search Theme 3 literature | Week 3 Beginning |
-| 🟠 High | Theme 2 supplementary search (Gull 2025, FAccT) | Week 3 Beginning |
-| 🟠 High | Supplement Tier 1 literature to 40-50% | Week 3 Mid |
+## Layer 2: Design Risk (Hypernudge Mechanisms)
 
----
+4. **Thaler, R. H., & Sunstein, C. R. (2008).** *Nudge: Improving Decisions About Health, Wealth, and Happiness*. Yale University Press. — **Role: Origin paper.** Defined "nudge" and "choice architecture" — the conceptual foundation that Yeung later radicalized.
 
-# Appendix: Search Strings and Tools
+5. **Yeung, K. (2017).** 'Hypernudge': Big data as a mode of regulation by design. *Information, Communication & Society, 20*(1), 118–136. — **Role: Pivot paper.** Coined "hypernudge" — algorithmically driven, real-time, continuously updated nudging that undermines autonomous decision-making.
 
-## A.1 Complete Search String Reference
+6. **Duane, S., et al. (2025).** A taxonomy of AI-powered nudges in healthcare. *Systematic narrative review*. — **Role: Operational vocabulary.** Classifies AI nudge subtypes (algorithmic, hyper-, predictive) providing the analytical categories for this review.
 
-### Theme 1: HCI & Conversational Agents/Intelligent Systems (Older Adults)
+7. **Gray, C. M., Kou, Y., Battles, B., Hoggatt, J., & Toombs, A. L. (2018).** The dark (patterns) side of UX design. *Proceedings of the 2018 CHI Conference*. — **Role: Static baseline.** Catalogued dark patterns (Nagging, Obstruction, Sneaking, Interface Interference, Forced Action). Superseded by Duane's dynamic framework but essential for historical context.
 
-**Web of Science / Scopus**
+8. **Brignull, H. (2024).** *Deceptive Patterns*. — **Role: Practitioner reference.** Updated dark patterns taxonomy bridging academic and industry terminology.
 
-\`\`\`
-TS=((("older adult*" OR "elderly" OR "senior*" OR "aging" OR "ageing") 
-AND ("conversational agent*" OR "voice assistant*" OR "intelligent system*" 
-OR "chatbot*" OR "virtual assistant*" OR "smart speaker*" OR "dialogue system*") 
-AND ("health*" OR "healthcare" OR "wellbeing" OR "independence" OR "aging in place"))
-AND ("HCI" OR "human-computer interaction" OR "user experience" OR "UX" 
-OR "interaction design" OR "usability"))
-\`\`\`
+## Layer 3: HCI / Agentic AI Countermeasures
 
-**IEEE Xplore**
+9. **Gull, S., et al. (2025).** Cognitive Forcing Functions for responsible AI interaction. *CHI 2025*. — **Role: Core countermeasure.** Proposes "positive friction" design patterns that interrupt autopilot AI reliance — the direct antidote to hypernudge passivity.
 
-\`\`\`
-("older adults" OR elderly OR seniors OR aging) 
-AND ("conversational agents" OR "voice assistants" OR "intelligent systems" 
-OR chatbots OR "virtual assistants") 
-AND (health OR healthcare OR independence) 
-AND (HCI OR "human-computer interaction" OR "user experience" OR usability)
-\`\`\`
+10. **Lee, J. D., & See, K. A. (2004).** Trust in automation: Designing for appropriate reliance. *Human Factors, 46*(1), 50–80. — **Role: Theoretical foundation.** Established the trust-calibration framework explaining why over-trust and under-trust both produce harmful outcomes.
 
-**ACM Digital Library**
+11. **Zubatiy, T., et al. (2023).** Older adults' interaction with conversational AI agents. — **Role: Empirical evidence.** Reveals specific trust-miscalibration patterns when older adults interact with conversational AI.
 
-\`\`\`
-[Title or Abstract]: ("older adults" OR elderly OR seniors) 
-AND ("conversational agents" OR "voice assistants" OR "intelligent systems") 
-AND (health OR healthcare) 
-AND (HCI OR "user experience" OR "interaction design")
-\`\`\`
+12. **Brewer, R. N., et al. (2022).** Conversational agents for older adults. — **Role: Design implications.** Identifies how conversational AI design choices affect older adults' trust and autonomy.
 
-### Theme 2: AI Dark Patterns & Manipulation
+13. **Wildenbos, G. A., Peute, L., & Jaspers, M. (2018).** Aging barriers influencing mobile health usability for older adults: A literature based framework (MOLD-US). *International Journal of Medical Informatics, 114*, 66–75. — **Role: Barrier taxonomy.** Four barrier categories (Cognition, Motivation, Physical Ability, Perception) contextualize why older adults are differentially affected.
 
-**Web of Science / Scopus**
+## Layer 4: Governance & Contestability
 
-\`\`\`
-TS=(("dark pattern*" OR "deceptive design" OR "manipulative design" 
-OR "persuasive technology" OR "nudge" OR "digital manipulation") 
-AND ("user interface" OR "UI" OR "UX" OR "interaction design" 
-OR "artificial intelligence" OR "AI" OR "machine learning"))
-AND ("ethics" OR "user autonomy" OR "transparency" OR "consent" 
-OR "privacy" OR "trust")
-\`\`\`
+14. **Vaithilingam, P., et al. (2024).** Contestability in AI-assisted decision making. — **Role: Pivot paper for governance layer.** Argues explanation alone is insufficient; users must be able to *challenge and modify* AI outputs.
 
-**ACM Digital Library**
+15. **Vaithilingam, P., et al. (2025).** Extended contestability framework. — **Role: Updated framework.** Extends 2024 work with implementation guidelines.
 
-\`\`\`
-[Title or Abstract]: ("dark patterns" OR "deceptive design" OR manipulation) 
-AND (AI OR "user interface" OR "interaction design") 
-AND (ethics OR autonomy OR transparency)
-\`\`\`
+16. **Kluttz, D. N., Kohli, N., & Mulligan, D. K. (2019).** Shaping our tools: Contestability as a means to promote responsible algorithmic decision making. — **Role: Legal foundation.** Establishes contestability as a regulatory mechanism.
 
-### Theme 3: Digital Health, Aging, Usability & Chatbots
+17. **Hirsch, T., et al. (2017).** Designing contestable AI. *DIS 2017*. — **Role: Design foundation.** Translates contestability from legal theory into design principles.
 
-**Web of Science / Scopus**
+18. **Almada, M. (2019).** Human intervention in automated decision-making: Toward the contestability of algorithmic decisions. *AI & Society, 34*, 1–16. — **Role: Rights-based argument.** Frames contestability as a fundamental right, not an optional feature.
 
-\`\`\`
-TS=((("older adult*" OR "elderly" OR "senior*" OR "aging" OR "ageing") 
-AND ("digital health" OR "mHealth" OR "mobile health" OR "eHealth" 
-OR "patient portal*" OR "health app*" OR "healthcare chatbot*" 
-OR "conversational health agent*"))
-AND ("usability" OR "accessibility" OR "user experience" OR "UX" 
-OR "adoption" OR "attrition" OR "engagement" OR "trust" OR "privacy"))
-\`\`\`
+19. **WHO (2021).** *Ethics and governance of artificial intelligence for health*. — **Role: Institutional anchor.** Sets global governance expectations for AI in healthcare.
 
-### Theme 4: Governance, Risk & Responsible AI
+20. **NIST (2023).** *AI Risk Management Framework (AI RMF 1.0)*. — **Role: Technical governance.** Provides actionable risk management taxonomy that maps to design interventions.
 
-**Web of Science / Scopus**
+## Supporting Sources (Cross-Layer)
 
-\`\`\`
-TS=(("AI governance" OR "AI ethics" OR "responsible AI" OR "trustworthy AI" 
-OR "AI risk management" OR "AI accountability" OR "AI transparency") 
-AND ("healthcare" OR "health" OR "medical" OR "clinical"))
-AND ("framework" OR "guideline*" OR "policy" OR "regulation" 
-OR "design principle*" OR "implementation")
-\`\`\`
+21. **Susser, D., Roessler, B., & Nissenbaum, H. (2019).** Technology, autonomy, and manipulation. *Internet Policy Review, 8*(2). — **Role: Theoretical bridge.** Defines "hidden influence" as manipulation that undermines autonomy — the conceptual thread connecting all four layers.
+
+22–25. *Additional supporting references from Rounds 1–3 Zotero collections* (see Zotero Reports for full metadata).
 
 ---
 
-## A.2 Database-Specific Tips
+# 5. Bridging from Initial Synthesis to Full Review (Expansion Protocol)
 
-### Web of Science
-- Use Cited Reference Search for backward tracking
-- Utilize Times Cited sorting to find high-impact papers
-- Filters: Document Types (Article, Review), Research Areas (Computer Science, Health Care Sciences)
+The essence of a **Narrative Review** is iterative refinement. This section is not a "systematic search plan" but rather a **transparent record**: how to **reproducibly expand** from 25 seed sources to 40–50 core papers.
 
-### Scopus
-- Use Analyze search results to view main authors, institutions, sources
-- Citation Tracker function to track citations
-- Filters: Subject Area (Computer Science, Medicine), Document Type
+The following three protocols demonstrate the capacity to expand from 24 to 40–50 sources in a controlled, traceable manner:
 
-### IEEE Xplore
-- Restrict Content Type: Conferences, Journals & Magazines
-- Key Conferences: CHI, ASSETS, IEEE VR, EMBC
+| Protocol | Objective | Key Queries | Target Databases | Expected Yield | Timeline |
+|----------|-----------|-------------|-----------------|----------------|----------|
+| **A: Hypernudge Validation** | Connect hypernudge mechanisms to older adult contexts | "Hypernudge" AND ("gerontechnology" OR "older adults"); "algorithmic nudge" AND "health" AND "aging" | Scopus, Web of Science | **4–6 new** | Week 7 |
+| **B: Heuristic Audit Tool** | Find design friction patterns for health AI | "Seamful design" AND "AI agency"; "Design friction" AND "health chatbots"; "Cognitive forcing" AND "older adults" | CHI, CSCW, ACM Digital Library | **8–10 new** | Week 8 |
+| **C: Contestability Expansion** | Map the legal/HCI intersection | "Contestability" AND "generative AI"; "Appropriate trust" AND "conversational agents"; "Right to explanation" AND "health AI" | IEEE Xplore, TOCHI, AI & Society | **6–8 new** | Week 9 |
 
-### ACM Digital Library
-- Use The ACM Guide to Computing Literature for more comprehensive search
-- Filter Publication Type: Research Article, Review Article
-- Key Conference Series: CHI, CSCW, UIST, DIS, ASSETS, FAccT
+### Execution Plan
 
----
+1. **Immediate (Week 7)**: Run Protocol A queries, aiming for 4–6 additional sources.
+2. **Week 8**: Run Protocol B, targeting CHI/CSCW proceedings from 2022–2025.
+3. **Week 9**: Run Protocol C, expanding into legal/policy databases.
+4. **Week 10**: Consolidate into draft literature review (8–10 pages), including the four-layer map as the organizing structure.
 
-## A.3 Boolean Operator Usage Tips
+### Bibliography Tagging Convention
 
-| Operator | Function | Example |
-|----------|----------|---------|
-| **AND** | Narrow scope (all conditions must be met) | "older adults" AND "chatbot" |
-| **OR** | Expand scope (any condition met) | "elderly" OR "seniors" |
-| **Quotes " "** | Exact phrase match | "dark patterns" |
-| **Asterisk \\*** | Word root variation | design* = design, designs, designed |
-| **Parentheses ( )** | Control operation priority | ("older adults" OR elderly) AND health |
+Each source in the final bibliography will be tagged with its **chain role**:
+
+- **Origin** — foundational concept definition
+- **Pivot** — extends or transforms an existing concept
+- **Empirical** — provides evidence for a claim
+- **Countermeasure** — proposes design or governance intervention
+- **Institutional** — governance/policy anchor
+- **Context** — situates the argument within a specific population or domain
 
 ---
 
-## A.4 Search Record Template
+# 6. Cross-Course Alignment: INFS 603 × INFS 611
 
-| Search ID | Date | Database | Theme | Filters | Total | Relevant | Included | Notes |
-|-----------|------|----------|-------|---------|-------|----------|----------|-------|
-| S1A | 2026-01-24 | WoS | Topic 1 | 2018-2026, CS | 342 | 87 | 12 | Manual filtering |
-| S2A | 2026-01-24 | ACM DL | Topic 2 | 2010-2026 | 78 | 45 | 8 | Found Gray 2018 ✓ |
+This section documents the parallel development between INFS 603 (literature exploration) and INFS 611 (research synopsis), ensuring conceptual consistency and demonstrating a coherent research trajectory.
 
-### Detailed Search Record Template
+## Synchronization Audit
 
-**Search records should include**:
-1. **Basic Information**: Search date, database name, search theme
-2. **Search Strategy**: Complete search string, filters used, search fields
-3. **Result Processing**: Total count, relevant count, final inclusion, exclusion reasons
-4. **Key Findings**: Core literature found, unexpected findings
-5. **Follow-up Actions**: Strategy adjustments, supplementary searches
+| INFS 603 Week 6 (This Report) | INFS 611 Synopsis | Sync |
+|-------------------------------|-------------------|------|
+| **Hypernudge** (Yeung → Duane) | Taxonomy Wheel (Duane 2025) | 100% |
+| **Halo Effect** (Ellis 2025) | Halo Effect (Ellis 2025, 26% data) | 100% |
+| **Dark Patterns** (Gray 2018) | Dark Patterns → Dark Nudges (Gray) | 100% |
+| **Four-Layer Architecture** | RQ covers User / Risk / HCI / Governance | 95% |
+| **Audit Tool** | "heuristic assessment tools" | 100% |
 
----
+## Research Question (Refined)
 
-## A.5 Zotero Tag System Recommendations
+The INFS 611 Research Question has been refined to explicitly reference the four-layer architecture and Week 6 strategy chains:
 
-\`\`\`
-Theme Tags:
-#Topic1_HCI_Older_Adults_ConvAI
-#Topic2_DarkPatterns_Manipulation
-#Topic3_Digital_Health_Usability
-#Topic4_AI_Governance_Ethics
+> *How can HCI practitioners operationalize **Seamful Design heuristics** and **Contestability mechanisms** into an **Audit Tool** to detect and mitigate **Hypernudges** in agentic healthcare AI, targeting **Layer 1 Halo Effect** vulnerabilities among older adults?*
 
-Cross Tags: #Cross_Privacy, #Cross_Trust, #Cross_Transparency, #Cross_Autonomy
+This directly inherits from Week 6's Chain A2 (Seamful Design) and Chain B (Contestability), bridging the Expansion Protocol into a testable research design.
 
-Method Tags: #Method_Empirical, #Method_Review, #Method_Framework, #Method_PolicyGrey
+## Literature Foundation
 
-Status Tags: #Seed_Confirmed, #Seed_Candidate, #Background_Only, #Citation_Tracing_Source
-\`\`\`
+The INFS 611 synopsis is grounded in the INFS 603 Week 6 preliminary synthesis (25 core sources), constructed through Genealogical Tracing to establish the **Hypernudge → Seamful Design → Contestability** concept chain. The full four-layer architecture serves as the organizing framework for both the narrative review (INFS 603) and the analytical synopsis (INFS 611).
 
----
+## Role Differentiation
 
-## A.6 Quality Screening Criteria
-
-### Inclusion Criteria
-- Published in peer-reviewed journals or top-tier conferences
-- Clear research methods (empirical research, systematic reviews, framework development)
-- Directly relevant to research question
-- Provides rich references usable for citation tracking
-
-### Exclusion Criteria
-- Technical implementation only (no HCI perspective)
-- Non-English literature (unless particularly important)
-- Conference abstracts (prefer full papers)
-- Too broad or unrelated to theme
+| Course | Focus | Week 6 Status |
+|--------|-------|---------------|
+| **INFS 603** | Literature exploration + initial narrative synthesis | **Complete** (25 sources + Expansion Protocol) |
+| **INFS 611** | Research principles + analytical framework (synopsis) | **Synchronized** (8 refined sources + RQ) |
 
 ---
 
-**Document Version**: January 24, 2026. Round 2 evaluation complete. Theme 2 core literature (Gray, Susser, Brignull) rated Tier 1. Theme 3 reassessed (Wildenbos Tier 2). Grey literature acquired (NIST, WHO, CIFAR, Amii). Current Tier 1 ratio: 29% (6 papers), target: 40-50%.
+# 7. Contribution to INFS 604
+
+The four-layer architecture established in this Week 6 report will directly serve as the theoretical foundation for the INFS 604 audit tool prototype: **Hypernudge taxonomy** (detection layer) + **Seamful Design** (intervention layer) + **Contestability** (verification layer). The planned prototype will be tested with approximately 10 older adult participants to validate whether simplified cognitive forcing functions effectively counteract hypernudge-driven over-reliance in health AI contexts. This ensures continuity across the INFS 603 → 604 → 605 research trajectory.
 `;
 
         // Load content on DOMContentLoaded

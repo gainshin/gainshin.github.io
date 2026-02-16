@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zotero Report Round 5 - Research - Joshua Hsiao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #2eaadc;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Summary section */
+        .summary-section {
+            padding: 32px 48px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-section h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-section .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-section h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-section p {
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+
+        thead {
+            background-color: var(--bg-secondary);
+        }
+
+        th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 500;
+        }
+
+        .tag-tier1 {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .tag-tier2 {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .tag-unaccepted {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .tag-highest {
+            background-color: #EDE9FE;
+            color: #6D28D9;
+        }
+
+        .tag-group {
+            background-color: #F3F4F6;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        /* Layer tags */
+        .tag-layer3 {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .tag-layer4 {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+        }
+
+        .tag-high {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* Chain visual */
+        .chain-visual {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.82rem;
+            font-weight: 500;
+            flex-wrap: wrap;
+        }
+
+        .chain-node {
+            padding: 6px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .chain-arrow {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+        }
+
+        /* Callout */
+        .callout {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .callout-success {
+            background: #F0FDF4;
+            border-color: #22C55E;
+        }
+
+        .callout-warning {
+            background: #FFFBEB;
+            border-color: #F59E0B;
+        }
+
+        .callout-info {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+        }
+
+        /* Criteria box */
+        .criteria-box {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .criteria-box strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .criteria-box ul {
+            margin: 0.5rem 0 0 1.25rem;
+            padding: 0;
+        }
+
+        .criteria-box li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Rationale detail */
+        .rationale {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .rationale .positive {
+            color: #059669;
+        }
+
+        .rationale .caution {
+            color: #D97706;
+        }
+
+        .rationale .negative {
+            color: #DC2626;
+        }
+
+        /* Iframe section */
+        .iframe-section {
+            height: 600px;
+            min-height: 400px;
+        }
+
+        .iframe-section-header {
+            padding: 12px 48px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .summary-section {
+                padding: 24px 16px;
+            }
+
+            .iframe-section-header {
+                padding: 12px 16px;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .content-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Sidebar content will be rendered by sidebar.js -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Zotero Round 5</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body">
+
+            <!-- Summary Analysis Section -->
+            <div class="summary-section">
+                <h1>Zotero Report — Round 5</h1>
+                <p class="subtitle">
+                    Round 5 consolidates all grouped papers from prior rounds into a <strong>Tier Evaluation</strong>,
+                    applying the three-dimensional framework (<strong>Usability / Transparency / Persuasive
+                        Design</strong>)
+                    and core RQ alignment (<strong>dark patterns, health chatbots, older adults, AI
+                        transparency</strong>)
+                    to classify each key paper as Tier 1 (core pillar), Tier 2 (supplementary), or Unaccepted.
+                </p>
+
+                <!-- Tier Criteria -->
+                <div class="criteria-box">
+                    <strong>Tier Classification Criteria (per Round 3/4 standards)</strong>
+                    <ul>
+                        <li><strong>Tier 1</strong> — Core theoretical/empirical pillar: full three-dimensional coverage
+                            (Usability + Transparency + Persuasive Design), directly supports core RQ, HCI depth
+                            analysis, non-general review (e.g., Gray 2018).</li>
+                        <li><strong>Tier 2</strong> — Supplementary: strong on 2 of 3 dimensions, partial RQ alignment,
+                            fills specific gaps but not central to the concept chain.</li>
+                        <li><strong>Unaccepted</strong> — Incomplete three-dimensional coverage, non-interface focus, or
+                            general review only lacking three-dimensional depth.</li>
+                    </ul>
+                </div>
+
+                <!-- Core Solution Chain (from Round 4) -->
+                <h2>Core Solution Chain</h2>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    These papers form the core solution chain directly supporting the development of an Audit Tool and
+                    design heuristics for older adults' healthcare AI:
+                </p>
+                <div class="chain-visual">
+                    <span class="chain-node" style="background: #E8F5E9; color: #2E7D32;">Seamful Design (Expose
+                        Issues)</span>
+                    <span class="chain-arrow">→</span>
+                    <span class="chain-node" style="background: #DBEAFE; color: #1E40AF;">Positive Friction (Trigger
+                        Reflection)</span>
+                    <span class="chain-arrow">→</span>
+                    <span class="chain-node" style="background: #FFF3E0; color: #EF6C00;">Contestability (Enable
+                        Correction)</span>
+                </div>
+
+                <!-- Round 4 Core Chain Papers -->
+                <h2>Round 4 Core Chain Papers (Tier 1 Confirmed)</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Literature</th>
+                                <th>Tier</th>
+                                <th>Layer</th>
+                                <th>Selection Rationale</th>
+                                <th>Chain Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Better Slow than Sorry</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">İnan et al., 2025 ·
+                                        arXiv:2501.17348</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td><span class="tag tag-layer3">Layer 3</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Positive friction
+                                        ontology for AI recommenders; experimental study demonstrating friction reduces
+                                        trust over-reliance. Tags: CS-HCI, CS-CL.<br>
+                                        <strong>Directly targets Hypernudges:</strong> Recommender systems are the
+                                        primary vehicle for "hypernudges" and "personalized manipulation" (Duane et al.,
+                                        2025). Empirical findings translate directly into Audit Tool metrics.<br>
+                                        <strong>Behavioral change evidence:</strong> Experimentally proves "slowing
+                                        down" is beneficial in healthcare decision-making, providing scientific backing
+                                        for design heuristics.
+                                    </div>
+                                </td>
+                                <td><span class="tag tag-high">High</span><br><span
+                                        style="font-size: 0.78rem; color: var(--text-secondary);">Extends Cognitive
+                                        Forcing Functions (Gull 2025) with ontology + expert annotations → Chain
+                                        A2</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Designing Contestability</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Hirsch et al., 2017
+                                        · DIS '17 · DOI: 10.1145/3064663.3064703</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td><span class="tag tag-layer4">Layer 4</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Foundational HCI
+                                        research defining "Contestability" — the ability for users to challenge machine
+                                        predictions. Proposes design principles for accuracy, legibility, and feedback.
+                                        Contains empirical + survey data.<br>
+                                        <strong>Establishes core concept:</strong> The foundational paper defining
+                                        Contestability in HCI.<br>
+                                        <strong>Meets primary research requirement:</strong> Reports empirical and
+                                        survey data, satisfying course literature criteria.<br>
+                                        <strong>Design principle translation:</strong> Explores design principles in
+                                        real-world systems, bridging governance principles (NIST/WHO) → low-level design
+                                        guidelines.
+                                    </div>
+                                </td>
+                                <td><span class="tag tag-high">High</span><br><span
+                                        style="font-size: 0.78rem; color: var(--text-secondary);">Bridges legal → design
+                                        gap, strengthens Contestability chain (Vaithilingam/Almada) → Chain B</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Seamful XAI</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Ehsan et al., 2024 ·
+                                        CSCW · DOI: 10.1145/3637396</span>
+                                </td>
+                                <td><span class="tag tag-highest">Tier 1 (Highest)</span></td>
+                                <td>
+                                    <span class="tag tag-layer3">Layer 3</span>
+                                    <span class="tag tag-layer4" style="margin-left: 4px;">Layer 4</span>
+                                </td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Operationalizes Seamful
+                                        Design into XAI process. Co-design with 43 practitioners/end-users demonstrates
+                                        exposing system "seams" helps foresee AI harms + enhances user agency.<br>
+                                        <strong>Solution-oriented:</strong> Emphasizes "operationalizing" — directly
+                                        supporting the goal of actionable tools for designers.<br>
+                                        <strong>Countering the Halo Effect:</strong> Seamful Design is the core
+                                        countermeasure against "seamless manipulation," providing empirical basis for
+                                        how interface "seams" break blind trust in older adults.
+                                    </div>
+                                </td>
+                                <td><span class="tag tag-highest">Highest</span><br><span
+                                        style="font-size: 0.78rem; color: var(--text-secondary);">Links Layer 3 friction
+                                        ↔ Layer 4 accountability; co-design evidence → Chain A2 + B intersection</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tier Evaluation Table -->
+                <h2>Grouped Paper Tier Evaluation</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Group</th>
+                                <th>Key Paper</th>
+                                <th>Tier</th>
+                                <th>Selection Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Group 1 -->
+                            <tr>
+                                <td rowspan="3"><span class="tag tag-group">Group 1</span></td>
+                                <td>
+                                    <strong>Audio Nudges for Voice Interfaces</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Jamshed et al., 2025
+                                        · CHI '25 · DOI: 10.1145/3706598.3713563</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (voice nudge
+                                        accessibility for older adults), Transparency (audio cues disclose uncertainty),
+                                        Persuasive (critical thinking nudge); empirical evidence on older adults' voice
+                                        interface use; Layer 3 friction, directly supports Chain A2.<br>
+                                        <strong>No downgrade:</strong> Full three-dimensional coverage, HCI depth
+                                        confirmed.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Haptic Feedback in SARs</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Socially Assistive
+                                        Robots study</span>
+                                </td>
+                                <td><span class="tag tag-tier2">Tier 2</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (cognitive
+                                        task support), Persuasive (feedback nudge).<br>
+                                        <span class="caution"><strong>Caution:</strong></span> Transparency dimension
+                                        weaker (sensor seams not emphasized); Layer 3 but not core hypernudge
+                                        countermeasure.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Friction Mapping (LinkedIn)</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Industry tool
+                                        discussion</span>
+                                </td>
+                                <td><span class="tag tag-unaccepted">Unaccepted</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="negative"><strong>Downgrade:</strong></span> General tool
+                                        discussion with no three-dimensional interaction analysis; not empirical HCI;
+                                        comparable to Round 2 rejection pattern "Attitude exploration only, no interface
+                                        design."
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Group 2 -->
+                            <tr>
+                                <td rowspan="2"><span class="tag tag-group">Group 2</span></td>
+                                <td>
+                                    <strong>Hypernudge / UTAUT Chatbot</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Yu &amp; Chen, 2024
+                                        · DOI: 10.3389/fpubh.2024.1435329</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (UTAUT low
+                                        cognitive load), Transparency (privacy awareness), Persuasive (AI profiling
+                                        analysis); extended UTAUT model with 428 older adults (aged 60+); empirical
+                                        evidence on health chatbot acceptance; Layer 2 risk identification.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Usability Insights (PMC)</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">PMC usability
+                                        review</span>
+                                </td>
+                                <td><span class="tag tag-tier2">Tier 2</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="caution"><strong>Caution:</strong></span> Strong on
+                                        cognition/privacy dimensions, but Persuasive Design (dark patterns) coverage
+                                        insufficient; supplementary rather than core.
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Group 3 -->
+                            <tr>
+                                <td rowspan="2"><span class="tag tag-group">Group 3</span></td>
+                                <td>
+                                    <strong>SENIOR Project</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Cammisuli et al.,
+                                        2022 · DOI: 10.4103/1673-5374.297063</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (real-time
+                                        smartwatch monitoring), Persuasive (lifestyle nudge interventions), Transparency
+                                        (ML alert disclosure); empirical evidence with MCI seniors; nudge theory–based
+                                        ICT for older citizens; pre-2020 HCI foundation.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Hypernudge Risks</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Faraoni, 2023 · DOI:
+                                        10.3389/frai.2023.1216340</span>
+                                </td>
+                                <td><span class="tag tag-tier2">Tier 2</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Strong Layer 2 risk
+                                        analysis; computational manipulation + hypernudge + mental self-determination
+                                        framework.<br>
+                                        <span class="caution"><strong>Caution:</strong></span> Not older
+                                        adults–specific; comparable to Round 2 pattern "No AI transparency persuasive
+                                        design."
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Group 4 -->
+                            <tr>
+                                <td rowspan="2"><span class="tag tag-group">Group 4</span></td>
+                                <td>
+                                    <strong>Seamful XAI</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Ehsan et al., 2024 ·
+                                        CSCW · DOI: 10.1145/3637396</span>
+                                </td>
+                                <td><span class="tag tag-highest">Tier 1 (Highest)</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (co-design
+                                        process), Transparency (seam exposure methodology), Persuasive (institutional
+                                        friction design); 43 practitioners/end-users empirical evidence; bridges Layer 3
+                                        ↔ Layer 4; Round 4 "Highest" designation confirmed. Solution-oriented:
+                                        operationalizes Seamful Design into actionable XAI tools. Counters the Halo
+                                        Effect via interface "seams."
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>MYLO RCT</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Bennion et al., 2020
+                                        · DOI: 10.2196/16794</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Usability (SUS scores),
+                                        Effectiveness (problem-solving outcomes via Method of Levels approach); RCT with
+                                        112 older adults; high adherence rate; MYLO significantly reduced problem
+                                        distress; full three-dimensional interaction coverage.
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Group 5 -->
+                            <tr>
+                                <td rowspan="2"><span class="tag tag-group">Group 5</span></td>
+                                <td>
+                                    <strong>Contestable XAI (Public Sector)</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Schmude, 2025 · CHI
+                                        EA '25 · DOI: 10.1145/3706599.3721096</span>
+                                </td>
+                                <td><span class="tag tag-highest">Tier 1 (Highest)</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> Transparency (CAS scale
+                                        for explainability), Persuasive (challenge mechanisms enabling user agency),
+                                        Governance (Layer 4 contestability); public sector AI responsible use framework;
+                                        Round 4 "Chain B" high-value contribution.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>GenAI Mental Models</strong><br>
+                                    <span style="color: var(--text-secondary); font-size: 0.78rem;">Wang et al., 2025 ·
+                                        IUI '25 · arXiv:2501.19211</span>
+                                </td>
+                                <td><span class="tag tag-tier1">Tier 1</span></td>
+                                <td>
+                                    <div class="rationale">
+                                        <span class="positive"><strong>Positive:</strong></span> 21 semi-structured
+                                        interviews uncovering 4 mental models of GenAI chatbot ecosystems (first-party
+                                        vs. third-party); reveals trust asymmetries and privacy decision-making
+                                        patterns; directly informs Transparency dimension and chatbot design
+                                        implications. Tags: CS-HCI.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary Statistics -->
+                <h2>Summary</h2>
+
+                <div class="callout callout-success">
+                    <strong>Result:</strong> Across all grouped papers and Round 4 core chain, <strong>12 papers
+                        classified as Tier 1/Tier 2</strong> (high quality), <strong>1 Unaccepted</strong> (non-core).
+                    This meets the Round 3/4 standard of avoiding "General review only, lacks three-dimensional depth."
+                    Recommend integrating all accepted papers into the core library across Layers 2–4.
+                </div>
+
+                <div class="callout callout-info">
+                    <strong>Tier Distribution:</strong>
+                    <strong>Tier 1 (Highest)</strong> — 3 papers (Seamful XAI, Contestable XAI, Seamful XAI [R4 chain])
+                    ·
+                    <strong>Tier 1</strong> — 6 papers (Better Slow than Sorry, Designing Contestability, Audio Nudges,
+                    UTAUT Chatbot, SENIOR, MYLO, GenAI Mental Models) ·
+                    <strong>Tier 2</strong> — 3 papers (Haptic SARs, Usability Insights, Hypernudge Risks) ·
+                    <strong>Unaccepted</strong> — 1 paper (Friction Mapping)
+                </div>
+
+                <div class="callout callout-warning">
+                    <strong>Integration Note:</strong> All accepted Tier 1/2 papers should be mapped into the core
+                    library Layer 2–4 architecture. The Round 4 core chain (Better Slow than Sorry → Seamful XAI →
+                    Designing Contestability) forms the backbone of the Audit Tool heuristics. Unaccepted papers may
+                    serve as background references but should not be cited as primary evidence for the three-dimensional
+                    framework.
+                </div>
+
+            </div>
+
+            <!-- Raw Zotero Report (iframe) -->
+            <div class="iframe-section-header">
+                <span>Original Zotero Report — Round 5</span>
+                <span style="font-weight: 400; text-transform: none; font-size: 0.75rem;">8 items · Tier evaluation
+                    source data</span>
+            </div>
+            <div class="iframe-section">
+                <iframe src="assets/Content/Zotero_round5.html" class="content-iframe"></iframe>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar('zotero5');
+        });
+
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+
+</html>
