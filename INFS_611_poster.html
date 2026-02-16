@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft Research Proposal Poster - INFS 611 - Joshua Hsiao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #2eaadc;
+            --sidebar-width: 260px;
+
+            /* Poster palette — medical blue/teal, colorblind-safe */
+            --poster-blue: #1a6b8a;
+            --poster-teal: #1a8a6b;
+            --poster-light-blue: #e8f4f8;
+            --poster-light-teal: #e8f8f0;
+            --poster-dark: #1a2332;
+            --poster-accent: #2980b9;
+            --poster-border: #b8d4e3;
+            --poster-bg: #ffffff;
+            --poster-section-bg: #f8fbfd;
+            --poster-highlight: #fff3cd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 16px 14px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #e8ecef;
+            padding: 32px;
+        }
+
+        .print-controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .print-controls button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            background: var(--poster-blue);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .print-controls button:hover {
+            background: #145a75;
+        }
+
+        .print-controls span {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== POSTER ==================== */
+        .poster {
+            width: 1100px;
+            background: var(--poster-bg);
+            border: 3px solid var(--poster-blue);
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* --- Title Banner --- */
+        .poster-title-banner {
+            background: linear-gradient(135deg, var(--poster-dark) 0%, var(--poster-blue) 60%, var(--poster-teal) 100%);
+            color: white;
+            padding: 18px 36px 14px;
+            text-align: center;
+        }
+
+        .poster-title-banner h1 {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin-bottom: 5px;
+        }
+
+        .poster-title-banner .subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.92;
+        }
+
+        .poster-title-banner .author-line {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.78;
+            margin-top: 2px;
+        }
+
+        /* --- Grid Body --- */
+        .poster-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+            padding: 0;
+        }
+
+        .poster-section {
+            padding: 14px 16px;
+            border: 1px solid var(--poster-border);
+            border-top: none;
+            border-left: none;
+            position: relative;
+        }
+
+        .poster-section:nth-child(3n+1) {
+            border-left: none;
+        }
+
+        .poster-section:nth-child(3n) {
+            border-right: none;
+        }
+
+        .poster-section h2 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--poster-blue);
+            margin-bottom: 7px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--poster-teal);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .poster-section h2 .section-num {
+            background: var(--poster-blue);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .poster-section p,
+        .poster-section li {
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: #2c3e50;
+        }
+
+        .poster-section ul {
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+
+        .poster-section li {
+            margin-bottom: 3px;
+        }
+
+        .cite {
+            color: var(--poster-accent);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* --- Special sections --- */
+
+        /* Introduction */
+        .hook-box {
+            background: var(--poster-light-blue);
+            border-left: 3px solid var(--poster-blue);
+            padding: 7px 10px;
+            margin-bottom: 8px;
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
+            font-size: 11px;
+            line-height: 1.45;
+            color: #1a3a4a;
+        }
+
+        /* Literature 4-Layer */
+        .layer-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 8px;
+        }
+
+        .layer {
+            padding: 5px 10px;
+            border-left: 4px solid;
+            font-size: 11px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .layer .layer-label {
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+
+        .layer-4 {
+            background: #e8f4f8;
+            border-color: #1a6b8a;
+        }
+
+        .layer-3 {
+            background: #e0f2e9;
+            border-color: #1a8a6b;
+        }
+
+        .layer-2 {
+            background: #fef9e7;
+            border-color: #d4a017;
+        }
+
+        .layer-1 {
+            background: #fde8e8;
+            border-color: #c0392b;
+        }
+
+        .layer-connector {
+            width: 2px;
+            height: 6px;
+            background: #999;
+            margin-left: 20px;
+        }
+
+        /* RQ box */
+        .rq-box {
+            background: linear-gradient(135deg, var(--poster-light-blue), var(--poster-light-teal));
+            border: 2px solid var(--poster-blue);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 6px;
+        }
+
+        .rq-box .rq-item {
+            margin-bottom: 7px;
+            padding-left: 0;
+        }
+
+        .rq-box .rq-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rq-label {
+            font-weight: 700;
+            color: var(--poster-blue);
+            font-size: 12px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .rq-text {
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #1a2332;
+        }
+
+        /* Method flowchart */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 12px 0;
+        }
+
+        .flow-node {
+            background: var(--poster-light-blue);
+            border: 2px solid var(--poster-blue);
+            border-radius: 6px;
+            padding: 6px 14px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--poster-dark);
+            width: 80%;
+            max-width: 280px;
+        }
+
+        .flow-node.highlight {
+            background: var(--poster-blue);
+            color: white;
+        }
+
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            color: var(--poster-blue);
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 0;
+        }
+
+        .flow-arrow svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .flow-arrow-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Contributions checklist */
+        .checklist {
+            margin-top: 8px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 3px 0;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .checklist-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            background: var(--poster-teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Rebuttal */
+        .rebuttal-card {
+            background: #fef9e7;
+            border: 1px solid #f0d78c;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin-bottom: 6px;
+        }
+
+        .rebuttal-card .rebuttal-q {
+            font-weight: 700;
+            font-size: 10.5px;
+            color: #7d6608;
+            margin-bottom: 2px;
+        }
+
+        .rebuttal-card p {
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        /* Timeline */
+        .timeline-bar {
+            display: flex;
+            gap: 0;
+            margin-top: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .timeline-phase {
+            padding: 6px 10px;
+            text-align: center;
+            color: white;
+            flex: 1;
+        }
+
+        .timeline-phase:nth-child(1) {
+            background: var(--poster-blue);
+        }
+
+        .timeline-phase:nth-child(2) {
+            background: var(--poster-teal);
+        }
+
+        .timeline-phase:nth-child(3) {
+            background: #2c3e50;
+        }
+
+        /* Footer */
+        .poster-footer {
+            background: var(--poster-dark);
+            color: white;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .poster-footer a {
+            color: #7ec8e3;
+            text-decoration: none;
+        }
+
+        .qr-placeholder {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #333;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* span-2 for method section */
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
+        }
+
+        /* User quote cards */
+        .user-quote-card {
+            flex: 1;
+            border-radius: 5px;
+            padding: 8px 10px;
+            border-left: 3px solid;
+        }
+
+        .uq-high {
+            background: #f0f7fa;
+            border-color: var(--poster-blue);
+        }
+
+        .uq-mid {
+            background: #fef9f0;
+            border-color: #d4a017;
+        }
+
+        .uq-low {
+            background: #fdf0f0;
+            border-color: #c0392b;
+        }
+
+        .uq-tag {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 8px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .uq-tag-h {
+            background: #e0f2e9;
+            color: #1a8a6b;
+        }
+
+        .uq-tag-m {
+            background: #fef3cd;
+            color: #856404;
+        }
+
+        .uq-tag-l {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .uq-text {
+            font-size: 10.5px;
+            font-style: italic;
+            line-height: 1.4;
+            color: #2c3e50;
+            margin: 4px 0;
+        }
+
+        .uq-meta {
+            font-size: 9px;
+            color: #777;
+            line-height: 1.35;
+            margin-top: 3px;
+        }
+
+        /* Codebook table */
+        .codebook-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            line-height: 1.35;
+        }
+
+        .codebook-table th {
+            background: var(--poster-blue);
+            color: white;
+            font-weight: 600;
+            font-size: 10px;
+            padding: 4px 6px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .codebook-table td {
+            padding: 3px 6px;
+            border-bottom: 1px solid #e0e8ed;
+            vertical-align: top;
+        }
+
+        .codebook-table tr:nth-child(even) td {
+            background: #f5f9fb;
+        }
+
+        .codebook-table td:first-child {
+            font-weight: 600;
+            color: var(--poster-blue);
+            white-space: nowrap;
+        }
+
+        .codebook-table td:nth-child(2) {
+            color: #555;
+            font-size: 9.5px;
+        }
+
+        .codebook-table td:nth-child(3) {
+            font-size: 9.5px;
+            color: #333;
+        }
+
+        /* Limitations list */
+        .limit-tag {
+            display: inline-block;
+            background: #fde8e8;
+            color: #c0392b;
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin: 2px 4px 2px 0;
+        }
+
+        .strength-tag {
+            display: inline-block;
+            background: #e0f2e9;
+            color: #1a8a6b;
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin: 2px 4px 2px 0;
+        }
+
+        /* ==================== PRINT ==================== */
+        @media print {
+
+            .sidebar,
+            .print-controls {
+                display: none !important;
+            }
+
+            html,
+            body {
+                overflow: visible;
+                height: auto;
+            }
+
+            body {
+                display: block;
+                background: white;
+            }
+
+            .main-content {
+                overflow: visible;
+                padding: 0;
+                background: white;
+            }
+
+            .poster {
+                width: 100%;
+                box-shadow: none;
+                border: 2px solid var(--poster-blue);
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive view inside portfolio */
+        @media (max-width: 1400px) {
+            .poster {
+                width: 95%;
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Research Portfolio</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="print-controls">
+            <button onclick="window.print()">Print / Save as PDF</button>
+            <span>Tip: Use A3 landscape or scale to fit for best results</span>
+        </div>
+
+        <!-- ========== POSTER START ========== -->
+        <div class="poster" id="poster">
+
+            <!-- Title Banner -->
+            <div class="poster-title-banner">
+                <h1>Agentic AI Hypernudges: Content Analysis of<br>Reddit ChatGPT Health Discussions Among Heterogeneous Older Adults</h1>
+                <div class="subtitle">Draft Research Proposal Poster &mdash; INFS 611</div>
+                <div class="author-line">Gainshin (Joshua) Hsiao &nbsp;|&nbsp; Group 17 &nbsp;|&nbsp; February 24, 2026</div>
+            </div>
+
+            <!-- Grid Body: Row 1 -->
+            <div class="poster-body">
+
+                <!-- ===== 1. INTRODUCTION ===== -->
+                <div class="poster-section">
+                    <h2><span class="section-num">1</span> Introduction</h2>
+                    <div class="hook-box">
+                        ChatGPT now fields millions of health queries daily, yet its persuasive "hypernudge" architecture treats a 70-year-old retiree with limited health literacy identically to a digitally fluent 65-year-old physician.
+                        This one-size-fits-all design masks critical heterogeneity in how older adults engage with agentic AI health advice.
+                    </div>
+                    <p>
+                        Older adults are <strong>not a monolithic group</strong>.
+                        Health literacy, digital fluency, and prior medical knowledge create vastly different risk profiles
+                        when encountering AI-generated health nudges
+                        <span class="cite">(Dai &amp; Moffatt, 2021)</span>.
+                    </p>
+                    <ul>
+                        <li>High-literacy users may <strong>benefit</strong> from ChatGPT health triage</li>
+                        <li>Low-literacy users risk <strong>halo-effect</strong> over-trust <span class="cite">(Ellis et al., 2025)</span></li>
+                        <li>Current research treats older adults as uniformly vulnerable — a <strong>stereotypical</strong> framing this study challenges</li>
+                    </ul>
+                </div>
+
+                <!-- ===== 2. LITERATURE — 4-LAYER ===== -->
+                <div class="poster-section">
+                    <h2><span class="section-num">2</span> Literature Review</h2>
+                    <p style="font-size:11.5px; color:#555; margin-bottom:8px;">Four interconnected conceptual layers frame this research:</p>
+                    <div class="layer-stack">
+                        <div class="layer layer-4">
+                            <div class="layer-label">Layer 4: Contestability</div>
+                            Users can challenge/override AI outputs<br>
+                            <span class="cite">Vaithilingam et al., 2025</span>
+                        </div>
+                        <div class="layer-connector"></div>
+                        <div class="layer layer-3">
+                            <div class="layer-label">Layer 3: Seamful Design</div>
+                            Exposing AI "seams" to support informed choice<br>
+                            <span class="cite">Gull et al., 2025</span>
+                        </div>
+                        <div class="layer-connector"></div>
+                        <div class="layer layer-2">
+                            <div class="layer-label">Layer 2: Hypernudges</div>
+                            Personalised, real-time, persuasive AI nudges<br>
+                            <span class="cite">Duane, 2025</span>
+                        </div>
+                        <div class="layer-connector"></div>
+                        <div class="layer layer-1">
+                            <div class="layer-label">Layer 1: Heterogeneity</div>
+                            Older adults differ by literacy, trust, digital fluency<br>
+                            <span class="cite">Dai &amp; Moffatt, 2021</span> &bull; <span class="cite">Ellis et al., 2025 (Halo Effect)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 3. RESEARCH QUESTIONS ===== -->
+                <div class="poster-section">
+                    <h2><span class="section-num">3</span> Research Questions</h2>
+                    <div class="rq-box">
+                        <div class="rq-item">
+                            <span class="rq-label">RQ1 (Descriptive)</span>
+                            <span class="rq-text">How do hypernudge and halo-effect patterns in Reddit ChatGPT health discussions <strong>differ according to users' health literacy cues</strong>?</span>
+                        </div>
+                        <div class="rq-item">
+                            <span class="rq-label">RQ2 (Design)</span>
+                            <span class="rq-text">What <strong>non-stereotypical design heuristics</strong> can be derived from these patterns to support heterogeneous older adults' agentic AI health interactions?</span>
+                        </div>
+                    </div>
+                    <p style="margin-top:12px; font-size:12px; color:#555;">
+                        <strong>Gap addressed:</strong> Existing literature either stereotypes older adults as uniformly at-risk or ignores literacy-mediated differences in AI nudge reception.
+                    </p>
+                </div>
+
+                <!-- ===== 4. METHOD (span 2) ===== -->
+                <div class="poster-section span-2">
+                    <h2><span class="section-num">4</span> Methodology &mdash; Qualitative Content Analysis</h2>
+                    <div style="display:flex; gap:24px; align-items:flex-start;">
+                        <!-- Flowchart -->
+                        <div class="flowchart" style="flex:1;">
+                            <div class="flow-node highlight">Reddit Health Subreddits</div>
+                            <div class="flow-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                                <span class="flow-arrow-label">Purposeful sampling (n = 25 threads)</span>
+                            </div>
+                            <div class="flow-node">Unit of Analysis: Thread-level posts &amp; replies</div>
+                            <div class="flow-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                                <span class="flow-arrow-label">Cycle 1: Open coding (line-by-line)</span>
+                            </div>
+                            <div class="flow-node">14-Dimension Codebook (see Section 5)</div>
+                            <div class="flow-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                                <span class="flow-arrow-label">Cycle 2: Axial coding &rarr; categories</span>
+                            </div>
+                            <div class="flow-node highlight">Thematic Synthesis &amp; Design Heuristics</div>
+                        </div>
+                        <!-- Method details -->
+                        <div style="flex:1; font-size:11.5px; line-height:1.55;">
+                            <p><strong>Data source:</strong> Reddit r/ChatGPT, r/Aging, r/Caregiver, r/AgingParents — publicly available, first-person health narratives with naturally occurring literacy cues and nudge responses.</p>
+                            <p style="margin-top:6px;"><strong>Sample:</strong> 25 threads via purposeful sampling. Inclusion criteria: (a) health-related AI query, (b) ChatGPT response discussion, (c) identifiable literacy cues. Saturation tracked per thread.</p>
+                            <p style="margin-top:6px;"><strong>Content analysis approach:</strong> Two-cycle manual coding. Cycle 1: line-by-line open codes generating initial categories. Cycle 2: axial coding aligning categories to 4-layer theoretical framework (heterogeneity, hypernudges, seamful design, contestability).</p>
+                            <p style="margin-top:6px;"><strong>Unit of analysis:</strong> Individual thread (OP + all replies) treated as a single case, enabling cross-case comparison across literacy levels.</p>
+                            <p style="margin-top:6px;"><strong>Rigour:</strong> Codebook reviewed by supervisor; saturation log maintained; reflexive journaling to guard against stereotypical framing of older adults.</p>
+                        </div>
+                    </div>
+                    <!-- Illustrative User Quotes -->
+                    <div style="margin-top:12px; border-top:1px dashed var(--poster-border); padding-top:10px;">
+                        <p style="font-size:10.5px; font-weight:700; color:var(--poster-blue); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.3px;">Illustrative Data Excerpts Across Literacy Spectrum</p>
+                        <div style="display:flex; gap:10px;">
+                            <div class="user-quote-card uq-high">
+                                <span class="uq-tag uq-tag-h">Literacy: High</span>
+                                <span class="uq-tag" style="background:#fde8e8; color:#c0392b;">Halo: 2</span>
+                                <p class="uq-text">&ldquo;I have spent the past 8 months training a model to be a trauma-informed therapist. 62f. Changed my life!!&rdquo;</p>
+                                <p class="uq-meta">r/Aging &bull; 60+ &bull; AI as therapist role &mdash; high literacy enables critical use, yet halo effect assigns AI professional authority</p>
+                            </div>
+                            <div class="user-quote-card uq-mid">
+                                <span class="uq-tag uq-tag-m">Literacy: Mid</span>
+                                <span class="uq-tag" style="background:#fde8e8; color:#c0392b;">Hypernudge: 2</span>
+                                <p class="uq-text">&ldquo;ChatGPT had a negative interpretation of the findings. I braced myself when the doctor came in, only for her to tell me all looked fine.&rdquo;</p>
+                                <p class="uq-meta">r/AgingParents &bull; Caregiver &bull; AI misread MyChart results &mdash; pre-empts physician, generating unnecessary anxiety</p>
+                            </div>
+                            <div class="user-quote-card uq-low">
+                                <span class="uq-tag uq-tag-l">Literacy: Low</span>
+                                <span class="uq-tag" style="background:#fef3cd; color:#856404;">Halo: 1</span>
+                                <p class="uq-text">&ldquo;She had made friends with ChatGPT and spent all night talking to it&hellip; until 4am and even named it Eva.&rdquo;</p>
+                                <p class="uq-meta">r/ChatGPT &bull; 80+ widow &bull; Deep emotional attachment &mdash; AI fills social void, dependency risk without literacy safeguards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 5. CODEBOOK TAXONOMY ===== -->
+                <div class="poster-section">
+                    <h2><span class="section-num">5</span> Codebook Taxonomy</h2>
+                    <p style="font-size:10.5px; margin-bottom:6px; color:#555;">14-dimension coding framework developed through iterative open coding of Reddit health threads:</p>
+                    <table class="codebook-table">
+                        <thead>
+                            <tr><th>Dimension</th><th>Definition</th><th>Example Codes</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Subreddit</td><td>Source discussion forum</td><td>r/Aging, r/Caregiver, r/ChatGPT, r/Adulting</td></tr>
+                            <tr><td>Literacy Level</td><td>User digital literacy estimate</td><td>High (H), Mid (M), Low (L)</td></tr>
+                            <tr><td>Theme</td><td>Core psychological expression</td><td>Trust, Fear, Joy, Misinterpretation, Grief, Hope</td></tr>
+                            <tr><td>Mechanism</td><td>AI design mechanism involved</td><td>Hypernudge, Halo AI, Dark Nudge, Anthropomorphism</td></tr>
+                            <tr><td>Outcome</td><td>Impact on user</td><td>Decision Support, Anxiety, Halo Effect, Dependency</td></tr>
+                            <tr><td>Age Group</td><td>User/subject age range</td><td>40s-50s, 60+, 70+, 75+, 80+, 90+</td></tr>
+                            <tr><td>Hypernudge Level</td><td>AI usage intensity (0&ndash;2)</td><td>Companionship, Medical Research, Self-Diagnosis</td></tr>
+                            <tr><td>Risk Level</td><td>Potential harm severity</td><td>High Risk, Medium Risk, Low Risk, Beneficial</td></tr>
+                            <tr><td>Info Source</td><td>AI information origin</td><td>Patient Portal, MyChart, Medical Transcripts, Web</td></tr>
+                            <tr><td>Emotional State</td><td>User emotional context</td><td>Grief, Loneliness, Hope, Fear, Joy, Overwhelmed</td></tr>
+                            <tr><td>Halo Overtrust</td><td>AI trust pattern (0&ndash;2)</td><td>Blind Trust, Critical Use, Authority-Reinforced</td></tr>
+                            <tr><td>Privacy Concern</td><td>Privacy awareness level</td><td>High Concern, Abandoned Privacy, No Concern</td></tr>
+                            <tr><td>Social Impact</td><td>Effect on social behaviour</td><td>Social Recovery, Isolation, Family Communication</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ===== 6. REBUTTAL ===== -->
+                <div class="poster-section span-2">
+                    <h2><span class="section-num">6</span> Anticipated Rebuttal &amp; Counter-Stereotyping</h2>
+                    <div style="display:flex; gap:16px;">
+                        <div style="flex:1;">
+                            <div class="rebuttal-card">
+                                <div class="rebuttal-q">Challenge: "Aren't you reinforcing the stereotype that older adults are tech-incompetent?"</div>
+                                <p>No. This study explicitly rejects deficit framing. Evidence shows <strong>high-literacy older adults</strong> effectively use ChatGPT for health triage — e.g., a retired nurse using ChatGPT to manage vertigo symptoms and critically evaluating its advice <span class="cite">[Web:29]</span>. The focus is on <strong>literacy as a spectrum</strong>, not age as a deficit.</p>
+                            </div>
+                            <div class="rebuttal-card">
+                                <div class="rebuttal-q">Challenge: "Isn't 'older adults' too broad a category?"</div>
+                                <p>Precisely the point. Dai &amp; Moffatt (2021) demonstrate that <strong>heterogeneity within the 65+ cohort</strong> is larger than differences between age groups <span class="cite">[Web:52]</span>. Our literacy-cue taxonomy captures this variability rather than collapsing it.</p>
+                            </div>
+                        </div>
+                        <div style="flex:1;">
+                            <div class="rebuttal-card">
+                                <div class="rebuttal-q">Challenge: "n=25 is too small."</div>
+                                <p>Qualitative content analysis prioritises <strong>depth over breadth</strong>. We employ thematic saturation tracking — coding stops when new threads yield no new codes. Prior Reddit QCA studies validate 20–30 thread samples for exploratory research.</p>
+                            </div>
+                            <div class="rebuttal-card">
+                                <div class="rebuttal-q">Challenge: "Reddit users aren't representative of older adults."</div>
+                                <p>Acknowledged as a limitation. Reddit skews younger and more tech-literate. However, it provides <strong>naturally occurring, unelicited health narratives</strong> — a strength for ecological validity. Future work should triangulate with interviews.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 7. TIMELINE & LIMITATIONS ===== -->
+                <div class="poster-section">
+                    <h2><span class="section-num">7</span> Timeline &amp; Limitations</h2>
+
+                    <p style="font-size:12px; font-weight:600; margin-bottom:6px;">Project Timeline</p>
+                    <div class="timeline-bar">
+                        <div class="timeline-phase">DRF<br><span style="font-weight:400; font-size:9px;">Weeks 1–6</span></div>
+                        <div class="timeline-phase">RPR Draft<br><span style="font-weight:400; font-size:9px;">Weeks 7–10</span></div>
+                        <div class="timeline-phase">Final RPR<br><span style="font-weight:400; font-size:9px;">Weeks 11–13</span></div>
+                    </div>
+
+                    <p style="font-size:12px; font-weight:600; margin-top:16px; margin-bottom:6px;">Limitations</p>
+                    <span class="limit-tag">Reddit sampling bias</span>
+                    <span class="limit-tag">No direct age verification</span>
+                    <span class="limit-tag">Single-coder risk</span>
+                    <span class="limit-tag">English-only threads</span>
+
+                    <p style="font-size:12px; font-weight:600; margin-top:12px; margin-bottom:6px;">Mitigations</p>
+                    <span class="strength-tag">Saturation log tracked</span>
+                    <span class="strength-tag">Supervisor codebook review</span>
+                    <span class="strength-tag">Reflexive journal</span>
+                    <span class="strength-tag">Thick description for transferability</span>
+                </div>
+
+            </div>
+            <!-- end poster-body -->
+
+            <!-- Footer -->
+            <div class="poster-footer">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <div class="qr-placeholder">QR<br>Code</div>
+                    <div>
+                        <div style="font-weight:600;">Scan for full method details &amp; codebook</div>
+                        <div style="opacity:0.7; margin-top:2px;">Portfolio: gainshin.github.io/Portfolio</div>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-weight:600;">Thank You &mdash; Questions Welcome</div>
+                    <div style="opacity:0.7; margin-top:2px;">INFS 611 &nbsp;|&nbsp; February 24, 2026 &nbsp;|&nbsp; Group 17</div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end poster -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof renderSidebar === 'function') {
+                renderSidebar('infs611-poster');
+            }
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+
+</html>

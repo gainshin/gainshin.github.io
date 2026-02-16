@@ -37,6 +37,14 @@ const sidebarNavData = [
             { href: "Zotero_round5.html", icon: "bookmark", label: "Zotero Report (Round 5)", id: "zotero5" },
         ]
     },
+    {
+        group: "Deliverables",
+        id: "deliverables",
+        collapsible: true,
+        items: [
+            { href: "INFS_611_poster.html", icon: "presentation", label: "Research Proposal Poster", id: "infs611-poster" },
+        ]
+    },
 ];
 
 function renderSidebar(activePageId) {
