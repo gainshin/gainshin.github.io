@@ -25,6 +25,14 @@ const sidebarNavData = [
         ]
     },
     {
+        group: "Bi-weekly Discussion",
+        id: "biweekly-discussion",
+        collapsible: true,
+        items: [
+            { href: "Bi-weekly-discussion.html", icon: "message-circle", label: "B: Heuristic Audit Tool (Wk 7-8)", id: "biweekly-wk78" },
+        ]
+    },
+    {
         group: "Zotero Reports",
         id: "zotero-reports",
         collapsible: true,

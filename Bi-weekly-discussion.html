@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bi-weekly Discussion: Heuristic Audit Tool (Week 7-8) - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font: 62.5% Georgia, Times, serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        .toc-container {
+            position: sticky;
+            top: 20px;
+            width: 220px;
+            min-width: 220px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 6px;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1100px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                max-width: 900px;
+            }
+        }
+
+        .markdown-body {
+            font-size: 1.4em;
+            line-height: 1.5em;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #555;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.2em 0 0.4em;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.3em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .markdown-body a:hover {
+            color: #777;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #ccc;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 0.75em 1em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        .markdown-body table {
+            border: 1px #ccc solid;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0 1em;
+            font-size: 0.9em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px #ccc solid;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .collapsible-section {
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding-right: 10px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header h1,
+        .section-header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .collapse-indicator {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .collapsible-section.collapsed .collapse-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .print-section-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            margin-left: 8px;
+            font-size: 0.7em;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-tertiary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            vertical-align: middle;
+        }
+
+        .print-section-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        @media print {
+            body, html {
+                overflow: visible !important;
+                height: auto !important;
+            }
+
+            .sidebar, .main-header, .toc-container, .overlay,
+            .print-section-btn {
+                display: none !important;
+            }
+
+            .main-content, .main-body {
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+
+            .content-container {
+                max-width: 100% !important;
+            }
+
+            .collapsible-section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+
+            .collapse-indicator {
+                display: none;
+            }
+
+            body.printing-section .collapsible-section {
+                display: none !important;
+            }
+
+            body.printing-section .collapsible-section.print-target {
+                display: block !important;
+            }
+
+            body.printing-section .collapsible-section.print-target .section-content {
+                max-height: none !important;
+                opacity: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Bi-weekly Discussion (Wk 7-8)</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body" id="main-body">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <article class="markdown-body" id="markdown-content">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading content...</p>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="toc-container" id="toc-container">
+                    <ul class="toc-list" id="toc-list">
+                        <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
+                        <li style="margin-top: 8px;"><a href="#weaudit-vs-chainforge-next-steps-for-hci-audit-tools" data-section="weaudit-vs-chainforge-next-steps-for-hci-audit-tools">Comparison Table</a></li>
+                        <li><a href="#user-engaged-auditing-evolution-tree" data-section="user-engaged-auditing-evolution-tree">Evolution Tree</a></li>
+                        <li><a href="#conclusion" data-section="conclusion">Conclusion</a></li>
+                        <li><a href="#weaudit-citation-chain-analysis" data-section="weaudit-citation-chain-analysis">Citation Chain Analysis</a></li>
+                        <li style="margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 8px;"><a href="#critical-reflection-three-logical-tensions-in-my-framework" data-section="critical-reflection-three-logical-tensions-in-my-framework" style="font-weight: 500;">Critical Reflection</a></li>
+                        <li><a href="#note-1-the-frictionusability-paradox" data-section="note-1-the-frictionusability-paradox">Note 1: Friction–Usability</a></li>
+                        <li><a href="#note-2-the-auditor-capability-gap" data-section="note-2-the-auditor-capability-gap">Note 2: Auditor Gap</a></li>
+                        <li><a href="#note-3-the-temporal-gap" data-section="note-3-the-temporal-gap">Note 3: Temporal Gap</a></li>
+                        <li><a href="#note-4-cross-layer-fracture-point-analysis" data-section="note-4-cross-layer-fracture-point-analysis">Note 4: Cross-Layer Fractures</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        const renderer = new marked.Renderer();
+        renderer.heading = function (arg1, arg2, arg3) {
+            let text, level, raw;
+            if (typeof arg1 === 'object') {
+                text = arg1.text;
+                level = arg1.depth;
+                raw = arg1.raw;
+            } else {
+                text = arg1;
+                level = arg2;
+                raw = arg3 || text;
+            }
+
+            const id = raw
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            return `<h${level} id="${id}">${text}</h${level}>\n`;
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            headerIds: true,
+            mangle: false
+        });
+
+        const markdownContent = `# B: Heuristic Audit Tool — Bi-weekly Discussion (Week 7–8)
+
+## WeAudit vs. ChainForge: Next Steps for HCI Audit Tools
+
+| Dimension | WeAudit (CMU HCII, Eslami et al.) [arxiv](https://arxiv.org/html/2501.01397v1) | ChainForge (Ian Arawjo, Harvard HCI) [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | My Assessment |
+|-----------|---------------------------------------------|---------------------------------------------|------------------------|
+| **Core Functionality** | Participatory user audit workflow: enables everyday users (non-experts) to discover AI bias/harm and generate reports for developers/auditors. [arxiv](https://arxiv.org/abs/2501.01397) | Visual prompt engineering tool: batch-test prompts, models, and parameters; evaluate response quality (e.g., math accuracy, chart visualization). [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | I lean toward WeAudit — it maps directly onto my "user-as-auditor" concept. |
+| **Target Users** | Everyday users + AI practitioners (collaborative GenAI audit). Emphasizes that non-experts can contribute. [arxiv](https://arxiv.org/html/2501.01397v4) | Prompt engineers, researchers, developers. Technically oriented; requires LLM API familiarity. [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | WeAudit aligns better with my focus on older adults as a vulnerable population. |
+| **Audit Focus** | Social/ethical audit: bias, harm, transparency. Supports contestability. [arxiv](https://arxiv.org/html/2501.01397v1) | Technical performance audit: prompt variation, model comparison, evaluation metrics (e.g., length, ground truth). [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | WeAudit fits my hypernudge and dark pattern concerns more closely. |
+| **Alignment with My Framework** | Layer 3 (Seamful) + Layer 4 (Contestability): directly provides a "user-as-auditor" scaffold, filling the socio-technical gap in my audit tool. [Framework](Framework.html) | Layer 2 (Hypernudge): could be used to test agentic AI prompts, but I would need to build custom eval logic to detect nudge/bias. [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | WeAudit offers a more direct bridge to my Layer 4. |
+| **Feasibility for Next Steps** | Conceptual borrowing: I can extend my heuristic checklist into a user-engaged workflow. Easy to frame as a narrative review. [cs.cmu](https://www.cs.cmu.edu/news/2025/we-audit) | Prototype borrowing: I could fork the GitHub repo and adapt it into a hypernudge detection flow, but my Python is still developing — heavier lift short-term. [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | For now, WeAudit lets me expand the literature faster. |
+| **Limitations** | No public GitHub (paper-based only); I cannot fork it directly. [arxiv](https://www.arxiv.org/abs/2501.01397) | Biased toward prompt testing, not social audit; I would need to build custom "nudge detector" logic. [hcii.cmu](https://www.hcii.cmu.edu/news/empowering-everyday-folks-audit-ai) | — |
+
+## User-Engaged Auditing Evolution Tree
+
+<div id="mermaid-placeholder"></div>
+
+---
+
+## Conclusion
+
+**I believe WeAudit is the better fit for my HCI Audit next step.** It directly addresses my goal of turning HCI practitioners into auditors, especially around Layer 4 contestability and user vulnerability. It offers a path to upgrade my audit tool from a static heuristic checklist to a **collaborative audit platform**. ChainForge is better suited for a later prototyping phase (e.g., INFS 604), but for now, prioritizing WeAudit secures my literature foundation. [arxiv](https://arxiv.org/html/2501.01397v1)
+
+---
+
+# WeAudit Citation Chain Analysis
+
+The anchor paper for this chain is **Deng, W. H., Claire, W., Han, H. Z., Hong, J. I., Holstein, K., & Eslami, M. (2025). WeAudit: Scaffolding User Auditors and AI Practitioners in Auditing Generative AI. *Proceedings of the ACM on Human-Computer Interaction, 9*(CSCW), 1–35.** ([DOI: 10.1145/3757702](https://dl.acm.org/doi/10.1145/3757702)). I traced its citation network in both directions — forward (cited-by) and backward (references) — to map the surrounding literature.
+
+## Forward Citations (2025+, Studies Citing WeAudit)
+
+### Crowdsourcing Verification Pipeline
+**Wang Claire** is a co-author on the WeAudit paper itself. The team's ongoing work explores crowdsourcing pipelines to verify user-generated audit reports, emphasizing amplification of minority voices. This resonates with my focus on older adults, who are often underrepresented in AI auditing processes.
+
+### User Study Follow-ups
+The WeAudit team conducted a **3-week user study + 4-month longitudinal follow-up**, confirming that everyday users can identify GenAI biases and produce actionable reports for practitioners. This empirical evidence strengthens my argument that non-expert auditors (including older adults) can meaningfully participate in hypernudge detection.
+
+### Practitioner Interviews
+Interviews with **10 industry GenAI practitioners** revealed that WeAudit-generated reports are useful for improving workflows, but need better integration with existing red-teaming processes. This is a practical constraint I should account for when proposing my audit tool — it cannot exist in isolation but must interface with current industry practice.
+
+## Backward Citations (Foundational Work WeAudit Builds On)
+
+### Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing in Industry Practice
+**Deng, W. H., Guo, B., Devrio, A., Shen, H., Eslami, M., & Holstein, K. (2023).** *Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems* (pp. 1–18). ACM. ([DOI: 10.1145/3544548.3581026](https://dl.acm.org/doi/10.1145/3544548.3581026))
+
+This study identifies the practical challenges practitioners face in user-engaged auditing. WeAudit's formative study draws directly from these findings. I can use this to justify why my heuristic tool must address practitioner pain points, not just user needs.
+
+### Supporting User Engagement in Testing, Auditing, and Contesting AI
+**Deng, W. H., Lam, M. S., Cabrera, Á. A., Metaxa, D., Eslami, M., & Holstein, K. (2023).** *Computer Supported Cooperative Work and Social Computing* (CSCW '23, pp. 556–559). ACM. ([DOI: 10.1145/3584931.3611279](https://dl.acm.org/doi/10.1145/3584931.3611279))
+
+This framework for user participation in AI testing provided the basis for WeAudit's 6 design goals. It connects directly to my Layer 4 (Contestability) — the idea that users should not merely receive AI outputs but actively test and contest them.
+
+## Extension Value for My Framework
+
+These citation chains allow me to construct a **"user-engaged auditing evolution tree"**:
+
+> **User-Engaged Auditing Challenges (CHI 2023)** + **Supporting User Engagement (CSCW 2023)** → **WeAudit Workflow (CSCW 2025)** → **Crowdsourcing Verification (ongoing)**
+
+This progression fills the **Layer 4 Contestability tooling gap** in my framework. It demonstrates that everyday users — including vulnerable populations like older adults — can participate in hypernudge auditing, moving from passive recipients to active auditors. The three papers I have collected in Zotero form a tight citation chain authored by the same CMU HCII research group (Deng, Eslami, Holstein), giving me a coherent intellectual lineage for my audit tool design in INFS 604.
+
+---
+
+# Critical Reflection: Three Logical Tensions in My Framework
+
+The following notes document three internal contradictions I have identified in my current argument. These are not flaws to hide — they are design tensions that must be explicitly resolved for the framework to be intellectually honest and practically viable.
+
+---
+
+# Note 1: The Friction–Usability Paradox
+
+## The Tension
+
+My core countermeasure in Layer 3 is **Seamful Design** — specifically, **Cognitive Forcing Functions** (Gull et al., 2025) that introduce "positive friction" to interrupt autopilot reliance on AI recommendations.
+
+However, the MOLD-US framework (Wildenbos et al., 2018) — which I cite in Layer 1 — documents that older adults already face **cognitive decline**, **navigational complexity**, and **perception barriers** when using digital health tools.
+
+## The Contradiction
+
+For a general-population user, a small dose of friction serves as a helpful cognitive speed bump. But for an older adult whose cognitive resources are already strained, **adding friction is very likely to become a usability disaster**. If the design is too "seamful," older adults may feel frustrated, abandon the tool, or experience heightened anxiety — the exact opposite of the protective effect I intend.
+
+## My Proposed Resolution: Elder-Friendly Friction
+
+I need to define a new concept: **"Elder-Friendly Friction."** This type of friction should not increase operational difficulty. Instead, it should function as **sensory-level reminders** — for example:
+
+- **Voice prompts** that narrate what the AI is recommending and why
+- **Simplified visual contrast** (e.g., color-coded trust indicators) rather than complex dashboards
+- **Temporal pauses** (a brief delay before the AI suggestion is actionable) rather than additional input steps
+
+The key principle: friction should operate at the **attention layer** (drawing awareness), not at the **action layer** (blocking task completion). This distinction must be formally integrated into my heuristic checklist.
+
+---
+
+# Note 2: The Auditor Capability Gap
+
+## The Tension
+
+In my Week 7–8 discussion, I lean toward the WeAudit framework, positioning older adults as **"user auditors"** who can identify AI bias and hidden influence.
+
+However, in Week 6 I documented two key vulnerabilities: the **AI Literacy Gap** (Peixoto et al., 2025) and the **Halo Effect** (Ellis, 2025) — older adults over-trust healthcare institutions, and that trust transfers uncritically to AI systems.
+
+## The Contradiction
+
+A user who is (a) over-trusting the system due to the Halo Effect and (b) lacking in AI literacy is being asked to **critically audit** that same system. **Asking the manipulated to detect the manipulation is logically self-contradictory.** The very cognitive biases that make older adults vulnerable are the same biases that would impair their ability to act as effective auditors.
+
+## My Proposed Resolution: Pre-Audit Scaffolding
+
+My audit tool prototype must include a **"warm-up / education phase"** before any auditing activity begins. Two possible mechanisms:
+
+1. **Halo Effect Inoculation**: Brief, concrete examples showing how trusted institutions can still deploy AI that makes errors — normalizing skepticism without inducing distrust of healthcare itself.
+2. **Intuitive Audit Triggers**: Design audit mechanisms that do not require deep AI knowledge. For example, instead of asking "Is this AI recommendation biased?", ask **"Did you feel like you had a real choice?"** or **"Was there something you wanted to ask but couldn't?"** — questions that tap into felt experience rather than technical literacy.
+
+The goal is to lower the bar for auditing from "AI expertise" to **"reflective awareness of one's own decision-making experience."**
+
+---
+
+# Note 3: The Temporal Gap
+
+## The Tension
+
+**Hypernudges** (Yeung, 2017; Duane et al., 2025) operate in **real-time**: they dynamically adapt to behavioral data, continuously adjusting the choice environment at a subconscious level.
+
+My Layer 4 solution is **Contestability** (Vaithilingam et al., 2024/2025) — the right to challenge and correct AI outputs.
+
+## The Contradiction
+
+Contestability, as currently framed in the literature, is largely **post-hoc and procedural** — it happens after a decision has been made, through formal appeals or complaint mechanisms. But hypernudges operate **pre-consciously and in-the-moment**. By the time a user realizes they might want to "contest" something, their cognitive preferences have likely already been shaped. **The damage precedes the remedy.**
+
+## My Proposed Resolution: In-the-Moment Contestability
+
+My audit tool must redefine contestability from a post-decision appeal process to an **in-situ, real-time mechanism**. Practically, this means:
+
+- **Reject-and-Regenerate**: At the moment the AI presents a recommendation, provide an immediately visible option to **"Decline this suggestion and see alternatives"** — not buried in settings, but as prominent as the recommendation itself.
+- **Transparent Reasoning Preview**: Before the user acts on any AI suggestion, display a one-sentence summary of **why** the AI made this recommendation — creating a micro-pause that activates deliberative thinking.
+- **Decision Journal**: Automatically log each AI recommendation and the user's response, creating a reviewable trail that supports **retrospective** contestability even when in-the-moment awareness was bypassed.
+
+The principle: contestability must be both **synchronous** (available during the interaction) and **asynchronous** (reviewable after the fact). Neither alone is sufficient against a real-time adversary like hypernudging.
+
+---
+
+# Note 4: Cross-Layer Fracture Point Analysis
+
+The three tensions above are not isolated — they expose a **systemic fracture** that runs through all four layers of my framework. The following table maps each layer's logical chain and identifies the exact point where the argument risks breaking down.
+
+| Layer | Logical Starting Point | Logical Endpoint | Potential Fracture Point |
+|-------|----------------------|-----------------|------------------------|
+| **Layer 1: User Vulnerability** | Halo Effect (over-trust) | Susceptibility to exploitation | If trust is blind, users may not *want* protection — they may actively resist interventions that question the system they trust. |
+| **Layer 2: Design Risk** | Hypernudge (subconscious steering) | Invisible influence | **Core dilemma**: How can manipulation that is *by design invisible* be "seen" and "audited" by the very users it targets? |
+| **Layer 3: HCI Countermeasure** | Seamful Design (adding friction) | Disrupting autopilot navigation | Friction may cause older adults to abandon the tool entirely (Usability Crash) — the cure kills the patient. |
+| **Layer 4: Governance** | Contestability (right to challenge) | Restoring user agency | Can legal/procedural mechanisms operate at the millisecond timescale of algorithmic nudging? |
+
+### What This Table Reveals
+
+These fracture points are not independent failures — they form a **causal chain of vulnerability** where each layer's solution actively undermines another layer's assumptions.
+
+---
+
+## Discussion: Cross-Layer Fracture Dynamics
+
+### 1. Trust vs. Friction — Layer 1 Undermines Layer 3
+
+When older adults hold a strong **Halo Effect** toward healthcare institutions, they default to the assumption that the system is flawless. Anything the hospital recommends must be good.
+
+**The fracture**: If I introduce "protective friction" at Layer 3, users who over-trust the system will interpret that friction not as protection but as a **product defect** or a **pointless obstacle**. Their internal logic: *"If my doctor recommended this app, why is it deliberately making things harder for me?"* The friction I designed as a shield gets perceived as a flaw — and the user either ignores it or complains to their provider, who may then disable the safeguard.
+
+### 2. Invisible Manipulation vs. Right to Contest — Layer 2 Undermines Layer 4
+
+The entire design goal of a **Hypernudge** is subconscious steering — altering user preferences without the user ever noticing the influence occurred.
+
+**The fracture**: If I cannot first make the manipulation **visible** at Layer 2, then Layer 4's contestability mechanism becomes meaningless. A user will never invoke a "right to challenge" against **a decision they believe they made freely**. You cannot contest what you cannot see. The nudge has already reshaped their preferences before conscious awareness even engages. Contestability without visibility is an empty right.
+
+### 3. Friction Triggers Trust Collapse — Layer 3 Undermines Layer 1
+
+If Layer 3 friction is miscalibrated, it dramatically increases the cognitive load on older adults who are already operating near their capacity ceiling.
+
+**The fracture**: Excessive anxiety does not merely create a usability problem — it **actively erodes the baseline trust** that Layer 1 depends on. The user's experience shifts from "this system helps me" to **"this system is working against me."** That frustration compounds into a sense of being deliberately obstructed, leading to abandonment. The protective intervention destroys the very engagement it was meant to protect.
+
+---
+
+### Implication for My Audit Tool
+
+This three-way fracture analysis tells me that my audit tool cannot address each layer independently. The layers are **causally entangled** — intervening at one layer without accounting for its downstream effects on the others will produce paradoxical outcomes. My tool must be designed as an **integrated intervention stack** with explicit sequencing:
+
+1. **Layer 1 → Layer 3 dependency**: Halo Effect inoculation must **precede** friction deployment — users need to understand *why* the friction exists before encountering it, otherwise they reject it.
+2. **Layer 2 → Layer 4 dependency**: Nudge visibility must **enable** contestability — detection comes before the right to challenge. I must build a "make-it-visible" module that surfaces hypernudge patterns before offering the contest mechanism.
+3. **Layer 3 → Layer 1 feedback loop**: Friction intensity must be **calibrated per-user** based on real-time Layer 1 vulnerability assessment — one-size-fits-all friction will cause trust collapse in the most vulnerable users while being too weak for less vulnerable ones.
+
+This cross-layer dependency map will serve as the architectural requirement for my INFS 604 prototype.
+`;
+
+        mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+
+        const mermaidDiagram = `graph TD
+    subgraph "2023 Foundational Work"
+        A["Deng et al. CHI 2023<br/>Understanding Practices & Challenges<br/>for User-Engaged Algorithm Auditing"]
+        B["Deng et al. CSCW 2023<br/>Supporting User Engagement in<br/>Testing, Auditing & Contesting AI"]
+    end
+
+    subgraph "2025 Core System"
+        C["Deng et al. CSCW 2025<br/>WeAudit: Scaffolding User Auditors<br/>& AI Practitioners in Auditing GenAI"]
+    end
+
+    subgraph "2025+ Forward Extensions"
+        D["Crowdsourcing Verification<br/>Pipeline - ongoing"]
+        E["3-Week User Study +<br/>4-Month Follow-up"]
+        F["Practitioner Interviews<br/>n=10, Industry GenAI"]
+    end
+
+    subgraph "My Framework Integration"
+        G["Layer 4: Contestability<br/>User-as-Auditor for<br/>Hypernudge Detection"]
+        H["INFS 604<br/>Audit Tool Prototype<br/>for Older Adults"]
+    end
+
+    A -- "formative findings" --> C
+    B -- "6 design goals" --> C
+    C -- "cited by" --> D
+    C -- "empirical validation" --> E
+    C -- "practitioner feedback" --> F
+    C -- "conceptual bridge" --> G
+    G -- "operationalize" --> H
+    D -. "minority voice amplification" .-> H
+    E -. "non-expert auditor evidence" .-> G
+
+    style A fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    style B fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    style C fill:#fff3e0,stroke:#e65100,color:#bf360c
+    style D fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c
+    style E fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c
+    style F fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c
+    style G fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    style H fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20`;
+
+        async function loadMarkdown() {
+            renderSidebar('biweekly-wk78');
+            const contentEl = document.getElementById('markdown-content');
+            contentEl.innerHTML = marked.parse(markdownContent);
+            wrapSectionsInCollapsible();
+            setupScrollHighlighting();
+
+            const placeholder = document.getElementById('mermaid-placeholder');
+            if (placeholder) {
+                const mermaidEl = document.createElement('pre');
+                mermaidEl.className = 'mermaid';
+                mermaidEl.textContent = mermaidDiagram;
+                placeholder.appendChild(mermaidEl);
+                await mermaid.run({ nodes: [mermaidEl] });
+            }
+        }
+
+        function wrapSectionsInCollapsible() {
+            const contentEl = document.getElementById('markdown-content');
+            const allElements = Array.from(contentEl.children);
+
+            const h1Indices = [];
+            allElements.forEach((el, idx) => {
+                if (el.tagName === 'H1') {
+                    h1Indices.push(idx);
+                }
+            });
+
+            if (h1Indices.length === 0) return;
+
+            for (let i = h1Indices.length - 1; i >= 0; i--) {
+                const startIdx = h1Indices[i];
+                const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
+
+                const h1 = allElements[startIdx];
+                const sectionId = h1.id || `section-${i}`;
+
+                const section = document.createElement('div');
+                section.className = 'collapsible-section';
+                section.dataset.sectionId = sectionId;
+
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="collapse-indicator">▾</span>`;
+
+                header.insertBefore(h1.cloneNode(true), header.firstChild);
+
+                const content = document.createElement('div');
+                content.className = 'section-content';
+
+                for (let j = startIdx + 1; j < endIdx; j++) {
+                    content.appendChild(allElements[j].cloneNode(true));
+                }
+
+                section.appendChild(header);
+                section.appendChild(content);
+
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+
+                allElements[startIdx].replaceWith(section);
+
+                for (let j = endIdx - 1; j > startIdx; j--) {
+                    if (allElements[j] && allElements[j].parentNode === contentEl) {
+                        allElements[j].remove();
+                    }
+                }
+            }
+        }
+
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.collapsible-section');
+            const mainBody = document.getElementById('main-body');
+
+            sections.forEach(section => {
+                if (section.dataset.sectionId === sectionId) {
+                    section.classList.remove('collapsed');
+                } else {
+                    section.classList.add('collapsed');
+                }
+            });
+
+            setTimeout(() => {
+                const targetEl = document.getElementById(sectionId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        function expandAllSections() {
+            const sections = document.querySelectorAll('.collapsible-section');
+            sections.forEach(section => {
+                section.classList.remove('collapsed');
+            });
+        }
+
+        function setupScrollHighlighting() {
+            const mainBody = document.getElementById('main-body');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = Array.from(tocLinks).map(link => {
+                const id = link.getAttribute('data-section');
+                if (id === 'top') return null;
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (!link.getAttribute('data-section')) return;
+
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-section');
+
+                    if (targetId === 'top') {
+                        expandAllSections();
+                        mainBody.scrollTo({ top: 0, behavior: 'smooth' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        return;
+                    }
+
+                    navigateToSection(targetId);
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            mainBody.addEventListener('scroll', () => {
+                let currentSection = null;
+                const scrollTop = mainBody.scrollTop;
+
+                if (scrollTop < 100) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'top') {
+                            link.classList.add('active');
+                        }
+                    });
+                    return;
+                }
+
+                sections.forEach(section => {
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        const mainBodyRect = mainBody.getBoundingClientRect();
+                        const offset = rect.top - mainBodyRect.top;
+                        if (offset <= 100) {
+                            currentSection = section.id;
+                        }
+                    }
+                });
+
+                if (currentSection) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        function addPrintButtons() {
+            document.querySelectorAll('.collapsible-section').forEach(section => {
+                const header = section.querySelector('.section-header');
+                if (!header) return;
+                const btn = document.createElement('button');
+                btn.className = 'print-section-btn';
+                btn.innerHTML = '🖨 Print';
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    printSection(section);
+                });
+                header.appendChild(btn);
+            });
+        }
+
+        function printSection(section) {
+            document.body.classList.add('printing-section');
+            section.classList.add('print-target');
+
+            window.print();
+
+            window.addEventListener('afterprint', function cleanup() {
+                document.body.classList.remove('printing-section');
+                section.classList.remove('print-target');
+                window.removeEventListener('afterprint', cleanup);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadMarkdown();
+            addPrintButtons();
+        });
+    </script>
+</body>
+
+</html>
