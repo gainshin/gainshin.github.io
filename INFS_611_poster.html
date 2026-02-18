@@ -728,6 +728,69 @@
                 min-width: 800px;
             }
         }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #fff;
+            color: var(--ink);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.32);
+            z-index: 95;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        body.mobile-portrait .sidebar {
+            position: fixed;
+            left: -100%;
+            top: 0;
+            z-index: 100;
+            transition: left 0.25s ease;
+            height: 100dvh;
+            width: min(82vw, 300px);
+            min-width: min(82vw, 300px);
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+        }
+
+        body.mobile-portrait .sidebar.open {
+            left: 0;
+        }
+
+        body.mobile-portrait .main-content {
+            padding: 12px;
+        }
+
+        body.mobile-portrait .mobile-menu-btn {
+            display: inline-flex;
+        }
+
+        @media (max-width: 1024px) {
+            .print-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .poster {
+                width: 100%;
+                min-width: 0;
+            }
+        }
     </style>
 </head>
 
@@ -740,6 +803,10 @@
 
     <div class="main-content">
         <div class="print-controls">
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i data-lucide="menu" style="width:14px;height:14px;"></i>
+                Menu
+            </button>
             <button onclick="window.print()">Print / Save as PDF</button>
             <button onclick="toggleFullscreen()">Fullscreen</button>
             <span>Tip: A3 landscape or scale to fit</span>
@@ -1211,9 +1278,13 @@
             <div class="fs-exit-hint">Press Esc to exit fullscreen</div>
         </div><!-- end poster -->
     </div>
+    <div class="overlay" id="overlay"></div>
 
     <script>
         const poster = document.querySelector('.poster');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 
         function applyFsZoom() {
             if (!document.fullscreenElement) return;
@@ -1233,6 +1304,35 @@
             }
         }
 
+        function isMobilePortrait() {
+            return window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+        }
+
+        function syncResponsiveSidebar() {
+            const portraitMode = isMobilePortrait();
+            document.body.classList.toggle('mobile-portrait', portraitMode);
+
+            // Force-close drawer whenever layout mode changes.
+            if (!portraitMode) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        }
+
+        function openMobileSidebar() {
+            if (!document.body.classList.contains('mobile-portrait')) return;
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        }
+
+        function closeMobileSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement) {
                 applyFsZoom();
@@ -1244,6 +1344,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof renderSidebar === 'function') renderSidebar('infs611-poster');
             if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            syncResponsiveSidebar();
+            window.addEventListener('resize', syncResponsiveSidebar);
+            window.addEventListener('orientationchange', syncResponsiveSidebar);
+
+            mobileMenuBtn.addEventListener('click', openMobileSidebar);
+            overlay.addEventListener('click', closeMobileSidebar);
+
+            // Close drawer after tapping any sidebar link on mobile portrait.
+            sidebar.addEventListener('click', (event) => {
+                const link = event.target.closest('a');
+                if (link && document.body.classList.contains('mobile-portrait')) {
+                    closeMobileSidebar();
+                }
+            });
         });
     </script>
 </body>
