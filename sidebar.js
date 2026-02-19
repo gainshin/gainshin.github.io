@@ -22,6 +22,7 @@ const sidebarNavData = [
             { href: "Week4_report.html", icon: "file-text", label: "Week 4 Progress Report", id: "week4" },
             { href: "Week5_report.html", icon: "file-text", label: "Week 5 Progress Report", id: "week5" },
             { href: "Week6_report.html", icon: "file-text", label: "Week 6 Progress Report", id: "week6" },
+            { href: "Week7_report.html", icon: "file-text", label: "Week 7 Progress Report", id: "week7" },
         ]
     },
     {

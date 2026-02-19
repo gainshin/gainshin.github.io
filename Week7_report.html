@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 7 Progress Report - INFS603 Literature Review - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font: 62.5% Georgia, Times, serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        .toc-container {
+            position: sticky;
+            top: 20px;
+            width: 220px;
+            min-width: 220px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 6px;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1100px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                max-width: 900px;
+            }
+        }
+
+        .markdown-body {
+            font-size: 1.4em;
+            line-height: 1.5em;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #555;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.2em 0 0.4em;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.3em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .markdown-body a:hover {
+            color: #777;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #ccc;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 0.75em 1em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        .markdown-body table {
+            border: 1px #ccc solid;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0 1em;
+            font-size: 0.9em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px #ccc solid;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .collapsible-section {
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding-right: 10px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header h1,
+        .section-header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .collapse-indicator {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .collapsible-section.collapsed .collapse-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        @media print {
+            .collapsible-section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+
+            .collapse-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Week 7</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body" id="main-body">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <article class="markdown-body" id="markdown-content">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading content...</p>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="toc-container" id="toc-container">
+                    <ul class="toc-list" id="toc-list">
+                        <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
+                        <li style="margin-top: 8px;"><a href="#1-recap-four-layer-architecture-status"
+                                data-section="1-recap-four-layer-architecture-status">1. Architecture Status</a></li>
+                        <li><a href="#2-cross-layer-fracture-analysis"
+                                data-section="2-cross-layer-fracture-analysis">2. Fracture Analysis</a></li>
+                        <li><a href="#3-the-auditor-paradox"
+                                data-section="3-the-auditor-paradox">3. Auditor Paradox</a></li>
+                        <li><a href="#4-proxy-auditor-model"
+                                data-section="4-proxy-auditor-model">4. Proxy Auditor Model</a></li>
+                        <li><a href="#5-unrealized-design-concepts"
+                                data-section="5-unrealized-design-concepts">5. Design Concepts</a></li>
+                        <li><a href="#6-framework-amendments"
+                                data-section="6-framework-amendments">6. Framework Amendments</a></li>
+                        <li><a href="#7-implications-for-infs-604"
+                                data-section="7-implications-for-infs-604">7. INFS 604 Implications</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        const renderer = new marked.Renderer();
+        renderer.heading = function (arg1, arg2, arg3) {
+            let text, level, raw;
+            if (typeof arg1 === 'object') {
+                text = arg1.text;
+                level = arg1.depth;
+                raw = arg1.raw;
+            } else {
+                text = arg1;
+                level = arg2;
+                raw = arg3 || text;
+            }
+
+            const id = raw
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            return `<h${level} id="${id}">${text}</h${level}>\n`;
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            headerIds: true,
+            mangle: false
+        });
+
+        async function loadMarkdown() {
+            renderSidebar('week7');
+            const contentEl = document.getElementById('markdown-content');
+            contentEl.innerHTML = marked.parse(fallbackContent);
+            wrapSectionsInCollapsible();
+            setupScrollHighlighting();
+        }
+
+        function wrapSectionsInCollapsible() {
+            const contentEl = document.getElementById('markdown-content');
+            const allElements = Array.from(contentEl.children);
+
+            const h1Indices = [];
+            allElements.forEach((el, idx) => {
+                if (el.tagName === 'H1') {
+                    h1Indices.push(idx);
+                }
+            });
+
+            if (h1Indices.length === 0) return;
+
+            for (let i = h1Indices.length - 1; i >= 0; i--) {
+                const startIdx = h1Indices[i];
+                const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
+
+                const h1 = allElements[startIdx];
+                const sectionId = h1.id || `section-${i}`;
+
+                const section = document.createElement('div');
+                section.className = 'collapsible-section';
+                section.dataset.sectionId = sectionId;
+
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="collapse-indicator">▾</span>`;
+
+                header.insertBefore(h1.cloneNode(true), header.firstChild);
+
+                const content = document.createElement('div');
+                content.className = 'section-content';
+
+                for (let j = startIdx + 1; j < endIdx; j++) {
+                    content.appendChild(allElements[j].cloneNode(true));
+                }
+
+                section.appendChild(header);
+                section.appendChild(content);
+
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+
+                allElements[startIdx].replaceWith(section);
+
+                for (let j = endIdx - 1; j > startIdx; j--) {
+                    if (allElements[j] && allElements[j].parentNode === contentEl) {
+                        allElements[j].remove();
+                    }
+                }
+            }
+        }
+
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.collapsible-section');
+            const mainBody = document.getElementById('main-body');
+
+            sections.forEach(section => {
+                if (section.dataset.sectionId === sectionId) {
+                    section.classList.remove('collapsed');
+                } else {
+                    section.classList.add('collapsed');
+                }
+            });
+
+            setTimeout(() => {
+                const targetEl = document.getElementById(sectionId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        function expandAllSections() {
+            const sections = document.querySelectorAll('.collapsible-section');
+            sections.forEach(section => {
+                section.classList.remove('collapsed');
+            });
+        }
+
+        function setupScrollHighlighting() {
+            const mainBody = document.getElementById('main-body');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = Array.from(tocLinks).map(link => {
+                const id = link.getAttribute('data-section');
+                if (id === 'top') return null;
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (!link.getAttribute('data-section')) return;
+
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-section');
+
+                    if (targetId === 'top') {
+                        expandAllSections();
+                        mainBody.scrollTo({ top: 0, behavior: 'smooth' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        return;
+                    }
+
+                    navigateToSection(targetId);
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            mainBody.addEventListener('scroll', () => {
+                let currentSection = null;
+                const scrollTop = mainBody.scrollTop;
+
+                if (scrollTop < 100) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'top') {
+                            link.classList.add('active');
+                        }
+                    });
+                    return;
+                }
+
+                sections.forEach(section => {
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        const mainBodyRect = mainBody.getBoundingClientRect();
+                        const offset = rect.top - mainBodyRect.top;
+                        if (offset <= 100) {
+                            currentSection = section.id;
+                        }
+                    }
+                });
+
+                if (currentSection) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        const fallbackContent = `# Week 7 Progress Report — Cross-Layer Fracture Analysis & Framework Amendments
+
+> **Course**: INFS603 Literature Review | **Core Library**: 34 papers (5 layers) + supporting references
+>
+> This report extends the Week 6 four-layer architecture by conducting a systematic **Cross-Layer Fracture Analysis** — identifying internal contradictions where one layer's solution undermines another layer's assumptions. The analysis yields three formal amendments to the framework: the **Proxy Auditor Model**, **Pre-Audit Scaffolding dependency**, and **Temporal Spectrum acknowledgment**.
+
+---
+
+## Table of Contents
+1. Recap: Four-Layer Architecture Status
+2. Cross-Layer Fracture Analysis
+3. The Auditor Paradox
+4. Proxy Auditor Model
+5. Unrealized Design Concepts
+6. Framework Amendments
+7. Implications for INFS 604
+
+---
+
+# 1. Recap: Four-Layer Architecture Status
+
+Following Round 6 restructuring, the four-layer architecture now comprises **34 core papers** (all peer-reviewed HCI/CHI/CSCW), with WHO (2021), NIST (2023), and Wang (2025) reclassified as supporting references.
+
+| Layer | Focus | Core Papers | Key Change (R6) |
+|-------|-------|-------------|-----------------|
+| **Layer 1: User Vulnerability** | Halo Effect, AI Literacy Gap, MOLD-US | 5 | Stable |
+| **Layer 2: Hypernudge Risk** | Nudge → Hypernudge → AI-Powered Nudge | 7 | Stable |
+| **Layer 3: HCI Countermeasures** | Seamful Design, Cognitive Forcing Functions | 9 | Stable; Bennion (2020) removed |
+| **Layer 4: Governance** | Contestability + User-as-Auditor | 5 | Deng WeAudit chain added; Kluttz/Almada/Schmude downgraded; WHO/NIST/Wang → supporting |
+| **Cross-Layer (L3↔L4)** | Seamful XAI | 1 (Ehsan 2024) | Stable |
+
+> **Critical observation**: Layer 4 has shifted from a dual-track design (institutional protection + user participation) to a predominantly **user-participation model** centered on the Deng WeAudit citation chain. This shift sharpens the framework's HCI focus but introduces new internal tensions documented below.
+
+---
+
+# 2. Cross-Layer Fracture Analysis
+
+The four layers are not independent modules — they form a **causally entangled system** where interventions at one layer produce downstream effects on others. This section maps four fracture dynamics that the framework must explicitly address.
+
+## Fracture 1: Trust vs. Friction (L1 → L3)
+
+**Starting condition**: Older adults hold a strong Halo Effect toward healthcare institutions (Ellis 2025). They default to trusting that the system is correct and benevolent.
+
+**The break**: When Layer 3 introduces "protective friction" (Cognitive Forcing Functions, attention-layer seams), users who over-trust the system interpret that friction not as protection but as a **product defect**. Internal logic: *"If my doctor recommended this app, why is it deliberately making things harder for me?"* The friction designed as a shield gets perceived as a flaw — users either ignore it or request that their provider disable the safeguard.
+
+**Severity**: High. This fracture directly undermines the core countermeasure mechanism.
+
+## Fracture 2: Invisible Manipulation vs. Right to Contest (L2 → L4)
+
+**Starting condition**: Hypernudges (Yeung 2017; Duane 2025) are designed to operate at the subconscious level — altering user preferences without the user ever noticing the influence.
+
+**The break**: If manipulation remains invisible at Layer 2, then Layer 4's contestability mechanism becomes an **empty right**. Users will never invoke a "right to challenge" against a decision they believe they made freely. You cannot contest what you cannot see. The nudge reshapes preferences *before* conscious awareness engages.
+
+**Severity**: Critical. Without a "make-it-visible" mechanism at L2, the entire L4 governance layer is structurally inoperable.
+
+## Fracture 3: Friction Triggers Trust Collapse (L3 → L1)
+
+**Starting condition**: Layer 3 friction is deployed to interrupt autopilot reliance.
+
+**The break**: If friction is miscalibrated for older adults already operating near their cognitive capacity ceiling (Wildenbos 2018 — MOLD-US Cognition/Perception barriers), it doesn't just create a usability problem — it **actively erodes the baseline trust** that Layer 1 depends on. The user's experience shifts from "this system helps me" to "this system is working against me." Frustration compounds into perceived hostility, leading to abandonment. The protective intervention destroys the very engagement it was meant to protect.
+
+**Severity**: High. Creates a destructive feedback loop: L3 friction → L1 trust erosion → user abandonment → all protection lost.
+
+## Fracture 4: Audit Demands Capability That Vulnerability Denies (L4 → L1) *[New]*
+
+**Starting condition**: Layer 4 now relies on the WeAudit user-as-auditor model (Deng 2025).
+
+**The break**: The R6 restructuring removed institutional safeguards (Kluttz, Almada) that did not require user capability, and reclassified WHO/NIST (which provide passive governance) to supporting. Layer 4 now **almost entirely depends on active user participation** in audit workflows. But Layer 1 documents that these same users suffer from the Halo Effect (over-trust) and AI Literacy Gap (inability to critically evaluate AI). **Asking the manipulated to detect the manipulation is logically self-contradictory.**
+
+**Severity**: Critical. This is the deepest fracture — it challenges the framework's core assumption that older adults can be empowered as auditors without first resolving the vulnerabilities that make them targets.
+
+---
+
+## Fracture Summary Table
+
+| Fracture | Direction | Mechanism | Severity |
+|----------|-----------|-----------|----------|
+| Trust vs. Friction | L1 → L3 | Halo Effect causes friction rejection | High |
+| Invisible → Contest | L2 → L4 | Subconscious nudges make contestability an empty right | Critical |
+| Friction → Trust Collapse | L3 → L1 | Miscalibrated friction erodes engagement trust | High |
+| Audit → Capability | L4 → L1 | WeAudit demands capability that vulnerability denies | Critical |
+
+> **Key insight**: These fractures form a **circular causal chain**: L1 vulnerabilities → L2 exploitation → L3 countermeasures that may backfire → L4 governance that presumes resolved L1 → back to L1. The framework cannot address each layer independently; it must be designed as an **integrated intervention stack with explicit sequencing**.
+
+---
+
+# 3. The Auditor Paradox
+
+## The Core Contradiction
+
+The Deng WeAudit citation chain (2025, 2023a, 2023b) provides the strongest empirical operationalization of contestability-by-design in our literature. However, a critical population mismatch exists:
+
+| Dimension | WeAudit Empirical Base | Our Target Population |
+|-----------|----------------------|----------------------|
+| **Age** | 18–35 (predominantly) | 65+ |
+| **Digital literacy** | Basic to moderate | Low; AI Literacy Gap (Peixoto 2025) |
+| **Trust baseline** | Healthy skepticism | Halo Effect over-trust (Ellis 2025) |
+| **Cognitive resources** | Normal adult capacity | Constrained (Wildenbos 2018 — MOLD-US) |
+| **Motivation to audit** | Intrinsic (recruited as auditors) | None (see system as "doctor's tool") |
+
+## Why This Matters
+
+WeAudit demonstrated that **non-expert users** can generate actionable audit insights when properly scaffolded. But "non-expert" ≠ "cognitively constrained and over-trusting." The 45 WeAudit participants were young, digitally competent users who *volunteered* to audit AI. Our population:
+
+1. **Does not recognize the need** to audit (Halo Effect)
+2. **Lacks the cognitive tools** to evaluate AI outputs critically (AI Literacy Gap)
+3. **Faces physical/perceptual barriers** that reduce interface interaction capacity (MOLD-US)
+
+This is not a minor parameter adjustment — it is a **category mismatch** that requires a structural resolution.
+
+---
+
+# 4. Proxy Auditor Model
+
+## Definition
+
+The **Proxy Auditor Model** formally acknowledges that the primary user (the older adult) cannot and should not be the direct auditor. Instead, audit responsibility is delegated to a **trusted intermediary**:
+
+- **Family members / caregivers** who manage the older adult's digital health tools
+- **Patient advocates** within healthcare institutions
+- **Community health workers** with basic digital literacy training
+- **Peer auditors** from civic tech communities (cf. WeAudit's crowd model)
+
+## How It Works
+
+\`\`\`
+┌─────────────────────────────────────────────────────────────┐
+│                    Proxy Auditor Workflow                     │
+│                                                              │
+│  Older Adult (L1)          Proxy Auditor (L4)               │
+│  ┌──────────────┐          ┌──────────────────┐             │
+│  │ Uses health  │  flags   │ Reviews flagged   │             │
+│  │ AI normally  │─────────▶│ interactions via  │             │
+│  │              │          │ WeAudit workflow  │             │
+│  │ Encounters   │          │                  │             │
+│  │ friction     │          │ Investigates ↔   │             │
+│  │ (L3 seams)   │  report  │ Deliberates      │             │
+│  │              │◀─────────│                  │             │
+│  │ Receives     │          │ Submits findings │             │
+│  │ simplified   │          │ to governance    │             │
+│  │ feedback     │          │ review loop      │             │
+│  └──────────────┘          └──────────────────┘             │
+│                                                              │
+│  Layer 3 friction serves double duty:                        │
+│  1. Attention-layer pause for the older adult                │
+│  2. Signal/logging mechanism for the proxy auditor           │
+└─────────────────────────────────────────────────────────────┘
+\`\`\`
+
+## Key Design Principles
+
+1. **Separation of experience and evaluation**: The older adult *experiences* the AI interaction; the proxy *evaluates* it. This mirrors WeAudit's finding that "lived experience" is the raw material for audit — but the *analytical processing* of that experience can be delegated.
+
+2. **Layer 3 as bridge infrastructure**: Friction seams (attention-layer pauses, "AI is guessing" labels) serve a dual function:
+   - For the older adult: a gentle cognitive nudge toward awareness
+   - For the proxy auditor: a structured log of AI decision points that can be reviewed asynchronously
+
+3. **Deng's "designated proxies" formalized**: Deng (2025) mentions that "designated proxies can flag problematic AI behaviors" for vulnerable populations. The Proxy Auditor Model elevates this from a passing mention to a **first-class architectural component**.
+
+4. **WeAudit's Intuitive Audit Triggers adapted**: Instead of asking older adults "Is this AI biased?", the proxy model captures experiential signals:
+   - "Did you feel like you had a real choice?"
+   - "Was there something you wanted to ask but couldn't?"
+   - "Did the app surprise you in a way that felt wrong?"
+
+   These questions tap into **felt experience** (accessible to older adults) rather than technical evaluation (inaccessible).
+
+## Literature Support
+
+| Concept | Source | Role in Proxy Model |
+|---------|--------|-------------------|
+| Non-expert audit scaffolding | Deng 2025 (WeAudit) | Workflow structure (Investigate ↔ Deliberate) |
+| Practitioner-auditor bridge | Deng 2023a (CHI) | Documents 10 challenges in connecting user insights to practitioners |
+| Testing → Auditing → Contesting | Deng 2023b (CSCW) | Escalation framework applicable to proxy reporting |
+| Contestable AI design principles | Hirsch 2017 | Design foundation for proxy-accessible challenge mechanisms |
+| Contestability framing | Vaithilingam 2024/2025 | Theoretical basis for right to challenge via proxy |
+| Trust calibration | Lee & See 2004 | Defines appropriate reliance targets for proxy assessment |
+| Seamful XAI | Ehsan 2024 | L3↔L4 bridge: seams as both friction and audit signal |
+
+---
+
+# 5. Unrealized Design Concepts
+
+The following concepts have been identified through the fracture analysis and literature synthesis but **have no existing empirical validation**. They represent the design space for the INFS 604 prototype.
+
+## 5.1 Elder-Friendly Friction
+
+**Status**: Theoretical derivation (no empirical testing)
+
+**Principle**: Friction should operate at the **attention layer** (drawing awareness) not the **action layer** (blocking task completion).
+
+| Mechanism | Layer | Description | Cognitive Load |
+|-----------|-------|-------------|---------------|
+| **Voice prompt** | Attention | Narrates what the AI is recommending and why | Minimal (auditory, passive) |
+| **Visual contrast** | Attention | Color-coded trust indicators (green/amber/red) | Low (perceptual, glanceable) |
+| **Temporal pause** | Attention | Brief delay before AI suggestion becomes actionable | Minimal (automatic, no user input) |
+| **Confirmation gate** | Action | "Are you sure?" before high-stakes decisions | Moderate (requires deliberate input) |
+| **Multi-step override** | Action | Several clicks to accept AI recommendation | High (inappropriate for target population) |
+
+**Design target**: The INFS 604 prototype should implement **attention-layer mechanisms only** for the primary older adult user, reserving action-layer friction for the proxy auditor interface.
+
+## 5.2 In-Situ Contestability Mechanisms
+
+**Status**: Conceptual design (not yet prototyped)
+
+### Reject-and-Regenerate
+
+At the moment the AI presents a recommendation, provide an immediately visible option to **"See other options"** — not buried in settings, but as prominent as the recommendation itself.
+
+### Transparent Reasoning Preview
+
+Before the user acts on any AI suggestion, display a one-sentence summary of **why** the AI made this recommendation. This creates a micro-pause that activates deliberative thinking without requiring technical understanding.
+
+### Decision Journal
+
+Automatically log each AI recommendation and the user's response, creating a reviewable trail that supports **retrospective contestability** — enabling the proxy auditor to review interactions asynchronously.
+
+## 5.3 Halo Effect Inoculation
+
+**Status**: Proposed mechanism (no existing implementation)
+
+A brief "warm-up" phase before the AI interaction begins:
+
+1. **Concrete examples** showing how trusted institutions can still deploy AI that makes errors — normalizing skepticism without inducing distrust of healthcare itself
+2. **Framing shift**: "This tool helps your doctor help you — but like any tool, it can make mistakes. That's why we built in safeguards."
+
+**Purpose**: Partially resolve Fracture 4 (Audit → Capability) by lowering the Halo Effect threshold *before* the user encounters the AI system.
+
+---
+
+# 6. Framework Amendments
+
+Based on the fracture analysis, three formal amendments are proposed for the framework (see [Framework v3](Framework.html)):
+
+## Amendment 1: Proxy Auditor Model (Layer 4)
+
+**Current v3 text**: "Users (or their designated proxies) can flag problematic AI behaviors"
+
+**Proposed amendment**: Elevate the proxy model from a parenthetical mention to a **primary architectural component**:
+
+> **Dimension F — Contestability Timing (post-hoc only ↔ in-situ + log dual-layer)**: For older adult populations, contestability is operationalized through the **Proxy Auditor Model**: audit responsibility is delegated to trusted intermediaries (caregivers, patient advocates) who use WeAudit-inspired workflows to evaluate AI interactions logged via Layer 3 friction seams. The older adult provides *experiential signals*; the proxy provides *analytical evaluation*.
+
+## Amendment 2: Pre-Audit Scaffolding Dependency (L1 → L4)
+
+**Current gap**: The framework does not specify preconditions for Layer 4 activation.
+
+**Proposed amendment**: Add an explicit **cross-layer dependency**:
+
+> **L1 → L4 Precondition**: Before any audit workflow (direct or proxy-mediated), a Halo Effect Inoculation phase must attenuate blind trust to a level where the user (or proxy) can engage with contestability mechanisms non-defensively. Without this precondition, friction signals are misinterpreted as system defects and audit triggers are ignored.
+
+## Amendment 3: Temporal Spectrum Acknowledgment (Dimension F)
+
+**Current gap**: Dim F implies that in-situ contestability is achievable via WeAudit.
+
+**Proposed amendment**: Explicitly acknowledge the temporal coverage:
+
+> WeAudit (Deng 2025) fills the **structured campaign audit** zone of the temporal spectrum — organized, asynchronous review of AI interactions. **Real-time in-situ contestability** (millisecond-scale intervention during live hypernudge exposure) remains an **open design challenge** for the INFS 604 prototype. The Reject-and-Regenerate, Transparent Reasoning Preview, and Decision Journal mechanisms are proposed but unvalidated.
+
+---
+
+# 7. Implications for INFS 604
+
+The fracture analysis directly shapes the INFS 604 audit tool prototype requirements:
+
+### Architectural Requirements (derived from fractures)
+
+| Requirement | Source Fracture | Design Response |
+|-------------|----------------|-----------------|
+| Friction must not overwhelm | F1: Trust vs. Friction | Attention-layer only; no action-layer friction for primary users |
+| Nudges must be made visible before contestability | F2: Invisible → Contest | "Make-it-visible" module that surfaces hypernudge patterns |
+| Friction intensity must be adaptive | F3: Friction → Trust Collapse | Per-user calibration based on real-time L1 vulnerability assessment |
+| Audit cannot assume user capability | F4: Audit → Capability | Proxy Auditor Model as default; direct audit as optional escalation |
+
+### Sequencing Constraint
+
+The layers cannot be activated independently. The INFS 604 prototype must implement:
+
+1. **Phase 1 — Inoculation** (L1): Brief Halo Effect attenuation before AI exposure
+2. **Phase 2 — Interaction + Friction** (L2/L3): Attention-layer seams during AI interaction; decision logging
+3. **Phase 3 — Audit** (L4): Proxy-mediated review of logged interactions via adapted WeAudit workflow
+4. **Phase 4 — Feedback Loop** (L3 → L1): Friction intensity adjusted based on observed trust/engagement metrics
+
+### Open Design Challenges
+
+1. **What counts as "elder-friendly" friction?** No empirical data on optimal attention-layer mechanisms for 65+ users interacting with health AI chatbots.
+2. **Proxy recruitment and training**: How are proxy auditors identified, motivated, and equipped? WeAudit recruited volunteers; healthcare contexts may require institutional support.
+3. **Real-time contestability**: The Decision Journal enables retrospective review, but in-the-moment intervention against live hypernudges remains unvalidated.
+4. **Halo Effect inoculation without trust destruction**: The inoculation must attenuate blind trust without inducing distrust of healthcare institutions themselves — a narrow design target.
+
+---
+
+*This report builds on the [Week 6 four-layer architecture](Week6_report.html), the [Bi-weekly Discussion (Week 7–8)](Bi-weekly-discussion.html), and the [5C Literature Decomposition](Zotero_5C.html). The fracture analysis was informed by the R6 restructuring documented in the [Library Status Summary](Zotero_summary.html).*
+`;
+
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+
+</html>
