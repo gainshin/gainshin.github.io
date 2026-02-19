@@ -690,111 +690,130 @@
                         classDef layer2 fill:#FFEBEE,stroke:#C62828,stroke-width:2px
                         classDef layer3 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
                         classDef layer4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-                        classDef bridge fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,stroke-dasharray: 5 5
+                        classDef axis fill:#FFFFFF,stroke:#333,stroke-width:1px,font-size:12px
+                        classDef support fill:#F5F5F5,stroke:#999,stroke-width:1px
 
-                        subgraph L1 ["Layer 1: User Vulnerability"]
+                        subgraph L1 ["Layer 1: User Vulnerability & Trust"]
+                        direction TB
+                        L1_axisA["⟷ Dim A: Blind Trust _ _ _ Calibrated Trust"]:::axis
+                        L1_axisB["⟷ Dim B: Low AI Literacy _ _ _ Basic Understanding"]:::axis
                         L1_halo["Halo Effect<br>Ellis 2025"]
-                        L1_portal["Patient Portal Trust<br>Sakaguchi-Tang 2017"]
                         L1_literacy["AI Literacy Gap<br>Peixoto 2025"]
-                        L1_barriers["MOLD-US Barriers<br>Wildenbos 2018"]
+                        L1_barriers["MOLD-US Barriers<br>Wildenbos 2018"]:::support
+                        L1_portal["Patient Portal Trust<br>Sakaguchi-Tang 2017"]:::support
                         end
 
-                        subgraph L2 ["Layer 2: Design Risk — Hypernudge"]
+                        subgraph L2 ["Layer 2: Hypernudge Risk Mechanism"]
+                        direction TB
+                        L2_axisC["⟷ Dim C: Static Nudge _ _ _ Dynamic Hypernudge"]:::axis
+                        L2_axisD["⟷ Dim D: Visible UI Pattern _ _ _ Invisible Conv. Strategy"]:::axis
                         L2_nudge["Nudge<br>Thaler & Sunstein 2008"]
                         L2_hyper["Hypernudge<br>Yeung 2017"]
                         L2_ai["AI-Powered Nudge<br>Duane 2025"]
-                        L2_dark["Dark Patterns<br>Gray 2018"]
-                        L2_deceptive["Deceptive Patterns<br>Brignull 2024"]
+                        L2_dark["Dark Patterns<br>Gray 2018"]:::support
+                        L2_deceptive["Deceptive Patterns<br>Brignull 2024"]:::support
                         end
 
-                        subgraph L3 ["Layer 3: HCI Countermeasures"]
+                        subgraph L3 ["Layer 3: HCI Countermeasures — Friction & Seams"]
+                        direction TB
+                        L3_axisE["⟷ Dim E: Elder-Friendly Friction _ _ _ Heavy-Action Friction"]:::axis
                         L3_seamful["Cognitive Forcing Functions<br>Gull 2025"]
-                        L3_trust["Trust Calibration<br>Lee & See 2004"]
-                        L3_older["Older Adults + Conv. AI<br>Zubatiy 2023"]
-                        L3_agents["Conv. Agents Design<br>Brewer 2022"]
+                        L3_seams["Attention-Layer Seams<br>AI Visibility + Micro-Pause"]
+                        L3_trust["Trust Calibration<br>Lee & See 2004"]:::support
+                        L3_older["Older Adults + Conv. AI<br>Zubatiy 2023"]:::support
+                        L3_agents["Conv. Agents Design<br>Brewer 2022"]:::support
                         end
 
-                        subgraph L4 ["Layer 4: Governance — Contestability"]
+                        subgraph L4 ["Layer 4: Governance & Contestability"]
+                        direction TB
+                        L4_axisF["⟷ Dim F: Post-Hoc Only _ _ _ In-Situ + Log Dual-Layer"]:::axis
                         L4_contest["Contestability<br>Vaithilingam 2024/2025"]
-                        L4_legal["Legal Foundation<br>Kluttz 2019"]
-                        L4_design["Contestable AI Design<br>Hirsch 2017"]
-                        L4_rights["Rights-Based<br>Almada 2019"]
-                        L4_who["WHO 2021"]
-                        L4_nist["NIST AI RMF 2023"]
+                        L4_weaudit["User-as-Auditor<br>WeAudit Workflow<br>Deng 2025 / 2023a / 2023b"]
+                        L4_design["Contestable AI Design<br>Hirsch 2017"]:::support
+                        L4_who["WHO 2021<br>(supporting)"]:::support
+                        L4_nist["NIST AI RMF 2023<br>(supporting)"]:::support
                         end
 
-                        %% Chain A1: Nudge → Hypernudge
+                        %% Citation chain: Nudge → Hypernudge
                         L2_nudge -->|"coined"| L2_hyper
                         L2_hyper -->|"taxonomized"| L2_ai
                         L2_dark -.->|"static baseline"| L2_ai
 
-                        %% Layer 1 → Layer 2
-                        L1_halo -->|"Trust lowers vigilance"| L2_ai
+                        %% L1 → L2: blind trust feeds invisible manipulation
+                        L1_halo -->|"Blind trust lowers vigilance"| L2_ai
                         L1_literacy -->|"Explanation blind spots"| L3_seamful
 
-                        %% Layer 2 → Layer 3
+                        %% L2 → L3: hypernudge demands friction
                         L2_ai -->|"Demands countermeasure"| L3_seamful
-                        L3_trust -->|"Theoretical basis"| L3_seamful
-                        L3_older -.->|"Empirical data"| L3_seamful
+                        L3_seamful -->|"Converges on"| L3_seams
+                        L3_trust -.->|"Theoretical basis"| L3_seams
+                        L3_older -.->|"Empirical data"| L3_seams
 
-                        %% Layer 3 → Layer 4
-                        L3_seamful -->|"Friction insufficient alone"| L4_contest
-                        L4_legal -.->|"Legal basis"| L4_contest
+                        %% L3 → L4: friction alone insufficient
+                        L3_seams -->|"Friction insufficient alone"| L4_contest
+                        L4_contest -->|"Operationalized via"| L4_weaudit
                         L4_design -.->|"Design principles"| L4_contest
-                        L4_rights -.->|"Rights argument"| L4_contest
-                        L4_who -.->|"Institutional"| L4_contest
-                        L4_nist -.->|"Technical governance"| L4_contest
+                        L4_who -.->|"Institutional (supporting)"| L4_contest
+                        L4_nist -.->|"Technical governance (supporting)"| L4_contest
 
                         %% Amplified Harm bridge
-                        L1_halo -.->|"Amplified Harm: older adults need both friction AND right to challenge"| L4_contest
+                        L1_halo -.->|"Amplified Harm: needs both seams AND contestability"| L4_contest
 
                         %% Styling
-                        class L1_halo,L1_portal,L1_literacy,L1_barriers layer1
-                        class L2_nudge,L2_hyper,L2_ai,L2_dark,L2_deceptive layer2
-                        class L3_seamful,L3_trust,L3_older,L3_agents layer3
-                        class L4_contest,L4_legal,L4_design,L4_rights,L4_who,L4_nist layer4
+                        class L1_halo,L1_literacy layer1
+                        class L2_nudge,L2_hyper,L2_ai layer2
+                        class L3_seamful,L3_seams layer3
+                        class L4_contest,L4_weaudit layer4
+                    </div>
+
+                    <h2>Design Space</h2>
+                    <p><strong>Design Space.</strong> The four‑layer architecture doubles as a risk‑aware design space for agentic health AI with older adults. Each layer corresponds to one core design axis that captures a key design tension (vulnerability, hypernudge mechanism, friction/seams, and contestability), and together they span the spectrum from individual susceptibility to governance‑level safeguards.</p>
+
+                    <div style="margin-bottom: 2rem; padding: 20px; background: #f0f4ff; border-radius: 8px; border-left: 4px solid #1565C0;">
+                        <p style="margin-bottom: 0.75rem;"><strong>HCI framing.</strong> We introduce a four‑layer, risk‑aware design space for agentic health AI with older adults, articulating how design tensions between hypernudging, elder‑friendly friction, and contestability play out in human–AI interaction.</p>
+                        <p style="margin-bottom: 0;"><strong>RAI framing.</strong> We propose a vulnerability‑centered risk and governance blueprint for agentic health AI that operationalizes older‑adult risks, hypernudge mechanisms, and contestability‑by‑design into concrete safeguards and user‑engaged auditing workflows.</p>
                     </div>
 
                     <h2>Framework Details (v3)</h2>
 
-                    <h3>Layer 1: User Vulnerability (Halo Effect + AI Literacy Gap)</h3>
-                    <p><em>Focus: Why older adults are uniquely susceptible.</em></p>
+                    <h3>Layer 1: User Vulnerability & Trust</h3>
+                    <p><em>Focus: Why older adults are uniquely susceptible — and where on the trust spectrum they fall.</em></p>
                     <ul>
-                        <li><strong>Halo Effect (Ellis 2025):</strong> Institutional trust in healthcare brands transfers to AI agents, lowering privacy vigilance.</li>
-                        <li><strong>AI Literacy Gap (Peixoto 2025):</strong> Current XAI explanations are designed for younger users; cognitive decline creates "explanation blind spots."</li>
-                        <li><strong>MOLD-US Framework (Wildenbos 2018):</strong> Cognition and Perception barriers explain why simplified friction must precede complex transparency dashboards.</li>
+                        <li><strong>Dimension A — Trust State (blind trust ↔ calibrated trust):</strong> The Halo Effect (Ellis 2025) drives institutional trust transfer from healthcare brands to AI agents, collapsing vigilance. Trust Calibration theory (Lee & See 2004) provides the target end-state: users who trust appropriately, neither over- nor under-relying on AI.</li>
+                        <li><strong>Dimension B — AI Literacy (low AI literacy ↔ basic understanding):</strong> The AI Literacy Gap (Peixoto 2025) shows current XAI explanations assume younger, tech-literate users; cognitive decline creates "explanation blind spots" that reinforce blind trust.</li>
+                        <li><strong>Supporting evidence:</strong> MOLD-US Framework (Wildenbos 2018) — Cognition and Perception barriers explain why simplified friction must precede complex transparency dashboards. Patient Portal Trust (Sakaguchi-Tang 2017) provides empirical grounding for how trust mis-calibration manifests in health IT contexts.</li>
                     </ul>
 
-                    <h3>Layer 2: Design Risk (Hypernudge Mechanisms)</h3>
-                    <p><em>Focus: The evolution from static nudge to dynamic AI manipulation.</em></p>
+                    <h3>Layer 2: Hypernudge Risk Mechanism</h3>
+                    <p><em>Focus: The evolution from static nudge to dynamic AI manipulation — and its visibility.</em></p>
                     <ul>
-                        <li><strong>Nudge → Hypernudge chain:</strong> Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025).</li>
-                        <li><strong>Static baseline:</strong> Gray (2018) catalogued dark patterns; Brignull (2024) updated the practitioner taxonomy.</li>
-                        <li><strong>Key shift:</strong> Hypernudges are algorithmically driven, real-time, and continuously updated — they bypass deliberative reasoning.</li>
+                        <li><strong>Dimension C — Manipulation Form (static nudge ↔ dynamic hypernudge):</strong> The Nudge → Hypernudge citation chain: Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025). Static dark patterns (Gray 2018; Brignull 2024) serve as baseline; hypernudges are algorithmically driven, real-time, and continuously updated — they bypass deliberative reasoning.</li>
+                        <li><strong>Dimension D — Visibility (visible UI pattern ↔ invisible conversational strategy):</strong> Traditional dark patterns are identifiable UI elements (e.g., trick wording, hidden costs). Hypernudges in conversational AI operate as invisible persuasive strategies embedded in dialogue flow, tone, and framing — undetectable through conventional UI audit.</li>
                     </ul>
 
-                    <h3>Layer 3: HCI Countermeasures (Seamful Design + Calibrated Trust)</h3>
-                    <p><em>Focus: "Positive friction" as the direct antidote to hypernudge passivity.</em></p>
+                    <h3>Layer 3: HCI Countermeasures — Friction & Seams</h3>
+                    <p><em>Focus: "Positive friction" as the direct antidote to hypernudge passivity, calibrated for older adults.</em></p>
                     <ul>
-                        <li><strong>Cognitive Forcing Functions (Gull 2025):</strong> Deliberate design friction that interrupts autopilot reliance on AI.</li>
-                        <li><strong>Trust Calibration (Lee & See 2004):</strong> Over-trust and under-trust both produce harmful outcomes.</li>
-                        <li><strong>Empirical context:</strong> Zubatiy (2023) and Brewer (2022) reveal specific trust-miscalibration patterns in older adults.</li>
+                        <li><strong>Dimension E — Friction Type (elder‑friendly friction ↔ heavy-action friction):</strong> Cognitive Forcing Functions (Gull 2025) propose deliberate design friction that interrupts autopilot reliance on AI. The design axis runs from elder‑friendly friction (attention-layer seams: subtle pauses, confirmations, "AI is guessing" labels) to heavy-action friction (multi-step overrides, explicit consent gates). For older adults, the countermeasure converges on <strong>attention-layer seams</strong> — lightweight interruptions that make AI's nature visible without imposing cognitive burden.</li>
+                        <li><strong>AI visibility as integrated seam:</strong> Transparency (showing AI's reasoning, confidence, data sources) is not a separate axis but an inherent property of elder-friendly friction. Every seam simultaneously reveals that "this is AI" and creates a micro-pause for reflection.</li>
+                        <li><strong>Empirical context:</strong> Zubatiy (2023) and Brewer (2022) reveal specific trust-miscalibration patterns in older adults that inform where seams should be placed in conversational flows.</li>
                     </ul>
 
-                    <h3>Layer 4: Governance (Contestability)</h3>
-                    <p><em>Focus: Users must not only "see" AI but "challenge and correct" it.</em></p>
+                    <h3>Layer 4: Governance & Contestability</h3>
+                    <p><em>Focus: Users must not only "see" AI but "challenge and correct" it — and governance must enforce this right.</em></p>
                     <ul>
-                        <li><strong>Contestability (Vaithilingam 2024/2025):</strong> Explanation alone is insufficient — users must be able to modify AI outputs.</li>
-                        <li><strong>Legal/design foundations:</strong> Kluttz (2019), Hirsch (2017), Almada (2019).</li>
-                        <li><strong>Institutional anchors:</strong> WHO (2021), NIST AI RMF (2023).</li>
+                        <li><strong>Dimension F — Contestability Timing (post-hoc only ↔ in-situ + log dual-layer):</strong> Pure post-hoc contestability (filing a complaint after harm) is inadequate for older adults. The design space demands in-situ contestability (real-time override, "why did you suggest this?" buttons) <em>combined with</em> persistent audit logs that enable retrospective review by the user or their advocate.</li>
+                        <li><strong>User-as-auditor (via WeAudit citation chain):</strong> Rather than a separate axis, the user role spectrum (passive consumer ↔ active auditor) is concretized through the WeAudit-inspired workflow (Deng 2025, 2023a, 2023b): users (or their designated proxies) can flag problematic AI behaviors, which feed into governance review loops. This operationalizes contestability-by-design into a concrete safeguard.</li>
+                        <li><strong>Design foundation:</strong> Hirsch (2017) — translates contestability from legal theory into HCI design principles.</li>
+                        <li><strong>Supporting references:</strong> WHO (2021), NIST AI RMF (2023) — institutional governance anchors (policy/grey literature, not core).</li>
                     </ul>
 
                     <h3>Cross-Layer Logic</h3>
                     <ul>
-                        <li><strong>Layer 1 → 2:</strong> Vulnerability (halo effect) explains <em>why</em> hypernudges are dangerous for older adults.</li>
-                        <li><strong>Layer 2 → 3:</strong> Dynamic hypernudges demand countermeasures beyond static dark pattern audits.</li>
-                        <li><strong>Layer 3 → 4:</strong> Design friction is necessary but insufficient without governance mechanisms guaranteeing users' right to contest.</li>
-                        <li><strong>Layer 1 → 4 (Amplified Harm):</strong> Older adults require <em>both</em> layers of protection — friction AND contestability.</li>
+                        <li><strong>Layer 1 → 2:</strong> Vulnerability (blind trust + low AI literacy) explains <em>why</em> invisible hypernudges are dangerous for older adults.</li>
+                        <li><strong>Layer 2 → 3:</strong> Dynamic, invisible hypernudges demand countermeasures beyond static dark pattern audits — specifically, elder-friendly friction seams.</li>
+                        <li><strong>Layer 3 → 4:</strong> Design friction is necessary but insufficient without governance mechanisms guaranteeing users' right to contest in real time and retrospectively.</li>
+                        <li><strong>Layer 1 → 4 (Amplified Harm):</strong> Older adults require <em>both</em> layers of protection — attention-layer seams (L3) AND dual-layer contestability (L4).</li>
                     </ul>
 
                     <div
