@@ -43,6 +43,8 @@ const sidebarNavData = [
             { href: "Zotero_round3.html", icon: "bookmark", label: "Zotero Report (Round 3)", id: "zotero3" },
             { href: "Zotero_round4.html", icon: "bookmark", label: "Zotero Report (Round 4)", id: "zotero4" },
             { href: "Zotero_round5.html", icon: "bookmark", label: "Zotero Report (Round 5)", id: "zotero5" },
+            { href: "Zotero_round6.html", icon: "bookmark", label: "Zotero Report (Round 6)", id: "zotero6" },
+            { href: "Zotero_5C.html", icon: "scan-search", label: "5C Decomposition", id: "zotero-5c" },
         ]
     },
     {
@@ -135,19 +137,19 @@ function renderSidebar(activePageId) {
     sidebarNavData.forEach(group => {
         // Determine if this group contains the active page
         const hasActiveItem = group.items.some(item => item.id === activePageId);
-        
+
         // Determine initial collapsed state
         // If it has active item -> expanded
         // If it's not collapsible -> expanded
         // Otherwise -> collapsed by default (unless specific logic requires otherwise)
         let isCollapsed = group.collapsible && !hasActiveItem;
-        
+
         // Overview is never collapsed
         if (group.id === 'overview') isCollapsed = false;
 
         const collapsedClass = isCollapsed ? 'collapsed' : '';
-        const toggleIcon = group.collapsible ? 
-            `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sidebar-section-toggle"><polyline points="6 9 12 15 18 9"></polyline></svg>` : 
+        const toggleIcon = group.collapsible ?
+            `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sidebar-section-toggle"><polyline points="6 9 12 15 18 9"></polyline></svg>` :
             '';
 
         const headerCursor = group.collapsible ? 'cursor: pointer;' : 'cursor: default;';
@@ -164,7 +166,7 @@ function renderSidebar(activePageId) {
 
         group.items.forEach(item => {
             const isActive = item.id === activePageId ? 'active' : '';
-            
+
             // Special handling for Research.html Welcome link
             // If we are currently ON Research.html (activePageId === 'welcome'), 
             // the link should handle the internal tab switching if needed, 
@@ -175,18 +177,18 @@ function renderSidebar(activePageId) {
             // Let's check if the current page is Research.html by checking window.location or just use standard links.
             // If we are on Research.html, clicking "Welcome" should probably just reload or do nothing if already active.
             // But Research.html has specific logic for "data-doc-id".
-            
+
             // Refined logic: If we are on Research.html, we might want to preserve the SPA-like behavior for "Welcome".
             // But looking at the plan, we want to replace the hardcoded sidebar.
             // If the user clicks "Welcome" from another page, they go to Research.html.
             // If they are on Research.html, they are already there.
-            
+
             // For now, use standard hrefs. If specific SPA behavior is needed for Research.html, 
             // we can add an event listener there or check if activePageId is 'welcome'.
-            
+
             let href = item.href;
             let extraAttrs = '';
-            
+
             if (activePageId === 'welcome' && item.id === 'welcome') {
                 href = '#';
                 extraAttrs = 'data-doc-id="welcome"';

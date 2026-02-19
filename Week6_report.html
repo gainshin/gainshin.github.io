@@ -873,14 +873,18 @@ Instead of casting a wide net, I adopted a **depth-first** approach: starting fr
 - **Lee & See (2004)** provided the foundational trust-calibration framework explaining *why* such friction is necessary.
 - **Zubatiy et al. (2023)** and **Brewer et al. (2022)** contributed empirical data on older adults interacting with conversational AI, revealing specific trust-miscalibration patterns.
 
-### Chain B: Contestability (Governance Bridge)
+### Chain B: Contestability & User-as-Auditor (Governance Bridge)
 - **Vaithilingam et al. (2024/2025)** proposed that users must not only *see* AI reasoning but *challenge and correct* it.
-- Tracing backward: **Kluttz et al. (2019)**, **Hirsch et al. (2017)**, and **Almada (2019)** established the legal and HCI foundations for contestable AI.
-- **WHO (2021)** and **NIST AI RMF (2023)** anchor this in institutional governance.
+- **Hirsch et al. (2017)** translated contestability from legal theory into HCI design principles (DIS '17).
+- **Deng et al. (2025, WeAudit)** operationalized the "user-as-auditor" concept: a scaffolded workflow enabling non-expert users to detect and report AI harms — the most concrete instantiation of contestability-by-design. Supported by **Deng et al. (2023a, CHI)** (practitioner challenges) and **Deng et al. (2023b, CSCW)** (testing→auditing→contesting framework).
+- *Supporting references: WHO (2021) and NIST AI RMF (2023) provide institutional governance anchoring; Wang (2025) contributes GenAI mental model evidence.*
+- *Note (R6 update): Kluttz (2019), Almada (2019), and Schmude (2025) were downgraded — non-HCI venues or extended abstracts, now superseded by the Deng WeAudit citation chain. WHO, NIST, and Wang reclassified from core to supporting (policy/grey literature or non-governance focus).*
 
 ## Why This Works
 
 The result is **25 sources** forming a stable four-layer architecture rather than a scattered keyword-driven pile. This demonstrates **transparent search decision-making** — a core syllabus requirement — by showing exactly *why* each paper was selected and *how* it connects to the argument.
+
+> **R6 Update (Week 6+):** Layer 4 has been restructured via the Deng WeAudit citation chain (+3 papers: Deng 2025, 2023a, 2023b), introducing the **User-as-Auditor** concept as the operational anchor for contestability. Three previous Layer 4 papers (Kluttz 2019, Almada 2019, Schmude 2025) and one cross-layer paper (Bennion 2020) were downgraded. WHO (2021), NIST (2023), and Wang (2025) reclassified from core to supporting references (policy/grey literature). Current cumulative core library: **34 papers** + supporting refs (see [Library Status Summary](Zotero_summary.html)).
 
 ---
 
@@ -893,13 +897,14 @@ The 25 sources are organized into four conceptual layers, each addressing a dist
 | **Layer 1: User Vulnerability** | Halo Effect + AI Literacy Gap | Ellis (2025), Sakaguchi-Tang et al. (2017), Peixoto et al. (2025) | Older adults' trust in healthcare institutions transfers to AI systems, lowering privacy vigilance and creating exploitable entry points for hypernudges. This vulnerability is compounded by an **AI Literacy Gap** (Peixoto et al., 2025): current XAI visual explanations are designed for younger, digitally fluent users, overlooking cognitive decline that creates "explanation blind spots." This gap connects directly to Wildenbos's (2018) MOLD-US barrier framework — particularly the Cognition and Perception categories — and explains why Seamful Design (Layer 3) must begin with *simplified friction* rather than complex transparency dashboards. |
 | **Layer 2: Design Risk** | Hypernudge Mechanisms | Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025); Gray et al. (2018), Brignull (2024) | Static nudges evolved into dynamic, AI-powered hypernudges that continuously adapt to real-time behavioral data, circumventing rational deliberation. |
 | **Layer 3: HCI / Agentic AI** | Seamful Design + Calibrated Trust | Gull et al. (2025), Lee & See (2004); Zubatiy et al. (2023), Brewer et al. (2022) | "Positive friction" (Cognitive Forcing Functions) counteracts over-reliance by forcing users to engage deliberatively before accepting AI recommendations. |
-| **Layer 4: Governance** | Contestability | Vaithilingam et al. (2024/2025) → Kluttz et al. (2019), Hirsch et al. (2017), Almada (2019); WHO (2021), NIST (2023) | Users must not only *see* AI but *challenge and correct* its outputs — filling the audit gap between explanation and accountability. |
+| **Layer 4: Governance** | Contestability + User-as-Auditor | Vaithilingam et al. (2024/2025), Hirsch et al. (2017); **Deng et al. (2025, WeAudit)**, Deng et al. (2023a), Deng et al. (2023b) | Users must not only *see* AI but *challenge and correct* its outputs. The WeAudit chain operationalizes contestability into scaffolded non-expert audit workflows — bridging the gap between explanation and accountability. *Supporting: WHO (2021), NIST (2023), Wang (2025).* |
 
 ### Cross-Layer Logic
 
 - **Layer 1 → Layer 2**: User vulnerability (halo effect) explains *why* hypernudges are particularly dangerous for older adults.
 - **Layer 2 → Layer 3**: The dynamic nature of hypernudges demands HCI countermeasures that go beyond static "dark pattern" audits.
-- **Layer 3 → Layer 4**: Design-level friction is necessary but insufficient without governance mechanisms that guarantee users' right to contest AI decisions.
+- **Layer 3 → Layer 4**: Design-level friction is necessary but insufficient without governance mechanisms that guarantee users' right to contest AI decisions. The WeAudit workflow (Deng 2025) uses Layer 3 friction/seams as scaffolding for Layer 4 audit tasks — the cross-layer bridge.
+- **Cross-Layer (L3 ↔ L4)**: Ehsan (2024) Seamful XAI connects explainability seams to accountability infrastructure.
 
 ---
 
@@ -912,21 +917,22 @@ Layer 1 (User)          Layer 2 (Risk)              Layer 3 (HCI)              L
 ┌──────────────┐     ┌──────────────────┐     ┌──────────────────────┐     ┌──────────────────────┐
 │ Halo Effect  │     │ Nudge            │     │ Seamful Design       │     │ Contestability       │
 │ Ellis (2025) │────▶│ Thaler (2008)    │     │ Gull (2025)          │     │ Vaithilingam (2024)  │
-│ Sakaguchi-   │     │      ↓           │     │ Lee & See (2004)     │     │ Kluttz (2019)        │
-│ Tang (2017)  │     │ Hypernudge       │────▶│      ↓               │────▶│ Hirsch (2017)        │
-│              │     │ Yeung (2017)     │     │ Cognitive Forcing    │     │ Almada (2019)        │
-│ Trust ──────────▶  │      ↓           │     │ Functions            │     │      ↓               │
-│ lowers       │     │ AI-Powered Nudge │     │      ↓               │     │ WHO (2021)           │
-│ vigilance    │     │ Duane (2025)     │     │ Calibrated Trust     │     │ NIST (2023)          │
+│ Sakaguchi-   │     │      ↓           │     │ Lee & See (2004)     │     │ Hirsch (2017)        │
+│ Tang (2017)  │     │ Hypernudge       │────▶│      ↓               │────▶│      ↓               │
+│              │     │ Yeung (2017)     │     │ Cognitive Forcing    │     │ User-as-Auditor      │
+│ Trust ──────────▶  │      ↓           │     │ Functions            │     │ Deng (2025) WeAudit  │
+│ lowers       │     │ AI-Powered Nudge │     │      ↓               │     │ Deng (2023a) CHI     │
+│ vigilance    │     │ Duane (2025)     │     │ Calibrated Trust     │     │ Deng (2023b) CSCW    │
 │              │     │ Gray (2018)      │     │ Zubatiy (2023)       │     │                      │
-│              │     │ Brignull (2024)  │     │ Brewer (2022)        │     │                      │
+│              │     │ Brignull (2024)  │     │ Brewer (2022)        │     │ [Supporting: WHO,    │
+│              │     │                  │     │     ↕ Ehsan (2024)   │     │  NIST, Wang]         │
 └──────────────┘     └──────────────────┘     └──────────────────────┘     └──────────────────────┘
-       │                                                                            │
+       │                                            ↕ Seamful XAI                   │
        └────────────────── Amplified Harm ──────────────────────────────────────────┘
                     (Older adults need both friction AND the right to challenge)
 \`\`\`
 
-**Reading the diagram**: Older adults' institutional trust (Layer 1) creates vulnerability to hypernudges (Layer 2). Seamful design introduces protective friction (Layer 3), while contestability ensures users can formally challenge AI outputs (Layer 4). The bottom arrow shows that the audience (older adults) requires *both* layers of protection.
+**Reading the diagram**: Older adults' institutional trust (Layer 1) creates vulnerability to hypernudges (Layer 2). Seamful design introduces protective friction (Layer 3), while contestability — operationalized by the WeAudit user-as-auditor workflow (Deng 2025) — ensures users can formally challenge AI outputs (Layer 4). Ehsan (2024) Seamful XAI bridges L3 ↔ L4 by connecting explainability seams to accountability. The bottom arrow shows that the audience (older adults) requires *both* layers of protection.
 
 ---
 
@@ -970,21 +976,31 @@ Layer 1 (User)          Layer 2 (Risk)              Layer 3 (HCI)              L
 
 15. **Vaithilingam, P., et al. (2025).** Extended contestability framework. — **Role: Updated framework.** Extends 2024 work with implementation guidelines.
 
-16. **Kluttz, D. N., Kohli, N., & Mulligan, D. K. (2019).** Shaping our tools: Contestability as a means to promote responsible algorithmic decision making. — **Role: Legal foundation.** Establishes contestability as a regulatory mechanism.
+16. **Hirsch, T., et al. (2017).** Designing contestable AI. *DIS 2017*. — **Role: Design foundation.** Translates contestability from legal theory into design principles.
 
-17. **Hirsch, T., et al. (2017).** Designing contestable AI. *DIS 2017*. — **Role: Design foundation.** Translates contestability from legal theory into design principles.
+17. **Deng, W. H., et al. (2025).** WeAudit: Scaffolding User Auditors and AI Practitioners around GenAI Harms. *PACM HCI / CSCW (ACM)*. — **Role: User-as-Auditor operationalization.** Dual-loop workflow (Investigate ↔ Deliberate) enabling non-experts to generate actionable audit insights. 6 Design Goals. Cross-layer L3 ↔ L4 bridge. <span style="font-size:0.75rem; color:#065F46;">📚 R6</span>
 
-18. **Almada, M. (2019).** Human intervention in automated decision-making: Toward the contestability of algorithmic decisions. *AI & Society, 34*, 1–16. — **Role: Rights-based argument.** Frames contestability as a fundamental right, not an optional feature.
+18. **Deng, W. H., et al. (2023a).** Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing in Industry Practice. *CHI '23 (ACM)*. — **Role: Practitioner-side evidence.** Documents 10 industry challenges preventing user audit insights from reaching practitioners. <span style="font-size:0.75rem; color:#065F46;">📚 R6</span>
 
-19. **WHO (2021).** *Ethics and governance of artificial intelligence for health*. — **Role: Institutional anchor.** Sets global governance expectations for AI in healthcare.
+19. **Deng, W. H., et al. (2023b).** Investigating Practices and Opportunities for Cross-functional Collaboration around AI Fairness in Industry Practice. *CSCW '23 (ACM)*. — **Role: Organizational bridge.** Testing → Auditing → Contesting escalation framework; fairness-as-process-not-metric. <span style="font-size:0.75rem; color:#065F46;">📚 R6</span>
 
-20. **NIST (2023).** *AI Risk Management Framework (AI RMF 1.0)*. — **Role: Technical governance.** Provides actionable risk management taxonomy that maps to design interventions.
+*Downgraded from Layer 4 (R6): Kluttz (2019) — non-HCI venue, book section; Almada (2019) — law-focused, ICAIL; Schmude (2025) — CHI EA extended abstract. All superseded by Deng WeAudit citation chain.*
 
-## Supporting Sources (Cross-Layer)
+## Supporting Sources (Cross-Layer & Institutional)
 
-21. **Susser, D., Roessler, B., & Nissenbaum, H. (2019).** Technology, autonomy, and manipulation. *Internet Policy Review, 8*(2). — **Role: Theoretical bridge.** Defines "hidden influence" as manipulation that undermines autonomy — the conceptual thread connecting all four layers.
+20. **Ehsan, U., et al. (2024).** Seamful XAI: Operationalizing Seamful Design in Explainable AI. *R4/R5*. — **Role: L3 ↔ L4 bridge.** Connects explainability seams to accountability infrastructure.
 
-22–25. *Additional supporting references from Rounds 1–3 Zotero collections* (see Zotero Reports for full metadata).
+21. **WHO (2021).** *Ethics and governance of artificial intelligence for health*. — **Role: Institutional anchor (supporting).** Sets global governance expectations for AI in healthcare. Policy guidance, not peer-reviewed HCI research.
+
+22. **NIST (2023).** *AI Risk Management Framework (AI RMF 1.0)*. — **Role: Technical governance (supporting).** Provides actionable risk management taxonomy. Federal framework, not peer-reviewed HCI research.
+
+23. **Wang, Z., et al. (2025).** GenAI mental models study. *IUI '25*. — **Role: GenAI user mental models (supporting).** Valuable for understanding user cognition but not directly governance-focused. <span style="font-size:0.75rem; color:#92400E;">📎 R5</span>
+
+24. **Susser, D., Roessler, B., & Nissenbaum, H. (2019).** Technology, autonomy, and manipulation. *Internet Policy Review, 8*(2). — **Role: Theoretical bridge.** Defines "hidden influence" as manipulation that undermines autonomy — the conceptual thread connecting all four layers.
+
+25+. *Additional supporting references from Rounds 1–6 Zotero collections* (see Zotero Reports for full metadata).
+
+*Downgraded from Cross-Layer (R6): Bennion (2020) MYLO RCT — Journal of Medical Internet Research, non-HCI venue.*
 
 ---
 
@@ -1057,7 +1073,7 @@ The INFS 611 synopsis is grounded in the INFS 603 Week 6 preliminary synthesis (
 
 # 7. Contribution to INFS 604
 
-The four-layer architecture established in this Week 6 report will directly serve as the theoretical foundation for the INFS 604 audit tool prototype: **Hypernudge taxonomy** (detection layer) + **Seamful Design** (intervention layer) + **Contestability** (verification layer). The planned prototype will be tested with approximately 10 older adult participants to validate whether simplified cognitive forcing functions effectively counteract hypernudge-driven over-reliance in health AI contexts. This ensures continuity across the INFS 603 → 604 → 605 research trajectory.
+The four-layer architecture established in this Week 6 report will directly serve as the theoretical foundation for the INFS 604 audit tool prototype: **Hypernudge taxonomy** (detection layer) + **Seamful Design** (intervention layer) + **Contestability / User-as-Auditor** (verification layer, informed by Deng WeAudit workflow). The planned prototype will be tested with approximately 10 older adult participants to validate whether simplified cognitive forcing functions effectively counteract hypernudge-driven over-reliance in health AI contexts. This ensures continuity across the INFS 603 → 604 → 605 research trajectory.
 `;
 
         // Load content on DOMContentLoaded

@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline' data:" />
+		<title>Zotero Report</title>
+		<link rel="stylesheet" type="text/css" href="data:text/css;base64,Ym9keSB7Cgljb2xvci1zY2hlbWU6IGxpZ2h0IGRhcms7CgkvKiBUaGVzZSBzaG91bGQgYmUgdGhlIGRlZmF1bHRzLCBidXQganVzdCBpbiBjYXNlOiAqLwoJYmFja2dyb3VuZDogQ2FudmFzOwoJY29sb3I6IENhbnZhc1RleHQ7Cn0KCmEgewoJdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Cn0KCmJvZHkgewoJcGFkZGluZzogMDsKfQoKdWwucmVwb3J0IGxpLml0ZW0gewoJYm9yZGVyLXRvcDogNHB4IHNvbGlkICM1NTU7CglwYWRkaW5nLXRvcDogMWVtOwoJcGFkZGluZy1sZWZ0OiAxZW07CglwYWRkaW5nLXJpZ2h0OiAxZW07CgltYXJnaW4tYm90dG9tOiAyZW07Cn0KCmgxLCBoMiwgaDMsIGg0LCBoNSwgaDYgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDIgewoJbWFyZ2luOiAwIDAgLjVlbTsKfQoKaDIucGFyZW50SXRlbSB7Cglmb250LXdlaWdodDogNjAwOwoJZm9udC1zaXplOiAxZW07CglwYWRkaW5nOiAwIDAgLjVlbTsKCWJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjY2NjOwp9CgovKiBJZiBjb21iaW5pbmcgY2hpbGRyZW4sIGRpc3BsYXkgcGFyZW50IHNsaWdodGx5IGxhcmdlciAqLwp1bC5yZXBvcnQuY29tYmluZUNoaWxkSXRlbXMgaDIucGFyZW50SXRlbSB7Cglmb250LXNpemU6IDEuMWVtOwoJcGFkZGluZy1ib3R0b206IC43NWVtOwoJbWFyZ2luLWJvdHRvbTogLjRlbTsKfQoKaDIucGFyZW50SXRlbSAudGl0bGUgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDMgewoJbWFyZ2luLWJvdHRvbTogLjZlbTsKCWZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDsKCWZvbnQtc2l6ZTogMWVtOwoJZGlzcGxheTogYmxvY2s7Cn0KCi8qIE1ldGFkYXRhIHRhYmxlICovCnRoIHsKCXZlcnRpY2FsLWFsaWduOiB0b3A7Cgl0ZXh0LWFsaWduOiByaWdodDsKCXdpZHRoOiAxNSU7Cgl3aGl0ZS1zcGFjZTogbm93cmFwOwp9Cgp0ZCB7CglwYWRkaW5nLWxlZnQ6IC41ZW07Cn0KCgp1bC5yZXBvcnQsIHVsLm5vdGVzLCB1bC50YWdzIHsKCWxpc3Qtc3R5bGU6IG5vbmU7CgltYXJnaW4tbGVmdDogMDsKCXBhZGRpbmctbGVmdDogMDsKfQoKLyogVGFncyAqLwpoMy50YWdzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLnRhZ3MgewoJbGluZS1oZWlnaHQ6IDEuNzVlbTsKCWxpc3Qtc3R5bGU6IG5vbmU7Cn0KCnVsLnRhZ3MgbGkgewoJZGlzcGxheTogaW5saW5lOwp9Cgp1bC50YWdzIGxpOm5vdCg6bGFzdC1jaGlsZCk6YWZ0ZXIgewoJY29udGVudDogJywgJzsKfQoKCi8qIENoaWxkIG5vdGVzICovCmgzLm5vdGVzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLm5vdGVzIHsKCW1hcmdpbi1ib3R0b206IDEuMmVtOwp9Cgp1bC5ub3RlcyA+IGxpOmZpcnN0LWNoaWxkIHAgewoJbWFyZ2luLXRvcDogMDsKfQoKdWwubm90ZXMgPiBsaSB7CglwYWRkaW5nOiAuN2VtIDA7Cn0KCnVsLm5vdGVzID4gbGk6bm90KDpsYXN0LWNoaWxkKSB7Cglib3JkZXItYm90dG9tOiAxcHggI2NjYyBzb2xpZDsKfQoKCnVsLm5vdGVzID4gbGkgcDpmaXJzdC1jaGlsZCB7CgltYXJnaW4tdG9wOiAwOwp9Cgp1bC5ub3RlcyA+IGxpIHA6bGFzdC1jaGlsZCB7CgltYXJnaW4tYm90dG9tOiAwOwp9CgovKiBBZGQgcXVvdGF0aW9uIG1hcmtzIGFyb3VuZCBibG9ja3F1b3RlICovCnVsLm5vdGVzID4gbGkgYmxvY2txdW90ZSBwOm5vdCg6ZW1wdHkpOmJlZm9yZSwKbGkubm90ZSBibG9ja3F1b3RlIHA6bm90KDplbXB0eSk6YmVmb3JlIHsKCWNvbnRlbnQ6ICfigJwnOwp9Cgp1bC5ub3RlcyA+IGxpIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyLApsaS5ub3RlIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyIHsKCWNvbnRlbnQ6ICfigJ0nOwp9CgovKiBQcmVzZXJ2ZSB3aGl0ZXNwYWNlIG9uIHBsYWludGV4dCBub3RlcyAqLwp1bC5ub3RlcyBsaSBwLnBsYWludGV4dCwgbGkubm90ZSBwLnBsYWludGV4dCwgZGl2Lm5vdGUgcC5wbGFpbnRleHQgewoJd2hpdGUtc3BhY2U6IHByZS13cmFwOwp9CgovKiBEaXNwbGF5IHRhZ3Mgd2l0aGluIGNoaWxkIG5vdGVzIGlubGluZSAqLwp1bC5ub3RlcyBoMy50YWdzIHsKCWRpc3BsYXk6IGlubGluZTsKCWZvbnQtc2l6ZTogMWVtOwp9Cgp1bC5ub3RlcyBoMy50YWdzOmFmdGVyIHsKCWNvbnRlbnQ6ICcgJzsKfQoKdWwubm90ZXMgdWwudGFncyB7CglkaXNwbGF5OiBpbmxpbmU7Cn0KCnVsLm5vdGVzIHVsLnRhZ3MgbGk6bm90KDpsYXN0LWNoaWxkKTphZnRlciB7Cgljb250ZW50OiAnLCAnOwp9CgoKLyogQ2hpbGQgYXR0YWNobWVudHMgKi8KaDMuYXR0YWNobWVudHMgewoJZm9udC1zaXplOiAxLjFlbTsKfQoKdWwuYXR0YWNobWVudHMgbGkgewoJcGFkZGluZy10b3A6IC41ZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHsKCW1hcmdpbi1sZWZ0OiAyZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHA6Zmlyc3QtY2hpbGQgewoJbWFyZ2luLXRvcDogLjc1ZW07Cn0KCmRpdiB0YWJsZSB7Cglib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwp9CgpkaXYgdGFibGUgdGQsIGRpdiB0YWJsZSB0aCB7Cglib3JkZXI6IDFweCAjY2NjIHNvbGlkOwoJYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKCXdvcmQtYnJlYWs6IGJyZWFrLWFsbDsKfQoKZGl2IHRhYmxlIHRkIHA6ZW1wdHk6OmFmdGVyLCBkaXYgdGFibGUgdGggcDplbXB0eTo6YWZ0ZXIgewoJY29udGVudDogIlwwMGEwIjsKfQoKZGl2IHRhYmxlIHRkICo6Zmlyc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmZpcnN0LWNoaWxkIHsKCW1hcmdpbi10b3A6IDA7Cn0KCmRpdiB0YWJsZSB0ZCAqOmxhc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmxhc3QtY2hpbGQgewoJbWFyZ2luLWJvdHRvbTogMDsKfQo="/>
+		<link rel="stylesheet" type="text/css" media="screen,projection" href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg=="/>
+		<link rel="stylesheet" type="text/css" media="print" href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg=="/>
+	</head>
+	<body>
+		<ul class="report combineChildItems">
+			<li id="item_JYUP2EUT" class="item conferencePaper">
+			<h2>Explainability and Contestability for the Responsible Use of Public Sector AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Timothée Schmude</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Public institutions have begun to use AI systems in areas that directly impact people’s lives, including labor, law, health, and migration. Explainability ensures that these systems are understandable to the involved stakeholders, while its emerging counterpart contestability enables them to challenge AI decisions. Both principles support the responsible use of AI systems, but their implementation needs to take into account the needs of people without technical background, AI novices. I conduct interviews and workshops to explore how explainable AI can be made suitable for AI novices, how explanations can support their agency by allowing them to contest decisions, and how this intersection is conceptualized. My research aims to inform policy and public institutions on how to implement responsible AI by designing for explainability and contestability. The Remote Doctoral Consortium would allow me to discuss with peers how these principles can be realized and account for human factors in their design.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-26</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3706599.3721096">https://dl.acm.org/doi/10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:53:28 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Yokohama Japan</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-1395-8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-6</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI EA &apos;25: Extended Abstracts of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3706599.3721096">10.1145/3706599.3721096</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:53:28 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:53:29 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1 (Highest)</strong> · <strong>Layer 4</strong> Governance &amp; Contestability · CHI EA '25 (ACM)</p>
+<p><strong>5C Summary:</strong> Doctoral consortium paper bridging explainability ↔ contestability for AI novices in public sector. Proposes two-axis framework: explainability as necessary-but-not-sufficient, contestability as the actionable complement. Directly informs L4 Dim F (contestability timing: in-situ + post-hoc). Cross-references Kluttz 2019 (professional contestability) and Almada 2019 (contestability by design).</p>
+<p><strong>Research Warrant:</strong> Gap + Practice — public sector AI stakeholders lack tools to exercise meaningful contestability; existing XAI approaches assume technical users.</p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_XNZH8BFJ">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_G2A3IG8B" class="item bookSection">
+			<h2>Shaping Our Tools: Contestability as a Means to Promote Responsible Algorithmic Decision Making in the Professions*</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Book Section</td>
+					</tr>
+					<tr>
+						<th class="bookAuthor">Book Author</th>
+						<td>Kirsten Martin</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Daniel N. Kluttz</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Nitin Kohli</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Deirdre K. Mulligan</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2022-3-16</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Shaping Our Tools</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.taylorfrancis.com/books/9781003278290/chapters/10.1201/9781003278290-62">https://www.taylorfrancis.com/books/9781003278290/chapters/10.1201/9781003278290-62</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:52:52 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Boca Raton</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>Auerbach Publications</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-1-003-27829-0</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>420-428</td>
+					</tr>
+					<tr>
+					<th>Edition</th>
+						<td>1</td>
+					</tr>
+					<tr>
+					<th>Book Title</th>
+						<td>Ethics of Data and Analytics</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1201/9781003278290-62">10.1201/9781003278290-62</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:52:52 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:52:52 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 2</strong> (non-HCI venue, Cambridge UP / Taylor &amp; Francis) · <strong>Layer 4</strong> Governance &amp; Contestability</p>
+<p><strong>5C Summary:</strong> Introduces contestability as alternative to transparency/explainability for responsible algorithmic decision-making. Professionals appropriate technologies through routines, norms, and professional identity — contestability fosters engagement rather than passivity. Key theoretical anchor for L4 Dim F alongside Almada 2019 and Hirsch 2017.</p>
+<p><strong>Research Warrant:</strong> Gap + Insight + Practice — explainability alone insufficient; professional contexts require contestability mechanisms embedded in work practice.</p>
+<p><em>⚠️ Duplicate entry — same as item_CH3NUHFA below. Keep one.</em></p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_I9RBUAEZ">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_TTFCVQ7L" class="item conferencePaper">
+			<h2>Human intervention in automated decision-making: Toward the construction of contestable systems</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Marco Almada</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Concerns about “black box” machine learning algorithms have in�uenced why modern data protection laws and regulations on their establishment of a right to human intervention on decision-making supported by arti�cial intelligence. Such interventions provide data subjects with means to protect their rights, freedoms, and legitimate interests, either as a bare minimum requirement for data processing or as a central norm governing decision-aiding arti�cial intelligence. In this paper, I present contestability by design as an approach to two kinds of issues with current legal implementations of the right to human intervention. The �rst kind is the uncertainty about what kind of decision should be covered by this right: should intervention be restricted to those decisions with no human involvement, or should it be interpreted in a broader sense, encompassing all decisions that are e�ectively shaped by automated processing? The second class of issues ensues from practical limitations of this right to intervention: even within a clear conceptual framework, data subjects might still lack the information they need to the concrete exercise of their right, or the human intervention itself might introduce biases and limitations that result in undesirable outcomes. After discussing how those e�ects can be identi�ed and measured, I then advance the thesis that proper protection of the rights of data subjects is feasible only if there are means for contesting decisions based solely on automated processing is not an afterthought, but instead a requirement at each stage of an arti�cial intelligence system’s lifecycle.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2019-06-17</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Human intervention in automated decision-making</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3322640.3326699">https://dl.acm.org/doi/10.1145/3322640.3326699</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:52:01 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Montreal QC Canada</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-1-4503-6754-7</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>2-11</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the Seventeenth International Conference on Artificial Intelligence and Law</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>ICAIL &apos;19: Seventeenth International Conference on Artificial Intelligence and Law</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3322640.3326699">10.1145/3322640.3326699</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:52:01 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:52:01 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1</strong> · <strong>Layer 4</strong> Governance &amp; Contestability · ICAIL '19 (ACM)</p>
+<p><strong>5C Summary:</strong> Proposes "contestability by design" — contestation of automated decisions should not be an afterthought but a requirement at each stage of AI lifecycle. Addresses right to human intervention under GDPR. Identifies two issues: (1) scope uncertainty (fully automated vs. AI-shaped decisions), (2) practical limitations (lack of information, human-in-the-loop biases). Key complement to Kluttz's professional contestability and Hirsch's in-situ contestability.</p>
+<p><strong>Research Warrant:</strong> Gap + Practice — legal right to contestation exists but lacks operationalization; system design must embed contestability mechanisms throughout lifecycle.</p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_SQUYXEDS">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_CH3NUHFA" class="item bookSection">
+			<h2>Shaping Our Tools: Contestability as a Means to Promote Responsible Algorithmic Decision Making in the Professions*</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Book Section</td>
+					</tr>
+					<tr>
+						<th class="bookAuthor">Book Author</th>
+						<td>Kirsten Martin</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Daniel N. Kluttz</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Nitin Kohli</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Deirdre K. Mulligan</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>For the purposes of decision making or collaboration, explanations can act as an interface between an end-user and the computer system, with the purpose of keeping a human in the loop for safety and discretion. Hence, explanations invite questioning of AI models and systems to understand limits, build trust, and prevent harm. As with transparency, different disciplines have responded to this call to action by operationalizing both explanations and explainability in differing ways.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2022-3-16</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Shaping Our Tools</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.taylorfrancis.com/books/9781003278290/chapters/10.1201/9781003278290-62">https://www.taylorfrancis.com/books/9781003278290/chapters/10.1201/9781003278290-62</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:51:31 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Boca Raton</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>Auerbach Publications</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-1-003-27829-0</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>420-428</td>
+					</tr>
+					<tr>
+					<th>Edition</th>
+						<td>1</td>
+					</tr>
+					<tr>
+					<th>Book Title</th>
+						<td>Ethics of Data and Analytics</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1201/9781003278290-62">10.1201/9781003278290-62</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:51:31 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:51:31 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 2</strong> (non-HCI venue) · <strong>Layer 4</strong> · <em>⚠️ Duplicate — same as item_G2A3IG8B above.</em></p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_MKVF9TZJ">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_T6UL3GBG" class="item journalArticle">
+			<h2>Understanding older adults’ acceptance of Chatbots in healthcare delivery: an extended UTAUT model</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Shulan Yu</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Tianyue Chen</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Background
+              Chatbots are increasingly integrated into the lives of older adults to assist with health and wellness tasks. This study aimed to understand the factors that enhance older adults’ acceptance of chatbots in healthcare delivery.
+            
+            
+              Methods
+              This study proposed an extended Unified Theory of Acceptance and Use of Technology model (UTAUT), including aging factors of perceived physical condition, self-actualization needs, and technology anxiety. The model was tested by PLS (Partial Least Squares) with data collected from 428 Chinese citizens aged 60 and above.
+            
+            
+              Results
+              The results reveal that performance expectancy, effort expectancy, and social influence significantly affected older adults’ behavioral intention to use chatbots. The facilitating conditions, self-actualization needs, and perceived physical condition significantly affected the actual use behavior of chatbots by older adults, whereas technology anxiety did not. Furthermore, the influence of effort expectancy and social influence on behavioral intention were moderated by experience.
+            
+            
+              Conclusion
+              The behavioral intentions of older adults with low experience are more strongly influenced by social influences and effort expectancy. Furthermore, healthcare providers, designers, and policymakers should emphasize the impact of facilitating conditions, self-actualization needs, and perceived physical conditions on chatbot applications among older adults.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2024-11-19</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Understanding older adults’ acceptance of Chatbots in healthcare delivery</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.frontiersin.org/articles/10.3389/fpubh.2024.1435329/full">https://www.frontiersin.org/articles/10.3389/fpubh.2024.1435329/full</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:50:27 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>12</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1435329</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Frontiers in Public Health</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.3389/fpubh.2024.1435329">10.3389/fpubh.2024.1435329</a></td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Front. Public Health</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2296-2565</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:50:27 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:50:27 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 2</strong> (non-HCI venue, Front. Public Health) · <strong>Layer 2</strong> Design Risk — Hypernudge Mechanism</p>
+<p><strong>5C Summary:</strong> Extended UTAUT model for older adults' chatbot acceptance in healthcare. Shows performance expectancy, effort expectancy, social influence → behavioral intention; facilitating conditions, self-actualization, perceived physical condition → actual use. Technology anxiety NOT significant. Experience moderates effort expectancy and social influence effects. Directly supports L1 Dim A/B (trust state, AI literacy gap) and L2 understanding of why older adults accept/resist AI-driven nudge interfaces.</p>
+<p><strong>Research Warrant:</strong> Gap — existing UTAUT studies overlook aging-specific factors (physical condition, self-actualization needs) for chatbot acceptance among older adults.</p>
+					</div></div></li>
+				</ul>
+			</li>
+
+
+			<li id="item_RUEBGLSY" class="item book">
+			<h2>Nudge: improving decisions about health, wealth, and happiness</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Book</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Richard H. Thaler</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Cass R. Sunstein</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2008</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Nudge</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>Library of Congress ISBN</td>
+					</tr>
+					<tr>
+					<th>Call Number</th>
+						<td>HB74.P8 T53 2008</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>New Haven</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>Yale University Press</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-0-300-12223-7</td>
+					</tr>
+					<tr>
+					<th># of Pages</th>
+						<td>293</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:50:11 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:50:11 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 2</strong> (non-HCI venue, Yale University Press) · <strong>Layer 2</strong> Design Risk — Nudge Foundations</p>
+<p><strong>5C Summary:</strong> Foundational text defining "nudge" and "libertarian paternalism" — choice architecture shapes decisions without restricting options. Introduces System 1/System 2 framing (Kahneman), default effects, status quo bias. L2 theoretical anchor: Thaler → Yeung (hypernudge) → Duane (AI-powered nudge) forms the core escalation chain. Establishes why older adults with cognitive decline are especially susceptible to choice architecture manipulation.</p>
+<p><strong>Research Warrant:</strong> Insight — introduces choice architecture as mechanism; foundational for all downstream nudge/dark pattern literature.</p>
+					</div></div></li>
+				</ul>
+				<h3 class="tags">Tags:</h3>
+				<ul class="tags">
+					<li>Choice (Psychology)</li>
+					<li>Consumer behavior</li>
+					<li>Decision making</li>
+					<li>Economic aspects</li>
+					<li>Economics</li>
+					<li>Psychological aspects</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_3D4ESWXU">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_BI3UYW5T" class="item journalArticle">
+			<h2>‘Hypernudge’: Big Data as a mode of regulation by design</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Karen Yeung</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2017-01-02</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>‘Hypernudge’</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.tandfonline.com/doi/full/10.1080/1369118X.2016.1186713">https://www.tandfonline.com/doi/full/10.1080/1369118X.2016.1186713</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-19, 1:48:06 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>20</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>118-136</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Information, Communication &amp; Society</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1080/1369118X.2016.1186713">10.1080/1369118X.2016.1186713</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>1</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Information, Communication &amp; Society</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1369-118X, 1468-4462</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:48:06 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:48:06 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_LIS8NYJG">
+<div><div data-schema-version="9"><p>Tier 2</p>
+<p></p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_R2WNQ8X7">Submitted Version					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_26AVUBDI" class="item blogPost">
+			<h2>deceptive patterns</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Blog Post</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.deceptive.design/">https://www.deceptive.design/</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:47:09 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:47:38 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_H8AVC4NS">
+<div><div data-schema-version="9"><p>Tier 3</p>
+<p></p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_LTKT9LKV" class="item journalArticle">
+			<h2>Trust in Automation: Designing for Appropriate Reliance</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>John D Lee</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Katrina A See</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>Zotero</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-19, 1:13:58 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-19, 1:13:58 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1</strong> · <strong>Layer 3</strong> HCI Countermeasures — Trust Calibration · Human Factors (seminal)</p>
+<p><strong>5C Summary:</strong> Seminal trust-in-automation framework. Trust = attitude shaped by performance, process, purpose. Defines calibration (trust matching capability), resolution (sensitivity to trust-relevant changes), and specificity (context-appropriate trust). Identifies misuse (over-trust), disuse (under-trust), abuse (designer exploitation). Directly defines L3 trust calibration countermeasure and L1 Dim A (blind trust → calibrated trust). The "appropriate reliance" concept grounds all L3 friction interventions.</p>
+<p><strong>Research Warrant:</strong> Insight — proposes trust calibration as design goal; framework adopted across HCI, automation, and AI trust literature for 20+ years.</p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_8AYDE56U">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_YXHGE3RK" class="item conferencePaper">
+			<h2>Supporting User Engagement in Testing, Auditing, and Contesting AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wesley Hanwen Deng</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Michelle S. Lam</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Ángel Alexander Cabrera</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Danaë Metaxa</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Motahhare Eslami</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Kenneth Holstein</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2023-10-14</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3584931.3611279">https://dl.acm.org/doi/10.1145/3584931.3611279</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-18, 8:42:35 a.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Minneapolis MN USA</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-0129-0</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>556-559</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Computer Supported Cooperative Work and Social Computing</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CSCW &apos;23: Computer Supported Cooperative Work and Social Computing</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3584931.3611279">10.1145/3584931.3611279</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-18, 8:42:35 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-18, 8:42:35 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1</strong> · <strong>Layer 4</strong> Governance &amp; Contestability · CSCW '23 (ACM)</p>
+<p><strong>5C Summary:</strong></p>
+<ul>
+<li><strong>Context:</strong> Workshop/short paper framing user engagement across testing, auditing, and contesting AI. Conceptual foundation for WeAudit's design goals.</li>
+<li><strong>Characters:</strong> CMU HCII group + Cabrera &amp; Metaxa. Dual stakeholders: end users and AI practitioners.</li>
+<li><strong>Conflicts:</strong> Users should actively test and contest AI, not just receive outputs — but no structured pathway exists from passive use to active contestation.</li>
+<li><strong>Consequences:</strong> Theoretical framing that WeAudit instantiates. "Contesting" maps to L4 Dim F. Testing→Auditing→Contesting mirrors L3→L4.</li>
+<li><strong>Countermeasures:</strong> Tools must support individual investigation + collective deliberation (dual-loop structure realized in WeAudit).</li>
+</ul>
+<p><strong>Research Warrant (Practice):</strong> Users should move from passive recipients to active contestants of AI decisions.</p>
+					</div></div></li>
+				</ul>
+			</li>
+
+
+			<li id="item_J6LCH6BH" class="item conferencePaper">
+			<h2>Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing in Industry Practice</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wesley Hanwen Deng</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Boyuan Guo</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Alicia Devrio</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Hong Shen</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Motahhare Eslami</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Kenneth Holstein</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2023-04-19</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3544548.3581026">https://dl.acm.org/doi/10.1145/3544548.3581026</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-18, 8:42:03 a.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Hamburg Germany</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-1-4503-9421-5</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-18</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI &apos;23: CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3544548.3581026">10.1145/3544548.3581026</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-18, 8:42:03 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-18, 8:42:03 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1</strong> · <strong>Layer 4</strong> Governance &amp; Contestability · CHI '23 (ACM)</p>
+<p><strong>5C Summary:</strong></p>
+<ul>
+<li><strong>Context:</strong> User-engaged algorithm auditing gaining traction, but limited understanding of practitioners' actual practices and challenges.</li>
+<li><strong>Characters:</strong> Industry AI practitioners at large tech companies, recruited via purposive sampling, iterative co-design + interviews.</li>
+<li><strong>Conflicts:</strong> (1) Recruiting diverse user auditors &amp; fair compensation; (2) Scaffolding without over-constraining; (3) Deriving actionable insights from unstructured feedback; (4) Organizational power dynamics.</li>
+<li><strong>Consequences:</strong> Empirical grounding for WeAudit's 6 Design Goals. Reveals practitioners repurpose crowdsourcing platforms and face systematic challenges.</li>
+<li><strong>Countermeasures:</strong> Design opportunities for better scaffolding, structured reporting, fair compensation, organizational process design.</li>
+</ul>
+<p><strong>Research Warrant (Gap):</strong> "we know little about industry practitioners' current practices and challenges around user-engaged auditing"</p>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_WLIZENUV">Full Text					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_NK6D3KH3" class="item journalArticle">
+			<h2>WeAudit: Scaffolding User Auditors and AI Practitioners in Auditing Generative AI</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wesley Hanwen Deng</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wang Claire</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Howard Ziyu Han</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jason I. Hong</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Kenneth Holstein</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Motahhare Eslami</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>There has been growing interest from both practitioners and researchers in engaging end users in AI auditing, to draw upon users&apos; unique knowledge and lived experiences. However, we know little about how to effectively scaffold end users in auditing in ways that can generate actionable insights for AI practitioners. Through formative studies with both users and AI practitioners, we first identified a set of design goals to support user-engaged AI auditing. We then developed WeAudit, a workflow and system that supports end users in auditing AI both individually and collectively. We evaluated WeAudit through a three-week user study with user auditors and interviews with industry Generative AI practitioners. Our findings offer insights into how WeAudit supports users in noticing and reflecting upon potential AI harms and in articulating their findings in ways that industry practitioners can act upon. Based on our observations and feedback from both users and practitioners, we identify several opportunities to better support user engagement in AI auditing processes. We discuss implications for future research to support effective and responsible user engagement in AI auditing.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-10-18</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>WeAudit</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3757702">https://dl.acm.org/doi/10.1145/3757702</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-02-18, 8:37:31 a.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>9</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-35</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Proceedings of the ACM on Human-Computer Interaction</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3757702">10.1145/3757702</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>7</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Proc. ACM Hum.-Comput. Interact.</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2573-0142</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-02-18, 8:37:31 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-02-18, 8:37:31 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li><div><div data-schema-version="9">
+<p><strong>Tier 1 (Highest)</strong> · <strong>Layer 4</strong> Governance &amp; Contestability · PACM HCI / CSCW (ACM)</p>
+<p><strong>Cross-Layer:</strong> L3 (friction/seams as scaffolding for audit tasks) ↔ L4 (governance/contestability infrastructure).</p>
+<p><strong>5C Summary:</strong></p>
+<ul>
+<li><strong>Context:</strong> No tools bridge user auditors ↔ AI practitioners; crowdsourcing platforms are repurposed but fail to scaffold productive auditing or yield actionable insights.</li>
+<li><strong>Characters:</strong> 45 user auditors (3-week study + 4-month follow-up) + 14 industry GenAI practitioners. Non-expert users leveraging lived experience — parallels older adults as domain-specific auditors.</li>
+<li><strong>Conflicts:</strong> (1) Scaffolding dilemma: examples cause over-reliance; (2) Verification vs. minority voices; (3) Power asymmetry: practitioners control which findings get acted on; (4) Invisible labor (~5 prompts per report).</li>
+<li><strong>Consequences:</strong> Non-experts CAN generate actionable audit insights when scaffolded. 6 Design Goals (DG1-DG6). 15/17 users reported increased AI harm awareness at 4-month follow-up.</li>
+<li><strong>Countermeasures:</strong> WeAudit dual-loop workflow (Investigate ↔ Deliberate), 6 sub-activities, pairwise comparison, social augmentation, crowd verification. Operationalizes L4 Dim F (contestability as active participation).</li>
+</ul>
+<p><strong>Research Warrant (Gap + Practice + Insight):</strong></p>
+<ul>
+<li>"a critical gap remains in connecting the needs, challenges, and perspectives of these two groups of stakeholders"</li>
+<li>"end-users often discover harmful biases in T2I generative AI systems that expert auditors fail to detect"</li>
+</ul>
+					</div></div></li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_RIL9F4B8">PDF					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</body>
+</html>
