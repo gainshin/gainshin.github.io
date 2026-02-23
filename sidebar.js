@@ -45,7 +45,8 @@ const sidebarNavData = [
             { href: "Zotero_round4.html", icon: "bookmark", label: "Zotero Report (Round 4)", id: "zotero4" },
             { href: "Zotero_round5.html", icon: "bookmark", label: "Zotero Report (Round 5)", id: "zotero5" },
             { href: "Zotero_round6.html", icon: "bookmark", label: "Zotero Report (Round 6)", id: "zotero6" },
-            { href: "Zotero_5C.html", icon: "scan-search", label: "5C Decomposition", id: "zotero-5c" },
+            { href: "Zotero_5C.html", icon: "scan-search", label: "4-Layer Analytical Framework", id: "zotero-5c" },
+            { href: "Zotero_5C_graph.html", icon: "git-fork", label: "Literature Relation Graph", id: "zotero-5c-graph" },
         ]
     },
     {
