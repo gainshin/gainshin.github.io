@@ -576,18 +576,18 @@
                         <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
                         <li style="margin-top: 8px;"><a href="#1-recap-four-layer-architecture-status"
                                 data-section="1-recap-four-layer-architecture-status">1. Architecture Status</a></li>
-                        <li><a href="#2-cross-layer-fracture-analysis"
-                                data-section="2-cross-layer-fracture-analysis">2. Fracture Analysis</a></li>
-                        <li><a href="#3-the-auditor-paradox"
-                                data-section="3-the-auditor-paradox">3. Auditor Paradox</a></li>
-                        <li><a href="#4-proxy-auditor-model"
-                                data-section="4-proxy-auditor-model">4. Proxy Auditor Model</a></li>
-                        <li><a href="#5-unrealized-design-concepts"
-                                data-section="5-unrealized-design-concepts">5. Design Concepts</a></li>
-                        <li><a href="#6-framework-amendments"
-                                data-section="6-framework-amendments">6. Framework Amendments</a></li>
-                        <li><a href="#7-implications-for-infs-604"
-                                data-section="7-implications-for-infs-604">7. INFS 604 Implications</a></li>
+                        <li><a href="#2-cross-layer-fracture-analysis" data-section="2-cross-layer-fracture-analysis">2.
+                                Fracture Analysis</a></li>
+                        <li><a href="#3-the-auditor-paradox" data-section="3-the-auditor-paradox">3. Auditor Paradox</a>
+                        </li>
+                        <li><a href="#4-proxy-auditor-model" data-section="4-proxy-auditor-model">4. Proxy Auditor
+                                Model</a></li>
+                        <li><a href="#5-unrealized-design-concepts" data-section="5-unrealized-design-concepts">5.
+                                Design Concepts</a></li>
+                        <li><a href="#6-framework-amendments" data-section="6-framework-amendments">6. Framework
+                                Amendments</a></li>
+                        <li><a href="#7-implications-for-infs-604" data-section="7-implications-for-infs-604">7. INFS
+                                604 Implications</a></li>
                     </ul>
                 </aside>
             </div>
@@ -796,7 +796,7 @@
 
         const fallbackContent = `# Week 7 Progress Report — Cross-Layer Fracture Analysis & Framework Amendments
 
-> **Course**: INFS603 Literature Review | **Core Library**: 34 papers (5 layers) + supporting references
+> **Course**: INFS603 Literature Review | **Core Library**: 36 papers (5 layers) + supporting references
 >
 > This report extends the Week 6 four-layer architecture by conducting a systematic **Cross-Layer Fracture Analysis** — identifying internal contradictions where one layer's solution undermines another layer's assumptions. The analysis yields three formal amendments to the framework: the **Proxy Auditor Model**, **Pre-Audit Scaffolding dependency**, and **Temporal Spectrum acknowledgment**.
 
@@ -815,7 +815,7 @@
 
 # 1. Recap: Four-Layer Architecture Status
 
-Following Round 6 restructuring, the four-layer architecture now comprises **34 core papers** (all peer-reviewed HCI/CHI/CSCW), with WHO (2021), NIST (2023), and Wang (2025) reclassified as supporting references.
+Following Round 6 restructuring + Round 7 cross-layer additions, the four-layer architecture now comprises **36 core papers** (all peer-reviewed HCI/CHI/CSCW), with WHO (2021), NIST (2023), and Wang (2025) reclassified as supporting references. R7 added Pang 2021 (L1↔L3, elevated from L3 Tier 2) and Baghestani 2024 (L1↔L4, new).
 
 | Layer | Focus | Core Papers | Key Change (R6) |
 |-------|-------|-------------|-----------------|
@@ -841,6 +841,14 @@ The four layers are not independent modules — they form a **causally entangled
 
 **Severity**: High. This fracture directly undermines the core countermeasure mechanism.
 
+### Partial Mitigation: Pang et al. (2021)
+
+Pang et al.'s CHI '21 study (N=42 questionnaire, N=27 interviews, N=13 design probe) provides counter-evidence on the **capability dimension**: older adults' learning preferences have shifted from "have someone do it for me" toward trial-and-error and independent exploration. The design probe revealed that participants initially appeared helpless but were **willing to tackle onboarding independently** given appropriate learning resources.
+
+**The "learner" mindset shift**: The rise in older adults' preference for trial-and-error creates an opening for **attention-layer friction** (micro-pauses, "AI is guessing" labels) to be framed as a **learning tool** rather than a technical defect. If exploratory learning is already normative for this population, friction that makes AI's reasoning visible can be positioned as "helping you understand what the system is doing" — integrating naturally into an expected learning flow rather than disrupting a trusted service.
+
+**The motivational gap remains**: However, Pang's context is **device learning** — a setting where confusion is expected and users adopt a learner identity. Our context is **healthcare AI interaction**, where the user frames themselves as "seeing a doctor," not "learning a tool." Under the Halo Effect (Ellis 2025), the relationship is fundamentally different: the older adult trusts the institution and does not believe protection is needed. Even if they **have the capability** to process friction (Pang demonstrates this), they may lack the **motivation** to exercise that capability against a system endorsed by their healthcare provider. Pang mitigates the **capability gap** but not the **motivational gap** — and it is the motivational gap that most directly feeds into the need for the **Proxy Auditor Model** (Section 4), where the analytical burden is shifted to someone who *does* have the motivation to question the system.
+
 ## Fracture 2: Invisible Manipulation vs. Right to Contest (L2 → L4)
 
 **Starting condition**: Hypernudges (Yeung 2017; Duane 2025) are designed to operate at the subconscious level — altering user preferences without the user ever noticing the influence.
@@ -857,6 +865,18 @@ The four layers are not independent modules — they form a **causally entangled
 
 **Severity**: High. Creates a destructive feedback loop: L3 friction → L1 trust erosion → user abandonment → all protection lost.
 
+### Direct Mitigation: Pang et al. (2021)
+
+Pang et al. (2021) provides the strongest empirical counter-evidence to this fracture through three findings:
+
+1. **Latent Capability**: Older adults initially presented as helpless, but the design probe revealed **latent independent capability** that emerged with appropriate scaffolding. This directly refutes MOLD-US's (Wildenbos 2018) overly pessimistic **static** assessment of cognitive barriers. Wildenbos describes barriers as fixed properties of the aging population; Pang demonstrates they are **dynamic and support-responsive** — barriers that dissolve when the right scaffolding is provided. The implication for Fracture 3: friction does not inevitably trigger trust collapse. If friction is designed to *release* the user's latent problem-solving capacity rather than impose additional cognitive load, the destructive feedback loop (friction → frustration → abandonment) can be interrupted.
+
+2. **Help Kiosk 2.0 — the empirical prototype of multi-modal friction**: The four-channel design (Internet search + trial-and-error with feedback + step-by-step/video instructions + remote video-chat with screen sharing) is substantively a **multi-modal friction design**. It does not block the user's task; instead, it provides **multiple pathways to understanding**. This is the critical insight: friction that offers *choices about how to engage* (visual, auditory, interactive, social) rather than *imposing a single interruption* is the key to defusing friction-induced anxiety. Help Kiosk 2.0 is the closest existing empirical instantiation of attention-layer friction for older adults, and it demonstrates that friction can be experienced as **empowering rather than obstructive**.
+
+3. **Calibrated Friction**: Pang's "continuous learning topics that evolve with the user" (incremental learning) provides the calibration principle that Fracture 3 demands. Friction intensity should not be static — it must **decrease as user familiarity increases**. A first-time user encountering a health AI chatbot receives full attention-layer seams (micro-pauses, reasoning previews, "AI is guessing" labels). A user who has interacted 50 times receives lighter seams or the option to dismiss them. This converts the destructive feedback loop (friction → frustration → abandonment) into a **constructive loop**: friction → understanding → reduced friction → sustained engagement → deeper trust calibration.
+
+**Residual risk**: Pang's context is technology adoption — a domain where users *expect* to learn and tolerate confusion. Healthcare AI interaction is framed differently: users expect seamless service delivery, not a learning curve. The framing challenge persists: how to present friction as "the system helping you understand" rather than "the system failing to work properly." This framing problem, combined with the motivational gap identified in Fracture 1, reinforces the architectural requirement that friction must be **introduced with context** (Halo Effect Inoculation, Section 5.3) and **monitored by someone who can evaluate its effects** (Proxy Auditor Model, Section 4).
+
 ## Fracture 4: Audit Demands Capability That Vulnerability Denies (L4 → L1) *[New]*
 
 **Starting condition**: Layer 4 now relies on the WeAudit user-as-auditor model (Deng 2025).
@@ -865,16 +885,27 @@ The four layers are not independent modules — they form a **causally entangled
 
 **Severity**: Critical. This is the deepest fracture — it challenges the framework's core assumption that older adults can be empowered as auditors without first resolving the vulnerabilities that make them targets.
 
+### Complication: Proxy Auditor Is Not a Simple Fix (Baghestani et al., 2024)
+
+The natural resolution — delegate audit to a proxy — is itself fragile. Baghestani et al. (2024, CSCW '24) studied collaborative technology learning among 22 older adult dyads and found:
+
+- **Dominant-Follower failure mode** (3/6 mixed-age pairs): The proxy took over entirely, suppressing the older adult's experiential signals — exactly the data the audit needs.
+- **Patronizing language → negative cycle**: In parent-child pairs especially, trust breakdown led to older adult disengagement. A disengaged user cannot report the "felt experience" that WeAudit's Intuitive Audit Triggers rely on.
+- **Progress checking bottleneck**: Even cooperative older adults struggled to verify whether their own actions were correct. In an audit context, this means they may misreport their AI interaction experience, contaminating the proxy's input data.
+- **Internalized ageism**: Trust issues in *same-age* dyads show the problem isn't just intergenerational — it's structural.
+
+**Implication**: Fracture 4 cannot be structurally resolved by the Proxy Auditor Model alone. The proxy relationship itself requires **design scaffolding**: partner matching criteria (patience > expertise), communication norms, progress checking tools, and stereotype inoculation. This transforms the Proxy Auditor from a "simple delegation" into a **sociotechnical system** with its own failure modes.
+
 ---
 
 ## Fracture Summary Table
 
-| Fracture | Direction | Mechanism | Severity |
-|----------|-----------|-----------|----------|
-| Trust vs. Friction | L1 → L3 | Halo Effect causes friction rejection | High |
-| Invisible → Contest | L2 → L4 | Subconscious nudges make contestability an empty right | Critical |
-| Friction → Trust Collapse | L3 → L1 | Miscalibrated friction erodes engagement trust | High |
-| Audit → Capability | L4 → L1 | WeAudit demands capability that vulnerability denies | Critical |
+| Fracture | Direction | Mechanism | Severity | Mitigation |
+|----------|-----------|-----------|----------|------------|
+| Trust vs. Friction | L1 → L3 | Halo Effect causes friction rejection | High | Partially mitigated: Pang 2021 shows latent capability, but motivational gap (Halo Effect framing) persists |
+| Invisible → Contest | L2 → L4 | Subconscious nudges make contestability an empty right | Critical | No mitigation identified — requires "make-it-visible" mechanism |
+| Friction → Trust Collapse | L3 → L1 | Miscalibrated friction erodes engagement trust | High → Moderate | Directly mitigated: Pang 2021 Help Kiosk 2.0 + incremental learning demonstrate elder-friendly friction feasibility |
+| Audit → Capability | L4 → L1 | WeAudit demands capability that vulnerability denies | Critical | Partially resolved by Proxy Auditor Model (Section 4); **complicated** by Baghestani 2024 trust dynamics — proxy relationship requires its own design scaffolding |
 
 > **Key insight**: These fractures form a **circular causal chain**: L1 vulnerabilities → L2 exploitation → L3 countermeasures that may backfire → L4 governance that presumes resolved L1 → back to L1. The framework cannot address each layer independently; it must be designed as an **integrated intervention stack with explicit sequencing**.
 
@@ -888,7 +919,7 @@ The Deng WeAudit citation chain (2025, 2023a, 2023b) provides the strongest empi
 
 | Dimension | WeAudit Empirical Base | Our Target Population |
 |-----------|----------------------|----------------------|
-| **Age** | 18–35 (predominantly) | 65+ |
+| **Age** | 18–35 (predominantly) | Older adults (no fixed age threshold; literature uses 50+/55+/60+/65+ variably) |
 | **Digital literacy** | Basic to moderate | Low; AI Literacy Gap (Peixoto 2025) |
 | **Trust baseline** | Healthy skepticism | Halo Effect over-trust (Ellis 2025) |
 | **Cognitive resources** | Normal adult capacity | Constrained (Wildenbos 2018 — MOLD-US) |
@@ -971,6 +1002,33 @@ The **Proxy Auditor Model** formally acknowledges that the primary user (the old
 | Contestability framing | Vaithilingam 2024/2025 | Theoretical basis for right to challenge via proxy |
 | Trust calibration | Lee & See 2004 | Defines appropriate reliance targets for proxy assessment |
 | Seamful XAI | Ehsan 2024 | L3↔L4 bridge: seams as both friction and audit signal |
+| **Collaborative trust dynamics** | **Baghestani 2024 (CSCW)** | **Proxy-user trust prerequisites; dominant-follower failure mode; partner selection criteria; progress checking bottleneck** |
+| Latent capability + calibrated friction | Pang 2021 (CHI) | Older adults more capable than assumed; friction must be framed as learning support |
+
+## Proxy Trust Constraints (Baghestani et al., 2024)
+
+The Proxy Auditor Model assumes a productive relationship between the older adult and their proxy. Baghestani et al. (2024, CSCW '24) provides the **only empirical evidence** on collaborative dynamics between older adults and support partners in complex technology tasks — and it reveals that this assumption is fragile.
+
+### Four Collaboration Dynamics
+
+Baghestani identified four patterns in older adult–partner dyads:
+
+| Dynamic | Description | Proxy Auditor Implication |
+|---------|-------------|-------------------------|
+| **Dominant-Follower** | Younger partner takes over; older adult becomes passive | **Failure mode**: Proxy does all thinking; older adult's experiential signals are suppressed |
+| **Equal Collaboration** | Both partners contribute; open discussion | **Ideal mode**: Proxy evaluates while older adult actively reports felt experience |
+| **On-Demand** | Help provided only when requested | **Viable mode**: Proxy reviews logs asynchronously; older adult maintains autonomy |
+| **Individual Exploration** | Partners work independently with occasional check-ins | **Insufficient**: Proxy not engaged enough to catch subtle AI manipulation patterns |
+
+### Critical Design Constraints
+
+1. **Trust is prerequisite, not guaranteed**: Patronizing language from the proxy (especially family members) triggers a **negative cycle** — older adult withdraws → proxy assumes incompetence → more patronizing → complete disengagement. This is the Proxy Auditor equivalent of Fracture 3 (friction → trust collapse), but at the interpersonal level.
+
+2. **Partner selection**: Patience > expertise > age. Close family members (parent-child) showed *more* patronizing behavior than friends. Proxy Auditor programs should consider **outer social circle** (community health workers, patient advocates) over close family.
+
+3. **Progress checking is the bottleneck**: Older adults could *perform* tasks but struggled to *assess whether they did them correctly*. For audit workflows, this means the proxy must not only review AI interactions but also **help the older adult verify their own experiential reports** — "Did the AI actually do what you think it did?"
+
+4. **Internalized ageism**: Trust issues occurred even in same-age dyads, reflecting stereotypes older adults hold about *their own* technological capability. Proxy selection must account for this — a peer proxy who shares these stereotypes may be worse than no proxy.
 
 ---
 
@@ -980,9 +1038,9 @@ The following concepts have been identified through the fracture analysis and li
 
 ## 5.1 Elder-Friendly Friction
 
-**Status**: Theoretical derivation (no empirical testing)
+**Status**: Theoretical derivation with **partial empirical precedent** (Pang et al., 2021 — Help Kiosk 2.0 four-channel learning support for older adults, CHI '21)
 
-**Principle**: Friction should operate at the **attention layer** (drawing awareness) not the **action layer** (blocking task completion).
+**Principle**: Friction should operate at the **attention layer** (drawing awareness) not the **action layer** (blocking task completion). Pang et al.'s incremental learning model — "continuous learning topics that evolve with the user" — provides the calibration principle: friction intensity decreases as user familiarity increases.
 
 | Mechanism | Layer | Description | Cognitive Load |
 |-----------|-------|-------------|---------------|
@@ -1077,10 +1135,42 @@ The layers cannot be activated independently. The INFS 604 prototype must implem
 
 ### Open Design Challenges
 
-1. **What counts as "elder-friendly" friction?** No empirical data on optimal attention-layer mechanisms for 65+ users interacting with health AI chatbots.
+1. **What counts as "elder-friendly" friction?** No empirical data on optimal attention-layer mechanisms for older adults interacting with health AI chatbots.
 2. **Proxy recruitment and training**: How are proxy auditors identified, motivated, and equipped? WeAudit recruited volunteers; healthcare contexts may require institutional support.
 3. **Real-time contestability**: The Decision Journal enables retrospective review, but in-the-moment intervention against live hypernudges remains unvalidated.
 4. **Halo Effect inoculation without trust destruction**: The inoculation must attenuate blind trust without inducing distrust of healthcare institutions themselves — a narrow design target.
+
+---
+
+### Researcher's Note — Emerging Thesis
+
+> *"The 'seamlessness' that contemporary healthcare AI pursues may well become the epitaph of older adults' autonomy."*
+
+The following is an informal synthesis of ideas that have crystallised over the past several weeks of reading. It is not a formal conclusion, but a directional anchor for the work ahead.
+
+#### Core Provocation
+
+In an era where AI strives to make everything feel *natural* and *effortless*, the central question becomes: **how can *deliberate* friction reawaken older adults' sense of agency?**
+
+Technology is not an external burden imposed upon the user — it is an extension of human capability. Older adults do not learn from zero; they complete an **unfinished self-evolution** through the very act of *struggling* with technology. Friction-based design (e.g., Positive Friction) is therefore not merely a safety mechanism — it is a **scaffolding for latent capability** (Pang, 2021).
+
+#### Stance: Rejecting the Deficit Narrative
+
+This research refuses to frame older adults as inherently fragile. Drawing on Pang's (2021) concept of *latent capability*, the argument is that design should not simply eliminate friction, but should deploy **Positive Friction** and **Seams** to awaken user awareness. The 4-Layer Analytical Framework is built to tear away the gentle veil of *shadow technologies* and establish an interaction space grounded in **Contestability** — transforming older adults from silent recipients into digitally sovereign agents capable of auditing the systems that act upon them.
+
+#### Philosophical Underpinning
+
+> A perfectly "seamless" design is a sealed cocoon — suffocating.
+> **Seams are where the light gets in** — the cracks through which humans can intervene and speak.
+
+- **Seams** → Ehsan (2024): Seamful Design that deliberately exposes system uncertainty.
+- **Contestability** → Layer 4: the right to challenge AI as a matter of fundamental human dignity.
+
+#### Working Title
+
+**Unfinished Evolution: Erupting Latent Capabilities in the Digital Shadows of Aging**
+
+*Beyond the Shadows: A 4-Layer Framework for Designing Contestable and Seamful AI Interactions in Age-Inclusive Healthcare Environments*
 
 ---
 

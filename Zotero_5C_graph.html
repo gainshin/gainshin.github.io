@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literature Relation Graph - Research - Joshua Hsiao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+            --layer1: #1565C0;
+            --layer2: #C62828;
+            --layer3: #2E7D32;
+            --layer4: #EF6C00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .main-body {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .graph-toolbar {
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .graph-toolbar label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-btn {
+            padding: 4px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .filter-btn.active {
+            background: var(--text-primary);
+            color: white;
+            border-color: var(--text-primary);
+        }
+
+        .graph-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .graph-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .legend-panel {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            max-width: 260px;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .legend-section {
+            margin-bottom: 10px;
+        }
+
+        .legend-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: var(--text-primary);
+        }
+
+        .legend-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-line {
+            width: 20px;
+            height: 3px;
+            flex-shrink: 0;
+            border-radius: 1px;
+        }
+
+        .tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: rgba(55, 53, 47, 0.95);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 320px;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 10;
+        }
+
+        .tooltip .tt-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .tooltip .tt-meta {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .info-toggle {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.92);
+            font-size: 12px;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-toggle:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .info-toggle.active {
+            background: var(--text-primary);
+            color: #fff;
+            border-color: var(--text-primary);
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 48px;
+            right: 16px;
+            z-index: 5;
+            width: 480px;
+            max-height: calc(100% - 64px);
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            display: none;
+            animation: fadeSlideIn 0.2s ease;
+        }
+
+        .info-panel.open {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-panel h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .info-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            line-height: 1.6;
+        }
+
+        .info-table th {
+            text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-tertiary);
+            padding: 6px 10px;
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .info-table td {
+            padding: 10px 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            vertical-align: top;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            width: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .legend-panel {
+                max-width: 200px;
+                padding: 10px 12px;
+            }
+
+            .info-panel {
+                width: calc(100% - 32px);
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <a href="Zotero_5C.html">4-Layer Framework</a>
+                    <span class="separator">/</span>
+                    <span class="current">Relation Graph</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="graph-toolbar" id="toolbar">
+            <label>Relation:</label>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Conceptual-basis">Conceptual</button>
+            <button class="filter-btn" data-filter="Empirical-evidence">Empirical</button>
+            <button class="filter-btn" data-filter="Design-implication">Design</button>
+            <button class="filter-btn" data-filter="Governance-implication">Governance</button>
+            <button class="filter-btn" data-filter="Parallel-case">Parallel</button>
+            <button class="filter-btn" data-filter="Framework-integration">Framework</button>
+            <button class="filter-btn" data-filter="Methodological-inspiration">Method</button>
+            <span style="width:1px;height:20px;background:var(--border-color);margin:0 4px"></span>
+            <label>Layout:</label>
+            <button class="filter-btn" id="snowball-btn" onclick="toggleSnowball()">Snowball</button>
+        </div>
+
+        <div class="main-body">
+            <div class="graph-container" id="graph-container">
+                <div class="tooltip" id="tooltip"></div>
+                <button class="info-toggle" id="info-toggle" onclick="toggleInfoPanel()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    Graph Info
+                </button>
+                <div class="info-panel" id="info-panel">
+                    <h3 id="info-panel-title">Integrated Relation View</h3>
+                    <p class="info-subtitle" id="info-panel-subtitle"></p>
+                    <table class="info-table">
+                        <thead>
+                            <tr>
+                                <th>Dimension</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="info-panel-body"></tbody>
+                    </table>
+                </div>
+                <div class="legend-panel">
+                    <div class="legend-section">
+                        <div class="legend-title">Layers (node color)</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#1565C0"></span> L1 – User/Barriers</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#C62828"></span> L2 – Nudge/Dark Patterns</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#2E7D32"></span> L3 – Friction/XAI</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#EF6C00"></span> L4 – Governance</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#6366F1"></span> Cross-Layer</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#9CA3AF;border:2px dashed #6B7280"></span> Framework</div>
+                    </div>
+                    <div class="legend-section">
+                        <div class="legend-title">Role</div>
+                        <div class="legend-item"><svg width="10" height="10" viewBox="0 0 14 14"><polygon points="7,1 13,7 7,13 1,7" fill="none" stroke="#37352f" stroke-width="1.5" stroke-dasharray="2,1.5"/></svg> Seed (R1)</div>
+                        <div class="legend-item"><svg width="10" height="10" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="#37352f" stroke-width="2"/><circle cx="7" cy="7" r="3" fill="#37352f"/></svg> Core (Highest)</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#D1D5DB;opacity:0.5"></span> Excluded (Snowball only)</div>
+                    </div>
+                    <div class="legend-section">
+                        <div class="legend-title">Relations (edge color)</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#6366F1"></span>
+                            Conceptual-basis</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#10B981"></span>
+                            Empirical-evidence</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#F59E0B"></span>
+                            Design-implication</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#EF4444"></span>
+                            Governance-implication</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#8B5CF6"></span>
+                            Parallel-case</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#06B6D4"></span>
+                            Framework-integration</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#EC4899"></span>
+                            Methodological-inspiration</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        renderSidebar('zotero-5c-graph');
+
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+
+        const LAYER_COLORS = {
+            'L1': '#1565C0',
+            'L2': '#C62828',
+            'L3': '#2E7D32',
+            'L4': '#EF6C00',
+            'Cross': '#6366F1',
+            'Framework': '#9CA3AF',
+            'Excluded': '#D1D5DB'
+        };
+
+        const RELATION_COLORS = {
+            'Conceptual-basis': '#6366F1',
+            'Empirical-evidence': '#10B981',
+            'Design-implication': '#F59E0B',
+            'Governance-implication': '#EF4444',
+            'Parallel-case': '#8B5CF6',
+            'Framework-integration': '#06B6D4',
+            'Methodological-inspiration': '#EC4899'
+        };
+
+        const TIER_RADIUS = {
+            'Tier 1 Highest': 16,
+            'Tier 1': 12,
+            'Tier 2': 9,
+            'Tier 3': 7,
+            'Supporting': 7,
+            'Excluded': 5
+        };
+
+        const nodes = [
+            { id: "Ellis 2025", label: "Ellis 2025", fullTitle: "Exploring Older Adults' Perceptions and Concerns About a Chatbot-Based Health Assessment", layer: "L1", tier: "Tier 1", round: "R2" },
+            { id: "Peixoto 2025", label: "Peixoto 2025", fullTitle: "Accessible and Multimodal XAI for People with Sight Loss", layer: "L1", tier: "Tier 1", round: "R1" },
+            { id: "Wildenbos 2018", label: "Wildenbos 2018", fullTitle: "Aging Barriers Influencing mHealth Usability and eHealth (MOLD-US)", layer: "L1", tier: "Tier 1", round: "R1" },
+            { id: "Sakaguchi-Tang 2017", label: "Sakaguchi-Tang 2017", fullTitle: "Patient Portal Use and Experience Among Older Adults", layer: "L1", tier: "Tier 1", round: "R1" },
+            { id: "Wong 2025", label: "Wong 2025", fullTitle: "Older Adults' Acceptance of AI Health Tech in HK (COM-B/TDF)", layer: "L1", tier: "Tier 1", round: "R5" },
+
+            { id: "Duane 2025", label: "Duane 2025", fullTitle: "A Narrative Review of Digital Nudges in Information Systems Research", layer: "L2", tier: "Tier 1", round: "R3" },
+            { id: "Gray 2018", label: "Gray 2018", fullTitle: "The Dark (Patterns) Side of UX Design", layer: "L2", tier: "Tier 1", round: "R1" },
+            { id: "Faraoni 2023", label: "Faraoni 2023", fullTitle: "Hypernudge, Cognitive Liberty, and Right to Mental Self-Determination", layer: "L2", tier: "Tier 2", round: "R5" },
+            { id: "Yu-Chen 2024", label: "Yu-Chen 2024", fullTitle: "Older Adults' Acceptance of AI Health Chatbots (UTAUT+ Survey)", layer: "L2", tier: "Tier 2", round: "R5" },
+            { id: "Thaler-Sunstein 2008", label: "Thaler & Sunstein 2008", fullTitle: "Nudge: Improving Decisions About Health, Wealth, and Happiness", layer: "L2", tier: "Tier 2", round: "R6" },
+            { id: "Yeung 2017", label: "Yeung 2017", fullTitle: "'Hypernudge': Big Data as a Mode of Regulation by Design", layer: "L2", tier: "Tier 2", round: "R6" },
+            { id: "Brignull 2024", label: "Brignull 2024", fullTitle: "Deceptive Patterns: Taxonomy of Dark Patterns", layer: "L2", tier: "Tier 3", round: "R1" },
+
+            { id: "Gulli 2025", label: "Gullí 2025", fullTitle: "Agentic Design Patterns: A Hands-on Guide (HITL, Guardrails)", layer: "L3", tier: "Tier 1", round: "R1" },
+            { id: "Lee-See 2004", label: "Lee & See 2004", fullTitle: "Trust in Automation: Designing for Appropriate Reliance", layer: "L3", tier: "Tier 1", round: "R6" },
+            { id: "Zubatiy 2023", label: "Zubatiy 2023", fullTitle: "Conversational Agent Use by Older Adults with MCI", layer: "L3", tier: "Tier 1", round: "R1" },
+            { id: "Brewer 2022", label: "Brewer 2022", fullTitle: "Alexa Use by Older Adults in Assisted Living", layer: "L3", tier: "Tier 1", round: "R2" },
+            { id: "Inan 2025", label: "İnan 2025", fullTitle: "Positive AI Friction: A Framework for Beneficial Friction Taxonomy", layer: "L3", tier: "Tier 1", round: "R4" },
+            { id: "Ehsan 2024", label: "Ehsan 2024", fullTitle: "Seamful XAI: Operationalizing Gaps for Appropriate Trust Calibration", layer: "L3", tier: "Tier 1 Highest", round: "R4" },
+            { id: "Jamshed 2025", label: "Jamshed 2025", fullTitle: "AI-Powered Audio Nudge for Dietary Health", layer: "L3", tier: "Tier 1", round: "R5" },
+            { id: "Cammisuli 2022", label: "Cammisuli 2022", fullTitle: "SENIOR: Technology-Based Multidomain Lifestyle Intervention for MCI", layer: "L3", tier: "Tier 1", round: "R5" },
+            { id: "Pang 2021", label: "Pang 2021", fullTitle: "Technology Use by Older Adults with MCI and Their Caregivers", layer: "Cross", tier: "Tier 1 Highest", round: "R5" },
+
+            { id: "Hirsch 2017", label: "Hirsch 2017", fullTitle: "Designing Contestability: Interaction Design, Machine Learning, and Mental Health", layer: "L4", tier: "Tier 1", round: "R4" },
+            { id: "Vaithilingam 2024", label: "Vaithilingam 2024", fullTitle: "Imagining a Future of Designing with AI: Dynamic Grounding, Constructive Negotiation", layer: "L4", tier: "Tier 1", round: "R3" },
+            { id: "WHO 2021", label: "WHO 2021", fullTitle: "Ethics and Governance of Artificial Intelligence for Health (WHO)", layer: "L4", tier: "Supporting", round: "R1" },
+            { id: "NIST 2023", label: "NIST 2023", fullTitle: "Artificial Intelligence Risk Management Framework (NIST AI 100-1)", layer: "L4", tier: "Supporting", round: "R1" },
+            { id: "Wang 2025", label: "Wang 2025", fullTitle: "Who Do You Think I Am? Exploring User Mental Models of LLMs", layer: "L4", tier: "Supporting", round: "R5" },
+            { id: "Deng-WeAudit 2025", label: "Deng (WeAudit) 2025", fullTitle: "WeAudit: Scaffolding User Auditors in Auditing Generative AI", layer: "Cross", tier: "Tier 1 Highest", round: "R6" },
+            { id: "Deng-Practices 2023", label: "Deng (Practices) 2023", fullTitle: "Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing", layer: "L4", tier: "Tier 1", round: "R6" },
+            { id: "Deng-Engagement 2023", label: "Deng (Engagement) 2023", fullTitle: "Supporting User Engagement in Testing, Auditing, and Contesting AI", layer: "L4", tier: "Tier 1", round: "R6" },
+            { id: "Baghestani 2024", label: "Baghestani 2024", fullTitle: "Understanding Older Adults' Experiences with Technologies for Aging in Place", layer: "Cross", tier: "Tier 1", round: "R6" },
+
+            { id: "4-Layer Framework", label: "4-Layer Framework", fullTitle: "4-Layer Design Space (Your Analytical Framework)", layer: "Framework", tier: "Tier 1 Highest", round: "—" },
+
+            { id: "ex-r1-ai-elderly", label: "AI Elderly Scoping", fullTitle: "Artificial intelligence in elderly healthcare: A scoping review", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+            { id: "ex-r1-app-abandon", label: "App Abandonment", fullTitle: "When and Why Adults Abandon Lifestyle Behavior and Mental Health Mobile Apps", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+            { id: "ex-r1-caregiving", label: "Caregiving CA", fullTitle: "Learning from Limitations of Modern Conversational Agent Systems in Caregiving Networks", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+            { id: "ex-r1-voice-asst", label: "Voice Assistant", fullTitle: "An Empirical Study of Older Adult's Voice Assistant Use for Health Information Seeking", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+            { id: "ex-r1-ellis-reply", label: "Ellis Reply", fullTitle: "Reply to: Comment on: The Halo Effect", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+            { id: "ex-r1-susser", label: "Susser 2019", fullTitle: "Technology, autonomy, and manipulation", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
+
+            { id: "ex-r2-an-ca", label: "An 2025 (CA Review)", fullTitle: "Conversational Agents for Older Adults' Health: A Systematic Literature Review", layer: "Excluded", tier: "Excluded", round: "R2", excluded: true },
+            { id: "ex-r2-benefits-ca", label: "Benefits CA", fullTitle: "Benefits and challenges of conversational agents in older adults", layer: "Excluded", tier: "Excluded", round: "R2", excluded: true },
+            { id: "ex-r2-portal-barrier", label: "Portal Barriers", fullTitle: "Patient Portal Barriers and Group Differences: Cross-Sectional National Survey Study", layer: "Excluded", tier: "Excluded", round: "R2", excluded: true },
+            { id: "ex-r2-aican", label: "AICan 2023", fullTitle: "AICan: The Impact of the Pan-Canadian AI Strategy", layer: "Excluded", tier: "Excluded", round: "R2", excluded: true },
+
+            { id: "ex-r3-imda", label: "IMDA 2026", fullTitle: "IMDA Agentic AI Model Governance Framework", layer: "Excluded", tier: "Excluded", round: "R3", excluded: true },
+            { id: "ex-r3-wadinambiarachchi", label: "Wadinambiarachchi 2025", fullTitle: "Imagining Design Workflows in Agentic AI Futures", layer: "Excluded", tier: "Excluded", round: "R3", excluded: true },
+            { id: "ex-r3-semantic", label: "Semantic Commit", fullTitle: "Semantic Commit: Helping Users Update Intent Specifications for AI Memory at Scale", layer: "Excluded", tier: "Excluded", round: "R3", excluded: true },
+
+            { id: "ex-r5-haptic", label: "Haptic SARs", fullTitle: "Haptic Feedback in Socially Assistive Robots", layer: "Excluded", tier: "Excluded", round: "R5", excluded: true },
+            { id: "ex-r5-friction-map", label: "Friction Mapping", fullTitle: "Friction Mapping (LinkedIn industry tool)", layer: "Excluded", tier: "Excluded", round: "R5", excluded: true },
+            { id: "ex-r5-usability-pmc", label: "Usability PMC", fullTitle: "Usability Insights (PMC cognition/privacy review)", layer: "Excluded", tier: "Excluded", round: "R5", excluded: true },
+            { id: "ex-r5-mylo", label: "MYLO RCT", fullTitle: "MYLO RCT: Method of Levels chatbot for problem-solving", layer: "Excluded", tier: "Excluded", round: "R5", excluded: true },
+            { id: "ex-r5-schmude", label: "Schmude 2025", fullTitle: "Explainability and Contestability for the Responsible Use of Public Sector AI", layer: "Excluded", tier: "Excluded", round: "R5", excluded: true },
+
+            { id: "ex-r6-kluttz", label: "Kluttz 2022", fullTitle: "Shaping Our Tools: Contestability as a Means to Promote Responsible Algorithmic Decision Making", layer: "Excluded", tier: "Excluded", round: "R6", excluded: true },
+            { id: "ex-r6-almada", label: "Almada 2019", fullTitle: "Human intervention in automated decision-making: Toward the construction of contestable systems", layer: "Excluded", tier: "Excluded", round: "R6", excluded: true }
+        ];
+
+        const edges = [
+            { source: "Thaler-Sunstein 2008", target: "Yeung 2017", type: "Conceptual-basis", concept: "nudge → hypernudge; choice architecture" },
+            { source: "Thaler-Sunstein 2008", target: "Duane 2025", type: "Conceptual-basis", concept: "nudge → digital nudge taxonomy" },
+            { source: "Yeung 2017", target: "Duane 2025", type: "Conceptual-basis", concept: "hypernudge concept adopted in taxonomy" },
+            { source: "Yeung 2017", target: "Faraoni 2023", type: "Conceptual-basis", concept: "hypernudge → cognitive liberty" },
+            { source: "Brignull 2024", target: "Gray 2018", type: "Conceptual-basis", concept: "deceptive pattern taxonomy → academic analysis" },
+            { source: "Gray 2018", target: "Duane 2025", type: "Conceptual-basis", concept: "dark patterns → dark nudge category" },
+            { source: "Lee-See 2004", target: "Ehsan 2024", type: "Conceptual-basis", concept: "trust calibration → seamful trust" },
+            { source: "Lee-See 2004", target: "Ellis 2025", type: "Conceptual-basis", concept: "trust calibration → halo as miscalibration" },
+            { source: "Hirsch 2017", target: "Ehsan 2024", type: "Conceptual-basis", concept: "contestability → seamful XAI" },
+            { source: "Hirsch 2017", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "contestability → user-as-auditor" },
+            { source: "Hirsch 2017", target: "Deng-Engagement 2023", type: "Conceptual-basis", concept: "contestability framing" },
+            { source: "Deng-Engagement 2023", target: "Deng-Practices 2023", type: "Conceptual-basis", concept: "conceptual framing → empirical study" },
+            { source: "Deng-Practices 2023", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "formative findings → system design" },
+            { source: "Vaithilingam 2024", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "constructive negotiation → audit scaffolding" },
+
+            { source: "Ellis 2025", target: "Sakaguchi-Tang 2017", type: "Empirical-evidence", concept: "refutes 'older adults more privacy-concerned'" },
+            { source: "Yu-Chen 2024", target: "Wong 2025", type: "Empirical-evidence", concept: "cross-validates acceptance mechanisms" },
+            { source: "Pang 2021", target: "Baghestani 2024", type: "Empirical-evidence", concept: "independence-guilt tension replicated" },
+            { source: "Deng-Practices 2023", target: "Deng-WeAudit 2025", type: "Empirical-evidence", concept: "formative evidence → 6 design goals" },
+            { source: "Inan 2025", target: "Ehsan 2024", type: "Empirical-evidence", concept: "friction improves task success; seams as friction" },
+
+            { source: "Wildenbos 2018", target: "Inan 2025", type: "Design-implication", concept: "MOLD-US aging barriers constrain friction design" },
+            { source: "Wildenbos 2018", target: "Jamshed 2025", type: "Design-implication", concept: "perception barriers → audio nudge design" },
+            { source: "Wildenbos 2018", target: "Cammisuli 2022", type: "Design-implication", concept: "aging barriers → SENIOR usability constraints" },
+            { source: "Peixoto 2025", target: "Ehsan 2024", type: "Design-implication", concept: "accessible XAI → seamful multimodal" },
+            { source: "Peixoto 2025", target: "Jamshed 2025", type: "Design-implication", concept: "non-visual XAI → audio friction design" },
+            { source: "Pang 2021", target: "Zubatiy 2023", type: "Design-implication", concept: "incremental learning → error recovery" },
+            { source: "Pang 2021", target: "Baghestani 2024", type: "Design-implication", concept: "Help Kiosk → progress checking design" },
+            { source: "Brewer 2022", target: "Jamshed 2025", type: "Design-implication", concept: "VA health perceptions → audio nudge design" },
+            { source: "Zubatiy 2023", target: "Inan 2025", type: "Design-implication", concept: "CA limitations → positive friction dialogue" },
+            { source: "Zubatiy 2023", target: "Brewer 2022", type: "Design-implication", concept: "error recovery → editability/verification" },
+            { source: "Gulli 2025", target: "Ehsan 2024", type: "Design-implication", concept: "HITL patterns → seamful process" },
+            { source: "Gulli 2025", target: "Inan 2025", type: "Design-implication", concept: "guardrails/safety → friction taxonomy" },
+            { source: "Cammisuli 2022", target: "Duane 2025", type: "Design-implication", concept: "nudge-based ICT → taxonomy application" },
+            { source: "Duane 2025", target: "Jamshed 2025", type: "Design-implication", concept: "nudge taxonomy → audio nudge framing" },
+
+            { source: "Faraoni 2023", target: "WHO 2021", type: "Governance-implication", concept: "cognitive liberty → health AI ethics" },
+            { source: "Faraoni 2023", target: "NIST 2023", type: "Governance-implication", concept: "right to mental self-determination → risk framework" },
+            { source: "WHO 2021", target: "NIST 2023", type: "Governance-implication", concept: "international principles → US framework alignment" },
+            { source: "Gray 2018", target: "Faraoni 2023", type: "Governance-implication", concept: "dark patterns → EU DSA regulation context" },
+            { source: "Ehsan 2024", target: "Hirsch 2017", type: "Governance-implication", concept: "seamful XAI operationalizes contestability" },
+            { source: "Wang 2025", target: "NIST 2023", type: "Governance-implication", concept: "mental models → transparency requirements" },
+            { source: "Ellis 2025", target: "WHO 2021", type: "Governance-implication", concept: "halo effect → equity-conscious AI governance" },
+
+            { source: "Ellis 2025", target: "Wong 2025", type: "Parallel-case", concept: "health IT trust: US chatbot ↔ HK AI health" },
+            { source: "Ellis 2025", target: "Sakaguchi-Tang 2017", type: "Parallel-case", concept: "health IT privacy: chatbot ↔ portal" },
+            { source: "Wong 2025", target: "Yu-Chen 2024", type: "Parallel-case", concept: "older adults AI health: HK qualitative ↔ CN quantitative" },
+            { source: "Peixoto 2025", target: "Wildenbos 2018", type: "Parallel-case", concept: "accessibility: sight loss ↔ aging barriers" },
+            { source: "Zubatiy 2023", target: "Brewer 2022", type: "Parallel-case", concept: "CA older adults: MCI homes ↔ assisted living" },
+            { source: "Sakaguchi-Tang 2017", target: "Yu-Chen 2024", type: "Parallel-case", concept: "health IT acceptance: portal ↔ UTAUT chatbot" },
+
+            { source: "Wildenbos 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "MOLD-US → L3 friction design constraints" },
+            { source: "Duane 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "nudge taxonomy + dark patterns → L2 mechanism map" },
+            { source: "Gray 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "dark pattern strategies → L2 mechanism map" },
+            { source: "WHO 2021", target: "4-Layer Framework", type: "Framework-integration", concept: "governance principles → L4 contestability" },
+            { source: "NIST 2023", target: "4-Layer Framework", type: "Framework-integration", concept: "risk management → L4 contestability" },
+            { source: "Gulli 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "agentic patterns → L3 HITL/guardrails" },
+            { source: "Lee-See 2004", target: "4-Layer Framework", type: "Framework-integration", concept: "trust calibration → L1/L3 design-space anchor" },
+
+            { source: "Duane 2025", target: "4-Layer Framework", type: "Methodological-inspiration", concept: "Gioia narrative + inductive → design-space synthesis" },
+            { source: "Wong 2025", target: "4-Layer Framework", type: "Methodological-inspiration", concept: "COM-B/TDF → behavioral barrier mapping" }
+        ];
+
+        const nodeMap = {};
+        nodes.forEach(n => nodeMap[n.id] = n);
+
+        function getNodeColor(d) {
+            return LAYER_COLORS[d.layer] || LAYER_COLORS['L1'];
+        }
+
+        function getNodeRadius(d) {
+            return TIER_RADIUS[d.tier] || 9;
+        }
+
+        const container = document.getElementById('graph-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        const svg = d3.select('#graph-container')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        const defs = svg.append('defs');
+        Object.entries(RELATION_COLORS).forEach(([type, color]) => {
+            defs.append('marker')
+                .attr('id', `arrow-${type}`)
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 20)
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M0,-4L10,0L0,4')
+                .attr('fill', color)
+                .attr('opacity', 0.6);
+        });
+
+        const g = svg.append('g');
+
+        const zoom = d3.zoom()
+            .scaleExtent([0.2, 4])
+            .on('zoom', (event) => g.attr('transform', event.transform));
+        svg.call(zoom);
+
+        const simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(edges).id(d => d.id).distance(120))
+            .force('charge', d3.forceManyBody().strength(-400))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(d => getNodeRadius(d) + 8))
+            .force('x', d3.forceX(width / 2).strength(0.05))
+            .force('y', d3.forceY(height / 2).strength(0.05));
+
+        const linkGroup = g.append('g').attr('class', 'links');
+        const nodeGroup = g.append('g').attr('class', 'nodes');
+
+        const link = linkGroup.selectAll('line')
+            .data(edges)
+            .join('line')
+            .attr('stroke', d => RELATION_COLORS[d.type])
+            .attr('stroke-width', 1.5)
+            .attr('stroke-opacity', 0.5)
+            .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+        const nodeG = nodeGroup.selectAll('g')
+            .data(nodes)
+            .join('g')
+            .call(d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+
+        nodeG.attr('display', d => d.excluded ? 'none' : 'inline');
+
+        nodeG.append('circle')
+            .attr('class', 'node-circle')
+            .attr('r', d => getNodeRadius(d))
+            .attr('fill', d => getNodeColor(d))
+            .attr('stroke', d => d.excluded ? '#E5E7EB' : '#fff')
+            .attr('stroke-width', 1.5)
+            .attr('cursor', 'pointer');
+
+        nodeG.filter(d => d.layer === 'Framework')
+            .select('.node-circle')
+            .attr('stroke', '#6B7280')
+            .attr('stroke-width', 2)
+            .attr('stroke-dasharray', '3,2');
+
+        nodeG.filter(d => d.round === 'R1' && d.layer !== 'Framework')
+            .append('polygon')
+            .attr('class', 'seed-marker')
+            .attr('points', d => {
+                const r = getNodeRadius(d) + 6;
+                return `0,${-r} ${r},0 0,${r} ${-r},0`;
+            })
+            .attr('fill', 'none')
+            .attr('stroke', d => getNodeColor(d))
+            .attr('stroke-width', 1.5)
+            .attr('stroke-dasharray', '3,2')
+            .attr('opacity', 0.8)
+            .attr('pointer-events', 'none');
+
+        nodeG.filter(d => d.tier === 'Tier 1 Highest')
+            .append('circle')
+            .attr('class', 'core-ring')
+            .attr('r', d => getNodeRadius(d) + 5)
+            .attr('fill', 'none')
+            .attr('stroke', d => getNodeColor(d))
+            .attr('stroke-width', 2)
+            .attr('opacity', 0.7)
+            .attr('pointer-events', 'none');
+
+        nodeG.append('text')
+            .text(d => d.label)
+            .attr('dx', d => getNodeRadius(d) + (d.round === 'R1' || d.tier === 'Tier 1 Highest' ? 8 : 4))
+            .attr('dy', '0.35em')
+            .attr('font-size', '10px')
+            .attr('font-family', 'Inter, sans-serif')
+            .attr('fill', '#37352f')
+            .attr('pointer-events', 'none');
+
+        const tooltip = document.getElementById('tooltip');
+
+        nodeG.on('mouseover', function (event, d) {
+            tooltip.innerHTML = `
+            <div class="tt-title">${d.fullTitle}</div>
+            <div class="tt-meta">${d.label} · ${d.layer} · ${d.tier} · ${d.round}</div>
+        `;
+            tooltip.style.opacity = 1;
+            tooltip.style.left = (event.pageX - container.getBoundingClientRect().left + 12) + 'px';
+            tooltip.style.top = (event.pageY - container.getBoundingClientRect().top - 10) + 'px';
+
+            highlightConnections(d);
+        })
+            .on('mousemove', function (event) {
+                tooltip.style.left = (event.pageX - container.getBoundingClientRect().left + 12) + 'px';
+                tooltip.style.top = (event.pageY - container.getBoundingClientRect().top - 10) + 'px';
+            })
+            .on('mouseout', function () {
+                tooltip.style.opacity = 0;
+                resetHighlight();
+            })
+            .on('click', function (event, d) {
+                event.stopPropagation();
+                togglePin(d);
+            });
+
+        let pinnedNode = null;
+
+        function togglePin(d) {
+            if (pinnedNode === d) {
+                pinnedNode = null;
+                resetHighlight();
+            } else {
+                pinnedNode = d;
+                highlightConnections(d);
+            }
+        }
+
+        function highlightConnections(d) {
+            const connected = new Set();
+            connected.add(d.id);
+            edges.forEach(e => {
+                const sid = typeof e.source === 'object' ? e.source.id : e.source;
+                const tid = typeof e.target === 'object' ? e.target.id : e.target;
+                if (sid === d.id) connected.add(tid);
+                if (tid === d.id) connected.add(sid);
+            });
+
+            nodeG.select('.node-circle')
+                .attr('opacity', n => connected.has(n.id) ? 1 : 0.15);
+            nodeG.select('text')
+                .attr('opacity', n => connected.has(n.id) ? 1 : 0.15);
+            nodeG.select('.seed-marker')
+                .attr('opacity', n => connected.has(n.id) ? 0.8 : 0.1);
+            nodeG.select('.core-ring')
+                .attr('opacity', n => connected.has(n.id) ? 0.7 : 0.1);
+            link.attr('stroke-opacity', e => {
+                const sid = typeof e.source === 'object' ? e.source.id : e.source;
+                const tid = typeof e.target === 'object' ? e.target.id : e.target;
+                return (sid === d.id || tid === d.id) ? 0.8 : 0.05;
+            });
+        }
+
+        function resetHighlight() {
+            if (pinnedNode) return;
+            nodeG.select('.node-circle').attr('opacity', 1);
+            nodeG.select('text').attr('opacity', 1);
+            nodeG.select('.seed-marker').attr('opacity', 0.8);
+            nodeG.select('.core-ring').attr('opacity', 0.7);
+            link.attr('stroke-opacity', 0.5);
+        }
+
+        svg.on('click', () => {
+            pinnedNode = null;
+            resetHighlight();
+        });
+
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
+            nodeG.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                if (snowballMode) toggleSnowball();
+
+                const filter = btn.dataset.filter;
+
+                if (filter === 'all') {
+                    link.attr('display', 'inline').attr('stroke-opacity', 0.5);
+                    nodeG.attr('display', d => d.excluded ? 'none' : 'inline');
+                    nodeG.select('.node-circle').attr('opacity', 1);
+                    nodeG.select('text').attr('opacity', 1).attr('font-size', '10px');
+                    nodeG.select('.seed-marker').attr('opacity', 0.8);
+                    nodeG.select('.core-ring').attr('opacity', 0.7);
+                } else {
+                    const visibleNodes = new Set();
+                    link.attr('display', d => {
+                        if (d.type === filter) {
+                            const sid = typeof d.source === 'object' ? d.source.id : d.source;
+                            const tid = typeof d.target === 'object' ? d.target.id : d.target;
+                            visibleNodes.add(sid);
+                            visibleNodes.add(tid);
+                            return 'inline';
+                        }
+                        return 'none';
+                    }).attr('stroke-opacity', 0.7);
+
+                    nodeG.attr('display', d => visibleNodes.has(d.id) ? 'inline' : 'none');
+                }
+                pinnedNode = null;
+                updateInfoPanel(filter);
+            });
+        });
+
+        const INFO_DATA = {
+            'all': {
+                title: 'Integrated Relation View',
+                subtitle: 'A panoramic view of the entire 4-Layer Analytical Framework, revealing the intricate network from micro-level user cognition to macro-level policy and regulation.',
+                rows: [
+                    ['Context', 'The framework deconstructs all core literature into 5C (Context, Characters, Conflicts, Consequences, Countermeasures), mapped onto four design-space layers. Layer 1 addresses older-adult vulnerability and trust states; Layer 2 examines AI hypernudge and dark-pattern risks; Layer 3 provides HCI countermeasures and friction design; Layer 4 focuses on governance and contestability.'],
+                    ['Gaps', 'Literature on aging barriers and health technology is highly fragmented, largely based on pre-smartphone-era technologies. UX practice severely lacks a vocabulary to describe and assess "criticality" and "deception" in design practice.'],
+                    ['Conflicts', 'The overarching tension is user value vs. shareholder value (profit maximization) — designers must balance these conflicting values at every decision point. Simultaneously, seamless efficiency and protective friction are in strong tension.']
+                ]
+            },
+            'Conceptual-basis': {
+                title: 'Conceptual-basis View',
+                subtitle: 'Traces the theoretical evolution behind the framework, from classical behavioral economics to cognitive rights in the AI era.',
+                rows: [
+                    ['Context', 'The theoretical lineage begins with Thaler & Sunstein\'s (2008) "choice architecture" and "nudge." Yeung then extended this into the Big-Data-driven "hypernudge." Duane (2025) proposed a three-tier AI nudge taxonomy: algorithmic nudges, hypernudges, and predictive nudges. Faraoni (2023) introduced the legal concept of a "right to mental self-determination" to protect against AI-mediated manipulation.'],
+                    ['Gaps', 'Despite the unprecedented capacity for AI-driven manipulation, there is no international consensus on which fundamental human rights can protect individuals from computational manipulation. Existing ethical guidelines typically fail to anticipate deceptive intent embedded within interfaces.'],
+                    ['Conflicts', 'A fundamental tension exists between paternalism and liberty. The boundary between persuasion (appealing to System 2 reasoning) and manipulation (exploiting System 1 heuristics) becomes profoundly blurred in AI systems.']
+                ]
+            },
+            'Empirical-evidence': {
+                title: 'Empirical-evidence View',
+                subtitle: 'Studies that directly validate older adults\' interactions with AI through interviews, surveys, and field deployments.',
+                rows: [
+                    ['Context', 'Ellis (2025) surveyed 617 patients and interviewed 46 to investigate privacy perceptions of healthcare chatbots. Wong (2025) interviewed 27 Hong Kong older adults to explore acceptance of and barriers to AI health technology. Deng (2025) demonstrated through the WeAudit platform that non-expert users can effectively audit AI biases that experts overlook.'],
+                    ['Gaps', 'Traditional technology acceptance models (TAM, UTAUT) designed for younger users fail to fully capture the complex behavioral variables in older adults\' AI adoption. Research on privacy perceptions specific to patient-facing chatbots is virtually absent.'],
+                    ['Conflicts', 'Empirical results overturn a longstanding assumption: adults 65+ show lower privacy concern toward healthcare chatbots than younger users (halo effect). Wong (2025) also found older adults exhibiting "privacy resignation" — blindly trusting AI as long as it has official endorsement, surrendering informed autonomy.']
+                ]
+            },
+            'Design-implication': {
+                title: 'Design-implication View',
+                subtitle: 'Focuses on Layer 3 — how interfaces can protect users through deliberately designed friction.',
+                rows: [
+                    ['Context', 'Multiple design countermeasures address blind AI trust: İnan (2025) proposes "positive friction" to slow conversational pace and promote reflection. Ehsan (2024) advocates "seamful XAI," intentionally exposing AI blind spots and sociotechnical gaps. Jamshed (2025) designs "audio nudges" for screen-free voice interfaces.'],
+                    ['Gaps', 'Current conversational agents (e.g., Google Nest Hub) have overly rigid dialogue flows that cannot support the error-recovery mechanisms needed by older adults with mild cognitive impairment (MCI). In XAI research, 76 out of 79 studies completely exclude the needs of people with disabilities (over-reliance on visual charts).'],
+                    ['Conflicts', 'A design dilemma exists between disruptiveness and accessibility: audio nudges must be sufficiently "disruptive" to be effective, yet this increases cognitive load for older adults. "Seamless" design offers convenience but strips users of the agency to understand and contest errors.']
+                ]
+            },
+            'Governance-implication': {
+                title: 'Governance-implication View',
+                subtitle: 'Examines the highest layer (Layer 4) — system accountability, regulatory frameworks, and risk management.',
+                rows: [
+                    ['Context', 'WHO (2021) published health AI ethics guidelines proposing a "human warranty" requiring oversight checkpoints upstream and downstream of algorithms. NIST (2023) released the AI Risk Management Framework (GOVERN, MAP, MEASURE, MANAGE). Hirsch (2017) defined contestability design principles for high-stakes ML systems.'],
+                    ['Gaps', 'Despite voluntary guidelines, there is no cross-jurisdictional mandatory transparency regulation or independent audit mechanism. In healthcare, groups harmed by AI often lack both post-hoc remedies and in-situ channels to challenge AI decisions at the moment of impact.'],
+                    ['Conflicts', 'A "first-party paradox" emerges: Wang (2025) found that users perceive highly integrated first-party AI ecosystems (e.g., Google Gemini) as less transparent and trustworthy than third-party plugins (e.g., ChatGPT + Expedia) — overturning conventional privacy literature. Transparency also clashes sharply with corporate proprietary interests.']
+                ]
+            },
+            'Parallel-case': {
+                title: 'Parallel-case View',
+                subtitle: 'Examines whether parallel behavioral patterns emerge across different technology modalities (portals, wearables, smart speakers).',
+                rows: [
+                    ['Context', 'Studies across diverse technology modalities echo each other: Zubatiy (2023) on smart speakers, Brewer (2022) on Alexa in assisted living, Yu & Chen (2024) on health chatbots, Sakaguchi-Tang (2017) on patient portals. Together they map a shared landscape of cognitive barriers among older adults across different platforms (MOLD-US framework).'],
+                    ['Gaps', 'Many technology products are developed under the untested assumption that "systems designed for the general public can naturally meet older adults\' health information needs" — causing real-world failures in long-term care settings.'],
+                    ['Conflicts', 'Older adults face a parallel tension between "positive empowerment" and "deficit tracking": Brewer (2022) found that older adults want AI to record their positive social data, yet existing health AI tools disproportionately focus on monitoring negative indicators (falls, blood pressure anomalies), causing "negative self-focus" and emotional harm.']
+                ]
+            },
+            'Framework-integration': {
+                title: 'Framework-integration View',
+                subtitle: 'Marks the pillar literature supporting the 4-Layer Analytical Framework, showing how it integrates across disciplines.',
+                rows: [
+                    ['Context', 'The framework seamlessly connects Wildenbos\'s aging-barrier model (anchoring L1), Duane & Gray\'s dark-pattern taxonomies (anchoring L2), Gullí & Lee & See\'s countermeasure and trust models (anchoring L3), and WHO & NIST governance guidelines (anchoring L4) — forming an end-to-end analytical instrument for AI manipulation.'],
+                    ['Gaps', 'Single-discipline knowledge is severely limited: for example, policy risk frameworks (NIST) can tell us "what to govern" but lack HCI-level "interface friction design guidelines" to implement protections — and vice versa.'],
+                    ['Conflicts', 'Integrating these frameworks exposes a clash between "engineering logic" and "professional domain logic." Hirsch (2017) warns that engineers pursuing algorithmic efficiency and statistical accuracy can silently usurp or undermine the decision-making transparency and legibility valued by professional domains such as healthcare and psychotherapy.']
+                ]
+            },
+            'Methodological-inspiration': {
+                title: 'Methodological-inspiration View',
+                subtitle: 'Traces how research designs and analytical methods were borrowed or adapted across studies.',
+                rows: [
+                    ['Context', 'Methodological edges trace research-design borrowing. Duane (2025) Gioia narrative + inductive method inspires the 4-Layer design-space synthesis approach. Wong (2025) COM-B/TDF behavioral mapping provides a structured method for barrier analysis adaptable to friction design.'],
+                    ['Gaps', 'The methodological bridge from narrative review to design-space construction lacks formal validation criteria. COM-B/TDF has not been applied to AI friction design specifically.'],
+                    ['Conflicts', 'Inductive synthesis (bottom-up from literature) vs. deductive framework application (top-down from COM-B) represent competing epistemological stances that the 4-Layer framework must reconcile.']
+                ]
+            }
+        };
+
+        let currentFilter = 'all';
+
+    const ROUND_ORDER = { 'R1': 0, 'R2': 1, 'R3': 2, 'R4': 3, 'R5': 4, 'R6': 5, '—': 5 };
+    const ROUND_LABELS = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+    let snowballMode = false;
+    let roundLabelsG = null;
+
+    function toggleSnowball() {
+        snowballMode = !snowballMode;
+        const btn = document.getElementById('snowball-btn');
+        btn.classList.toggle('active', snowballMode);
+
+        if (snowballMode) {
+            const margin = 80;
+            const usableW = width - margin * 2;
+            const stepX = usableW / 5;
+
+            nodeG.attr('display', 'inline');
+
+            simulation
+                .force('x', d3.forceX(d => margin + (ROUND_ORDER[d.round] || 0) * stepX).strength(0.6))
+                .force('y', d3.forceY(d => d.excluded ? height / 2 + 80 : height / 2 - 20).strength(0.12))
+                .force('charge', d3.forceManyBody().strength(-200))
+                .force('collision', d3.forceCollide().radius(d => getNodeRadius(d) + 6))
+                .alpha(0.8).restart();
+
+            if (!roundLabelsG) {
+                roundLabelsG = g.append('g').attr('class', 'round-labels');
+            }
+            roundLabelsG.selectAll('*').remove();
+            ROUND_LABELS.forEach((label, i) => {
+                const x = margin + i * stepX;
+                roundLabelsG.append('line')
+                    .attr('x1', x).attr('x2', x)
+                    .attr('y1', 30).attr('y2', height - 30)
+                    .attr('stroke', '#e9e9e7')
+                    .attr('stroke-width', 1)
+                    .attr('stroke-dasharray', '4,4');
+                roundLabelsG.append('text')
+                    .attr('x', x).attr('y', 20)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', '11px')
+                    .attr('font-weight', '600')
+                    .attr('font-family', 'Inter, sans-serif')
+                    .attr('fill', '#9b9a97')
+                    .text(label);
+            });
+
+            nodeG.select('.node-circle').attr('opacity', d => d.excluded ? 0.35 : 1);
+            nodeG.select('text').attr('opacity', d => d.excluded ? 0.4 : 1)
+                .attr('font-size', d => d.excluded ? '8px' : '10px');
+            nodeG.select('.seed-marker').attr('opacity', 0.8);
+            nodeG.select('.core-ring').attr('opacity', 0.7);
+            link.attr('stroke-opacity', 0.35);
+        } else {
+            if (roundLabelsG) roundLabelsG.selectAll('*').remove();
+
+            nodeG.attr('display', d => d.excluded ? 'none' : 'inline');
+
+            simulation
+                .force('x', d3.forceX(width / 2).strength(0.05))
+                .force('y', d3.forceY(height / 2).strength(0.05))
+                .force('charge', d3.forceManyBody().strength(-400))
+                .force('collision', d3.forceCollide().radius(d => getNodeRadius(d) + 8))
+                .alpha(0.8).restart();
+
+            nodeG.select('.node-circle').attr('opacity', 1);
+            nodeG.select('text').attr('opacity', 1).attr('font-size', '10px');
+            nodeG.select('.seed-marker').attr('opacity', 0.8);
+            nodeG.select('.core-ring').attr('opacity', 0.7);
+            link.attr('stroke-opacity', 0.5);
+            pinnedNode = null;
+        }
+    }
+
+    function updateInfoPanel(filter) {
+        currentFilter = filter;
+        const data = INFO_DATA[filter] || INFO_DATA['all'];
+        document.getElementById('info-panel-title').textContent = data.title;
+        const subtitleEl = document.getElementById('info-panel-subtitle');
+        subtitleEl.textContent = data.subtitle || '';
+        subtitleEl.style.display = data.subtitle ? 'block' : 'none';
+        const tbody = document.getElementById('info-panel-body');
+        tbody.innerHTML = data.rows.map(([dim, desc]) =>
+            `<tr><td>${dim}</td><td>${desc}</td></tr>`
+        ).join('');
+    }
+
+        function toggleInfoPanel() {
+            document.getElementById('info-panel').classList.toggle('open');
+            document.getElementById('info-toggle').classList.toggle('active');
+        }
+
+        updateInfoPanel('all');
+    </script>
+</body>
+
+</html>
