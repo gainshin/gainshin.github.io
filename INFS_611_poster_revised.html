@@ -58,7 +58,7 @@
             background: #333;
         }
 
-        /* Poster Container — 22 × 17 inches (4 Letter sheets tiled) */
+        /* Poster Container — 22 × 17 inches (4 Letter landscape sheets, 2×2) */
         .poster {
             width: 22in;
             height: 17in;
@@ -122,15 +122,17 @@
         }
 
         .header h1 {
-            font-size: 52px;
-            font-weight: 800;
+            font-size: 56px;
+            font-weight: 900;
             line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
         .header .sub {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
             opacity: 0.9;
+            margin-top: 6px;
         }
 
         /* Main Grid Layout — 3 rows, middle row is the hero */
@@ -172,56 +174,86 @@
             display: block;
         }
 
-        /* Banner Headings */
+        /* Banner Headings (ribbon) */
         .banner-heading {
             background: var(--ink);
             color: white;
             display: inline-block;
-            padding: 8px 20px;
-            font-size: 18px;
+            padding: 6px 18px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             position: absolute;
             top: -1px;
             left: -1px;
-            /* ribbon effect */
             clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%);
-            padding-right: 24px;
+            padding-right: 22px;
         }
 
         .banner-heading.right {
             left: auto;
             right: -1px;
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 5% 50%);
-            padding-left: 24px;
-            padding-right: 16px;
+            padding-left: 22px;
+            padding-right: 14px;
+        }
+
+        /* Section Heading (inside banner) */
+        .section-title {
+            font-size: 26px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--ink);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--red);
+            padding-bottom: 6px;
+            display: inline-block;
         }
 
         /* Content Typography */
         .banner-content {
             margin-top: 40px;
-            font-size: 18px;
-            line-height: 1.5;
+            font-size: 15px;
+            line-height: 1.55;
         }
 
         .banner-content p {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .banner-content strong {
             color: var(--red);
         }
 
+        /* RQ callout */
+        .rq-callout {
+            background: var(--ink);
+            color: white;
+            padding: 18px 22px;
+            margin: 12px 0 16px;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.45;
+            border-left: 6px solid var(--red);
+        }
+
+        .rq-callout em {
+            color: #ff6b63;
+            font-style: normal;
+            font-weight: 800;
+        }
+
         /* Footer */
         .footer {
             background: var(--ink);
             color: white;
-            padding: 16px 32px;
+            padding: 12px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         /* Helper Classes for Content */
@@ -230,13 +262,14 @@
             padding-left: 12px;
             font-style: italic;
             color: #444;
-            margin: 16px 0;
+            margin: 12px 0;
+            font-size: 14px;
         }
 
         .simple-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 18px;
+            font-size: 15px;
             margin-top: 8px;
         }
 
@@ -256,11 +289,11 @@
             padding: 10px;
             border-left: 3px solid var(--ink);
             margin-bottom: 10px;
-            font-size: 18px;
+            font-size: 15px;
         }
 
         .quote-tag {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--red);
@@ -272,7 +305,7 @@
         .sig-item {
             padding: 10px 12px;
             border-left: 4px solid var(--ink);
-            font-size: 18px;
+            font-size: 15px;
             line-height: 1.5;
             color: var(--ink);
             margin-bottom: 12px;
@@ -280,7 +313,7 @@
 
         .sig-label {
             font-weight: 700;
-            font-size: 18px;
+            font-size: 15px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
             color: var(--red);
@@ -300,7 +333,7 @@
             padding: 8px 12px;
             border: 1.5px solid var(--ink);
             text-align: center;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--ink);
             background: white;
@@ -312,7 +345,7 @@
         }
 
         .flow-arrow-down {
-            font-size: 18px;
+            font-size: 15px;
             color: var(--ink);
             padding: 2px 0;
             display: flex;
@@ -321,7 +354,7 @@
         }
 
         .flow-arrow-down span {
-            font-size: 18px;
+            font-size: 13px;
             color: var(--mid);
             font-style: italic;
         }
@@ -330,7 +363,7 @@
         .tag-pill {
             display: inline-block;
             padding: 3px 10px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             background: var(--ink);
             color: white;
@@ -362,7 +395,7 @@
         }
 
         .stat-label {
-            font-size: 18px;
+            font-size: 14px;
             line-height: 1.3;
             color: var(--mid);
         }
@@ -397,12 +430,12 @@
         }
 
         .ref-list p {
-            font-size: 18px;
-            line-height: 1.5;
+            font-size: 12px;
+            line-height: 1.45;
             color: var(--ink);
-            padding-left: 24px;
-            text-indent: -24px;
-            margin-bottom: 6px;
+            padding-left: 20px;
+            text-indent: -20px;
+            margin-bottom: 4px;
             break-inside: avoid;
         }
 
@@ -418,7 +451,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 14px;
             color: var(--ink);
             font-weight: 700;
             flex-shrink: 0;
@@ -426,8 +459,8 @@
 
         /* Rebuttals */
         .rebuttal {
-            margin-bottom: 8px;
-            font-size: 18px;
+            margin-bottom: 6px;
+            font-size: 14px;
             line-height: 1.4;
         }
 
@@ -440,10 +473,27 @@
             color: var(--ink);
         }
 
-        /* Print: single 22×17in page (then tile via Preview/Adobe) */
+        /* Hero caption */
+        .hero-caption {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--mid);
+            text-align: center;
+            padding: 6px 32px 2px;
+            background: var(--white);
+            border-left: 1px solid var(--rule);
+            border-right: 1px solid var(--rule);
+        }
+
+        /* Print: 4 × Letter landscape (11" × 8.5" each, 2×2 grid) */
         @page {
-            size: 22in 17in;
+            size: 11in 8.5in landscape;
             margin: 0;
+        }
+
+        /* Print-only: 4 tiled pages */
+        .print-pages {
+            display: none;
         }
 
         @media print {
@@ -458,21 +508,47 @@
                 display: none !important;
             }
 
-            .tile-label {
+            .poster-screen {
                 display: none !important;
             }
 
-            .poster::before,
-            .poster::after {
-                display: none !important;
+            .print-pages {
+                display: block !important;
             }
 
-            .poster {
-                box-shadow: none;
-                border: none;
+            .print-page {
+                width: 11in;
+                height: 8.5in;
+                overflow: hidden;
+                position: relative;
+                page-break-after: always;
+            }
+
+            .print-page:last-child {
+                page-break-after: auto;
+            }
+
+            .print-page .poster-slice {
+                position: absolute;
                 width: 22in;
                 height: 17in;
+            }
+
+            .print-page.p1 .poster-slice { left: 0; top: 0; }
+            .print-page.p2 .poster-slice { left: -11in; top: 0; }
+            .print-page.p3 .poster-slice { left: 0; top: -8.5in; }
+            .print-page.p4 .poster-slice { left: -11in; top: -8.5in; }
+
+            .print-page .poster {
+                box-shadow: none;
+                border: none;
                 transform: none !important;
+            }
+
+            .print-page .poster::before,
+            .print-page .poster::after,
+            .print-page .tile-label {
+                display: none !important;
             }
         }
     </style>
@@ -481,13 +557,15 @@
 <body>
 
     <div class="controls">
-        <button onclick="window.print()">Save as PDF (22 × 17 in)</button>
-        <span style="font-size:14px; color:var(--mid);">
-            Save PDF first, then open in Preview → Print → Paper Size: Letter → Scale: Tile All Pages
-        </span>
+        <button onclick="window.print()">Print / Save as PDF (4 × Letter landscape)</button>
+        <div style="font-size:13px; color:var(--mid); max-width:520px; line-height:1.5;">
+            <strong style="color:var(--ink);">Print instructions:</strong> Paper Size: <strong>Letter</strong>, Orientation: <strong>Landscape</strong>. Output = 4 pages (2×2 grid). Trim margins and tape together.
+        </div>
     </div>
 
-    <div class="poster">
+    <!-- Screen view -->
+    <div class="poster-screen">
+    <div class="poster" id="poster-main">
         <!-- Tile guide labels (screen only) -->
         <span class="tile-label t1">Page 1</span>
         <span class="tile-label t2">Page 2</span>
@@ -502,43 +580,49 @@
         <!-- Grid -->
         <div class="grid-container">
 
-            <!-- Banner 1: The Problem -->
+            <!-- Banner 1: Introduction / Background -->
             <div class="banner">
-                <div class="banner-heading">The Problem</div>
+                <div class="banner-heading">Introduction</div>
                 <div class="banner-content">
-                    <div class="highlight-box">
+                    <div class="section-title">Introduction &amp; Background</div>
+                    <div class="highlight-box" style="font-size:14px;">
                         "ChatGPT fields millions of health queries daily — yet it treats a 70-year-old retired nurse identically to a 70-year-old with limited literacy."
                     </div>
                     <p>
-                        Older adults are <strong>not monolithic</strong>. Literacy, digital fluency, and medical knowledge create vastly different risk profiles (Dai et al., 2021).
+                        Older adults are not monolithic. Literacy, digital fluency, and medical knowledge create vastly different risk profiles (Dai et al., 2021).
                     </p>
                     <p>
                         AI systems use <strong>"hypernudges"</strong> — personalised, real-time persuasive design (Duane et al., 2025) — that can dangerously mislead vulnerable users while genuinely helping savvy ones.
                     </p>
                     <p>
-                        Current research defaults to a <strong>one-size-fits-all deficit narrative</strong>. This study proposes to examine the spectrum.
+                        Current research defaults to a one-size-fits-all deficit narrative. This study proposes to examine the spectrum.
                     </p>
+
+                    <div class="section-title" style="margin-top:18px;">Research Question</div>
+                    <div class="rq-callout">
+                        How do hypernudge and halo-effect patterns in Reddit ChatGPT health discussions <em>differ according to users&rsquo; health literacy cues</em>?
+                    </div>
                 </div>
             </div>
 
-            <!-- Banner 2: Framework → RQ -->
+            <!-- Banner 2: Framework / Literature -->
             <div class="banner">
-                <div class="banner-heading right">The Lens</div>
+                <div class="banner-heading right">Framework</div>
                 <div class="banner-content">
-                    <p style="font-size:20px; font-weight:800; line-height:1.4; margin-bottom:16px; color:var(--ink);">How do hypernudge and halo-effect patterns in Reddit ChatGPT health discussions <strong style="color:var(--red);">differ according to users&rsquo; health literacy cues</strong>?</p>
-                    <p>The literature reveals <strong>4 converging layers</strong>:</p>
-                    <ul style="list-style: none; padding: 0; gap: 6px; display: flex; flex-direction: column;">
-                        <li style="padding: 6px 8px; border-left: 3px solid var(--ink);">
+                    <div class="section-title">Framework &amp; Literature</div>
+                    <p>The literature reveals 4 converging layers:</p>
+                    <ul style="list-style: none; padding: 0; gap: 5px; display: flex; flex-direction: column; font-size:14px;">
+                        <li style="padding: 5px 8px; border-left: 3px solid var(--ink);">
                             <strong>Heterogeneity</strong> — older adults vary widely in literacy &amp; digital fluency (Dai et al., 2021; Ellis et al., 2025)
                         </li>
-                        <li style="padding: 6px 8px; border-left: 3px solid var(--ink);">
+                        <li style="padding: 5px 8px; border-left: 3px solid var(--ink);">
                             <strong>Hypernudges</strong> — AI delivers personalised, real-time persuasion (Duane et al., 2025)
                         </li>
-                        <li style="padding: 6px 8px; border-left: 3px solid var(--ink);">
-                            <strong>Seamful Design</strong> — should we expose the AI's limitations? (Gull et al., 2025)
+                        <li style="padding: 5px 8px; border-left: 3px solid var(--ink);">
+                            Seamful Design — should we expose the AI's limitations? (Gull et al., 2025)
                         </li>
-                        <li style="padding: 6px 8px; border-left: 3px solid var(--red);">
-                            <strong>Contestability</strong> — can the user challenge or override the AI? (Vaithilingam et al., 2025)
+                        <li style="padding: 5px 8px; border-left: 3px solid var(--red);">
+                            Contestability — can the user challenge or override the AI? (Vaithilingam et al., 2025)
                         </li>
                     </ul>
                 </div>
@@ -548,13 +632,16 @@
             <div class="hero-row">
                 <img src="poster_BK.png" alt="The AI Literacy Gap: How Health Literacy Shapes AI Trust in Older Adults">
             </div>
+            <div class="hero-caption" style="grid-column: 1 / -1;">
+                Figure 1. Conceptual model: how health literacy shapes hypernudge risk and AI halo-effect among older adults.
+            </div>
 
-            <!-- Banner 5: Method — Qualitative Content Analysis -->
+            <!-- Banner 5: Method -->
             <div class="banner">
-                <div class="banner-heading">The Method</div>
+                <div class="banner-heading">Method</div>
                 <div class="banner-content">
-                    <p style="font-size:22px; font-weight:700; margin-bottom:4px;">Proposed: Qualitative Content Analysis</p>
-                    <p style="font-size:18px; color:var(--mid); margin-bottom:12px; font-style:italic;">Currently at literature review stage. Below is the planned methodology.</p>
+                    <div class="section-title">Method</div>
+                    <p style="font-size:13px; color:var(--mid); margin-bottom:10px; font-style:italic;">Currently at literature review stage. Below is the planned methodology.</p>
 
                     <!-- Flowchart -->
                     <div class="flow-mini">
@@ -568,22 +655,23 @@
                     </div>
 
                     <!-- Key method details -->
-                    <div style="margin-top:14px; font-size:18px; line-height:1.6;">
-                        <p><strong style="color:var(--red);">Data:</strong> First-person health narratives from r/ChatGPT, r/Aging, r/AgingParents — naturally occurring literacy cues, not surveys.</p>
-                        <p><strong style="color:var(--red);">Planned Analysis:</strong> Two-cycle manual content analysis. Cycle 1: line-by-line open codes. Cycle 2: axial categories aligned to the 4-layer framework.</p>
-                        <p><strong style="color:var(--red);">Unit:</strong> Each thread (OP + replies) = one case, enabling cross-case comparison across literacy levels.</p>
-                        <p><strong style="color:var(--red);">Rigour:</strong> Supervisor codebook review; saturation log; reflexive journal to guard against stereotypical framing.</p>
+                    <div style="margin-top:14px; font-size:15px; line-height:1.55;">
+                        <p><span style="font-weight:700; color:var(--red);">Data:</span> First-person health narratives from r/ChatGPT, r/Aging, r/AgingParents — naturally occurring literacy cues, not surveys.</p>
+                        <p><span style="font-weight:700; color:var(--red);">Planned Analysis:</span> Two-cycle manual content analysis. Cycle 1: line-by-line open codes. Cycle 2: axial categories aligned to the 4-layer framework.</p>
+                        <p><span style="font-weight:700; color:var(--red);">Unit:</span> Each thread (OP + replies) = one case, enabling cross-case comparison across literacy levels.</p>
+                        <p><span style="font-weight:700; color:var(--red);">Rigour:</span> Supervisor codebook review; saturation log; reflexive journal to guard against stereotypical framing.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Banner 6: Why It Matters + Anticipated Rebuttals -->
+            <!-- Banner 6: Status & Next Steps + Anticipated Rebuttals -->
             <div class="banner" style="background: var(--warm);">
-                <div class="banner-heading right">Why It Matters</div>
+                <div class="banner-heading right">Significance</div>
                 <div class="banner-content">
+                    <div class="section-title">Status &amp; Next Steps</div>
                     <div class="sig-item">
                         <div class="sig-label">Filling a Gap</div>
-                        The literature suggests high-literacy elders may <em>benefit</em> from ChatGPT health triage, while low-literacy users risk blind trust. This nuance is <strong>absent</strong> from existing research — our proposed study aims to fill it.
+                        The literature suggests high-literacy elders may <em>benefit</em> from ChatGPT health triage, while low-literacy users risk blind trust. This nuance is absent from existing research — our proposed study aims to fill it.
                     </div>
                     <div class="sig-item" style="border-color: var(--mid);">
                         <div class="sig-label">Design Implications</div>
@@ -592,7 +680,7 @@
 
                     <!-- Rebuttals -->
                     <div style="margin-top:8px; border-top: 2px dotted var(--rule); padding-top:10px;">
-                        <p style="font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--mid); margin-bottom:8px;">Anticipated Questions</p>
+                        <p style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--mid); margin-bottom:8px;">Anticipated Questions</p>
                         <div class="rebuttal">
                             <span class="rebuttal-q">"Reinforcing stereotypes?"</span>
                             <span class="rebuttal-a">No — we reject deficit framing. Focus is literacy as spectrum, not age as deficit.</span>
@@ -617,7 +705,7 @@
 
         <!-- References -->
         <div class="references">
-            <div style="font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; border-bottom:2px solid var(--ink); padding-bottom:4px;">References</div>
+            <div style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; border-bottom:2px solid var(--ink); padding-bottom:4px;">References</div>
             <div class="ref-list">
                 <p>Dai, J., Moffatt, K., &amp; McGrenere, J. (2021). Technology adoption and learning preferences for older adults: Evolving perceptions, ongoing challenges, and emerging design opportunities. <em>Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems</em>, Article 472. https://doi.org/10.1145/3411764.3445702</p>
                 <p>Duane, J.-N., Ericson, J., &amp; McHugh, P. (2025). Digital nudges: A systematic narrative review and taxonomy. <em>Behaviour &amp; Information Technology</em>, <em>44</em>(13), 3250&ndash;3270. https://doi.org/10.1080/0144929X.2024.2440116</p>
@@ -645,21 +733,40 @@
             </div>
         </div>
     </div>
+    </div><!-- .poster-screen -->
+
+    <!-- Print: 4 tiled Letter landscape pages -->
+    <div class="print-pages">
+        <div class="print-page p1"><div class="poster-slice"></div></div>
+        <div class="print-page p2"><div class="poster-slice"></div></div>
+        <div class="print-page p3"><div class="poster-slice"></div></div>
+        <div class="print-page p4"><div class="poster-slice"></div></div>
+    </div>
 
     <script>
         function fitPoster() {
             const poster = document.querySelector('.poster');
             if (!poster) return;
-            const availableWidth = window.innerWidth - 48; // 24px padding each side
-            const posterWidth = 22 * 96; // 22in in px (96dpi)
+            const availableWidth = window.innerWidth - 48;
+            const posterWidth = 22 * 96;
             const scale = Math.min(availableWidth / posterWidth, 1);
             poster.style.transform = `scale(${scale})`;
             poster.style.transformOrigin = 'top center';
-            // Reserve space for scaled poster
             poster.parentElement.style.height = (poster.offsetHeight * scale) + 'px';
         }
         window.addEventListener('load', fitPoster);
         window.addEventListener('resize', fitPoster);
+
+        window.addEventListener('beforeprint', function() {
+            const main = document.getElementById('poster-main');
+            if (!main) return;
+            document.querySelectorAll('.print-page .poster-slice').forEach(function(slice) {
+                slice.innerHTML = '';
+                const clone = main.cloneNode(true);
+                clone.id = '';
+                slice.appendChild(clone);
+            });
+        });
     </script>
 </body>
 
