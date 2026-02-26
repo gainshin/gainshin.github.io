@@ -23,6 +23,7 @@ const sidebarNavData = [
             { href: "Week5_report.html", icon: "file-text", label: "Week 5 Progress Report", id: "week5" },
             { href: "Week6_report.html", icon: "file-text", label: "Week 6 Progress Report", id: "week6" },
             { href: "Week7_report.html", icon: "file-text", label: "Week 7 Progress Report", id: "week7" },
+            { href: "Week8_report.html", icon: "file-text", label: "Week 8 Progress Report", id: "week8" },
         ]
     },
     {
@@ -229,6 +230,72 @@ function renderSidebar(activePageId) {
     if (window.lucide) {
         window.lucide.createIcons();
     }
+
+    // --- Auto-hide behaviour (desktop only) ---
+    setupSidebarAutoHide(sidebar);
+}
+
+function setupSidebarAutoHide(sidebar) {
+    if (!sidebar || window.innerWidth <= 768) return;
+
+    const COLLAPSE_DELAY = 600;   // ms after mouse leaves before collapsing
+    const PEEK_WIDTH = 16;        // visible strip when collapsed (px)
+    let timer = null;
+    let collapsed = false;
+
+    const css = document.createElement('style');
+    css.textContent = `
+        @media (min-width: 769px) {
+            .sidebar.auto-hide-collapsed {
+                width: ${PEEK_WIDTH}px !important;
+                min-width: ${PEEK_WIDTH}px !important;
+                overflow: hidden;
+                cursor: pointer;
+                opacity: 0.35;
+            }
+            .sidebar.auto-hide-collapsed:hover {
+                opacity: 0.6;
+            }
+            .sidebar.auto-hide-collapsed * {
+                pointer-events: none;
+            }
+            .sidebar {
+                transition: width 0.25s ease, min-width 0.25s ease, opacity 0.25s ease;
+            }
+        }
+    `;
+    document.head.appendChild(css);
+
+    function collapse() {
+        if (collapsed) return;
+        collapsed = true;
+        sidebar.classList.add('auto-hide-collapsed');
+    }
+
+    function expand() {
+        if (!collapsed) return;
+        collapsed = false;
+        sidebar.classList.remove('auto-hide-collapsed');
+        if (window.lucide) window.lucide.createIcons();
+    }
+
+    sidebar.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+        expand();
+    });
+
+    sidebar.addEventListener('mouseleave', () => {
+        clearTimeout(timer);
+        timer = setTimeout(collapse, COLLAPSE_DELAY);
+    });
+
+    sidebar.addEventListener('click', (e) => {
+        if (collapsed) {
+            e.preventDefault();
+            e.stopPropagation();
+            expand();
+        }
+    }, true);
 }
 
 function toggleSidebarGroup(groupId) {

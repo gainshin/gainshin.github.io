@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 8 Progress Report - INFS603 Literature Review - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font: 62.5% Georgia, Times, serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px 8px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+            text-decoration: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .separator {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .view-only-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .main-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        .toc-container {
+            position: sticky;
+            top: 20px;
+            width: 220px;
+            min-width: 220px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .toc-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 6px;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1100px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                max-width: 900px;
+            }
+        }
+
+        .markdown-body {
+            font-size: 1.4em;
+            line-height: 1.5em;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #555;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin: 1.5em 0 0.5em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.2em 0 0.4em;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.3em;
+            line-height: 1.5em;
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .markdown-body a:hover {
+            color: #777;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+            font-size: 0.85em;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #ccc;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 0.75em 1em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        .markdown-body table {
+            border: 1px #ccc solid;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0 1em;
+            font-size: 0.9em;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px #ccc solid;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-body {
+                padding: 24px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 99;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .collapsible-section {
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding-right: 10px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header h1,
+        .section-header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .collapse-indicator {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .collapsible-section.collapsed .collapse-indicator {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        @media print {
+            .collapsible-section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+
+            .collapse-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="Research.html">Research</a>
+                    <span class="separator">/</span>
+                    <span class="current">Week 8</span>
+                </div>
+            </div>
+            <span class="view-only-badge">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+                View Only
+            </span>
+        </header>
+
+        <div class="main-body" id="main-body">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <article class="markdown-body" id="markdown-content">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading content...</p>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="toc-container" id="toc-container">
+                    <ul class="toc-list" id="toc-list">
+                        <li><a href="#" data-section="top" style="font-weight: 600;">↑ Table of Contents</a></li>
+                        <li style="margin-top: 8px;"><a href="#1-response-to-week-7-feedback"
+                                data-section="1-response-to-week-7-feedback">1. Response to Feedback</a></li>
+                        <li><a href="#2-steelman-the-halo-effect-ellis-2025"
+                                data-section="2-steelman-the-halo-effect-ellis-2025">2. Steelman: Ellis 2025</a></li>
+                        <li><a href="#3-replication-check--scope-boundaries"
+                                data-section="3-replication-check--scope-boundaries">3. Replication Check</a></li>
+                        <li><a href="#4-search-protocol-b1-older-adults-ai-skepticism"
+                                data-section="4-search-protocol-b1-older-adults-ai-skepticism">4. Protocol B1:
+                                Skepticism</a></li>
+                        <li><a href="#5-search-protocol-c1-ai-literacy-temporal-validity"
+                                data-section="5-search-protocol-c1-ai-literacy-temporal-validity">5. Protocol C1:
+                                Temporal</a></li>
+                        <li><a href="#6-claim-audit-table" data-section="6-claim-audit-table">6. Claim Audit</a></li>
+                        <li><a href="#7-revised-narrative-structure" data-section="7-revised-narrative-structure">7.
+                                Revised Narrative</a></li>
+                        <li><a href="#8-implications-for-5c-graph--framework"
+                                data-section="8-implications-for-5c-graph--framework">8. Graph & Framework</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        const renderer = new marked.Renderer();
+        renderer.heading = function (arg1, arg2, arg3) {
+            let text, level, raw;
+            if (typeof arg1 === 'object') {
+                text = arg1.text;
+                level = arg1.depth;
+                raw = arg1.raw;
+            } else {
+                text = arg1;
+                level = arg2;
+                raw = arg3 || text;
+            }
+
+            const id = raw
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            return `<h${level} id="${id}">${text}</h${level}>\n`;
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            headerIds: true,
+            mangle: false
+        });
+
+        async function loadMarkdown() {
+            renderSidebar('week8');
+            const contentEl = document.getElementById('markdown-content');
+            contentEl.innerHTML = marked.parse(fallbackContent);
+            wrapSectionsInCollapsible();
+            setupScrollHighlighting();
+        }
+
+        function wrapSectionsInCollapsible() {
+            const contentEl = document.getElementById('markdown-content');
+            const allElements = Array.from(contentEl.children);
+
+            const h1Indices = [];
+            allElements.forEach((el, idx) => {
+                if (el.tagName === 'H1') {
+                    h1Indices.push(idx);
+                }
+            });
+
+            if (h1Indices.length === 0) return;
+
+            for (let i = h1Indices.length - 1; i >= 0; i--) {
+                const startIdx = h1Indices[i];
+                const endIdx = (i < h1Indices.length - 1) ? h1Indices[i + 1] : allElements.length;
+
+                const h1 = allElements[startIdx];
+                const sectionId = h1.id || `section-${i}`;
+
+                const section = document.createElement('div');
+                section.className = 'collapsible-section';
+                section.dataset.sectionId = sectionId;
+
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="collapse-indicator">▾</span>`;
+
+                header.insertBefore(h1.cloneNode(true), header.firstChild);
+
+                const content = document.createElement('div');
+                content.className = 'section-content';
+
+                for (let j = startIdx + 1; j < endIdx; j++) {
+                    content.appendChild(allElements[j].cloneNode(true));
+                }
+
+                section.appendChild(header);
+                section.appendChild(content);
+
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+
+                allElements[startIdx].replaceWith(section);
+
+                for (let j = endIdx - 1; j > startIdx; j--) {
+                    if (allElements[j] && allElements[j].parentNode === contentEl) {
+                        allElements[j].remove();
+                    }
+                }
+            }
+        }
+
+        function navigateToSection(sectionId) {
+            const sections = document.querySelectorAll('.collapsible-section');
+            const mainBody = document.getElementById('main-body');
+
+            sections.forEach(section => {
+                if (section.dataset.sectionId === sectionId) {
+                    section.classList.remove('collapsed');
+                } else {
+                    section.classList.add('collapsed');
+                }
+            });
+
+            setTimeout(() => {
+                const targetEl = document.getElementById(sectionId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        function expandAllSections() {
+            const sections = document.querySelectorAll('.collapsible-section');
+            sections.forEach(section => {
+                section.classList.remove('collapsed');
+            });
+        }
+
+        function setupScrollHighlighting() {
+            const mainBody = document.getElementById('main-body');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = Array.from(tocLinks).map(link => {
+                const id = link.getAttribute('data-section');
+                if (id === 'top') return null;
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (!link.getAttribute('data-section')) return;
+
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-section');
+
+                    if (targetId === 'top') {
+                        expandAllSections();
+                        mainBody.scrollTo({ top: 0, behavior: 'smooth' });
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        return;
+                    }
+
+                    navigateToSection(targetId);
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            mainBody.addEventListener('scroll', () => {
+                let currentSection = null;
+                const scrollTop = mainBody.scrollTop;
+
+                if (scrollTop < 100) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'top') {
+                            link.classList.add('active');
+                        }
+                    });
+                    return;
+                }
+
+                sections.forEach(section => {
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        const mainBodyRect = mainBody.getBoundingClientRect();
+                        const offset = rect.top - mainBodyRect.top;
+                        if (offset <= 100) {
+                            currentSection = section.id;
+                        }
+                    }
+                });
+
+                if (currentSection) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        const fallbackContent = `# Week 8 Progress Report — Precision-Positioning the Halo Effect & Evidence Audit
+
+> **Course**: INFS603 Literature Review | **Core Library**: 36 papers (5 layers) + supporting references
+>
+> This report responds to the Week 7 supervisor feedback by systematically auditing the Halo Effect claim and AI literacy assumptions. Sections 1–6 steelman the best available evidence, establish scope boundaries, and define search protocols for counter-evidence. **Sections 7–8 (W8 revision)** narrow the research direction from a 4-layer framework validation to a focused, empirically tractable question: **how should trust calibration interventions and proxy auditor interfaces be designed in institutional health AI contexts?**
+
+---
+
+## Table of Contents
+1. Response to Week 7 Feedback
+2. Steelman the Halo Effect (Ellis 2025)
+3. Replication Check & Scope Boundaries
+4. Search Protocol B1: Older Adults' AI Skepticism
+5. Search Protocol C1: AI Literacy Temporal Validity
+6. Claim Audit Table
+7. Revised Narrative Structure [W8 revision] — Narrowed research line & thematic lit review scope
+8. Implications for 5C Graph & Framework [W8 revision] — Executed changes & conceptual reframing
+
+---
+
+# 1. Response to Week 7 Feedback
+
+## Key Directives from Supervisor
+
+The Week 7 meeting yielded five critical directives that shape this report:
+
+| # | Directive | Status |
+|---|-----------|--------|
+| 1 | **Scope down**: Choose ONE narrow, well-evidenced question | In progress — narrowing to the trust/privacy trade-off in healthcare AI for older adults |
+| 2 | **Audit every claim**: Check if each assertion has ≥2 independent papers or just one | This report (Section 6) |
+| 3 | **Reframe Halo Effect**: Treat Ellis 2025 as unvalidated hypothesis, not established fact | This report (Sections 2–3) |
+| 4 | **Traditional lit review structure**: Do not use 4-layer architecture as chapter structure | Accepted — will use thematic organization |
+| 5 | **Define target population**: Specify who "older adults" are in this research | Community-dwelling, 65+, relatively healthy, financially stable, using healthcare AI to maintain independence |
+
+## Methodological Approach: Steelman-Then-Bound
+
+The previous framework treated the Halo Effect as a foundational fact. The supervisor correctly identified this as methodologically problematic: Ellis 2025 *proposed* it as one possible explanation, not as a tested finding.
+
+However, the correct response is not to simply dismiss the Halo Effect. Instead, this report follows a three-step approach:
+
+1. **Steelman**: Present the strongest possible version of what Ellis 2025 actually shows
+2. **Bound**: Establish that no independent replication exists and the scope is limited
+3. **Constrain**: Introduce evidence from HCI/IS venues showing that in broader contexts, older adults are often *more* skeptical of AI, not less
+
+This produces a **precision-positioned** claim rather than an over-extended one: the Halo Effect may operate in specific institutional-trust contexts, but it cannot serve as the universal L1 vulnerability mechanism for all older adults.
+
+---
+
+# 2. Steelman the Halo Effect (Ellis 2025)
+
+## The Study
+
+**Citation**: Ellis, S. J., DeCamp, M., & Bhatt, J. (2025). The Halo Effect: Perceptions of Information Privacy Among Healthcare Chatbot Users. *Journal of the American Geriatrics Society (JAGS)*.
+
+**Design**: Sequential mixed-methods study within a large US health system.
+
+| Dimension | Detail |
+|-----------|--------|
+| **Screening pool** | 3,089 patients |
+| **Survey respondents** | 617 |
+| **Interview participants** | 46 |
+| **Population** | Active users of an existing health system chatbot |
+| **Age groups** | 18–34, 35–49, 50–64, 65+ |
+
+## Key Findings
+
+### Quantitative
+
+- 63.9% of all respondents expressed some level of privacy concern about the chatbot
+- **Adults 65+ were 26 percentage points less likely to express privacy concerns than adults 18–34** (p < 0.001)
+- This age effect persisted after controlling for other demographic variables
+
+### Qualitative Integration
+
+- Older adults viewed the chatbot as **connected to a trusted health system**, not as an independent technology product
+- Lower medical mistrust among 65+ drove lower privacy concern — they trusted the institution and extended that trust to the chatbot
+- The authors integrated the survey and interview data and used **"halo effect"** as the explanatory framework for this trust-transfer pattern
+
+### The Authors' Own Framing
+
+The most generous reading of Ellis 2025 must include the authors' own caveats:
+
+> *"If true, this Halo effect generates new questions and hypotheses"* — Ellis et al. (2025)
+
+The authors explicitly:
+- Used "halo effect" as an **explanatory framework**, not a pre-specified hypothesis
+- Acknowledged other explanations exist
+- Did **not** claim causal evidence — the study design is observational/exploratory
+- Framed the finding as hypothesis-generating, not hypothesis-confirming
+
+## The Strongest Honest Summary
+
+> In this specific context — active patients of a large US health system using an existing chatbot — adults 65+ did show significantly lower privacy concern than younger adults, and the researchers' explanation via institutional trust transfer (halo effect) is coherent with the qualitative data.
+
+## Scope Limitations (Even in the Steelman)
+
+Even granting the most generous interpretation, critical scope constraints apply:
+
+| Constraint | Implication |
+|------------|-------------|
+| **Single health system** | Results may not generalize beyond this specific institutional context |
+| **Active chatbot users** | Selection bias — these are patients who already chose to use the chatbot; non-users may differ |
+| **US-specific** | Healthcare trust dynamics differ across countries and systems |
+| **Observational design** | Cannot establish that institutional trust *causes* lower privacy concern (vs. confounders) |
+| **Single study** | No independent replication (see Section 3) |
+| **Alternative explanations not controlled** | Independence motivation (trading privacy to stay home), cohort effects, digital familiarity among active users |
+
+---
+
+# 3. Replication Check & Scope Boundaries
+
+## 3.1 Citation Trail Analysis
+
+**Objective**: Determine whether any subsequent study has independently replicated the finding that older adults show a halo-effect-driven lower privacy concern in healthcare AI contexts.
+
+**Search strategy**:
+
+\`\`\`
+("The Halo Effect: Perceptions of Information Privacy Among Healthcare Chatbot Users")
+AND (citation trail + forward citation search)
+\`\`\`
+
+Plus: Google Scholar citation count, ACM DL cross-references, JMIR citation page.
+
+### Known Subsequent Discussion
+
+A comment/reply exchange exists in JMIR (2025):
+
+- **"Comment on: The Halo Effect…"** — methodological discussion questioning the interpretation
+- **DeCamp & Ellis reply** — defending the interpretation while acknowledging boundaries
+
+This exchange is significant because it confirms:
+1. The finding has attracted scholarly attention and debate
+2. The debate is about **interpretation**, not replication
+3. No new experimental data was generated — the finding remains at the "single study + theoretical discussion" level
+
+## 3.2 Search Protocol: Forward Citation Check
+
+| Search dimension | Query |
+|------------------|-------|
+| **Google Scholar** | Forward citations of Ellis et al. 2025 JAGS |
+| **ACM Digital Library** | Citations in CHI, CSCW, DIS proceedings 2025–2026 |
+| **JMIR** | Citations in JMIR, JMIR Human Factors, JMIR Aging |
+| **Scopus** | Forward citation search filtered to HCI/IS journals |
+
+**Target**: Any study that (a) cites Ellis 2025, (b) collects new age-stratified data on trust/privacy in healthcare AI, and (c) tests whether the "halo effect" explanation holds in a different setting.
+
+## 3.3 Expected Conclusion
+
+> No independent replication of "older adults show halo-effect-driven lower privacy concern in healthcare AI" currently exists. The finding remains a single-study observation with an author-proposed explanatory framework, under active scholarly discussion but not experimentally validated. It cannot serve as the foundational fact for an entire L1 vulnerability layer.
+
+---
+
+# 4. Search Protocol B1: Older Adults' AI Skepticism
+
+## Objective
+
+Find evidence from HCI/IS/health-informatics venues that older adults are **more cautious or skeptical** toward AI in contexts beyond Ellis's specific health-system chatbot. This establishes that the halo-effect pattern is context-specific, not a universal age-related vulnerability.
+
+## Search Terms
+
+**Query Set 1 — Direct skepticism/resistance**:
+\`\`\`
+("older adults" OR "elderly" OR "aging" OR "seniors")
+AND ("AI" OR "artificial intelligence" OR "chatbot" OR "conversational agent")
+AND ("skeptic*" OR "distrust" OR "resistance" OR "reluctan*"
+     OR "critical" OR "cautious" OR "hesitancy")
+\`\`\`
+
+**Query Set 2 — Age-stratified trust data**:
+\`\`\`
+("older adults" OR "aging")
+AND ("trust" OR "trust calibration")
+AND ("AI" OR "machine learning")
+AND ("age difference*" OR "age group*" OR "age-stratified")
+\`\`\`
+
+## Venue Filter
+
+| Venue Category | Specific Venues |
+|----------------|-----------------|
+| **ACM HCI** | CHI, CSCW, DIS, TOCHI |
+| **HCI Journals** | IJHCS, Computers in Human Behavior |
+| **IS Journals** | MISQ, ISR, JAIS |
+| **Health Informatics** | JAMIA, JMIR (all sub-journals) |
+
+**Years**: 2022–2026
+
+## What We Are Looking For
+
+- User studies where older participants showed **critical engagement, healthy skepticism, or resistance** to AI recommendations
+- Surveys with **age-stratified data** where older groups trusted AI **less** (not more)
+- Qualitative studies where older adults articulated **nuanced, non-naive views** of AI systems
+- Studies showing older adults **capable of bias detection** or critical AI evaluation (cf. supervisor's mention of Chan's study)
+
+## Relevance of Chan's Study
+
+The supervisor mentioned a **recent study from their own lab (Chan)** in which older adults were "incredibly engaged with bias-mitigation tasks, had insightful things to say, and showed strong ability to learn to identify AI bias." If this study is published or in press at an HCI venue, it constitutes direct counter-evidence to the assumption that older adults cannot critically engage with AI outputs — and it comes from within the same research group, making it highly relevant.
+
+**Action item**: Request citation details from supervisor to determine whether this can be formally cited.
+
+---
+
+# 5. Search Protocol C1: AI Literacy Temporal Validity
+
+## Objective
+
+Find evidence (preferably from HCI/IS venues) that AI literacy measurements are **temporally unstable** — that cross-sectional snapshots of "older adults have low AI literacy" cannot be treated as stable population characteristics because AI familiarity is changing rapidly.
+
+## Search Terms
+
+**Query Set 1 — Direct temporal evidence**:
+\`\`\`
+("AI literacy" OR "artificial intelligence literacy")
+AND ("temporal" OR "longitudinal" OR "change over time"
+     OR "evolving" OR "rapid" OR "shifting")
+\`\`\`
+
+**Query Set 2 — Measurement validity concerns**:
+\`\`\`
+("AI literacy" OR "digital literacy")
+AND ("older adults" OR "aging")
+AND ("scale" OR "measurement" OR "validity")
+\`\`\`
+
+**Query Set 3 — Cross-sectional limitation flags**:
+\`\`\`
+("AI literacy")
+AND ("cross-sectional" OR "snapshot")
+AND ("limitation*")
+\`\`\`
+
+## Venue Filter
+
+Same as Protocol B1, plus:
+- Computers & Education
+- Education and Information Technologies
+- British Journal of Educational Technology
+
+**Years**: 2023–2026 (this is a very recent concern)
+
+## Risk Assessment
+
+Direct "AI literacy temporal validity" studies in HCI are likely **scarce**. The concept is emerging primarily in education and measurement-science literature. Fallback strategies:
+
+1. **Scale development papers**: AI literacy measurement papers (e.g., Laupichler et al., 2024 systematic review) that discuss temporal stability as a **limitation in their own discussion sections** — these are methodological self-critiques by the researchers themselves
+2. **Indirect longitudinal evidence**: Comparing participant performance or attitudes across similar studies conducted in different years (e.g., a 2022 study vs. a 2025 study with comparable populations showing different AI literacy levels)
+3. **Supporting references**: If no HCI-venue papers are found, sources like Laupichler 2024 can be cited as supporting context in the text without becoming core graph nodes
+
+## Framework-Level Implication
+
+If L1 vulnerability data (AI literacy gap) has approximately a **2-year half-life**, then:
+
+- All cross-sectional claims like "older adults can't X" are **time-bound**, not permanent population traits
+- The Proxy Auditor Model's justification (older adults cannot audit) **weakens progressively** as AI literacy improves
+- This is actually an **opportunity for framing**: the window of vulnerability is closing, which makes design intervention *more urgent now* but also demands that solutions be *adaptive* — friction that was appropriate in 2024 may be patronizing by 2027
+
+---
+
+# 6. Claim Audit Table
+
+Per the supervisor's directive to "audit every claim," the following table classifies each major assertion in the current framework by evidence strength. This is a preliminary version; it will be updated as Protocols B1 and C1 yield results.
+
+## Evidence Strength Categories
+
+| Category | Definition | Marker |
+|----------|------------|--------|
+| **Multi-study** | Supported by ≥2 independent studies with converging findings | ●●● |
+| **Single-paper** | Supported by one peer-reviewed study only | ●●○ |
+| **Proposed** | Theoretically derived or proposed by authors but not empirically tested | ●○○ |
+| **Counter-evidence** | At least one study produces findings that challenge or contradict the claim | ⚠ |
+| **Temporally unstable** | Based on cross-sectional data in a rapidly changing domain | ⏳ |
+
+## Layer 1: User Vulnerability
+
+| Claim | Source(s) | Strength | Notes |
+|-------|-----------|----------|-------|
+| Older adults show lower privacy concern toward healthcare chatbots than younger adults | Ellis 2025 | ●●○ | Single study, single health system; proposed halo effect as explanation |
+| The Halo Effect is the *primary mechanism* explaining older adults' trust in healthcare AI | Ellis 2025 (proposed) | ●○○ ⚠ | Not tested experimentally; alternative explanations (independence motivation, rational authority assessment) not controlled; **counter-evidence pending from B1** |
+| Older adults face AI Literacy Gap that prevents critical AI evaluation | Peixoto 2025 | ●●○ ⏳ | Single study; AI literacy is rapidly evolving — temporal validity unknown |
+| MOLD-US aging barriers constrain older adults' interface interaction | Wildenbos 2018 | ●●○ | Well-cited but based on pre-smartphone-era literature review |
+| Older adults exhibit "privacy resignation" with officially endorsed AI | Wong 2025 | ●●○ | Single qualitative study (N=27), specific to Hong Kong context |
+| Older adults have latent capability for independent tech learning | Pang 2021 | ●●○ | Single study (CHI); but strong mixed-methods design (N=42+27+13) |
+
+## Layer 2: Hypernudge Risk
+
+| Claim | Source(s) | Strength | Notes |
+|-------|-----------|----------|-------|
+| AI-driven nudges operate at subconscious level | Yeung 2017, Duane 2025, Thaler & Sunstein 2008 | ●●● | Converging theoretical and empirical evidence across multiple works |
+| Dark/deceptive patterns are systematically deployed in digital interfaces | Gray 2018, Brignull 2024 | ●●● | Well-established body of work with taxonomies |
+| Healthcare AI chatbots specifically deploy hypernudges | — | ●○○ | Theoretical extrapolation; no study has documented specific hypernudge deployment in health chatbots for older adults |
+
+## Layer 3: HCI Countermeasures
+
+| Claim | Source(s) | Strength | Notes |
+|-------|-----------|----------|-------|
+| "Positive friction" can improve task outcomes | İnan 2025, Ehsan 2024 | ●●● | Multiple studies with different approaches converge |
+| Seamful XAI helps calibrate trust | Ehsan 2024 | ●●○ | Single study but rigorous; well-cited |
+| Audio nudges are effective for dietary health | Jamshed 2025 | ●●○ | Single study, specific domain |
+| Friction mechanisms are effective *specifically for older adults in healthcare AI* | — | ●○○ | No study has tested friction design with older adults using health AI chatbots |
+
+## Layer 4: Governance
+
+| Claim | Source(s) | Strength | Notes |
+|-------|-----------|----------|-------|
+| Non-expert users can produce actionable audit insights | Deng 2025 (WeAudit) | ●●○ | Single study; participants were young, digitally competent volunteers — not older adults |
+| Contestability is a viable design principle for ML systems | Hirsch 2017 | ●●○ | Foundational paper; applied to mental health ML, not health chatbots |
+| Proxy audit delegation is feasible | Deng 2025 (parenthetical mention) | ●○○ | Mentioned but not tested |
+| Proxy-user collaborative dynamics are fragile | Baghestani 2024 | ●●○ | Single study (CSCW); robust qualitative design but specific context |
+
+## Cross-Cutting
+
+| Claim | Source(s) | Strength | Notes |
+|-------|-----------|----------|-------|
+| The four layers form a circular causal chain | Derived from fracture analysis | ●○○ | Analytical derivation, not empirically tested |
+| Older adults cannot serve as their own auditors | Derived from L1 + L4 | ●○○ ⚠ | Assumption challenged by Chan's study (supervisor's lab) |
+
+---
+
+# 7. Revised Narrative Structure [W8 revision]
+
+~~The previous version of Section 7 framed the literature review as a four-section argument (A–D) about the halo effect's evidence quality. That framing was still framework-centric — it organized the review around defending/constraining the 4-layer architecture. The supervisor's core directive is more fundamental: **pick one narrow question you can empirically tackle.**~~
+
+## The Narrowed Research Line
+
+The research question is no longer "how does the 4-layer framework hold up?" It is:
+
+> **In trusted-institution contexts (e.g., hospital-endorsed health AI), how should trust calibration interventions and proxy auditor interfaces be designed so that users — including but not limited to older adults — can maintain appropriate skepticism without abandoning the system?**
+
+This question:
+- Drops the claim that halo effect is age-specific (it is a general human bias; Thorndike 1920)
+- Replaces "halo effect inoculation" with **trust calibration intervention** — a broader, defensible framing applicable to any trusted-institution context
+- Treats the proxy auditor not as a framework-level abstraction but as a **concrete interface and role design** problem
+- Is scoped to be empirically tractable within 6 weeks
+
+## Literature Review Scope (Traditional Thematic)
+
+The lit review supports this research question with four thematic sections:
+
+### Theme 1: Trust Formation in Institutional Health AI Contexts
+
+What do we know about how users form trust when a health institution endorses an AI tool?
+
+- Ellis 2025: institutional trust transfer pattern (proposed, single study)
+- Wong 2025: authority-dependent trust / privacy resignation (HK, N=27)
+- Guo et al. 2025: trust flows AI → physician → hospital (reverse direction to halo hypothesis)
+- Danish Health cohort 2025 (N=39,109): older adults more skeptical, not less
+- Independence-motivation hypothesis as competing explanation
+- **Gap**: No study has experimentally tested whether institutional endorsement causally increases uncritical trust, or whether a calibration intervention can shift it
+
+### Theme 2: Friction and Calibration as Design Interventions
+
+What design mechanisms exist for calibrating trust without causing abandonment?
+
+- Inan 2025: positive friction in dialogue systems
+- Ehsan 2024: seamful XAI — exposing AI limitations as trust calibration
+- Pang 2021: older adults' latent capability for trial-and-error learning (friction can work if designed right)
+- Jamshed 2025: audio nudges as non-visual friction channel
+- Peixoto 2025: 76/79 XAI studies excluded disability needs — accessibility constraint
+- **Gap**: No friction intervention has been tested specifically as a trust calibration tool in institutional health AI contexts
+
+### Theme 3: Proxy Auditing — Delegation, Collaboration, and Interface Design
+
+What happens when audit responsibility is delegated to a proxy?
+
+- Deng 2025 (WeAudit): non-experts can produce useful audit insights, but sample was young volunteers
+- Baghestani 2024 (CSCW): mixed-age collaboration dynamics — dominant-follower failure in 50% of pairs
+- Older adults showed strong capacity for bias identification — challenges the "cannot audit" assumption
+- **Gap**: No study has designed and tested a proxy auditor *interface* — the concept exists only as a paragraph in Deng 2025. What does the interface look like? How does the older adult's experiential signal get captured? How does the proxy review it?
+
+### Theme 4: Temporal and Contextual Constraints
+
+Why do we need to be cautious about any claim in this space?
+
+- Laupichler 2024: no AI literacy scale tested for temporal validity
+- Danish cohort 2022→2024: attitudes shifted significantly in 2 years (OR 3.21)
+- AARP 2024: older adults simultaneously skeptical of AI and actively using it
+- **Implication**: Any design must be adaptive. Friction calibrated to 2024 literacy levels may be patronizing by 2027.
+
+## How the Themes Connect
+
+\`\`\`
+Theme 1 (Trust formation)
+    ↓ identifies the problem: uncritical trust in institutional AI contexts
+Theme 2 (Friction/calibration)
+    ↓ proposes a class of solutions: trust calibration interventions
+Theme 3 (Proxy auditor)
+    ↓ addresses the capability gap: when calibration alone is insufficient, delegate audit to a proxy
+Theme 4 (Temporal constraints)
+    ↓ bounds everything: solutions must be adaptive, not permanent
+\`\`\`
+
+The 4-layer framework is **not** the organizing principle. It remains as background context — the reader may notice that the themes loosely map to layers, but the review is organized by research question, not by the framework.
+
+---
+
+# 8. Implications for 5C Graph & Framework [W8 revision]
+
+## Changes Already Executed on Zotero_5C.html and Zotero_5C_graph.html
+
+| Element | Change | Tag |
+|---------|--------|-----|
+| **Ellis 2025 Conflicts** | Halo effect downgraded from fact to candidate explanation; independence motivation added; Danish counter-evidence added | [W8 revision] |
+| **Ellis 2025 Consequences** | Conditional framing ("if institutional trust transfer is operative...") | [W8 revision] |
+| **Ellis 2025 Countermeasures** | Mechanism-agnostic language | [W8 revision] |
+| **Sakaguchi-Tang Countermeasures** | Removed direct halo effect attribution; reframed as open question | [W8 revision] |
+| **Wong 2025 Conflicts** | Reframed convergence as shared pattern, not halo confirmation | [W8 revision] |
+| **Graph edge: Lee-See → Ellis** | "trust calibration → institutional trust transfer (proposed)" | [W8 revision] |
+| **Graph edge: Ellis → WHO** | "institutional trust transfer (proposed) → equity-conscious AI governance" | [W8 revision] |
+| **Graph empirical filter summary** | Halo effect marked as untested hypothesis with counter-evidence and alternatives | [W8 revision] |
+
+## Conceptual Reframing
+
+### "Halo Effect Inoculation" → Trust Calibration Intervention
+
+| Dimension | Old (W7) | New (W8) |
+|-----------|----------|----------|
+| **Mechanism** | Inoculate against age-specific halo effect | Calibrate institutional trust expectations (general human bias, context-dependent) |
+| **Scope** | Older adults only | Anyone using institution-endorsed health AI; older adults as a focus population, not the only one |
+| **Evidence base** | Ellis 2025 alone (proposed) | Ellis 2025 + Guo 2025 (reverse trust transfer) + Danish cohort (skepticism) + independence-motivation literature |
+| **Design target** | Pre-interaction "warm-up" stage | Concrete interface mechanism: what the user sees, when, how it shifts their trust calibration |
+
+### Proxy Auditor → Interface and Role Design Problem
+
+| Dimension | Old (W7) | New (W8) |
+|-----------|----------|----------|
+| **Framing** | Architectural component of 4-layer framework | Concrete interface + role design for a specific use context |
+| **Justification** | "Older adults cannot audit (halo + AI literacy gap)" | "In institutional trust contexts, self-audit may be insufficient; proxy delegation is a design option — who plays the proxy, what interface do they use, how is the older adult's experiential signal captured?" |
+| **Evidence base** | Deng 2025 (parenthetical) + Baghestani 2024 (fragility) | Same + Chan (older adults can engage critically) → proxy is not about incapability but about role specialization |
+| **Empirical question** | Not defined | "What does a proxy auditor interface look like? How do we capture the older adult's signal (felt wrong, confusing) without making them passive?" |
+
+### Fracture Analysis → Retained as Background
+
+The 4 fractures are retained as analytical observations but no longer drive the research structure. They serve as the rationale for why trust calibration and proxy auditing are worth studying — not as the framework being tested.
+
+---
+
+*This report responds to the [Week 7 supervisor feedback](Presentation_mode/Week7/MeetingMinutes_Week7.md) and builds on the [Week 7 Progress Report](Week7_report.html). The research direction has been narrowed from a 4-layer framework validation to a focused empirical question about trust calibration and proxy auditor interface design in institutional health AI contexts.*
+`;
+
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+
+</html>
