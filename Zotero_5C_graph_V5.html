@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zotero 5C Relation Graph V5 - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+            --ch1: #1565c0;
+            --ch2: #c62828;
+            --ch3: #2e7d32;
+            --ch4: #ef6c00;
+            --cross: #6366f1;
+            --framework: #6b7280;
+            --archived: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Georgia, Times, serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            border-right: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: background-color 0.15s, color 0.15s;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .graph-toolbar {
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #fcfcfb;
+        }
+
+        .filter-btn {
+            border: 1px solid var(--border-color);
+            background: #fff;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 16px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: #efe7e7;
+            color: #7b1f1f;
+            border-color: #d8c6c6;
+        }
+
+        .graph-layout {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+        }
+
+        .graph-container {
+            position: relative;
+            min-width: 0;
+            min-height: 0;
+            background: #fff;
+        }
+
+        .graph-container svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .legend-panel {
+            border-left: 1px solid var(--border-color);
+            background: #fcfcfb;
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            padding: 14px;
+        }
+
+        .legend-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+            letter-spacing: 0.4px;
+        }
+
+        .legend-section {
+            margin-bottom: 14px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .legend-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex: 0 0 auto;
+        }
+
+        .legend-line {
+            width: 16px;
+            height: 2px;
+            flex: 0 0 auto;
+        }
+
+        .legend-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .validation-chain {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .validation-chain strong {
+            color: var(--text-primary);
+        }
+
+        .validation-chain ol {
+            margin: 8px 0 0 18px;
+            padding: 0;
+        }
+
+        .validation-chain li {
+            margin: 0 0 8px 0;
+        }
+
+        .tooltip {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 20;
+            max-width: 320px;
+            background: #2f2f2f;
+            color: #fff;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: opacity 0.12s ease;
+        }
+
+        .tt-title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .tt-meta {
+            font-size: 11px;
+            color: #d1d5db;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        @media (max-width: 1100px) {
+            .graph-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .legend-panel {
+                border-left: 0;
+                border-top: 1px solid var(--border-color);
+                max-height: 230px;
+            }
+        }
+
+        @media (max-width: 920px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 1000;
+                transition: left 0.25s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 999;
+                background: rgba(0, 0, 0, 0.35);
+            }
+
+            .overlay.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <a href="Research.html">Research</a>
+                <span>/</span>
+                <span class="current">Zotero 5C Graph V5</span>
+            </div>
+        </header>
+
+        <div class="graph-toolbar">
+            <button class="filter-btn" data-filter="all">All (V5)</button>
+            <button class="filter-btn" data-filter="ch1">Ch 1 Core</button>
+            <button class="filter-btn" data-filter="ch2">Ch 2 Core</button>
+            <button class="filter-btn" data-filter="ch3">Ch 3 Core</button>
+            <button class="filter-btn active" data-filter="backbone">Ch 1-3 Backbone</button>
+            <button class="filter-btn" id="archived-toggle">Show archived/supporting</button>
+        </div>
+
+        <div class="graph-layout">
+            <section class="graph-container" id="graph-container">
+                <div class="tooltip" id="tooltip"></div>
+            </section>
+            <aside class="legend-panel">
+                <div class="legend-section">
+                    <div class="legend-title">Chapters (node color)</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--ch1)"></span> Ch 1 — Institutional Trust Formation</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--ch2)"></span> Ch 2 — Credibility Veneer Risk</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--ch3)"></span> Ch 3 — HITL Proxy Auditor</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--ch4)"></span> Deployment Scope Boundaries (embedded)</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--cross)"></span> Cross-Chapter</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--framework)"></span> Framework Node</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:var(--archived)"></span> Archived/Supporting-only</div>
+                </div>
+
+                <div class="legend-section">
+                    <div class="legend-title">Tier Encoding</div>
+                    <div class="legend-item"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4" fill="none" stroke="#37352f" stroke-width="2"/></svg> Tier 1 Highest (core ring)</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:#9ca3af;transform:scale(1.4)"></span> Tier 1</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:#9ca3af;transform:scale(1.15)"></span> Tier 2</div>
+                    <div class="legend-item"><span class="legend-circle" style="background:#9ca3af;transform:scale(0.95)"></span> Tier 3 / Supporting</div>
+                </div>
+
+                <div class="legend-section">
+                    <div class="legend-title">Relations (edge color)</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#6366f1"></span> Conceptual basis</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#10b981"></span> Empirical evidence</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#f59e0b"></span> Design implication</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#ef4444"></span> Governance implication</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#8b5cf6"></span> Parallel case</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#06b6d4"></span> Framework integration</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#ec4899"></span> Methodological inspiration</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#ea580c"></span> Counter-evidence</div>
+                </div>
+
+                <div class="legend-note">
+                    Active view is strict V5. Use <strong>Show archived/supporting</strong> to reveal nodes moved out from the former standalone Ch4 chapter (kept for traceability only).
+                </div>
+
+                <div class="legend-section">
+                    <div class="legend-title">Validation Chain (Ch1→Ch2→Ch3)</div>
+                    <div class="validation-chain">
+                        <ol>
+                            <li><strong>Define Credibility Veneer as a nudge carrier:</strong> Ch1 establishes institutional-trust shortcuts (brand/recommendation reliance). In Ch2, official logos, doctor-endorsed labels, and medical tone are treated as deliberate <em>nudge vehicles</em> that hijack System-1 trust heuristics rather than neutral decoration (Thaler &amp; Sunstein logic).</li>
+                            <li><strong>Use Yu-Chen 2024 as bridge evidence:</strong> Yu &amp; Chen shows natural chatbot dialogue lowers technology anxiety and that social influence is a dominant acceptance driver. Chain: <strong>Ch1 trust shortcut exists</strong> → <strong>natural dialogue reduces defensive friction</strong> → <strong>Ch2 hypernudge can reshape choice environment faster than users can verify risk</strong>.</li>
+                            <li><strong>Static shortcut to dynamic manipulation:</strong> Ch1 trust is mostly static (e.g., "see logo, assume safe"). Ch2 upgrades it into dynamic, personalized nudging via AI-powered interaction loops (Duane 2025), explaining why legacy trust cues fail under agentic systems.</li>
+                        </ol>
+                        <p><strong>Ch2 conclusion → Ch3 start:</strong> veneer-driven trust can rise while real risk-check evidence remains absent. Therefore Ch3 introduces the HITL proxy-auditor requirement to force explicit, inspectable risk-check evidence.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        renderSidebar("zotero-5c-graph-v5");
+        lucide.createIcons();
+
+        const mobileBtn = document.getElementById("mobile-menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        if (mobileBtn && sidebar && overlay) {
+            mobileBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                overlay.classList.toggle("active");
+            });
+            overlay.addEventListener("click", () => {
+                sidebar.classList.remove("open");
+                overlay.classList.remove("active");
+            });
+        }
+
+        const LAYER_COLORS = {
+            Ch1: "#1565C0",
+            Ch2: "#C62828",
+            Ch3: "#2E7D32",
+            Ch4: "#EF6C00",
+            Cross: "#6366F1",
+            Framework: "#6B7280",
+            Archived: "#9CA3AF",
+        };
+
+        const RELATION_COLORS = {
+            "Conceptual-basis": "#6366F1",
+            "Empirical-evidence": "#10B981",
+            "Design-implication": "#F59E0B",
+            "Governance-implication": "#EF4444",
+            "Parallel-case": "#8B5CF6",
+            "Framework-integration": "#06B6D4",
+            "Methodological-inspiration": "#EC4899",
+            "Counter-evidence": "#EA580C",
+        };
+
+        const TIER_RADIUS = {
+            "Tier 1 Highest": 16,
+            "Tier 1": 12,
+            "Tier 2": 9,
+            "Tier 3": 7,
+            Supporting: 7,
+        };
+
+        const nodes = [
+            { id: "Ellis 2025", label: "Ellis 2025", fullTitle: "The Halo Effect: Perceptions of Information Privacy Among Healthcare Chatbot Users", layer: "Ch1", tier: "Tier 1", round: "R2" },
+            { id: "Peixoto 2025", label: "Peixoto 2025", fullTitle: "Accessible and Multimodal XAI for People with Sight Loss", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Wildenbos 2018", label: "Wildenbos 2018", fullTitle: "Aging Barriers Influencing mHealth Usability and eHealth (MOLD-US)", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Sakaguchi-Tang 2017", label: "Sakaguchi-Tang 2017", fullTitle: "Patient Portal Use and Experience Among Older Adults", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Wong 2025", label: "Wong 2025", fullTitle: "Older Adults' Acceptance of AI Health Technology", layer: "Ch1", tier: "Tier 1", round: "R5" },
+            { id: "Isaksen 2025", label: "Isaksen 2025", fullTitle: "Changes in public perception of AI in healthcare after exposure to ChatGPT", layer: "Ch1", tier: "Tier 1", round: "R7" },
+            { id: "Guerrero 2015", label: "Guerrero 2015", fullTitle: "Determinants of Trust in Health Care in an Older Population", layer: "Ch1", tier: "Supporting", round: "R7" },
+            { id: "Ganguli 2024", label: "Ganguli 2024", fullTitle: "Health Care Contact Days Among Older Adults in Traditional Medicare", layer: "Ch1", tier: "Supporting", round: "R7" },
+            { id: "Wyman 2018", label: "Wyman 2018", fullTitle: "Ageism in the Health Care System", layer: "Ch1", tier: "Supporting", round: "R7" },
+            { id: "Peng 2024", label: "Peng 2024", fullTitle: "Leveraging Chatbots to Combat Health Misinformation for Older Adults", layer: "Ch1", tier: "Tier 2", round: "R7" },
+            { id: "KangJie 2025", label: "KangJie 2025", fullTitle: "AI Literacy Education for Older Adults", layer: "Ch1", tier: "Tier 2", round: "R7" },
+
+            { id: "Duane 2025", label: "Duane 2025", fullTitle: "Digital Nudges: A Narrative Review and Taxonomy", layer: "Ch2", tier: "Tier 1", round: "R3" },
+            { id: "Gray 2018", label: "Gray 2018", fullTitle: "The Dark (Patterns) Side of UX Design", layer: "Ch2", tier: "Tier 1", round: "R1" },
+            { id: "Faraoni 2023", label: "Faraoni 2023", fullTitle: "Hypernudge, Cognitive Liberty, and Mental Self-Determination", layer: "Ch2", tier: "Tier 2", round: "R5" },
+            { id: "Yu-Chen 2024", label: "Yu-Chen 2024", fullTitle: "Older Adults' Acceptance of AI Health Chatbots (UTAUT)", layer: "Ch2", tier: "Tier 2", round: "R5" },
+            { id: "Thaler-Sunstein 2008", label: "Thaler & Sunstein 2008", fullTitle: "Nudge", layer: "Ch2", tier: "Tier 2", round: "R6" },
+            { id: "Yeung 2017", label: "Yeung 2017", fullTitle: "Hypernudge: Big Data as Regulation by Design", layer: "Ch2", tier: "Tier 1", round: "R6" },
+            { id: "Brignull 2024", label: "Brignull 2024", fullTitle: "Deceptive Patterns Taxonomy", layer: "Ch2", tier: "Tier 3", round: "R1" },
+
+            { id: "Gulli 2025", label: "Gullí 2025", fullTitle: "Agentic Design Patterns (HITL, guardrails)", layer: "Ch3", tier: "Tier 2", round: "R1" },
+            { id: "Lee-See 2004", label: "Lee & See 2004", fullTitle: "Trust in Automation: Appropriate Reliance", layer: "Ch3", tier: "Tier 1", round: "R6" },
+            { id: "Zubatiy 2023", label: "Zubatiy 2023", fullTitle: "Conversational Agent Use by Older Adults with MCI", layer: "Ch3", tier: "Tier 1", round: "R1" },
+            { id: "Brewer 2022", label: "Brewer 2022", fullTitle: "Voice Assistants for Health in Assisted Living", layer: "Ch3", tier: "Tier 1", round: "R2" },
+            { id: "Inan 2025", label: "İnan 2025", fullTitle: "Positive Friction for Reliable Dialogue Systems", layer: "Ch3", tier: "Tier 2", round: "R4" },
+            { id: "Ehsan 2024", label: "Ehsan 2024", fullTitle: "Seamful XAI: Operationalizing Gaps for Trust Calibration", layer: "Ch3", tier: "Tier 1 Highest", round: "R4" },
+            { id: "Jamshed 2025", label: "Jamshed 2025", fullTitle: "AI-Powered Audio Nudge for Dietary Health", layer: "Ch3", tier: "Tier 1", round: "R5" },
+            { id: "Cammisuli 2022", label: "Cammisuli 2022", fullTitle: "SENIOR nudge-based ICT intervention for MCI", layer: "Ch3", tier: "Tier 2", round: "R5" },
+
+            { id: "Pang 2021", label: "Pang 2021", fullTitle: "Technology Adoption and Learning Preferences for Older Adults", layer: "Cross", tier: "Tier 1 Highest", round: "R5" },
+            { id: "Baghestani 2024", label: "Baghestani 2024", fullTitle: "Older Adults' Collaborative Learning Dynamics", layer: "Cross", tier: "Tier 1", round: "R6", crossTag: "Ch1↔Ch3" },
+            { id: "Deng-WeAudit 2025", label: "Deng (WeAudit) 2025", fullTitle: "WeAudit: Scaffolding User Auditors in Auditing Generative AI", layer: "Cross", tier: "Tier 1 Highest", round: "R6", crossTag: "Ch3↔Ch4" },
+
+            { id: "Hirsch 2017", label: "Hirsch 2017", fullTitle: "Designing Contestability in ML Systems", layer: "Ch4", tier: "Tier 1", round: "R4" },
+            { id: "Deng-Engagement 2023", label: "Deng (Engagement) 2023", fullTitle: "Supporting User Engagement in Testing, Auditing, and Contesting AI", layer: "Ch4", tier: "Supporting", round: "R6" },
+
+            { id: "V5 Framework", label: "V5 Framework", fullTitle: "V5: Ch2 Credibility Veneer Risk → Ch3 HITL Capture & Replay + embedded deployment boundaries", layer: "Framework", tier: "Tier 1 Highest", round: "—" },
+
+            { id: "NIST 2023", label: "NIST 2023", fullTitle: "NIST AI RMF 1.0 (MANAGE 4.1 appeal/override)", layer: "Archived", tier: "Supporting", round: "R1", archived: true },
+            { id: "WHO 2021", label: "WHO 2021", fullTitle: "WHO AI Ethics and Governance for Health", layer: "Archived", tier: "Supporting", round: "R1", archived: true },
+            { id: "Wang 2025", label: "Wang 2025", fullTitle: "Users' Mental Models of GenAI Chatbot Ecosystems", layer: "Archived", tier: "Supporting", round: "R5", archived: true },
+            { id: "Vaithilingam 2024", label: "Vaithilingam 2024", fullTitle: "Dynamic Grounding, Constructive Negotiation, and Sustainable Motivation", layer: "Archived", tier: "Tier 2", round: "R3", archived: true },
+            { id: "Deng-Practices 2023", label: "Deng (Practices) 2023", fullTitle: "Practices and Challenges for User-Engaged Algorithm Auditing", layer: "Archived", tier: "Tier 1", round: "R6", archived: true },
+        ];
+
+        const edges = [
+            { source: "Thaler-Sunstein 2008", target: "Yeung 2017", type: "Conceptual-basis", concept: "nudge to hypernudge lineage" },
+            { source: "Thaler-Sunstein 2008", target: "Duane 2025", type: "Conceptual-basis", concept: "choice architecture to digital nudges" },
+            { source: "Yeung 2017", target: "Duane 2025", type: "Conceptual-basis", concept: "hypernudge framing integrated in taxonomy" },
+            { source: "Yeung 2017", target: "Faraoni 2023", type: "Conceptual-basis", concept: "hypernudge to cognitive liberty debates" },
+            { source: "Gray 2018", target: "Duane 2025", type: "Conceptual-basis", concept: "dark patterns into dark nudges category" },
+            { source: "Brignull 2024", target: "Gray 2018", type: "Conceptual-basis", concept: "deceptive pattern taxonomy alignment" },
+            { source: "Lee-See 2004", target: "Ehsan 2024", type: "Conceptual-basis", concept: "trust calibration to seamful XAI" },
+            { source: "Lee-See 2004", target: "Ellis 2025", type: "Conceptual-basis", concept: "trust calibration baseline for institutional trust transfer" },
+            { source: "Hirsch 2017", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "contestability to user-as-auditor pathway" },
+            { source: "Hirsch 2017", target: "Deng-Engagement 2023", type: "Conceptual-basis", concept: "contestability framing" },
+            { source: "Guerrero 2015", target: "Ellis 2025", type: "Conceptual-basis", concept: "institutional trust premise" },
+            { source: "Ganguli 2024", target: "Ellis 2025", type: "Conceptual-basis", concept: "contact-day load as familiarity mechanism" },
+            { source: "Wyman 2018", target: "Ellis 2025", type: "Conceptual-basis", concept: "system-level ageism and trust context" },
+
+            { source: "Pang 2021", target: "Ellis 2025", type: "Counter-evidence", concept: "latent capability challenges passive-user assumption" },
+            { source: "Peng 2024", target: "Ellis 2025", type: "Counter-evidence", concept: "active critical agency challenges deficit framing" },
+            { source: "KangJie 2025", target: "Ellis 2025", type: "Counter-evidence", concept: "barriers are pedagogical, not capability-deficit" },
+            { source: "Isaksen 2025", target: "Ellis 2025", type: "Counter-evidence", concept: "longitudinal age-gradient skepticism constrains halo generalization" },
+
+            { source: "Yu-Chen 2024", target: "Wong 2025", type: "Empirical-evidence", concept: "acceptance mechanisms across contexts" },
+            { source: "Inan 2025", target: "Ehsan 2024", type: "Empirical-evidence", concept: "positive friction and seamful calibration converge" },
+            { source: "Pang 2021", target: "Baghestani 2024", type: "Empirical-evidence", concept: "independence-burden and collaboration dynamics" },
+            { source: "Deng-Engagement 2023", target: "Deng-WeAudit 2025", type: "Empirical-evidence", concept: "testing-auditing-contesting framing to deployed workflow" },
+
+            { source: "Wildenbos 2018", target: "Inan 2025", type: "Design-implication", concept: "aging barriers constrain friction design" },
+            { source: "Wildenbos 2018", target: "Jamshed 2025", type: "Design-implication", concept: "perception barriers imply non-visual channels" },
+            { source: "Peixoto 2025", target: "Ehsan 2024", type: "Design-implication", concept: "accessibility requirement for seamful interfaces" },
+            { source: "Pang 2021", target: "Zubatiy 2023", type: "Design-implication", concept: "incremental learning and error recovery patterns" },
+            { source: "Baghestani 2024", target: "Deng-WeAudit 2025", type: "Design-implication", concept: "proxy collaboration fragility informs HITL escalation design" },
+            { source: "Gulli 2025", target: "Ehsan 2024", type: "Design-implication", concept: "HITL guardrails composition for trusted interaction" },
+            { source: "Gulli 2025", target: "Inan 2025", type: "Design-implication", concept: "safety patterns intersect with positive friction" },
+            { source: "Cammisuli 2022", target: "Duane 2025", type: "Design-implication", concept: "nudge-based intervention implementation case" },
+
+            { source: "Faraoni 2023", target: "Deng-WeAudit 2025", type: "Governance-implication", concept: "rights framing motivates user contestation pathways" },
+            { source: "Ehsan 2024", target: "Hirsch 2017", type: "Governance-implication", concept: "seamful design operationalizes contestability" },
+            { source: "Deng-WeAudit 2025", target: "V5 Framework", type: "Framework-integration", concept: "core implementation anchor for Ch3 endpoint guardrails" },
+            { source: "Yeung 2017", target: "V5 Framework", type: "Framework-integration", concept: "credibility veneer risk mechanism anchor" },
+            { source: "Hirsch 2017", target: "V5 Framework", type: "Framework-integration", concept: "deployment boundary contestability anchor" },
+            { source: "Deng-Engagement 2023", target: "V5 Framework", type: "Framework-integration", concept: "supporting guardrail bridge (testing/auditing/contesting)" },
+
+            { source: "Ellis 2025", target: "Wong 2025", type: "Parallel-case", concept: "institution-trust and privacy resignation parallels" },
+            { source: "Ellis 2025", target: "Sakaguchi-Tang 2017", type: "Parallel-case", concept: "chatbot privacy and portal trust comparison" },
+            { source: "Zubatiy 2023", target: "Brewer 2022", type: "Parallel-case", concept: "older adult CA use across modalities" },
+            { source: "Sakaguchi-Tang 2017", target: "Yu-Chen 2024", type: "Parallel-case", concept: "portal and chatbot acceptance mapping" },
+
+            { source: "Duane 2025", target: "V5 Framework", type: "Methodological-inspiration", concept: "taxonomy-driven synthesis logic" },
+            { source: "Wong 2025", target: "V5 Framework", type: "Methodological-inspiration", concept: "behavioral model framing for barrier mapping" },
+
+            { source: "NIST 2023", target: "V5 Framework", type: "Governance-implication", concept: "MANAGE 4.1 as supporting deployment boundary reference", archived: true },
+            { source: "WHO 2021", target: "V5 Framework", type: "Governance-implication", concept: "human warranty and lifecycle oversight as supporting guardrails", archived: true },
+            { source: "Wang 2025", target: "NIST 2023", type: "Governance-implication", concept: "mental models support transparency requirements", archived: true },
+            { source: "Deng-Practices 2023", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "formative practices to system implementation", archived: true },
+            { source: "Vaithilingam 2024", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "constructive negotiation as conceptual precursor", archived: true },
+        ];
+
+        const nodeMap = {};
+        nodes.forEach((n) => (nodeMap[n.id] = n));
+
+        function getNodeColor(d) {
+            return LAYER_COLORS[d.layer] || LAYER_COLORS.Ch1;
+        }
+
+        function getNodeRadius(d) {
+            return TIER_RADIUS[d.tier] || 9;
+        }
+
+        const container = document.getElementById("graph-container");
+        const width = container.clientWidth || 900;
+        const height = container.clientHeight || 700;
+
+        const svg = d3
+            .select("#graph-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const defs = svg.append("defs");
+        Object.entries(RELATION_COLORS).forEach(([type, color]) => {
+            defs
+                .append("marker")
+                .attr("id", `arrow-${type}`)
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 20)
+                .attr("refY", 0)
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto")
+                .append("path")
+                .attr("d", "M0,-4L10,0L0,4")
+                .attr("fill", color)
+                .attr("opacity", 0.68);
+        });
+
+        const g = svg.append("g");
+        const zoom = d3.zoom().scaleExtent([0.2, 4]).on("zoom", (event) => g.attr("transform", event.transform));
+        svg.call(zoom);
+
+        const simulation = d3
+            .forceSimulation(nodes)
+            .force("link", d3.forceLink(edges).id((d) => d.id).distance(122))
+            .force("charge", d3.forceManyBody().strength(-420))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius((d) => getNodeRadius(d) + 8))
+            .force("x", d3.forceX(width / 2).strength(0.05))
+            .force("y", d3.forceY(height / 2).strength(0.05));
+
+        const linkGroup = g.append("g").attr("class", "links");
+        const nodeGroup = g.append("g").attr("class", "nodes");
+
+        const link = linkGroup
+            .selectAll("line")
+            .data(edges)
+            .join("line")
+            .attr("stroke", (d) => RELATION_COLORS[d.type] || "#94A3B8")
+            .attr("stroke-width", (d) => (d.type === "Counter-evidence" ? 2 : 1.5))
+            .attr("stroke-dasharray", (d) => (d.type === "Counter-evidence" ? "6 4" : d.archived ? "4 4" : "none"))
+            .attr("stroke-opacity", (d) => (d.archived ? 0.26 : d.type === "Counter-evidence" ? 0.85 : 0.5))
+            .attr("marker-end", (d) => `url(#arrow-${d.type})`);
+
+        const nodeG = nodeGroup
+            .selectAll("g")
+            .data(nodes)
+            .join("g")
+            .call(
+                d3
+                    .drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended)
+            );
+
+        nodeG
+            .append("circle")
+            .attr("class", "node-circle")
+            .attr("r", (d) => getNodeRadius(d))
+            .attr("fill", (d) => getNodeColor(d))
+            .attr("stroke", (d) => (d.archived ? "#6B7280" : "#fff"))
+            .attr("stroke-width", (d) => (d.archived ? 1.2 : 1.5))
+            .attr("stroke-dasharray", (d) => (d.archived ? "3 2" : "none"))
+            .attr("opacity", (d) => (d.archived ? 0.45 : 1))
+            .attr("cursor", "pointer");
+
+        nodeG
+            .filter((d) => d.tier === "Tier 1 Highest")
+            .append("circle")
+            .attr("class", "core-ring")
+            .attr("r", (d) => getNodeRadius(d) + 5)
+            .attr("fill", "none")
+            .attr("stroke", (d) => getNodeColor(d))
+            .attr("stroke-width", 2)
+            .attr("opacity", 0.72)
+            .attr("pointer-events", "none");
+
+        nodeG
+            .filter((d) => d.round === "R1" && d.layer !== "Framework" && !d.archived)
+            .append("polygon")
+            .attr("class", "seed-marker")
+            .attr("points", (d) => {
+                const r = getNodeRadius(d) + 6;
+                return `0,${-r} ${r},0 0,${r} ${-r},0`;
+            })
+            .attr("fill", "none")
+            .attr("stroke", (d) => getNodeColor(d))
+            .attr("stroke-width", 1.5)
+            .attr("stroke-dasharray", "3,2")
+            .attr("opacity", 0.8)
+            .attr("pointer-events", "none");
+
+        nodeG
+            .append("text")
+            .text((d) => d.label)
+            .attr("dx", (d) => getNodeRadius(d) + 5)
+            .attr("dy", "0.35em")
+            .attr("font-size", (d) => (d.archived ? "9px" : "10px"))
+            .attr("font-family", "Inter, sans-serif")
+            .attr("fill", (d) => (d.archived ? "#8B8B88" : "#37352f"))
+            .attr("pointer-events", "none");
+
+        const tooltip = document.getElementById("tooltip");
+        let pinnedNode = null;
+        let currentFilter = "backbone";
+        let showArchived = false;
+
+        nodeG
+            .on("mouseover", function (event, d) {
+                tooltip.innerHTML = `
+                    <div class="tt-title">${d.fullTitle}</div>
+                    <div class="tt-meta">${d.label} · ${d.layer} · ${d.tier} · ${d.round}${d.archived ? " · archived/supporting" : ""}</div>
+                `;
+                tooltip.style.opacity = 1;
+                tooltip.style.left = event.offsetX + 14 + "px";
+                tooltip.style.top = event.offsetY - 12 + "px";
+                highlightConnections(d);
+            })
+            .on("mousemove", function (event) {
+                tooltip.style.left = event.offsetX + 14 + "px";
+                tooltip.style.top = event.offsetY - 12 + "px";
+            })
+            .on("mouseout", function () {
+                tooltip.style.opacity = 0;
+                resetHighlight();
+            })
+            .on("click", function (event, d) {
+                event.stopPropagation();
+                if (pinnedNode && pinnedNode.id === d.id) {
+                    pinnedNode = null;
+                    resetHighlight();
+                } else {
+                    pinnedNode = d;
+                    highlightConnections(d);
+                }
+            });
+
+        svg.on("click", () => {
+            pinnedNode = null;
+            resetHighlight();
+        });
+
+        function isNodeAllowedByArchive(node) {
+            if (!node.archived) return true;
+            return showArchived;
+        }
+
+        function layerFromFilter(filter) {
+            if (filter === "ch1") return "Ch1";
+            if (filter === "ch2") return "Ch2";
+            if (filter === "ch3") return "Ch3";
+            return null;
+        }
+
+        function isBackboneLayer(layer) {
+            return layer === "Ch1" || layer === "Ch2" || layer === "Ch3";
+        }
+
+        function updateVisibility() {
+            const visibleNodeIds = new Set();
+            const visibleEdgeIds = new Set();
+
+            if (currentFilter === "all") {
+                nodes.forEach((n) => {
+                    if (isNodeAllowedByArchive(n)) visibleNodeIds.add(n.id);
+                });
+                edges.forEach((e, i) => {
+                    const s = typeof e.source === "object" ? e.source.id : e.source;
+                    const t = typeof e.target === "object" ? e.target.id : e.target;
+                    if (visibleNodeIds.has(s) && visibleNodeIds.has(t)) visibleEdgeIds.add(i);
+                });
+            } else if (currentFilter === "backbone") {
+                nodes.forEach((n) => {
+                    if (!isNodeAllowedByArchive(n)) return;
+                    if (isBackboneLayer(n.layer) || n.layer === "Cross" || n.layer === "Framework") {
+                        visibleNodeIds.add(n.id);
+                    }
+                });
+                edges.forEach((e, i) => {
+                    const s = typeof e.source === "object" ? e.source.id : e.source;
+                    const t = typeof e.target === "object" ? e.target.id : e.target;
+                    const sNode = nodeMap[s];
+                    const tNode = nodeMap[t];
+                    if (!sNode || !tNode) return;
+                    if (!isNodeAllowedByArchive(sNode) || !isNodeAllowedByArchive(tNode)) return;
+                    const anchored = isBackboneLayer(sNode.layer) || isBackboneLayer(tNode.layer);
+                    if (anchored) {
+                        visibleNodeIds.add(s);
+                        visibleNodeIds.add(t);
+                        visibleEdgeIds.add(i);
+                    }
+                });
+            } else {
+                const anchorLayer = layerFromFilter(currentFilter);
+                if (!anchorLayer) {
+                    nodeG.attr("display", "none");
+                    link.attr("display", "none");
+                    return;
+                }
+
+                nodes.forEach((n) => {
+                    if (!isNodeAllowedByArchive(n)) return;
+                    if (n.layer === anchorLayer) visibleNodeIds.add(n.id);
+                    if (n.layer === "Framework") visibleNodeIds.add(n.id);
+                });
+
+                edges.forEach((e, i) => {
+                    const s = typeof e.source === "object" ? e.source.id : e.source;
+                    const t = typeof e.target === "object" ? e.target.id : e.target;
+                    const sNode = nodeMap[s];
+                    const tNode = nodeMap[t];
+                    if (!sNode || !tNode) return;
+                    if (!isNodeAllowedByArchive(sNode) || !isNodeAllowedByArchive(tNode)) return;
+                    const anchored = sNode.layer === anchorLayer || tNode.layer === anchorLayer;
+                    if (anchored) {
+                        visibleNodeIds.add(s);
+                        visibleNodeIds.add(t);
+                        visibleEdgeIds.add(i);
+                    }
+                });
+            }
+
+            nodeG.attr("display", (d) => (visibleNodeIds.has(d.id) ? "inline" : "none"));
+            link.attr("display", (_, i) => (visibleEdgeIds.has(i) ? "inline" : "none"));
+
+            resetHighlight();
+        }
+
+        function highlightConnections(node) {
+            const connected = new Set([node.id]);
+            edges.forEach((e) => {
+                const sid = typeof e.source === "object" ? e.source.id : e.source;
+                const tid = typeof e.target === "object" ? e.target.id : e.target;
+                if (sid === node.id) connected.add(tid);
+                if (tid === node.id) connected.add(sid);
+            });
+
+            nodeG.select(".node-circle").attr("opacity", (d) => (connected.has(d.id) ? (d.archived ? 0.5 : 1) : 0.14));
+            nodeG.select("text").attr("opacity", (d) => (connected.has(d.id) ? 1 : 0.18));
+            nodeG.select(".core-ring").attr("opacity", (d) => (connected.has(d.id) ? 0.72 : 0.12));
+            nodeG.select(".seed-marker").attr("opacity", (d) => (connected.has(d.id) ? 0.8 : 0.12));
+
+            link.attr("stroke-opacity", (e) => {
+                const sid = typeof e.source === "object" ? e.source.id : e.source;
+                const tid = typeof e.target === "object" ? e.target.id : e.target;
+                if (sid === node.id || tid === node.id) return e.archived ? 0.34 : 0.86;
+                return 0.05;
+            });
+        }
+
+        function resetHighlight() {
+            if (pinnedNode) return;
+            nodeG.select(".node-circle").attr("opacity", (d) => (d.archived ? 0.45 : 1));
+            nodeG.select("text").attr("opacity", 1);
+            nodeG.select(".core-ring").attr("opacity", 0.72);
+            nodeG.select(".seed-marker").attr("opacity", 0.8);
+            link.attr("stroke-opacity", (e) => (e.archived ? 0.26 : e.type === "Counter-evidence" ? 0.85 : 0.5));
+        }
+
+        simulation.on("tick", () => {
+            link
+                .attr("x1", (d) => d.source.x)
+                .attr("y1", (d) => d.source.y)
+                .attr("x2", (d) => d.target.x)
+                .attr("y2", (d) => d.target.y);
+            nodeG.attr("transform", (d) => `translate(${d.x},${d.y})`);
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        document.querySelectorAll(".filter-btn[data-filter]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".filter-btn[data-filter]").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentFilter = btn.dataset.filter;
+                pinnedNode = null;
+                updateVisibility();
+            });
+        });
+
+        const archivedToggle = document.getElementById("archived-toggle");
+        archivedToggle.addEventListener("click", () => {
+            showArchived = !showArchived;
+            archivedToggle.classList.toggle("active", showArchived);
+            archivedToggle.textContent = showArchived ? "Hide archived/supporting" : "Show archived/supporting";
+            pinnedNode = null;
+            updateVisibility();
+        });
+
+        updateVisibility();
+    </script>
+</body>
+
+</html>
