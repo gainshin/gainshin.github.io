@@ -24,6 +24,7 @@ const sidebarNavData = [
             { href: "Week6_report.html", icon: "file-text", label: "Week 6 Progress Report", id: "week6" },
             { href: "Week7_report.html", icon: "file-text", label: "Week 7 Progress Report", id: "week7" },
             { href: "Week8_report.html", icon: "file-text", label: "Week 8 Progress Report", id: "week8" },
+            { href: "Week9_report.html", icon: "file-text", label: "Week 9 Progress Report", id: "week_9" },
         ]
     },
     {
@@ -46,7 +47,8 @@ const sidebarNavData = [
             { href: "Zotero_round4.html", icon: "bookmark", label: "Zotero Report (Round 4)", id: "zotero4" },
             { href: "Zotero_round5.html", icon: "bookmark", label: "Zotero Report (Round 5)", id: "zotero5" },
             { href: "Zotero_round6.html", icon: "bookmark", label: "Zotero Report (Round 6)", id: "zotero6" },
-            { href: "Zotero_5C.html", icon: "scan-search", label: "4-Layer Analytical Framework", id: "zotero-5c" },
+            { href: "Zotero_round7.html", icon: "bookmark", label: "Zotero Report (Round 7)", id: "zotero7" },
+            { href: "Zotero_5C.html", icon: "scan-search", label: "5C Thematic Framework", id: "zotero-5c" },
             { href: "Zotero_5C_graph.html", icon: "git-fork", label: "Literature Relation Graph", id: "zotero-5c-graph" },
         ]
     },
@@ -131,7 +133,7 @@ function renderSidebar(activePageId) {
     // Build HTML
     let html = `
         <div class="sidebar-header">
-            <img src="assets/joshua.png" alt="Joshua" class="logo">
+            <img src="assets/NameCard.png" alt="Joshua" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';">
             <span class="title">Research Notes</span>
         </div>
         <div style="flex: 1; overflow-y: auto;">
