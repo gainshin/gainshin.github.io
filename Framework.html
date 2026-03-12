@@ -391,6 +391,8 @@
                     <button class="tab-btn active" onclick="switchVersion('v1')">Version 1: Initial (Week 1-3)</button>
                     <button class="tab-btn" onclick="switchVersion('v2')">Version 2: Pivot (Week 4)</button>
                     <button class="tab-btn" onclick="switchVersion('v3')">Version 3: Four-Layer Map (Week 6)</button>
+                    <button class="tab-btn" onclick="switchVersion('v4')">Version 4: Narrowed Research Line (Week 8)</button>
+                    <button class="tab-btn" onclick="switchVersion('v5')">Version 5: HITL Proxy Auditor (Week 8+)</button>
                 </div>
 
                 <!-- Version 1 Content -->
@@ -787,7 +789,7 @@
                     <h3>Layer 2: Hypernudge Risk Mechanism</h3>
                     <p><em>Focus: The evolution from static nudge to dynamic AI manipulation — and its visibility.</em></p>
                     <ul>
-                        <li><strong>Dimension C — Manipulation Form (static nudge ↔ dynamic hypernudge):</strong> The Nudge → Hypernudge citation chain: Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025). Static dark patterns (Gray 2018; Brignull 2024) serve as baseline; hypernudges are algorithmically driven, real-time, and continuously updated — they bypass deliberative reasoning.</li>
+                        <li><strong>Dimension C — Manipulation Form (static nudge ↔ dynamic hypernudge):</strong> The Nudge → Hypernudge citation chain: Thaler & Sunstein (2008) → Yeung (2017) → Duane et al. (2025). Static dark patterns (Gray 2018; Brignull 2024) serve as baseline; hypernudges are algorithmically driven, real-time, and continuously updated — they bypass deliberative reasoning. <em>(On the terminology shift from "dark patterns" to "deceptive patterns," see <a href="Week7_report.html#8-terminology-note--dark-patterns--deceptive-patterns" style="color: var(--accent-color);">Week 7 Report §8</a>.)</em></li>
                         <li><strong>Dimension D — Visibility (visible UI pattern ↔ invisible conversational strategy):</strong> Traditional dark patterns are identifiable UI elements (e.g., trick wording, hidden costs). Hypernudges in conversational AI operate as invisible persuasive strategies embedded in dialogue flow, tone, and framing — undetectable through conventional UI audit.</li>
                     </ul>
 
@@ -822,6 +824,242 @@
                         <p>For the complete four-layer literature map, annotated bibliography (25 sources), and expansion protocol, see the Week 6 Report.</p>
                         <p style="margin-top: 1rem;"><a href="Week6_report.html"
                                 style="color: var(--accent-color);">Read Week 6 Report →</a></p>
+                    </div>
+                </div>
+
+                <!-- Version 4 Content: Narrowed Research Line (Week 8) -->
+                <div id="v4" class="framework-version">
+                    <h2>From Four-Layer Architecture to Narrowed Research Question</h2>
+                    <p class="text-secondary" style="margin-bottom: 2rem; font-style: italic;">
+                        Week 8 responds to supervisor feedback by narrowing the research direction. The four-layer architecture (V3) is retained as background context, but the organizing principle is now a focused, empirically tractable research question derived from thematic literature analysis.
+                    </p>
+
+                    <div class="mermaid">
+                        graph TD
+                        subgraph themes ["Thematic Literature Review"]
+                        Ch1["Ch 1: Trust Formation<br>in Institutional Health AI"]
+                        Ch2["Ch 2: Friction / Calibration<br>as Design Interventions"]
+                        Ch3["Ch 3: Proxy Auditing<br>Delegation and Interface"]
+                        Ch4["Ch 4: Temporal and<br>Contextual Constraints"]
+                        end
+
+                        Ch1 -->|"identifies problem"| Ch2
+                        Ch2 -->|"proposes solutions"| Ch3
+                        Ch3 -->|"addresses capability gap"| Ch4
+
+                        Ch4 -->|"bounds all claims"| RQ
+
+                        RQ["RQ: How should trust calibration<br>interventions and proxy auditor interfaces<br>be designed in institutional health AI?"]
+
+                        RQ --> D1["Design Target A:<br>Trust Calibration Intervention"]
+                        RQ --> D2["Design Target B:<br>Proxy Auditor Interface"]
+                    </div>
+
+                    <h2>The Narrowed Research Question</h2>
+                    <blockquote style="border-left: 4px solid var(--accent-color); padding: 16px 20px; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 8px 8px 0;">
+                        <strong>In trusted-institution contexts (e.g., hospital-endorsed health AI), how should trust calibration interventions and proxy auditor interfaces be designed so that users — including but not limited to older adults — can maintain appropriate skepticism without abandoning the system?</strong>
+                    </blockquote>
+                    <p>This question drops the claim that the halo effect is age-specific (it is a general human bias; Thorndike 1920), replaces "halo effect inoculation" with <strong>trust calibration intervention</strong>, and treats the proxy auditor as a <strong>concrete interface and role design</strong> problem — scoped to be empirically tractable within six weeks.</p>
+
+                    <h2>What Changed from V3</h2>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.95rem;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #333;">
+                                <th style="text-align:left; padding: 8px 12px;">Dimension</th>
+                                <th style="text-align:left; padding: 8px 12px;">V3 (Week 6)</th>
+                                <th style="text-align:left; padding: 8px 12px;">V4 (Week 8)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #e9e9e7;">
+                                <td style="padding: 8px 12px;"><strong>Organizing principle</strong></td>
+                                <td style="padding: 8px 12px;">4-layer architecture as chapter structure</td>
+                                <td style="padding: 8px 12px;">Thematic lit review; 4-layer retained as background</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e9e9e7;">
+                                <td style="padding: 8px 12px;"><strong>Halo Effect</strong></td>
+                                <td style="padding: 8px 12px;">Foundational fact driving L1 vulnerability</td>
+                                <td style="padding: 8px 12px;">Ellis 2025 as one context-specific datapoint; general cognitive bias (Thorndike 1920)</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e9e9e7;">
+                                <td style="padding: 8px 12px;"><strong>Trust intervention</strong></td>
+                                <td style="padding: 8px 12px;">Halo Effect Inoculation (speculative)</td>
+                                <td style="padding: 8px 12px;">Trust Calibration Intervention (broader, defensible framing)</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e9e9e7;">
+                                <td style="padding: 8px 12px;"><strong>Proxy auditor</strong></td>
+                                <td style="padding: 8px 12px;">Framework-level abstraction ("older adults cannot audit")</td>
+                                <td style="padding: 8px 12px;">Concrete interface + role design; justified by role specialization, not incapacity</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e9e9e7;">
+                                <td style="padding: 8px 12px;"><strong>Evidence base</strong></td>
+                                <td style="padding: 8px 12px;">Each layer anchored by 1-2 papers</td>
+                                <td style="padding: 8px 12px;">Each theme acknowledges evidence strength, counter-evidence, and alternative explanations</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 12px;"><strong>Scope</strong></td>
+                                <td style="padding: 8px 12px;">Validate the 4-layer framework</td>
+                                <td style="padding: 8px 12px;">One empirically tractable question (6-week horizon)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Thematic Literature Review (Ch 1–4)</h2>
+
+                    <h3>Ch 1: Trust Formation in Institutional Health AI Contexts</h3>
+                    <p><em>What do we know about how users form trust when a health institution endorses an AI tool?</em></p>
+                    <ul>
+                        <li><strong>Ellis 2025:</strong> Institutional trust transfer pattern (proposed, single study)</li>
+                        <li><strong>Wong 2025:</strong> Authority-dependent trust / privacy resignation (HK, N=27)</li>
+                        <li><strong>Guo et al. 2025:</strong> Trust flows AI → physician → hospital (reverse direction to halo hypothesis)</li>
+                        <li><strong>Danish Health cohort 2025</strong> (N=39,109): Older adults more skeptical, not less</li>
+                    </ul>
+                    <p><strong>Gap:</strong> No study has experimentally tested whether institutional endorsement causally increases uncritical trust, or whether a calibration intervention can shift it.</p>
+
+                    <h3>Ch 2: Friction and Calibration as Design Interventions</h3>
+                    <p><em>What design mechanisms exist for calibrating trust without causing abandonment?</em></p>
+                    <ul>
+                        <li><strong>İnan 2025:</strong> Positive friction in dialogue systems</li>
+                        <li><strong>Ehsan 2024:</strong> Seamful XAI — exposing AI limitations as trust calibration</li>
+                        <li><strong>Pang 2021:</strong> Older adults' latent capability for trial-and-error learning</li>
+                        <li><strong>Peixoto 2025:</strong> 76/79 XAI studies excluded disability needs — accessibility constraint</li>
+                    </ul>
+                    <p><strong>Gap:</strong> No friction intervention has been tested specifically as a trust calibration tool in institutional health AI contexts.</p>
+
+                    <h3>Ch 3: Proxy Auditing — Delegation, Collaboration, and Interface Design</h3>
+                    <p><em>What happens when audit responsibility is delegated to a proxy — and what can older adults actually contribute?</em></p>
+                    <ul>
+                        <li><strong>Deng 2025 (WeAudit):</strong> Non-experts can produce useful audit insights, but sample was young volunteers</li>
+                        <li><strong>Baghestani 2024:</strong> Mixed-age collaboration dynamics — dominant-follower failure in 50% of pairs</li>
+                        <li><strong>Chong (supervisor's lab):</strong> Older adults showed strong capacity for bias identification</li>
+                        <li><strong>KangJie et al. 2025:</strong> Older adults motivated to learn about AI risks; barriers are pedagogical, not capability</li>
+                        <li><strong>Peng et al. 2024:</strong> Older adults co-designed health-misinformation chatbots, demanded tools that "teach them to judge for themselves"</li>
+                    </ul>
+                    <p><strong>Gap:</strong> No study has designed and tested a proxy auditor <em>interface</em> — the concept exists only as a paragraph in Deng 2025.</p>
+
+                    <h3>Ch 4: Temporal and Contextual Constraints</h3>
+                    <p><em>Why do we need to be cautious about any claim in this space?</em></p>
+                    <ul>
+                        <li><strong>Laupichler 2024:</strong> No AI literacy scale tested for temporal validity</li>
+                        <li><strong>Danish cohort 2022→2024:</strong> Attitudes shifted significantly in 2 years (OR 3.21)</li>
+                        <li><strong>AARP 2024:</strong> Older adults simultaneously skeptical of AI and actively using it</li>
+                    </ul>
+                    <p><strong>Implication:</strong> Any design must be adaptive. Friction calibrated to 2024 literacy levels may be patronizing by 2027.</p>
+
+                    <h2>Design Targets</h2>
+
+                    <h3>Design Target A: Trust Calibration Intervention</h3>
+                    <p>Replaces the speculative "Halo Effect Inoculation" from V3. Instead of assuming a halo effect specific to older adults, the intervention targets <strong>institutional trust transfer</strong> — a general phenomenon that occurs whenever a trusted entity (hospital, government) endorses an AI tool. The design question: what does the user see, when, and how does it shift their trust calibration?</p>
+                    <ul>
+                        <li><strong>Supporting evidence:</strong> Ellis 2025 (proposed mechanism), Guo 2025 (reverse trust transfer), Danish cohort (skepticism as counter-evidence), independence-motivation literature</li>
+                        <li><strong>Open question:</strong> Can a brief, non-disruptive friction intervention at the point of institutional endorsement measurably shift users toward calibrated trust?</li>
+                    </ul>
+
+                    <h3>Design Target B: Proxy Auditor Interface</h3>
+                    <p>Replaces the framework-level abstraction from V3. The proxy auditor is now framed as a <strong>concrete interface and role design problem</strong>: the older adult provides experiential signals (felt wrong, confusing), and a proxy handles the analytical audit work — not because the user has nothing to contribute, but because the roles are specialized.</p>
+                    <blockquote style="border-left: 4px solid var(--accent-color); padding: 12px 16px; margin: 1rem 0; background: #f8f9fa; border-radius: 0 8px 8px 0; font-size: 0.95rem;">
+                        The justification for proxy auditing is not that older adults are incapable of auditing, but that distributing roles can make auditing more effective and less burdensome in high-stakes, institutional AI settings.
+                    </blockquote>
+                    <ul>
+                        <li><strong>Supporting evidence:</strong> Deng 2025 (WeAudit), Baghestani 2024 (collaboration fragility), Chong (older adults can engage critically), KangJie 2025 + Peng 2024 (motivation and agency)</li>
+                        <li><strong>Open question:</strong> What does the proxy auditor interface look like? How is the older adult's experiential signal captured without making them passive?</li>
+                    </ul>
+
+                    <div
+                        style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <h3>Read the Full Report</h3>
+                        <p>For the complete evidence audit, claim strength tables, and search protocols, see the Week 8 Report.</p>
+                        <p style="margin-top: 1rem;"><a href="Week8_report.html"
+                                style="color: var(--accent-color);">Read Week 8 Report →</a></p>
+                    </div>
+                </div>
+
+                <!-- Version 5 Content: Advisor-Aligned HITL Proxy Auditor -->
+                <div id="v5" class="framework-version">
+                    <h2>Advisor-Aligned Direction: Human-in-the-Loop AI Proxy Auditor</h2>
+                    <p class="text-secondary" style="margin-bottom: 2rem; font-style: italic;">
+                        Version 5 operationalizes the latest advisor consensus: broaden proxy auditor beyond family, explicitly handle veneer-of-credibility risk, and prototype a capture-and-replay human support pattern for sustained trust calibration.
+                    </p>
+
+                    <div class="mermaid">
+                        graph TD
+                        subgraph themesV5 ["Thematic Literature Review (V5)"]
+                        Ch1v5["Ch 1: Institutional Trust Formation<br>as General Human Heuristic"]
+                        Ch2v5["Ch 2: Credibility Veneer Risk<br>(Nudge/Hypernudge + Endorsement Signals)"]
+                        Ch3v5["Ch 3: HITL AI Proxy Auditor Interface<br>(Capture & Replay Human Support)"]
+                        Ch4v5["Deployment Scope Boundaries<br>(embedded at end of Ch 3)"]
+                        end
+
+                        Ch1v5 -->|"credibility shortcut behavior"| Ch2v5
+                        Ch2v5 -->|"requires explicit risk-check evidence"| Ch3v5
+                        Ch3v5 -->|"needs audit trail and role boundaries"| Ch4v5
+                        Ch4v5 -->|"constraints + deployment guardrails"| RQv5
+
+                        RQv5["RQ (V5): How should a HITL AI proxy auditor<br>surface real risk-check evidence, calibrate trust,<br>and reduce repeated caregiver burden in institutional health AI?"]
+
+                        RQv5 --> DBv5["Design Target B:<br>Capture & Replay Human Support"]
+                    </div>
+
+                    <h2>Consensus Integrated (from advisor meeting)</h2>
+                    <ol style="margin-left: 1.2rem;">
+                        <li><strong>Proxy auditor is broadened:</strong> Not only family members; includes family physicians, government/public institutions, and peer adoption channels as endorsement actors.</li>
+                        <li><strong>Veneer-of-credibility is first-class risk:</strong> "Many people use it" or "an authority recommends it" can create false safety perception without real security vetting.</li>
+                        <li><strong>Design target is HITL AI proxy auditor:</strong> Human helps once, AI replays that support pattern over time to reduce family/expert fatigue while preserving user agency.</li>
+                    </ol>
+
+                    <h2>The Refined Research Question (V5)</h2>
+                    <blockquote style="border-left: 4px solid var(--accent-color); padding: 16px 20px; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 8px 8px 0;">
+                        <strong>In institutional health AI contexts, how can a human-in-the-loop proxy-auditor system transform endorsement-based trust shortcuts into evidence-based trust calibration by surfacing verifiable risk checks and replaying prior human guidance?</strong>
+                    </blockquote>
+
+                    <h2>Ch 2 &amp; Ch 3 Endpoint Adjustments (V5)</h2>
+
+                    <h3>Ch 2: From "Dark Pattern Mechanism" to "Credibility Veneer Mechanism"</h3>
+                    <ul>
+                        <li><strong>Scope expansion:</strong> Keep nudge/hypernudge analysis, but add endorsement cues (institution logo, physician mention, peer uptake, "official app" framing) as credibility accelerators.</li>
+                        <li><strong>Core risk:</strong> Surface trust can rise faster than verified safety evidence.</li>
+                        <li><strong>Design implication:</strong> Every endorsement cue must be paired with visible risk-check provenance (who checked what, when, with what method).</li>
+                    </ul>
+
+                    <h3>Ch 3: Broadened Proxy Auditor + Capture &amp; Replay</h3>
+                    <ul>
+                        <li><strong>Proxy set:</strong> Family caregiver, clinician, institutional reviewer, and trusted community representative.</li>
+                        <li><strong>HITL model:</strong> Human provides initial guided assessment; AI captures decision rationale and replay steps for future similar app evaluations.</li>
+                        <li><strong>Role principle:</strong> AI supports endorsement quality; it does not replace physician/family judgment.</li>
+                    </ul>
+
+                    <h3>Deployment Scope Boundaries (embedded in Ch 3 ending)</h3>
+                    <ul>
+                        <li><strong>Auditability:</strong> Log endorsement source, risk-check artifacts, and uncertainty/confidence statements.</li>
+                        <li><strong>Contestability:</strong> Users can inspect and challenge why an app was considered "safe enough."</li>
+                        <li><strong>Boundaries:</strong> Require periodic re-checks and expiry for old endorsements to avoid stale credibility inheritance.</li>
+                    </ul>
+
+                    <h3>Why Design Target A Was Removed</h3>
+                    <p>Design Target A (veneer-resistant trust calibration) was removed to avoid splitting implementation effort across two intervention surfaces in a short project window. In V5, credibility-veneer mitigation is treated as a <strong>design constraint</strong> across Ch 2 and the deployment-boundary section at the end of Ch 3 (evidence provenance, audit trail, expiry/revalidation), not as a standalone target. This keeps the prototype scope coherent: one build target (Target B) with clear measurable outcomes.</p>
+
+                    <h3>Design Target B: Capture &amp; Replay Human Support</h3>
+                    <p>This target reduces repeated caregiver/clinician burden by preserving one high-quality guided review as a reusable support trace for similar future app choices.</p>
+                    <ul>
+                        <li><strong>Capture block:</strong> Record what the human checked, why it mattered, and what triggers escalation.</li>
+                        <li><strong>Replay block:</strong> Re-run the same guidance flow with confidence labels and one-tap "ask human again."</li>
+                        <li><strong>Evaluation metrics:</strong> Repeat human-help requests per decision, time-to-safe-decision, and user confidence calibration drift over time.</li>
+                    </ul>
+
+                    <h2>Interface Pattern: Capture &amp; Replay Human Support</h2>
+                    <p>The core interaction pattern is a reusable <strong>support trace</strong>: a family member or physician co-reviews one app with the user, and the system records the review rationale as structured steps (warning signs checked, permissions flagged, unresolved risks). For later apps, the AI replays this trace as guided prompts, preserving human reasoning while minimizing repeated synchronous support.</p>
+                    <ul>
+                        <li><strong>Capture:</strong> "What did the human check?" + "Why was this acceptable/not acceptable?"</li>
+                        <li><strong>Replay:</strong> Stepwise prompts + confidence + "ask human again" escalation threshold.</li>
+                        <li><strong>Outcome target:</strong> Better calibrated trust with lower caregiver repetition cost.</li>
+                    </ul>
+
+                    <div
+                        style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <h3>Read the Full Report</h3>
+                        <p>For evidence strength tables and advisor-driven refinements behind this V5 shift, see the Week 8 Report and Zotero 5C updates.</p>
+                        <p style="margin-top: 1rem;"><a href="Week8_report.html"
+                                style="color: var(--accent-color);">Read Week 8 Report →</a></p>
                     </div>
                 </div>
 

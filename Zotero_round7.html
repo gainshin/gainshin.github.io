@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline' data:" />
+		<title>Zotero Report</title>
+		<link rel="stylesheet" type="text/css" href="data:text/css;base64,Ym9keSB7Cgljb2xvci1zY2hlbWU6IGxpZ2h0IGRhcms7CgkvKiBUaGVzZSBzaG91bGQgYmUgdGhlIGRlZmF1bHRzLCBidXQganVzdCBpbiBjYXNlOiAqLwoJYmFja2dyb3VuZDogQ2FudmFzOwoJY29sb3I6IENhbnZhc1RleHQ7Cn0KCmEgewoJdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Cn0KCmJvZHkgewoJcGFkZGluZzogMDsKfQoKdWwucmVwb3J0IGxpLml0ZW0gewoJYm9yZGVyLXRvcDogNHB4IHNvbGlkICM1NTU7CglwYWRkaW5nLXRvcDogMWVtOwoJcGFkZGluZy1sZWZ0OiAxZW07CglwYWRkaW5nLXJpZ2h0OiAxZW07CgltYXJnaW4tYm90dG9tOiAyZW07Cn0KCmgxLCBoMiwgaDMsIGg0LCBoNSwgaDYgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDIgewoJbWFyZ2luOiAwIDAgLjVlbTsKfQoKaDIucGFyZW50SXRlbSB7Cglmb250LXdlaWdodDogNjAwOwoJZm9udC1zaXplOiAxZW07CglwYWRkaW5nOiAwIDAgLjVlbTsKCWJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjY2NjOwp9CgovKiBJZiBjb21iaW5pbmcgY2hpbGRyZW4sIGRpc3BsYXkgcGFyZW50IHNsaWdodGx5IGxhcmdlciAqLwp1bC5yZXBvcnQuY29tYmluZUNoaWxkSXRlbXMgaDIucGFyZW50SXRlbSB7Cglmb250LXNpemU6IDEuMWVtOwoJcGFkZGluZy1ib3R0b206IC43NWVtOwoJbWFyZ2luLWJvdHRvbTogLjRlbTsKfQoKaDIucGFyZW50SXRlbSAudGl0bGUgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDMgewoJbWFyZ2luLWJvdHRvbTogLjZlbTsKCWZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDsKCWZvbnQtc2l6ZTogMWVtOwoJZGlzcGxheTogYmxvY2s7Cn0KCi8qIE1ldGFkYXRhIHRhYmxlICovCnRoIHsKCXZlcnRpY2FsLWFsaWduOiB0b3A7Cgl0ZXh0LWFsaWduOiByaWdodDsKCXdpZHRoOiAxNSU7Cgl3aGl0ZS1zcGFjZTogbm93cmFwOwp9Cgp0ZCB7CglwYWRkaW5nLWxlZnQ6IC41ZW07Cn0KCgp1bC5yZXBvcnQsIHVsLm5vdGVzLCB1bC50YWdzIHsKCWxpc3Qtc3R5bGU6IG5vbmU7CgltYXJnaW4tbGVmdDogMDsKCXBhZGRpbmctbGVmdDogMDsKfQoKLyogVGFncyAqLwpoMy50YWdzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLnRhZ3MgewoJbGluZS1oZWlnaHQ6IDEuNzVlbTsKCWxpc3Qtc3R5bGU6IG5vbmU7Cn0KCnVsLnRhZ3MgbGkgewoJZGlzcGxheTogaW5saW5lOwp9Cgp1bC50YWdzIGxpOm5vdCg6bGFzdC1jaGlsZCk6YWZ0ZXIgewoJY29udGVudDogJywgJzsKfQoKCi8qIENoaWxkIG5vdGVzICovCmgzLm5vdGVzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLm5vdGVzIHsKCW1hcmdpbi1ib3R0b206IDEuMmVtOwp9Cgp1bC5ub3RlcyA+IGxpOmZpcnN0LWNoaWxkIHAgewoJbWFyZ2luLXRvcDogMDsKfQoKdWwubm90ZXMgPiBsaSB7CglwYWRkaW5nOiAuN2VtIDA7Cn0KCnVsLm5vdGVzID4gbGk6bm90KDpsYXN0LWNoaWxkKSB7Cglib3JkZXItYm90dG9tOiAxcHggI2NjYyBzb2xpZDsKfQoKCnVsLm5vdGVzID4gbGkgcDpmaXJzdC1jaGlsZCB7CgltYXJnaW4tdG9wOiAwOwp9Cgp1bC5ub3RlcyA+IGxpIHA6bGFzdC1jaGlsZCB7CgltYXJnaW4tYm90dG9tOiAwOwp9CgovKiBBZGQgcXVvdGF0aW9uIG1hcmtzIGFyb3VuZCBibG9ja3F1b3RlICovCnVsLm5vdGVzID4gbGkgYmxvY2txdW90ZSBwOm5vdCg6ZW1wdHkpOmJlZm9yZSwKbGkubm90ZSBibG9ja3F1b3RlIHA6bm90KDplbXB0eSk6YmVmb3JlIHsKCWNvbnRlbnQ6ICfigJwnOwp9Cgp1bC5ub3RlcyA+IGxpIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyLApsaS5ub3RlIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyIHsKCWNvbnRlbnQ6ICfigJ0nOwp9CgovKiBQcmVzZXJ2ZSB3aGl0ZXNwYWNlIG9uIHBsYWludGV4dCBub3RlcyAqLwp1bC5ub3RlcyBsaSBwLnBsYWludGV4dCwgbGkubm90ZSBwLnBsYWludGV4dCwgZGl2Lm5vdGUgcC5wbGFpbnRleHQgewoJd2hpdGUtc3BhY2U6IHByZS13cmFwOwp9CgovKiBEaXNwbGF5IHRhZ3Mgd2l0aGluIGNoaWxkIG5vdGVzIGlubGluZSAqLwp1bC5ub3RlcyBoMy50YWdzIHsKCWRpc3BsYXk6IGlubGluZTsKCWZvbnQtc2l6ZTogMWVtOwp9Cgp1bC5ub3RlcyBoMy50YWdzOmFmdGVyIHsKCWNvbnRlbnQ6ICcgJzsKfQoKdWwubm90ZXMgdWwudGFncyB7CglkaXNwbGF5OiBpbmxpbmU7Cn0KCnVsLm5vdGVzIHVsLnRhZ3MgbGk6bm90KDpsYXN0LWNoaWxkKTphZnRlciB7Cgljb250ZW50OiAnLCAnOwp9CgoKLyogQ2hpbGQgYXR0YWNobWVudHMgKi8KaDMuYXR0YWNobWVudHMgewoJZm9udC1zaXplOiAxLjFlbTsKfQoKdWwuYXR0YWNobWVudHMgbGkgewoJcGFkZGluZy10b3A6IC41ZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHsKCW1hcmdpbi1sZWZ0OiAyZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHA6Zmlyc3QtY2hpbGQgewoJbWFyZ2luLXRvcDogLjc1ZW07Cn0KCmRpdiB0YWJsZSB7Cglib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwp9CgpkaXYgdGFibGUgdGQsIGRpdiB0YWJsZSB0aCB7Cglib3JkZXI6IDFweCAjY2NjIHNvbGlkOwoJYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKCXdvcmQtYnJlYWs6IGJyZWFrLWFsbDsKfQoKZGl2IHRhYmxlIHRkIHA6ZW1wdHk6OmFmdGVyLCBkaXYgdGFibGUgdGggcDplbXB0eTo6YWZ0ZXIgewoJY29udGVudDogIlwwMGEwIjsKfQoKZGl2IHRhYmxlIHRkICo6Zmlyc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmZpcnN0LWNoaWxkIHsKCW1hcmdpbi10b3A6IDA7Cn0KCmRpdiB0YWJsZSB0ZCAqOmxhc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmxhc3QtY2hpbGQgewoJbWFyZ2luLWJvdHRvbTogMDsKfQo="/>
+		<link rel="stylesheet" type="text/css" media="screen,projection" href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg=="/>
+		<link rel="stylesheet" type="text/css" media="print" href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg=="/>
+	</head>
+	<body>
+		<ul class="report combineChildItems">
+			<li id="item_ZI4NHQCJ" class="item bookSection">
+			<h2>Ageism in the Health Care System: Providers, Patients, and Systems</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Book Section</td>
+					</tr>
+					<tr>
+						<th class="editor">Editor</th>
+						<td>Liat Ayalon</td>
+					</tr>
+					<tr>
+						<th class="editor">Editor</th>
+						<td>Clemens Tesch-Römer</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Mary F. Wyman</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Sharon Shiovitz-Ezra</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jürgen Bengel</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2018</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Ageism in the Health Care System</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="http://link.springer.com/10.1007/978-3-319-73820-8_13">http://link.springer.com/10.1007/978-3-319-73820-8_13</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-11, 10:42:12 p.m.</td>
+					</tr>
+					<tr>
+					<th>Extra</th>
+						<td>Series Title: International Perspectives on Aging</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>19</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Cham</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>Springer International Publishing</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>978-3-319-73819-2 978-3-319-73820-8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>193-212</td>
+					</tr>
+					<tr>
+					<th>Book Title</th>
+						<td>Contemporary Perspectives on Ageism</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1007/978-3-319-73820-8_13">10.1007/978-3-319-73820-8_13</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-11, 10:42:12 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-11, 10:42:12 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_ZUMWITAZ">
+<div><div data-schema-version="9"><p>Supporting </p>
+<p><strong>Round 7 Classification</strong></p>
+<p>Tier 3 Supporting | Ch 1 | Dim A (Trust)</p>
+<p>Book chapter (non-HCI venue); keep as indirect/background support only.</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_2E66H6FC">Full Text					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_UT5HTD5I" class="item preprint">
+			<h2>AI Literacy Education for Older Adults: Motivations, Challenges and Preferences</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Preprint</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Eugene Tang KangJie</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Tianqi Song</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Zicheng Zhu</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jingshu Li</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Yi-Chieh Lee</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>As Artificial Intelligence (AI) becomes increasingly integrated into older adults&apos; daily lives, equipping them with the knowledge and skills to understand and use AI is crucial. However, most research on AI literacy education has focused on students and children, leaving a gap in understanding the unique needs of older adults when learning about AI. To address this, we surveyed 103 older adults aged 50 and above (Mean = 64, SD = 7). Results revealed that they found it important and were motivated to learn about AI because they wish to harness the benefits and avoid the dangers of AI, seeing it as necessary to cope in the future. However, they expressed learning challenges such as difficulties in understanding and not knowing how to start learning AI. Particularly, a strong preference for hands-on learning was indicated. We discussed design opportunities to support AI literacy education for older adults.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-20</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>AI Literacy Education for Older Adults</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>arXiv.org</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="http://arxiv.org/abs/2504.14649">http://arxiv.org/abs/2504.14649</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-06, 10:07:34 a.m.</td>
+					</tr>
+					<tr>
+					<th>Extra</th>
+						<td>arXiv:2504.14649 [cs]</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.48550/arXiv.2504.14649">10.48550/arXiv.2504.14649</a></td>
+					</tr>
+					<tr>
+					<th>Repository</th>
+						<td>arXiv</td>
+					</tr>
+					<tr>
+					<th>Archive ID</th>
+						<td>arXiv:2504.14649</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-06, 10:07:34 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-06, 10:07:34 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="tags">Tags:</h3>
+				<ul class="tags">
+					<li>Computer Science - Human-Computer Interaction</li>
+				</ul>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_7JAGULBG">
+<div><div data-schema-version="9"><p><strong><span style="color: rgb(142, 36, 170);"><span style="background-color: rgb(255, 255, 255);">Positionality</span></span></strong></p>
+<p><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">arXiv preprint (HCI line, submitted 2025). <a href="https://doi.org/10.48550/arXiv.2504.14649" rel="noopener noreferrer nofollow">https://doi.org/10.48550/arXiv.2504.14649</a></span></span></p>
+<p></p>
+</div></div>
+					</li>
+					<li id="item_A7LUTQ4Y">
+<div><div data-schema-version="9"><p>5C</p>
+<p><strong><span style="color: rgb(92, 107, 192);"><span style="background-color: rgb(255, 255, 255);">Context</span></span><span style="color: rgb(120, 119, 116);"><span style="background-color: rgb(240, 240, 240);">Dim A + B: Trust + AI Literacy</span></span></strong></p>
+<p><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Survey of 103 older adults (mean age 64, 50+) on AI literacy motivations, challenges, and learning preferences. Explores willingness and capacity to learn about AI risks and operations.</span></span></p>
+<p><strong><span style="color: rgb(38, 166, 154);"><span style="background-color: rgb(255, 255, 255);">Characters</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Older adults (N=103, 50+):</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Strong motivation to learn about AI — avoiding scams/risks, keeping up with the future, understanding AI decisions that affect them.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Barriers as access, not capability:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Biggest challenges: not knowing where to start, abstract concepts — pedagogical/access barriers, not cognitive deficits.</span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(239, 83, 80);"><span style="background-color: rgb(255, 255, 255);">Conflicts</span></span><span style="color: rgb(120, 119, 116);"><span style="background-color: rgb(240, 240, 240);">Capability-Deficit vs. Access Barriers</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">B1 counter-evidence:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Counters capability-deficit models. Older adults are willing and able to learn about AI risks when given appropriate formats.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Implication for Peixoto (AI literacy gap):</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Barriers are driven by access and instructional design, not inherent incapacity. Temporal validity: AI literacy is rapidly evolving.</span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(255, 167, 38);"><span style="background-color: rgb(255, 255, 255);">Consequences</span></span></strong></p>
+<ul>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Clear preference for hands-on, iterative learning with social support.</span></span>
+</li>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Directly counters framing of older adults as permanently passive users who cannot engage with AI quality.</span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(102, 187, 106);"><span style="background-color: rgb(255, 255, 255);">Countermeasures</span></span></strong></p>
+<ul>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">AI literacy education: appropriate teaching formats and interactive modalities; barriers are pedagogical design and access, not inherent incapacity.</span></span>
+</li>
+</ul>
+<p></p>
+</div></div>
+					</li>
+					<li id="item_2R7KANGC">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 2 | Ch 1 + Ch 3 | Dim A + B</p>
+<p>Status: already in B1. Add explicit Ch 3 design-implication linkage in synthesis.</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_WJSE85WC">Preprint PDF					</li>
+					<li id="item_29CVQ335">Snapshot					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_E8A5BIPQ" class="item journalArticle">
+			<h2>Changes in public perception of artificial intelligence in healthcare after exposure to ChatGPT</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Anders Aasted Isaksen</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jonas Rosborg Schaarup</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Lasse Bjerg</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Adam Hulman</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Abstract
+            The public perception of artificial intelligence (AI) in healthcare is key to its large-scale acceptance and implementation. This study investigated how exposure to ChatGPT changed public perception of AI in healthcare, using baseline and follow-up data from 5899 survey participants reporting their perception of AI in 2022 (before ChatGPT’s launch) and 2024, and ChatGPT use in 2024. Multinomial multivariate logistic regression was used to model how exposure to ChatGPT use affected changes in perception of AI. At follow-up, 1195 individuals (20%) had been exposed to ChatGPT use, which was associated with higher odds of changing perception of AI to beneficial (OR 3.21 [95% CI: 2.34–4.40]) among individuals who were unsure at baseline, and lower odds of changing to uncertainty from more defined baseline perceptions. This study demonstrates the potential for reducing uncertainty and improving public perception of AI in healthcare through exposure to AI tools.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-11-25</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.nature.com/articles/s41746-025-02169-x">https://www.nature.com/articles/s41746-025-02169-x</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-11, 10:30:12 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>795</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>npj Digital Medicine</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1038/s41746-025-02169-x">10.1038/s41746-025-02169-x</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>1</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>npj Digit. Med.</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2398-6352</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-11, 10:30:12 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-11, 10:30:12 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_2R7ISAKN">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 1 | Ch 1 | Dim A (Trust)</p>
+<p>High-quality counter-evidence (npj Digital Medicine): older age predicts lower transition from uncertainty to positive AI perception (OR=0.86 per 10-year increase).</p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_EPY5QVT7" class="item journalArticle">
+			<h2>Conceptualizing AI literacy: An exploratory review</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Davy Tsz Kit Ng</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jac Ka Lok Leung</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Samuel Kai Wah Chu</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Maggie Shen Qiao</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2021</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Conceptualizing AI literacy</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://linkinghub.elsevier.com/retrieve/pii/S2666920X21000357">https://linkinghub.elsevier.com/retrieve/pii/S2666920X21000357</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-11, 10:39:38 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>2</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>100041</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Computers and Education: Artificial Intelligence</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1016/j.caeai.2021.100041">10.1016/j.caeai.2021.100041</a></td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Computers and Education: Artificial Intelligence</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2666920X</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-11, 10:39:38 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-11, 10:39:38 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_2R7NG202">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 2 Supporting | Ch 1 | Dim B (AI Literacy)</p>
+<p>Foundational AI literacy framework (Know/Understand, Use/Apply, Evaluate/Create, Ethical Issues); supporting source, not core HCI venue evidence.</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_VG8X3HRL">ScienceDirect Full Text PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_NVNEBCXD" class="item journalArticle">
+			<h2>Determinants of Trust in Health Care in an Older Population</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Natalie Guerrero</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Carlos F. Mendes De Leon</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Denis A. Evans</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Elizabeth A. Jacobs</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Objectives
+              To explore differences in sociodemographic and psychological correlates of institutional trust in health care in an aging population of African Americans and non‐Hispanic whites.
+            
+            
+              Design
+              Cross‐sectional survey data from the longitudinal Chicago Health and Aging Project.
+            
+            
+              Setting
+              Population‐based study of three communities in the Chicago area.
+            
+            
+              Participants
+              African Americans (n = 2,284) and non‐Hispanic whites (1,354) with a mean age of 79.3.
+            
+            
+              Measurements
+              
+                Demographic factors, socioeconomic status (
+                SES
+                ), healthcare access, cynical hostility, perceived discrimination, depression, and institutional trust in health care.
+              
+            
+            
+              Results
+              
+                African Americans reported substantially lower healthcare trust than non‐Hispanic whites (
+                P 
+                &lt; .001). After adjustment for demographic variables and
+                SES
+                , only race (
+                P
+                 &lt; .001) and age (
+                P
+                 = .008) were significantly associated with healthcare trust scores. The association between race and healthcare trust was slightly attenuated after adjusting for cynical hostility, depressive symptoms, and perceived discrimination (
+                P
+                 &lt; .001). Each of these variables was negatively associated with healthcare trust, and together these accounted for approximately 15% of racial differences in healthcare trust.
+              
+            
+            
+              Conclusion
+              
+                Psychological factors, not demographic characteristics,
+                SES
+                , or healthcare factors, appear to contribute the most to disparities in healthcare trust between older African Americans and non‐Hispanic whites.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>03/2015</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.13316">https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.13316</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-12, 3:21:55 p.m.</td>
+					</tr>
+					<tr>
+					<th>License</th>
+						<td>http://onlinelibrary.wiley.com/termsAndConditions#vor</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>63</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>553-557</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Journal of the American Geriatrics Society</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1111/jgs.13316">10.1111/jgs.13316</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>3</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>J American Geriatrics Society</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>0002-8614, 1532-5415</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-12, 3:21:55 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-12, 3:21:55 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_R7_NVNEBCXD_NOTE">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 3 Supporting | Ch 1 | Dim A (Trust)</p>
+<p>Non-HCI geriatric healthcare-trust evidence. Use as background moderator (race/age/hostility/discrimination) for trust heterogeneity, not as primary interface-level evidence.</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_AG53XK3H">Full Text PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_PUDQAIXM" class="item journalArticle">
+			<h2>Health Care Contact Days Among Older Adults in Traditional Medicare: A Cross-Sectional Study</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Ishani Ganguli</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Emma D. Chant</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>E. John Orav</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Ateev Mehrotra</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Christine S. Ritchie</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>02/2024</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Health Care Contact Days Among Older Adults in Traditional Medicare</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.acpjournals.org/doi/10.7326/M23-2331">https://www.acpjournals.org/doi/10.7326/M23-2331</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-12, 3:25:42 p.m.</td>
+					</tr>
+					<tr>
+					<th>License</th>
+						<td>https://www.acpjournals.org/journal/aim/text-and-data-mining</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>177</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>125-133</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>Annals of Internal Medicine</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.7326/M23-2331">10.7326/M23-2331</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>2</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>Ann Intern Med</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>0003-4819, 1539-3704</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-12, 3:25:42 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-12, 3:25:42 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_R7_PUDQAIXM_NOTE">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 3 Supporting | Ch 1 | Dim A (Care-System Dependence Context)</p>
+<p>Non-HCI utilization baseline (older adults spend substantial days in healthcare contact). Keep as contextual support for vulnerability/exposure pressure, not direct AI-trust or UI-causality evidence.</p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_JEJIH8TI" class="item journalArticle">
+			<h2>Leveraging Chatbots to Combat Health Misinformation for Older Adults: Participatory Design Study</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wei Peng</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Hee Rin Lee</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Sue Lim</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Background
+              Older adults, a population particularly susceptible to misinformation, may experience attempts at health-related scams or defrauding, and they may unknowingly spread misinformation. Previous research has investigated managing misinformation through media literacy education or supporting users by fact-checking information and cautioning for potential misinformation content, yet studies focusing on older adults are limited. Chatbots have the potential to educate and support older adults in misinformation management. However, many studies focusing on designing technology for older adults use the needs-based approach and consider aging as a deficit, leading to issues in technology adoption. Instead, we adopted the asset-based approach, inviting older adults to be active collaborators in envisioning how intelligent technologies can enhance their misinformation management practices.
+            
+            
+              Objective
+              This study aims to understand how older adults may use chatbots’ capabilities for misinformation management.
+            
+            
+              Methods
+              We conducted 5 participatory design workshops with a total of 17 older adult participants to ideate ways in which chatbots can help them manage misinformation. The workshops included 3 stages: developing scenarios reflecting older adults’ encounters with misinformation in their lives, understanding existing chatbot platforms, and envisioning how chatbots can help intervene in the scenarios from stage 1.
+            
+            
+              Results
+              We found that issues with older adults’ misinformation management arose more from interpersonal relationships than individuals’ ability to detect misinformation in pieces of information. This finding underscored the importance of chatbots to act as mediators that facilitate communication and help resolve conflict. In addition, participants emphasized the importance of autonomy. They desired chatbots to teach them to navigate the information landscape and come to conclusions about misinformation on their own. Finally, we found that older adults’ distrust in IT companies and governments’ ability to regulate the IT industry affected their trust in chatbots. Thus, chatbot designers should consider using well-trusted sources and practicing transparency to increase older adults’ trust in the chatbot-based tools. Overall, our results highlight the need for chatbot-based misinformation tools to go beyond fact checking.
+            
+            
+              Conclusions
+              This study provides insights for how chatbots can be designed as part of technological systems for misinformation management among older adults. Our study underscores the importance of inviting older adults to be active co-designers of chatbot-based interventions.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2024-10-11</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Leveraging Chatbots to Combat Health Misinformation for Older Adults</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://formative.jmir.org/2024/1/e60712">https://formative.jmir.org/2024/1/e60712</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-06, 10:06:54 a.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>8</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>e60712</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>JMIR Formative Research</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.2196/60712">10.2196/60712</a></td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>JMIR Form Res</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>2561-326X</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-06, 10:06:54 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-06, 10:06:54 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_Q7BZUCHX">
+<div><div data-schema-version="9"><p><strong><span style="color: rgb(109, 76, 65);"><span style="background-color: rgb(255, 255, 255);">Research Warrant</span></span></strong></p>
+<p><strong><span style="color: rgb(198, 40, 40);"><span style="background-color: rgb(252, 228, 236);">Gap</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;</span></span><strong><span style="color: rgb(21, 101, 192);"><span style="background-color: rgb(227, 242, 253);">Insight</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;</span></span><strong><span style="color: rgb(46, 125, 50);"><span style="background-color: rgb(232, 245, 233);">Practice</span></span></strong></p>
+<p><strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Gap:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Limited research on how older adults themselves envision the role of chatbots in dealing with health misinformation, especially regarding relational and educational functions (beyond fact-checking).</span></span></p>
+<p><strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Insight:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Older adults do not simply want chatbots to "tell them what is true"; they want tools that teach them how to judge information, preserve family relationships, and integrate chatbot advice with professional medical care.</span></span></p>
+<p><strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Practice:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Chatbots should be designed as learning companions and conversation facilitators, embedding explanations, question prompts, and relational sensitivity, not just binary verdicts. For the project, this counters stereotypes of older adults as uniformly gullible and points to "boost-like" uses beyond hypernudge/halo risks.</span></span></p>
+<p></p>
+</div></div>
+					</li>
+					<li id="item_DSFDF5BL">
+<div><div data-schema-version="9"><p><strong><span style="color: rgb(142, 36, 170);"><span style="background-color: rgb(255, 255, 255);">Positionality</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Research framing:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;HCI / communication researchers framing older adults as co-designers with valuable experiential expertise, not as a "deficit" population.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Sampling limitation:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Workshops conducted in English in a specific socio-cultural context; participants with higher education and digital access are likely over-represented, shaping what "older adult needs" look like.</span></span>
+</li>
+</ul>
+<p></p>
+</div></div>
+					</li>
+					<li id="item_ZKNBFJ7T">
+<div><div data-schema-version="9"><p>5C</p>
+<p><strong><span style="color: rgb(92, 107, 192);"><span style="background-color: rgb(255, 255, 255);">Context</span></span><span style="color: rgb(120, 119, 116);"><span style="background-color: rgb(240, 240, 240);">Dim A: Trust + Critical Agency</span></span></strong></p>
+<p><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Participatory design study (5 workshops, N=17 older adults) in Singapore co-designing chatbot features to help older adults navigate online health misinformation. Situated in a context where older adults regularly encounter conflicting health advice via social media, messaging apps, and news, with COVID-19 as a salient backdrop.</span></span></p>
+<p><strong><span style="color: rgb(38, 166, 154);"><span style="background-color: rgb(255, 255, 255);">Characters</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Older adults (mean ~68):</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Active information seekers with diverse digital skills; many have lived experience of health misinformation affecting themselves or family.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Chatbots:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Imagined as potential "companion" or "coach" that supports evaluation of information, not just an answer-giving oracle.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Designers / researchers:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Facilitators of co-design workshops, translating older adults' stories into concrete design requirements.<br></span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(239, 83, 80);"><span style="background-color: rgb(255, 255, 255);">Conflicts</span></span><span style="color: rgb(120, 119, 116);"><span style="background-color: rgb(240, 240, 240);">Deficit View vs. Active Agency</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">B1 counter-evidence:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Participants feel overwhelmed by misinformation but resist being treated as passive recipients of "correct" information.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Autonomy vs. guidance tension:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Tension between wanting quick, trustworthy guidance and wanting to maintain autonomy and relationships (e.g., not simply "proving relatives wrong").</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Conditional chatbot trust:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Trust in chatbots is conditional: older adults express concerns about data use, authority, and cultural fit, even as they see potential benefits.</span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(255, 167, 38);"><span style="background-color: rgb(255, 255, 255);">Consequences</span></span></strong></p>
+<ul>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">If chatbots only provide fact-checking labels, they risk undermining older adults' agency or escalating family conflict; designs that ignore social context may fail or be rejected.</span></span>
+</li>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">When chatbots are designed to scaffold critical thinking and conversation strategies, they can strengthen older adults' confidence and relational communication around misinformation.</span></span>
+</li>
+<li>
+<span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Counters stereotypes of older adults as uniformly gullible: some users seek ChatGPT as a critical thinking aid — coding should capture these "boost-like" uses, not only hypernudge/halo risks.</span></span>
+</li>
+</ul>
+<p><strong><span style="color: rgb(102, 187, 106);"><span style="background-color: rgb(255, 255, 255);">Countermeasures</span></span><span style="color: rgb(120, 119, 116);"><span style="background-color: rgb(240, 240, 240);">→ Ch 3 Friction / Boost Design</span></span></strong></p>
+<ul>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Explanatory chatbot design:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Chatbots that explain&nbsp;</span></span><em><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">why</span></span></em><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;information may be misleading, offer questions to ask doctors, and suggest respectful ways to discuss misinformation with family.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Conversational scaffolding:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Emphasise conversational, tailored explanations and support for joint decision-making (user + clinician), rather than unilateral corrective messaging.</span></span>
+</li>
+<li>
+<strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">Learning companion model:</span></span></strong><span style="color: rgb(55, 53, 47);"><span style="background-color: rgb(255, 255, 255);">&nbsp;Chatbots should be designed as learning companions and conversation facilitators, embedding explanations, question prompts, and relational sensitivity — not just binary verdicts.</span></span>
+</li>
+</ul>
+<p></p>
+</div></div>
+					</li>
+					<li id="item_2R7PENGC">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Tier 2 | Ch 1 + Ch 3 | Dim A (Trust + Critical Agency)</p>
+<p>Status: already in B1. Add explicit Ch 3 tag as design implication (friction/boost and autonomy-preserving support).</p>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_Q48PJIYH">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_X97KIHZA" class="item journalArticle">
+			<h2>Trust transfer from medical AI to doctors and hospitals: Integrating digital, AI, and scientific literacy in a cross-sectional framework</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jie Yao</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Zhibo Zhou</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Huaqing Cui</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Yujie Ouyang</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wenhao Han</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-10-17</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Trust transfer from medical AI to doctors and hospitals</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://bmcmedethics.biomedcentral.com/articles/10.1186/s12910-025-01300-7">https://bmcmedethics.biomedcentral.com/articles/10.1186/s12910-025-01300-7</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-11, 10:34:34 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>26</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>144</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>BMC Medical Ethics</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1186/s12910-025-01300-7">10.1186/s12910-025-01300-7</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>1</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>BMC Med Ethics</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1472-6939</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-11, 10:34:34 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-11, 10:34:34 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_2R7YAO25">
+<div><div data-schema-version="9"><p><strong>Round 7 Classification</strong></p>
+<p>Supporting | Ch 1 | Dim A (Trust)</p>
+<p>Non-HCI venue (BMC Medical Ethics). Keep as structural support for reverse trust-transfer direction (AI → physician → hospital), not a core HCI anchor.</p>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</body>
+</html>
