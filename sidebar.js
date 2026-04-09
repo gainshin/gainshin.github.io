@@ -25,6 +25,8 @@ const sidebarNavData = [
             { href: "Week7_report.html", icon: "file-text", label: "Week 7 Progress Report", id: "week7" },
             { href: "Week8_report.html", icon: "file-text", label: "Week 8 Progress Report", id: "week8" },
             { href: "Week9_report.html", icon: "file-text", label: "Week 9 Progress Report", id: "week_9" },
+            { href: "Week10_11_report.html", icon: "file-text", label: "Week 10–11 Progress Report", id: "week_10_11" },
+            { href: "Week12_13_report.html", icon: "file-text", label: "Week 12–13 Progress Report", id: "week_12_13" },
         ]
     },
     {
@@ -48,6 +50,7 @@ const sidebarNavData = [
             { href: "Zotero_round5.html", icon: "bookmark", label: "Zotero Report (Round 5)", id: "zotero5" },
             { href: "Zotero_round6.html", icon: "bookmark", label: "Zotero Report (Round 6)", id: "zotero6" },
             { href: "Zotero_round7.html", icon: "bookmark", label: "Zotero Report (Round 7)", id: "zotero7" },
+            { href: "Zotero_round8.html", icon: "bookmark", label: "Zotero Report (Round 8)", id: "zotero8" },
             { href: "Zotero_5C.html", icon: "scan-search", label: "5C Thematic Framework", id: "zotero-5c" },
             { href: "Zotero_5C_graph.html", icon: "git-fork", label: "Literature Relation Graph", id: "zotero-5c-graph" },
             { href: "Zotero_5C_graph_V5.html", icon: "workflow", label: "Literature Relation Graph (V5)", id: "zotero-5c-graph-v5" },

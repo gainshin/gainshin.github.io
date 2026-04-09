@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 12–13 Progress Report - INFS603 Research Proposal Outline - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            border-right: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: background-color 0.15s, color 0.15s;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumbs {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 6px;
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 28px 28px 56px;
+        }
+
+        .report-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 260px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .report-toc {
+            position: sticky;
+            top: 84px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #fcfcfb;
+            padding: 14px 14px 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .report-toc h3 {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+
+        .report-toc a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.45;
+            padding: 6px 4px;
+            border-radius: 6px;
+            margin-bottom: 2px;
+        }
+
+        .report-toc a.toc-sub {
+            padding-left: 14px;
+            font-size: 12px;
+        }
+
+        .report-toc a:hover {
+            background: #f3f3f1;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        h2 {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            line-height: 1.35;
+            font-weight: 600;
+        }
+
+        p,
+        li {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin: 10px 0 0 22px;
+        }
+
+        .outline ul ul {
+            margin-top: 6px;
+        }
+
+        .rq-box {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 12px 0 20px;
+            background: #fcfcfb;
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        .rq-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .ref-entry {
+            margin: 0 0 11px 0;
+            padding-left: 2em;
+            text-indent: -2em;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .ref-entry a {
+            color: #1a5fb4;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .ref-entry a:hover {
+            text-decoration: underline;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        @media (max-width: 920px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 1000;
+                transition: left 0.25s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 999;
+                background: rgba(0, 0, 0, 0.35);
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            .report-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .report-toc {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <a href="Research.html">Research</a>
+                <span class="separator">/</span>
+                <span class="current">Week 12–13 Report</span>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="report-layout">
+                <div class="report-body outline">
+                    <h1>Week 12–13 Progress Report</h1>
+                    <p class="subtitle">
+                        Navigable outline of the INFS 603 research proposal draft: introduction, three-chapter literature review, research question, method (CSO), analysis, limitations, and references.
+                    </p>
+
+                    <h2 id="introduction">Introduction</h2>
+                    <ul>
+                        <li>AI embedded in health systems; older adults as priority users but underrepresented in safety and risk-mitigation design.</li>
+                        <li>Barriers and trust tensions (Wildenbos et al.; Sakaguchi-Tang et al.; Ellis et al.); conversational AI enables adaptive, behavior-responsive influence.</li>
+                        <li>Credibility veneer risk: institutional cues and clinical tone can relax risk checking before substantive evidence (Yeung; Faraoni; Duane).</li>
+                        <li>Governance principles (WHO; NIST; Shneiderman) vs. gap at interaction level: how interfaces surface uncertainty, contestability, and trust reasoning from <em>proxy audit evidence</em>.</li>
+                        <li>Definitions: proxy audit evidence as what a trusted assistant saves when reviewing an AI recommendation; replay formats as alternative presentations of that material.</li>
+                        <li>Study aim: qualitative CSO-style comparison of two replay formats; reflexive thematic analysis; no &ldquo;winning&rdquo; format or presupposed correct trust (Lee &amp; See lens).</li>
+                        <li>Literature structure: four argumentative lines (institutional shortcuts &rarr; hypernudge; UI audit limits &rarr; intervention layer; cognitive forcing &rarr; seamful evidence; mechanisms &rarr; capture-and-replay proxy workflow).</li>
+                    </ul>
+
+                    <h2 id="literature-review">Literature review</h2>
+
+                    <h3 id="lit-ch1">Chapter 1: Institutional trust shortcuts and calibration limits (older adults)</h3>
+                    <ul>
+                        <li>Multi-path institutional trust: Guerrero; Ganguli; Wyman — not reducible to halo-only narrative.</li>
+                        <li>Ellis et al. (2025) pivot: institutional embedding &rarr; lower privacy concerns; caveats (literacy, familiarity, sampling); Lee &amp; See framing of calibration drift.</li>
+                        <li>Wong et al.: endorsement cues suspend scrutiny; Yu &amp; Chen: social influence strongest predictor; synthesis with Sakaguchi-Tang on trust–usability coupling.</li>
+                        <li>Bounded halo: Pang; Peng; KangJie et al.; Isaksen et al. — conditional, context-sensitive reasoning.</li>
+                        <li>Transition to Ch2: family-mediated support; adult children as informal proxy auditors; Wang et al. on mental-model gaps; escalation to adaptive manipulation.</li>
+                    </ul>
+
+                    <h3 id="lit-ch2">Chapter 2: Static dark patterns to adaptive hypernudge — credibility veneer</h3>
+                    <ul>
+                        <li>Baseline: Thaler &amp; Sunstein; Gray et al.; Brignull — static dark patterns, externally auditable.</li>
+                        <li>Yeung: hypernudge as dynamic, personalized feedback loop; Duane: digital nudge taxonomy, dark nudges, conversational dampening of evaluation.</li>
+                        <li>Two-axis map: governance strength &times; personalization/visibility; hypernudge in high-personalization, weak-governance quadrant vs. Shneiderman HCAI ideal.</li>
+                        <li>Faraoni: dual invisibility (users + designers); UI audit structurally insufficient — demand for different intervention logic.</li>
+                        <li>Paired conclusions: endorsement + hypernudge upgrades Ch1 shortcuts; insufficiency of UI-only audit. Bridges: Faraoni &rarr; Gull&iacute; &rarr; Ehsan; Duane &rarr; HelpCall; Lee &amp; See &rarr; HelpCall; Shneiderman normative ceiling.</li>
+                    </ul>
+
+                    <h3 id="lit-ch3">Chapter 3: HITL proxy auditor — cognitive forcing to capture-and-replay</h3>
+                    <ul>
+                        <li>Normative anchors: Lee &amp; See (appropriate reliance); Shneiderman (high automation + high human control).</li>
+                        <li>Gull&iacute;: cognitive forcing functions vs. Faraoni&rsquo;s dynamic manipulation; vocabulary for Ehsan and HelpCall.</li>
+                        <li>Ehsan et al.: seamful XAI; Inan et al.: positive friction.</li>
+                        <li>Older-adult grounding: Zubatiy et al.; Brewer et al.; Baghestani et al. (proxy collaboration fragility).</li>
+                        <li>HelpCall (Tanprasert et al.): capture-and-replay precedent; Duane contrast (replay vs. real-time hypernudge pressure).</li>
+                        <li>Deployment boundary: Hirsch (contestability); Deng et al. (user participation in auditing/contesting).</li>
+                        <li>Closing qual question: replay format &rarr; what participants notice, refer to, and draw on when reasoning about trust.</li>
+                    </ul>
+
+                    <h3 id="lit-conclusion">Conclusion of the literature review</h3>
+                    <ul>
+                        <li>Three-layer chain: Ch1 shortcuts &rarr; Ch2 hypernudge + UI-audit insufficiency &rarr; Ch3 structured human judgment + capture-and-replay.</li>
+                        <li>Two openings for qualitative work: (1) credibility veneer in dynamic conversational deployment (limited direct HCI observation); (2) how replay format shapes noticing / referring / drawing on proxy audit evidence — underexplored.</li>
+                    </ul>
+
+                    <h2 id="research-question">Research question</h2>
+                    <div class="rq-box">
+                        <strong>Research question</strong>
+                        How do different replay formats shape how participants notice, refer to, and draw on proxy audit evidence when they reason about trust in an AI health recommendation during medical decision-making?
+                    </div>
+                    <ul>
+                        <li>Qualitative; no presupposed &ldquo;better&rdquo; format; &ldquo;notice, refer to, and draw on&rdquo; as behavioral salience; &ldquo;reason about trust&rdquo; (not presuppose correct calibration); thick description over inferential statistics.</li>
+                    </ul>
+
+                    <h2 id="method">Method</h2>
+                    <ul>
+                        <li><strong>Framework:</strong> Comparative Structured Observation (CSO; Mackay &amp; McGrenere, 2025); HelpCall as practice instance; Lee &amp; See as organizing lens without judging correct trust.</li>
+                        <li><strong>Design:</strong> One-factor within-participants; Format A vs. B; CSO Criteria 1–12 mapping (counterbalancing, vignettes, interviews, think-aloud, recordings, RTA Braun &amp; Clarke).</li>
+                        <li><strong>Participants:</strong> <em>N</em> 10–14; purposive + snowball; rolling analysis from 6–8; demographics per HelpCall; Baghestani scale precedent.</li>
+                        <li><strong>Materials:</strong> Two replay formats; 2–3 scenario vignettes; medium-fidelity prototypes; interview guide; think-aloud during replay.</li>
+                        <li><strong>Procedure (60–75 min):</strong> consent &rarr; both formats + vignettes + think-aloud &rarr; comparative interview &rarr; member-check.</li>
+                        <li><strong>Positionality / ethics:</strong> per HelpCall; McGill REB; TCPS2 CORE (Certificate #0001446233); vignette sensitivity.</li>
+                    </ul>
+
+                    <h2 id="analysis">Analysis</h2>
+                    <ul>
+                        <li>Reflexive thematic analysis (Braun &amp; Clarke, 2006, 2019); CSO-aligned.</li>
+                        <li>Dual streams: Criterion 8 (comparative interview reflections); Criterion 9 (think-aloud + screen observation).</li>
+                        <li>Rolling analysis; inductive + deductive coding; cross-format thick comparison without ranking trust.</li>
+                        <li>Rigor: single-researcher RTA, journaling, member checks; numbers descriptive only (Criterion 11); design implications explicit (Criterion 12).</li>
+                    </ul>
+
+                    <h2 id="limitations">Limitations</h2>
+                    <ul>
+                        <li>Ecological validity: vignettes + prototypes vs. live deployment; hard to fully simulate Duane-style dynamic personalization.</li>
+                        <li>Sample: purposive skew; proxy-auditor stance not exhaustive; focus on proxy review, not patient self-care only.</li>
+                        <li>Claims: descriptive format effects on trust reasoning — not causal generalization or format &ldquo;winner.&rdquo;</li>
+                    </ul>
+
+                    <h2 id="references">References</h2>
+                    <div class="references-list">
+                        <p class="ref-entry">Braun, V., &amp; Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology</em>, <em>3</em>(2), 77&ndash;101. <a href="https://doi.org/10.1191/1478088706qp063oa">https://doi.org/10.1191/1478088706qp063oa</a></p>
+                        <p class="ref-entry">Braun, V., &amp; Clarke, V. (2019). Reflecting on reflexive thematic analysis. <em>Qualitative Research in Sport, Exercise and Health</em>, <em>11</em>(4), 589&ndash;597. <a href="https://doi.org/10.1080/2159676X.2019.1628806">https://doi.org/10.1080/2159676X.2019.1628806</a></p>
+                        <p class="ref-entry">Brewer, R., Pierce, C., Upadhyay, P., &amp; Park, L. (2022). An empirical study of older adults&rsquo; voice assistant use for health information seeking. <em>ACM Transactions on Interactive Intelligent Systems</em>, <em>12</em>(2), 1&ndash;32. <a href="https://doi.org/10.1145/3484507">https://doi.org/10.1145/3484507</a></p>
+                        <p class="ref-entry">Brignull, H. (2023). <em>Deceptive Patterns: Exposing the tricks tech companies use to control you</em> (First edition: 2 January 2023). Testimonium Ltd. <a href="https://www.deceptive.design/book">https://www.deceptive.design/book</a></p>
+                        <p class="ref-entry">Baghestani, A., Latulipe, C., &amp; Bunt, A. (2024). Older adults&rsquo; collaborative learning dynamics when exploring feature-rich software. <em>Proceedings of the ACM on Human-Computer Interaction</em>, <em>8</em>(CSCW1), 1&ndash;27. <a href="https://doi.org/10.1145/3637378">https://doi.org/10.1145/3637378</a></p>
+                        <p class="ref-entry">Duane, J.-N., Ericson, J., &amp; McHugh, P. (2025). Digital nudges: A systematic narrative review and taxonomy. <em>Behaviour &amp; Information Technology</em>, <em>44</em>(13), 3250&ndash;3270. <a href="https://doi.org/10.1080/0144929X.2024.2440116">https://doi.org/10.1080/0144929X.2024.2440116</a></p>
+                        <p class="ref-entry">Deng, W. H., Lam, M. S., Cabrera, &#193;. A., Metaxa, D., Eslami, M., &amp; Holstein, K. (2023). Supporting user engagement in testing, Auditing, and contesting AI. <em>Computer Supported Cooperative Work and Social Computing</em>, 556&ndash;559. <a href="https://doi.org/10.1145/3584931.3611279">https://doi.org/10.1145/3584931.3611279</a></p>
+                        <p class="ref-entry">Ehsan, U., Liao, Q. V., Passi, S., Riedl, M. O., &amp; Daum&eacute;, H. (2024). Seamful XAI: Operationalizing seamful design in explainable AI. <em>Proceedings of the ACM on Human-Computer Interaction</em>, <em>8</em>(CSCW1), 1&ndash;29. <a href="https://doi.org/10.1145/3637396">https://doi.org/10.1145/3637396</a></p>
+                        <p class="ref-entry">Ellis, J. R., Dellavalle, N. S., Hamer, M. K., Akerson, M., Andazola, M., Moore, A. A., Campbell, E. G., &amp; DeCamp, M. (2025). The Halo Effect: Perceptions of information privacy among healthcare chatbot users. <em>Journal of the American Geriatrics Society</em>, <em>73</em>(5), 1472&ndash;1483. <a href="https://doi.org/10.1111/jgs.19393">https://doi.org/10.1111/jgs.19393</a></p>
+                        <p class="ref-entry">Faraoni, S. (2023). Persuasive technology and computational manipulation: Hypernudging out of mental self-determination. <em>Frontiers in Artificial Intelligence</em>, <em>6</em>, 1216340. <a href="https://doi.org/10.3389/frai.2023.1216340">https://doi.org/10.3389/frai.2023.1216340</a></p>
+                        <p class="ref-entry">Ganguli, I., Chant, E. D., Orav, E. J., Mehrotra, A., &amp; Ritchie, C. S. (2024). Health care contact days among older adults in traditional medicare: A cross-sectional study. <em>Annals of Internal Medicine</em>, <em>177</em>(2), 125&ndash;133. <a href="https://doi.org/10.7326/M23-2331">https://doi.org/10.7326/M23-2331</a></p>
+                        <p class="ref-entry">Gray, C. M., Kou, Y., Battles, B., Hoggatt, J., &amp; Toombs, A. L. (2018). The Dark (Patterns) Side of UX Design. <em>Proceedings of the 2018 CHI Conference on Human Factors in Computing Systems</em>, 1&ndash;14. <a href="https://doi.org/10.1145/3173574.3174108">https://doi.org/10.1145/3173574.3174108</a></p>
+                        <p class="ref-entry">Guerrero, N., Mendes De Leon, C. F., Evans, D. A., &amp; Jacobs, E. A. (2015). Determinants of trust in health care in an older population. <em>Journal of the American Geriatrics Society</em>, <em>63</em>(3), 553&ndash;557. <a href="https://doi.org/10.1111/jgs.13316">https://doi.org/10.1111/jgs.13316</a></p>
+                        <p class="ref-entry">Gull&iacute;, A. (2025). <em>Agentic design patterns: A hands-on guide to building intelligent systems</em>. Springer.</p>
+                        <p class="ref-entry">&#304;nan, M., Sicilia, A., Dey, S., Dongre, V., Srinivasan, T., Thomason, J., T&uuml;r, G., Hakkani-T&uuml;r, D., &amp; Alikhani, M. (2025). Better low than Sorry: Introducing Positive Friction for Reliable Dialogue Systems (arXiv:2501.17348). arXiv. <a href="https://doi.org/10.48550/arXiv.2501.17348">https://doi.org/10.48550/arXiv.2501.17348</a></p>
+                        <p class="ref-entry">Hirsch, T., Merced, K., Narayanan, S., Imel, Z. E., &amp; Atkins, D. C. (2017). Designing contestability: Interaction Design, machine learning, and mental health. <em>Proceedings of the 2017 Conference on Designing Interactive Systems</em>, 95&ndash;99. <a href="https://doi.org/10.1145/3064663.3064703">https://doi.org/10.1145/3064663.3064703</a></p>
+                        <p class="ref-entry">Isaksen, A. A., Schaarup, J. R., Bjerg, L., &amp; Hulman, A. (2025). Changes in public perception of artificial intelligence in healthcare after exposure to ChatGPT. <em>Npj Digital Medicine</em>, <em>8</em>(1), 795. <a href="https://doi.org/10.1038/s41746-025-02169-x">https://doi.org/10.1038/s41746-025-02169-x</a></p>
+                        <p class="ref-entry">KangJie, E. T., Song, T., Zhu, Z., Li, J., &amp; Lee, Y.-C. (2025). AI literacy education for older adults: Motivations, challenges and preferences (Version 1). arXiv. <a href="https://doi.org/10.48550/ARXIV.2504.14649">https://doi.org/10.48550/ARXIV.2504.14649</a></p>
+                        <p class="ref-entry">Lee, J. D., &amp; See, K. A. (2004). Trust in automation: Designing for appropriate reliance. <em>Human Factors: The Journal of the Human Factors and Ergonomics Society</em>, <em>46</em>(1), 50&ndash;80. <a href="https://doi.org/10.1518/hfes.46.1.50_30392">https://doi.org/10.1518/hfes.46.1.50_30392</a></p>
+                        <p class="ref-entry">Ma, B., Yang, J., Wong, F. K. Y., Wong, A. K. C., Ma, T., Meng, J., Zhao, Y., Wang, Y., &amp; Lu, Q. (2023). Artificial intelligence in elderly healthcare: A scoping review. <em>Ageing Research Reviews</em>, <em>83</em>, 101808. <a href="https://doi.org/10.1016/j.arr.2022.101808">https://doi.org/10.1016/j.arr.2022.101808</a></p>
+                        <p class="ref-entry">Mackay, W. E., &amp; McGrenere, J. (2025). Comparative structured observation. <em>ACM Transactions on Computer-Human Interaction</em>, <em>32</em>(2), 1&ndash;27. <a href="https://doi.org/10.1145/3711838">https://doi.org/10.1145/3711838</a></p>
+                        <p class="ref-entry">Tabassi, E. (2023). NIST_2023_Artificial Intelligence Risk Management Framework (AI RMF 1.0) (NIST AI 100-1; p. NIST AI 100-1). National Institute of Standards and Technology (U.S.). <a href="https://doi.org/10.6028/NIST.AI.100-1">https://doi.org/10.6028/NIST.AI.100-1</a></p>
+                        <p class="ref-entry">Pang, C., Collin Wang, Z., McGrenere, J., Leung, R., Dai, J., &amp; Moffatt, K. (2021). Technology adoption and learning preferences for older adults: Evolving perceptions, ongoing challenges, and emerging design opportunities. <em>Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems</em>, 1&ndash;13. <a href="https://doi.org/10.1145/3411764.3445702">https://doi.org/10.1145/3411764.3445702</a></p>
+                        <p class="ref-entry">Peng, W., Lee, H. R., &amp; Lim, S. (2024). Leveraging chatbots to combat health misinformation for older adults: Participatory design study. <em>JMIR Formative Research</em>, <em>8</em>, e60712. <a href="https://doi.org/10.2196/60712">https://doi.org/10.2196/60712</a></p>
+                        <p class="ref-entry">Sakaguchi-Tang, D. K., Bosold, A. L., Choi, Y. K., &amp; Turner, A. M. (2017). Patient portal use and experience among older adults: Systematic review. <em>JMIR Medical Informatics</em>, <em>5</em>(4), e38. <a href="https://doi.org/10.2196/medinform.8092">https://doi.org/10.2196/medinform.8092</a></p>
+                        <p class="ref-entry">Shneiderman, B. (2020). Human-Centered Artificial Intelligence: reliable, safe &amp; trustworthy. <em>International Journal of Human&ndash;Computer Interaction</em>, <em>36</em>(6), 495&ndash;504. <a href="https://doi.org/10.1080/10447318.2020.1741118">https://doi.org/10.1080/10447318.2020.1741118</a></p>
+                        <p class="ref-entry">Tanprasert, T., Dai, J., &amp; McGrenere, J. (2024). HelpCall: Designing informal technology assistance for older adults via videoconferencing. <em>Proceedings of the CHI Conference on Human Factors in Computing Systems</em>, 1&ndash;23. <a href="https://doi.org/10.1145/3613904.3642938">https://doi.org/10.1145/3613904.3642938</a></p>
+                        <p class="ref-entry">Thaler, R. H., &amp; Sunstein, C. R. (2008). <em>Nudge: Improving decisions about health, wealth, and happiness</em>. Yale University Press.</p>
+                        <p class="ref-entry">Wang, X., Wang, X., Park, S., &amp; Yao, Y. (2025). Users&rsquo; Mental models of generative AI chatbot ecosystems. <em>Proceedings of the 30th International Conference on Intelligent User Interfaces</em>, 1016&ndash;1031. <a href="https://doi.org/10.1145/3708359.3712125">https://doi.org/10.1145/3708359.3712125</a></p>
+                        <p class="ref-entry">World Health Organization. (2021). <em>Ethics and governance of artificial intelligence for health: WHO guidance</em> (1st ed.).</p>
+                        <p class="ref-entry">Wildenbos, G. A., Peute, L., &amp; Jaspers, M. (2018). Aging barriers influencing mobile health usability for older adults: A literature based framework (MOLD-US). <em>International Journal of Medical Informatics</em>, <em>114</em>, 66&ndash;75. <a href="https://doi.org/10.1016/j.ijmedinf.2018.03.012">https://doi.org/10.1016/j.ijmedinf.2018.03.012</a></p>
+                        <p class="ref-entry">Wong, A. K. C., Lee, J. H. T., Zhao, Y., Lu, Q., Yang, S., &amp; Hui, V. C. C. (2025). Exploring older adults&rsquo; perspectives and acceptance of AI-driven health technologies: qualitative study. <em>JMIR Aging</em>, <em>8</em>, e66778&ndash;e66778. <a href="https://doi.org/10.2196/66778">https://doi.org/10.2196/66778</a></p>
+                        <p class="ref-entry">Wyman, M. F., Shiovitz-Ezra, S., &amp; Bengel, J. (2018). Ageism in the health care system: providers, patients, and systems. In L. Ayalon &amp; C. Tesch-R&ouml;mer (Eds.), <em>Contemporary Perspectives on Ageism</em> (Vol. 19, pp. 193&ndash;212). Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-73820-8_13">https://doi.org/10.1007/978-3-319-73820-8_13</a></p>
+                        <p class="ref-entry">Yeung, K. (2017). &lsquo;Hypernudge&rsquo;: Big Data as a mode of regulation by design. <em>Information, Communication &amp; Society</em>, <em>20</em>(1), 118&ndash;136. <a href="https://doi.org/10.1080/1369118X.2016.1186713">https://doi.org/10.1080/1369118X.2016.1186713</a></p>
+                        <p class="ref-entry">Yu, S., &amp; Chen, T. (2024). Understanding older adults&rsquo; acceptance of chatbots in healthcare delivery: An extended UTAUT model. <em>Frontiers in Public Health</em>, <em>12</em>, 1435329. <a href="https://doi.org/10.3389/fpubh.2024.1435329">https://doi.org/10.3389/fpubh.2024.1435329</a></p>
+                        <p class="ref-entry">Zubatiy, T., Mathur, N., Heck, L., Vickers, K. L., Rozga, A., &amp; Mynatt, E. D. (2023). &ldquo;I don&rsquo;t know how to help with that&rdquo;&mdash;Learning from limitations of modern conversational agent systems in caregiving networks. <em>Proceedings of the ACM on Human-Computer Interaction</em>, <em>7</em>(CSCW2), 1&ndash;28. <a href="https://doi.org/10.1145/3610170">https://doi.org/10.1145/3610170</a></p>
+                    </div>
+                </div>
+
+                <aside class="report-toc" aria-label="On this page">
+                    <h3>On this page</h3>
+                    <a href="#introduction">Introduction</a>
+                    <a href="#literature-review">Literature review</a>
+                    <a class="toc-sub" href="#lit-ch1">Ch 1 · Institutional trust</a>
+                    <a class="toc-sub" href="#lit-ch2">Ch 2 · Hypernudge</a>
+                    <a class="toc-sub" href="#lit-ch3">Ch 3 · Proxy auditor</a>
+                    <a class="toc-sub" href="#lit-conclusion">LR conclusion</a>
+                    <a href="#research-question">Research question</a>
+                    <a href="#method">Method</a>
+                    <a href="#analysis">Analysis</a>
+                    <a href="#limitations">Limitations</a>
+                    <a href="#references">References</a>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            renderSidebar("week_12_13");
+            lucide.createIcons();
+        });
+
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+
+        menuBtn.addEventListener("click", () => {
+            sidebar.classList.add("open");
+            overlay.classList.add("active");
+        });
+
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            overlay.classList.remove("active");
+        });
+    </script>
+</body>
+
+</html>

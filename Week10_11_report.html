@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 10–11 Progress Report - INFS603 Literature Review - Joshua Hsiao</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="sidebar.js"></script>
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({ startOnLoad: false });
+        window.mermaid = mermaid;
+    </script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f7f5;
+            --bg-hover: #ebebea;
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-tertiary: #9b9a97;
+            --border-color: #e9e9e7;
+            --accent-color: #900;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            height: 100vh;
+            border-right: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .sidebar-header .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: background-color 0.15s, color 0.15s;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .sidebar-nav-item.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumbs {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 6px;
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 28px 28px 56px;
+        }
+
+        .report-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 260px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .report-toc {
+            position: sticky;
+            top: 84px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #fcfcfb;
+            padding: 14px 14px 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .report-toc h3 {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+
+        .report-toc a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.45;
+            padding: 6px 4px;
+            border-radius: 6px;
+            margin-bottom: 2px;
+        }
+
+        .report-toc a.toc-sub {
+            padding-left: 14px;
+            font-size: 12px;
+        }
+
+        .report-toc a:hover {
+            background: #f3f3f1;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        h2 {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            line-height: 1.35;
+            font-weight: 600;
+        }
+
+        p,
+        li {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin: 10px 0 0 22px;
+        }
+
+        blockquote {
+            margin: 12px 0 16px 0;
+            padding: 12px 16px;
+            border-left: 4px solid var(--border-color);
+            background: #fafafa;
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        .callout {
+            border-left: 4px solid var(--accent-color);
+            background: #faf7f7;
+            padding: 14px 16px;
+            margin: 16px 0 24px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .diagram-wrap {
+            margin: 14px 0 24px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #fcfcfb;
+        }
+
+        .diagram-wrap figcaption {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .diagram-wrap figcaption strong {
+            color: var(--text-primary);
+        }
+
+        .mermaid {
+            overflow-x: auto;
+        }
+
+        .table-intro {
+            font-size: 15px;
+            line-height: 1.75;
+            margin: 8px 0 12px;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            margin: 0 0 28px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #fcfcfb;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cso-checklist-table {
+            width: 100%;
+            min-width: 960px;
+            border-collapse: collapse;
+            font-size: 13px;
+            line-height: 1.55;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .cso-checklist-table caption {
+            caption-side: top;
+            text-align: left;
+            padding: 14px 16px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cso-checklist-table thead th {
+            background: #ebe9e6;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cso-checklist-table th,
+        .cso-checklist-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .cso-checklist-table td.cso-dimension {
+            font-weight: 600;
+            background: #f3f2f0;
+            white-space: nowrap;
+        }
+
+        .cso-checklist-table td.cso-num {
+            text-align: center;
+            font-weight: 600;
+            width: 2.5rem;
+            background: #fafafa;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        @media (max-width: 920px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 1000;
+                transition: left 0.25s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 999;
+                background: rgba(0, 0, 0, 0.35);
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            .report-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .report-toc {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <a href="Research.html">Research</a>
+                <span class="separator">/</span>
+                <span class="current">Week 10–11 Report</span>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="report-layout">
+                <div class="report-body">
+                    <h1>Week 10–11 Progress Report</h1>
+                    <p class="subtitle">
+                        Method draft aligned with Comparative Structured Observation (CSO; Mackay &amp; McGrenere, 2025), HelpCall as a practice precedent (Tanprasert et al., 2024), and the V5 formative chapters (1–3) as the design-concept grounding.
+                    </p>
+
+                    <h2 id="method">Method</h2>
+
+                    <h3 id="methodological-framework">Methodological framework: Comparative Structured Observation</h3>
+                    <p>
+                        This study adopts Comparative Structured Observation (CSO; Mackay &amp; McGrenere, 2025) as the overarching method. CSO is
+                    </p>
+                    <blockquote>
+                        an interventionist, qualitative method for assessing and advancing a design concept where researchers observe participants as they compare and reflect deeply upon their experiences with selected design variants, exposure to which is structured according to experimental design principles
+                    </blockquote>
+                    <p>
+                        (Mackay &amp; McGrenere, 2025, p. 4). Comparison is central: participants experience two or more design variants under structured conditions, and researchers capture their comparative reflections through observation and interviews to generate implications for design. CSO borrows the structure of experimental design (e.g., counterbalancing) to control presentation order but does not borrow the quantitative measurement logic or causal inference goals of experiments — qualitative analysis is always primary (Criterion 10, Table 2, Mackay &amp; McGrenere, 2025).
+                    </p>
+                    <p>
+                        <em>HelpCall</em> (Tanprasert et al., 2024) is a published practice instance of CSO. McGrenere, co-author of HelpCall, is also the co-originator of the CSO method. HelpCall used a within-subjects design with <em>N</em> = 14 to compare two augmented steps display candidates (Tooltip vs. List), with qualitative analysis as primary and quantitative metrics as secondary — an instance of CSO in practice. The present study extends this design-comparison logic within the same methodological framework.
+                    </p>
+
+                    <h3 id="theoretical-lens">Theoretical lens</h3>
+                    <p>
+                        This study draws on Lee and See&rsquo;s (2004) trust calibration framework as a theoretical lens to organize the literature review, but the research question itself does not presuppose a &ldquo;correct&rdquo; trust level. The analysis will not judge whether participants&rsquo; trust is &ldquo;correctly calibrated&rdquo; but will describe the paths and textures of their trust reasoning.
+                    </p>
+
+                    <figure class="diagram-wrap" id="fig-cso-flow">
+                        <div class="mermaid">
+                            flowchart TD
+                            A["Method choice: CSO<br>Comparative Structured Observation"] --> B["CSO definition<br>Interventionist qualitative method<br>Comparing multiple design variants"]
+                            B --> C["CSO characteristics<br>- Structure akin to experimental design<br>- Controls such as counterbalancing<br>- Qualitative analysis is primary"]
+                            C --> D["Example: HelpCall<br>- N=14 within-subjects<br>- Tooltip vs. List comparison<br>- Qualitative primary, quantitative secondary"]
+                            D --> E["This study<br>- Same CSO architecture<br>- Compare two replay formats"]
+                            E --> F["Theoretical lens: Lee &amp; See<br>- Organizes literature and concepts<br>- No presupposed correct trust level<br>- Describes paths and texture of trust reasoning"]
+                        </div>
+                        <figcaption>
+                            <strong>Figure 1.</strong> Flowchart of the CSO methodological argument chain: from selecting CSO through its definition and features; via HelpCall as an instantiation of a two-variant, qualitative-primary comparison; to this study&rsquo;s comparison of two replay formats; ending with the Lee &amp; See (2004) trust calibration framework as a lens for organizing literature and concepts and for describing paths and textures of trust reasoning—without presupposing or adjudicating a single &ldquo;correct&rdquo; trust level. Sources: Mackay &amp; McGrenere (2025); Tanprasert et al. (2024); Lee &amp; See (2004).
+                        </figcaption>
+                    </figure>
+
+                    <figure class="diagram-wrap" id="fig-method-map">
+                        <div class="mermaid">
+                            flowchart TD
+                            A["Methodological Framework"] --> A1["CSO as overarching method"]
+                            A1 --> A1a["CSO definition:<br>Interventionist qualitative comparison"]
+                            A1 --> A1b["Borrow experimental structure:<br>Counterbalancing and related controls<br>Not statistical causal inference"]
+                            A1 --> A1c["Qualitative analysis primary,<br>quantitative supplementary"]
+
+                            A --> B["Examples and precedents"]
+                            B --> B1["HelpCall: Published CSO case<br>Compared two interface designs"]
+                            B --> B2["This study:<br>Same CSO framework<br>Compare two replay formats"]
+
+                            A --> C["Theoretical lens"]
+                            C --> C1["Lee &amp; See trust calibration<br>Organizes the literature"]
+                            C --> C2["Analysis does not judge<br>correctness of calibration<br>Describes paths and texture<br>of trust reasoning"]
+                        </div>
+                        <figcaption>
+                            <strong>Figure 2.</strong> Branching map of the methodological framework (flowchart layout). The root node joins three branches: CSO proper (definition, borrowing experimental structure, qualitative priority), how published precedent and this study align on two-variant comparison, and the function and analytic boundaries of the Lee &amp; See lens. Cross-reference with the Method section and CSO criterion numbering; see Mackay &amp; McGrenere, 2025, Table 2, p. 14:8–14:9, Criteria 1–12.
+                        </figcaption>
+                    </figure>
+
+                    <div id="cso-table-2-checklist">
+                        <p class="table-intro">
+                            CSO criterion numbering in Figure 2 follows Mackay and McGrenere&rsquo;s Comparative Structured Observation checklist (Table 2, Criteria 1–12) in ACM TOCHI 32(2) [Mackay &amp; McGrenere, 2025].
+                        </p>
+                        <div class="table-scroll" role="region" aria-label="CSO Table 2 checklist" tabindex="0">
+                            <table class="cso-checklist-table">
+                                <caption>Table 2. Comparative Structured Observation checklist (source table; criterion wording as in Mackay &amp; McGrenere, 2025).</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Dimension</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Study qualifies as a Comparative Structured Observation if it&hellip;</th>
+                                        <th scope="col">Study qualifies as a good Comparative Structured Observation if it&hellip;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="cso-dimension">Design concept basis</td>
+                                        <td class="cso-num">1</td>
+                                        <td>Builds on design concepts influenced by formative research, ideally conducted by the researcher but also from the literature.</td>
+                                        <td>Reports on substantive formative research, e.g. a well-run participatory design workshop that includes reflection by both participants and researchers.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-dimension" rowspan="3">Role of comparison</td>
+                                        <td class="cso-num">2</td>
+                                        <td>Ensures that each participant experiences at least two design variants in the study, e.g., different novel designs, variants within a novel design, or a baseline.</td>
+                                        <td>Chooses design variants that meaningfully advance the design concept(s) and avoids straw-man comparisons.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">3</td>
+                                        <td>Structures participant activities so they can experience and compare design variants, e.g., perform equivalent tasks with each design variant.</td>
+                                        <td>Chooses and structures meaningful activities for participants, e.g., ecologically valid tasks.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">4</td>
+                                        <td>Structures comparisons according to experimental design or quasi-experimental design principles, e.g. counter-balance tasks for order.</td>
+                                        <td>Justifies the protocol relative to the setting (lab or field) and comparisons being made, according to best experimental or quasi-experimental design practices.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-dimension" rowspan="3">Type of data collected</td>
+                                        <td class="cso-num">5</td>
+                                        <td>Records participants&rsquo; comparisons and reflections on the qualitative differences in their experiences with the design variants, e.g., through interview questions.</td>
+                                        <td>Includes well-designed interviews or surveys that elicit detailed, thoughtful comparisons by participants after exposure to the design variants.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">6</td>
+                                        <td>Records participants&rsquo; interactions with each design variant, e.g. through video recordings or high-quality cinematic logs.</td>
+                                        <td>Collects rich, in-situ observational data or the best-possible alternative, e.g. remote video or substantive experience samples.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">7</td>
+                                        <td>Records quantitative data only if it helps add context to qualitative data, e.g. percentage of time participants spent in an activity.</td>
+                                        <td>Records quantitative data, if relevant, to contextualize qualitative data, e.g., participants&rsquo; interactions with design elements that clarify their experiences.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-dimension" rowspan="4">Type of data analysis</td>
+                                        <td class="cso-num">8</td>
+                                        <td>Analyzes participants&rsquo; comparisons and reflections about the design variants, e.g. with reflexive thematic analysis.</td>
+                                        <td>Demonstrates that participants have compared and reflected deeply about their experiences with the design variants.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">9</td>
+                                        <td>Analyzes researchers&rsquo; independent assessment of the participants&rsquo; experiences, e.g. with reflexive thematic analysis.</td>
+                                        <td>Leverages rich, qualitative data so that researchers can independently assess participants&rsquo; reflections.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">10</td>
+                                        <td>Treats qualitative analysis as primary.</td>
+                                        <td>Conducts and reports a rigorous qualitative analysis according to the best practices of a well-established qualitative method.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-num">11</td>
+                                        <td>Treats quantitative analysis as secondary.</td>
+                                        <td>Analyzes quantitative data according to the best practices of well-established quantitative methods, either or both descriptive or inferential statistics.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cso-dimension">Results</td>
+                                        <td class="cso-num">12</td>
+                                        <td>Reports findings and analysis to advance one or more design concept(s).</td>
+                                        <td>Explicitly discusses the implications for design and how the design concept(s) should evolve, based on the study results.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <h2 id="study-design">Study design</h2>
+                    <p>
+                        See Mackay &amp; McGrenere, 2025, Table 2, p. 14:8–14:9, Criteria 1–12.
+                    </p>
+                    <p>
+                        This study employs a CSO one-factor within-participants design comparing two replay formats (Format A vs. Format B), corresponding to CSO Criterion 2, variant type (1): &ldquo;Two or more variants of a novel design concept&rdquo; (Mackay &amp; McGrenere, 2025, p. 5). The design concept is grounded in the formative research reported in Chapters 1–3 (Criterion 1). Format presentation order will be counterbalanced across participants to mitigate primacy and order effects (Criterion 4). Scenario vignettes supply structured review tasks that keep conditions comparable across formats (Criterion 3). Semi-structured interviews explicitly require participants to compare their experiences with the two formats (Criterion 5). Think-aloud protocols and screen recordings capture participants&rsquo; interactions with each format as an independent behavioral data source (Criterion 6). Quantitative data, if collected, will serve only to contextualize qualitative findings (Criterion 7). Analysis will use reflexive thematic analysis (Braun &amp; Clarke, 2006), a recognized qualitative method (Criteria 8–10). Findings will explicitly discuss implications for design and how the Proxy Auditor concept should evolve (Criterion 12).
+                    </p>
+
+                    <figure class="diagram-wrap" id="fig-cso-study-design">
+                        <div class="mermaid">
+                            flowchart TD
+                                A["CSO Study Design<br/>Within-participants comparison<br/>Format A vs. Format B"]
+
+                                A --> B["Participants<br/>10-14 participants<br/>Purposive + snowball sampling"]
+
+                                A --> C["Materials<br/>Two replay formats<br/>Scenario vignettes<br/>Medium-fidelity prototypes"]
+
+                                B --> D["Procedure<br/>Consent<br/>Format 1 review + think-aloud<br/>Format 2 review + think-aloud<br/>Comparative interview<br/>Member-check"]
+
+                                C --> D
+
+                                D --> E["Data Sources<br/>Think-aloud<br/>Screen recordings<br/>Interviews"]
+
+                                E --> F["Analysis<br/>Reflexive thematic analysis<br/>Rolling analysis after 6-8 participants<br/>Quantitative data only contextual"]
+
+                                F --> G["Findings<br/>How format shapes trust reasoning<br/>Design implications for Proxy Auditor"]
+
+                                F --> H["Reflexivity<br/>Positionality noted throughout"]
+                        </div>
+                        <figcaption>
+                            <strong>Figure 3.</strong> High-level overview of the CSO study design: a within-participants comparison of Format A vs. Format B, from participant recruitment and materials through procedure, data sources, analysis, and expected outcomes. The dual path from Participants and Materials into Procedure reflects that both streams converge in the structured session. Analysis branches into substantive findings and reflexivity practices.
+                        </figcaption>
+                    </figure>
+
+                    <h2 id="participants">Participants</h2>
+                    <p>
+                        Participants will review replay records of AI health recommendations in simulated scenarios, using think-aloud to show how they notice, refer to, and draw on proxy audit evidence when reasoning about trust. Recruitment will rely on purposive and snowball sampling to capture diversity in reasoning approaches. HelpCall similarly used &ldquo;convenience and snowball sampling, as well as advertisements&rdquo; (Tanprasert et al., 2024, p. 7).
+                    </p>
+                    <p>
+                        The target sample is 10–14 participants. CSO&rsquo;s four published case studies (Mackay &amp; McGrenere, 2025, Table 3) range from 10 to 16 participants; HelpCall completed a qualitative comparison of two design candidates with <em>N</em> = 14, identifying three themes and cross-format design trade-offs. CSO does not target statistical inference; it seeks &ldquo;rich, contextualized insights about design variants&rdquo; (Mackay &amp; McGrenere, 2025, p. 6), so sample size will be guided by the richness of qualitative insight rather than statistical power. Following HelpCall&rsquo;s approach, a rolling analysis strategy will be adopted: initial coding will begin after the first 6–8 participants to identify preliminary thematic directions, with subsequent interviews probing deeper into emerging themes. Thematic saturation, rather than a fixed number, will serve as the stopping criterion. Baghestani et al.&rsquo;s (2024) collaborative learning dynamics study with older adults provides an additional precedent at a similar scale.
+                    </p>
+                    <p>
+                        Following HelpCall&rsquo;s collection of demographics and technology experience (Table 2, Tanprasert et al., 2024), this study will record participants&rsquo; age, educational background, self-rated digital literacy, and prior exposure to AI health tools to contextualize individual differences in qualitative findings.
+                    </p>
+
+                    <h2 id="materials">Materials</h2>
+
+                    <h3 id="replay-formats">Two replay formats (Format A vs. Format B)</h3>
+                    <p>
+                        Two structurally different presentations of the same AI health recommendation interaction. Both present identical underlying information but differ in presentation structure — following HelpCall&rsquo;s Tooltip vs. List logic. Specific format designs will be finalized during prototyping (possible dimensions include: verbatim transcript vs. summary; chronological vs. thematic organization; with/without seamful markers). CSO requires that design variants avoid &ldquo;straw-man comparisons&rdquo; (Table 2, &ldquo;good&rdquo; criteria); both formats must remain plausible design options.
+                    </p>
+
+                    <h3 id="scenario-vignettes">Scenario vignettes</h3>
+                    <p>
+                        Two to three simulated AI health agent interaction scenarios that embed varying degrees of proxy audit evidence (e.g., AI inferential premises, uncertainty markers, endorsement signals). CSO requires tasks &ldquo;chosen to maximize ecological validity and generate qualitative data relevant to the design concept&rdquo; (Mackay &amp; McGrenere, 2025, p. 5). Scenarios will be designed from the formative research in Chapters 1–3, and participants will be screened to ensure the scenarios are novel to them.
+                    </p>
+
+                    <h3 id="medium-fidelity-prototypes">Medium-fidelity prototypes</h3>
+                    <p>
+                        CSO states that &ldquo;Design variants are usually expressed as medium-fidelity prototypes&rdquo; and &ldquo;must be sufficiently mature to capture how users will experience different aspects of the design concept through performing relevant tasks&rdquo; (Mackay &amp; McGrenere, 2025, p. 5). This study will use medium-fidelity interactive prototypes at the concept-validation stage, with that limitation stated explicitly.
+                    </p>
+
+                    <h3 id="interview-guide">Semi-structured interview guide</h3>
+                    <p>
+                        Probes how participants notice, refer to, and draw on evidence across formats, and how trust and distrust manifest in their reasoning.
+                    </p>
+
+                    <h3 id="think-aloud">Think-aloud protocol</h3>
+                    <p>
+                        Collected concurrently during replay review.
+                    </p>
+
+                    <h2 id="procedure">Procedure (60–75 minutes total)</h2>
+                    <ol>
+                        <li>Introduction and informed consent (10 min).</li>
+                        <li>Participants work through two replay formats in sequence (order counterbalanced), each paired with a scenario vignette, with concurrent think-aloud (30–40 min).</li>
+                        <li>Comparative reflection interview: semi-structured interview explicitly asking participants to compare their experiences with the two formats, focusing on differences in noticing, referring to, and drawing on evidence (15–20 min).</li>
+                        <li>Member-check summary (5 min).</li>
+                    </ol>
+
+                    <h2 id="positionality">Positionality statement</h2>
+                    <p>
+                        Following HelpCall&rsquo;s positionality statement (Tanprasert et al., 2024, Section 4.4), the researcher&rsquo;s HCI and privacy research background, stance toward AI health systems, and how these may influence interview design and data interpretation will be explicitly reported. Throughout data collection and analysis, the researcher will note positionality and revisit the validity of interpretations.
+                    </p>
+
+                    <h2 id="ethics">Ethical considerations</h2>
+                    <p>
+                        All participants will provide written informed consent that specifies purpose, data use, and the right to withdraw. Scenario vignettes concern medical decisions, which may cause discomfort for some participants; the introduction will include information on support resources. The study will be submitted to the McGill REB, with an estimated 8-week review timeline. TCPS2 CORE training is complete (Certificate #0001446233).
+                    </p>
+                </div>
+
+                <aside class="report-toc" aria-label="On this page">
+                    <h3>On this page</h3>
+                    <a href="#method">Method</a>
+                    <a class="toc-sub" href="#methodological-framework">CSO framework</a>
+                    <a class="toc-sub" href="#theoretical-lens">Theoretical lens</a>
+                    <a class="toc-sub" href="#fig-cso-flow">Figure 1 · CSO argument flow</a>
+                    <a class="toc-sub" href="#fig-method-map">Figure 2 · Method framework map</a>
+                    <a class="toc-sub" href="#cso-table-2-checklist">Table 2 · CSO checklist (M&amp;M 2025)</a>
+                    <a href="#study-design">Study design</a>
+                    <a class="toc-sub" href="#fig-cso-study-design">Figure 3 · CSO study design overview</a>
+                    <a href="#participants">Participants</a>
+                    <a href="#materials">Materials</a>
+                    <a class="toc-sub" href="#replay-formats">Replay formats</a>
+                    <a class="toc-sub" href="#scenario-vignettes">Scenario vignettes</a>
+                    <a class="toc-sub" href="#medium-fidelity-prototypes">Prototypes</a>
+                    <a class="toc-sub" href="#interview-guide">Interview guide</a>
+                    <a class="toc-sub" href="#think-aloud">Think-aloud</a>
+                    <a href="#procedure">Procedure</a>
+                    <a href="#positionality">Positionality</a>
+                    <a href="#ethics">Ethical considerations</a>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            renderSidebar("week_10_11");
+            lucide.createIcons();
+            if (window.mermaid) {
+                const diagrams = document.querySelectorAll(".mermaid");
+                if (diagrams.length > 0) {
+                    window.mermaid.run({ nodes: Array.from(diagrams) });
+                }
+            }
+        });
+
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+
+        menuBtn.addEventListener("click", () => {
+            sidebar.classList.add("open");
+            overlay.classList.add("active");
+        });
+
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            overlay.classList.remove("active");
+        });
+    </script>
+</body>
+
+</html>

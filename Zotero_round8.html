@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline' data:" />
+		<title>Zotero Report — Round 8</title>
+		<link rel="stylesheet" type="text/css" href="data:text/css;base64,Ym9keSB7Cgljb2xvci1zY2hlbWU6IGxpZ2h0IGRhcms7CgkvKiBUaGVzZSBzaG91bGQgYmUgdGhlIGRlZmF1bHRzLCBidXQganVzdCBpbiBjYXNlOiAqLwoJYmFja2dyb3VuZDogQ2FudmFzOwoJY29sb3I6IENhbnZhc1RleHQ7Cn0KCmEgewoJdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Cn0KCmJvZHkgewoJcGFkZGluZzogMDsKfQoKdWwucmVwb3J0IGxpLml0ZW0gewoJYm9yZGVyLXRvcDogNHB4IHNvbGlkICM1NTU7CglwYWRkaW5nLXRvcDogMWVtOwoJcGFkZGluZy1sZWZ0OiAxZW07CglwYWRkaW5nLXJpZ2h0OiAxZW07CgltYXJnaW4tYm90dG9tOiAyZW07Cn0KCmgxLCBoMiwgaDMsIGg0LCBoNSwgaDYgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDIgewoJbWFyZ2luOiAwIDAgLjVlbTsKfQoKaDIucGFyZW50SXRlbSB7Cglmb250LXdlaWdodDogNjAwOwoJZm9udC1zaXplOiAxZW07CglwYWRkaW5nOiAwIDAgLjVlbTsKCWJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjY2NjOwp9CgovKiBJZiBjb21iaW5pbmcgY2hpbGRyZW4sIGRpc3BsYXkgcGFyZW50IHNsaWdodGx5IGxhcmdlciAqLwp1bC5yZXBvcnQuY29tYmluZUNoaWxkSXRlbXMgaDIucGFyZW50SXRlbSB7Cglmb250LXNpemU6IDEuMWVtOwoJcGFkZGluZy1ib3R0b206IC43NWVtOwoJbWFyZ2luLWJvdHRvbTogLjRlbTsKfQoKaDIucGFyZW50SXRlbSAudGl0bGUgewoJZm9udC13ZWlnaHQ6IG5vcm1hbDsKfQoKaDMgewoJbWFyZ2luLWJvdHRvbTogLjZlbTsKCWZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDsKCWZvbnQtc2l6ZTogMWVtOwoJZGlzcGxheTogYmxvY2s7Cn0KCi8qIE1ldGFkYXRhIHRhYmxlICovCnRoIHsKCXZlcnRpY2FsLWFsaWduOiB0b3A7Cgl0ZXh0LWFsaWduOiByaWdodDsKCXdpZHRoOiAxNSU7Cgl3aGl0ZS1zcGFjZTogbm93cmFwOwp9Cgp0ZCB7CglwYWRkaW5nLWxlZnQ6IC41ZW07Cn0KCgp1bC5yZXBvcnQsIHVsLm5vdGVzLCB1bC50YWdzIHsKCWxpc3Qtc3R5bGU6IG5vbmU7CgltYXJnaW4tbGVmdDogMDsKCXBhZGRpbmctbGVmdDogMDsKfQoKLyogVGFncyAqLwpoMy50YWdzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLnRhZ3MgewoJbGluZS1oZWlnaHQ6IDEuNzVlbTsKCWxpc3Qtc3R5bGU6IG5vbmU7Cn0KCnVsLnRhZ3MgbGkgewoJZGlzcGxheTogaW5saW5lOwp9Cgp1bC50YWdzIGxpOm5vdCg6bGFzdC1jaGlsZCk6YWZ0ZXIgewoJY29udGVudDogJywgJzsKfQoKCi8qIENoaWxkIG5vdGVzICovCmgzLm5vdGVzIHsKCWZvbnQtc2l6ZTogMS4xZW07Cn0KCnVsLm5vdGVzIHsKCW1hcmdpbi1ib3R0b206IDEuMmVtOwp9Cgp1bC5ub3RlcyA+IGxpOmZpcnN0LWNoaWxkIHAgewoJbWFyZ2luLXRvcDogMDsKfQoKdWwubm90ZXMgPiBsaSB7CglwYWRkaW5nOiAuN2VtIDA7Cn0KCnVsLm5vdGVzID4gbGk6bm90KDpsYXN0LWNoaWxkKSB7Cglib3JkZXItYm90dG9tOiAxcHggI2NjYyBzb2xpZDsKfQoKCnVsLm5vdGVzID4gbGkgcDpmaXJzdC1jaGlsZCB7CgltYXJnaW4tdG9wOiAwOwp9Cgp1bC5ub3RlcyA+IGxpIHA6bGFzdC1jaGlsZCB7CgltYXJnaW4tYm90dG9tOiAwOwp9CgovKiBBZGQgcXVvdGF0aW9uIG1hcmtzIGFyb3VuZCBibG9ja3F1b3RlICovCnVsLm5vdGVzID4gbGkgYmxvY2txdW90ZSBwOm5vdCg6ZW1wdHkpOmJlZm9yZSwKbGkubm90ZSBibG9ja3F1b3RlIHA6bm90KDplbXB0eSk6YmVmb3JlIHsKCWNvbnRlbnQ6ICfigJwnOwp9Cgp1bC5ub3RlcyA+IGxpIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyLApsaS5ub3RlIGJsb2NrcXVvdGUgcDpub3QoOmVtcHR5KTpsYXN0LWNoaWxkOmFmdGVyIHsKCWNvbnRlbnQ6ICfigJ0nOwp9CgovKiBQcmVzZXJ2ZSB3aGl0ZXNwYWNlIG9uIHBsYWludGV4dCBub3RlcyAqLwp1bC5ub3RlcyBsaSBwLnBsYWludGV4dCwgbGkubm90ZSBwLnBsYWludGV4dCwgZGl2Lm5vdGUgcC5wbGFpbnRleHQgewoJd2hpdGUtc3BhY2U6IHByZS13cmFwOwp9CgovKiBEaXNwbGF5IHRhZ3Mgd2l0aGluIGNoaWxkIG5vdGVzIGlubGluZSAqLwp1bC5ub3RlcyBoMy50YWdzIHsKCWRpc3BsYXk6IGlubGluZTsKCWZvbnQtc2l6ZTogMWVtOwp9Cgp1bC5ub3RlcyBoMy50YWdzOmFmdGVyIHsKCWNvbnRlbnQ6ICcgJzsKfQoKdWwubm90ZXMgdWwudGFncyB7CglkaXNwbGF5OiBpbmxpbmU7Cn0KCnVsLm5vdGVzIHVsLnRhZ3MgbGk6bm90KDpsYXN0LWNoaWxkKTphZnRlciB7Cgljb250ZW50OiAnLCAnOwp9CgoKLyogQ2hpbGQgYXR0YWNobWVudHMgKi8KaDMuYXR0YWNobWVudHMgewoJZm9udC1zaXplOiAxLjFlbTsKfQoKdWwuYXR0YWNobWVudHMgbGkgewoJcGFkZGluZy10b3A6IC41ZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHsKCW1hcmdpbi1sZWZ0OiAyZW07Cn0KCnVsLmF0dGFjaG1lbnRzIGRpdi5ub3RlIHA6Zmlyc3QtY2hpbGQgewoJbWFyZ2luLXRvcDogLjc1ZW07Cn0KCmRpdiB0YWJsZSB7Cglib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwp9CgpkaXYgdGFibGUgdGQsIGRpdiB0YWJsZSB0aCB7Cglib3JkZXI6IDFweCAjY2NjIHNvbGlkOwoJYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKCXdvcmQtYnJlYWs6IGJyZWFrLWFsbDsKfQoKZGl2IHRhYmxlIHRkIHA6ZW1wdHk6OmFmdGVyLCBkaXYgdGFibGUgdGggcDplbXB0eTo6YWZ0ZXIgewoJY29udGVudDogIlwwMGEwIjsKfQoKZGl2IHRhYmxlIHRkICo6Zmlyc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmZpcnN0LWNoaWxkIHsKCW1hcmdpbi10b3A6IDA7Cn0KCmRpdiB0YWJsZSB0ZCAqOmxhc3QtY2hpbGQsIGRpdiB0YWJsZSB0aCAqOmxhc3QtY2hpbGQgewoJbWFyZ2luLWJvdHRvbTogMDsKfQo="/>
+		<link rel="stylesheet" type="text/css" media="screen,projection" href="data:text/css;base64,LyogR2VuZXJpYyBzdHlsZXMgKi8KYm9keSB7Cglmb250OiA2Mi41JSBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cgl3aWR0aDogNzgwcHg7CgltYXJnaW46IDAgYXV0bzsKfQoKaDIgewoJZm9udC1zaXplOiAxLjVlbTsKCWxpbmUtaGVpZ2h0OiAxLjVlbTsKCWZvbnQtZmFtaWx5OiBHZW9yZ2lhLCBUaW1lcywgc2VyaWY7Cn0KCnAgewoJbGluZS1oZWlnaHQ6IDEuNWVtOwp9CgphOmFueS1saW5rIHsKCWNvbG9yOiAjOTAwOwp9CgphOmhvdmVyLCBhOmFjdGl2ZSB7Cgljb2xvcjogIzc3NzsKfQoKQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewoJYTphbnktbGluayB7CgkJY29sb3I6ICNmMDA7Cgl9CgoJYTpob3ZlciwgYTphY3RpdmUgewoJCWNvbG9yOiAjOTk5OwoJfQp9CgoKdWwucmVwb3J0IHsKCWZvbnQtc2l6ZTogMS40ZW07Cgl3aWR0aDogNjgwcHg7CgltYXJnaW46IDAgYXV0bzsKCXBhZGRpbmc6IDIwcHggMjBweDsKfQoKLyogTWV0YWRhdGEgdGFibGUgKi8KdGFibGUgewoJYm9yZGVyOiAxcHggI2NjYyBzb2xpZDsKCW92ZXJmbG93OiBhdXRvOwoJd2lkdGg6IDEwMCU7CgltYXJnaW46IC4xZW0gYXV0byAuNzVlbTsKCXBhZGRpbmc6IDAuNWVtOwp9Cg=="/>
+		<link rel="stylesheet" type="text/css" media="print" href="data:text/css;base64,Ym9keSB7Cglmb250OiAxMnB0ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgR2VvcmdpYSwgc2VyaWY7CgltYXJnaW46IDA7Cgl3aWR0aDogYXV0bzsKfQoKLyogUGFnZSBCcmVha3MgKHBhZ2UtYnJlYWstaW5zaWRlIG9ubHkgcmVjb2duaXplZCBieSBPcGVyYSkgKi8KaDEsIGgyLCBoMywgaDQsIGg1LCBoNiB7CglwYWdlLWJyZWFrLWFmdGVyOiBhdm9pZDsKCXBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZDsKfQoKdWwsIG9sLCBkbCB7CglwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQ7Cgljb2xvci1hZGp1c3Q6IGV4YWN0Owp9CgpoMiB7Cglmb250LXNpemU6IDEuM2VtOwoJbGluZS1oZWlnaHQ6IDEuM2VtOwp9CgphIHsKCWNvbG9yOiBpbmhlcml0OwoJdGV4dC1kZWNvcmF0aW9uOiBub25lOwp9Cg=="/>
+	</head>
+	<body>
+		<ul class="report combineChildItems">
+			<li id="item_K7NH3628" class="item journalArticle">
+			<h2>Comparative Structured Observation</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Wendy E. Mackay</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Joanna McGrenere</td>
+					</tr>
+					<tr>
+					<th>Abstract</th>
+						<td>Although HCI researchers often generate and compare new design concepts, they lack an established method for rigorously conducting qualitative assessments. We define and characterize Comparative Structured Observation as a qualitative research method that takes advantage of the structure of controlled experiments to generate comparable, ecologically relevant experiences with two or more design variants, often implemented as medium-fidelity prototypes. Researchers observe users and ask them to compare and reflect on each variant. We identify criteria for creating a successful Comparative Structured Observation study and illustrate variations of the method by analyzing four published studies. We also examine six additional studies (three &ldquo;near&rdquo; and three &ldquo;far&rdquo;) to clarify the boundary between what should and should not be considered a Comparative Structured Observation. We discuss the benefits and limitations of the method and argue that gathering comparative reflections about design variants can help researchers assess and advance their design concepts.</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2025-04-30</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3711838">https://dl.acm.org/doi/10.1145/3711838</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-04-01, 8:45:10 p.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>32</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-27</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>ACM Transactions on Computer-Human Interaction</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3711838">10.1145/3711838</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>2</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>ACM Trans. Comput.-Hum. Interact.</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1073-0516, 1557-7325</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-04-01, 8:45:10 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-04-01, 8:45:10 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_7QEV5ILB">
+<div><div data-schema-version="9">
+<p>5C (Round 8)</p>
+<h2 id="context"><strong>Context</strong></h2>
+<ul>
+<li>Mid-stage HCI design often requires comparing multiple concepts, but there is no widely accepted, named qualitative method for rigorous comparison.</li>
+<li>The CHI tradition treats controlled experiments as the gold standard, which pressures authors into under-powered quantitative studies and squeezes out qualitative insight into design concepts.</li>
+<li>Established qualitative methods (naturalistic observation, diaries, technology probes) rarely impose explicit cross-variant comparison structure.</li>
+</ul>
+<h2 id="characters"><strong>Characters</strong></h2>
+<ul>
+<li><strong>HCI researchers and students</strong> need comparison without forcing everything into an experiment.</li>
+<li><strong>Reviewers and the venue community</strong> default to experiments and statistics as &ldquo;rigor,&rdquo; leaving qualitative comparison underspecified.</li>
+<li><strong>Mackay &amp; McGrenere</strong> moved from a quantitative posture in practice toward CSO and illustrate it with published case studies.</li>
+</ul>
+<h2 id="conflicts"><strong>Conflicts</strong></h2>
+<ul>
+<li><p>At medium-fidelity prototypes, the &ldquo;do we run an experiment?&rdquo; dilemma:</p>
+<ul>
+<li>Informal qualitative work is dismissed as not rigorous enough.</li>
+<li>Small, poorly controlled experiments become neither useful nor trustworthy.</li>
+</ul></li>
+<li>Many comparative qualitative studies exist in the literature but lack shared naming and criteria, so authors and reviewers cannot agree what method is in play.</li>
+</ul>
+<h2 id="consequences"><strong>Consequences</strong></h2>
+<ul>
+<li>CSO is defined as an <strong>interventionist, qual-primary</strong> method: it borrows experimental structure (tasks, within-participants, counterbalancing) to create comparable multi-variant experiences, with qualitative analysis as the spine.</li>
+<li>The paper gives twelve criteria and &ldquo;good CSO&rdquo; guidance, plus four showcase studies and three near / three far cases to bound the method.</li>
+<li>CSO explicitly takes a qual-first stance between interpretivist and positivist poles as a mid-phase design-research tool.</li>
+</ul>
+<h2 id="countermeasures"><strong>Countermeasures</strong></h2>
+<ul>
+<li><strong>Naming and framing:</strong> Comparative Structured Observation fills the labeled gap for structured qualitative comparison.</li>
+<li><strong>Operational standards:</strong> Criterion checklist (Table 2) and appendix Table A1 for authors and reviewers.</li>
+<li><strong>Pedagogy via cases:</strong> Four published studies show variants (lab/field, 2&times;2, etc.) and how each could be tightened as CSO.</li>
+<li><strong>Scope and boundaries:</strong> CSO is not for very early exploration and is not a salvage label for failed experiments&mdash;it advances design concepts and may seed later quantitative hypotheses.</li>
+</ul>
+<p>One-line snippet for <code>Zotero_5C</code> import:</p>
+<blockquote>
+<p><strong>Context:</strong> mid-phase design evaluation lacks a named qualitative comparison method. <strong>Characters:</strong> HCI researchers, reviewers, authors. <strong>Conflicts:</strong> rigor scripts that misfire for design; missing shared method language. <strong>Consequences:</strong> CSO definition, twelve criteria, boundary cases. <strong>Countermeasures:</strong> qual-first structured comparison as a reusable design-and-review framework.</p>
+</blockquote>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_XTKYHUKS">PDF					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_NQRGZ7WM" class="item journalArticle">
+			<h2>Human-Centered Artificial Intelligence: Reliable, Safe &amp; Trustworthy</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Journal Article</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Ben Shneiderman</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2020-04-02</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>Human-Centered Artificial Intelligence</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://www.tandfonline.com/doi/full/10.1080/10447318.2020.1741118">https://www.tandfonline.com/doi/full/10.1080/10447318.2020.1741118</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-14, 12:39:53 a.m.</td>
+					</tr>
+					<tr>
+					<th>Volume</th>
+						<td>36</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>495-504</td>
+					</tr>
+					<tr>
+					<th>Publication</th>
+						<td>International Journal of Human–Computer Interaction</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1080/10447318.2020.1741118">10.1080/10447318.2020.1741118</a></td>
+					</tr>
+					<tr>
+					<th>Issue</th>
+						<td>6</td>
+					</tr>
+					<tr>
+					<th>Journal Abbr</th>
+						<td>International Journal of Human–Computer Interaction</td>
+					</tr>
+					<tr>
+					<th>ISSN</th>
+						<td>1044-7318, 1532-7590</td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-14, 12:39:53 a.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-14, 12:39:53 a.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_EY5PISWZ">
+<div><div data-schema-version="9">
+<p>5C (Round 8)</p>
+<h2 id="context"><strong>Context</strong></h2>
+<p><code>HCAI 2&times;2 (automation &times; human control) &middot; Reliable / Safe / Trustworthy stack</code></p>
+<p>Position paper (no empirical study). Shneiderman proposes a design space with axes for degree of human control and degree of AI automation, arguing that high-stakes AI should sustain <strong>both</strong> high automation and high human control rather than trading one off for the other. On that basis he layers Reliable (predictable behavior within bounds), Safe (human override and graceful degradation), and Trustworthy (traceability and accountability). He criticizes fully autonomous AI and Human-Level AI narratives as misleading default frames.</p>
+<hr>
+<h2 id="characters"><strong>Characters</strong></h2>
+<ul>
+<li><strong>AI system designers</strong> are asked to build supertools, not unsupervised autonomous agents.</li>
+<li><strong>Users (broadly)</strong> should retain substantive judgment and control under assistance, not become passive recipients.</li>
+<li><strong>Regulators and auditors</strong> are the audience for Trustworthy: they must be able to reconstruct decision context and assign accountability.</li>
+<li><strong>Shneiderman</strong> takes an explicit stance against HAI-style narratives.</li>
+</ul>
+<hr>
+<h2 id="conflicts"><strong>Conflicts</strong></h2>
+<p><code>High automation &harr; high human control</code></p>
+<ul>
+<li><strong>Mainstream AI product roadmaps vs. HCAI:</strong> autonomy is often treated as progress; the paper reframes progress as humans doing better with AI support.</li>
+<li><strong>Convenience vs. control:</strong> automation can erode judgment checkpoints; in hypernudge / agentic settings that erosion can be invisible.</li>
+<li><strong>Reliable vs. Trustworthy:</strong> predictable software behavior is necessary but insufficient&mdash;without external audit, Trustworthy collapses (ties to &ldquo;dual invisibility&rdquo; arguments in the literature on opaque nudging).</li>
+</ul>
+<hr>
+<h2 id="consequences"><strong>Consequences</strong></h2>
+<ul>
+<li>Establishes that high automation does <strong>not</strong> entail low human control: agentic systems can automate heavily while preserving explicit human checkpoints.</li>
+<li>Reliable / Safe / Trustworthy map cleanly onto design artifacts: Reliable &rarr; bounded, logged agent behavior; Safe &rarr; escalation to humans; Trustworthy &rarr; audit trails for who authorized what, when.</li>
+<li>Provides top-level justification for cognitive forcing: deliberate pauses as an interface-level way to preserve substantive human control.</li>
+<li>Offers a normative anchor for deployment guardrails: logging, contestability, and expiry align with the Trustworthy layer.</li>
+</ul>
+<hr>
+<h2 id="countermeasures"><strong>Countermeasures</strong></h2>
+<p><code>Design principles (Reliable/Safe) &middot; Governance (Trustworthy)</code></p>
+<ul>
+<li><strong>Reliable:</strong> capture blocks should record rationale and candidate options so behavior is bounded and inspectable.</li>
+<li><strong>Safe:</strong> replay or automation flows should include one-click escalation back to synchronous human support.</li>
+<li><strong>Trustworthy:</strong> audit trails, contestability, and time-bounded validity operationalize accountability in high-stakes endorsement-style deployments.</li>
+<li><strong>Bridge to cognitive forcing:</strong> HCAI&rsquo;s high-human-control principle supports forced pauses as a mechanism, not decoration.</li>
+<li><strong>UI-audit gap:</strong> if nudges are invisible to auditors, response is to anchor audit at traceable decision nodes in real time, not only post-hoc UI scans.</li>
+</ul>
+<hr>
+<h2 id="positionality"><strong>Positionality</strong></h2>
+<p>Normative essay with no participants or behavioral data. The audience is engineers and policymakers, not user-research claims about what people do. Use it for design goals, not as empirical evidence of user behavior.</p>
+<hr>
+<h2 id="research-warrant"><strong>Research Warrant</strong></h2>
+<p><code>Normative &middot; Implicit</code></p>
+<ul>
+<li><strong>Normative:</strong> dominant HAI/AGI framings systematically under-specify human control; an explicit counter-framework is needed.</li>
+<li><strong>Implicit:</strong> unaccountable high-risk AI creates a vacuum of responsibility in domains such as health, finance, and law.</li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+			</li>
+
+
+			<li id="item_CKXRTKW8" class="item conferencePaper">
+			<h2>HelpCall: Designing Informal Technology Assistance for Older Adults via Videoconferencing</h2>
+				<table>
+					<tr>
+						<th>Item Type</th>
+						<td>Conference Paper</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Teerapaun Tanprasert</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Jiamin Dai</td>
+					</tr>
+					<tr>
+						<th class="author">Author</th>
+						<td>Joanna McGrenere</td>
+					</tr>
+					<tr>
+					<th>Date</th>
+						<td>2024-05-11</td>
+					</tr>
+					<tr>
+					<th>Language</th>
+						<td>en</td>
+					</tr>
+					<tr>
+					<th>Short Title</th>
+						<td>HelpCall</td>
+					</tr>
+					<tr>
+					<th>Library Catalog</th>
+						<td>DOI.org (Crossref)</td>
+					</tr>
+					<tr>
+					<th>URL</th>
+						<td><a href="https://dl.acm.org/doi/10.1145/3613904.3642938">https://dl.acm.org/doi/10.1145/3613904.3642938</a></td>
+					</tr>
+					<tr>
+					<th>Accessed</th>
+						<td>2026-03-12, 2:35:24 p.m.</td>
+					</tr>
+					<tr>
+					<th>Place</th>
+						<td>Honolulu HI USA</td>
+					</tr>
+					<tr>
+					<th>Publisher</th>
+						<td>ACM</td>
+					</tr>
+					<tr>
+					<th>ISBN</th>
+						<td>979-8-4007-0330-0</td>
+					</tr>
+					<tr>
+					<th>Pages</th>
+						<td>1-23</td>
+					</tr>
+					<tr>
+					<th>Proceedings Title</th>
+						<td>Proceedings of the CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>Conference Name</th>
+						<td>CHI &apos;24: CHI Conference on Human Factors in Computing Systems</td>
+					</tr>
+					<tr>
+					<th>DOI</th>
+						<td><a href="http://doi.org/10.1145/3613904.3642938">10.1145/3613904.3642938</a></td>
+					</tr>
+					<tr>
+					<th>Date Added</th>
+						<td>2026-03-12, 2:35:24 p.m.</td>
+					</tr>
+					<tr>
+					<th>Modified</th>
+						<td>2026-03-12, 2:35:24 p.m.</td>
+					</tr>
+				</table>
+				<h3 class="notes">Notes:</h3>
+				<ul class="notes">
+					<li id="item_YRKPYNAR">
+<div><div data-schema-version="9">
+<p>5C (Round 8)</p>
+<h2 id="context"><strong>Context</strong></h2>
+<p><code>Prior work for capture &rarr; replay: older adults, synchronous human guidance, asynchronous replay</code></p>
+<p>CHI 2024 (UBC). User-centered design study with older adults (<em>N</em> = 14) evaluating HelpCall: a videoconferencing extension that turns a live helper demonstration into automated step display (ASD). Core pipeline: <strong>synchronous human demo &rarr; on-device step extraction &rarr; user-driven replay</strong>. Compares two ASD variants: Tooltip vs. List.</p>
+<hr>
+<h2 id="characters"><strong>Characters</strong></h2>
+<ul>
+<li><strong>Older adults (65+, <em>N</em> = 14):</strong> want full step-by-step guidance; worry about burdening family; anxiety about needing repeated help.</li>
+<li><strong>Informal helpers (family/friends):</strong> one live session can be recorded and replayed, reducing repeated synchronous support.</li>
+<li><strong>ASD pipeline:</strong> heuristically extracts steps from live verbal guidance for later unsupervised replay.</li>
+</ul>
+<hr>
+<h2 id="conflicts"><strong>Conflicts</strong></h2>
+<p><code>Synchronous reliance vs. asynchronous independence</code></p>
+<ul>
+<li><strong>Repeated dependence:</strong> fear of bothering helpers vs. recurring need for assistance (caregiver-burden theme in related RQs).</li>
+<li><strong>Capture quality:</strong> spoken instructions may be incomplete; heuristic extraction risks missing information (limits any capture block).</li>
+<li><strong>Replay validity:</strong> steps tied to one device/UI may not transfer&mdash;motivation for expiry / re-check guardrails when context drifts.</li>
+<li><strong>Complexity barrier:</strong> some participants found the overall concept too complex (Sec. 5.3.1)&mdash;counter-evidence that over-designed replay UIs can hurt adoption.</li>
+</ul>
+<hr>
+<h2 id="consequences"><strong>Consequences</strong></h2>
+<ul>
+<li>Participants saw potential to improve comfort and efficiency of synchronous tech support.</li>
+<li><strong>Tooltip</strong> often fit task flow and scaffolding; <strong>List</strong> suited users who wanted exhaustive detail.</li>
+<li>Key finding: <strong>one synchronous session with a helper eases subsequent navigation of the ASD</strong> (Sec. 5.1.2)&mdash;empirical precedent for capture-then-replay workflows.</li>
+<li><strong>ASD reusability</strong> supported repeated practice (Sec. 5.1.3) and fewer repeat calls to helpers.</li>
+</ul>
+<hr>
+<h2 id="countermeasures"><strong>Countermeasures</strong></h2>
+<p><code>Design precedents for capture &amp; replay</code></p>
+<ul>
+<li><strong>Capture:</strong> demonstrations should occur on the user&rsquo;s own device when possible so extracted steps match real context (cf. Req5 in the paper).</li>
+<li><strong>Replay:</strong> Tooltip-oriented flows often reduce cognitive load for older adults vs. a single dense list.</li>
+<li><strong>Branching presentation:</strong> occasional confirmation vs. full walkthrough suggests basic vs. detailed replay modes rather than one fixed format.</li>
+<li><strong>Helper burden:</strong> explicit design goal is fewer repeated interruptions to informal caregivers.</li>
+</ul>
+<hr>
+<h2 id="positionality"><strong>Positionality</strong></h2>
+<p>UBC HCI / McGrenere group. Exploratory qualitative study; <em>N</em> = 14; voluntary sample may skew positive. Framed as design concept validation, not a fully controlled efficacy trial.</p>
+<hr>
+<h2 id="research-warrant"><strong>Research Warrant</strong></h2>
+<p><code>Gap &middot; Practice &middot; Implicit</code></p>
+<ul>
+<li><strong>Gap:</strong> prior asynchronous step tools (e.g., Remo, Tipper, Synapse) do not combine live human demo, on-device capture, and replay in one loop.</li>
+<li><strong>Practice:</strong> demonstrates technical feasibility and early older-adult evidence for sync-to-async assistance.</li>
+<li><strong>Implicit social warrant:</strong> reliable replay can support older adults&rsquo; autonomy and reduce strain on family relationships, not only usability.</li>
+</ul>
+</div></div>
+					</li>
+				</ul>
+				<h3 class="attachments">Attachments</h3>
+				<ul class="attachments">
+					<li id="item_Z827ITEK">Full Text					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</body>
+</html>

@@ -492,7 +492,7 @@
                     <span class="separator">/</span>
                     <a href="Research.html">Research</a>
                     <span class="separator">/</span>
-                    <a href="Zotero_5C.html">4-Layer Framework</a>
+                    <a href="Zotero_5C.html">5C Thematic Framework</a>
                     <span class="separator">/</span>
                     <span class="current">Relation Graph</span>
                 </div>
@@ -509,6 +509,7 @@
             <button class="filter-btn" data-filter="Parallel-case">Parallel</button>
             <button class="filter-btn" data-filter="Framework-integration">Framework</button>
             <button class="filter-btn" data-filter="Methodological-inspiration">Method</button>
+            <button class="filter-btn" data-filter="Counter-evidence">B1 Counter</button>
             <span style="width:1px;height:20px;background:var(--border-color);margin:0 4px"></span>
             <label>Layout:</label>
             <button class="filter-btn" id="snowball-btn" onclick="toggleSnowball()">Snowball</button>
@@ -541,12 +542,12 @@
                 </div>
                 <div class="legend-panel">
                     <div class="legend-section">
-                        <div class="legend-title">Layers (node color)</div>
-                        <div class="legend-item"><span class="legend-circle" style="background:#1565C0"></span> L1 – User/Barriers</div>
-                        <div class="legend-item"><span class="legend-circle" style="background:#C62828"></span> L2 – Nudge/Dark Patterns</div>
-                        <div class="legend-item"><span class="legend-circle" style="background:#2E7D32"></span> L3 – Friction/XAI</div>
-                        <div class="legend-item"><span class="legend-circle" style="background:#EF6C00"></span> L4 – Governance</div>
-                        <div class="legend-item"><span class="legend-circle" style="background:#6366F1"></span> Cross-Layer</div>
+                        <div class="legend-title">Chapters (node color)</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#1565C0"></span> Ch 1 – Older Adults, Trust &amp; Digital Health</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#C62828"></span> Ch 2 – Nudge, Hypernudge &amp; Dark Patterns</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#2E7D32"></span> Ch 3 – XAI, Friction, CSO / Capture–Replay</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#EF6C00"></span> Ch 4 – Governance &amp; Contestability</div>
+                        <div class="legend-item"><span class="legend-circle" style="background:#6366F1"></span> Cross-Chapter</div>
                         <div class="legend-item"><span class="legend-circle" style="background:#9CA3AF;border:2px dashed #6B7280"></span> Framework</div>
                     </div>
                     <div class="legend-section">
@@ -571,6 +572,8 @@
                             Framework-integration</div>
                         <div class="legend-item"><span class="legend-line" style="background:#EC4899"></span>
                             Methodological-inspiration</div>
+                        <div class="legend-item"><span class="legend-line" style="background:#EA580C;opacity:0.9"></span>
+                            <em>Counter-evidence (B1)</em></div>
                     </div>
                 </div>
             </div>
@@ -595,10 +598,10 @@
         }
 
         const LAYER_COLORS = {
-            'L1': '#1565C0',
-            'L2': '#C62828',
-            'L3': '#2E7D32',
-            'L4': '#EF6C00',
+            'Ch1': '#1565C0',
+            'Ch2': '#C62828',
+            'Ch3': '#2E7D32',
+            'Ch4': '#EF6C00',
             'Cross': '#6366F1',
             'Framework': '#9CA3AF',
             'Excluded': '#D1D5DB'
@@ -611,7 +614,8 @@
             'Governance-implication': '#EF4444',
             'Parallel-case': '#8B5CF6',
             'Framework-integration': '#06B6D4',
-            'Methodological-inspiration': '#EC4899'
+            'Methodological-inspiration': '#EC4899',
+            'Counter-evidence': '#EA580C'
         };
 
         const TIER_RADIUS = {
@@ -624,41 +628,49 @@
         };
 
         const nodes = [
-            { id: "Ellis 2025", label: "Ellis 2025", fullTitle: "Exploring Older Adults' Perceptions and Concerns About a Chatbot-Based Health Assessment", layer: "L1", tier: "Tier 1", round: "R2" },
-            { id: "Peixoto 2025", label: "Peixoto 2025", fullTitle: "Accessible and Multimodal XAI for People with Sight Loss", layer: "L1", tier: "Tier 1", round: "R1" },
-            { id: "Wildenbos 2018", label: "Wildenbos 2018", fullTitle: "Aging Barriers Influencing mHealth Usability and eHealth (MOLD-US)", layer: "L1", tier: "Tier 1", round: "R1" },
-            { id: "Sakaguchi-Tang 2017", label: "Sakaguchi-Tang 2017", fullTitle: "Patient Portal Use and Experience Among Older Adults", layer: "L1", tier: "Tier 1", round: "R1" },
-            { id: "Wong 2025", label: "Wong 2025", fullTitle: "Older Adults' Acceptance of AI Health Tech in HK (COM-B/TDF)", layer: "L1", tier: "Tier 1", round: "R5" },
+            { id: "Ellis 2025", label: "Ellis 2025", fullTitle: "The Halo Effect: Perceptions of Information Privacy Among Healthcare Chatbot Users (JAGS)", layer: "Ch1", tier: "Tier 1", round: "R2" },
+            { id: "Peixoto 2025", label: "Peixoto 2025", fullTitle: "Accessible and Multimodal XAI for People with Sight Loss", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Wildenbos 2018", label: "Wildenbos 2018", fullTitle: "Aging Barriers Influencing mHealth Usability and eHealth (MOLD-US)", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Sakaguchi-Tang 2017", label: "Sakaguchi-Tang 2017", fullTitle: "Patient Portal Use and Experience Among Older Adults", layer: "Ch1", tier: "Tier 1", round: "R1" },
+            { id: "Wong 2025", label: "Wong 2025", fullTitle: "Older Adults' Acceptance of AI Health Tech in HK (COM-B/TDF)", layer: "Ch1", tier: "Tier 2", round: "R5" },
+            { id: "Guerrero 2015", label: "Guerrero 2015", fullTitle: "Determinants of Trust in Health Care in an Older Population (JAGS)", layer: "Ch1", tier: "Tier 2", round: "R6" },
+            { id: "Ganguli 2024", label: "Ganguli 2024", fullTitle: "Health Care Contact Days Among Older Adults in Traditional Medicare", layer: "Ch1", tier: "Tier 2", round: "R6" },
+            { id: "Wyman 2018", label: "Wyman 2018", fullTitle: "Ageism in the Health Care System (Contemporary Perspectives on Ageism)", layer: "Ch1", tier: "Tier 2", round: "R6" },
+            { id: "Peng 2024", label: "Peng 2024", fullTitle: "Leveraging Chatbots to Combat Health Misinformation for Older Adults: Participatory Design Study (JMIR)", layer: "Ch1", tier: "Tier 2", round: "R6" },
+            { id: "KangJie 2025", label: "KangJie 2025", fullTitle: "AI Literacy Education for Older Adults: Motivations, Challenges and Preferences (arXiv)", layer: "Ch1", tier: "Tier 2", round: "R6" },
 
-            { id: "Duane 2025", label: "Duane 2025", fullTitle: "A Narrative Review of Digital Nudges in Information Systems Research", layer: "L2", tier: "Tier 1", round: "R3" },
-            { id: "Gray 2018", label: "Gray 2018", fullTitle: "The Dark (Patterns) Side of UX Design", layer: "L2", tier: "Tier 1", round: "R1" },
-            { id: "Faraoni 2023", label: "Faraoni 2023", fullTitle: "Hypernudge, Cognitive Liberty, and Right to Mental Self-Determination", layer: "L2", tier: "Tier 2", round: "R5" },
-            { id: "Yu-Chen 2024", label: "Yu-Chen 2024", fullTitle: "Older Adults' Acceptance of AI Health Chatbots (UTAUT+ Survey)", layer: "L2", tier: "Tier 2", round: "R5" },
-            { id: "Thaler-Sunstein 2008", label: "Thaler & Sunstein 2008", fullTitle: "Nudge: Improving Decisions About Health, Wealth, and Happiness", layer: "L2", tier: "Tier 2", round: "R6" },
-            { id: "Yeung 2017", label: "Yeung 2017", fullTitle: "'Hypernudge': Big Data as a Mode of Regulation by Design", layer: "L2", tier: "Tier 2", round: "R6" },
-            { id: "Brignull 2024", label: "Brignull 2024", fullTitle: "Deceptive Patterns: Taxonomy of Dark Patterns", layer: "L2", tier: "Tier 3", round: "R1" },
+            { id: "Duane 2025", label: "Duane 2025", fullTitle: "A Narrative Review of Digital Nudges in Information Systems Research", layer: "Ch2", tier: "Tier 1", round: "R3" },
+            { id: "Gray 2018", label: "Gray 2018", fullTitle: "The Dark (Patterns) Side of UX Design", layer: "Ch2", tier: "Tier 1", round: "R1" },
+            { id: "Faraoni 2023", label: "Faraoni 2023", fullTitle: "Hypernudge, Cognitive Liberty, and Right to Mental Self-Determination", layer: "Ch2", tier: "Tier 2", round: "R5" },
+            { id: "Yu-Chen 2024", label: "Yu-Chen 2024", fullTitle: "Older Adults' Acceptance of AI Health Chatbots (UTAUT+ Survey)", layer: "Ch2", tier: "Tier 2", round: "R5" },
+            { id: "Thaler-Sunstein 2008", label: "Thaler & Sunstein 2008", fullTitle: "Nudge: Improving Decisions About Health, Wealth, and Happiness", layer: "Ch2", tier: "Tier 2", round: "R6" },
+            { id: "Yeung 2017", label: "Yeung 2017", fullTitle: "'Hypernudge': Big Data as a Mode of Regulation by Design", layer: "Ch2", tier: "Tier 2", round: "R6" },
+            { id: "Brignull 2024", label: "Brignull 2024", fullTitle: "Deceptive Patterns: Taxonomy of Dark Patterns", layer: "Ch2", tier: "Tier 3", round: "R1" },
 
-            { id: "Gulli 2025", label: "Gullí 2025", fullTitle: "Agentic Design Patterns: A Hands-on Guide (HITL, Guardrails)", layer: "L3", tier: "Tier 1", round: "R1" },
-            { id: "Lee-See 2004", label: "Lee & See 2004", fullTitle: "Trust in Automation: Designing for Appropriate Reliance", layer: "L3", tier: "Tier 1", round: "R6" },
-            { id: "Zubatiy 2023", label: "Zubatiy 2023", fullTitle: "Conversational Agent Use by Older Adults with MCI", layer: "L3", tier: "Tier 1", round: "R1" },
-            { id: "Brewer 2022", label: "Brewer 2022", fullTitle: "Alexa Use by Older Adults in Assisted Living", layer: "L3", tier: "Tier 1", round: "R2" },
-            { id: "Inan 2025", label: "İnan 2025", fullTitle: "Positive AI Friction: A Framework for Beneficial Friction Taxonomy", layer: "L3", tier: "Tier 1", round: "R4" },
-            { id: "Ehsan 2024", label: "Ehsan 2024", fullTitle: "Seamful XAI: Operationalizing Gaps for Appropriate Trust Calibration", layer: "L3", tier: "Tier 1 Highest", round: "R4" },
-            { id: "Jamshed 2025", label: "Jamshed 2025", fullTitle: "AI-Powered Audio Nudge for Dietary Health", layer: "L3", tier: "Tier 1", round: "R5" },
-            { id: "Cammisuli 2022", label: "Cammisuli 2022", fullTitle: "SENIOR: Technology-Based Multidomain Lifestyle Intervention for MCI", layer: "L3", tier: "Tier 1", round: "R5" },
+            { id: "Gulli 2025", label: "Gullí 2025", fullTitle: "Agentic Design Patterns: A Hands-on Guide (HITL, Guardrails)", layer: "Ch3", tier: "Tier 1", round: "R1" },
+            { id: "Lee-See 2004", label: "Lee & See 2004", fullTitle: "Trust in Automation: Designing for Appropriate Reliance", layer: "Ch3", tier: "Tier 1", round: "R6" },
+            { id: "Zubatiy 2023", label: "Zubatiy 2023", fullTitle: "Conversational Agent Use by Older Adults with MCI", layer: "Ch3", tier: "Tier 1", round: "R1" },
+            { id: "Brewer 2022", label: "Brewer 2022", fullTitle: "Alexa Use by Older Adults in Assisted Living", layer: "Ch3", tier: "Tier 1", round: "R2" },
+            { id: "Inan 2025", label: "İnan 2025", fullTitle: "Positive AI Friction: A Framework for Beneficial Friction Taxonomy", layer: "Ch3", tier: "Tier 1", round: "R4" },
+            { id: "Ehsan 2024", label: "Ehsan 2024", fullTitle: "Seamful XAI: Operationalizing Gaps for Appropriate Trust Calibration", layer: "Ch3", tier: "Tier 1 Highest", round: "R4" },
+            { id: "Jamshed 2025", label: "Jamshed 2025", fullTitle: "AI-Powered Audio Nudge for Dietary Health", layer: "Ch3", tier: "Tier 1", round: "R5" },
+            { id: "Cammisuli 2022", label: "Cammisuli 2022", fullTitle: "SENIOR: Technology-Based Multidomain Lifestyle Intervention for MCI", layer: "Ch3", tier: "Tier 1", round: "R5" },
+            { id: "Tanprasert-HelpCall 2024", label: "Tanprasert (HelpCall) 2024", fullTitle: "HelpCall: Designing Informal Technology Assistance for Older Adults via Videoconferencing", layer: "Ch3", tier: "Tier 1 Highest", round: "R8" },
+            { id: "Mackay-McGrenere 2025", label: "Mackay & McGrenere 2025", fullTitle: "Comparative Structured Observation (ACM TOCHI)", layer: "Ch3", tier: "Tier 1", round: "R8" },
+            { id: "Shneiderman 2020", label: "Shneiderman 2020", fullTitle: "Human-Centered AI: Reliable, Safe & Trustworthy (IJHCI)", layer: "Cross", tier: "Tier 1", round: "R8" },
             { id: "Pang 2021", label: "Pang 2021", fullTitle: "Technology Use by Older Adults with MCI and Their Caregivers", layer: "Cross", tier: "Tier 1 Highest", round: "R5" },
 
-            { id: "Hirsch 2017", label: "Hirsch 2017", fullTitle: "Designing Contestability: Interaction Design, Machine Learning, and Mental Health", layer: "L4", tier: "Tier 1", round: "R4" },
-            { id: "Vaithilingam 2024", label: "Vaithilingam 2024", fullTitle: "Imagining a Future of Designing with AI: Dynamic Grounding, Constructive Negotiation", layer: "L4", tier: "Tier 1", round: "R3" },
-            { id: "WHO 2021", label: "WHO 2021", fullTitle: "Ethics and Governance of Artificial Intelligence for Health (WHO)", layer: "L4", tier: "Supporting", round: "R1" },
-            { id: "NIST 2023", label: "NIST 2023", fullTitle: "Artificial Intelligence Risk Management Framework (NIST AI 100-1)", layer: "L4", tier: "Supporting", round: "R1" },
-            { id: "Wang 2025", label: "Wang 2025", fullTitle: "Who Do You Think I Am? Exploring User Mental Models of LLMs", layer: "L4", tier: "Supporting", round: "R5" },
-            { id: "Deng-WeAudit 2025", label: "Deng (WeAudit) 2025", fullTitle: "WeAudit: Scaffolding User Auditors in Auditing Generative AI", layer: "Cross", tier: "Tier 1 Highest", round: "R6" },
-            { id: "Deng-Practices 2023", label: "Deng (Practices) 2023", fullTitle: "Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing", layer: "L4", tier: "Tier 1", round: "R6" },
-            { id: "Deng-Engagement 2023", label: "Deng (Engagement) 2023", fullTitle: "Supporting User Engagement in Testing, Auditing, and Contesting AI", layer: "L4", tier: "Tier 1", round: "R6" },
+            { id: "Hirsch 2017", label: "Hirsch 2017", fullTitle: "Designing Contestability: Interaction Design, Machine Learning, and Mental Health", layer: "Ch4", tier: "Tier 1", round: "R4" },
+            { id: "Vaithilingam 2024", label: "Vaithilingam 2024", fullTitle: "Imagining a Future of Designing with AI: Dynamic Grounding, Constructive Negotiation", layer: "Ch4", tier: "Tier 1", round: "R3" },
+            { id: "WHO 2021", label: "WHO 2021", fullTitle: "Ethics and Governance of Artificial Intelligence for Health (WHO)", layer: "Ch4", tier: "Supporting", round: "R1" },
+            { id: "NIST 2023", label: "NIST 2023", fullTitle: "Artificial Intelligence Risk Management Framework (NIST AI 100-1)", layer: "Ch4", tier: "Supporting", round: "R1" },
+            { id: "Wang 2025", label: "Wang 2025", fullTitle: "Who Do You Think I Am? Exploring User Mental Models of LLMs", layer: "Ch4", tier: "Supporting", round: "R5" },
+            { id: "Deng-WeAudit 2025", label: "Deng (WeAudit) 2025", fullTitle: "WeAudit: Scaffolding User Auditors in Auditing Generative AI", layer: "Ch4", tier: "Tier 1", round: "R6" },
+            { id: "Deng-Practices 2023", label: "Deng (Practices) 2023", fullTitle: "Understanding Practices, Challenges, and Opportunities for User-Engaged Algorithm Auditing", layer: "Ch4", tier: "Tier 1", round: "R6" },
+            { id: "Deng-Engagement 2023", label: "Deng (Engagement) 2023", fullTitle: "Supporting User Engagement in Testing, Auditing, and Contesting AI", layer: "Ch4", tier: "Tier 1", round: "R6" },
             { id: "Baghestani 2024", label: "Baghestani 2024", fullTitle: "Understanding Older Adults' Experiences with Technologies for Aging in Place", layer: "Cross", tier: "Tier 1", round: "R6" },
 
-            { id: "4-Layer Framework", label: "4-Layer Framework", fullTitle: "4-Layer Design Space (Your Analytical Framework)", layer: "Framework", tier: "Tier 1 Highest", round: "—" },
+            { id: "4-Layer Framework", label: "Thematic Framework", fullTitle: "Thematic Design Space (Your Analytical Framework, Ch 1–4)", layer: "Framework", tier: "Tier 1 Highest", round: "—" },
 
             { id: "ex-r1-ai-elderly", label: "AI Elderly Scoping", fullTitle: "Artificial intelligence in elderly healthcare: A scoping review", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
             { id: "ex-r1-app-abandon", label: "App Abandonment", fullTitle: "When and Why Adults Abandon Lifestyle Behavior and Mental Health Mobile Apps", layer: "Excluded", tier: "Excluded", round: "R1", excluded: true },
@@ -701,11 +713,33 @@
             { source: "Deng-Engagement 2023", target: "Deng-Practices 2023", type: "Conceptual-basis", concept: "conceptual framing → empirical study" },
             { source: "Deng-Practices 2023", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "formative findings → system design" },
             { source: "Vaithilingam 2024", target: "Deng-WeAudit 2025", type: "Conceptual-basis", concept: "constructive negotiation → audit scaffolding" },
+            { source: "Lee-See 2004", target: "Tanprasert-HelpCall 2024", type: "Conceptual-basis", concept: "appropriate reliance → helper-mediated trust calibration" },
+            { source: "Lee-See 2004", target: "Mackay-McGrenere 2025", type: "Conceptual-basis", concept: "appropriate-reliance lens for qualitative comparison without presupposing correct trust (Week12–13 method)" },
+            { source: "Tanprasert-HelpCall 2024", target: "Mackay-McGrenere 2025", type: "Empirical-evidence", concept: "CSO practice instance: within-participants comparison + older-adult capture/replay precedent" },
+            { source: "Mackay-McGrenere 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "CSO criteria → structured Ch 3 empirical method + reflexive thematic analysis" },
+            { source: "Duane 2025", target: "Mackay-McGrenere 2025", type: "Methodological-inspiration", concept: "taxonomy / narrative rigor ↔ structured qualitative comparison at medium fidelity" },
 
+            { source: "Yeung 2017", target: "Shneiderman 2020", type: "Conceptual-basis", concept: "hypernudge / personalization pressure vs. HCAI high-automation + high-human-control ideal" },
+            { source: "Faraoni 2023", target: "Shneiderman 2020", type: "Conceptual-basis", concept: "double invisibility / UI-audit limits ↔ traceable checkpoints (Trustworthy layer)" },
+            { source: "Gulli 2025", target: "Shneiderman 2020", type: "Conceptual-basis", concept: "forcing functions & HITL patterns ↔ normative human-control ceiling" },
+            { source: "Shneiderman 2020", target: "Ehsan 2024", type: "Design-implication", concept: "Reliable/Safe ↔ seamful calibration; Trustworthy ↔ legible contest surfaces" },
+            { source: "Shneiderman 2020", target: "Tanprasert-HelpCall 2024", type: "Design-implication", concept: "Safe escalation + Trustworthy traces ↔ replay + ask-human-again affordances" },
+            { source: "Shneiderman 2020", target: "WHO 2021", type: "Governance-implication", concept: "health AI ethics guidance ↔ HCAI governance stack" },
+            { source: "Shneiderman 2020", target: "NIST 2023", type: "Governance-implication", concept: "RMF MANAGE / oversight ↔ Safe + Trustworthy operationalization" },
+            { source: "Shneiderman 2020", target: "4-Layer Framework", type: "Framework-integration", concept: "normative ceiling Ch1 governance → Ch2 map → Ch3 design anchors → Ch4 auditability" },
+            { source: "Guerrero 2015", target: "Ellis 2025", type: "Conceptual-basis", concept: "established premise — older adults' higher healthcare trust → trust transfer to chatbot" },
+            { source: "Ganguli 2024", target: "Ellis 2025", type: "Conceptual-basis", concept: "complementary mechanism — frequent healthcare contact → familiarity with system tools" },
+            { source: "Wyman 2018", target: "Ellis 2025", type: "Conceptual-basis", concept: "complementary mechanism — system familiarity → reduced fear of unknown toward chatbots" },
+
+            { source: "Pang 2021", target: "Ellis 2025", type: "Counter-evidence", concept: "B1 counter-evidence — older adults' latent capability for trial-and-error learning; challenges deficit assumption" },
+            { source: "Peng 2024", target: "Ellis 2025", type: "Counter-evidence", concept: "B1 counter-evidence — older adults show active critical agency, challenges passive-user assumption" },
+            { source: "KangJie 2025", target: "Ellis 2025", type: "Counter-evidence", concept: "B1 counter-evidence — AI literacy barriers are access/instructional not capability; challenges deficit-view framing" },
+            { source: "KangJie 2025", target: "Peixoto 2025", type: "Counter-evidence", concept: "B1 counter-evidence — AI literacy barriers are access/instructional, not capability-deficit" },
             { source: "Ellis 2025", target: "Sakaguchi-Tang 2017", type: "Empirical-evidence", concept: "refutes 'older adults more privacy-concerned'" },
-            { source: "Yu-Chen 2024", target: "Wong 2025", type: "Empirical-evidence", concept: "cross-validates acceptance mechanisms" },
+            { source: "Yu-Chen 2024", target: "Wong 2025", type: "Empirical-evidence", concept: "quantitative social-influence confirmation + qualitative institutional-trust mechanism explanation" },
             { source: "Pang 2021", target: "Baghestani 2024", type: "Empirical-evidence", concept: "independence-guilt tension replicated" },
             { source: "Deng-Practices 2023", target: "Deng-WeAudit 2025", type: "Empirical-evidence", concept: "formative evidence → 6 design goals" },
+            { source: "Baghestani 2024", target: "Tanprasert-HelpCall 2024", type: "Empirical-evidence", concept: "independence-guilt tension → caregiver-burden reduction need" },
             { source: "Inan 2025", target: "Ehsan 2024", type: "Empirical-evidence", concept: "friction improves task success; seams as friction" },
 
             { source: "Wildenbos 2018", target: "Inan 2025", type: "Design-implication", concept: "MOLD-US aging barriers constrain friction design" },
@@ -715,6 +749,7 @@
             { source: "Peixoto 2025", target: "Jamshed 2025", type: "Design-implication", concept: "non-visual XAI → audio friction design" },
             { source: "Pang 2021", target: "Zubatiy 2023", type: "Design-implication", concept: "incremental learning → error recovery" },
             { source: "Pang 2021", target: "Baghestani 2024", type: "Design-implication", concept: "Help Kiosk → progress checking design" },
+            { source: "Pang 2021", target: "Tanprasert-HelpCall 2024", type: "Design-implication", concept: "remote support + stepwise learning → capture/replay assistance" },
             { source: "Brewer 2022", target: "Jamshed 2025", type: "Design-implication", concept: "VA health perceptions → audio nudge design" },
             { source: "Zubatiy 2023", target: "Inan 2025", type: "Design-implication", concept: "CA limitations → positive friction dialogue" },
             { source: "Zubatiy 2023", target: "Brewer 2022", type: "Design-implication", concept: "error recovery → editability/verification" },
@@ -736,25 +771,26 @@
             { source: "Wong 2025", target: "Yu-Chen 2024", type: "Parallel-case", concept: "older adults AI health: HK qualitative ↔ CN quantitative" },
             { source: "Peixoto 2025", target: "Wildenbos 2018", type: "Parallel-case", concept: "accessibility: sight loss ↔ aging barriers" },
             { source: "Zubatiy 2023", target: "Brewer 2022", type: "Parallel-case", concept: "CA older adults: MCI homes ↔ assisted living" },
-            { source: "Sakaguchi-Tang 2017", target: "Yu-Chen 2024", type: "Parallel-case", concept: "health IT acceptance: portal ↔ UTAUT chatbot" },
+            { source: "Sakaguchi-Tang 2017", target: "Yu-Chen 2024", type: "Parallel-case", concept: "cross-interface parallel case: portal (Sakaguchi-Tang) vs chatbot (Yu & Chen) acceptance mechanisms" },
 
-            { source: "Wildenbos 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "MOLD-US → L3 friction design constraints" },
-            { source: "Duane 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "nudge taxonomy + dark patterns → L2 mechanism map" },
-            { source: "Gray 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "dark pattern strategies → L2 mechanism map" },
-            { source: "WHO 2021", target: "4-Layer Framework", type: "Framework-integration", concept: "governance principles → L4 contestability" },
-            { source: "NIST 2023", target: "4-Layer Framework", type: "Framework-integration", concept: "risk management → L4 contestability" },
-            { source: "Gulli 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "agentic patterns → L3 HITL/guardrails" },
-            { source: "Lee-See 2004", target: "4-Layer Framework", type: "Framework-integration", concept: "trust calibration → L1/L3 design-space anchor" },
+            { source: "Wildenbos 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "MOLD-US → Ch 3 friction design constraints" },
+            { source: "Duane 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "nudge taxonomy + dark patterns → Ch 2 mechanism map" },
+            { source: "Gray 2018", target: "4-Layer Framework", type: "Framework-integration", concept: "dark pattern strategies → Ch 2 mechanism map" },
+            { source: "WHO 2021", target: "4-Layer Framework", type: "Framework-integration", concept: "governance principles → Ch 4 contestability" },
+            { source: "NIST 2023", target: "4-Layer Framework", type: "Framework-integration", concept: "risk management → Ch 4 contestability" },
+            { source: "Gulli 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "agentic patterns → Ch 3 HITL/guardrails" },
+            { source: "Tanprasert-HelpCall 2024", target: "4-Layer Framework", type: "Framework-integration", concept: "synchronous help → asynchronous replay as Ch 3 core anchor" },
+            { source: "Lee-See 2004", target: "4-Layer Framework", type: "Framework-integration", concept: "trust calibration → Ch 1/Ch 3 design-space anchor" },
 
             { source: "Duane 2025", target: "4-Layer Framework", type: "Methodological-inspiration", concept: "Gioia narrative + inductive → design-space synthesis" },
-            { source: "Wong 2025", target: "4-Layer Framework", type: "Methodological-inspiration", concept: "COM-B/TDF → behavioral barrier mapping" }
+            { source: "Wong 2025", target: "4-Layer Framework", type: "Framework-integration", concept: "institutional trust shortcut mechanism evidence for Ch1→Ch2 veneer-risk bridge" }
         ];
 
         const nodeMap = {};
         nodes.forEach(n => nodeMap[n.id] = n);
 
         function getNodeColor(d) {
-            return LAYER_COLORS[d.layer] || LAYER_COLORS['L1'];
+            return LAYER_COLORS[d.layer] || LAYER_COLORS['Ch1'];
         }
 
         function getNodeRadius(d) {
@@ -808,8 +844,9 @@
             .data(edges)
             .join('line')
             .attr('stroke', d => RELATION_COLORS[d.type])
-            .attr('stroke-width', 1.5)
-            .attr('stroke-opacity', 0.5)
+            .attr('stroke-width', d => d.type === 'Counter-evidence' ? 2 : 1.5)
+            .attr('stroke-dasharray', d => d.type === 'Counter-evidence' ? '6 4' : 'none')
+            .attr('stroke-opacity', d => d.type === 'Counter-evidence' ? 0.85 : 0.5)
             .attr('marker-end', d => `url(#arrow-${d.type})`);
 
         const nodeG = nodeGroup.selectAll('g')
@@ -938,7 +975,7 @@
             nodeG.select('text').attr('opacity', 1);
             nodeG.select('.seed-marker').attr('opacity', 0.8);
             nodeG.select('.core-ring').attr('opacity', 0.7);
-            link.attr('stroke-opacity', 0.5);
+            link.attr('stroke-opacity', d => d.type === 'Counter-evidence' ? 0.85 : 0.5);
         }
 
         svg.on('click', () => {
@@ -983,7 +1020,7 @@
                 const filter = btn.dataset.filter;
 
                 if (filter === 'all') {
-                    link.attr('display', 'inline').attr('stroke-opacity', 0.5);
+                    link.attr('display', 'inline').attr('stroke-opacity', d => d.type === 'Counter-evidence' ? 0.85 : 0.5);
                     nodeG.attr('display', d => d.excluded ? 'none' : 'inline');
                     nodeG.select('.node-circle').attr('opacity', 1);
                     nodeG.select('text').attr('opacity', 1).attr('font-size', '10px');
@@ -1012,9 +1049,9 @@
         const INFO_DATA = {
             'all': {
                 title: 'Integrated Relation View',
-                subtitle: 'A panoramic view of the entire 4-Layer Analytical Framework, revealing the intricate network from micro-level user cognition to macro-level policy and regulation.',
+                subtitle: 'A panoramic view of the thematic literature review, revealing the intricate network from micro-level user cognition to macro-level policy and regulation.',
                 rows: [
-                    ['Context', 'The framework deconstructs all core literature into 5C (Context, Characters, Conflicts, Consequences, Countermeasures), mapped onto four design-space layers. Layer 1 addresses older-adult vulnerability and trust states; Layer 2 examines AI hypernudge and dark-pattern risks; Layer 3 provides HCI countermeasures and friction design; Layer 4 focuses on governance and contestability.'],
+                    ['Context', 'The framework deconstructs all core literature into 5C, mapped onto four thematic chapters. R8 completes the Week12–13 method chain: Tanprasert (HelpCall) as Ch3 Capture–Replay anchor; Shneiderman (HCAI) as cross-chapter normative stack (Reliable / Safe / Trustworthy); Mackay & McGrenere (CSO) as Tier 1 qualitative method framework paired with HelpCall as practice precedent. Ch 1: older-adult trust and barriers (B1: Pang, Peng, KangJie); Ch 2: hypernudge and dark patterns; Ch 3: friction, seamful XAI, CSO-structured comparison; Ch 4: contestability and governance.'],
                     ['Gaps', 'Literature on aging barriers and health technology is highly fragmented, largely based on pre-smartphone-era technologies. UX practice severely lacks a vocabulary to describe and assess "criticality" and "deception" in design practice.'],
                     ['Conflicts', 'The overarching tension is user value vs. shareholder value (profit maximization) — designers must balance these conflicting values at every decision point. Simultaneously, seamless efficiency and protective friction are in strong tension.']
                 ]
@@ -1023,7 +1060,7 @@
                 title: 'Conceptual-basis View',
                 subtitle: 'Traces the theoretical evolution behind the framework, from classical behavioral economics to cognitive rights in the AI era.',
                 rows: [
-                    ['Context', 'The theoretical lineage begins with Thaler & Sunstein\'s (2008) "choice architecture" and "nudge." Yeung then extended this into the Big-Data-driven "hypernudge." Duane (2025) proposed a three-tier AI nudge taxonomy: algorithmic nudges, hypernudges, and predictive nudges. Faraoni (2023) introduced the legal concept of a "right to mental self-determination" to protect against AI-mediated manipulation.'],
+                    ['Context', 'The theoretical lineage begins with Thaler & Sunstein\'s (2008) "choice architecture" and "nudge." Yeung then extended this into the Big-Data-driven "hypernudge," contrasted in R8 with Shneiderman\'s HCAI ideal (high automation with high human control). Duane (2025) proposed a three-tier AI nudge taxonomy: algorithmic nudges, hypernudges, and predictive nudges. Faraoni (2023) introduced the legal concept of a "right to mental self-determination" to protect against AI-mediated manipulation, linked graphically to Shneiderman\'s Trustworthy / traceability layer.'],
                     ['Gaps', 'Despite the unprecedented capacity for AI-driven manipulation, there is no international consensus on which fundamental human rights can protect individuals from computational manipulation. Existing ethical guidelines typically fail to anticipate deceptive intent embedded within interfaces.'],
                     ['Conflicts', 'A fundamental tension exists between paternalism and liberty. The boundary between persuasion (appealing to System 2 reasoning) and manipulation (exploiting System 1 heuristics) becomes profoundly blurred in AI systems.']
                 ]
@@ -1032,14 +1069,14 @@
                 title: 'Empirical-evidence View',
                 subtitle: 'Studies that directly validate older adults\' interactions with AI through interviews, surveys, and field deployments.',
                 rows: [
-                    ['Context', 'Ellis (2025) surveyed 617 patients and interviewed 46 to investigate privacy perceptions of healthcare chatbots. Wong (2025) interviewed 27 Hong Kong older adults to explore acceptance of and barriers to AI health technology. Deng (2025) demonstrated through the WeAudit platform that non-expert users can effectively audit AI biases that experts overlook.'],
+                    ['Context', 'Ellis (2025) surveyed 617 patients and interviewed 46 to investigate privacy perceptions of healthcare chatbots, building on Guerrero et al.\'s (2015) established premise that older adults hold higher trust in the healthcare system. Ganguli (2024) and Wyman (2018) provide a complementary mechanism: frequent healthcare contact and system familiarity may reduce fear of the unknown toward institution-affiliated tools. Wong (2025) interviewed 27 Hong Kong older adults to explore acceptance of and barriers to AI health technology. Tanprasert et al. (2024, HelpCall) provided direct Ch 3 evidence that one synchronous helper session can be converted into reusable asynchronous step replay for older adults, reducing repeated assistance burden — positioned in R8 as the CSO practice instance alongside Mackay & McGrenere (2025, CSO methods). WeAudit (Deng 2025) is retained as contestability-support evidence in Ch 4 rather than as the Ch 3 core anchor. Two B1 counter-evidence studies challenge the deficit-view assumption: Peng (2024, JMIR, N=17 participatory design) showed older adults exhibit active critical agency and demand tools that teach independent judgment; KangJie (2025, arXiv, N=103 survey) showed AI literacy barriers are driven by access and instructional design, not cognitive capability.'],
                     ['Gaps', 'Traditional technology acceptance models (TAM, UTAUT) designed for younger users fail to fully capture the complex behavioral variables in older adults\' AI adoption. Research on privacy perceptions specific to patient-facing chatbots is virtually absent.'],
-                    ['Conflicts', 'Empirical results overturn a longstanding assumption: adults 65+ show lower privacy concern toward healthcare chatbots than younger users. Ellis (2025) proposes a halo effect as one candidate explanation, but this remains an untested hypothesis — alternative explanations include independence motivation (trading privacy to maintain autonomy at home) and privacy resignation (Wong 2025). Note: the Danish Health cohort (N=39,109, 2025) found the opposite age pattern — older adults were more skeptical of health AI — suggesting the trust dynamic is context-dependent, not a stable age-related trait. [W8 revision]']
+                    ['Conflicts', 'Empirical results overturn a longstanding assumption: adults 65+ show lower privacy concern toward healthcare chatbots than younger users. Ellis (2025) proposes a halo effect as one candidate explanation — supported by Guerrero (2015) trust premise and Ganguli/Wyman familiarity mechanism — but it remains an untested hypothesis. Alternative explanations include independence motivation (trading privacy to maintain autonomy at home) and privacy resignation (Wong 2025). The Danish Health cohort (N=39,109, 2025) found the opposite age pattern — older adults were more skeptical of health AI — suggesting the trust dynamic is context-dependent. Furthermore, B1 counter-evidence from Pang (2021), Peng (2024), and KangJie (2025) directly challenges the capability-deficit view: older adults are not passive users but actively seek tools that support their own judgment, and their AI literacy barriers stem from pedagogical design, not inherent incapacity. [W8 revision]']
                 ]
             },
             'Design-implication': {
                 title: 'Design-implication View',
-                subtitle: 'Focuses on Layer 3 — how interfaces can protect users through deliberately designed friction.',
+                subtitle: 'Focuses on Ch 3 — how interfaces can protect users through deliberately designed friction.',
                 rows: [
                     ['Context', 'Multiple design countermeasures address blind AI trust: İnan (2025) proposes "positive friction" to slow conversational pace and promote reflection. Ehsan (2024) advocates "seamful XAI," intentionally exposing AI blind spots and sociotechnical gaps. Jamshed (2025) designs "audio nudges" for screen-free voice interfaces.'],
                     ['Gaps', 'Current conversational agents (e.g., Google Nest Hub) have overly rigid dialogue flows that cannot support the error-recovery mechanisms needed by older adults with mild cognitive impairment (MCI). In XAI research, 76 out of 79 studies completely exclude the needs of people with disabilities (over-reliance on visual charts).'],
@@ -1048,9 +1085,9 @@
             },
             'Governance-implication': {
                 title: 'Governance-implication View',
-                subtitle: 'Examines the highest layer (Layer 4) — system accountability, regulatory frameworks, and risk management.',
+                subtitle: 'Examines Ch 4 — system accountability, regulatory frameworks, and risk management.',
                 rows: [
-                    ['Context', 'WHO (2021) published health AI ethics guidelines proposing a "human warranty" requiring oversight checkpoints upstream and downstream of algorithms. NIST (2023) released the AI Risk Management Framework (GOVERN, MAP, MEASURE, MANAGE). Hirsch (2017) defined contestability design principles for high-stakes ML systems.'],
+                    ['Context', 'WHO (2021) published health AI ethics guidelines proposing a "human warranty" requiring oversight checkpoints upstream and downstream of algorithms. NIST (2023) released the AI Risk Management Framework (GOVERN, MAP, MEASURE, MANAGE). Hirsch (2017) defined contestability design principles for high-stakes ML systems. Shneiderman (2020, R8) supplies a cross-cutting HCAI normative stack — Reliable, Safe, Trustworthy — aligned with design-governance bridges in Zotero_5C.'],
                     ['Gaps', 'Despite voluntary guidelines, there is no cross-jurisdictional mandatory transparency regulation or independent audit mechanism. In healthcare, groups harmed by AI often lack both post-hoc remedies and in-situ channels to challenge AI decisions at the moment of impact.'],
                     ['Conflicts', 'A "first-party paradox" emerges: Wang (2025) found that users perceive highly integrated first-party AI ecosystems (e.g., Google Gemini) as less transparent and trustworthy than third-party plugins (e.g., ChatGPT + Expedia) — overturning conventional privacy literature. Transparency also clashes sharply with corporate proprietary interests.']
                 ]
@@ -1066,9 +1103,9 @@
             },
             'Framework-integration': {
                 title: 'Framework-integration View',
-                subtitle: 'Marks the pillar literature supporting the 4-Layer Analytical Framework, showing how it integrates across disciplines.',
+                subtitle: 'Marks the pillar literature supporting the thematic framework, showing how it integrates across disciplines.',
                 rows: [
-                    ['Context', 'The framework seamlessly connects Wildenbos\'s aging-barrier model (anchoring L1), Duane & Gray\'s dark-pattern taxonomies (anchoring L2), Gullí & Lee & See\'s countermeasure and trust models (anchoring L3), and WHO & NIST governance guidelines (anchoring L4) — forming an end-to-end analytical instrument for AI manipulation.'],
+                    ['Context', 'The framework connects Wildenbos\'s aging-barrier model (Ch 1), Duane & Gray\'s dark-pattern taxonomies (Ch 2), Gullí, Lee & See, HelpCall, and Mackay & McGrenere CSO (Ch 3 method + implementation precedent), plus Shneiderman HCAI, WHO & NIST (Ch 4 and cross-chapter normative ceiling) — end-to-end from vulnerability through manipulation risk to structured human judgment and governance.'],
                     ['Gaps', 'Single-discipline knowledge is severely limited: for example, policy risk frameworks (NIST) can tell us "what to govern" but lack HCI-level "interface friction design guidelines" to implement protections — and vice versa.'],
                     ['Conflicts', 'Integrating these frameworks exposes a clash between "engineering logic" and "professional domain logic." Hirsch (2017) warns that engineers pursuing algorithmic efficiency and statistical accuracy can silently usurp or undermine the decision-making transparency and legibility valued by professional domains such as healthcare and psychotherapy.']
                 ]
@@ -1077,17 +1114,26 @@
                 title: 'Methodological-inspiration View',
                 subtitle: 'Traces how research designs and analytical methods were borrowed or adapted across studies.',
                 rows: [
-                    ['Context', 'Methodological edges trace research-design borrowing. Duane (2025) Gioia narrative + inductive method inspires the 4-Layer design-space synthesis approach. Wong (2025) COM-B/TDF behavioral mapping provides a structured method for barrier analysis adaptable to friction design.'],
+                    ['Context', 'Methodological edges trace research-design borrowing. Duane (2025) Gioia narrative + inductive method inspires the thematic design-space synthesis approach; Mackay & McGrenere (2025) CSO extends structured comparison into qualitative, medium-fidelity HCI evaluation (linked from Duane for rigor metaphor and from Lee & See for trust-reasoning lens in Week12–13). Wong (2025) COM-B/TDF behavioral mapping supports barrier analysis for friction design.'],
                     ['Gaps', 'The methodological bridge from narrative review to design-space construction lacks formal validation criteria. COM-B/TDF has not been applied to AI friction design specifically.'],
-                    ['Conflicts', 'Inductive synthesis (bottom-up from literature) vs. deductive framework application (top-down from COM-B) represent competing epistemological stances that the 4-Layer framework must reconcile.']
+                    ['Conflicts', 'Inductive synthesis (bottom-up from literature) vs. deductive framework application (top-down from COM-B) represent competing epistemological stances that the thematic framework must reconcile.']
+                ]
+            },
+            'Counter-evidence': {
+                title: 'B1 Counter-evidence View',
+                subtitle: 'Search Protocol B1: Older Adults\' AI Skepticism — studies that challenge the deficit-view assumption.',
+                rows: [
+                    ['Context', 'Three studies challenge the deficit-view assumption: Pang (2021, CHI, N=42+27+13) demonstrated older adults\' latent capability for trial-and-error learning and independent onboarding. Peng (2024, JMIR, N=17) participatory design showed older adults demanded tools that "teach them to judge for themselves." KangJie (2025, arXiv, N=103) showed AI literacy barriers are access/instructional, not cognitive capability.'],
+                    ['Relation to Ellis', 'Ellis 2025 proposes the halo effect (institutional trust transfer → lower privacy concern). The deficit-view assumption underlying that framing — that older adults are passive, uncritical users — is directly challenged by Pang (latent capability), Peng (active critical agency), and KangJie (barriers are pedagogical, not capability). KangJie also challenges Peixoto\'s AI literacy gap.'],
+                    ['Implication', 'Proxy auditor design should emphasize role specialization (capturing experiential signals from the user) rather than compensating for alleged incapacity. Trust calibration can be done with older adults, not merely to them.']
                 ]
             }
         };
 
         let currentFilter = 'all';
 
-    const ROUND_ORDER = { 'R1': 0, 'R2': 1, 'R3': 2, 'R4': 3, 'R5': 4, 'R6': 5, '—': 5 };
-    const ROUND_LABELS = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+    const ROUND_ORDER = { 'R1': 0, 'R2': 1, 'R3': 2, 'R4': 3, 'R5': 4, 'R6': 5, 'R7': 6, 'R8': 7, '—': 5 };
+    const ROUND_LABELS = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8'];
     let snowballMode = false;
     let roundLabelsG = null;
 
@@ -1099,7 +1145,7 @@
         if (snowballMode) {
             const margin = 80;
             const usableW = width - margin * 2;
-            const stepX = usableW / 5;
+            const stepX = usableW / (ROUND_LABELS.length - 1);
 
             nodeG.attr('display', 'inline');
 
@@ -1154,7 +1200,7 @@
             nodeG.select('text').attr('opacity', 1).attr('font-size', '10px');
             nodeG.select('.seed-marker').attr('opacity', 0.8);
             nodeG.select('.core-ring').attr('opacity', 0.7);
-            link.attr('stroke-opacity', 0.5);
+            link.attr('stroke-opacity', d => d.type === 'Counter-evidence' ? 0.85 : 0.5);
             pinnedNode = null;
         }
     }
