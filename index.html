@@ -679,6 +679,442 @@
             transform: translateX(0.25rem);
         }
 
+        /* ============================================================ */
+        /* Agent Governance Column (cross-Substack: PrivacyUX × AgenticUX)*/
+        /* ============================================================ */
+        .column-intro {
+            color: var(--ux-primary);
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            text-align: center;
+            max-width: 820px;
+            margin: -0.5rem auto 2.25rem;
+            transition: color 0.25s ease, transform 0.25s ease;
+        }
+
+        .column-intro:hover {
+            transform: translateY(-1px);
+            color: #5AB073;
+        }
+
+        @media (max-width: 768px) {
+            .column-intro {
+                font-size: 1rem;
+                line-height: 1.55;
+            }
+        }
+
+        .column-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 0.4rem;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            width: fit-content;
+        }
+
+        .column-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1.1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .column-tab .tab-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .column-tab[data-filter="privacyux"] .tab-dot { background: var(--ux-primary); }
+        .column-tab[data-filter="agenticux"] .tab-dot { background: var(--ai-primary); }
+        .column-tab[data-filter="all"] .tab-dot {
+            background: linear-gradient(90deg, var(--ux-primary), var(--ai-primary));
+        }
+
+        .column-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .column-tab.active {
+            background: var(--text-primary);
+            color: var(--neutral-100);
+        }
+
+        .column-card {
+            position: relative;
+        }
+
+        .source-badge {
+            position: absolute;
+            top: 0.85rem;
+            left: 0.85rem;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #fff;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        .source-badge.privacyux {
+            background: rgba(116, 207, 150, 0.92); /* --ux-primary */
+        }
+
+        .source-badge.agenticux {
+            background: rgba(139, 92, 246, 0.92); /* --ai-primary */
+        }
+
+        .source-badge .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #fff;
+            display: inline-block;
+        }
+
+        .source-badge .badge-lang {
+            margin-left: 0.4rem;
+            padding: 1px 6px;
+            background: rgba(255, 255, 255, 0.28);
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+
+        .column-card .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .column-card .card-meta .meta-date {
+            opacity: 0.8;
+        }
+
+        .column-card[data-source] {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .column-card.hidden-by-filter {
+            display: none;
+        }
+
+        /* Sankey editorial map shown in "All" tab */
+        .column-sankey {
+            background: #FAFBFC;
+            border: 1px solid #E5E9EF;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .column-sankey .sankey-header {
+            padding: 1.5rem 1.75rem 0.5rem;
+        }
+
+        .column-sankey .sankey-eyebrow {
+            color: #FF8A47;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .column-sankey .sankey-title {
+            color: #0F1419;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0 0 0.4rem;
+        }
+
+        .column-sankey .sankey-sub {
+            color: #5B6478;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 0;
+            max-width: 760px;
+        }
+
+        .column-sankey .sankey-svg-wrap {
+            width: 100%;
+            overflow-x: auto;
+            padding: 1.25rem 1rem;
+        }
+
+        .column-sankey .sankey-svg-wrap svg {
+            width: 100%;
+            height: auto;
+            max-height: 980px;
+            display: block;
+            min-width: 1100px;
+        }
+
+        @media (max-width: 768px) {
+            .column-sankey .sankey-header { padding: 1.25rem 1.25rem 0.5rem; }
+            .column-sankey .sankey-svg-wrap svg { max-height: none; }
+        }
+
+        /* ============================================================ */
+        /* Column Highlights — editorial diagrams w/ tab switching      */
+        /* ============================================================ */
+        .highlights-card {
+            background: #fdfaf1; /* paper */
+            border: 1px solid #d2c8b0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+            color: #1e1a15;
+        }
+
+        .highlights-header {
+            padding: 1.75rem 2rem 0.75rem;
+            border-bottom: 1px solid #e4dcc3;
+        }
+
+        .highlights-kicker {
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #7a2e1f;
+            margin-bottom: 0.4rem;
+        }
+
+        .highlights-title {
+            font-family: 'Noto Serif TC', 'Source Serif Pro', Georgia, serif;
+            color: #1e1a15;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.4rem;
+            line-height: 1.3;
+        }
+
+        .highlights-sub {
+            color: #4a3f30;
+            font-size: 0.9rem;
+            margin: 0;
+            max-width: 720px;
+            line-height: 1.5;
+        }
+
+        .highlights-tabs {
+            display: flex;
+            gap: 0;
+            padding: 0 2rem;
+            border-bottom: 1px solid #e4dcc3;
+            background: #f7f3ea;
+        }
+
+        .highlights-tab {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 0.9rem 1.25rem;
+            margin-bottom: -1px;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #7a6a55;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .highlights-tab .fig-num {
+            font-family: 'Source Serif Pro', Georgia, serif;
+            font-style: italic;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            color: #7a2e1f;
+            font-size: 0.95rem;
+        }
+
+        .highlights-tab:hover {
+            color: #1e1a15;
+        }
+
+        .highlights-tab.active {
+            color: #1e1a15;
+            border-bottom-color: #7a2e1f;
+        }
+
+        .highlights-panel {
+            padding: 1.75rem 2rem 2rem;
+        }
+
+        .highlights-panel[hidden] { display: none; }
+
+        .highlights-svg-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            background: #fdfaf1;
+            border: 1px solid #e4dcc3;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .highlights-svg-wrap svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            min-width: 720px;
+        }
+
+        .highlights-notes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            font-family: 'Noto Sans TC', -apple-system, Inter, sans-serif;
+            font-size: 0.85rem;
+            line-height: 1.55;
+            color: #1e1a15;
+        }
+
+        .highlights-notes > div {
+            padding: 1rem 1.1rem;
+            background: #f7f3ea;
+            border-left: 3px solid #7a2e1f;
+            border-radius: 0 0.4rem 0.4rem 0;
+        }
+
+        .highlights-notes strong {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #7a2e1f;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .highlights-notes code {
+            background: #e8dcba;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.78rem;
+        }
+
+        @media (max-width: 900px) {
+            .highlights-notes { grid-template-columns: 1fr; gap: 0.75rem; }
+            .highlights-header { padding: 1.25rem 1.25rem 0.5rem; }
+            .highlights-tabs { padding: 0 1rem; overflow-x: auto; }
+            .highlights-panel { padding: 1.25rem 1.25rem 1.5rem; }
+            .highlights-tab { padding: 0.75rem 0.9rem; font-size: 0.7rem; }
+        }
+
+        .column-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            background: var(--surface-card);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .column-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .column-cta.privacyux { border-color: var(--ux-primary); }
+        .column-cta.privacyux:hover { background: rgba(116, 207, 150, 0.12); }
+        .column-cta.agenticux { border-color: var(--ai-primary); }
+        .column-cta.agenticux:hover { background: rgba(139, 92, 246, 0.12); }
+
+        .column-cta .cta-swatch {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .column-cta.privacyux .cta-swatch { background: var(--ux-primary); }
+        .column-cta.agenticux .cta-swatch { background: var(--ai-primary); }
+
+        .column-empty-state {
+            margin-top: 1.5rem;
+            padding: 3rem 1.5rem;
+            background: var(--surface-card);
+            border: 1px dashed var(--border-color);
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+
+        .column-empty-state .empty-state-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .column-empty-state .empty-state-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--ux-primary);
+            opacity: 0.7;
+        }
+
+        .column-empty-state h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .column-empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0 0 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .column-tabs { width: 100%; justify-content: space-between; }
+            .column-tab { flex: 1; justify-content: center; }
+        }
+
         /* Experience Timeline */
         .timeline {
             position: relative;
@@ -759,6 +1195,320 @@
 
         .timeline-description li {
             margin-bottom: 0.5rem;
+        }
+
+        /* ============================================================ */
+        /* HCI/UX Community Co-Creation — talk card additions            */
+        /* ============================================================ */
+        .talk-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.85rem 0 1rem;
+        }
+
+        .talk-stat {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            padding: 0.35rem 0.7rem;
+            background: rgba(116, 207, 150, 0.1);
+            border: 1px solid rgba(116, 207, 150, 0.35);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            color: var(--text-primary);
+        }
+
+        .talk-stat .stat-num {
+            font-weight: 700;
+            color: var(--ux-primary);
+            font-size: 0.95rem;
+        }
+
+        .talk-stat .stat-label {
+            color: var(--text-secondary);
+        }
+
+        .talk-materials {
+            margin-top: 1.25rem;
+        }
+
+        .talk-materials-label {
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+        }
+
+        .talk-materials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .talk-material {
+            aspect-ratio: 16 / 10;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--neutral-300);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            position: relative;
+            transition: border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .talk-material img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .talk-material.is-placeholder::after {
+            content: 'Preview';
+            position: absolute;
+            bottom: 0.4rem;
+            right: 0.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .talk-material:hover {
+            border-color: var(--ux-primary);
+            transform: translateY(-2px);
+        }
+
+        .talk-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.25rem;
+        }
+
+        .talk-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.55rem 1rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            background: var(--surface-card);
+            transition: all 0.25s ease;
+        }
+
+        .talk-action:hover {
+            border-color: var(--ux-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .talk-action.primary {
+            border-color: var(--ux-primary);
+            background: rgba(116, 207, 150, 0.1);
+            color: var(--ux-primary);
+        }
+
+        .talk-action.primary:hover {
+            background: rgba(116, 207, 150, 0.18);
+        }
+
+        .talk-action i {
+            width: 14px;
+            height: 14px;
+        }
+
+        @media (max-width: 640px) {
+            .talk-materials-grid { grid-template-columns: 1fr; }
+            .talk-actions { flex-direction: column; align-items: stretch; }
+            .talk-action { justify-content: center; }
+        }
+
+        /* ============================================================ */
+        /* Consulting Cases — 2-column cards with swipeable image gallery */
+        /* ============================================================ */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+        }
+
+        .case-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .case-card:hover {
+            border-color: var(--ux-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .case-gallery {
+            position: relative;
+            background: #0a0a12;
+        }
+
+        .case-gallery-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .case-gallery-track::-webkit-scrollbar { display: none; }
+
+        .case-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            aspect-ratio: 16 / 10;
+            display: block;
+        }
+
+        .case-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .case-dots {
+            position: absolute;
+            bottom: 0.85rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.4rem;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 0.35rem 0.6rem;
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .case-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .case-dot:hover { background: rgba(255, 255, 255, 0.6); }
+
+        .case-dot.active {
+            background: var(--ux-primary);
+            transform: scale(1.3);
+        }
+
+        .case-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .case-gallery:hover .case-nav { opacity: 1; }
+        .case-nav:hover { background: rgba(0, 0, 0, 0.7); }
+        .case-nav.prev { left: 0.6rem; }
+        .case-nav.next { right: 0.6rem; }
+
+        .case-nav i { width: 18px; height: 18px; }
+
+        .case-counter {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.85rem;
+            background: rgba(0, 0, 0, 0.55);
+            color: rgba(255, 255, 255, 0.92);
+            padding: 0.25rem 0.55rem;
+            border-radius: 4px;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .case-content {
+            padding: 1.5rem 1.5rem 1.5rem;
+        }
+
+        .case-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin: 0 0 0.75rem;
+        }
+
+        .case-background {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin: 0 0 1.1rem;
+        }
+
+        .case-client {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            background: rgba(116, 207, 150, 0.08);
+            border: 1px solid rgba(116, 207, 150, 0.3);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: var(--ux-primary);
+            font-weight: 600;
+        }
+
+        .case-client .client-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .case-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .case-content { padding: 1.25rem; }
         }
 
         /* Toggle Button */
@@ -2408,17 +3158,17 @@
             <a href="#skills" class="right-nav-item" data-tooltip="Skills">
                 <i data-lucide="brain-circuit"></i>
             </a>
-            <a href="#articles" class="right-nav-item" data-tooltip="Articles">
+            <a href="#articles" class="right-nav-item" data-tooltip="Column">
                 <i data-lucide="file-text"></i>
             </a>
-            <a href="#videos" class="right-nav-item" data-tooltip="Videos">
-                <i data-lucide="youtube"></i>
+            <a href="#videos" class="right-nav-item" data-tooltip="Highlights">
+                <i data-lucide="layers"></i>
             </a>
-            <a href="#experience" class="right-nav-item" data-tooltip="Experience">
+            <a href="#experience" class="right-nav-item" data-tooltip="Co-Creation">
+                <i data-lucide="mic"></i>
+            </a>
+            <a href="#products" class="right-nav-item" data-tooltip="Cases">
                 <i data-lucide="briefcase"></i>
-            </a>
-            <a href="#products" class="right-nav-item" data-tooltip="Products">
-                <i data-lucide="app-window"></i>
             </a>
             <a href="#clients" class="right-nav-item" data-tooltip="Clients">
                 <i data-lucide="handshake"></i>
@@ -2432,7 +3182,7 @@
     <!-- Mobile Sticky Navigation -->
     <nav class="mobile-nav" id="mobile-nav">
         <div class="mobile-nav-menu">
-            <a href="Research.html" class="mobile-nav-item">
+            <a href="Zotero_5C_graph_V5.html" class="mobile-nav-item">
                 <i data-lucide="book-open"></i>
                 <span>Research</span>
             </a>
@@ -2442,19 +3192,19 @@
             </a>
             <a href="#articles" class="mobile-nav-item">
                 <i data-lucide="file-text"></i>
-                <span>Articles</span>
+                <span>Column</span>
             </a>
             <a href="#videos" class="mobile-nav-item">
-                <i data-lucide="youtube"></i>
-                <span>Videos</span>
+                <i data-lucide="layers"></i>
+                <span>Highlights</span>
             </a>
             <a href="#experience" class="mobile-nav-item">
-                <i data-lucide="briefcase"></i>
-                <span>Experience</span>
+                <i data-lucide="mic"></i>
+                <span>Co-Creation</span>
             </a>
             <a href="#products" class="mobile-nav-item">
-                <i data-lucide="app-window"></i>
-                <span>Products</span>
+                <i data-lucide="briefcase"></i>
+                <span>Cases</span>
             </a>
             <a href="#clients" class="mobile-nav-item">
                 <i data-lucide="handshake"></i>
@@ -2470,17 +3220,16 @@
     <header>
         <nav class="container">
             <a href="#" class="logo">
-                <img src="assets/joshua.png" alt="Joshua Hsiao" class="logo-avatar">
                 <span>Joshua Hsiao</span>
             </a>
             <div class="nav-links">
-                <a href="Research.html">Research</a>
-                <a href="Framework.html">Framework</a>
+                <a href="Zotero_5C_graph_V5.html">Research</a>
+                <a href="Resume.html">Resume</a>
                 <a href="#skills">Skills</a>
-                <a href="#articles">Articles</a>
-                <a href="#videos">Videos</a>
-                <a href="#experience">Experience</a>
-                <a href="#products">Products</a>
+                <a href="#articles">Column</a>
+                <a href="#videos">Highlights</a>
+                <a href="#experience">Co-Creation</a>
+                <a href="#products">Cases</a>
                 <a href="#clients">Clients</a>
                 <div class="nav-social-links">
                     <a href="mailto:gainshin.hsiao@mail.mcgill.ca" class="nav-social-link">
@@ -2640,21 +3389,171 @@
             </div>
         </section>
 
-        <!-- Recent Articles Section -->
+        <!-- Agent Governance Column Section (cross-publishing Privacy UX × Agentic UX) -->
         <section id="articles" class="section">
             <h3 class="section-title">
                 <i data-lucide="file-text"></i>
-                Recent Articles
+                Agent Governance Column
             </h3>
-            <div class="grid grid-3">
-                <a href="https://www.linkedin.com/pulse/your-design-system-asset-liability-evaluating-agentic-joshua-hsiao-jaxuc/?trackingId=wOTY4DxZ86yUkBl2ek5FNg%3D%3D"
-                    target="_blank" rel="noopener noreferrer" class="card">
-                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/63641fd8a_Screenshot2025-07-28at122002.png"
-                        alt="Traditional Design Systems">
+            <p class="column-intro">
+                Original analysis on AI literacy, dark patterns, and privacy-UX. Writing weekly for
+                1,000+ subscribers. Was a &ldquo;Top 25 Rising&rdquo; newsletter in 2025.
+            </p>
+
+            <div class="column-tabs" role="tablist" aria-label="Filter articles by source">
+                <button class="column-tab active" data-filter="all" role="tab" aria-selected="true">
+                    <span class="tab-dot"></span>All
+                </button>
+                <button class="column-tab" data-filter="privacyux" role="tab" aria-selected="false">
+                    <span class="tab-dot"></span>Privacy UX
+                </button>
+                <button class="column-tab" data-filter="agenticux" role="tab" aria-selected="false">
+                    <span class="tab-dot"></span>Agentic UX
+                </button>
+            </div>
+
+            <!-- "All" tab view: Sankey editorial map of the entire 2026 corpus (95 articles) -->
+            <div id="column-sankey" class="column-sankey">
+                <div class="sankey-svg-wrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1140"
+                        font-family="-apple-system, 'PingFang TC', 'Noto Sans TC', sans-serif" role="img"
+                        aria-label="Sankey diagram: article clusters mapped through AIPET dimensions to citation types">
+                        <rect width="1400" height="1140" fill="#FAFBFC" />
+                        <rect x="0" y="0" width="1400" height="6" fill="#FF8A47" />
+                        <text x="60" y="48" font-size="18" letter-spacing="2.5" font-weight="700"
+                            fill="#FF8A47">AGENTIC UX · CONTENT ANALYSIS v2</text>
+                        <text x="60" y="88" font-size="40" font-weight="800" fill="#0F1419">2026 Substack: Cross-Analysis of 95 Articles (Revised)</text>
+                        <text x="60" y="116" font-size="18" fill="#5B6478"><tspan font-weight="700" fill="#0F1419">Method: </tspan>Term-weight calibration (T broad-terms &#215;0.4&#8211;0.5) + multi-axis primary (top-2) + modern Privacy / Experience vocabulary added</text>
+                        <text x="60" y="138" font-size="18" fill="#5B6478"><tspan font-weight="700" fill="#0F1419">Stats: </tspan>131 axis tags total (incl. secondary) | 95 articles | vs v1: P 8&#8594;23, E 1&#8594;8, T 55&#8594;54</text>
+                        <text x="245" y="178" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Article Clusters</text>
+                        <text x="700" y="178" font-size="20" font-weight="700" fill="#0F1419" text-anchor="middle">AIPET Primary Axes (multi-axis)</text>
+                        <text x="1155" y="178" font-size="20" font-weight="700" fill="#0F1419" text-anchor="start">Citation Types</text>
+                        <path d="M 270.00,233.05 C 480.00,233.05 480.00,200.00 690.00,200.00 L 690.00,275.24 C 480.00,275.24 480.00,308.29 270.00,308.29 Z" fill="#FF8A47" opacity="0.34" />
+                        <path d="M 270.00,308.29 C 480.00,308.29 480.00,499.92 690.00,499.92 L 690.00,546.95 C 480.00,546.95 480.00,355.31 270.00,355.31 Z" fill="#FF8A47" opacity="0.34" />
+                        <path d="M 270.00,355.31 C 480.00,355.31 480.00,719.91 690.00,719.91 L 690.00,766.93 C 480.00,766.93 480.00,402.34 270.00,402.34 Z" fill="#FF8A47" opacity="0.34" />
+                        <path d="M 270.00,402.34 C 480.00,402.34 480.00,874.06 690.00,874.06 L 690.00,888.17 C 480.00,888.17 480.00,416.44 270.00,416.44 Z" fill="#FF8A47" opacity="0.34" />
+                        <path d="M 270.00,416.44 C 480.00,416.44 480.00,962.38 690.00,962.38 L 690.00,976.49 C 480.00,976.49 480.00,430.55 270.00,430.55 Z" fill="#FF8A47" opacity="0.34" />
+                        <path d="M 270.00,446.55 C 480.00,446.55 480.00,275.24 690.00,275.24 L 690.00,359.88 C 480.00,359.88 480.00,531.19 270.00,531.19 Z" fill="#FFB627" opacity="0.34" />
+                        <path d="M 270.00,531.19 C 480.00,531.19 480.00,546.95 690.00,546.95 L 690.00,575.16 C 480.00,575.16 480.00,559.40 270.00,559.40 Z" fill="#FFB627" opacity="0.34" />
+                        <path d="M 270.00,559.40 C 480.00,559.40 480.00,766.93 690.00,766.93 L 690.00,781.04 C 480.00,781.04 480.00,573.51 270.00,573.51 Z" fill="#FFB627" opacity="0.34" />
+                        <path d="M 270.00,573.51 C 480.00,573.51 480.00,888.17 690.00,888.17 L 690.00,911.68 C 480.00,911.68 480.00,597.02 270.00,597.02 Z" fill="#FFB627" opacity="0.34" />
+                        <path d="M 270.00,597.02 C 480.00,597.02 480.00,976.49 690.00,976.49 L 690.00,985.89 C 480.00,985.89 480.00,606.43 270.00,606.43 Z" fill="#FFB627" opacity="0.34" />
+                        <path d="M 270.00,622.43 C 480.00,622.43 480.00,359.88 690.00,359.88 L 690.00,416.31 C 480.00,416.31 480.00,678.85 270.00,678.85 Z" fill="#FF6B9D" opacity="0.34" />
+                        <path d="M 270.00,678.85 C 480.00,678.85 480.00,575.16 690.00,575.16 L 690.00,636.29 C 480.00,636.29 480.00,739.98 270.00,739.98 Z" fill="#FF6B9D" opacity="0.34" />
+                        <path d="M 270.00,739.98 C 480.00,739.98 480.00,781.04 690.00,781.04 L 690.00,795.15 C 480.00,795.15 480.00,754.09 270.00,754.09 Z" fill="#FF6B9D" opacity="0.34" />
+                        <path d="M 270.00,754.09 C 480.00,754.09 480.00,985.89 690.00,985.89 L 690.00,1000.00 C 480.00,1000.00 480.00,768.20 270.00,768.20 Z" fill="#FF6B9D" opacity="0.34" />
+                        <path d="M 270.00,784.20 C 480.00,784.20 480.00,416.31 690.00,416.31 L 690.00,425.71 C 480.00,425.71 480.00,793.60 270.00,793.60 Z" fill="#4ECDC4" opacity="0.34" />
+                        <path d="M 270.00,793.60 C 480.00,793.60 480.00,636.29 690.00,636.29 L 690.00,645.69 C 480.00,645.69 480.00,803.01 270.00,803.01 Z" fill="#4ECDC4" opacity="0.34" />
+                        <path d="M 270.00,803.01 C 480.00,803.01 480.00,795.15 690.00,795.15 L 690.00,823.36 C 480.00,823.36 480.00,831.22 270.00,831.22 Z" fill="#4ECDC4" opacity="0.34" />
+                        <path d="M 270.00,847.22 C 480.00,847.22 480.00,425.71 690.00,425.71 L 690.00,449.22 C 480.00,449.22 480.00,870.73 270.00,870.73 Z" fill="#6BA7FF" opacity="0.34" />
+                        <path d="M 270.00,870.73 C 480.00,870.73 480.00,645.69 690.00,645.69 L 690.00,669.21 C 480.00,669.21 480.00,894.24 270.00,894.24 Z" fill="#6BA7FF" opacity="0.34" />
+                        <path d="M 270.00,894.24 C 480.00,894.24 480.00,911.68 690.00,911.68 L 690.00,916.38 C 480.00,916.38 480.00,898.95 270.00,898.95 Z" fill="#6BA7FF" opacity="0.34" />
+                        <path d="M 270.00,914.95 C 480.00,914.95 480.00,669.21 690.00,669.21 L 690.00,673.91 C 480.00,673.91 480.00,919.65 270.00,919.65 Z" fill="#34D399" opacity="0.34" />
+                        <path d="M 270.00,919.65 C 480.00,919.65 480.00,823.36 690.00,823.36 L 690.00,828.06 C 480.00,828.06 480.00,924.35 270.00,924.35 Z" fill="#34D399" opacity="0.34" />
+                        <path d="M 270.00,948.95 C 480.00,948.95 480.00,449.22 690.00,449.22 L 690.00,453.92 C 480.00,453.92 480.00,953.65 270.00,953.65 Z" fill="#94A3B8" opacity="0.34" />
+                        <path d="M 710.00,200.00 C 920.00,200.00 920.00,259.00 1130.00,259.00 L 1130.00,400.07 C 920.00,400.07 920.00,341.07 710.00,341.07 Z" fill="#E03E36" opacity="0.30" />
+                        <path d="M 710.00,341.07 C 920.00,341.07 920.00,643.08 1130.00,643.08 L 1130.00,661.89 C 920.00,661.89 920.00,359.88 710.00,359.88 Z" fill="#E03E36" opacity="0.30" />
+                        <path d="M 710.00,359.88 C 920.00,359.88 920.00,697.99 1130.00,697.99 L 1130.00,749.72 C 920.00,749.72 920.00,411.60 710.00,411.60 Z" fill="#E03E36" opacity="0.30" />
+                        <path d="M 710.00,411.60 C 920.00,411.60 920.00,837.55 1130.00,837.55 L 1130.00,879.87 C 920.00,879.87 920.00,453.92 710.00,453.92 Z" fill="#E03E36" opacity="0.30" />
+                        <path d="M 710.00,499.92 C 920.00,499.92 920.00,400.07 1130.00,400.07 L 1130.00,503.52 C 920.00,503.52 920.00,603.37 710.00,603.37 Z" fill="#0EA5A0" opacity="0.30" />
+                        <path d="M 710.00,603.37 C 920.00,603.37 920.00,749.72 1130.00,749.72 L 1130.00,796.74 C 920.00,796.74 920.00,650.40 710.00,650.40 Z" fill="#0EA5A0" opacity="0.30" />
+                        <path d="M 710.00,650.40 C 920.00,650.40 920.00,879.87 1130.00,879.87 L 1130.00,903.38 C 920.00,903.38 920.00,673.91 710.00,673.91 Z" fill="#0EA5A0" opacity="0.30" />
+                        <path d="M 710.00,719.91 C 920.00,719.91 920.00,503.52 1130.00,503.52 L 1130.00,569.35 C 920.00,569.35 920.00,785.74 710.00,785.74 Z" fill="#A78BFA" opacity="0.30" />
+                        <path d="M 710.00,785.74 C 920.00,785.74 920.00,661.89 1130.00,661.89 L 1130.00,671.29 C 920.00,671.29 920.00,795.15 710.00,795.15 Z" fill="#A78BFA" opacity="0.30" />
+                        <path d="M 710.00,795.15 C 920.00,795.15 920.00,796.74 1130.00,796.74 L 1130.00,810.85 C 920.00,810.85 920.00,809.25 710.00,809.25 Z" fill="#A78BFA" opacity="0.30" />
+                        <path d="M 710.00,809.25 C 920.00,809.25 920.00,903.38 1130.00,903.38 L 1130.00,922.19 C 920.00,922.19 920.00,828.06 710.00,828.06 Z" fill="#A78BFA" opacity="0.30" />
+                        <path d="M 710.00,874.06 C 920.00,874.06 920.00,569.35 1130.00,569.35 L 1130.00,602.27 C 920.00,602.27 920.00,906.98 710.00,906.98 Z" fill="#3B82F6" opacity="0.30" />
+                        <path d="M 710.00,906.98 C 920.00,906.98 920.00,922.19 1130.00,922.19 L 1130.00,931.60 C 920.00,931.60 920.00,916.38 710.00,916.38 Z" fill="#3B82F6" opacity="0.30" />
+                        <path d="M 710.00,962.38 C 920.00,962.38 920.00,602.27 1130.00,602.27 L 1130.00,621.08 C 920.00,621.08 920.00,981.19 710.00,981.19 Z" fill="#10B981" opacity="0.30" />
+                        <path d="M 710.00,981.19 C 920.00,981.19 920.00,671.29 1130.00,671.29 L 1130.00,675.99 C 920.00,675.99 920.00,985.89 710.00,985.89 Z" fill="#10B981" opacity="0.30" />
+                        <path d="M 710.00,985.89 C 920.00,985.89 920.00,810.85 1130.00,810.85 L 1130.00,815.55 C 920.00,815.55 920.00,990.60 710.00,990.60 Z" fill="#10B981" opacity="0.30" />
+                        <path d="M 710.00,990.60 C 920.00,990.60 920.00,931.60 1130.00,931.60 L 1130.00,941.00 C 920.00,941.00 920.00,1000.00 710.00,1000.00 Z" fill="#10B981" opacity="0.30" />
+                        <rect x="250.0" y="233.05" width="20" height="197.50" fill="#FF8A47" rx="3" />
+                        <text x="238.0" y="329.80" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Society</text>
+                        <text x="238.0" y="345.80" font-size="16" fill="#8B97AC" text-anchor="end">42 tags</text>
+                        <rect x="250.0" y="446.55" width="20" height="159.88" fill="#FFB627" rx="3" />
+                        <text x="238.0" y="524.49" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Business</text>
+                        <text x="238.0" y="540.49" font-size="16" fill="#8B97AC" text-anchor="end">34 tags</text>
+                        <rect x="250.0" y="622.43" width="20" height="145.77" fill="#FF6B9D" rx="3" />
+                        <text x="238.0" y="693.31" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">UX Design</text>
+                        <text x="238.0" y="709.31" font-size="16" fill="#8B97AC" text-anchor="end">31 tags</text>
+                        <rect x="250.0" y="784.20" width="20" height="47.02" fill="#4ECDC4" rx="3" />
+                        <text x="238.0" y="805.71" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Education</text>
+                        <text x="238.0" y="821.71" font-size="16" fill="#8B97AC" text-anchor="end">10 tags</text>
+                        <rect x="250.0" y="847.22" width="20" height="51.73" fill="#6BA7FF" rx="3" />
+                        <text x="238.0" y="871.08" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Technology</text>
+                        <text x="238.0" y="887.08" font-size="16" fill="#8B97AC" text-anchor="end">11 tags</text>
+                        <rect x="250.0" y="914.95" width="20" height="18.00" fill="#34D399" rx="3" />
+                        <text x="238.0" y="921.95" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Healthcare</text>
+                        <text x="238.0" y="937.95" font-size="16" fill="#8B97AC" text-anchor="end">2 tags</text>
+                        <rect x="250.0" y="948.95" width="20" height="18.00" fill="#94A3B8" rx="3" />
+                        <text x="238.0" y="955.95" font-size="20" font-weight="700" fill="#0F1419" text-anchor="end">Other</text>
+                        <text x="238.0" y="971.95" font-size="16" fill="#8B97AC" text-anchor="end">1 tag</text>
+                        <rect x="690.0" y="200.00" width="20" height="253.92" fill="#E03E36" rx="3" />
+                        <text x="724.0" y="314.96" font-size="28" font-weight="800" fill="#E03E36">T</text>
+                        <text x="724.0" y="332.96" font-size="17" font-weight="600" fill="#0F1419">Trust / Governance</text>
+                        <text x="724.0" y="348.96" font-size="16" fill="#8B97AC">54 tags (41%)</text>
+                        <rect x="690.0" y="499.92" width="20" height="173.98" fill="#0EA5A0" rx="3" />
+                        <text x="724.0" y="574.92" font-size="28" font-weight="800" fill="#0EA5A0">I</text>
+                        <text x="724.0" y="592.92" font-size="17" font-weight="600" fill="#0F1419">Interaction</text>
+                        <text x="724.0" y="608.92" font-size="16" fill="#8B97AC">37 tags (28%)</text>
+                        <rect x="690.0" y="719.91" width="20" height="108.15" fill="#A78BFA" rx="3" />
+                        <text x="724.0" y="761.98" font-size="28" font-weight="800" fill="#A78BFA">P</text>
+                        <text x="724.0" y="779.98" font-size="17" font-weight="600" fill="#0F1419">Privacy</text>
+                        <text x="724.0" y="795.98" font-size="16" fill="#8B97AC">23 tags (18%)</text>
+                        <rect x="690.0" y="874.06" width="20" height="42.32" fill="#3B82F6" rx="3" />
+                        <text x="724.0" y="883.22" font-size="28" font-weight="800" fill="#3B82F6">A</text>
+                        <text x="724.0" y="901.22" font-size="17" font-weight="600" fill="#0F1419">Agency</text>
+                        <text x="724.0" y="917.22" font-size="16" fill="#8B97AC">9 tags (7%)</text>
+                        <rect x="690.0" y="962.38" width="20" height="37.62" fill="#10B981" rx="3" />
+                        <text x="724.0" y="969.19" font-size="28" font-weight="800" fill="#10B981">E</text>
+                        <text x="724.0" y="987.19" font-size="17" font-weight="600" fill="#0F1419">Experience</text>
+                        <text x="724.0" y="1003.19" font-size="16" fill="#8B97AC">8 tags (6%)</text>
+                        <rect x="1130.0" y="259.00" width="20" height="362.08" fill="#F59E0B" rx="3" />
+                        <text x="1162.0" y="438.04" font-size="20" font-weight="700" fill="#0F1419">Industry</text>
+                        <text x="1162.0" y="454.04" font-size="16" fill="#8B97AC">77 tags (59%)</text>
+                        <rect x="1130.0" y="643.08" width="20" height="32.92" fill="#8B5CF6" rx="3" />
+                        <text x="1162.0" y="657.53" font-size="20" font-weight="700" fill="#0F1419">Policy</text>
+                        <text x="1162.0" y="673.53" font-size="16" fill="#8B97AC">7 tags (5%)</text>
+                        <rect x="1130.0" y="697.99" width="20" height="117.56" fill="#06B6D4" rx="3" />
+                        <text x="1162.0" y="754.77" font-size="20" font-weight="700" fill="#0F1419">Academic</text>
+                        <text x="1162.0" y="770.77" font-size="16" fill="#8B97AC">25 tags (19%)</text>
+                        <rect x="1130.0" y="837.55" width="20" height="103.45" fill="#64748B" rx="3" />
+                        <text x="1162.0" y="887.27" font-size="20" font-weight="700" fill="#0F1419">Mixed</text>
+                        <text x="1162.0" y="903.27" font-size="16" fill="#8B97AC">22 tags (17%)</text>
+                        <line x1="60" y1="1022" x2="1340" y2="1022" stroke="#E5E9EF" stroke-width="1" />
+                        <text x="60" y="1044" font-size="16" font-weight="700" fill="#FF8A47" letter-spacing="1.5">KEY REVISIONS</text>
+                        <text x="60" y="1066" font-size="17" fill="#0F1419"><tspan fill="#A78BFA" font-weight="700">P 8&#8594;23</tspan> (modern Privacy vocab added) | <tspan fill="#10B981" font-weight="700">E 1&#8594;8</tspan> (friction / breakpoints / continuity added) | <tspan fill="#3B82F6" font-weight="700">A 3&#8594;9</tspan> (concrete proxy-action terms added) | <tspan fill="#E03E36" font-weight="700">T 55&#8594;54</tspan> (still primary after broad-term calibration)</text>
+                        <text x="60" y="1094" font-size="16" fill="#5B6478">Multi-axis primary: each article takes its top-scoring dimension; runner-up included if &#8805;5 and &#8805;50% of primary score. Hence 131 tags &gt; 95 articles.</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="grid grid-3" id="column-grid" style="display:none">
+
+                <!-- ============== PRIVACY UX — 6 latest, in reverse chronological order ============== -->
+                <!-- Note: actual article bodies are in Chinese; English titles use the official Substack subtitles. -->
+
+                <!-- After the Second Brain · May 01, 2026 -->
+                <a href="https://privacyux.substack.com/p/agent-ux-writing"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-05-01">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://img.youtube.com/vi/eNcDPzeZ41Q/maxresdefault.jpg"
+                        alt="After the Second Brain: From Knowledge Curation to UX Writing for Agents"
+                        loading="lazy">
                     <div class="card-content">
-                        <h4 class="card-title">Traditional Design Systems</h4>
-                        <p class="card-description">Exploring the evolution from static rulebooks to intelligent
-                            'Experience Systems' powered by AI.</p>
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX · Season 2</span>
+                            <span class="meta-date">May 01, 2026</span>
+                        </div>
+                        <h4 class="card-title">After the Second Brain</h4>
+                        <p class="card-description">From knowledge curation &amp; decision logging to UX writing
+                            for agents &mdash; building auditable judgment assets so designers don't get
+                            demoted to data-feeders for SaaS agents.</p>
                         <div class="card-link">
                             Read More
                             <i data-lucide="arrow-right"></i>
@@ -2662,14 +3561,25 @@
                     </div>
                 </a>
 
-                <a href="https://www.linkedin.com/pulse/your-design-system-asset-liability-evaluating-agentic-joshua-hsiao-wlycc/?trackingId=kZfoySUFxd%2F2cTyqQyQ%2FFw%3D%3D"
-                    target="_blank" rel="noopener noreferrer" class="card">
-                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/a603415e2_Screenshot2025-07-28at122021.png"
-                        alt="AIPET: Agency">
+                <!-- Duolingo Backed Down, Meta Didn't · Apr 25, 2026 -->
+                <a href="https://privacyux.substack.com/p/duolingo-meta-ai"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-04-25">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!wILq!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2b965330-1f94-4dc2-8b99-996676067338_1956x1276.png"
+                        alt="Duolingo Backed Down, Meta Didn't" loading="lazy">
                     <div class="card-content">
-                        <h4 class="card-title">AIPET: Agency</h4>
-                        <p class="card-description">A framework for AI Product Managers to navigate the dilemma between
-                            autonomous agents and helpful copilots.</p>
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX</span>
+                            <span class="meta-date">Apr 25, 2026</span>
+                        </div>
+                        <h4 class="card-title">Duolingo Backed Down, Meta Didn&rsquo;t</h4>
+                        <p class="card-description">Two generations of enterprise AI policy: KPI-driven AI
+                            adoption that triggers backlash vs. silent behavioral distillation. When you can't
+                            opt out, your workflow becomes training data.</p>
                         <div class="card-link">
                             Read More
                             <i data-lucide="arrow-right"></i>
@@ -2677,229 +3587,919 @@
                     </div>
                 </a>
 
-                <a href="https://www.linkedin.com/pulse/designing-ai-companions-minors-ux-framework-proactive-joshua-hsiao-jj7nf/?trackingId=v6kAz1LrRaexQiLRAeI7mQ%3D%3D"
-                    target="_blank" rel="noopener noreferrer" class="card">
-                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/e562d6509_Screenshot2025-07-28at122038.png"
-                        alt="Design Principles x Token">
+                <!-- The Server's Mnemonic, the Court's Exhibit · Apr 24, 2026 -->
+                <a href="https://privacyux.substack.com/p/aiux"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-04-24">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!PlMy!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd9753845-a4f1-4eb2-aed7-17965617e406_784x435.png"
+                        alt="The Server's Mnemonic, the Court's Exhibit" loading="lazy">
                     <div class="card-content">
-                        <h4 class="card-title">Design Principles x Token</h4>
-                        <p class="card-description">How the AIPET framework translates into machine-readable
-                            instructions through Design Tokens.</p>
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX · AI/UX Practice</span>
+                            <span class="meta-date">Apr 24, 2026</span>
+                        </div>
+                        <h4 class="card-title">The Server&rsquo;s Mnemonic, the Court&rsquo;s Exhibit</h4>
+                        <p class="card-description">AI conversations are becoming high-density legal evidence
+                            while RAG systems contaminate themselves citing AI-generated SEO. Where does your
+                            second brain actually live &mdash; and who can subpoena it?</p>
                         <div class="card-link">
                             Read More
                             <i data-lucide="arrow-right"></i>
                         </div>
                     </div>
                 </a>
-            </div>
-            <div style="text-align: right; margin-top: 3rem;">
-                <a href="https://agenticux.substack.com/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                    See More Articles
+
+                <!-- Less Filing, Not Less Judgment · Apr 24, 2026 -->
+                <a href="https://privacyux.substack.com/p/aiux-claude-design"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-04-24">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://img.youtube.com/vi/IiU9TYPwbjg/maxresdefault.jpg"
+                        alt="Less Filing, Not Less Judgment: Seven Claude Design Moves" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX · AI/UX Practice</span>
+                            <span class="meta-date">Apr 24, 2026</span>
+                        </div>
+                        <h4 class="card-title">Less Filing, Not Less Judgment</h4>
+                        <p class="card-description">A hands-on field review of Claude Design's seven moves &mdash;
+                            it's a leverage tool for concept exploration, not a requirements engine. Speed
+                            without taste only renders garbage faster.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
                 </a>
+
+                <!-- When the Company Becomes a Queryable Agent · Apr 10, 2026 -->
+                <a href="https://privacyux.substack.com/p/agent"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-04-10">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://img.youtube.com/vi/YTVSwOY19Qs/maxresdefault.jpg"
+                        alt="When the Company Becomes a Queryable Agent" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX</span>
+                            <span class="meta-date">Apr 10, 2026</span>
+                        </div>
+                        <h4 class="card-title">When the Company Becomes a Queryable Agent</h4>
+                        <p class="card-description">Block's &ldquo;mini-AGI&rdquo; vision is really company-wide
+                            RAG &mdash; and the hard problem isn't model quality. It's deciding who can read
+                            what, who signs off, and how permission state drift breaks everything.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- From Frictionless to Accountable · Mar 27, 2026 -->
+                <a href="https://privacyux.substack.com/p/ai-agent-ux"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="privacyux" data-date="2026-03-27">
+                    <span class="source-badge privacyux">
+                        <span class="badge-dot"></span>Privacy UX
+                        <span class="badge-lang">中文 CN</span>
+                    </span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!7RK7!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F302b560d-abb4-4050-b40f-89d324db3fa5_3532x1834.png"
+                        alt="From Frictionless to Accountable" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Privacy UX</span>
+                            <span class="meta-date">Mar 27, 2026</span>
+                        </div>
+                        <h4 class="card-title">From Frictionless to Accountable</h4>
+                        <p class="card-description">Thirty years of &ldquo;remove all friction&rdquo; UX has
+                            reached its reckoning. Intentional friction, HITL as service-design responsibility,
+                            and a new role: Accountability Architect.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ============== AGENTIC UX — 6 latest, in reverse chronological order ============== -->
+
+                <!-- Agentic UX in Practice — Part 3 (Governor) · Apr 17, 2026 -->
+                <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2026-04-17">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://img.youtube.com/vi/PQU9o_5rHC4/maxresdefault.jpg"
+                        alt="Agentic UX in Practice — Part 3: Is $2,400 in Tokens a Cost or an Investment?"
+                        loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX · Part 3</span>
+                            <span class="meta-date">Apr 17, 2026</span>
+                        </div>
+                        <h4 class="card-title">Is $2,400 in Tokens a Cost or an Investment?</h4>
+                        <p class="card-description">Performance, talent selection, and the power of Veto in the
+                            Agent era &mdash; the Governor's view on objective-function design and Layer 3b
+                            non-distillable judgment.</p>
+                        <div class="card-link">
+                            Read Part 3
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Agentic UX in Practice — Part 2 (Manager) · Apr 15, 2026 -->
+                <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-2-when"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2026-04-15">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://img.youtube.com/vi/eh8bcBIAAFo/maxresdefault.jpg"
+                        alt="Agentic UX in Practice — Part 2: When Your Researcher Also Has an Agent"
+                        loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX · Part 2</span>
+                            <span class="meta-date">Apr 15, 2026</span>
+                        </div>
+                        <h4 class="card-title">When Your Researcher Also Has an Agent</h4>
+                        <p class="card-description">Rewriting team workflows &mdash; Frame and Arbiter as the
+                            Manager's battleground when researchers, PMs, and designers all wield Agents that can
+                            produce prototypes.</p>
+                        <div class="card-link">
+                            Read Part 2
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Agentic UX in Practice — Part 1 (Practitioner) · Apr 13, 2026 -->
+                <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-1-when"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2026-04-13">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://img.youtube.com/vi/rlIy7b-3DC8/maxresdefault.jpg"
+                        alt="Agentic UX in Practice — Part 1: Which Conceptual Prototype Is Yours?"
+                        loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX · Part 1</span>
+                            <span class="meta-date">Apr 13, 2026</span>
+                        </div>
+                        <h4 class="card-title">"Which Conceptual Prototype Is Yours?"</h4>
+                        <p class="card-description">Design Critique and UX_Skill distillation in the Agent era
+                            &mdash; when every prototype on the table was Agent-generated, what is the designer's
+                            basis of legitimacy?</p>
+                        <div class="card-link">
+                            Read Part 1
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- NeurIPS 2025 Robot Olympics · Sep 24, 2025 -->
+                <a href="https://agenticux.substack.com/p/are-we-cheering-for-the-neurips-2025"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2025-09-24">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!a1hE!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3d4cb1af-f9e9-4907-ba3e-a7d96dc1f7f2_1025x577.png"
+                        alt="Are We Cheering for the NeurIPS 2025 Robot Olympics Too Soon?" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX</span>
+                            <span class="meta-date">Sep 24, 2025</span>
+                        </div>
+                        <h4 class="card-title">Cheering for NeurIPS 2025 Too Soon?</h4>
+                        <p class="card-description">Why "Agentic UX" is the real challenge for embodied AI &mdash;
+                            beyond the BEHAVIOR Challenge's muscle, who actually dares to drive the robot in a
+                            real home?</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- From AGENTS to Browsers · Aug 22, 2025 -->
+                <a href="https://agenticux.substack.com/p/from-agents-to-browsers-the-battle"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2025-08-22">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!lwXj!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7b9c1731-e8c7-4b32-92cd-fdb8a82f4c73_1514x842.png"
+                        alt="From AGENTS to Browsers: The Battle for the Soul of AI" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX</span>
+                            <span class="meta-date">Aug 22, 2025</span>
+                        </div>
+                        <h4 class="card-title">From AGENTS to Browsers</h4>
+                        <p class="card-description">The "beautiful trap" of AGENTS.md and the platform war for
+                            the AI agent's vessel &mdash; AIPET as the engineering translation that defines an
+                            Agent's character.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- AI Design System Workflow · Aug 09, 2025 -->
+                <a href="https://agenticux.substack.com/p/ai-work-flow-lost-in-the-ai-design"
+                    target="_blank" rel="noopener noreferrer" class="card column-card"
+                    data-source="agenticux" data-date="2025-08-09">
+                    <span class="source-badge agenticux"><span class="badge-dot"></span>Agentic UX</span>
+                    <img src="https://substackcdn.com/image/fetch/$s_!uiZo!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F04fb8c3d-9d09-4ff5-9dde-38c5b63addfc_1938x734.png"
+                        alt="Lost in the AI Design System Tool Maze?" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="meta-source">Agentic UX</span>
+                            <span class="meta-date">Aug 09, 2025</span>
+                        </div>
+                        <h4 class="card-title">Lost in the AI Design System Tool Maze?</h4>
+                        <p class="card-description">Three battle-tested paths through Tweak, MagicPath, Cursor,
+                            and Base44 &mdash; move from paralysis to production by picking the workflow, not the
+                            tool.</p>
+                        <div class="card-link">
+                            Read More
+                            <i data-lucide="arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
             </div>
+
+            <!-- Empty state shown when Privacy UX filter is active and no PUX cards exist yet -->
+            <div id="column-empty-state" class="column-empty-state" hidden>
+                <div class="empty-state-inner">
+                    <i data-lucide="sparkles" class="empty-state-icon"></i>
+                    <h4>Privacy UX articles coming soon</h4>
+                    <p>The Privacy UX Substack is being migrated into this column view. In the meantime, browse
+                        the latest series directly:</p>
+                    <a href="https://privacyux.substack.com/" target="_blank" rel="noopener noreferrer"
+                        class="column-cta privacyux">
+                        <span class="cta-swatch"></span>
+                        Open Privacy UX Substack
+                        <i data-lucide="external-link"></i>
+                    </a>
+                </div>
+            </div>
+
         </section>
 
-        <!-- YouTube Videos Section -->
+        <!-- Column Highlights — editorial diagrams from the Substack archive -->
         <section id="videos" class="section">
             <h3 class="section-title">
-                <i data-lucide="youtube"></i>
-                YouTube Channel
+                <i data-lucide="layers"></i>
+                Column Highlights
             </h3>
-            <div class="grid grid-2">
-                <a href="https://www.youtube.com/watch?v=b6Qb-w9DT60" target="_blank" rel="noopener noreferrer"
-                    class="card video-card">
-                    <div style="position: relative;">
-                        <img src="assets/Video_1.jpg" alt="Agentic UX Series - Part I">
-                        <div class="video-overlay">
-                            <div class="play-button">
-                                <i data-lucide="play" style="margin-left: 4px;"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h4 class="card-title">Agentic UX Series - Part I</h4>
-                        <p class="card-description">Is Your Design System an Asset or a Liability? Evaluating Agentic
-                            Experiences with the AIPET Framework</p>
-                        <div class="card-link">
-                            Watch Video
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-                    </div>
-                </a>
+            <div class="highlights-card">
+                <div class="highlights-header">
+                    <div class="highlights-kicker">&mdash; Wiki-as-Interface</div>
+                    <h4 class="highlights-title">How AI/UX Writing&rsquo;s CoT Orchestrates Multiple Agents</h4>
+                    <p class="highlights-sub">
+                        Two editorial diagrams from the Substack &mdash; (A) how raw design artifacts become an
+                        agent-queryable wiki, and (B) the inside of a single Design Agent&rsquo;s loop.
+                    </p>
+                </div>
 
-                <a href="https://www.youtube.com/watch?v=CMyU0GI94NI" target="_blank" rel="noopener noreferrer"
-                    class="card video-card">
-                    <div style="position: relative;">
-                        <img src="assets/Video_2.jpg" alt="Agentic UX Series - Part II">
-                        <div class="video-overlay">
-                            <div class="play-button">
-                                <i data-lucide="play" style="margin-left: 4px;"></i>
-                            </div>
+                <div class="highlights-tabs" role="tablist">
+                    <button class="highlights-tab active" data-fig="a" role="tab" aria-selected="true">
+                        <span class="fig-num">A.</span>Wiki &times; Agent Orchestration
+                    </button>
+                    <button class="highlights-tab" data-fig="b" role="tab" aria-selected="false">
+                        <span class="fig-num">B.</span>Inside the Design Agent
+                    </button>
+                </div>
+
+                <!-- ═══ Figure A · Wiki-as-Interface ═══ -->
+                <div class="highlights-panel" id="highlight-fig-a">
+                    <div class="highlights-svg-wrap">
+                        <svg viewBox="0 0 1200 460" preserveAspectRatio="xMidYMid meet" role="img"
+                            aria-label="Wiki × Agent orchestration: five raw sources ingested into an LLM-maintained wiki, queried by five focused UX agents">
+                            <defs>
+                                <marker id="hl-arr2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                                    <path d="M0,0 L9,5 L0,10 Z" fill="#1e1a15"></path>
+                                </marker>
+                                <marker id="hl-arrAcc2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                                    <path d="M0,0 L9,5 L0,10 Z" fill="#7a2e1f"></path>
+                                </marker>
+                                <marker id="hl-arrOchre2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                                    <path d="M0,0 L9,5 L0,10 Z" fill="#c49a56"></path>
+                                </marker>
+                            </defs>
+
+                            <!-- Column headers -->
+                            <text x="40" y="22" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1.8" fill="#7a6a55">RAW SOURCES</text>
+                            <text x="40" y="38" font-family="Source Serif Pro, serif" font-style="italic" font-size="12" fill="#a89e87">&mdash; immutable material</text>
+                            <text x="255" y="22" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="2.2" fill="#7a2e1f">INGEST &rarr;</text>
+                            <text x="340" y="22" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1.8" fill="#7a6a55">LLM WIKI</text>
+                            <text x="340" y="38" font-family="Source Serif Pro, serif" font-style="italic" font-size="12" fill="#a89e87">&mdash; Karpathy, n.d.</text>
+                            <text x="860" y="22" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="2.2" fill="#1e1a15">&harr; QUERY</text>
+                            <text x="940" y="22" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1.8" fill="#7a6a55">UX AGENTS</text>
+                            <text x="940" y="38" font-family="Source Serif Pro, serif" font-style="italic" font-size="12" fill="#a89e87">&mdash; focused workers</text>
+
+                            <!-- LEFT · Sources -->
+                            <g font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#1e1a15">
+                                <rect x="40" y="60" width="180" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="55" y="82">Product Spec / Features</text>
+                                <text x="55" y="98" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">PRD / FEATURE LIST</text>
+
+                                <rect x="40" y="122" width="180" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="55" y="144">User Journey</text>
+                                <text x="55" y="160" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">JOURNEY MAP</text>
+
+                                <rect x="40" y="184" width="180" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="55" y="206">Module List</text>
+                                <text x="55" y="222" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">MODULE LIST</text>
+
+                                <rect x="40" y="246" width="180" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="55" y="268">Page List</text>
+                                <text x="55" y="284" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">PAGE LIST</text>
+
+                                <rect x="40" y="308" width="180" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="55" y="330">User Flow</text>
+                                <text x="55" y="346" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">USER FLOW</text>
+                            </g>
+
+                            <!-- INGEST arrows -->
+                            <path d="M 220 84  C 260 84, 275 145, 320 145"  stroke="#7a2e1f" stroke-width="1.2" fill="none" marker-end="url(#hl-arrAcc2)" stroke-dasharray="3 3"></path>
+                            <path d="M 220 146 C 265 146, 280 160, 320 165" stroke="#7a2e1f" stroke-width="1.2" fill="none" marker-end="url(#hl-arrAcc2)" stroke-dasharray="3 3"></path>
+                            <path d="M 220 208 L 320 185" stroke="#7a2e1f" stroke-width="1.5" fill="none" marker-end="url(#hl-arrAcc2)"></path>
+                            <path d="M 220 270 C 265 270, 280 205, 320 205" stroke="#7a2e1f" stroke-width="1.2" fill="none" marker-end="url(#hl-arrAcc2)" stroke-dasharray="3 3"></path>
+                            <path d="M 220 332 C 265 332, 280 230, 320 220" stroke="#7a2e1f" stroke-width="1.2" fill="none" marker-end="url(#hl-arrAcc2)" stroke-dasharray="3 3"></path>
+
+                            <!-- MIDDLE · Wiki outer frame -->
+                            <rect x="320" y="60" width="520" height="330" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1.5"></rect>
+                            <text x="340" y="88" font-family="Source Serif Pro, serif" font-weight="700" font-size="16" fill="#1e1a15">LLM Wiki</text>
+                            <text x="418" y="88" font-family="Source Serif Pro, serif" font-style="italic" font-size="13" fill="#7a6a55">&mdash; LLM-maintained markdown</text>
+
+                            <!-- Wiki inner pages -->
+                            <rect x="340" y="104" width="155" height="56" fill="rgba(196, 154, 86, 0.14)" stroke="#c49a56" stroke-width="1"></rect>
+                            <text x="352" y="124" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="#1e1a15">index.md</text>
+                            <text x="352" y="140" font-family="Inter, sans-serif" font-size="11" fill="#4a3f30">Catalog</text>
+                            <text x="352" y="154" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1" fill="#7a6a55">CATALOG</text>
+
+                            <rect x="505" y="104" width="155" height="56" fill="rgba(196, 154, 86, 0.14)" stroke="#c49a56" stroke-width="1"></rect>
+                            <text x="517" y="124" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="#1e1a15">log.md</text>
+                            <text x="517" y="140" font-family="Inter, sans-serif" font-size="11" fill="#4a3f30">Chronological log</text>
+                            <text x="517" y="154" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1" fill="#7a6a55">CHRONOLOGICAL</text>
+
+                            <rect x="670" y="104" width="155" height="56" fill="rgba(196, 154, 86, 0.14)" stroke="#c49a56" stroke-width="1"></rect>
+                            <text x="682" y="124" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="#1e1a15">persona/ &middot; decisions/</text>
+                            <text x="682" y="140" font-family="Inter, sans-serif" font-size="11" fill="#4a3f30">Curated pages</text>
+                            <text x="682" y="154" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1" fill="#7a6a55">CURATED PAGES</text>
+
+                            <!-- Cross-ref band -->
+                            <rect x="340" y="174" width="485" height="44" fill="rgba(122, 46, 31, 0.05)" stroke="#7a2e1f" stroke-width="0.8" stroke-dasharray="3 2"></rect>
+                            <text x="582" y="192" text-anchor="middle" font-family="Source Serif Pro, serif" font-style="italic" font-size="13" fill="#5f2417">cross-ref &middot; backlinks &middot; tags</text>
+                            <text x="582" y="208" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4" fill="#7a6a55">THE THING THAT DEGRADES IF UN-MAINTAINED</text>
+
+                            <line x1="340" y1="238" x2="825" y2="238" stroke="#d2c8b0" stroke-width="1" stroke-dasharray="4 3"></line>
+
+                            <!-- Schema heading + block -->
+                            <text x="340" y="260" font-family="Source Serif Pro, serif" font-weight="700" font-size="15" fill="#1e1a15">Schema / CoT</text>
+                            <text x="428" y="260" font-family="Source Serif Pro, serif" font-style="italic" font-size="12" fill="#7a6a55">&mdash; writing rules &middot; configuration</text>
+                            <rect x="340" y="272" width="485" height="104" fill="#f7f3ea" stroke="#1e1a15" stroke-width="1"></rect>
+                            <text x="582" y="296" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#1e1a15">Cross-ref conventions &middot; file naming &middot; lint rules &middot; voice &amp; tone</text>
+                            <text x="582" y="314" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#4a3f30">Change the schema once &rarr; affect every page</text>
+
+                            <!-- LINT loop arrows -->
+                            <path d="M 365 270 C 365 234, 365 226, 365 220" stroke="#c49a56" stroke-width="1.2" fill="none" stroke-dasharray="4 3" marker-end="url(#hl-arrOchre2)"></path>
+                            <path d="M 795 270 C 795 234, 795 226, 795 220" stroke="#c49a56" stroke-width="1.2" fill="none" stroke-dasharray="4 3" marker-end="url(#hl-arrOchre2)"></path>
+                            <text x="582" y="346" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="2" fill="#c49a56">&uarr; LINT &middot; periodic audit &uarr;</text>
+
+                            <!-- QUERY arrows -->
+                            <path d="M 840 88  C 880 88, 895 82, 935 82"   stroke="#1e1a15" stroke-width="1.2" fill="none" marker-end="url(#hl-arr2)"></path>
+                            <path d="M 935 95  C 895 95, 880 100, 840 100" stroke="#1e1a15" stroke-width="1" fill="none" stroke-dasharray="2 2"></path>
+                            <path d="M 840 140 C 880 140, 895 144, 935 144" stroke="#1e1a15" stroke-width="1.2" fill="none" marker-end="url(#hl-arr2)"></path>
+                            <path d="M 935 157 C 895 157, 880 158, 840 158" stroke="#1e1a15" stroke-width="1" fill="none" stroke-dasharray="2 2"></path>
+                            <path d="M 840 200 L 935 206" stroke="#1e1a15" stroke-width="1.5" fill="none" marker-end="url(#hl-arr2)"></path>
+                            <path d="M 935 219 C 895 219, 880 219, 840 220" stroke="#1e1a15" stroke-width="1" fill="none" stroke-dasharray="2 2"></path>
+                            <path d="M 840 260 C 880 260, 895 270, 935 270" stroke="#1e1a15" stroke-width="1.2" fill="none" marker-end="url(#hl-arr2)"></path>
+                            <path d="M 935 283 C 895 283, 880 282, 840 282" stroke="#1e1a15" stroke-width="1" fill="none" stroke-dasharray="2 2"></path>
+                            <path d="M 840 330 C 880 330, 895 334, 935 334" stroke="#7a2e1f" stroke-width="1.4" fill="none" marker-end="url(#hl-arrAcc2)"></path>
+                            <path d="M 935 347 C 895 347, 880 346, 840 346" stroke="#7a2e1f" stroke-width="1" fill="none" stroke-dasharray="2 2"></path>
+
+                            <!-- RIGHT · Agents -->
+                            <g font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#1e1a15">
+                                <rect x="940" y="60" width="200" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="955" y="82">Design Agent</text>
+                                <text x="955" y="98" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">Draws UI &middot; ships prototype</text>
+
+                                <rect x="940" y="122" width="200" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="955" y="144">Research Agent</text>
+                                <text x="955" y="160" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">Interviews &middot; ships insight</text>
+
+                                <rect x="940" y="184" width="200" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="955" y="206">Copy Agent</text>
+                                <text x="955" y="222" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">UX microcopy &middot; voice</text>
+
+                                <rect x="940" y="246" width="200" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+                                <text x="955" y="268">Red Team Agent</text>
+                                <text x="955" y="284" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a6a55">Contradictions &middot; adversarial</text>
+
+                                <rect x="940" y="308" width="200" height="48" fill="#fdfaf1" stroke="#7a2e1f" stroke-width="1.5"></rect>
+                                <rect x="940" y="308" width="3" height="48" fill="#7a2e1f"></rect>
+                                <text x="955" y="330">Orchestrator</text>
+                                <text x="955" y="346" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.4" fill="#7a2e1f">= YOU &middot; the curator</text>
+                            </g>
+
+                            <text x="1160" y="410" text-anchor="end" font-family="Source Serif Pro, serif" font-style="italic" font-size="12" fill="#a89e87">after Bush (1945) &middot; Karpathy (n.d.)</text>
+
+                            <!-- Flowing dots -->
+                            <circle r="3" fill="#7a2e1f">
+                                <animateMotion dur="3.2s" repeatCount="indefinite" path="M 220 208 L 320 185"></animateMotion>
+                            </circle>
+                            <circle r="3" fill="#1e1a15">
+                                <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.5s" path="M 840 200 L 935 206"></animateMotion>
+                            </circle>
+                            <circle r="3" fill="#c49a56">
+                                <animateMotion dur="3.6s" repeatCount="indefinite" begin="1.2s" path="M 365 270 C 365 234, 365 226, 365 220"></animateMotion>
+                            </circle>
+                        </svg>
+                    </div>
+
+                    <div class="highlights-notes">
+                        <div>
+                            <strong>Ingest &middot; Feed material</strong>
+                            New PRDs, journey maps, and module lists arrive &mdash; AI reads them, summarizes,
+                            and builds cross-references. Humans decide what&rsquo;s worth keeping. Specs that
+                            lived only in documents become knowledge agents can query.
+                        </div>
+                        <div>
+                            <strong>Query &middot; Read + Write</strong>
+                            Agents pull context from the wiki (no more re-briefing every session); valuable
+                            answers drop back as new pages &mdash; <code>chat history</code> isn&rsquo;t
+                            knowledge, the wiki is.
+                        </div>
+                        <div>
+                            <strong>Lint &middot; Audit</strong>
+                            Periodic automated checks for cross-page contradictions, orphan pages, and missing
+                            links. <strong>Rules live in the schema</strong> &mdash; change one rule and every
+                            page is affected.
                         </div>
                     </div>
-                    <div class="card-content">
-                        <h4 class="card-title">Agentic UX Series - Part II</h4>
-                        <p class="card-description">Answering the Skeptics: Why We Need an "Experience System," Not Just
-                            an "Adaptive" One. Evaluating Agentic Experiences with the AIPET Framework</p>
-                        <div class="card-link">
-                            Watch Video
-                            <i data-lucide="arrow-right"></i>
+                </div><!-- /fig-a -->
+
+                <!-- ═══ Figure B · Inside the Design Agent ═══ -->
+                <div class="highlights-panel" id="highlight-fig-b" hidden>
+                    <div class="highlights-svg-wrap">
+                        <svg viewBox="0 0 840 320" preserveAspectRatio="xMidYMid meet" role="img"
+                            aria-label="Inside the Design Agent: L1-L5 guide layers feed forward into the agent generation loop, output emerges with silent sensor verification">
+                            <defs>
+                                <marker id="hl-arrLoop" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                                    <path d="M0,0 L7,4 L0,8 Z" fill="#4a3f30" />
+                                </marker>
+                            </defs>
+
+                            <text x="40" y="14" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" letter-spacing="2" fill="#7a2e1f">USER &middot; REQUEST &darr;</text>
+
+                            <!-- L1 -->
+                            <g transform="translate(40, 24)">
+                                <rect x="0" y="0" width="200" height="42" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1" />
+                                <text x="12" y="16" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2" fill="#7a6a55">L1</text>
+                                <text x="12" y="34" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#1e1a15">Identity &amp; Guardrails</text>
+                                <text x="155" y="34" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">UserPersona</text>
+                            </g>
+                            <!-- L2 -->
+                            <g transform="translate(40, 74)">
+                                <rect x="0" y="0" width="200" height="42" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1" />
+                                <text x="12" y="16" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2" fill="#7a6a55">L2</text>
+                                <text x="12" y="34" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#1e1a15">Design Taste</text>
+                                <text x="125" y="34" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">AestheticPrompts</text>
+                            </g>
+                            <!-- L3 -->
+                            <g transform="translate(40, 124)">
+                                <rect x="0" y="0" width="200" height="42" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1" />
+                                <text x="12" y="16" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2" fill="#7a6a55">L3</text>
+                                <text x="12" y="34" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#1e1a15">Workflow</text>
+                                <text x="105" y="34" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">FeatureWording</text>
+                            </g>
+                            <!-- L4 -->
+                            <g transform="translate(40, 174)">
+                                <rect x="0" y="0" width="200" height="42" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1" />
+                                <text x="12" y="16" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2" fill="#7a6a55">L4</text>
+                                <text x="12" y="34" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#1e1a15">Tools &amp; Protocols</text>
+                                <text x="140" y="34" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">AgentGovernance</text>
+                            </g>
+                            <!-- L5 -->
+                            <g transform="translate(40, 224)">
+                                <rect x="0" y="0" width="200" height="42" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1" />
+                                <text x="12" y="16" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2" fill="#7a6a55">L5</text>
+                                <text x="12" y="34" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#1e1a15">Technical Spec</text>
+                                <text x="125" y="34" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">COT_Lexicon</text>
+                            </g>
+
+                            <text x="22" y="155" transform="rotate(-90, 22, 155)" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" letter-spacing="2" fill="#7a2e1f">GUIDE &middot; FEED-FORWARD</text>
+
+                            <g fill="none" stroke="#4a3f30" stroke-width="1.2">
+                                <path d="M240 45 C290 45, 320 140, 370 150" />
+                                <path d="M240 95 C295 95, 325 145, 370 155" />
+                                <path d="M240 145 L370 160" />
+                                <path d="M240 195 C295 195, 325 175, 370 170" />
+                                <path d="M240 245 C290 245, 320 180, 370 175" />
+                            </g>
+
+                            <!-- Agent Loop -->
+                            <rect x="380" y="115" width="185" height="125" fill="#7a2e1f" stroke="#7a2e1f" stroke-width="1" />
+                            <text x="472" y="140" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" letter-spacing="2" fill="#fdfaf1" opacity="0.7">LOOP</text>
+                            <text x="472" y="170" text-anchor="middle" font-family="Source Serif Pro, serif" font-size="20" font-weight="600" fill="#fdfaf1">Agent</text>
+                            <text x="472" y="192" text-anchor="middle" font-family="Source Serif Pro, serif" font-size="14" font-weight="500" fill="#fdfaf1">Generation Loop</text>
+                            <text x="472" y="214" text-anchor="middle" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#fdfaf1" opacity="0.75">explore &rarr; sketch &rarr;</text>
+                            <text x="472" y="228" text-anchor="middle" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#fdfaf1" opacity="0.75">build &rarr; show &rarr; iterate</text>
+
+                            <path d="M565 175 L640 175" fill="none" stroke="#4a3f30" stroke-width="1.5" marker-end="url(#hl-arrLoop)" />
+
+                            <!-- Output -->
+                            <rect x="650" y="152" width="155" height="44" fill="#e8dcba" stroke="#c49a56" stroke-width="1" />
+                            <text x="662" y="170" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" letter-spacing="1.5" fill="#7a6a55">OUTPUT</text>
+                            <text x="662" y="188" font-family="Source Serif Pro, serif" font-size="14" font-weight="600" fill="#1e1a15">HTML Artifact</text>
+
+                            <!-- Sensor -->
+                            <rect x="650" y="216" width="155" height="64" fill="none" stroke="#6aaa3a" stroke-width="1.5" stroke-dasharray="4 3" />
+                            <text x="662" y="234" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" letter-spacing="2" fill="#6aaa3a">SENSOR &middot; VERIFY</text>
+                            <text x="662" y="254" font-family="Source Serif Pro, serif" font-size="13" font-weight="500" fill="#1e1a15">done() + verifier</text>
+                            <text x="662" y="272" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#7a6a55">silent on pass</text>
+
+                            <path d="M650 248 Q 530 290 500 240" fill="none" stroke="#6aaa3a" stroke-width="1" stroke-dasharray="3 2" />
+                            <text x="570" y="300" text-anchor="middle" font-family="Source Serif Pro, serif" font-style="italic" font-size="11" fill="#6aaa3a">iterate if fail</text>
+                        </svg>
+                    </div>
+
+                    <div class="highlights-notes">
+                        <div>
+                            <strong>Guide &middot; Feed-forward</strong>
+                            L1&ndash;L5 set taste, discipline, and tool boundaries before the agent acts. Taste
+                            first, tools second &mdash; designers need aesthetics before technique.
+                        </div>
+                        <div>
+                            <strong>Loop &middot; Generation cycle</strong>
+                            The agent runs inside the guard rails: explore &rarr; sketch &rarr; build &rarr;
+                            show. Showing early beats building in private &mdash; every reveal is a chance to
+                            converge on direction.
+                        </div>
+                        <div>
+                            <strong>Sensor &middot; Silent verification</strong>
+                            After the agent delivers, the system runs quality checks in the background. Quiet
+                            on pass &mdash; <strong>only speaks up when something fails</strong>.
                         </div>
                     </div>
-                </a>
+                </div><!-- /fig-b -->
             </div>
         </section>
 
-        <!-- Professional Experience -->
+        <!-- HCI/UX Community Co-Creation -->
         <section id="experience" class="section">
             <h3 class="section-title">
-                <i data-lucide="briefcase"></i>
-                Professional Experience
+                <i data-lucide="mic"></i>
+                HCI/UX Community Co-Creation
             </h3>
             <div class="timeline">
-                <!-- Recent Experience (Always visible) -->
+
+                <!-- ── Co-Creating an AI / UX Book — continuation of the Reading Group cohort ── -->
                 <div class="timeline-item">
                     <div class="timeline-dot">
                         <div class="timeline-dot-inner"></div>
                     </div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h4 class="timeline-role">AI/UX Consultant</h4>
-                            <p class="timeline-period">2023 - Present</p>
+                            <h4 class="timeline-role">Co-Creating an AI / UX Book</h4>
+                            <p class="timeline-period">6-month sprint &middot; ongoing</p>
                         </div>
-                        <p class="timeline-company">Privacyux consulting ltd • Montreal, Canada</p>
+                        <p class="timeline-company">Reading-Group Alumni Co-Creation &middot; hosted on Patreon</p>
                         <ul class="timeline-description">
-                            <li>Pioneered Agentic UX framework implementation for 15+ AI startups and academic labs,
-                                resulting in a 40% improvement in user trust metrics.</li>
-                            <li>Developed Privacy-as-Trust design strategy helping clients integrate PIPEDA and GDPR
-                                compliance into product core architecture.</li>
-                            <li>Architected human-centered AI systems focusing on Social Agents, Voice Interaction, and
-                                private Generative AI solutions.</li>
+                            <li>Continuing book-creation initiative built with alumni of the UX For AI
+                                Reading Group &mdash; <strong>22 chapters completed in 6 months</strong>,
+                                structured as a two-sided manuscript.</li>
+                            <li><strong>Side A &mdash; UX Practice Path (AI in products):</strong> a linear
+                                <em>&ldquo;AI Literacy Formation Journey&rdquo;</em> &mdash; chapters that walk
+                                a practitioner from foundations to applied product decisions.</li>
+                            <li><strong>Side B &mdash; Management Strategy Path (AI in your team):</strong> a
+                                goal-oriented <em>&ldquo;AI &times; Gen-Z Co-working Playbook&rdquo;</em> &mdash;
+                                strategy chapters for leaders managing AI-augmented Gen-Z teammates.</li>
+                            <li>Membership-supported on Patreon with an active trial-reader feedback loop &mdash;
+                                drafts iterate against real-reader reactions, not in isolation.</li>
                         </ul>
+
+                        <div class="talk-stats">
+                            <span class="talk-stat">
+                                <span class="stat-num">22</span>
+                                <span class="stat-label">chapters completed</span>
+                            </span>
+                            <span class="talk-stat">
+                                <span class="stat-num">6</span>
+                                <span class="stat-label">months of co-creation</span>
+                            </span>
+                            <span class="talk-stat">
+                                <span class="stat-num">90+</span>
+                                <span class="stat-label">trial readers</span>
+                            </span>
+                        </div>
+
+                        <div class="talk-materials">
+                            <div class="talk-materials-label">Manuscript Preview</div>
+                            <div class="talk-materials-grid">
+                                <div class="talk-material">
+                                    <img src="assets/Images/AIUX_Doing_1.png"
+                                        alt="AI/UX Doing book co-creation — preview 1" loading="lazy">
+                                </div>
+                                <div class="talk-material">
+                                    <img src="assets/Images/AIUX_Doing_2.png"
+                                        alt="AI/UX Doing book co-creation — preview 2" loading="lazy">
+                                </div>
+                                <div class="talk-material">
+                                    <img src="assets/Images/AIUX_Doing_3.png"
+                                        alt="AI/UX Doing book co-creation — preview 3" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talk-actions">
+                            <a href="https://www.patreon.com/c/AIUXDoing" target="_blank"
+                                rel="noopener noreferrer" class="talk-action primary">
+                                <i data-lucide="external-link"></i>
+                                Join on Patreon
+                            </a>
+                        </div>
                     </div>
                 </div>
 
+                <!-- ── UX For AI Reading Group (oldest entry, more cards will be added on top) ── -->
                 <div class="timeline-item">
                     <div class="timeline-dot">
                         <div class="timeline-dot-inner"></div>
                     </div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h4 class="timeline-role">AI/UX Strategy Architect</h4>
-                            <p class="timeline-period">2023 - 2024</p>
+                            <h4 class="timeline-role">UX For AI Reading Group</h4>
+                            <p class="timeline-period">6-week cohort</p>
                         </div>
-                        <p class="timeline-company">Bondee • Singapore</p>
+                        <p class="timeline-company">UserXper &middot; Circle Community</p>
                         <ul class="timeline-description">
-                            <li>Successfully launched 5 innovative AI-driven products in 2024, including K12 Educational
-                                Voice Companion and Enterprise-Level Gen-AI assets Library.</li>
-                            <li>Spearheaded internal AI governance and compliance reviews for high-risk AI systems,
-                                reducing legal liability exposure by 60%.</li>
+                            <li>Designed and delivered a 6-week applied reading group exploring UX patterns,
+                                governance frameworks, and design critiques for AI products &mdash; bridging
+                                academic HCI literature with practitioner workflows.</li>
+                            <li>Hosted live discussions and reading-circle sessions on the Circle community
+                                platform, with weekly assignments and group critiques.</li>
                         </ul>
+
+                        <div class="talk-stats">
+                            <span class="talk-stat">
+                                <span class="stat-num">228</span>
+                                <span class="stat-label">cumulative participants</span>
+                            </span>
+                            <span class="talk-stat">
+                                <span class="stat-num">6</span>
+                                <span class="stat-label">weeks of live instruction</span>
+                            </span>
+                            <span class="talk-stat">
+                                <span class="stat-num">Circle</span>
+                                <span class="stat-label">community platform</span>
+                            </span>
+                        </div>
+
+                        <div class="talk-materials">
+                            <div class="talk-materials-label">Teaching Material Preview</div>
+                            <div class="talk-materials-grid">
+                                <div class="talk-material">
+                                    <img src="assets/Images/UX_For_AI_Cover.png"
+                                        alt="UX For AI Week 5 — Three Pillars of AI-Driven Design"
+                                        loading="lazy">
+                                </div>
+                                <div class="talk-material">
+                                    <img src="assets/Images/UX_For_AI_Overview_1.png"
+                                        alt="UX For AI — slide overview grid 1" loading="lazy">
+                                </div>
+                                <div class="talk-material">
+                                    <img src="assets/Images/UX_For_AI_Overview_2.png"
+                                        alt="UX For AI — slide overview grid 2" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talk-actions">
+                            <a href="https://edu.userxper.com/courses/ux-for-ai" target="_blank"
+                                rel="noopener noreferrer" class="talk-action primary">
+                                <i data-lucide="external-link"></i>
+                                View Course
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=Czw6H2DB5Mk&amp;t=7s" target="_blank"
+                                rel="noopener noreferrer" class="talk-action">
+                                <i data-lucide="play-circle"></i>
+                                Watch on YouTube
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Toggle button -->
-                <button class="toggle-btn" onclick="toggleExperience()">
-                    <span id="toggle-text">Show Earlier Experience</span>
-                    <i data-lucide="chevron-down" id="toggle-icon" style="margin-left: 0.5rem;"></i>
-                </button>
-
-                <!-- Older Experience (Collapsible) -->
-                <div id="older-experience" class="hidden">
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background-color: #94a3b8;">
-                            <div class="timeline-dot-inner"></div>
-                        </div>
-                        <div class="timeline-content" style="opacity: 0.9;">
-                            <div class="timeline-header">
-                                <h4 class="timeline-role">Special consultant to CEO</h4>
-                                <p class="timeline-period">2021 - 2023</p>
-                            </div>
-                            <p class="timeline-company">Cyphant group • Beijing, San Francisco Bay Area</p>
-                            <ul class="timeline-description">
-                                <li>Led design and implementation of user-centric Generative AI/LLM solutions in
-                                    production environments for enterprise clients.</li>
-                                <li>Orchestrated data-driven design methodologies for contextual AI interactions.</li>
-                                <li>Championed UX best practices across engineering teams, establishing user-first
-                                    design culture.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background-color: #94a3b8;">
-                            <div class="timeline-dot-inner"></div>
-                        </div>
-                        <div class="timeline-content" style="opacity: 0.9;">
-                            <div class="timeline-header">
-                                <h4 class="timeline-role">User Experience Architect</h4>
-                                <p class="timeline-period">2017 - 2018</p>
-                            </div>
-                            <p class="timeline-company">Alibaba.com • Hangzhou, China</p>
-                            <ul class="timeline-description">
-                                <li>Founded Alibaba Design University, a comprehensive design education program for 500+
-                                    designers.</li>
-                                <li>Pioneered "Alimama AI-Copywriter" - a groundbreaking ML-powered content generation
-                                    tool processing 100+ million copy samples.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- Product Demos -->
+        <!-- Consulting Cases — 2-column gallery cards (no CTA, swipeable image strip) -->
         <section id="products" class="section">
             <h3 class="section-title">
-                <i data-lucide="app-window"></i>
-                Product Demos
+                <i data-lucide="briefcase"></i>
+                Consulting Cases
             </h3>
-            <div class="grid grid-3">
-                <a href="https://github.com/gainshin/biasguard/blob/main/README.md" target="_blank"
-                    rel="noopener noreferrer" class="card">
-                    <img src="assets/BiasGuard_Cover.png" alt="BiasGuard" style="object-position: top;">
-                    <div class="card-content">
-                        <h4 class="card-title">BiasGuard</h4>
-                        <p class="card-description">A SaaS platform designed to detect and manage systemic implicit bias
-                            in AI conversational agents, focusing on training data, multilingual consistency, and
-                            routing risks.</p>
-                        <div class="card-link">
-                            View Demo
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-                    </div>
-                </a>
+            <div class="case-grid">
 
-                <a href="https://app--aipet-studio-ddc44a58.base44.app/Dashboard" target="_blank"
-                    rel="noopener noreferrer" class="card">
-                    <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/302099382_Screenshot2025-07-28at122913.png"
-                        alt="Token Analyzer" style="object-position: top;">
-                    <div class="card-content">
-                        <h4 class="card-title">Token Analyzer</h4>
-                        <p class="card-description">Automatically analyze Figma exports or code to extract and create
-                            Design Tokens, bridging design and development.</p>
-                        <div class="card-link">
-                            View Demo
-                            <i data-lucide="arrow-right"></i>
+                <!-- ── Case 1 · McKinsey-lens view on UX consultancy AI breakthrough ── -->
+                <div class="case-card">
+                    <div class="case-gallery">
+                        <div class="case-gallery-track" data-case="mckinsey-ux-consultancy">
+                            <div class="case-slide"><img src="assets/Images/AIUX_Doing_Case_1.png"
+                                alt="McKinsey-lens UX consultancy AI breakthrough — slide 1" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/AIUX_Doing_Case_2.png"
+                                alt="McKinsey-lens UX consultancy AI breakthrough — slide 2" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/AIUX_Doing_Case_3.png"
+                                alt="McKinsey-lens UX consultancy AI breakthrough — slide 3" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/AIUX_Doing_Case_4.png"
+                                alt="McKinsey-lens UX consultancy AI breakthrough — slide 4" loading="lazy"></div>
+                        </div>
+                        <button class="case-nav prev" aria-label="Previous slide">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="case-nav next" aria-label="Next slide">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <div class="case-counter"><span class="counter-current">1</span> / <span class="counter-total">4</span></div>
+                        <div class="case-dots" role="tablist" aria-label="Slide indicators">
+                            <button class="case-dot active" aria-label="Slide 1" data-index="0"></button>
+                            <button class="case-dot" aria-label="Slide 2" data-index="1"></button>
+                            <button class="case-dot" aria-label="Slide 3" data-index="2"></button>
+                            <button class="case-dot" aria-label="Slide 4" data-index="3"></button>
                         </div>
                     </div>
-                </a>
+                    <div class="case-content">
+                        <h4 class="case-title">A McKinsey-Lens View on the AI Breakthrough for UX Consultancies</h4>
+                        <p class="case-background">
+                            Convert the tacit wisdom behind design work into AI-queryable data assets &mdash; and
+                            UX consultancies can build a stronger moat in the AI era than traditional
+                            large-format firms. The case maps where the proprietary judgment actually lives, and
+                            how to encode it.
+                        </p>
+                        <span class="case-client">
+                            <span class="client-label">Client</span>
+                            UX Design Consultancy &mdash; Industry Advisor
+                        </span>
+                    </div>
+                </div>
 
-                <a href="https://github.com/gainshin/AgenSkill_UX_DataSet?tab=readme-ov-file" target="_blank"
-                    rel="noopener noreferrer" class="card">
-                    <img src="assets/UX_System_Dataset_Cover.png" alt="Research Tracking Matrix"
-                        style="object-position: top;">
-                    <div class="card-content">
-                        <h4 class="card-title">AI/UX System Dataset</h4>
-                        <p class="card-description">An educational resource bridging AI logic with human UX. Features 57
-                            design styles, a Dark Pattern dataset with psychological reasoning, and the UICrit design
-                            critique library.</p>
-                        <div class="card-link">
-                            View Demo
-                            <i data-lucide="arrow-right"></i>
+                <!-- ── Case 2 · GOV.UK design principles adapted for Taiwan ── -->
+                <div class="case-card">
+                    <div class="case-gallery">
+                        <div class="case-gallery-track" data-case="govuk-taiwan-ux-framework">
+                            <div class="case-slide"><img src="assets/Images/Case_2_GOV_UK_1.png"
+                                alt="GOV.UK to Taiwan UX transformation — cover" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_2_GOV_UK_2.png"
+                                alt="FRAME reference card — Framing, Remembering, Actionable, Meaningful, Evidence" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_2_GOV_UK_3.png"
+                                alt="How Might We #1 — translating data-driven design into government workflows" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_2_GOV_UK_4.png"
+                                alt="How Might We #2 — building a Taiwan-native design system, not a GOV.UK copy" loading="lazy"></div>
+                        </div>
+                        <button class="case-nav prev" aria-label="Previous slide">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="case-nav next" aria-label="Next slide">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <div class="case-counter"><span class="counter-current">1</span> / <span class="counter-total">4</span></div>
+                        <div class="case-dots" role="tablist" aria-label="Slide indicators">
+                            <button class="case-dot active" aria-label="Slide 1" data-index="0"></button>
+                            <button class="case-dot" aria-label="Slide 2" data-index="1"></button>
+                            <button class="case-dot" aria-label="Slide 3" data-index="2"></button>
+                            <button class="case-dot" aria-label="Slide 4" data-index="3"></button>
                         </div>
                     </div>
-                </a>
+                    <div class="case-content">
+                        <h4 class="case-title">From GOV.UK to Taiwan &mdash; A Government UX Transformation Framework</h4>
+                        <p class="case-background">
+                            How UK&rsquo;s GOV.UK / NHS design practice translates into an executable framework
+                            for Taiwan in the AI Basic Law era. Direct replication of British minimalism fails
+                            &mdash; the case rebuilds the design system around Taiwan&rsquo;s actual context:
+                            aging users (80+), multilingual realities (Mandarin / Taiwanese / Hakka /
+                            Indigenous languages), and AI transparency requirements. Anchored by a <strong>FRAME</strong>
+                            reference card (Framing &middot; Remembering &middot; Actionable &middot; Meaningful
+                            &middot; Evidence) adapted from Chih-Yuan Experience Design (2025).
+                        </p>
+                        <span class="case-client">
+                            <span class="client-label">Client</span>
+                            Public-Sector Digital Strategy &mdash; Government UX Advisor
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ── Case 3 · Agent governance & multi-agent UX (executive curriculum) ── -->
+                <div class="case-card">
+                    <div class="case-gallery">
+                        <div class="case-gallery-track" data-case="agent-governance-curriculum">
+                            <div class="case-slide"><img src="assets/Images/Case_4_Agent_Governance_1.png"
+                                alt="Copilot to Agent to Multi-Agent — three stages of AI control transfer" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_4_Agent_Governance_2.png"
+                                alt="Multi-Agent UX design patterns — role attribution, status, handoff, human gates" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_4_Agent_Governance_3.png"
+                                alt="Multi-Agent experience evaluation — transparency dimension" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_4_Agent_Governance_4.png"
+                                alt="Context window structure, context rot, and compact strategies" loading="lazy"></div>
+                        </div>
+                        <button class="case-nav prev" aria-label="Previous slide">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="case-nav next" aria-label="Next slide">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <div class="case-counter"><span class="counter-current">1</span> / <span class="counter-total">4</span></div>
+                        <div class="case-dots" role="tablist" aria-label="Slide indicators">
+                            <button class="case-dot active" aria-label="Slide 1" data-index="0"></button>
+                            <button class="case-dot" aria-label="Slide 2" data-index="1"></button>
+                            <button class="case-dot" aria-label="Slide 3" data-index="2"></button>
+                            <button class="case-dot" aria-label="Slide 4" data-index="3"></button>
+                        </div>
+                    </div>
+                    <div class="case-content">
+                        <h4 class="case-title">Agent Governance &amp; Multi-Agent UX &mdash; Financial Services Executive Curriculum</h4>
+                        <p class="case-background">
+                            Executive workshop curriculum on turning AI from chatbox pilots into governed,
+                            ROI-positive production systems in regulated financial services. The arc moves
+                            from <strong>Copilot &rarr; Agent &rarr; Multi-Agent</strong> control transfer
+                            (each stage with different trust and oversight assumptions), through four
+                            frontend patterns&mdash;<strong>role attribution, status display, transparent
+                            handoff, and human intervention points</strong>&mdash;so users can understand,
+                            control, and trust delegated work. A five-dimension experience scorecard
+                            (control, transparency, consistency, fault tolerance, efficiency) benchmarks
+                            global banking AI deployments; transparency is framed as explainability under
+                            compliance, not optional UX polish. The closing module treats the context window
+                            as operational &ldquo;working memory&rdquo;&mdash;context rot, compact/continue/rewind/clear/subagent
+                            strategies, and token budgeting as joint AI/UX governance levers.
+                        </p>
+                        <span class="case-client">
+                            <span class="client-label">Client</span>
+                            Regional Banking Group &mdash; AI/UX Executive Workshop
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- ── Case 4 · Web3 personal-agent economy — oversight & contribution UX ── -->
+                <div class="case-card">
+                    <div class="case-gallery">
+                        <div class="case-gallery-track" data-case="web3-agent-economy-ux">
+                            <div class="case-slide"><img src="assets/Images/Case_3_WEB3_Agent_1.png"
+                                alt="Web4 agentic economy — market size and momentum forecast" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_3_WEB3_Agent_2.png"
+                                alt="Human oversight three-layer framework — In, On, and Above the loop" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_3_WEB3_Agent_3.png"
+                                alt="Breakout readiness — friction, aha moment, and viral sharing conditions" loading="lazy"></div>
+                            <div class="case-slide"><img src="assets/Images/Case_3_WEB3_Agent_4.png"
+                                alt="Visible-contribution affordance design — attribution, judgment explanation, reflection triggers" loading="lazy"></div>
+                        </div>
+                        <button class="case-nav prev" aria-label="Previous slide">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="case-nav next" aria-label="Next slide">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <div class="case-counter"><span class="counter-current">1</span> / <span class="counter-total">4</span></div>
+                        <div class="case-dots" role="tablist" aria-label="Slide indicators">
+                            <button class="case-dot active" aria-label="Slide 1" data-index="0"></button>
+                            <button class="case-dot" aria-label="Slide 2" data-index="1"></button>
+                            <button class="case-dot" aria-label="Slide 3" data-index="2"></button>
+                            <button class="case-dot" aria-label="Slide 4" data-index="3"></button>
+                        </div>
+                    </div>
+                    <div class="case-content">
+                        <h4 class="case-title">Web4 Agent Economy &mdash; Oversight, Breakout Readiness &amp; Visible Contribution UX</h4>
+                        <p class="case-background">
+                            Strategic UX advisory for a Web3 personal-agent platform shifting from passive
+                            on-chain identity to paid, delegated labor in a Web4 agentic economy. The analysis
+                            anchors market tailwinds (agentic AI toward ~$199B by 2034; enterprise agent
+                            embed rates accelerating 8&times; within 12 months), maps human supervision across
+                            <strong>In / On / Above-the-loop</strong> control, and isolates the decisive gap:
+                            <strong>Epistemic Access</strong> &mdash; users cannot see which profile dimensions
+                            drove an agent&rsquo;s call, which breeds illusory control at the strategy layer. A
+                            breakout-readiness scorecard tests three simultaneous conditions&mdash;frictionless
+                            onboarding, a first real payout that validates intuition, and shareable proof of
+                            judgment quality over credential display. Recommended design moves favor
+                            <strong>visible-contribution affordances</strong> (payout attribution, judgment
+                            explanations, reflection prompts on atypical accepts) over deeper algorithmic
+                            disclosure, following Rismani et al.&rsquo;s reflection-oriented principle.
+                        </p>
+                        <span class="case-client">
+                            <span class="client-label">Client</span>
+                            Web3 Personal-Agent Platform &mdash; Strategic UX Advisor
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -3074,6 +4674,141 @@
             // Re-initialize icons after changing them
             lucide.createIcons();
         }
+
+        // Agent Governance Column — tab filter (3 states)
+        //   all        → Sankey editorial map
+        //   agenticux  → article grid (filtered)
+        //   privacyux  → empty state
+        (function initColumnFilter() {
+            const tabs = document.querySelectorAll('.column-tab');
+            const cards = document.querySelectorAll('.column-card');
+            const sankey = document.getElementById('column-sankey');
+            const grid = document.getElementById('column-grid');
+            const emptyState = document.getElementById('column-empty-state');
+            if (!tabs.length) return;
+
+            function applyFilter(filter) {
+                tabs.forEach(t => {
+                    const isActive = t.getAttribute('data-filter') === filter;
+                    t.classList.toggle('active', isActive);
+                    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+
+                // Update card visibility (so when grid IS shown, it shows the right subset)
+                let visibleCount = 0;
+                cards.forEach(card => {
+                    const source = card.getAttribute('data-source');
+                    const show = filter === 'all' || source === filter;
+                    card.classList.toggle('hidden-by-filter', !show);
+                    if (show) visibleCount += 1;
+                });
+
+                if (filter === 'all') {
+                    if (sankey) sankey.style.display = '';
+                    if (grid) grid.style.display = 'none';
+                    if (emptyState) emptyState.hidden = true;
+                } else if (visibleCount === 0) {
+                    if (sankey) sankey.style.display = 'none';
+                    if (grid) grid.style.display = 'none';
+                    if (emptyState) emptyState.hidden = false;
+                } else {
+                    if (sankey) sankey.style.display = 'none';
+                    if (grid) grid.style.display = '';
+                    if (emptyState) emptyState.hidden = true;
+                }
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => applyFilter(tab.getAttribute('data-filter')));
+            });
+
+            // Initial state: All → Sankey (matches default active tab in HTML)
+            applyFilter('all');
+        })();
+
+        // Consulting Cases — swipeable image gallery (dots, nav buttons, counter)
+        (function initCaseGalleries() {
+            const galleries = document.querySelectorAll('.case-gallery');
+            if (!galleries.length) return;
+
+            galleries.forEach(gallery => {
+                const track = gallery.querySelector('.case-gallery-track');
+                const slides = gallery.querySelectorAll('.case-slide');
+                const dots = gallery.querySelectorAll('.case-dot');
+                const prev = gallery.querySelector('.case-nav.prev');
+                const next = gallery.querySelector('.case-nav.next');
+                const currentNum = gallery.querySelector('.counter-current');
+                if (!track || !slides.length) return;
+
+                function scrollToIndex(idx) {
+                    const slide = slides[idx];
+                    if (slide) track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+                }
+
+                function updateActive(idx) {
+                    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                    if (currentNum) currentNum.textContent = String(idx + 1);
+                }
+
+                // Click on dots to scroll
+                dots.forEach(dot => {
+                    dot.addEventListener('click', () => {
+                        const idx = parseInt(dot.getAttribute('data-index'), 10);
+                        scrollToIndex(idx);
+                    });
+                });
+
+                // Prev / Next buttons
+                function currentIndex() {
+                    const scrollLeft = track.scrollLeft;
+                    const slideWidth = slides[0].offsetWidth;
+                    return Math.round(scrollLeft / slideWidth);
+                }
+                if (prev) prev.addEventListener('click', () => {
+                    const idx = Math.max(0, currentIndex() - 1);
+                    scrollToIndex(idx);
+                });
+                if (next) next.addEventListener('click', () => {
+                    const idx = Math.min(slides.length - 1, currentIndex() + 1);
+                    scrollToIndex(idx);
+                });
+
+                // Sync active dot with scroll position via IntersectionObserver
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+                            const idx = Array.from(slides).indexOf(entry.target);
+                            if (idx >= 0) updateActive(idx);
+                        }
+                    });
+                }, { root: track, threshold: [0.6, 0.9] });
+                slides.forEach(slide => observer.observe(slide));
+            });
+        })();
+
+        // Column Highlights — tab switching between Figure A and Figure B
+        (function initHighlightsTabs() {
+            const tabs = document.querySelectorAll('.highlights-tab');
+            const panels = {
+                a: document.getElementById('highlight-fig-a'),
+                b: document.getElementById('highlight-fig-b')
+            };
+            if (!tabs.length || !panels.a || !panels.b) return;
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const fig = tab.getAttribute('data-fig');
+                    tabs.forEach(t => {
+                        const isActive = t.getAttribute('data-fig') === fig;
+                        t.classList.toggle('active', isActive);
+                        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+                    Object.entries(panels).forEach(([key, panel]) => {
+                        panel.hidden = key !== fig;
+                    });
+                });
+            });
+        })();
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
