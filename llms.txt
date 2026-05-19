@@ -1,0 +1,26 @@
+# Joshua Hsiao — AI/UX Consultant & AIPET Framework Creator
+
+> Joshua Hsiao is a Montreal-based AI/UX Consultant specializing in Agentic UX,
+> Privacy-first Design, and the AIPET Framework. He advises AI startups, academic labs,
+> and enterprises on human-centered AI product strategy.
+
+## Core Profile
+- [About & Services](https://gainshin.github.io/): AI/UX consulting, AIPET methodology, Agentic UX design
+- [Core Competencies](https://gainshin.github.io/#skills): Agentic UX, privacy-first design, AI product strategy
+- [Consulting Cases](https://gainshin.github.io/#products): Strategic UX advisory case studies with slide decks
+- [Past Clients](https://gainshin.github.io/#clients): Enterprise and startup partners
+- [Academic Resume](https://gainshin.github.io/Resume.html): McGill MISt research profile and co-op placement focus
+- [Literature Research Map](https://gainshin.github.io/Zotero_5C_graph_V5.html): 5C literature synthesis visualization
+
+## Thought Leadership
+- [Column & Articles](https://gainshin.github.io/#articles): PrivacyUX and Agentic UX Substack essays
+- [Highlights](https://gainshin.github.io/#videos): Agentic UX framework talks and demos
+- [HCI/UX Co-Creation](https://gainshin.github.io/#experience): Reading groups, book co-creation, community programs
+- [Agentic UX in Practice (Part 3)](https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is): Tokens, performance, and veto power in agent teams
+- [Agentic UX in Practice (Part 1)](https://agenticux.substack.com/p/agentic-ux-in-practice-part-1-when): Design critique and UX skill distillation in the agent era
+- [PrivacyUX — AI Agent UX](https://privacyux.substack.com/p/ai-agent-ux): Privacy and interaction patterns for AI agents
+
+## Contact
+- [Email & Social](https://gainshin.github.io/#contact): gainshin.hsiao@mail.mcgill.ca · LinkedIn · YouTube · Substack
+
+_Last updated: 2026-05-19 · License: CC-BY 4.0_
