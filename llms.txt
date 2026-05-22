@@ -9,7 +9,7 @@
 - [Core Competencies](https://gainshin.github.io/#skills): Agentic UX, privacy-first design, AI product strategy
 - [Consulting Cases](https://gainshin.github.io/#products): Strategic UX advisory case studies with slide decks
 - [Past Clients](https://gainshin.github.io/#clients): Enterprise and startup partners
-- [Academic Resume](https://gainshin.github.io/Resume.html): McGill MISt research profile and co-op placement focus
+- [Academic Resume](https://gainshin.github.io/Resume.html): McGill MISt · ACT Research Group — accessible computing, AI health interfaces, proxy audit trust; practitioner-researcher bridging consulting and coursework (open to co-op May 2026, Montreal)
 - [Literature Research Map](https://gainshin.github.io/Zotero_5C_graph_V5.html): 5C literature synthesis visualization
 
 ## Thought Leadership
@@ -23,4 +23,4 @@
 ## Contact
 - [Email & Social](https://gainshin.github.io/#contact): gainshin.hsiao@mail.mcgill.ca · LinkedIn · YouTube · Substack
 
-_Last updated: 2026-05-19 · License: CC-BY 4.0_
+_Last updated: 2026-05-22 · License: CC-BY 4.0_
