@@ -1892,22 +1892,22 @@
     </div>
     <div class="intro-center">
       No agent remembers how that interview two weeks ago got resolved.<br>
-      <strong>Vannevar Bush sketched the Memex in 1945</strong>—a private, actively curated knowledge base. The problem he wanted to solve was that "human-maintained knowledge rots." That was unsolvable in the analog era. Karpathy recently revived the idea as the <strong>LLM Wiki</strong>: humans curate sources, AI handles summarizing, cross-referencing, and filing.<br>
-      Here's the argument: every UX practitioner (PM / UR / UI Designer) now has to layer a second identity on top of their job—<strong>UX Writer / Curator</strong>. You write in CoT, treat markdown as your interface, and orchestrate a team of agents—Design, Research, Copy, Red Team—each with its role, all sharing one wiki as their context.
+      <strong>Karpathy's LLM Wiki</strong> is the pattern I kept reaching for: humans curate the sources and ask the questions; the AI does the summarizing, cross-referencing, and filing. The bet isn't new—Bush wanted the same from his 1945 Memex—it just needed something that could actually do the upkeep. And upkeep is the whole game. Knowledge nobody maintains rots, and a wiki nobody weeds is just a slower mess.<br>
+      The job has already changed: every UX practitioner—PM, researcher, designer—now carries a second identity on top of the first, the <strong>UX Writer / Curator</strong>. You write in CoT, treat markdown as your interface, and orchestrate a team of agents—Design, Research, Copy, Red Team—each with its role, all sharing one wiki as their context.
     </div>
     <div class="legend" style="padding:16px 18px;">
-      <h4 style="border-bottom:1px solid var(--rule-soft); padding-bottom:8px; margin-bottom:14px;">Mapped to Anthropic Academy</h4>
+      <h4 style="border-bottom:1px solid var(--rule-soft); padding-bottom:8px; margin-bottom:14px;">Technical Grounding</h4>
       <div style="border:1.5px solid var(--ink-1); padding:10px 14px; margin-bottom:8px;">
-        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">Advanced · MCP & Agent Development</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">Introduction to MCP | Advanced MCP Topics | Introduction to Agent Skills | Introduction to Subagents | Claude with AWS Bedrock | Claude with Google Vertex AI</div>
+        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">Agent Development</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">MCP servers &amp; tool schemas · agent skills · subagents · multi-agent orchestration</div>
       </div>
       <div style="border:1.5px solid var(--ink-1); padding:10px 14px; margin-bottom:8px;">
-        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">Builder · API & Tooling</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">Building with the Claude API | Claude Code 101 | Claude Code in Action | Claude Prompt Engineering (interactive course)</div>
+        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">API &amp; Tooling</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">LLM APIs · agentic coding workflows · prompt engineering</div>
       </div>
       <div style="border:1.5px solid var(--ink-1); padding:10px 14px;">
-        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">Foundation · AI Fluency Series</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">AI Fluency Framework and Foundations | AI for Educators | AI for Students | AI for Nonprofits</div>
+        <div style="font-family:'Noto Serif TC',serif; font-size:12px; font-weight:600; color:var(--ink-1); margin-bottom:4px;">AI Fluency</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-3); line-height:1.6;">AI fluency frameworks · applied across education &amp; nonprofit work</div>
       </div>
     </div>
   </section>
@@ -2642,61 +2642,146 @@
     </div>
   </section>
 
-  <!-- ── Stage 05 · The Motions ────────── -->
+  <!-- ── Stage 05 · The Sixty-Year Debt ── -->
   <section class="stage">
     <div class="stage-header">
       <div class="stage-num">05<sup>/05</sup></div>
       <div class="stage-ttl-wrap">
-        <div class="stage-kicker">— The Motions</div>
-        <div class="stage-title">How You Run a Day</div>
+        <div class="stage-kicker">— The Sixty-Year Debt</div>
+        <div class="stage-title">Not a New Invention — a Debt Coming Due</div>
       </div>
       <div class="stage-desc">
-        Turn the five-layer Claude Design system prompt into a daily rhythm: ask → set rules → build → check → close. Each step has a concrete action and a concrete deliverable.
+        Agentic UX isn't a 2026 invention. Its roots run back past 1997—to a sixty-year fork in how we relate to machines. This closing stage pins the term back onto its historical ground: not a new discipline, but an old governance debt coming due, and the two layers where it gets repaid are the ones this whole tab is built on—harness and governance.
       </div>
-      <div class="stage-tag">// 05 · daily-rhythm</div>
+      <div class="stage-tag">// 05 · bloodline</div>
     </div>
     <div class="item-grid">
       <div class="item">
-        <h3>Ask First — At Least Ten Questions</h3>
-        <div class="en">questions_v2 · ≥ 10 Questions</div>
-        <p>The first move on a new project isn't drawing—it's asking. Use <code>questions_v2</code> to run a round of questions. <strong>At least 10, with at least 4 that are problem-specific</strong> (not generic stuff like "what color do you like"). Every question must include "Explore a few options," "Decide for me," and "Other"—so the user can say "you decide" or "I'll pick myself." In practice: open a Claude Design conversation with "Help me design [X]," and the agent triggers the question flow automatically.</p>
+        <h3>The Mother Fork</h3>
+        <div class="en">Augmentation vs Automation · 1960s</div>
+        <p>Decades before the marketing term, the human–machine relationship already split in two. Licklider's "Man-Computer Symbiosis" (1960) and Engelbart's "Augmenting Human Intellect" (1962) on one side—amplify the human. Early AI, McCarthy and Minsky, on the other—let the machine do it, the human steps aside. Everything after is this sixty-year fork replaying in new technology. Shneiderman is Engelbart's heir; Maes is the AI line's.</p>
       </div>
       <div class="item">
-        <h3>Set the Rules Before You Touch Anything</h3>
-        <div class="en">System First · Brand → oklch</div>
-        <p>After exploring the source material, before drawing anything, declare the design system out loud: <strong>layout type</strong> (single column / two column / grid), <strong>background color</strong> (1–2 max), <strong>type hierarchy</strong> (what's the heading, body, label), <strong>image rules</strong> (photos / icons / placeholders). Extend brand colors with <code>oklch()</code> for harmonious palettes—never invent. Start from a UI kit, codebase, or screenshot; if you can't find one, ask the user; if it doesn't exist, use placeholders. Don't generate from a blank slate.</p>
+        <h3>Control Meets Agency</h3>
+        <div class="en">Shneiderman ↔ Maes · 1983–1997</div>
+        <p>Shneiderman (1983) coins "direct manipulation": the human must feel in full control; the system must be predictable, immediate, reversible. Maes (1994) proposes the opposite—an interface agent that acts for you, cutting your load. At CHI '97 they collide head-on. What Shneiderman refuses to concede isn't capability—it's three things: anthropomorphism breeding false mental models, unpredictability, and blurred accountability.</p>
       </div>
       <div class="item">
-        <h3>Build and Show Early</h3>
-        <div class="en">Build & Show Early · 3+ Variations</div>
-        <p>Once you've written the assumptions and design rationale, use <code>show_to_user</code> to throw the half-done work in front of the user—like a junior designer reporting progress to their manager, not waiting until the whole thing is done. <strong>Give 3+ variations</strong> across color, layout, interaction, icon usage—start conservative, get bolder each round. Letting the user pick and remix converges faster than trying to guess one "perfect version."</p>
+        <h3>Horvitz Dissolves the Binary</h3>
+        <div class="en">From On/Off Switch to a Dial · 1999</div>
+        <p>The debate didn't go silent for twenty-seven years. Two years later, Horvitz's "Principles of Mixed-Initiative User Interfaces" (1999) names the Shneiderman–Maes fight in its opening line and answers it: couple automation and direct manipulation, switching control by the uncertainty of the goal and the cost of interrupting the user. The 1997 on/off switch becomes a continuous, context-tuned dial—the academic ancestor of today's Autonomy Dial.</p>
       </div>
       <div class="item">
-        <h3>Taste Discipline — Check Slop Item by Item</h3>
-        <div class="en">Anti-Slop Checklist + No Filler</div>
-        <p>Run this checklist on every output—anything that hits, fix it: <strong>gratuitous gradient backgrounds</strong> (use solid colors), <strong>off-brand emoji</strong> (delete), <strong>rounded containers + left accent borders</strong> (rethink the layout), <strong>SVG illustrations</strong> (use placeholders), <strong>Inter / Roboto / Arial</strong> (switch to brand fonts), <strong>unnecessary number icons</strong> (delete). If you don't have a photo, draw a gray placeholder box with size labels—don't generate a fake one with AI. If a paragraph isn't long enough, don't pad it with filler. Empty space is a layout problem; solve it with layout.</p>
+        <h3>The Debt Comes Due</h3>
+        <div class="en">Maes Won Agency · Shneiderman Won Governance · 2026</div>
+        <p>Generative AI finally gave the 90s agent vision a working substrate—Maes won the agency argument, not because Shneiderman was wrong, but because the engineering caught up. And Shneiderman's three fears, once shelved for lack of capability, all turned from paper debate into live risk the moment agents shipped at scale. That's the debt: the governance bill from the deterministic era, due with interest. Elish (2019) later did the math on his third fear—the accountability black hole.</p>
       </div>
       <div class="item">
-        <h3>Verify and Clean Up Context</h3>
-        <div class="en">done() → verify → snip</div>
-        <p>At the end, call <code>done</code>—the agent opens the file and reports console errors. Fix anything that breaks. Once it's clean, <code>fork_verifier_agent</code> spins up a background iframe for a deeper check; <strong>silent on pass</strong>—you only hear from it if something's wrong. The final summary covers caveats and next steps only—no rehashing what changed. After finishing a chunk of work, use <code>snip</code> to register conversation ID ranges to clean up; don't actually cut yet—wait until context pressure hits, then run them all at once. No need to announce it to the user.</p>
+        <h3>The Operational Definition</h3>
+        <div class="en">Why This Sits Under Tab II</div>
+        <p>So the series lands on one definition: Agentic UX is the practice of redistributing control and accountability as systems shift from "human operates" to "human supervises a swarm of agents"—and the core tension is how Maes's promise of agency and Shneiderman's insistence on control get re-contracted at the harness and governance layers. Those two words are the load-bearing columns of this tab. Tab II isn't adjacent to the column; it's the contract table where the sixty-year argument gets re-signed.</p>
       </div>
       <div class="item">
-        <h3>Six Things You Don't Hand to the Agent</h3>
-        <div class="en">Human-Only Decisions</div>
-        <ul>
-          <li>Before adding a page or paragraph—<strong>ask the user first</strong>, don't add unilaterally</li>
-          <li>If asked to mimic another brand's UI—<strong>refuse</strong>, unless their email domain belongs to that company</li>
-          <li>Which PRD / Journey Map is worth committing to the wiki—<strong>humans decide</strong></li>
-          <li>Commercial trade-off wording ("free trial" vs "limited time")—<strong>PM owns this</strong>, agent stays out</li>
-          <li>Edge case priorities—<strong>requires business context</strong> the agent doesn't have</li>
-          <li>When to update the schema—<strong>changes propagate to every page</strong>, can't trigger this without human review</li>
-        </ul>
+        <h3>Two Lineages, One Corner</h3>
+        <div class="en">Read the Map Below →</div>
+        <p>The figure plots two separate genealogies on two axes. Across the bottom: the agent debate over time (Shneiderman ↔ Maes → Horvitz → 2026)—the control-versus-agency tension. Down the left: the design worldview descending its responsibility boundary (Garrett → Mill → Campbell). Agentic UX is where the latest moment meets the deepest layer—the bottom-right corner. That corner is where this tab's system lives.</p>
       </div>
     </div>
+
+    <div class="fig-label" style="margin:34px 0 10px;">figure 05 · the sixty-year map</div>
+    <div class="arch-diagram">
+      <svg viewBox="0 0 1200 540" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <marker id="mRust" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+            <path d="M0,0 L9,5 L0,10 Z" fill="#7a2e1f"></path>
+          </marker>
+          <marker id="mInk" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+            <path d="M0,0 L8,4.5 L0,9 Z" fill="#1e1a15"></path>
+          </marker>
+        </defs>
+
+        <!-- axis titles -->
+        <text x="40" y="44" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="#7a6a55">Y · responsibility descends ↓</text>
+        <text x="40" y="60" font-family="Source Serif Pro" font-style="italic" font-size="11" fill="#a89e87">design worldview · Garrett→Mill→Campbell</text>
+        <text x="1160" y="500" text-anchor="end" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="#7a6a55">X · time × control tension →</text>
+        <text x="1160" y="516" text-anchor="end" font-family="Source Serif Pro" font-style="italic" font-size="11" fill="#a89e87">the agent debate · 1960s→2026</text>
+
+        <!-- Y depth guides -->
+        <line x1="200" y1="120" x2="1120" y2="120" stroke="#e4dcc3" stroke-width="1" stroke-dasharray="2 4"></line>
+        <line x1="200" y1="270" x2="1120" y2="270" stroke="#e4dcc3" stroke-width="1" stroke-dasharray="2 4"></line>
+        <line x1="200" y1="410" x2="1120" y2="410" stroke="#e4dcc3" stroke-width="1" stroke-dasharray="2 4"></line>
+        <!-- Y labels -->
+        <text x="190" y="116" text-anchor="end" font-family="Noto Serif TC" font-weight="600" font-size="11.5" fill="#1e1a15">Garrett 2002 · five planes</text>
+        <text x="190" y="131" text-anchor="end" font-family="IBM Plex Mono" font-size="8.5" letter-spacing="0.6" fill="#7a6a55">shallow · deterministic control</text>
+        <text x="190" y="266" text-anchor="end" font-family="Noto Serif TC" font-weight="600" font-size="11.5" fill="#1e1a15">Mill 2021 · anticipatory design</text>
+        <text x="190" y="281" text-anchor="end" font-family="IBM Plex Mono" font-size="8.5" letter-spacing="0.6" fill="#7a6a55">mid · problem space</text>
+        <text x="190" y="406" text-anchor="end" font-family="Noto Serif TC" font-weight="600" font-size="11.5" fill="#1e1a15">Campbell 2026 · six layers</text>
+        <text x="190" y="421" text-anchor="end" font-family="IBM Plex Mono" font-size="8.5" letter-spacing="0.6" fill="#7a6a55">deep · emergence tail</text>
+
+        <!-- axes -->
+        <line x1="200" y1="70" x2="200" y2="470" stroke="#1e1a15" stroke-width="1.5" marker-end="url(#mInk)"></line>
+        <line x1="200" y1="470" x2="1140" y2="470" stroke="#1e1a15" stroke-width="1.5" marker-end="url(#mInk)"></line>
+
+        <!-- X time ticks + labels -->
+        <g font-family="IBM Plex Mono" font-size="10" font-weight="600" fill="#1e1a15" text-anchor="middle">
+          <line x1="300" y1="466" x2="300" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="300" y="490">1960s</text>
+          <text x="300" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">fork</text>
+          <line x1="460" y1="466" x2="460" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="460" y="490">1983</text>
+          <text x="460" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">control</text>
+          <line x1="560" y1="466" x2="560" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="560" y="490">1994</text>
+          <text x="560" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">agency</text>
+          <line x1="660" y1="466" x2="660" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="660" y="490">1997</text>
+          <text x="660" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">collision</text>
+          <line x1="760" y1="466" x2="760" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="760" y="490">1999</text>
+          <text x="760" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">dial</text>
+          <line x1="1010" y1="466" x2="1010" y2="474" stroke="#1e1a15" stroke-width="1.2"></line>
+          <text x="1010" y="490">2026</text>
+          <text x="1010" y="504" font-size="8.5" font-weight="500" fill="#7a6a55">due</text>
+        </g>
+
+        <!-- sixty-year sweep arrow (upper band, clears all nodes) -->
+        <path d="M 235 96 C 520 80, 850 175, 902 392" stroke="#7a2e1f" stroke-width="2" fill="none" marker-end="url(#mRust)" opacity="0.85"></path>
+        <text x="250" y="356" font-family="Source Serif Pro" font-style="italic" font-size="12.5" fill="#7a2e1f">the sixty-year arc — responsibility down, control right</text>
+
+        <!-- node: Shneiderman 1983 (shallow, control) -->
+        <rect x="382" y="96" width="170" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+        <text x="396" y="118" font-family="Noto Serif TC" font-weight="600" font-size="12" fill="#1e1a15">Shneiderman 1983</text>
+        <text x="396" y="134" font-family="IBM Plex Mono" font-size="9" letter-spacing="0.4" fill="#7a6a55">direct manipulation</text>
+
+        <!-- node: Maes 1994 (deeper, agency) -->
+        <rect x="478" y="186" width="170" height="48" fill="#fdfaf1" stroke="#1e1a15" stroke-width="1"></rect>
+        <text x="492" y="208" font-family="Noto Serif TC" font-weight="600" font-size="12" fill="#1e1a15">Maes 1994</text>
+        <text x="492" y="224" font-family="IBM Plex Mono" font-size="9" letter-spacing="0.4" fill="#7a6a55">interface agents</text>
+        <!-- 1997 collision marker between the two poles -->
+        <text x="556" y="172" font-family="IBM Plex Mono" font-size="9" font-weight="600" letter-spacing="0.8" fill="#7a2e1f">↕ 1997 collision</text>
+
+        <!-- node: Horvitz 1999 (center, the dial) -->
+        <rect x="665" y="264" width="196" height="52" fill="rgba(196,154,86,0.16)" stroke="#c49a56" stroke-width="1.2"></rect>
+        <text x="680" y="286" font-family="Noto Serif TC" font-weight="600" font-size="12" fill="#1e1a15">Horvitz 1999</text>
+        <text x="680" y="302" font-family="IBM Plex Mono" font-size="9" letter-spacing="0.4" fill="#7a6a55">mixed-initiative · proto-dial</text>
+
+        <!-- node: Tab II (deep × latest, the corner) -->
+        <rect x="903" y="378" width="218" height="68" fill="rgba(122,46,31,0.10)" stroke="#7a2e1f" stroke-width="1.6"></rect>
+        <text x="919" y="400" font-family="Noto Serif TC" font-weight="700" font-size="12.5" fill="#7a2e1f">Tab II · Writer-as-Orchestrator</text>
+        <text x="919" y="417" font-family="IBM Plex Mono" font-size="9" letter-spacing="0.4" fill="#5f2417">harness × governance</text>
+        <text x="919" y="435" font-family="IBM Plex Mono" font-size="8.5" font-weight="600" letter-spacing="1" fill="#7a2e1f">AGENTIC UX INTERSECTION</text>
+
+        <!-- leader: latest-X (2026 tick) up into Tab II -->
+        <line x1="1010" y1="466" x2="1010" y2="448" stroke="#7a2e1f" stroke-width="1.2" stroke-dasharray="3 3"></line>
+      </svg>
+    </div>
+    <p style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3); text-align:center; margin-top:12px; letter-spacing:0.02em;">
+      Where the two axes meet — the latest moment on X × the deepest layer on Y = Agentic UX. Tab II sits in this cell: not a new invention, but the point the lines converge on.
+    </p>
+
     <div class="stage-quote">
-      <p>"Without that audit layer, the 'atomic decomposition' AI produces becomes atomic chaos."</p>
-      <span class="q-src">Agentic UX · Agentic UX in Practice — Part 2: When Your Researcher Also Has an Agent</span>
+      <p>"Agentic UX isn't a pure invention—it's engineering finally catching up to a path HCI sketched out decades ago. The vision can be revived, but Shneiderman's governance warning doesn't expire just because the models got stronger."</p>
+      <span class="q-src">Agentic UX · Pinning Down Agentic UX's Sixty-Year Bloodline</span>
     </div>
   </section>
 
@@ -2732,49 +2817,52 @@
     <div class="footer-refs">
       <span class="ref-label">References · APA 7th</span>
       <p>Bush, V. (1945). As we may think. <em>The Atlantic Monthly</em>, <em>176</em>(1), 101–108.</p>
-      <p>Karpathy, A. (n.d.). <em>LLM Wiki</em> [Gist]. GitHub. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
-      <p>GAINSHIN. (2026, April 17). <em>[Agentic UX in Practice — Part 3] Is $2,400 in Tokens a Cost or an Investment? Performance, Talent Selection, and the Power of Veto in the Agent Era</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is" target="_blank" rel="noopener">https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is</a></p>
-      <p>GAINSHIN. (2026, March 3). <em>Anthropic's $3M "Rental" of Open Source Elite: Token Labor, Influence Channels, and Infrastructure-Level Capture</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/anthropics-3m-rental-of-open-source" target="_blank" rel="noopener">https://agenticux.substack.com/p/anthropics-3m-rental-of-open-source</a></p>
+      <p>Campbell, E. (2026). <em>The layers of AI experience</em>. emilycampbell.co.</p>
+      <p>Elish, M. C. (2019). Moral crumple zones: Cautionary tales in human-robot interaction. <em>Engaging Science, Technology, and Society</em>, <em>5</em>, 40–60.</p>
+      <p>Engelbart, D. C. (1962). <em>Augmenting human intellect: A conceptual framework</em> (SRI Summary Report AFOSR-3223). Stanford Research Institute.</p>
       <p>GAINSHIN. (2026, January 29). <em>When AI Becomes a Swarm: What Interface Design Can (and Can't) Do for Governance</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/when-ai-becomes-a-swarm-what-interface" target="_blank" rel="noopener">https://agenticux.substack.com/p/when-ai-becomes-a-swarm-what-interface</a></p>
+      <p>GAINSHIN. (2026, March 3). <em>Anthropic's $3M "Rental" of Open Source Elite: Token Labor, Influence Channels, and Infrastructure-Level Capture</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/anthropics-3m-rental-of-open-source" target="_blank" rel="noopener">https://agenticux.substack.com/p/anthropics-3m-rental-of-open-source</a></p>
       <p>GAINSHIN. (2026, April 13). <em>[Agentic UX in Practice — Part 1] When the PM Asks "Which Conceptual Prototype Is Yours?" — Design Critique and UX_Skill Distillation in the Agent Era</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-1-when" target="_blank" rel="noopener">https://agenticux.substack.com/p/agentic-ux-in-practice-part-1-when</a></p>
       <p>GAINSHIN. (2026, April 15). <em>[Agentic UX in Practice — Part 2] When Your Researcher Also Has an Agent — Rewriting Team Workflows, Frame and Arbiter as the Manager's Battleground</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-2-when" target="_blank" rel="noopener">https://agenticux.substack.com/p/agentic-ux-in-practice-part-2-when</a></p>
+      <p>GAINSHIN. (2026, April 17). <em>[Agentic UX in Practice — Part 3] Is $2,400 in Tokens a Cost or an Investment? Performance, Talent Selection, and the Power of Veto in the Agent Era</em>. Agentic UX: Research Gap Finder. <a href="https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is" target="_blank" rel="noopener">https://agenticux.substack.com/p/agentic-ux-in-practice-part-3-is</a></p>
+      <p>Garrett, J. J. (2002). <em>The elements of user experience: User-centered design for the web</em>. New Riders.</p>
+      <p>Horvitz, E. (1999). Principles of mixed-initiative user interfaces. In <em>Proceedings of CHI '99</em> (pp. 159–166). ACM.</p>
+      <p>Karpathy, A. (n.d.). <em>LLM Wiki</em> [Gist]. GitHub. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a></p>
+      <p>Licklider, J. C. R. (1960). Man-computer symbiosis. <em>IRE Transactions on Human Factors in Electronics</em>, <em>HFE-1</em>(1), 4–11.</p>
+      <p>Maes, P. (1994). Agents that reduce work and information overload. <em>Communications of the ACM</em>, <em>37</em>(7), 30–40.</p>
+      <p>Meadows, D. (2008). <em>Thinking in systems: A primer</em>. Chelsea Green Publishing.</p>
+      <p>Mill, J. (2021). <em>The elements of product design</em>. jamiemill.com.</p>
+      <p>Nielsen, J. (2026, February 18). <em>Forward deployed designers: From FDE to FDD</em>. Jakob Nielsen on UX.</p>
+      <p>Shneiderman, B. (1983). Direct manipulation: A step beyond programming languages. <em>IEEE Computer</em>, <em>16</em>(8), 57–69.</p>
+      <p>Shneiderman, B., &amp; Maes, P. (1997). Direct manipulation vs. interface agents. <em>interactions</em>, <em>4</em>(6), 42–61.</p>
     </div>
 
     <div class="footer-refs" style="margin-top:28px;">
-      <span class="ref-label">Domain Mapping · Anthropic Academy</span>
+      <span class="ref-label">Shneiderman's Three Fears (1997) → Harness Spec</span>
+      <p style="margin-bottom:14px;">The three things Shneiderman never conceded in 1997 are exactly the spec any governance harness has to meet—and almost word-for-word Campbell's <em>legible / predictable / accountable</em>. His third fear, accountability, is the one Elish (2019) later turned into a casualty report. This tab's harness is the attempt to settle all three.</p>
       <table style="width:100%; border-collapse:collapse; margin-top:12px; font-family:'Noto Sans TC',sans-serif; font-size:11.5px; color:var(--ink-2); text-transform:none; letter-spacing:0.02em;">
         <thead>
           <tr style="border-bottom:2px solid var(--ink-1); text-align:left;">
-            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">Domain</th>
-            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">How It Shows Up in This Project</th>
-            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">Implementation</th>
+            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">Shneiderman's fear (1997)</th>
+            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">Governance requirement</th>
+            <th style="padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;">How this harness answers it</th>
           </tr>
         </thead>
         <tbody>
           <tr style="border-bottom:1px solid var(--rule-soft);">
-            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">D1 Agentic Architecture</strong></td>
-            <td style="padding:10px 12px;">Orchestrator + subagents fan out into a three-tier detector</td>
-            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Hermes agent loop</td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Anthropomorphism → false mental models</strong></td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Legible</strong> — which model and which memory version is behind this is visible</td>
+            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Provenance: model ID + memory hash; UI marks "AI suggestion"</td>
           </tr>
           <tr style="border-bottom:1px solid var(--rule-soft);">
-            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">D2 Tool Design &amp; MCP</strong></td>
-            <td style="padding:10px 12px;">Custom-built <code style="font-family:'IBM Plex Mono',monospace; font-size:11px; background:var(--hilite); padding:1px 5px;">uxaudit-mcp</code> server</td>
-            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">MCP tools schema</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--rule-soft);">
-            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">D3 Claude Code Config</strong></td>
-            <td style="padding:10px 12px;">AGENTS.md defines skill context</td>
-            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Skill wiki template</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--rule-soft);">
-            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">D4 Prompt Engineering</strong></td>
-            <td style="padding:10px 12px;">Model-agnostic → relies entirely on explicit criteria</td>
-            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Prompt files per skill</td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Unpredictability</strong></td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Predictable</strong> — probabilistic output needs a re-runnable boundary</td>
+            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Schema-as-rule-layer; done() + verifier (silent on pass); L2–L3 auto-checks</td>
           </tr>
           <tr>
-            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">D5 Context Management</strong></td>
-            <td style="padding:10px 12px;"><code style="font-family:'IBM Plex Mono',monospace; font-size:11px; background:var(--hilite); padding:1px 5px;">/compress</code>, trajectory compression, FTS5 session search</td>
-            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Hermes built-in + wiki pattern</td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Blurred accountability</strong> <span style="color:var(--ink-3);">— Elish (2019) did the math</span></td>
+            <td style="padding:10px 12px;"><strong style="color:var(--ink-1);">Accountable</strong> — who signs, who can override</td>
+            <td style="padding:10px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent);">Proof-of-Work: approvals carry sources / risks / alternatives; L4–L5 ladder + decision rights</td>
           </tr>
         </tbody>
       </table>
