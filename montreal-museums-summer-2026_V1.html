@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Montréal Museum Field Guide: Exhibition Timeline — Summer 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&family=Noto+Serif+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#fdfaf1;
@@ -17,69 +17,131 @@
   --card:#fffdf7;
   --mono:'IBM Plex Mono',monospace;
   --serif:'Source Serif Pro','Noto Serif TC',serif;
+  --heiti:'Noto Sans TC','PingFang TC','Microsoft JhengHei','Heiti TC',sans-serif;
 }
+html{font-size:16px;}
+html[lang="zh-Hant"]{
+  font-size:19.2px;
+  --serif:var(--heiti);
+  --mono:var(--heiti);
+}
+html[lang="zh-Hant"] body{line-height:1.85;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.75;font-size:16px;}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.75;font-size:1rem;}
 .wrap{max-width:1080px;margin:0 auto;padding:48px 28px 80px;}
 
 header{border-bottom:3px double var(--burgundy);padding-bottom:28px;margin-bottom:36px;position:relative;}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
-h1{font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.35;color:var(--burgundy);}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+h1{font-size:clamp(1.625rem,4vw,2.375rem);font-weight:700;line-height:1.35;color:var(--burgundy);}
 h1 .en{display:block;font-size:.52em;font-weight:600;color:var(--dust);letter-spacing:.04em;margin-top:6px;}
-.meta{font-family:var(--mono);font-size:12.5px;color:var(--dust);margin-top:14px;}
+.meta{font-family:var(--mono);font-size:.78125rem;color:var(--dust);margin-top:14px;}
 .meta b{color:var(--burgundy);font-weight:600;}
 
 .lang-switch{position:absolute;top:0;right:0;display:flex;gap:4px;}
-.lang-switch button{font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--line);background:var(--card);color:var(--dust);border-radius:4px;cursor:pointer;letter-spacing:.06em;}
+.lang-switch button{font-family:var(--mono);font-size:.6875rem;padding:5px 10px;border:1px solid var(--line);background:var(--card);color:var(--dust);border-radius:4px;cursor:pointer;letter-spacing:.06em;}
 .lang-switch button:hover{border-color:var(--gold);color:var(--burgundy);}
 .lang-switch button.active{background:var(--burgundy);color:#f6efe2;border-color:var(--burgundy);}
 
-h2{font-size:22px;color:var(--burgundy);margin:52px 0 6px;display:flex;align-items:baseline;gap:12px;}
-h2 .no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.1em;}
-.sub{color:var(--dust);font-size:14px;margin-bottom:18px;}
+h2{font-size:1.375rem;color:var(--burgundy);margin:52px 0 6px;display:flex;align-items:baseline;gap:12px;}
+h2 .no{font-family:var(--mono);font-size:.8125rem;color:var(--gold);letter-spacing:.1em;}
+.sub{color:var(--dust);font-size:.875rem;margin-bottom:18px;}
 
 .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--card);}
 table{width:100%;border-collapse:collapse;min-width:860px;}
-thead th{background:var(--burgundy);color:#f6efe2;font-weight:600;font-size:13.5px;padding:12px 14px;text-align:left;letter-spacing:.03em;white-space:nowrap;}
-tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;font-size:14px;}
+thead th{background:var(--burgundy);color:#f6efe2;font-weight:600;font-size:.84375rem;padding:12px 14px;text-align:left;letter-spacing:.03em;white-space:nowrap;}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;font-size:.875rem;}
 tbody tr:nth-child(even){background:#faf6ea;}
 td.museum{font-weight:700;white-space:nowrap;}
-td.museum small{display:block;font-weight:400;color:var(--dust);font-size:11.5px;font-family:var(--mono);}
-td.note{color:#5a5347;font-size:13px;min-width:220px;}
+td.museum small{display:block;font-weight:400;color:var(--dust);font-size:.71875rem;font-family:var(--mono);}
+td.note{color:#5a5347;font-size:.8125rem;min-width:220px;}
 
 .tips{background:#f4efe0;border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:20px 24px;margin-top:22px;}
-.tips h3{font-size:15px;color:var(--burgundy);margin-bottom:10px;font-family:var(--mono);letter-spacing:.08em;}
+.tips h3{font-size:.9375rem;color:var(--burgundy);margin-bottom:10px;font-family:var(--mono);letter-spacing:.08em;}
 .tips ul{list-style:none;}
-.tips li{padding:5px 0 5px 22px;position:relative;font-size:14px;}
-.tips li::before{content:"◆";position:absolute;left:2px;color:var(--gold);font-size:10px;top:10px;}
-.tips .d{font-family:var(--mono);font-size:12.5px;color:var(--burgundy);font-weight:600;}
+.tips li{padding:5px 0 5px 22px;position:relative;font-size:.875rem;}
+.tips li::before{content:"◆";position:absolute;left:2px;color:var(--gold);font-size:.625rem;top:10px;}
+.tips .d{font-family:var(--mono);font-size:.78125rem;color:var(--burgundy);font-weight:600;}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:26px 28px;margin-bottom:24px;position:relative;}
 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--burgundy);border-radius:8px 0 0 8px;}
-.card h3{font-size:19px;color:var(--burgundy);}
-.card h3 small{font-family:var(--mono);font-size:11.5px;color:var(--dust);font-weight:400;display:block;letter-spacing:.05em;margin-top:2px;}
-.fee-line{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:#f4efe0;border-radius:4px;padding:7px 12px;margin:12px 0 14px;display:inline-block;}
+.card h3{font-size:1.1875rem;color:var(--burgundy);}
+.card h3 small{font-family:var(--mono);font-size:.71875rem;color:var(--dust);font-weight:400;display:block;letter-spacing:.05em;margin-top:2px;}
+.fee-line{font-family:var(--mono);font-size:.78125rem;color:var(--ink);background:#f4efe0;border-radius:4px;padding:7px 12px;margin:12px 0 14px;display:inline-block;}
 .fee-line b{color:var(--burgundy);}
-.theme{font-size:14px;color:#5a5347;margin-bottom:14px;}
+.theme{font-size:.875rem;color:#5a5347;margin-bottom:14px;}
 .exlist{border-top:1px dashed var(--line);}
 .ex{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line);}
-.ex .when{font-family:var(--mono);font-size:12px;color:var(--gold);font-weight:600;line-height:1.6;padding-top:3px;}
-.ex .what b{font-size:14.5px;color:var(--ink);}
-.ex .what p{font-size:13.5px;color:#5a5347;margin-top:2px;}
+.ex .when{font-family:var(--mono);font-size:.75rem;color:var(--gold);font-weight:600;line-height:1.6;padding-top:3px;}
+.ex .what b{font-size:.90625rem;color:var(--ink);}
+.ex .what p{font-size:.84375rem;color:#5a5347;margin-top:2px;}
 .ending-soon .when{color:var(--burgundy);}
-.ending-soon .when::after{content:attr(data-ending-label);display:block;font-size:10px;background:var(--burgundy);color:#f6efe2;border-radius:3px;padding:0 5px;width:fit-content;margin-top:3px;}
+.ending-soon .when::after{content:attr(data-ending-label);display:block;font-size:.625rem;background:var(--burgundy);color:#f6efe2;border-radius:3px;padding:0 5px;width:fit-content;margin-top:3px;}
 
 .timeline{border-left:3px solid var(--gold);margin:20px 0 0 8px;padding-left:0;}
 .tl{position:relative;padding:8px 0 8px 26px;}
 .tl::before{content:"";position:absolute;left:-8px;top:17px;width:13px;height:13px;border-radius:50%;background:var(--paper);border:3px solid var(--gold);}
 .tl.hard::before{border-color:var(--burgundy);}
-.tl .td{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--burgundy);}
-.tl .tt{font-size:14px;}
-.tl .tt em{font-style:normal;color:var(--dust);font-size:12.5px;font-family:var(--mono);}
+.tl .td{font-family:var(--mono);font-size:.78125rem;font-weight:600;color:var(--burgundy);}
+.tl .tt{font-size:.875rem;}
+.tl .tt em{font-style:normal;color:var(--dust);font-size:.78125rem;font-family:var(--mono);}
 
-footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--dust);line-height:1.9;}
-@media(max-width:640px){.ex{grid-template-columns:1fr;gap:2px;}.lang-switch{position:static;margin-bottom:16px;}}
-@media print{body{font-size:13px;}.card{break-inside:avoid;}.lang-switch{display:none;}}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.71875rem;color:var(--dust);line-height:1.9;}
+@media(max-width:640px){
+  .wrap{padding:28px 16px 56px;}
+  h2{flex-wrap:wrap;font-size:1.125rem;margin:40px 0 6px;gap:8px;}
+  .sub{font-size:.8125rem;margin-bottom:14px;}
+  .lang-switch{position:static;margin-bottom:16px;}
+  .card{padding:18px 16px;margin-bottom:18px;}
+  .card h3{font-size:1.0625rem;}
+  .fee-line{display:block;width:100%;font-size:.71875rem;line-height:1.55;}
+  .tips{padding:16px 18px;}
+  .tips li{font-size:.84375rem;}
+  .ex{grid-template-columns:1fr;gap:2px;}
+  .timeline{margin-left:4px;}
+  .tl{padding-left:22px;}
+}
+@media(max-width:860px){
+  .tblwrap{overflow:visible;border:none;border-radius:0;background:transparent;}
+  table{min-width:0;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{
+    display:block;
+    margin-bottom:12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--card);
+    padding:14px 16px 10px;
+  }
+  tbody tr:nth-child(even){background:var(--card);}
+  tbody td{
+    display:block;
+    padding:8px 0;
+    border-top:none;
+    border-bottom:1px dashed var(--line);
+  }
+  tbody td:last-child{border-bottom:none;padding-bottom:0;}
+  tbody td[data-label]::before{
+    content:attr(data-label);
+    display:block;
+    font-family:var(--mono);
+    font-size:.625rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:4px;
+  }
+  td.museum{
+    white-space:normal;
+    font-size:1rem;
+    padding:0 0 10px;
+    margin-bottom:4px;
+    border-bottom:2px solid var(--line);
+  }
+  td.museum::before{display:none;}
+  td.note{min-width:0;font-size:.875rem;line-height:1.65;}
+}
+@media print{body{font-size:.8125rem;}.card{break-inside:avoid;}.lang-switch{display:none;}}
 </style>
 </head>
 <body>
@@ -121,13 +183,13 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-fa
 </tr>
 </thead>
 <tbody>
-<tr><td class="museum">McCord Stewart</td><td class="note" data-i18n="tbl_mccord_metro">McGill (Green)</td><td class="note" data-i18n-html="tbl_mccord_rem"></td></tr>
-<tr><td class="museum">MMFA</td><td class="note" data-i18n="tbl_mmfa_metro">Peel / Guy-Concordia (Green)</td><td class="note" data-i18n="tbl_mmfa_rem">Exit McGill → Green west 1–2 stops, or ~12 min walk</td></tr>
-<tr><td class="museum">CCA</td><td class="note" data-i18n="tbl_cca_metro">Guy-Concordia (Green)</td><td class="note" data-i18n="tbl_cca_rem">McGill → Green west to Guy-Concordia + walk</td></tr>
-<tr><td class="museum">MEM</td><td class="note" data-i18n="tbl_mem_metro">Saint-Laurent / Place-des-Arts (Green)</td><td class="note" data-i18n="tbl_mem_rem">McGill → Green east 1–2 stops</td></tr>
-<tr><td class="museum">Pointe-à-Callière / Science Centre</td><td class="note" data-i18n="tbl_pac_metro">Place-d'Armes (Orange)</td><td class="note" data-i18n="tbl_pac_rem">Gare Centrale → Orange (Bonaventure direction) 2 stops</td></tr>
-<tr><td class="museum">Espace pour la vie<small>Biodôme / Insectarium / Planétarium</small></td><td class="note" data-i18n="tbl_eplv_metro">Viau / Pie-IX (Green)</td><td class="note" data-i18n="tbl_eplv_rem">McGill → Green east (toward Honoré-Beaugrand)</td></tr>
-<tr><td class="museum">Biosphère</td><td class="note" data-i18n="tbl_bio_metro">Jean-Drapeau (Yellow)</td><td class="note" data-i18n="tbl_bio_rem">Gare Centrale → Orange to Berri-UQAM → Yellow 1 stop</td></tr>
+<tr><td class="museum">McCord Stewart</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_mccord_metro">McGill (Green)</td><td class="note" data-label-key="tbl_rem" data-i18n-html="tbl_mccord_rem"></td></tr>
+<tr><td class="museum">MMFA</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_mmfa_metro">Peel / Guy-Concordia (Green)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_mmfa_rem">Exit McGill → Green west 1–2 stops, or ~12 min walk</td></tr>
+<tr><td class="museum">CCA</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_cca_metro">Guy-Concordia (Green)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_cca_rem">McGill → Green west to Guy-Concordia + walk</td></tr>
+<tr><td class="museum">MEM</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_mem_metro">Saint-Laurent / Place-des-Arts (Green)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_mem_rem">McGill → Green east 1–2 stops</td></tr>
+<tr><td class="museum">Pointe-à-Callière / Science Centre</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_pac_metro">Place-d'Armes (Orange)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_pac_rem">Gare Centrale → Orange (Bonaventure direction) 2 stops</td></tr>
+<tr><td class="museum">Espace pour la vie<small>Biodôme / Insectarium / Planétarium</small></td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_eplv_metro">Viau / Pie-IX (Green)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_eplv_rem">McGill → Green east (toward Honoré-Beaugrand)</td></tr>
+<tr><td class="museum">Biosphère</td><td class="note" data-label-key="tbl_metro" data-i18n="tbl_bio_metro">Jean-Drapeau (Yellow)</td><td class="note" data-label-key="tbl_rem" data-i18n="tbl_bio_rem">Gare Centrale → Orange to Berri-UQAM → Yellow 1 stop</td></tr>
 </tbody>
 </table>
 </div>
@@ -542,6 +604,10 @@ function setLang(lang) {
   document.querySelectorAll("[data-i18n-html]").forEach(el => {
     const key = el.dataset.i18nHtml;
     if (t[key] != null) el.innerHTML = t[key];
+  });
+  document.querySelectorAll("[data-label-key]").forEach(el => {
+    const key = el.dataset.labelKey;
+    if (t[key] != null) el.dataset.label = t[key];
   });
   document.querySelectorAll("[data-ending-label]").forEach(el => {
     el.dataset.endingLabel = t.ending_soon;
