@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montréal Museum Field Guide: Exhibition Timeline — Summer 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&family=Noto+Serif+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fdfaf1;
+  --ink:#2b2620;
+  --burgundy:#7c2d2d;
+  --gold:#b8860b;
+  --sage:#6b7d5e;
+  --dust:#a89f8d;
+  --line:#e3dccb;
+  --card:#fffdf7;
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif Pro','Noto Serif TC',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.75;font-size:16px;}
+.wrap{max-width:1080px;margin:0 auto;padding:48px 28px 80px;}
+
+header{border-bottom:3px double var(--burgundy);padding-bottom:28px;margin-bottom:36px;position:relative;}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+h1{font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.35;color:var(--burgundy);}
+h1 .en{display:block;font-size:.52em;font-weight:600;color:var(--dust);letter-spacing:.04em;margin-top:6px;}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--dust);margin-top:14px;}
+.meta b{color:var(--burgundy);font-weight:600;}
+
+.lang-switch{position:absolute;top:0;right:0;display:flex;gap:4px;}
+.lang-switch button{font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--line);background:var(--card);color:var(--dust);border-radius:4px;cursor:pointer;letter-spacing:.06em;}
+.lang-switch button:hover{border-color:var(--gold);color:var(--burgundy);}
+.lang-switch button.active{background:var(--burgundy);color:#f6efe2;border-color:var(--burgundy);}
+
+h2{font-size:22px;color:var(--burgundy);margin:52px 0 6px;display:flex;align-items:baseline;gap:12px;}
+h2 .no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.1em;}
+.sub{color:var(--dust);font-size:14px;margin-bottom:18px;}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--card);}
+table{width:100%;border-collapse:collapse;min-width:860px;}
+thead th{background:var(--burgundy);color:#f6efe2;font-weight:600;font-size:13.5px;padding:12px 14px;text-align:left;letter-spacing:.03em;white-space:nowrap;}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;font-size:14px;}
+tbody tr:nth-child(even){background:#faf6ea;}
+td.museum{font-weight:700;white-space:nowrap;}
+td.museum small{display:block;font-weight:400;color:var(--dust);font-size:11.5px;font-family:var(--mono);}
+td.note{color:#5a5347;font-size:13px;min-width:220px;}
+
+.tips{background:#f4efe0;border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:20px 24px;margin-top:22px;}
+.tips h3{font-size:15px;color:var(--burgundy);margin-bottom:10px;font-family:var(--mono);letter-spacing:.08em;}
+.tips ul{list-style:none;}
+.tips li{padding:5px 0 5px 22px;position:relative;font-size:14px;}
+.tips li::before{content:"◆";position:absolute;left:2px;color:var(--gold);font-size:10px;top:10px;}
+.tips .d{font-family:var(--mono);font-size:12.5px;color:var(--burgundy);font-weight:600;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:26px 28px;margin-bottom:24px;position:relative;}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--burgundy);border-radius:8px 0 0 8px;}
+.card h3{font-size:19px;color:var(--burgundy);}
+.card h3 small{font-family:var(--mono);font-size:11.5px;color:var(--dust);font-weight:400;display:block;letter-spacing:.05em;margin-top:2px;}
+.fee-line{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:#f4efe0;border-radius:4px;padding:7px 12px;margin:12px 0 14px;display:inline-block;}
+.fee-line b{color:var(--burgundy);}
+.theme{font-size:14px;color:#5a5347;margin-bottom:14px;}
+.exlist{border-top:1px dashed var(--line);}
+.ex{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line);}
+.ex .when{font-family:var(--mono);font-size:12px;color:var(--gold);font-weight:600;line-height:1.6;padding-top:3px;}
+.ex .what b{font-size:14.5px;color:var(--ink);}
+.ex .what p{font-size:13.5px;color:#5a5347;margin-top:2px;}
+.ending-soon .when{color:var(--burgundy);}
+.ending-soon .when::after{content:attr(data-ending-label);display:block;font-size:10px;background:var(--burgundy);color:#f6efe2;border-radius:3px;padding:0 5px;width:fit-content;margin-top:3px;}
+
+.timeline{border-left:3px solid var(--gold);margin:20px 0 0 8px;padding-left:0;}
+.tl{position:relative;padding:8px 0 8px 26px;}
+.tl::before{content:"";position:absolute;left:-8px;top:17px;width:13px;height:13px;border-radius:50%;background:var(--paper);border:3px solid var(--gold);}
+.tl.hard::before{border-color:var(--burgundy);}
+.tl .td{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--burgundy);}
+.tl .tt{font-size:14px;}
+.tl .tt em{font-style:normal;color:var(--dust);font-size:12.5px;font-family:var(--mono);}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--dust);line-height:1.9;}
+@media(max-width:640px){.ex{grid-template-columns:1fr;gap:2px;}.lang-switch{position:static;margin-bottom:16px;}}
+@media print{body{font-size:13px;}.card{break-inside:avoid;}.lang-switch{display:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="lang-switch">
+    <button type="button" data-lang="en" class="active">EN</button>
+    <button type="button" data-lang="fr">FR</button>
+    <button type="button" data-lang="zh">中文</button>
+  </div>
+  <div class="eyebrow" data-i18n="eyebrow">Montréal Museums · Summer Field Guide</div>
+  <h1><span data-i18n="h1">Montréal Museum Field Guide: Exhibition Timeline</span>
+    <span class="en" data-i18n="h1_sub">Summer 2026 — What's On &amp; How to Get There</span>
+  </h1>
+  <div class="meta" data-i18n-html="meta">Data as of <b>2026-07-05</b> · Currency <b>CAD</b> · Hours &amp; admission per each museum's website; subject to change without notice</div>
+</header>
+
+<!-- ================= 1. Transport ================= -->
+<h2><span class="no">01</span><span data-i18n="s1_title">Getting There from Pointe-Claire</span></h2>
+<p class="sub" data-i18n="s1_sub">Departure: 3 av. de Val-Soleil (Pointe-Claire, West Island) · Backbone = REM Anse-à-l'Orme West Island segment × STM metro.</p>
+
+<div class="card">
+  <p class="theme" style="margin-bottom:16px;" data-i18n-html="transport_intro"></p>
+  <div class="exlist">
+    <div class="ex"><div class="when" data-i18n-html="transport_1_when"></div><div class="what" data-i18n-html="transport_1_what"></div></div>
+    <div class="ex"><div class="when" data-i18n-html="transport_2_when"></div><div class="what" data-i18n-html="transport_2_what"></div></div>
+    <div class="ex"><div class="when" data-i18n="transport_3_when">③ Metro</div><div class="what" data-i18n-html="transport_3_what"></div></div>
+  </div>
+</div>
+
+<div class="tblwrap" style="margin-top:6px;">
+<table>
+<thead>
+<tr>
+  <th data-i18n="tbl_museum">Museum</th>
+  <th data-i18n="tbl_metro">Nearest Metro (Line)</th>
+  <th data-i18n="tbl_rem">REM Exit &amp; Transfer</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="museum">McCord Stewart</td><td class="note" data-i18n="tbl_mccord_metro">McGill (Green)</td><td class="note" data-i18n-html="tbl_mccord_rem"></td></tr>
+<tr><td class="museum">MMFA</td><td class="note" data-i18n="tbl_mmfa_metro">Peel / Guy-Concordia (Green)</td><td class="note" data-i18n="tbl_mmfa_rem">Exit McGill → Green west 1–2 stops, or ~12 min walk</td></tr>
+<tr><td class="museum">CCA</td><td class="note" data-i18n="tbl_cca_metro">Guy-Concordia (Green)</td><td class="note" data-i18n="tbl_cca_rem">McGill → Green west to Guy-Concordia + walk</td></tr>
+<tr><td class="museum">MEM</td><td class="note" data-i18n="tbl_mem_metro">Saint-Laurent / Place-des-Arts (Green)</td><td class="note" data-i18n="tbl_mem_rem">McGill → Green east 1–2 stops</td></tr>
+<tr><td class="museum">Pointe-à-Callière / Science Centre</td><td class="note" data-i18n="tbl_pac_metro">Place-d'Armes (Orange)</td><td class="note" data-i18n="tbl_pac_rem">Gare Centrale → Orange (Bonaventure direction) 2 stops</td></tr>
+<tr><td class="museum">Espace pour la vie<small>Biodôme / Insectarium / Planétarium</small></td><td class="note" data-i18n="tbl_eplv_metro">Viau / Pie-IX (Green)</td><td class="note" data-i18n="tbl_eplv_rem">McGill → Green east (toward Honoré-Beaugrand)</td></tr>
+<tr><td class="museum">Biosphère</td><td class="note" data-i18n="tbl_bio_metro">Jean-Drapeau (Yellow)</td><td class="note" data-i18n="tbl_bio_rem">Gare Centrale → Orange to Berri-UQAM → Yellow 1 stop</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tips" style="margin-top:20px;">
+  <h3 data-i18n="tips_transport_h">◈ Closing Hours × Last Train: West Island Advantage</h3>
+  <ul>
+    <li data-i18n-html="tips_transport_1"></li>
+    <li data-i18n-html="tips_transport_2"></li>
+    <li data-i18n-html="tips_transport_3"></li>
+    <li data-i18n-html="tips_transport_4"></li>
+  </ul>
+</div>
+
+<!-- ================= 2. Museum cards ================= -->
+<h2><span class="no">02</span><span data-i18n="s2_title">Exhibition Guide (On View as of 2026-07-05)</span></h2>
+<p class="sub" data-i18n="s2_sub">Permanent themes + summer highlights; "Closing soon" = within one month.</p>
+
+<div class="card">
+  <h3>Montreal Museum of Fine Arts (MMFA / MBAM)<small>SHERBROOKE ST W · METRO PEEL / GUY-CONCORDIA</small></h3>
+  <div class="fee-line" data-i18n-html="mmfa_fee"></div>
+  <p class="theme" data-i18n="mmfa_theme"></p>
+  <div class="exlist">
+    <div class="ex ending-soon"><div class="when" data-ending-label="">至 2026-07-19</div><div class="what"><b>The Torlonia Collection</b><p data-i18n="mmfa_ex1">58 Roman marble sculptures — emperors, gods, reliefs; a classical sculpture landmark.</p></div></div>
+    <div class="ex"><div class="when">至 2026-08-09</div><div class="what"><b>Richard Avedon: Immortal (1951–2004)</b><p data-i18n="mmfa_ex2">~100 portraits on aging and identity — ties to AI × aging × trust research threads.</p></div></div>
+    <div class="ex"><div class="when">2025-11-29 → 2026-10-11</div><div class="what"><b>Rising Suns</b><p data-i18n="mmfa_ex3">Indigenous art and sovereignty across Great Lakes and river confederacies (Obomsawin, Houle, et al.).</p></div></div>
+    <div class="ex"><div class="when" data-i18n="when_ongoing">Ongoing</div><div class="what"><b>From the Functional to the Fabulous</b><p data-i18n="mmfa_ex4">600 years of decorative arts &amp; design + summer family workshops.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>McCord Stewart Museum<small>SHERBROOKE ST W · METRO McGILL</small></h3>
+  <div class="fee-line" data-i18n-html="mccord_fee"></div>
+  <p class="theme" data-i18n="mccord_theme"></p>
+  <div class="exlist">
+    <div class="ex"><div class="when">2026-05-15 → 09-07</div><div class="what"><b>Céline in Dior: A Dazzling Moment</b><p data-i18n="mccord_ex1">2024 Paris Olympics opening Dior gown — pop culture × luxury × collective memory.</p></div></div>
+    <div class="ex"><div class="when">至 2026-09-13</div><div class="what"><b>Montreal 1976: An Olympic Feat</b><p data-i18n="mccord_ex2">Costumes, archives, posters on the 1976 Games — pairs with Pointe-à-Callière &amp; MEM Olympic threads.</p></div></div>
+    <div class="ex"><div class="when">至 2026-10-18</div><div class="what"><b>On the Menu – Montreal: A Restaurant Story</b><p data-i18n="mccord_ex3">Restaurant culture as lens on urban identity, immigration, and class.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Musée d'art contemporain de Montréal (MAC)<small data-i18n="mac_sub">Under renovation · New building expected 2028</small></h3>
+  <div class="fee-line" data-i18n="mac_fee"></div>
+  <p class="theme" data-i18n="mac_theme"></p>
+</div>
+
+<div class="card">
+  <h3>Canadian Centre for Architecture (CCA)<small>1920 BAILE ST · METRO GUY-CONCORDIA / GEORGES-VANIER</small></h3>
+  <div class="fee-line" data-i18n-html="cca_fee"></div>
+  <p class="theme" data-i18n="cca_theme"></p>
+  <div class="exlist">
+    <div class="ex"><div class="when">至 2026-08-30</div><div class="what"><b>Culture Lab</b><p data-i18n="cca_ex1">Multidisciplinary architecture forum — how architectural discourse is made, circulated, heard.</p></div></div>
+    <div class="ex"><div class="when">2025-12-18 → 2026-10-18</div><div class="what"><b>Audible Archives</b> <span data-i18n="cca_ex2_with">(with La Guilde)</span><p data-i18n="cca_ex2">Sound-based experiment entering architectural and urban history archives.</p></div></div>
+    <div class="ex"><div class="when">至 2027-01-03</div><div class="what"><b>The Fortune of the City is That it Has Never Been Perfect</b><p data-i18n="cca_ex3">Álvaro Siza archive (drawings, models, photos) — design imagination for the imperfect city.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>MEM – Centre des mémoires montréalaises<small>1210 BOUL. SAINT-LAURENT · METRO SAINT-LAURENT</small></h3>
+  <div class="fee-line" data-i18n-html="mem_fee"></div>
+  <p class="theme" data-i18n="mem_theme"></p>
+  <div class="exlist">
+    <div class="ex ending-soon"><div class="when" data-ending-label="">至 2026-07-26</div><div class="what"><b>A Ray of Hope? Institut du Radium de Montréal</b><p data-i18n="mem_ex1">Oncology history, radiotherapy, medical institutions — health tech / medical history angle.</p></div></div>
+    <div class="ex"><div class="when">2026-05-20 → 09-18</div><div class="what"><b>Corridart: The Exhibition That Vanished Overnight</b><p data-i18n="mem_ex2">Public art dismantled overnight during 1976 Olympics — censorship, public art, free speech.</p></div></div>
+    <div class="ex"><div class="when">2026-07-31 → 2027-02-14</div><div class="what"><b>Active Grieving: ACT UP Montréal</b><p data-i18n="mem_ex3">Visual practice of AIDS activism — grief, action, public health.</p></div></div>
+    <div class="ex"><div class="when">2026-06-09 → 2027-06-06</div><div class="what"><b>Le cucitrici – Voices of Italian Seamstresses</b><p data-i18n="mem_ex4">Immigrant labour and urban memory.</p></div></div>
+    <div class="ex"><div class="when">至 2027-01</div><div class="what"><b>Detours – Urban Experiences</b><p data-i18n="mem_ex5">Immersive walkthrough of everyday city life across backgrounds.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Pointe-à-Callière<small>VIEUX-MONTRÉAL · METRO PLACE-D'ARMES</small></h3>
+  <div class="fee-line" data-i18n-html="pac_fee"></div>
+  <p class="theme" data-i18n="pac_theme"></p>
+  <div class="exlist">
+    <div class="ex"><div class="when">至 2026-09-20</div><div class="what"><b data-i18n="pac_ex1_title">1701 Great Peace of Montreal — 325th Anniversary Tours</b><p data-i18n="pac_ex1">Colonial, Indigenous, and diplomatic crossroads.</p></div></div>
+    <div class="ex"><div class="when">至 2026-09-27</div><div class="what"><b>Montréal 1976 – The Olympic Legacy</b> <span data-i18n="pac_ex2_case">(display case)</span><p data-i18n="pac_ex2">Completes the 1976 thread with McCord Olympics show &amp; MEM Corridart.</p></div></div>
+    <div class="ex"><div class="when">至 2027-01-10</div><div class="what"><b>Alley-oop – An Interactive Adventure</b><p data-i18n="pac_ex3">Back-alley themed interactive show — play × urban exploration, teen-friendly.</p></div></div>
+    <div class="ex"><div class="when">至 2027-03-07</div><div class="what"><b>Heroes of Greece. The Age of Troy</b><p data-i18n="pac_ex4">~400 Greek artifacts — Iliad myth and historical overlap.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Montréal Science Centre<small>OLD PORT · METRO PLACE-D'ARMES</small></h3>
+  <div class="fee-line" data-i18n-html="sc_fee"></div>
+  <p class="theme" data-i18n="sc_theme"></p>
+  <div class="exlist">
+    <div class="ex"><div class="when" data-i18n="when_permanent">Permanent-type</div><div class="what"><b>Nanualuk – Northern Expedition</b><p data-i18n="sc_ex1">Arctic mission-style immersive: ice navigation, star reading, 20+ hands-on tasks.</p></div></div>
+    <div class="ex"><div class="when" data-i18n="when_permanent">Permanent-type</div><div class="what"><b>Signs of Life</b><p data-i18n="sc_ex2">Science of life in the universe + touchable moon rock.</p></div></div>
+    <div class="ex"><div class="when">至 2026-10-18</div><div class="what"><b>Funny Creatures</b><p data-i18n="sc_ex3">Camera-caught funny animal images — light family fare.</p></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Espace pour la vie<small>BIODÔME · INSECTARIUM · PLANÉTARIUM · JARDIN BOTANIQUE · BIOSPHÈRE</small></h3>
+  <div class="fee-line" data-i18n-html="eplv_fee"></div>
+  <p class="theme" data-i18n="eplv_theme"></p>
+</div>
+
+<!-- ================= 3. Timeline ================= -->
+<h2><span class="no">03</span><span data-i18n="s3_title">Closing Countdown — See What Disappears First</span></h2>
+<p class="sub" data-i18n="s3_sub">Sorted by end date; red dot = closing within one month — prioritize early summer.</p>
+
+<div class="timeline">
+  <div class="tl hard"><div class="td" data-i18n="tl_1_d">2026-07-19 (2 weeks left)</div><div class="tt" data-i18n-html="tl_1_t"></div></div>
+  <div class="tl hard"><div class="td" data-i18n="tl_2_d">2026-07-26 (3 weeks left)</div><div class="tt" data-i18n-html="tl_2_t"></div></div>
+  <div class="tl"><div class="td">2026-08-09</div><div class="tt" data-i18n-html="tl_3_t"></div></div>
+  <div class="tl"><div class="td">2026-08-30</div><div class="tt" data-i18n-html="tl_4_t"></div></div>
+  <div class="tl"><div class="td">2026-09-07</div><div class="tt" data-i18n-html="tl_5_t"></div></div>
+  <div class="tl"><div class="td">2026-09-13</div><div class="tt" data-i18n-html="tl_6_t"></div></div>
+  <div class="tl"><div class="td">2026-09-18</div><div class="tt" data-i18n-html="tl_7_t"></div></div>
+  <div class="tl"><div class="td">2026-09-20</div><div class="tt" data-i18n-html="tl_8_t"></div></div>
+  <div class="tl"><div class="td">2026-09-27</div><div class="tt" data-i18n-html="tl_9_t"></div></div>
+  <div class="tl"><div class="td">2026-10-11</div><div class="tt" data-i18n-html="tl_10_t"></div></div>
+  <div class="tl"><div class="td">2026-10-18</div><div class="tt" data-i18n-html="tl_11_t"></div></div>
+  <div class="tl"><div class="td" data-i18n="tl_12_d">2027 onward</div><div class="tt" data-i18n="tl_12_t"></div></div>
+</div>
+
+<footer data-i18n-html="footer"></footer>
+
+</div>
+
+<script>
+const I18N = {
+  en: {
+    page_title: "Montréal Museum Field Guide: Exhibition Timeline — Summer 2026",
+    eyebrow: "Montréal Museums · Summer Field Guide",
+    h1: "Montréal Museum Field Guide: Exhibition Timeline",
+    h1_sub: "Summer 2026 — What's On & How to Get There",
+    meta: "Data as of <b>2026-07-05</b> · Currency <b>CAD</b> · Hours & admission per each museum's website; subject to change without notice",
+    s1_title: "Getting There from Pointe-Claire",
+    s1_sub: "Departure: 3 av. de Val-Soleil (Pointe-Claire, West Island) · Backbone = REM Anse-à-l'Orme West Island segment × STM metro.",
+    transport_intro: "Good news: you're on the <b>West Island</b>, and the REM <b>Anse-à-l'Orme segment opened 2026-05-18</b> — the nearest <b>Fairview–Pointe-Claire</b> station is beside CF Fairview (A-40 & Fairview Ave, with bus terminal). From there, <b>direct, no transfer</b> through Mount Royal tunnel to downtown: <b>McGill ~25 min</b> (museum cluster: McCord above the station; MMFA/CCA 1–2 Green stops or walk), <b>Gare Centrale ~27 min</b> (Orange Bonaventure), <b>Édouard-Montpetit ~22 min</b> (Blue). Peak ~10 min headway, off-peak ~15 min, ~20 h/day. Home is ~<b>2.7 km</b> from the station — bus or short drive, not walkable.",
+    transport_1_when: "① Connector<br>~2.7 km",
+    transport_1_what: "<b>3 av. de Val-Soleil → Fairview–Pointe-Claire REM</b><p>STM local bus north (West Island network revised May 2026 with REM; Lakeshore 211 and north–south Pointe-Claire routes serve the station — check Chrono/Transit for nearest line); or drive/bike ~10–12 min (Fairview parking tight), or walk ~35 min.</p>",
+    transport_2_when: "② REM<br>25–27 min",
+    transport_2_what: "<b>Fairview–Pointe-Claire → McGill / Gare Centrale</b><p>Direct. For McCord/MMFA/CCA/MEM exit <b>McGill</b>; for Old Port (Pointe-à-Callière, Science Centre) exit <b>Gare Centrale</b> then Orange.</p>",
+    transport_3_when: "③ Metro",
+    transport_3_what: "<b>McGill = Green / Gare Centrale = Orange</b><p>McGill on Green line; Gare Centrale on Orange (Bonaventure). See table below for each museum.</p>",
+    tbl_museum: "Museum", tbl_metro: "Nearest Metro (Line)", tbl_rem: "REM Exit & Transfer",
+    tbl_mccord_metro: "McGill (Green)", tbl_mccord_rem: "<b>Exit McGill — museum above station</b>",
+    tbl_mmfa_metro: "Peel / Guy-Concordia (Green)", tbl_mmfa_rem: "Exit McGill → Green west 1–2 stops, or ~12 min walk",
+    tbl_cca_metro: "Guy-Concordia (Green)", tbl_cca_rem: "McGill → Green west to Guy-Concordia + walk",
+    tbl_mem_metro: "Saint-Laurent / Place-des-Arts (Green)", tbl_mem_rem: "McGill → Green east 1–2 stops",
+    tbl_pac_metro: "Place-d'Armes (Orange)", tbl_pac_rem: "Gare Centrale → Orange (Bonaventure direction) 2 stops",
+    tbl_eplv_metro: "Viau / Pie-IX (Green)", tbl_eplv_rem: "McGill → Green east (toward Honoré-Beaugrand)",
+    tbl_bio_metro: "Jean-Drapeau (Yellow)", tbl_bio_rem: "Gare Centrale → Orange to Berri-UQAM → Yellow 1 stop",
+    tips_transport_h: "◈ Closing Hours × Last Train: West Island Advantage",
+    tips_transport_1: "<span class=\"d\">Good news</span>: Unlike suburban commuter buses, REM runs ~20 h/day (~05:30–01:00), off-peak ~every 15 min — so MMFA/McCord/CCA <b>Wed/Thu evening free/discount hours (open to 21:00)</b> are reachable; you can still catch REM back west. Pointe-Claire's main transit edge over outer suburbs.",
+    tips_transport_2: "<span class=\"d\">Real variable</span>: the <b>last-mile STM bus</b> from Fairview–Pointe-Claire home — last bus may beat REM shutdown. For weekday 21:00+ visits: check your line's last run, or drive/bike kiss-and-ride, or rideshare the final 2.7 km.",
+    tips_transport_3: "<span class=\"d\">Hours reference</span> (confirm on site): MMFA Tue–Sun 10:00–17:00, <b>Wed 17:00–21:00</b> (discount; before 7/19 evenings Torlonia only), Mon often closed (summer extras); McCord <b>Wed free from 17:00</b>, daytime ~17:00–18:00; CCA Thu–Sun ~11:00–18:00, <b>Thu free from 17:00 to 21:00</b>; Pointe-à-Callière summer daily ~10:00–18:00, <b>tickets until 60 min before close</b>; MEM/Science Centre/Espace pour la vie daytime ~17:00–18:00.",
+    tips_transport_4: "<span class=\"d\">Fares</span>: Pointe-Claire is <b>ARTM Zone A</b> (Montréal Island) — one Zone A ticket ($3.75 from 2026-07-01) covers STM bus + REM + metro, <b>no cross-zone surcharge</b>; frequent riders: All Modes A monthly ($104.50). Under 11 free with adult; Montréal Island residents 65+ free.",
+    s2_title: "Exhibition Guide (On View as of 2026-07-05)",
+    s2_sub: "Permanent themes + summer highlights; \"Closing soon\" = within one month.",
+    ending_soon: "Closing soon",
+    when_ongoing: "Ongoing", when_permanent: "Permanent-type",
+    mmfa_fee: "Adult <b>$32</b> (major shows incl.; online −$2) · Wed eve <b>$15.50</b> · <b>≤25 free</b>",
+    mmfa_theme: "Permanent: classical to contemporary international art, Québec & Canadian art (4th floor re-narrated), decorative arts, One World cross-cultural collection, sculpture garden.",
+    mmfa_ex1: "58 Roman marble sculptures — emperors, gods, reliefs; a classical sculpture landmark.",
+    mmfa_ex2: "~100 portraits on aging and identity — ties to AI × aging × trust research threads.",
+    mmfa_ex3: "Indigenous art and sovereignty across Great Lakes and river confederacies (Obomsawin, Houle, et al.).",
+    mmfa_ex4: "600 years of decorative arts & design + summer family workshops.",
+    mccord_fee: "Adult <b>$20</b> online ($22 at door) · Wed from 5pm free (major shows +$10) · 13–17 free",
+    mccord_theme: "Permanent: Montréal social history — dress & textiles, photography, Indigenous artifacts, urban life archives; <b>Indigenous Voices of Today</b> on knowledge, trauma, resilience.",
+    mccord_ex1: "2024 Paris Olympics opening Dior gown — pop culture × luxury × collective memory.",
+    mccord_ex2: "Costumes, archives, posters on the 1976 Games — pairs with Pointe-à-Callière & MEM Olympic threads.",
+    mccord_ex3: "Restaurant culture as lens on urban identity, immigration, and class.",
+    mac_sub: "Under renovation · New building expected 2028",
+    mac_fee: "Transition period — check <b>macm.org</b> before visiting (city pass page shows closed from 2026-03-09)",
+    mac_theme: "Collection: Québec, Canadian & international contemporary (installation, video, conceptual). Renovation period = workshops, talks, pop-ups — summer 2026 best as \"temporary space + co-creation\" case study, not large permanent displays.",
+    cca_fee: "Adult <b>$15</b> · <b>Thu from 5pm free</b> · Under 18 free",
+    cca_theme: "International architecture & urban research: drawings, models, photography, archives — architecture as public issue.",
+    cca_ex1: "Multidisciplinary architecture forum — how architectural discourse is made, circulated, heard.",
+    cca_ex2_with: "(with La Guilde)",
+    cca_ex2: "Sound-based experiment entering architectural and urban history archives.",
+    cca_ex3: "Álvaro Siza archive (drawings, models, photos) — design imagination for the imperfect city.",
+    mem_fee: "<b>Permanent free</b> · Special exhibits ticketed (check site) · Re-entry allowed",
+    mem_theme: "Core question \"Who is Montréal?\" — oral history, objects, multimedia on how communities build urban memory; ideal public history teaching site.",
+    mem_ex1: "Oncology history, radiotherapy, medical institutions — health tech / medical history angle.",
+    mem_ex2: "Public art dismantled overnight during 1976 Olympics — censorship, public art, free speech.",
+    mem_ex3: "Visual practice of AIDS activism — grief, action, public health.",
+    mem_ex4: "Immigrant labour and urban memory.",
+    mem_ex5: "Immersive walkthrough of everyday city life across backgrounds.",
+    pac_fee: "Adult <b>$29</b> · Family (2+2) <b>$60</b>",
+    pac_theme: "Permanent: urban origins archaeology — Where Montréal Began, Crossroads Montréal, Generations MTL, Come Aboard! Pirates or Privateers?",
+    pac_ex1_title: "1701 Great Peace of Montreal — 325th Anniversary Tours",
+    pac_ex1: "Colonial, Indigenous, and diplomatic crossroads.",
+    pac_ex2_case: "(display case)",
+    pac_ex2: "Completes the 1976 thread with McCord Olympics show & MEM Corridart.",
+    pac_ex3: "Back-alley themed interactive show — play × urban exploration, teen-friendly.",
+    pac_ex4: "~400 Greek artifacts — Iliad myth and historical overlap.",
+    sc_fee: "Adult <b>$37</b> (exhibits) · Exhibits + IMAX <b>$48</b> · Family <b>$118</b>",
+    sc_theme: "Permanent: interactive science (Explore, Human, Fabrik), space & natural science — STEM × multimedia showcase.",
+    sc_ex1: "Arctic mission-style immersive: ice navigation, star reading, 20+ hands-on tasks.",
+    sc_ex2: "Science of life in the universe + touchable moon rock.",
+    sc_ex3: "Camera-caught funny animal images — light family fare.",
+    eplv_fee: "Adult <b>$25.50 / site</b> (CMM resident <b>$18.50</b>) · Family <b>$68</b> (CMM $51.50)",
+    eplv_theme: "Five sites, mostly permanent, all open summer: Biodôme (Americas ecosystems), Insectarium (live insects), Planétarium (dual domes), Jardin botanique (20 themed gardens), Biosphère (climate & environment, Emolab).",
+    s3_title: "Closing Countdown — See What Disappears First",
+    s3_sub: "Sorted by end date; red dot = closing within one month — prioritize early summer.",
+    tl_1_d: "2026-07-19 (2 weeks left)", tl_1_t: "Torlonia Roman sculptures <em>· MMFA</em>",
+    tl_2_d: "2026-07-26 (3 weeks left)", tl_2_t: "A Ray of Hope? Radium Institute & cancer history <em>· MEM (free entry)</em>",
+    tl_3_t: "Richard Avedon: Immortal <em>· MMFA</em>",
+    tl_4_t: "Culture Lab <em>· CCA (Thu eve free)</em>",
+    tl_5_t: "Céline in Dior <em>· McCord</em>",
+    tl_6_t: "Montreal 1976: An Olympic Feat <em>· McCord</em>",
+    tl_7_t: "Corridart <em>· MEM</em>",
+    tl_8_t: "1701 Great Peace 325th <em>· Pointe-à-Callière</em>",
+    tl_9_t: "Montréal 1976 – The Olympic Legacy <em>· Pointe-à-Callière</em>",
+    tl_10_t: "Rising Suns <em>· MMFA</em>",
+    tl_11_t: "Audible Archives (CCA) · On the Menu (McCord) · Funny Creatures (Science Centre)",
+    tl_12_d: "2027 onward",
+    tl_12_t: "Siza (CCA, 1/3) · Alley-oop (PAC, 1/10) · Detours (MEM, Jan) · ACT UP (MEM, 2/14) · Troy (PAC, 3/7) · Le cucitrici (MEM, 6/6)",
+    footer: "Sources: official museum sites (mbam.qc.ca, musee-mccord-stewart.ca, cca.qc.ca, memmtl.ca, pacmusee.qc.ca, montrealsciencecentre.com, espacepourlavie.ca), Ville de Montréal « Empruntez un musée » (montreal.ca, updated 2026-06-16), REM (rem.info), STM & ARTM (artm.quebec), verified 2026-07-05.<br>Tax-inclusive pricing, free-hour conditions, and major-exhibit timed tickets per each museum's current notice — book online night before (MMFA, McCord save $2 online).<br>Transit: West Island bus network revised May 2026 with REM; connector routes and REM first/last train/headway via STM/Chrono/Transit day-of; museum hours on official sites day-of."
+  },
+  fr: {
+    page_title: "Guide des musées de Montréal : calendrier des expositions — Été 2026",
+    eyebrow: "Musées de Montréal · Guide estival",
+    h1: "Guide des musées de Montréal : calendrier des expositions",
+    h1_sub: "Été 2026 — Quoi voir et comment s'y rendre",
+    meta: "Données au <b>2026-07-05</b> · Devise <b>CAD</b> · Horaires et tarifs selon chaque site officiel; sujets à changement sans préavis",
+    s1_title: "Comment s'y rendre depuis Pointe-Claire",
+    s1_sub: "Départ : 3 av. de Val-Soleil (Pointe-Claire, West Island) · Épine dorsale = REM Anse-à-l'Orme (segment ouest) × métro STM.",
+    transport_intro: "Bonne nouvelle : vous êtes sur la <b>West Island</b>, et le segment REM <b>Anse-à-l'Orme a ouvert le 2026-05-18</b> — la station <b>Fairview–Pointe-Claire</b> est à côté du CF Fairview (A-40 et av. Fairview, avec terminus d'autobus). De là, <b>direct, sans correspondance</b> par le tunnel du mont Royal : <b>McGill ~25 min</b> (quartier muséal : McCord au-dessus de la station; MMFA/CCA 1–2 arrêts vert ou marche), <b>Gare Centrale ~27 min</b> (Orange Bonaventure), <b>Édouard-Montpetit ~22 min</b> (Bleue). Pointe ~10 min, hors pointe ~15 min, ~20 h/jour. Domicile à ~<b>2,7 km</b> — autobus ou courte voiture, pas vraiment à pied.",
+    transport_1_when: "① Accès<br>~2,7 km",
+    transport_1_what: "<b>3 av. de Val-Soleil → REM Fairview–Pointe-Claire</b><p>Autobus local STM vers le nord (réseau West Island révisé mai 2026 avec le REM; 211 Bord-du-Lac et lignes nord–sud de Pointe-Claire desservent la station — Chrono/Transit pour la ligne la plus proche); ou voiture/vélo ~10–12 min (stationnement Fairview limité), ou marche ~35 min.</p>",
+    transport_2_when: "② REM<br>25–27 min",
+    transport_2_what: "<b>Fairview–Pointe-Claire → McGill / Gare Centrale</b><p>Direct. McCord/MMFA/CCA/MEM : sortir à <b>McGill</b>; Vieux-Port (Pointe-à-Callière, Centre des sciences) : <b>Gare Centrale</b> puis Orange.</p>",
+    transport_3_when: "③ Métro",
+    transport_3_what: "<b>McGill = Verte / Gare Centrale = Orange</b><p>McGill sur la ligne verte; Gare Centrale sur l'Orange (Bonaventure). Voir le tableau ci-dessous.</p>",
+    tbl_museum: "Musée", tbl_metro: "Métro le plus proche (ligne)", tbl_rem: "Sortie REM et suite",
+    tbl_mccord_metro: "McGill (Verte)", tbl_mccord_rem: "<b>Sortie McGill — musée au-dessus de la station</b>",
+    tbl_mmfa_metro: "Peel / Guy-Concordia (Verte)", tbl_mmfa_rem: "McGill → Verte ouest 1–2 arrêts, ou ~12 min à pied",
+    tbl_cca_metro: "Guy-Concordia (Verte)", tbl_cca_rem: "McGill → Verte ouest jusqu'à Guy-Concordia + marche",
+    tbl_mem_metro: "Saint-Laurent / Place-des-Arts (Verte)", tbl_mem_rem: "McGill → Verte est 1–2 arrêts",
+    tbl_pac_metro: "Place-d'Armes (Orange)", tbl_pac_rem: "Gare Centrale → Orange (direction Bonaventure) 2 arrêts",
+    tbl_eplv_metro: "Viau / Pie-IX (Verte)", tbl_eplv_rem: "McGill → Verte est (vers Honoré-Beaugrand)",
+    tbl_bio_metro: "Jean-Drapeau (Jaune)", tbl_bio_rem: "Gare Centrale → Orange jusqu'à Berri-UQAM → Jaune 1 arrêt",
+    tips_transport_h: "◈ Heures de fermeture × dernier train : avantage West Island",
+    tips_transport_1: "<span class=\"d\">Bonne nouvelle</span> : Contrairement aux autobus de banlieue, le REM circule ~20 h/j (~05:30–01:00), hors pointe ~15 min — les soirées gratuites/réduites MMFA/McCord/CCA <b>(merc./jeu. jusqu'à 21 h)</b> sont accessibles; retour REM vers l'ouest possible. Principal avantage de Pointe-Claire vs banlieue lointaine.",
+    tips_transport_2: "<span class=\"d\">Vraie variable</span> : l'<b>autobus STM du dernier kilomètre</b> Fairview–Pointe-Claire → domicile — dernier bus parfois avant le REM. Soirées après 21 h en semaine : vérifier le dernier passage, ou auto/vélo kiss-and-ride, ou covoiturage sur 2,7 km.",
+    tips_transport_3: "<span class=\"d\">Horaires indicatifs</span> (confirmer sur site) : MMFA mar–dim 10 h–17 h, <b>mer. 17 h–21 h</b> (tarif réduit; avant 19/07 soirées Torlonia seulement), lun. souvent fermé (ouvertures estivales); McCord <b>mer. gratuit dès 17 h</b>, jour ~17 h–18 h; CCA jeu–dim ~11 h–18 h, <b>jeu. gratuit 17 h–21 h</b>; Pointe-à-Callière été ~10 h–18 h, <b>billets jusqu'à 60 min avant fermeture</b>; MEM/Centre des sciences/Espace pour la vie jour ~17 h–18 h.",
+    tips_transport_4: "<span class=\"d\">Tarification</span> : Pointe-Claire en <b>Zone A ARTM</b> (île de Montréal) — un billet Zone A (3,75 $ dès 2026-07-01) couvre autobus STM + REM + métro, <b>sans supplément interzone</b>; usage fréquent : mensuel Tous modes A (104,50 $). Moins de 11 ans gratuit avec adulte; résidents 65+ sur l'île gratuits.",
+    s2_title: "Guide des expositions (en cours au 2026-07-05)",
+    s2_sub: "Collections permanentes + temps forts estivaux; « Fin imminente » = dans un mois.",
+    ending_soon: "Fin imminente",
+    when_ongoing: "En continu", when_permanent: "Type permanent",
+    mmfa_fee: "Adulte <b>32 $</b> (grandes expo incl.; en ligne −2 $) · Mer. soir <b>15,50 $</b> · <b>≤25 ans gratuit</b>",
+    mmfa_theme: "Permanent : art international classique à contemporain, art québécois et canadien (4e étage re-narré), arts décoratifs, collection One World, jardin de sculptures.",
+    mmfa_ex1: "58 sculptures romaines en marbre — empereurs, dieux, reliefs; classique de l'histoire de la sculpture.",
+    mmfa_ex2: "~100 portraits sur le vieillissement et l'identité — lien avec recherche IA × vieillissement × confiance.",
+    mmfa_ex3: "Art autochtone et souveraineté autour des Grands Lacs et confédérations fluviales (Obomsawin, Houle, etc.).",
+    mmfa_ex4: "600 ans d'arts décoratifs et design + ateliers familiaux d'été.",
+    mccord_fee: "Adulte <b>20 $</b> en ligne (22 $ sur place) · Mer. dès 17 h gratuit (grandes expo +10 $) · 13–17 ans gratuit",
+    mccord_theme: "Permanent : histoire sociale montréalaise — costume, photographie, artefacts autochtones, archives urbaines; <b>Indigenous Voices of Today</b> sur savoir, trauma, résilience.",
+    mccord_ex1: "Robe Dior de l'ouverture des JO Paris 2024 — culture pop × luxe × mémoire collective.",
+    mccord_ex2: "Costumes, archives, affiches sur les JO 1976 — dialogue avec Pointe-à-Callière et MEM.",
+    mccord_ex3: "Culture restaurant comme prisme sur identité urbaine, immigration et classes.",
+    mac_sub: "En rénovation · Nouveau bâtiment prévu 2028",
+    mac_fee: "Période de transition — consulter <b>macm.org</b> (page passe musées : fermé depuis 2026-03-09)",
+    mac_theme: "Collection : art contemporain québécois, canadien et international (installation, vidéo, conceptuel). Rénovation = ateliers, rencontres, pop-ups — été 2026 comme cas d'étude « espace temporaire + co-création », pas grandes expos permanentes.",
+    cca_fee: "Adulte <b>15 $</b> · <b>Jeu. dès 17 h gratuit</b> · Moins de 18 ans gratuit",
+    cca_theme: "Centre international d'architecture et de ville : plans, maquettes, photographie, archives — l'architecture comme enjeu public.",
+    cca_ex1: "Forum multidisciplinaire — comment le discours architectural se fabrique, circule, s'entend.",
+    cca_ex2_with: "(avec La Guilde)",
+    cca_ex2: "Expérience sonore d'archives architecturales et urbaines.",
+    cca_ex3: "Archives Álvaro Siza (dessins, maquettes, photos) — imaginer la ville imparfaite.",
+    mem_fee: "<b>Permanent gratuit</b> · Expositions spéciales payantes (site) · Réentrée permise",
+    mem_theme: "Question centrale « Qui est Montréal? » — histoire orale, objets, multimédia sur la mémoire urbaine; terrain idéal d'histoire publique.",
+    mem_ex1: "Histoire de l'oncologie, radiothérapie, institutions médicales — angle santé / histoire médicale.",
+    mem_ex2: "Art public démonté du jour au lendemain aux JO 1976 — censure, art public, liberté d'expression.",
+    mem_ex3: "Pratiques visuelles d'ACT UP — deuil, action, santé publique.",
+    mem_ex4: "Travail immigré et mémoire urbaine.",
+    mem_ex5: "Parcours immersif d'expériences urbaines quotidiennes.",
+    pac_fee: "Adulte <b>29 $</b> · Famille (2+2) <b>60 $</b>",
+    pac_theme: "Permanent : archéologie des origines — Montréal commence ici, Carrefour Montréal, Generations MTL, Come Aboard! Pirates or Privateers?",
+    pac_ex1_title: "Grande Paix de Montréal 1701 — visites 325e anniversaire",
+    pac_ex1: "Croisement colonial, autochtone et diplomatique.",
+    pac_ex2_case: "(vitrine)",
+    pac_ex2: "Complète le fil 1976 avec McCord et Corridart au MEM.",
+    pac_ex3: "Aventure interactive sur les ruelles — jeu × exploration urbaine, ados bienvenus.",
+    pac_ex4: "~400 artefacts grecs — mythe de l'Iliade et histoire.",
+    sc_fee: "Adulte <b>37 $</b> (expos) · Expos + IMAX <b>48 $</b> · Famille <b>118 $</b>",
+    sc_theme: "Permanent : science interactive (Explore, Human, Fabrik), espace et nature — vitrine STEM × multimédia.",
+    sc_ex1: "Immersion mission arctique : navigation sur glace, étoiles, 20+ tâches manipulatoires.",
+    sc_ex2: "Science de la vie dans l'univers + roche lunaire tactile.",
+    sc_ex3: "Animaux drôles captés par caméra — familial léger.",
+    eplv_fee: "Adulte <b>25,50 $ / site</b> (résident CMM <b>18,50 $</b>) · Famille <b>68 $</b> (CMM 51,50 $)",
+    eplv_theme: "Cinq sites, surtout permanents, tous ouverts l'été : Biodôme, Insectarium, Planétarium, Jardin botanique (20 jardins), Biosphère (climat, Emolab).",
+    s3_title: "Compte à rebours des fermetures — voir ce qui disparaît",
+    s3_sub: "Tri par date de fin; point rouge = dans un mois — prioriser le début d'été.",
+    tl_1_d: "2026-07-19 (2 semaines)", tl_1_t: "Torlonia, sculptures romaines <em>· MMFA</em>",
+    tl_2_d: "2026-07-26 (3 semaines)", tl_2_t: "A Ray of Hope? Institut du radium <em>· MEM (gratuit)</em>",
+    tl_3_t: "Richard Avedon: Immortal <em>· MMFA</em>",
+    tl_4_t: "Culture Lab <em>· CCA (jeu. soir gratuit)</em>",
+    tl_5_t: "Céline in Dior <em>· McCord</em>",
+    tl_6_t: "Montreal 1976: An Olympic Feat <em>· McCord</em>",
+    tl_7_t: "Corridart <em>· MEM</em>",
+    tl_8_t: "Grande Paix 1701, 325e <em>· Pointe-à-Callière</em>",
+    tl_9_t: "Montréal 1976 – The Olympic Legacy <em>· Pointe-à-Callière</em>",
+    tl_10_t: "Rising Suns <em>· MMFA</em>",
+    tl_11_t: "Audible Archives (CCA) · On the Menu (McCord) · Funny Creatures (Centre des sciences)",
+    tl_12_d: "2027 et plus",
+    tl_12_t: "Siza (CCA, 3/1) · Alley-oop (PAC, 10/1) · Detours (MEM, jan.) · ACT UP (MEM, 14/2) · Troy (PAC, 7/3) · Le cucitrici (MEM, 6/6)",
+    footer: "Sources : sites officiels des musées, Ville de Montréal « Empruntez un musée » (montreal.ca, 2026-06-16), REM (rem.info), STM et ARTM (artm.quebec), vérifié 2026-07-05.<br>Tarifs TTC, conditions de gratuité et billets horaires pour grandes expos selon avis en vigueur — réserver en ligne la veille (MMFA, McCord −2 $ en ligne).<br>Transit : réseau West Island révisé mai 2026; correspondances et horaires REM via STM/Chrono/Transit le jour même; horaires musées sur sites officiels."
+  },
+  zh: {
+    page_title: "蒙特婁博物館出行表：展覽對照｜2026 夏季",
+    eyebrow: "Montréal Museums · Summer Field Guide",
+    h1: "蒙特婁博物館出行表：展覽對照",
+    h1_sub: "2026 夏季 — 在展清單 × 交通規劃",
+    meta: "資料基準日 <b>2026-07-05</b>｜幣別 <b>CAD</b>｜開放時間與票價以各館官網當日公告為準，可能未經通知調整",
+    s1_title: "交通規劃：從 Pointe-Claire 出發",
+    s1_sub: "出發地 3 av. de Val-Soleil（Pointe-Claire，西島）｜骨幹＝REM Anse-à-l'Orme 西島段 × STM 地鐵。",
+    transport_intro: "好消息：你家在<b>西島（West Island）</b>，而 REM 的 <b>Anse-à-l'Orme 西島段已於 2026-05-18 通車</b> — 最近的 <b>Fairview–Pointe-Claire</b> 站就在 CF Fairview 商場旁（A-40 與 Fairview Ave 交口，附設巴士轉運站）。從這站可<b>直達、不用轉車</b>穿越皇家山隧道進市中心：<b>McGill 站約 25 分</b>（＝博物館精華區：McCord 就在站上方，MMFA／CCA 沿綠線一兩站或步行）、<b>Gare Centrale 約 27 分</b>（接橘線 Bonaventure）、<b>Édouard-Montpetit 約 22 分</b>（藍線）。班距尖峰約 10 分、離峰約 15 分，每天營運約 20 小時。你家離該站約 <b>2.7 km</b>，屬「搭接駁巴士或短程開車」的距離，非步行可達。",
+    transport_1_when: "① 接駁段<br>約 2.7 km",
+    transport_1_what: "<b>3 av. de Val-Soleil → Fairview–Pointe-Claire REM</b><p>搭 STM 本地巴士往北到該站（西島巴士網 2026-05 已隨 REM 改版；湖濱走廊 211（Bord-du-Lac）與南北向 Pointe-Claire 路線都接這站 — 用 Chrono／Transit app 查你家最近的線）；或開車／單車約 10–12 分（Fairview 站停車位偏緊），或步行約 35 分。</p>",
+    transport_2_when: "② REM 段<br>25–27 分",
+    transport_2_what: "<b>Fairview–Pointe-Claire → McGill / Gare Centrale</b><p>直達不轉車。要去 McCord／MMFA／CCA／MEM 在 <b>McGill</b> 下；要去舊城（Pointe-à-Callière、科學中心）在 <b>Gare Centrale</b> 下接橘線。</p>",
+    transport_3_when: "③ 地鐵段",
+    transport_3_what: "<b>McGill 接綠線 / Gare Centrale 接橘線</b><p>McGill＝綠線，Gare Centrale＝橘線（Bonaventure）。各館對應站見下表。</p>",
+    tbl_museum: "博物館", tbl_metro: "最近地鐵站（線）", tbl_rem: "REM 下車與續行",
+    tbl_mccord_metro: "McGill（綠）", tbl_mccord_rem: "<b>McGill 下車即達</b>（館就在站上方）",
+    tbl_mmfa_metro: "Peel／Guy-Concordia（綠）", tbl_mmfa_rem: "McGill 下車 → 綠線西行 1–2 站，或步行約 12 分",
+    tbl_cca_metro: "Guy-Concordia（綠）", tbl_cca_rem: "McGill → 綠線西行至 Guy-Concordia + 步行",
+    tbl_mem_metro: "Saint-Laurent／Place-des-Arts（綠）", tbl_mem_rem: "McGill → 綠線東行 1–2 站",
+    tbl_pac_metro: "Place-d'Armes（橘）", tbl_pac_rem: "Gare Centrale → 橘線（Bonaventure 方向）2 站",
+    tbl_eplv_metro: "Viau／Pie-IX（綠）", tbl_eplv_rem: "McGill → 綠線東行（往 Honoré-Beaugrand）",
+    tbl_bio_metro: "Jean-Drapeau（黃）", tbl_bio_rem: "Gare Centrale → 橘線至 Berri-UQAM → 黃線 1 站",
+    tips_transport_h: "◈ 閉館時間 × 末班車：西島的交通優勢",
+    tips_transport_1: "<span class=\"d\">好消息</span>：和郊區通勤巴士不同，REM 每天營運約 20 小時（約 05:30 至翌日 01:00），離峰仍約每 15 分一班 — 所以 MMFA／McCord／CCA 的<b>週三／週四晚間免費場（開到 21:00）你可以放心去</b>，看完仍趕得上回西島的 REM。這是住 Pointe-Claire 相對郊區的最大交通優勢。",
+    tips_transport_2: "<span class=\"d\">真正的變數</span>：是<b>「最後一哩」接駁巴士</b> — 從 Fairview–Pointe-Claire 回你家那段 STM 巴士，末班可能早於 REM 收車。平日 21:00 後的夜場建議：先查你家線路的末班時間，或改開車／單車 kiss-and-ride、或到站叫車跑最後 2.7 km。",
+    tips_transport_3: "<span class=\"d\">閉館參考</span>（以官網當日公告為準）：MMFA 週二–日 10:00–17:00、<b>週三 17:00–21:00</b>（減價；7/19 前晚間僅開 Torlonia）、週一多休（暑假常加開）；McCord <b>週三 17:00 後免費</b>、日間約 17:00–18:00 關；CCA 週四–日約 11:00–18:00、<b>週四 17:00 後免費至 21:00</b>；Pointe-à-Callière 暑假每日約 10:00–18:00、<b>售票至閉館前 60 分鐘</b>；MEM／科學中心／Espace pour la vie 日間場約 17:00–18:00 關。",
+    tips_transport_4: "<span class=\"d\">票證</span>：Pointe-Claire 屬 <b>ARTM Zone A</b>（蒙特婁島內）— 一張 Zone A 票（單程 $3.75，2026-07-01 起）即涵蓋 STM 巴士＋REM＋地鐵全程，<b>不需跨區加價</b>；常跑可考慮 All Modes A 月票（$104.50）。11 歲以下有大人陪同免費；蒙特婁島 65 歲以上居民免費。",
+    s2_title: "各館展覽對照（截至 2026-07-05 在展）",
+    s2_sub: "常設主題 + 與暑假重疊的重點特展；「即將閉展」= 一個月內截止。",
+    ending_soon: "即將閉展",
+    when_ongoing: "長期", when_permanent: "常設型",
+    mmfa_fee: "成人 <b>$32</b>（含大展，線上 −$2）｜週三晚 <b>$15.50</b>｜<b>≤25 歲免費</b>",
+    mmfa_theme: "常設：古典至當代國際藝術、魁北克與加拿大藝術（四樓重寫藝術史敘事）、工藝設計、One World 跨文化收藏、雕塑花園。",
+    mmfa_ex1: "58 件羅馬大理石雕塑 — 皇帝與神祇肖像、浮雕，古典雕塑史經典。",
+    mmfa_ex2: "約 100 幅肖像，聚焦衰老與身分 — 與「AI × 老化 × 信任」研究線索高度相關。",
+    mmfa_ex3: "大湖與河流邦聯的原住民藝術與主權敘事（Obomsawin、Houle 等）。",
+    mmfa_ex4: "600 年裝飾藝術與設計 + 暑期家庭工作坊。",
+    mccord_fee: "成人 <b>$20</b> 線上（現場 $22）｜週三晚 5pm 起免費（大展 +$10）｜13–17 歲免費",
+    mccord_theme: "常設：蒙特婁社會史 — 服飾紡織、攝影、原住民文物、城市生活檔案；<b>Indigenous Voices of Today</b> 談知識、創傷與韌性。",
+    mccord_ex1: "2024 巴黎奧運開幕 Dior 禮服 — 流行文化 × 奢侈品牌 × 集體記憶。",
+    mccord_ex2: "服裝、檔案、海報回顧 1976 奧運，可與 Pointe-à-Callière、MEM 的奧運線互相對照。",
+    mccord_ex3: "以餐廳文化談城市身分、移民與階級變遷。",
+    mac_sub: "本館翻修中 · 新館預計 2028",
+    mac_fee: "過渡期 — 出發前查 <b>macm.org</b> 當期公告（市府通行證頁面顯示 2026-03-09 起暫停開放）",
+    mac_theme: "館藏核心為魁北克、加拿大與國際當代藝術（裝置、錄像、概念藝術）。翻修期間以工作坊、藝術家對談與快閃展演維持計畫 — 2026 暑假適合作為「臨時空間 + 共創」的策展案例觀察，而非看大規模館藏。",
+    cca_fee: "成人 <b>$15</b>｜<b>每週四 5pm 後免費</b>｜18 歲以下免費",
+    cca_theme: "建築與城市的國際研究機構：建築圖紙、模型、攝影與檔案，強調「建築作為公共議題」。",
+    cca_ex1: "多學科建築論壇 — 建築論述如何被製造、流通、被聽見。",
+    cca_ex2_with: "（與 La Guilde 合作）",
+    cca_ex2: "以聲音進入建築與城市歷史的檔案聽覺化實驗。",
+    cca_ex3: "Álvaro Siza 檔案（手稿、模型、照片）— 對「不完美城市」的設計想像。",
+    mem_fee: "<b>常設展免費</b>｜特展另購票（依官網）｜可中途離場再入場",
+    mem_theme: "以「誰是蒙特婁？」為核心，用口述歷史、物件與多媒體呈現社群如何建構城市記憶 — 公共史教學的理想現場。",
+    mem_ex1: "腫瘤學史、放射治療與醫療機構 — 直接對接健康科技 / 醫療史關懷。",
+    mem_ex2: "1976 奧運期間一夜被拆的公共藝術 — 審查、公共藝術與言論自由。",
+    mem_ex3: "愛滋運動的視覺實踐 — 悲傷、行動與公共健康。",
+    mem_ex4: "移民勞動與城市記憶。",
+    mem_ex5: "沉浸式帶入不同背景蒙特婁人的日常城市經驗。",
+    pac_fee: "成人 <b>$29</b>｜家庭票（2大2小）<b>$60</b>",
+    pac_theme: "常設：城市起源考古 — Where Montréal Began、Crossroads Montréal、Generations MTL、Come Aboard! Pirates or Privateers?",
+    pac_ex1_title: "1701 蒙特婁大和平 325 週年導覽",
+    pac_ex1: "殖民、原住民與外交的交會點。",
+    pac_ex2_case: "（展示櫃展）",
+    pac_ex2: "與 McCord 奧運展、MEM Corridart 構成完整的 1976 對照線。",
+    pac_ex3: "以「後巷」為題的互動展，遊戲 × 城市空間探索，青少年友善。",
+    pac_ex4: "近 400 件希臘文物 — 《伊利亞德》神話與史實的交錯。",
+    sc_fee: "成人 <b>$37</b>（展覽）｜展覽 + IMAX <b>$48</b>｜家庭票 <b>$118</b>",
+    sc_theme: "常設：互動科學展（Explore、Human、Fabrik）、太空與自然科學 — STEM × 多媒體展示的案例場域。",
+    sc_ex1: "北極主題沉浸式任務展：冰上導航、星象辨識等 20+ 實作任務。",
+    sc_ex2: "宇宙生命的科學問題 + 可觸摸月岩。",
+    sc_ex3: "相機捕捉的搞笑動物影像展，輕鬆家庭向。",
+    eplv_fee: "成人 <b>$25.50 / 館</b>（CMM 居民 <b>$18.50</b>）｜家庭 <b>$68</b>（CMM $51.50）",
+    eplv_theme: "五館皆為長期／常設型，暑假全開：Biodôme（五大美洲生態系）、Insectarium（活體昆蟲沉浸空間）、Planétarium（雙圓頂劇場）、Jardin botanique（20 個主題花園）、Biosphère（環境與氣候情緒，Emolab）。",
+    s3_title: "閉展倒數時間線 — 先看會消失的",
+    s3_sub: "依截止日排序；紅點 = 距今一個月內閉展，暑假前段優先安排。",
+    tl_1_d: "2026-07-19（剩 2 週）", tl_1_t: "Torlonia 羅馬雕塑大展 <em>· MMFA</em>",
+    tl_2_d: "2026-07-26（剩 3 週）", tl_2_t: "A Ray of Hope? 鐳研究所與抗癌史 <em>· MEM（免費館）</em>",
+    tl_3_t: "Richard Avedon: Immortal <em>· MMFA</em>",
+    tl_4_t: "Culture Lab <em>· CCA（週四晚免費）</em>",
+    tl_5_t: "Céline in Dior <em>· McCord</em>",
+    tl_6_t: "Montreal 1976: An Olympic Feat <em>· McCord</em>",
+    tl_7_t: "Corridart <em>· MEM</em>",
+    tl_8_t: "1701 大和平 325 週年 <em>· Pointe-à-Callière</em>",
+    tl_9_t: "Montréal 1976 – The Olympic Legacy <em>· Pointe-à-Callière</em>",
+    tl_10_t: "Rising Suns <em>· MMFA</em>",
+    tl_11_t: "Audible Archives（CCA）· On the Menu（McCord）· Funny Creatures（科學中心）",
+    tl_12_d: "2027 以後",
+    tl_12_t: "Siza（CCA, 1/3）· Alley-oop（PAC, 1/10）· Detours（MEM, 1 月）· ACT UP（MEM, 2/14）· Troy（PAC, 3/7）· Le cucitrici（MEM, 6/6）",
+    footer: "資料來源：各館官方網站（mbam.qc.ca、musee-mccord-stewart.ca、cca.qc.ca、memmtl.ca、pacmusee.qc.ca、montrealsciencecentre.com、espacepourlavie.ca）、Ville de Montréal「Empruntez un musée」（montreal.ca，2026-06-16 更新）、REM（rem.info）、STM 與 ARTM（artm.quebec），查核於 2026-07-05。<br>票價含稅與否、免費時段條件依各館現場公告為準；大型特展常需預約時段票，建議出發前一晚線上訂票（MMFA、McCord 線上購票各省 $2）。<br>交通：西島巴士網 2026-05 已隨 REM 改版，接駁巴士路線與 REM 首末班／班距請以 STM／Chrono／Transit app 當日資訊為準；館別開放時間亦以官網當日公告為準。"
+  }
+};
+
+const LANG_MAP = { en: "en", fr: "fr", zh: "zh-Hant" };
+
+function setLang(lang) {
+  const t = I18N[lang];
+  if (!t) return;
+  document.documentElement.lang = LANG_MAP[lang];
+  document.title = t.page_title;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] != null) el.textContent = t[key];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (t[key] != null) el.innerHTML = t[key];
+  });
+  document.querySelectorAll("[data-ending-label]").forEach(el => {
+    el.dataset.endingLabel = t.ending_soon;
+  });
+  document.querySelectorAll(".lang-switch button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
+  });
+  try { localStorage.setItem("museum-guide-lang", lang); } catch (_) {}
+}
+
+document.querySelectorAll(".lang-switch button").forEach(btn => {
+  btn.addEventListener("click", () => setLang(btn.dataset.lang));
+});
+
+(function init() {
+  let lang = "en";
+  try {
+    const saved = localStorage.getItem("museum-guide-lang");
+    if (saved && I18N[saved]) lang = saved;
+  } catch (_) {}
+  setLang(lang);
+})();
+</script>
+</body>
+</html>
