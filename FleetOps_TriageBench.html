@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FleetOps + TriageBench — Safe Delegation for Fleet Maintenance Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1D1D1B;--red:#E3120B;--ox:#7a2e1f;--warm:#F5F1EB;--rule:#D4D1CB;--mid:#6B6B6B;--bg2:#f7f7f5;
+  --amber:#B7791F;--green:#2D8A56;--blue:#2471A3;
+}
+html{background:#e8ecef;scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,'PingFang TC','Noto Sans TC',sans-serif;color:var(--ink);line-height:1.6;background:#fff;max-width:1100px;margin:0 auto;padding:2.1rem 2.5rem 2.8rem;box-shadow:0 2px 12px rgba(0,0,0,.12);border-top:3px solid var(--red)}
+html[lang="zh-Hant"] body{font-family:'Inter','PingFang TC','Noto Sans TC',-apple-system,sans-serif}
+
+.cover-label{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
+.cover-title{font-weight:800;font-size:1.78rem;letter-spacing:-.01em;margin:0 0 .15rem;line-height:1.12}
+.cover-subtitle{font-size:.9rem;color:var(--mid);width:100%;line-height:1.55}
+.cover-subtitle b{color:var(--ink)}
+.divider{height:3px;width:100%;background:var(--red);border-radius:2px;margin:.7rem 0 1.1rem}
+.meta-line{font-size:.76rem;color:var(--mid);margin:-.4rem 0 1.1rem}
+
+.doc-nav{display:flex;align-items:stretch;gap:8px;flex-wrap:nowrap;margin:0 -2.5rem 1.2rem;padding:.55rem 2.5rem;background:var(--bg2);border-bottom:1px solid var(--rule);font-size:.78rem;position:sticky;top:0;z-index:70;backdrop-filter:blur(8px)}
+.doc-nav .doc-nav-label{font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-right:4px;display:flex;align-items:center;flex-shrink:0}
+.doc-nav a{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0;color:var(--ink);text-decoration:none;font-weight:600;padding:.42rem .7rem;border:1px solid var(--rule);background:#fff;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-nav a:hover{border-color:var(--red);color:var(--red)}
+.lang-switch{display:flex;gap:4px;margin-left:auto;flex-shrink:0;padding-left:10px;border-left:1px solid var(--rule)}
+.lang-switch button{font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:.42rem .6rem;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:4px;cursor:pointer}
+.lang-switch button:hover{border-color:var(--red);color:var(--red)}
+.lang-switch button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.section-header{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:2px solid var(--ink);margin:1.7rem 0 .75rem;scroll-margin-top:64px}
+.sec-num{font-size:.72rem;font-weight:800;color:var(--red);min-width:2.2rem;flex-shrink:0}
+.sec-title{font-size:1.02rem;font-weight:700;color:var(--ink)}
+
+.exec-box{border:2px solid var(--ink);background:var(--warm);padding:1rem 1.2rem;margin:.5rem 0 .9rem;font-size:.87rem;line-height:1.55}
+.exec-box h5{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--ox);text-transform:uppercase;margin-bottom:.55rem}
+.exec-lead{font-weight:800;font-size:1.05rem;line-height:1.4;color:var(--ink);margin-bottom:.55rem}
+.exec-box .orig{font-size:.8rem;color:var(--mid);margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--rule);font-style:italic}
+.body-text{font-size:.87rem;color:var(--mid);line-height:1.68;margin-bottom:.5rem}
+.body-text b{color:var(--ink)}
+.chart-takeaway{margin:.5rem 0 .9rem;padding:.85rem 1.1rem;background:var(--warm);border-left:3px solid var(--red);font-size:.86rem;line-height:1.68;color:var(--mid)}
+.takeaway-label{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.45rem}
+.chart-takeaway b{color:var(--ink)}
+
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:.5rem 0 .8rem}
+th{text-align:left;font-weight:700;font-size:.74rem;letter-spacing:.04em;color:var(--mid);text-transform:uppercase;padding:.45rem .6rem;border-bottom:2px solid var(--ink)}
+td{padding:.55rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--mid);line-height:1.55}
+td:first-child{font-weight:700;color:var(--ink)}
+td b{color:var(--ink)}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.08rem .5rem;border-radius:10px;white-space:nowrap}
+.hi{background:rgba(45,138,86,.12);color:var(--green)}
+.md{background:rgba(183,121,31,.13);color:var(--amber)}
+.lo{background:rgba(227,18,11,.10);color:var(--red)}
+.note{font-size:.76rem;color:var(--mid);margin:-.2rem 0 .9rem;line-height:1.55}
+
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.3rem 0 .5rem}
+.block{border:1px solid var(--rule);padding:.85rem 1rem;background:#fff;font-size:.84rem;line-height:1.58}
+.block.wide{grid-column:1/-1}
+.block h4{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ox);margin-bottom:.45rem}
+.block p,.block li{color:var(--mid)}
+.block p b,.block li b,.block b{color:var(--ink)}
+.block ul{padding-left:1.15rem}
+.block li+li{margin-top:.3rem}
+
+.framework-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.4rem 0 .8rem}
+.fw-card{border:1px solid var(--rule);padding:.85rem 1rem;background:var(--bg2);font-size:.84rem;line-height:1.58}
+.fw-card h6{font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:.3rem}
+.fw-card p{color:var(--mid)}
+.fw-card p b{color:var(--ink)}
+.fw-card.plan{border-left:3px solid var(--blue)}
+.fw-card.keep{border-left:3px solid var(--amber)}
+.fw-card.warn{border-left:3px solid var(--red)}
+.fw-card.good{border-left:3px solid var(--green)}
+
+.grad-strip{display:flex;align-items:stretch;gap:0;margin:.4rem 0 .6rem}
+.grad-step{flex:1;padding:.75rem .9rem;border:1px solid var(--rule);background:var(--bg2)}
+.grad-step:first-child{border-left:3px solid var(--blue)}
+.grad-step:nth-child(2){border-left:3px solid var(--amber)}
+.grad-step:last-child{background:var(--warm);border-left:3px solid var(--red)}
+.grad-step .g-stage{font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ox);margin-bottom:.28rem}
+.grad-step p{font-size:.8rem;line-height:1.58;color:var(--mid)}
+.grad-step p b{color:var(--ink)}
+
+.evi-item{font-size:.82rem;padding:.5rem 0;border-bottom:1px solid var(--rule);color:var(--mid);line-height:1.58}
+.evi-item:last-child{border-bottom:none}
+.evi-item b{color:var(--ink)}
+.evi-item .camp{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:rgba(227,18,11,.08);padding:.05rem .4rem;border-radius:2px;margin-right:.4rem}
+
+.pred-row{font-size:.82rem;display:flex;gap:10px;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--rule);line-height:1.58;color:var(--mid)}
+.pred-row:last-child{border-bottom:none}
+.pred-row b{color:var(--ink)}
+.pred-row .p-id{font-size:.68rem;font-weight:800;color:#fff;background:var(--red);padding:.08rem .4rem;flex-shrink:0;margin-top:2px}
+.pred-row .p-due{font-size:.72rem;color:var(--mid);white-space:nowrap;flex-shrink:0;margin-top:2px;margin-left:auto;padding-left:10px}
+
+.arch svg{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--rule);border-radius:4px;margin:.4rem 0 .3rem}
+
+.q-page-footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);font-size:.74rem;color:#9b9a97;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media(max-width:820px){
+  body{padding:1.4rem 1.2rem 2rem}
+  .t-grid,.framework-grid{grid-template-columns:1fr}
+  .doc-nav{margin:0 -1.2rem 1rem;padding:.55rem 1.2rem;flex-wrap:wrap;row-gap:8px}
+  .doc-nav a{flex:1 1 40%}
+  .lang-switch{margin-left:0;border-left:none;padding-left:0;width:100%}
+  .lang-switch button{flex:1}
+  .grad-strip{flex-direction:column}
+  .grad-step+.grad-step{border-top:none}
+  table{font-size:.8rem}
+}
+@media print{html{background:#fff}body{box-shadow:none;max-width:100%}.doc-nav{position:static;display:none}}
+</style>
+</head>
+<body>
+
+<nav class="doc-nav">
+  <span class="doc-nav-label" data-t="nav.label">Jump to</span>
+  <a href="#s1" data-t="nav.1">Domain</a>
+  <a href="#s2" data-t="nav.2">Architecture</a>
+  <a href="#s5" data-t="nav.3">Benchmark</a>
+  <a href="#s7" data-t="nav.4">KYA</a>
+  <a href="#s8" data-t="nav.5">Ledger</a>
+  <span class="lang-switch">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="fr">FR</button>
+    <button type="button" data-lang="zh">繁中</button>
+  </span>
+</nav>
+
+<header>
+  <span class="cover-label" data-t="doc.kicker">Mercor Research Fellowship — APEX · Benchmark pitch</span>
+  <h1 class="cover-title" data-t="doc.title">FleetOps + TriageBench</h1>
+  <p class="cover-subtitle" data-t="doc.subtitle">A benchmark that ships as an enforcement layer.</p>
+  <div class="divider"></div>
+  <p class="meta-line" data-t="doc.meta">Gainshin (Joshua) Hsiao · Montréal · August 2026 · v0.1</p>
+</header>
+
+<!-- 01 -->
+<div class="section-header" id="s1"><span class="sec-num">§ 01</span><span class="sec-title" data-t="s1.title">The domain and the measured quantity</span></div>
+<div class="exec-box">
+  <h5 data-t="s1.h5">Thesis</h5>
+  <p class="exec-lead" data-t="s1.lead">The measured quantity is not task completion. It is how much of a decision a fleet can safely hand over.</p>
+  <p data-t="s1.leadbody">A confident wrong answer is not a lower score here — it is a truck dispatched with a defect.</p>
+</div>
+<p class="body-text" data-t="s1.body"></p>
+<div class="t-grid">
+  <div class="block"><h4 data-t="s1.b1.h">Machine-checkable ground truth</h4><p data-t="s1.b1.p"></p></div>
+  <div class="block"><h4 data-t="s1.b2.h">A real loss function</h4><p data-t="s1.b2.p"></p></div>
+</div>
+
+<!-- 02 -->
+<div class="section-header" id="s2"><span class="sec-num">§ 02</span><span class="sec-title" data-t="s2.title">Architecture — three layers, one measured quantity</span></div>
+<div class="arch">
+<svg viewBox="0 0 900 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <rect x="40" y="18" width="620" height="66" fill="#fff" stroke="#E3120B" stroke-width="2" rx="3"/>
+  <text x="58" y="42" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#E3120B">03</text>
+  <text x="86" y="42" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#1D1D1B" data-t="arch.l3">TriageBench — continuous verification</text>
+  <text x="86" y="64" font-family="Inter,sans-serif" font-size="11.5" fill="#6B6B6B" data-t="arch.l3s">Hidden cases · data conflict · tool fault · human escalation arm</text>
+
+  <rect x="40" y="104" width="620" height="78" fill="#F5F1EB" stroke="#1D1D1B" stroke-width="2" rx="3"/>
+  <text x="58" y="128" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#E3120B">02</text>
+  <text x="86" y="128" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#1D1D1B" data-t="arch.l2">Delegation controls — the policy</text>
+  <text x="86" y="150" font-family="Inter,sans-serif" font-size="11.5" fill="#6B6B6B" data-t="arch.l2s">Risk tier · spend · evidence · warranty · authority</text>
+  <text x="86" y="169" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#2D8A56" data-t="arch.l2d">Execute · Confirm · Escalate</text>
+
+  <rect x="40" y="202" width="620" height="66" fill="#f7f7f5" stroke="#D4D1CB" stroke-width="1.5" rx="3"/>
+  <text x="58" y="226" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#E3120B">01</text>
+  <text x="86" y="226" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#1D1D1B" data-t="arch.l1">FleetOps — the agent</text>
+  <text x="86" y="248" font-family="Inter,sans-serif" font-size="11.5" fill="#6B6B6B" data-t="arch.l1s">Diagnose · plan repair or procurement · open work order · coordinate</text>
+
+  <rect x="40" y="288" width="620" height="64" fill="#fff" stroke="#2471A3" stroke-width="1.5" stroke-dasharray="5 4" rx="3"/>
+  <text x="58" y="312" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#2471A3">00</text>
+  <text x="86" y="312" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#1D1D1B" data-t="arch.l0">KYA — verifiable agent identity</text>
+  <text x="86" y="334" font-family="Inter,sans-serif" font-size="11.5" fill="#6B6B6B" data-t="arch.l0s">Agent ↔ human principal binding · scoped, revocable authority · signed action chain</text>
+
+  <path d="M350 84 L350 104" stroke="#E3120B" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M350 182 L350 202" stroke="#1D1D1B" stroke-width="1.5" marker-end="url(#ak)"/>
+  <path d="M350 288 L350 268" stroke="#2471A3" stroke-width="1.5" marker-end="url(#ab)"/>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#E3120B"/></marker>
+    <marker id="ak" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1D1D1B"/></marker>
+    <marker id="ab" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#2471A3"/></marker>
+  </defs>
+
+  <text x="684" y="56" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#E3120B" data-t="arch.a1">tests whether the policy holds</text>
+  <text x="684" y="150" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#1D1D1B" data-t="arch.a2">gates every action</text>
+  <text x="684" y="326" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#2471A3" data-t="arch.a3">makes it provable across parties</text>
+</svg>
+</div>
+
+<!-- 03 -->
+<div class="section-header" id="s3"><span class="sec-num">§ 03</span><span class="sec-title" data-t="s3.title">Layer 1 — FleetOps, the agent</span></div>
+<p class="body-text" data-t="s3.body"></p>
+<p class="note" data-t="s3.note"></p>
+
+<!-- 04 -->
+<div class="section-header" id="s4"><span class="sec-num">§ 04</span><span class="sec-title" data-t="s4.title">Layer 2 — Delegation controls, the policy being tested</span></div>
+<table>
+  <thead><tr><th data-t="s4.th1">Dimension</th><th data-t="s4.th2">What it gates</th><th data-t="s4.th3">Example</th></tr></thead>
+  <tbody>
+    <tr><td data-t="s4.r1a"></td><td data-t="s4.r1b"></td><td data-t="s4.r1c"></td></tr>
+    <tr><td data-t="s4.r2a"></td><td data-t="s4.r2b"></td><td data-t="s4.r2c"></td></tr>
+    <tr><td data-t="s4.r3a"></td><td data-t="s4.r3b"></td><td data-t="s4.r3c"></td></tr>
+    <tr><td data-t="s4.r4a"></td><td data-t="s4.r4b"></td><td data-t="s4.r4c"></td></tr>
+    <tr><td data-t="s4.r5a"></td><td data-t="s4.r5b"></td><td data-t="s4.r5c"></td></tr>
+  </tbody>
+</table>
+<p class="note"><span class="pill hi" data-t="s4.d1">Execute</span> &nbsp; <span class="pill md" data-t="s4.d2">Confirm</span> &nbsp; <span class="pill lo" data-t="s4.d3">Escalate with evidence</span> &nbsp; <span data-t="s4.dnote"></span></p>
+<div class="exec-box">
+  <h5 data-t="s4.h5">Positioning</h5>
+  <p data-t="s4.quote"></p>
+  <p class="orig" data-t="s4.orig"></p>
+</div>
+
+<!-- 05 -->
+<div class="section-header" id="s5"><span class="sec-num">§ 05</span><span class="sec-title" data-t="s5.title">Layer 3 — TriageBench, verifying the boundary actually holds</span></div>
+<p class="body-text" data-t="s5.body"></p>
+<div class="framework-grid">
+  <div class="fw-card plan"><h6 data-t="s5.a1h">1 · Incomplete diagnostics</h6><p data-t="s5.a1p"></p></div>
+  <div class="fw-card keep"><h6 data-t="s5.a2h">2 · Parts compatibility conflict</h6><p data-t="s5.a2p"></p></div>
+  <div class="fw-card keep"><h6 data-t="s5.a3h">3 · Authorization and warranty conflict</h6><p data-t="s5.a3p"></p></div>
+  <div class="fw-card warn"><h6 data-t="s5.a4h">4 · Tool failure</h6><p data-t="s5.a4p"></p></div>
+</div>
+<table>
+  <thead><tr><th data-t="s5.th1">Scored dimension</th><th data-t="s5.th2">How it is measured</th></tr></thead>
+  <tbody>
+    <tr><td data-t="s5.m1a"></td><td data-t="s5.m1b"></td></tr>
+    <tr><td data-t="s5.m2a"></td><td data-t="s5.m2b"></td></tr>
+    <tr><td data-t="s5.m3a"></td><td data-t="s5.m3b"></td></tr>
+    <tr><td data-t="s5.m4a"></td><td data-t="s5.m4b"></td></tr>
+    <tr><td data-t="s5.m5a"></td><td data-t="s5.m5b"></td></tr>
+  </tbody>
+</table>
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s5.hlabel">Headline metric</span><span data-t="s5.headline"></span></div>
+
+<!-- 06 -->
+<div class="section-header" id="s6"><span class="sec-num">§ 06</span><span class="sec-title" data-t="s6.title">Why the three layers together are the contribution</span></div>
+<p class="body-text" data-t="s6.body"></p>
+<div class="framework-grid">
+  <div class="fw-card plan"><h6 data-t="s6.f1h">Release gate</h6><p data-t="s6.f1p"></p></div>
+  <div class="fw-card plan"><h6 data-t="s6.f2h">Autonomy configuration</h6><p data-t="s6.f2p"></p></div>
+  <div class="fw-card good"><h6 data-t="s6.f3h">Trust evidence</h6><p data-t="s6.f3p"></p></div>
+  <div class="fw-card good"><h6 data-t="s6.f4h">Assurance layer</h6><p data-t="s6.f4p"></p></div>
+</div>
+<div class="fw-card warn"><h6 data-t="s6.inth">Two conditions that keep this research, not marketing</h6><p data-t="s6.intp"></p></div>
+
+<!-- 07 -->
+<div class="section-header" id="s7"><span class="sec-num">§ 07</span><span class="sec-title" data-t="s7.title">Layer 0 — KYA, and where the value goes</span></div>
+<p class="body-text" data-t="s7.body"></p>
+<div class="evi-item"><span class="camp" data-t="s7.e1c">Industry</span><span data-t="s7.e1p"></span></div>
+<div class="evi-item"><span class="camp" data-t="s7.e2c">Policy</span><span data-t="s7.e2p"></span></div>
+<div class="grad-strip">
+  <div class="grad-step"><div class="g-stage" data-t="s7.h1s">Near term</div><p data-t="s7.h1p"></p></div>
+  <div class="grad-step"><div class="g-stage" data-t="s7.h2s">Medium term</div><p data-t="s7.h2p"></p></div>
+  <div class="grad-step"><div class="g-stage" data-t="s7.h3s">Long term</div><p data-t="s7.h3p"></p></div>
+</div>
+<p class="note" data-t="s7.scope"></p>
+
+<!-- 08 -->
+<div class="section-header" id="s8"><span class="sec-num">§ 08</span><span class="sec-title" data-t="s8.title">Prediction ledger — falsifiable, dated</span></div>
+<div class="pred-row"><span class="p-id">P1</span><span data-t="s8.p1"></span><span class="p-due" data-t="s8.d1">Check 2027-06</span></div>
+<div class="pred-row"><span class="p-id">P2</span><span data-t="s8.p2"></span><span class="p-due" data-t="s8.d2">Check 2027-06</span></div>
+<div class="pred-row"><span class="p-id">P3</span><span data-t="s8.p3"></span><span class="p-due" data-t="s8.d3">Check 2029-12</span></div>
+
+<!-- 09 -->
+<div class="section-header" id="s9"><span class="sec-num">§ 09</span><span class="sec-title" data-t="s9.title">Why me, why Mercor, and the pilot</span></div>
+<div class="t-grid">
+  <div class="block"><h4 data-t="s9.b1h">The supply side is Mercor's</h4><p data-t="s9.b1p"></p></div>
+  <div class="block"><h4 data-t="s9.b2h">The measurement side is mine</h4><p data-t="s9.b2p"></p></div>
+  <div class="block wide"><h4 data-t="s9.b3h">Pilot</h4><p data-t="s9.b3p"></p></div>
+</div>
+
+<footer class="q-page-footer">
+  <span data-t="foot.l">FleetOps + TriageBench · Gainshin (Joshua) Hsiao · Working document v0.1</span>
+  <span data-t="foot.r">EN · FR · 繁體中文</span>
+</footer>
+
+<script>
+var T = {};
+
+T.en = {
+"nav.label":"Jump to","nav.1":"Domain","nav.2":"Architecture","nav.3":"Benchmark","nav.4":"KYA","nav.5":"Ledger",
+"doc.kicker":"Mercor Research Fellowship — APEX · Benchmark pitch",
+"doc.title":"FleetOps + TriageBench",
+"doc.subtitle":"A benchmark for <b>safe delegability</b> in fleet and vehicle maintenance — and one that ships as the enforcement layer rather than sitting beside the product.",
+"doc.meta":"Gainshin (Joshua) Hsiao · Montréal · August 2026 · v0.1 · All predictions are dated and falsifiable, see § 08",
+
+"s1.title":"The domain and the measured quantity",
+"s1.h5":"Thesis",
+"s1.lead":"The measured quantity is not task completion. It is how much of a decision a fleet can safely hand over.",
+"s1.leadbody":"A confident wrong answer is not simply a lower score here — it is a truck dispatched with a defect.",
+"s1.body":"APEX-style benchmarks score the deliverable, and in banking or consulting that is defensible. Fleet maintenance is the case where a bad output costs money, regulatory standing, <b>and</b> occasionally a wheel-off on the interstate. Brakes alone account for roughly 41% of vehicle out-of-service violations in roadside inspections, and under 49 CFR 396.11 a reported safety defect must be repaired before the vehicle is dispatched again. Agents are already being sold into this workflow — auto-coding repairs, generating work orders, ordering parts. No benchmark currently tells a maintenance director what is safe to hand over.",
+"s1.b1.h":"Machine-checkable ground truth",
+"s1.b1.p":"Unlike a consulting deck, most of the answer verifies by lookup rather than by LLM judge: parts fitment and supersession chains, fault code to failure mode, VMRS repair coding, and out-of-service disposition. Correctness is checkable, not arguable.",
+"s1.b2.h":"A real loss function",
+"s1.b2.p":"Downtime per hour, tow cost, warranty denial, comeback repair, CSA points from an out-of-service violation. Every failure mode already carries a dollar figure the fleet tracks — so reliability can be weighted in money and risk instead of pass rate. Almost no agentic benchmark has that.",
+
+"s2.title":"Architecture — three layers, one measured quantity",
+"arch.l3":"TriageBench — continuous verification",
+"arch.l3s":"Hidden cases · data conflict · tool fault · human escalation arm",
+"arch.l2":"Delegation controls — the policy",
+"arch.l2s":"Risk tier · spend · evidence · warranty · authority",
+"arch.l2d":"Execute · Confirm · Escalate",
+"arch.l1":"FleetOps — the agent",
+"arch.l1s":"Diagnose · plan repair or procurement · open work order · coordinate",
+"arch.l0":"KYA — verifiable agent identity",
+"arch.l0s":"Agent ↔ human principal binding · scoped, revocable authority · signed action chain",
+"arch.a1":"tests whether the policy holds",
+"arch.a2":"gates every action",
+"arch.a3":"makes it provable across parties",
+
+"s3.title":"Layer 1 — FleetOps, the agent",
+"s3.body":"An agent that consolidates maintenance evidence — telematics, fault codes, driver DVIR free-text, VMRS-coded repair history, parts availability, warranty status, shop capacity, technician certifications — then proposes a diagnosis and a repair-or-procure plan, opens the work order, and coordinates the next step with the dispatcher and the shop.",
+"s3.note":"This layer is not the contribution. It is what has to exist for the other two to be measurable.",
+
+"s4.title":"Layer 2 — Delegation controls, the policy being tested",
+"s4.th1":"Dimension","s4.th2":"What it gates","s4.th3":"Example",
+"s4.r1a":"System risk tier","s4.r1b":"Physical consequence of being wrong","s4.r1c":"Brake and steering are not a cabin rattle",
+"s4.r2a":"Spend threshold","s4.r2b":"Financial materiality","s4.r2c":"Repair estimate exceeds the approved ceiling",
+"s4.r3a":"Evidence sufficiency","s4.r3b":"Whether the diagnosis is actually determined","s4.r3c":"Fault code is ambiguous across two failure modes",
+"s4.r4a":"Warranty and contract terms","s4.r4b":"Recoverability of the cost","s4.r4c":"Proceeding as asked voids the claim",
+"s4.r5a":"Role authority","s4.r5b":"Who may authorise, and on whose behalf","s4.r5c":"A dispatcher cannot approve what only the owner can",
+"s4.d1":"Execute","s4.d2":"Confirm","s4.d3":"Escalate with evidence",
+"s4.dnote":"— the policy resolves every action to exactly one of three dispositions. The fifth dimension is what determines whether any of this is enforceable outside one vendor's software; see § 07.",
+"s4.h5":"Positioning",
+"s4.quote":"FleetOps does not merely automate maintenance administration. It gives fleets a configurable delegation boundary: routine, well-evidenced work can proceed automatically; safety-critical, financially material, or uncertain cases are escalated with evidence and an auditable decision trail.",
+"s4.orig":"",
+
+"s5.title":"Layer 3 — TriageBench, verifying the boundary actually holds",
+"s5.body":"A held-out case set that stress-tests the boundary rather than the capability. Otherwise-solvable tasks are mutated along four axes, and in each one the failure is quiet: nothing errors, the data is simply wrong or the instruction is simply impossible to satisfy honestly.",
+"s5.a1h":"1 · Incomplete diagnostics",
+"s5.a1p":"The fault code is ambiguous across two failure modes and the distinguishing test was never run. Proceeding requires an invented assumption.",
+"s5.a2h":"2 · Parts compatibility conflict",
+"s5.a2p":"The in-stock part is a superseded number that fits the VIN's model year but not its trim or emissions configuration.",
+"s5.a3h":"3 · Authorization and warranty conflict",
+"s5.a3p":"The repair crosses a spend threshold, or is warranty-eligible only if the shop does <b>not</b> proceed the way the dispatcher is demanding.",
+"s5.a4h":"4 · Tool failure",
+"s5.a4p":"Stale inventory from the parts API, a wrong trim from the VIN decoder, a dropped telematics feed. Nothing errors loudly — the data is simply wrong.",
+"s5.th1":"Scored dimension","s5.th2":"How it is measured",
+"s5.m1a":"Correct action","s5.m1b":"Right diagnosis, right part, right VMRS coding — verified by lookup against catalogue, repair-coding standard, and out-of-service criteria.",
+"s5.m2a":"Escalation calibration","s5.m2b":"A signal-detection measure over {proceeds, escalates} × {determinate, underdetermined}, so an agent cannot win by asking about everything. Over-asking is a real failure mode with its own cost.",
+"s5.m3a":"Risk-tier routing","s5.m3b":"Cost-weighted: did it escalate the <b>safety-critical and financially material</b> items specifically, or merely the textually ambiguous ones? This is the axis I most expect models to fail.",
+"s5.m4a":"Recovery under tool fault","s5.m4b":"Did it notice the bad tool output, or build a confident plan on corrupted data? Detected deterministically via canary values planted in the faulty responses — no LLM grader to argue with.",
+"s5.m5a":"Escalation legibility","s5.m5b":"The human arm. When the agent escalates, can a dispatcher with a truck down and a driver waiting reach a correct accept-or-override decision from the package provided, in the time they actually have? A technically complete audit trail nobody can act on is a failed escalation.",
+"s5.hlabel":"Headline metric",
+"s5.headline":"The <b>Safe Delegation Threshold</b> — the spend ceiling and system classes within which the agent's decisions are no worse than a certified technician's. That is the number a fleet can act on, and no benchmark currently reports it.",
+
+"s6.title":"Why the three layers together are the contribution",
+"s6.body":"Current benchmarks measure capability and return a leaderboard rank. This one measures <b>conformance to a configurable policy under adversarial data conditions</b>, which makes the unit of evaluation the <i>(agent, policy)</i> pair rather than the model alone. That single shift is what lets one artifact serve four functions — they are not four uses bolted onto a benchmark, they are four readings of the same measurement.",
+"s6.f1h":"Release gate",
+"s6.f1p":"A version ships only if it holds the boundary on the hidden set. Regression in judgment becomes as blocking as regression in accuracy.",
+"s6.f2h":"Autonomy configuration",
+"s6.f2p":"At customer deployment, the delegability profile tells a specific fleet what to switch on — expressed in dollars and system classes, not in vibes.",
+"s6.f3h":"Trust evidence",
+"s6.f3p":"Large fleets, insurers, repair networks and OEMs need an audit trail rather than a demo. This produces one that a third party can re-run.",
+"s6.f4h":"Assurance layer",
+"s6.f4p":"Evaluation-as-a-service: re-run per configuration and per model version. The moat is the verification, not the agent.",
+"s6.inth":"Two conditions that keep this research, not marketing",
+"s6.intp":"The hidden case set must rotate to prevent overfitting, and the benchmark has to be able to <b>fail the agent that ships with it</b>. A conformance test that never fails its own vendor is worth nothing to an underwriter — and knowing that in advance is a design constraint, not a disclaimer.",
+
+"s7.title":"Layer 0 — KYA, and where the value goes",
+"s7.body":"A delegation boundary is only as strong as the answer to <b>which agent, acting for whom, under what authority, and provable afterward</b>. Inside one product that answer is a database row. Fleet maintenance is not inside one product: a single repair crosses the fleet, the shop, the parts distributor, the OEM warranty administrator, and the insurer — none of whom share a platform. That is precisely the Know-Your-Agent problem: platform-independent agent identity, cryptographic binding to a human principal, scoped and revocable authorisation, and an auditable action chain. I am not claiming to have invented it. The point is that it is independently converging right now, which is what makes it safe to build on.",
+"s7.e1c":"Industry",
+"s7.e1p":"Block's open-source Buzz workspace (July 2026) gives each agent a platform-independent cryptographic keypair on the Nostr protocol, and binds it to its human owner with a second signature — a verifiable passport plus a signed trail of every agent action. It demonstrates the cryptography is buildable and open.",
+"s7.e2c":"Policy",
+"s7.e2p":"Canada's ISED AI transparency consultation (July 2026) names agent identity credentials, action records, and multi-agent chain of custody as policy priorities, citing Workday Agent Passport and CSA STAR for AI as market precedent. The question is already on the table; nobody has answered it for the fiduciary case.",
+"s7.h1s":"Near term",
+"s7.h1p":"<b>Identity turns the score into evidence.</b> A conformance result means nothing to an underwriter unless you can prove which agent version, under whose delegated authority, produced which action. Signed action chains make a TriageBench certificate something a third party can rely on.",
+"s7.h2s":"Medium term",
+"s7.h2p":"<b>The delegation boundary becomes portable.</b> The Safe Delegation Threshold stops being one vendor's configuration screen and becomes a credential the fleet issues, the shop verifies, the OEM honours in warranty adjudication, and the insurer prices against.",
+"s7.h3s":"Long term",
+"s7.h3p":"<b>Verifiability is not legibility — and that gap is the defensible part.</b> Existing implementations presume a technically capable user reading their own audit trail. In fleet operations the party carrying the risk — the owner-operator, the small fleet with no maintenance department — is not that person. How scope is understood, how revocation is <i>trusted</i> to have taken effect, and how an audit trail becomes calibratable by a non-technical principal, is unstudied, and squarely an HCI problem. The escalation-legibility arm is its first measurable version.",
+"s7.scope":"Scope note, for accuracy: Buzz is peer collaboration among technically capable users inside one organisation. It is cited here as evidence of technical feasibility and industry convergence — not as prior work on the cross-organisation, liability-bearing case. That difference is the contribution, not a weakness.",
+
+"s8.title":"Prediction ledger — falsifiable, dated",
+"s8.p1":"Frontier agents will post respectable <b>completion</b> scores while their escalation behaviour remains uncorrelated with real cost and safety tier — asking about a cheap ambiguous rattle, proceeding confidently on a brake defect.",
+"s8.d1":"Check 2027-06",
+"s8.p2":"On tool-fault and conflict variants, <b>repeated sampling (pass@k) will increase boundary violations rather than reduce them</b> — more attempts means more chances to act on corrupted data. If so, the standard remedy for low agentic scores worsens the failure mode that keeps agents out of regulated workflows.",
+"s8.d2":"Check 2027-06",
+"s8.p3":"At least one insurer or OEM warranty programme will require a verifiable <b>agent-authority credential</b> — identity plus scope binding — before honouring agent-authorised repair work.",
+"s8.d3":"Check 2029-12",
+
+"s9.title":"Why me, why Mercor, and the pilot",
+"s9.b1h":"The supply side is Mercor's",
+"s9.b1p":"The hard part of this benchmark is expert supply, and it is exactly what Mercor is built to source: fleet maintenance directors, master technicians, warranty administrators. The worlds and the grading criteria have to come from people who have signed off on repairs.",
+"s9.b2h":"The measurement side is mine",
+"s9.b2p":"My Master's research at McGill is on <b>trust calibration</b> — how people decide when to accept or override an AI recommendation in high-stakes decisions. I have published a design-space analysis of agent handoffs across vehicle and driver-role boundaries, including the scoped-authorisation and session-lease patterns that Layer 2 formalises, and my consulting work is on the fiduciary case: what an identity and audit primitive must look like when the principal cannot audit it themselves. Delegation is trust calibration with the arrow reversed.",
+"s9.b3h":"Pilot",
+"s9.b3p":"One vehicle class, 8–10 worlds, roughly 150 tasks with injected variants, six weeks to a first delegability profile and a working release gate. The escalation-legibility arm runs with practitioner participants against the same hidden cases.",
+
+"foot.l":"FleetOps + TriageBench · Gainshin (Joshua) Hsiao · Working document v0.1",
+"foot.r":"EN · FR · 繁體中文"
+};
+
+T.fr = {
+"nav.label":"Aller à","nav.1":"Domaine","nav.2":"Architecture","nav.3":"Référentiel","nav.4":"KYA","nav.5":"Registre",
+"doc.kicker":"Mercor Research Fellowship — APEX · Proposition de référentiel",
+"doc.title":"FleetOps + TriageBench",
+"doc.subtitle":"Un référentiel d'évaluation de la <b>délégabilité sécuritaire</b> dans l'entretien de parcs de véhicules — conçu pour être le mécanisme de contrôle du produit, et non un rapport posé à côté.",
+"doc.meta":"Gainshin (Joshua) Hsiao · Montréal · août 2026 · v0.1 · Toutes les prédictions sont datées et réfutables, voir § 08",
+
+"s1.title":"Le domaine et la grandeur mesurée",
+"s1.h5":"Thèse",
+"s1.lead":"La grandeur mesurée n'est pas l'achèvement de la tâche, mais la part de décision qu'un parc peut déléguer sans risque.",
+"s1.leadbody":"Ici, une mauvaise réponse énoncée avec assurance n'est pas seulement un score plus faible : c'est un camion remis en service avec un défaut.",
+"s1.body":"Les référentiels de type APEX évaluent le livrable, ce qui se défend en banque ou en conseil. L'entretien de parc est le cas où une mauvaise sortie coûte de l'argent, une conformité réglementaire <b>et</b>, parfois, une roue perdue sur l'autoroute. Les freins représentent à eux seuls environ 41 % des infractions entraînant une mise hors service lors des inspections routières, et selon le 49 CFR 396.11 un défaut de sécurité signalé doit être réparé avant toute remise en service. Des agents sont déjà vendus dans ce flux de travail — codification automatique des réparations, création de bons de travail, commande de pièces. Aucun référentiel ne dit aujourd'hui à un directeur d'entretien ce qu'il peut déléguer sans risque.",
+"s1.b1.h":"Une vérité terrain vérifiable par machine",
+"s1.b1.p":"Contrairement à une présentation de conseil, la majeure partie de la réponse se vérifie par consultation de référentiels plutôt que par un juge LLM : compatibilité et chaînes de substitution des pièces, code de défaut vers mode de défaillance, codification VMRS des réparations, et décision de mise hors service. L'exactitude se vérifie, elle ne se discute pas.",
+"s1.b2.h":"Une véritable fonction de perte",
+"s1.b2.p":"Immobilisation horaire, remorquage, refus de garantie, reprise de réparation, points CSA à la suite d'une mise hors service. Chaque mode de défaillance porte déjà un montant que le parc suit — la fiabilité peut donc être pondérée en argent et en risque plutôt qu'en taux de réussite. Presque aucun référentiel agentique ne dispose de cela.",
+
+"s2.title":"Architecture — trois couches, une seule grandeur mesurée",
+"arch.l3":"TriageBench — vérification continue",
+"arch.l3s":"Cas cachés · conflits de données · panne d'outil · volet humain",
+"arch.l2":"Contrôles de délégation — la politique",
+"arch.l2s":"Niveau de risque · dépense · preuve · garantie · autorité",
+"arch.l2d":"Exécuter · Confirmer · Escalader",
+"arch.l1":"FleetOps — l'agent",
+"arch.l1s":"Diagnostiquer · planifier réparation ou achat · ouvrir le bon · coordonner",
+"arch.l0":"KYA — identité d'agent vérifiable",
+"arch.l0s":"Lien agent ↔ mandant humain · autorité délimitée et révocable · chaîne d'actions signée",
+"arch.a1":"vérifie que la politique tient",
+"arch.a2":"filtre chaque action",
+"arch.a3":"la rend prouvable entre parties",
+
+"s3.title":"Couche 1 — FleetOps, l'agent",
+"s3.body":"Un agent qui consolide les données d'entretien — télématique, codes de défaut, texte libre des rapports d'inspection du conducteur (DVIR), historique de réparation codifié VMRS, disponibilité des pièces, statut de garantie, capacité d'atelier, certifications des techniciens — puis propose un diagnostic et un plan de réparation ou d'approvisionnement, ouvre le bon de travail et coordonne l'étape suivante avec le répartiteur et l'atelier.",
+"s3.note":"Cette couche n'est pas la contribution. C'est ce qui doit exister pour que les deux autres soient mesurables.",
+
+"s4.title":"Couche 2 — Contrôles de délégation, la politique mise à l'épreuve",
+"s4.th1":"Dimension","s4.th2":"Ce qu'elle filtre","s4.th3":"Exemple",
+"s4.r1a":"Niveau de risque du système","s4.r1b":"Conséquence physique d'une erreur","s4.r1c":"Freins et direction ne sont pas un bruit de cabine",
+"s4.r2a":"Seuil de dépense","s4.r2b":"Matérialité financière","s4.r2c":"L'estimation dépasse le plafond approuvé",
+"s4.r3a":"Suffisance de la preuve","s4.r3b":"Le diagnostic est-il réellement déterminé","s4.r3c":"Le code de défaut est ambigu entre deux modes de défaillance",
+"s4.r4a":"Garantie et clauses contractuelles","s4.r4b":"Récupérabilité du coût","s4.r4c":"Procéder comme demandé annule la réclamation",
+"s4.r5a":"Autorité du rôle","s4.r5b":"Qui peut autoriser, et pour le compte de qui","s4.r5c":"Un répartiteur ne peut approuver ce qui relève du propriétaire",
+"s4.d1":"Exécuter","s4.d2":"Confirmer","s4.d3":"Escalader avec preuve",
+"s4.dnote":"— la politique ramène chaque action à exactement une de ces trois dispositions. La cinquième dimension détermine si tout ceci est opposable en dehors du logiciel d'un seul fournisseur ; voir § 07.",
+"s4.h5":"Positionnement",
+"s4.quote":"FleetOps ne se contente pas d'automatiser l'administration de l'entretien. Il donne aux parcs une frontière de délégation configurable : les travaux courants et bien documentés peuvent se poursuivre automatiquement ; les cas critiques pour la sécurité, financièrement significatifs ou incertains sont escaladés avec les preuves et une piste de décision auditable.",
+"s4.orig":"Version originale : « FleetOps does not merely automate maintenance administration. It gives fleets a configurable delegation boundary: routine, well-evidenced work can proceed automatically; safety-critical, financially material, or uncertain cases are escalated with evidence and an auditable decision trail. »",
+
+"s5.title":"Couche 3 — TriageBench, vérifier que la frontière tient vraiment",
+"s5.body":"Un jeu de cas réservé qui met la frontière sous contrainte plutôt que la capacité. Des tâches par ailleurs solubles sont mutées selon quatre axes, et dans chacun la défaillance est silencieuse : rien ne lève d'erreur, la donnée est simplement fausse ou la consigne simplement impossible à satisfaire honnêtement.",
+"s5.a1h":"1 · Diagnostic incomplet",
+"s5.a1p":"Le code de défaut est ambigu entre deux modes de défaillance et le test discriminant n'a jamais été effectué. Poursuivre exige d'inventer une hypothèse.",
+"s5.a2h":"2 · Conflit de compatibilité des pièces",
+"s5.a2p":"La pièce en stock porte un numéro de substitution compatible avec l'année-modèle du NIV, mais pas avec sa finition ni sa configuration d'émissions.",
+"s5.a3h":"3 · Conflit d'autorisation et de garantie",
+"s5.a3p":"La réparation franchit un seuil de dépense, ou n'est admissible à la garantie que si l'atelier ne procède <b>pas</b> comme le répartiteur l'exige.",
+"s5.a4h":"4 · Panne d'outil",
+"s5.a4p":"Inventaire périmé renvoyé par l'API pièces, finition erronée par le décodeur de NIV, flux télématique interrompu. Rien ne lève d'erreur — la donnée est simplement fausse.",
+"s5.th1":"Dimension évaluée","s5.th2":"Mode de mesure",
+"s5.m1a":"Action correcte","s5.m1b":"Bon diagnostic, bonne pièce, bonne codification VMRS — vérifiés par consultation du catalogue, de la norme de codification et des critères de mise hors service.",
+"s5.m2a":"Calibration de l'escalade","s5.m2b":"Une mesure de détection de signal sur {poursuit, escalade} × {déterminé, sous-déterminé}, afin qu'un agent ne puisse pas gagner en questionnant tout. Trop demander est un vrai mode de défaillance, avec son propre coût.",
+"s5.m3a":"Acheminement par niveau de risque","s5.m3b":"Pondéré par le coût : a-t-il escaladé précisément les éléments <b>critiques pour la sécurité et financièrement significatifs</b>, ou seulement ceux qui étaient textuellement ambigus ? C'est l'axe sur lequel je m'attends le plus à voir les modèles échouer.",
+"s5.m4a":"Récupération après panne d'outil","s5.m4b":"A-t-il remarqué la sortie d'outil défectueuse, ou bâti un plan confiant sur des données corrompues ? Détection déterministe par valeurs témoins (canaris) insérées dans les réponses fautives — aucun juge LLM à contester.",
+"s5.m5a":"Lisibilité de l'escalade","s5.m5b":"Le volet humain. Quand l'agent escalade, un répartiteur — camion immobilisé, conducteur en attente — peut-il parvenir à une décision correcte d'acceptation ou de refus à partir du dossier fourni, dans le temps dont il dispose réellement ? Une piste d'audit techniquement complète mais inutilisable est une escalade ratée.",
+"s5.hlabel":"Indicateur principal",
+"s5.headline":"Le <b>seuil de délégation sécuritaire</b> — le plafond de dépense et les classes de systèmes à l'intérieur desquels les décisions de l'agent ne sont pas moins bonnes que celles d'un technicien certifié. C'est le chiffre sur lequel un parc peut agir, et aucun référentiel ne le publie aujourd'hui.",
+
+"s6.title":"Pourquoi ce sont les trois couches ensemble qui constituent la contribution",
+"s6.body":"Les référentiels actuels mesurent la capacité et renvoient un rang de classement. Celui-ci mesure la <b>conformité à une politique configurable dans des conditions de données adverses</b>, ce qui fait de l'unité d'évaluation le couple <i>(agent, politique)</i> plutôt que le modèle seul. C'est ce seul déplacement qui permet à un même artefact de remplir quatre fonctions — non pas quatre usages greffés sur un référentiel, mais quatre lectures de la même mesure.",
+"s6.f1h":"Barrière de mise en production",
+"s6.f1p":"Une version n'est déployée que si elle tient la frontière sur le jeu caché. Une régression de jugement devient aussi bloquante qu'une régression d'exactitude.",
+"s6.f2h":"Configuration de l'autonomie",
+"s6.f2p":"Au déploiement client, le profil de délégabilité indique à un parc précis ce qu'il peut activer — exprimé en dollars et en classes de systèmes, pas en impressions.",
+"s6.f3h":"Preuve de confiance",
+"s6.f3p":"Les grands parcs, les assureurs, les réseaux de réparation et les constructeurs veulent une piste d'audit, pas une démonstration. Ceci en produit une, rejouable par un tiers.",
+"s6.f4h":"Couche d'assurance",
+"s6.f4p":"Évaluation en tant que service : rejouée par configuration et par version de modèle. L'avantage défendable est la vérification, pas l'agent.",
+"s6.inth":"Deux conditions pour que cela reste de la recherche, et non du marketing",
+"s6.intp":"Le jeu de cas caché doit être renouvelé pour éviter le surapprentissage, et le référentiel doit pouvoir <b>faire échouer l'agent livré avec lui</b>. Un test de conformité qui ne recale jamais son propre fournisseur ne vaut rien pour un assureur — et le savoir d'avance est une contrainte de conception, pas une clause de style.",
+
+"s7.title":"Couche 0 — KYA, et où va la valeur",
+"s7.body":"Une frontière de délégation ne vaut que la réponse à la question : <b>quel agent, agissant pour qui, sous quelle autorité, et prouvable après coup</b>. À l'intérieur d'un seul produit, cette réponse est une ligne de base de données. L'entretien de parc n'est pas contenu dans un seul produit : une réparation traverse le parc, l'atelier, le distributeur de pièces, l'administrateur de garantie du constructeur et l'assureur — aucun ne partage de plateforme. C'est exactement le problème Know-Your-Agent : identité d'agent indépendante de la plateforme, liaison cryptographique à un mandant humain, autorisation délimitée et révocable, et chaîne d'actions auditable. Je ne prétends pas l'avoir inventé. Ce qui compte, c'est que cette convergence se produit de façon indépendante en ce moment même — et c'est ce qui rend l'appui sûr.",
+"s7.e1c":"Industrie",
+"s7.e1p":"L'espace de travail ouvert Buzz de Block (juillet 2026) dote chaque agent d'une paire de clés cryptographiques indépendante de la plateforme sur le protocole Nostr, et le lie à son propriétaire humain par une seconde signature — un passeport vérifiable et une trace signée de chaque action de l'agent. Cela démontre que la cryptographie est constructible et ouverte.",
+"s7.e2c":"Politique publique",
+"s7.e2p":"La consultation d'ISDE Canada sur la transparence de l'IA (juillet 2026) désigne les attestations d'identité d'agent, les registres d'action et la chaîne de possession multi-agents comme priorités, en citant Workday Agent Passport et CSA STAR for AI comme précédents de marché. La question est déjà posée ; personne n'y a répondu pour le cas fiduciaire.",
+"s7.h1s":"Court terme",
+"s7.h1p":"<b>L'identité transforme le score en preuve.</b> Un résultat de conformité ne vaut rien pour un assureur si l'on ne peut prouver quelle version d'agent, sous quelle autorité déléguée, a produit quelle action. Les chaînes d'actions signées rendent un certificat TriageBench opposable à un tiers.",
+"s7.h2s":"Moyen terme",
+"s7.h2p":"<b>La frontière de délégation devient portable.</b> Le seuil de délégation sécuritaire cesse d'être l'écran de configuration d'un fournisseur pour devenir une attestation que le parc émet, que l'atelier vérifie, que le constructeur honore en traitement de garantie et que l'assureur tarifie.",
+"s7.h3s":"Long terme",
+"s7.h3p":"<b>Vérifiable ne veut pas dire lisible — et c'est là que réside l'avantage défendable.</b> Les implémentations existantes supposent un utilisateur techniquement compétent lisant sa propre piste d'audit. En exploitation de parc, la partie qui porte le risque — le propriétaire-exploitant, le petit parc sans service d'entretien — n'est pas cette personne. Comment la portée est comprise, comment la révocation est <i>crue</i> effective, et comment une piste d'audit devient calibrable par un mandant non technique : rien de tout cela n'est étudié, et c'est pleinement une question d'interaction humain-machine. Le volet lisibilité de l'escalade en est la première version mesurable.",
+"s7.scope":"Note de portée, par souci d'exactitude : Buzz relève d'une collaboration entre pairs techniquement compétents au sein d'une même organisation. Il est cité ici comme preuve de faisabilité technique et de convergence industrielle — non comme travail antérieur sur le cas inter-organisationnel porteur de responsabilité. Cette différence est la contribution, non une faiblesse.",
+
+"s8.title":"Registre de prédictions — réfutables et datées",
+"s8.p1":"Les agents de pointe afficheront des scores d'<b>achèvement</b> honorables alors que leur comportement d'escalade restera décorrélé du niveau réel de coût et de sécurité — questionnant sur un bruit ambigu et peu coûteux, poursuivant avec assurance sur un défaut de freinage.",
+"s8.d1":"Vérif. 2027-06",
+"s8.p2":"Sur les variantes à panne d'outil et à conflit, <b>l'échantillonnage répété (pass@k) augmentera les violations de frontière au lieu de les réduire</b> — plus de tentatives, c'est plus d'occasions d'agir sur des données corrompues. Si c'est le cas, le remède standard aux faibles scores agentiques aggrave précisément le mode de défaillance qui tient les agents à l'écart des flux réglementés.",
+"s8.d2":"Vérif. 2027-06",
+"s8.p3":"Au moins un assureur ou un programme de garantie constructeur exigera une <b>attestation d'autorité d'agent</b> vérifiable — identité et portée liées — avant d'honorer des travaux autorisés par un agent.",
+"s8.d3":"Vérif. 2029-12",
+
+"s9.title":"Pourquoi moi, pourquoi Mercor, et le pilote",
+"s9.b1h":"L'offre d'experts relève de Mercor",
+"s9.b1p":"La difficulté de ce référentiel est l'approvisionnement en experts, et c'est précisément ce que Mercor sait faire : directeurs d'entretien de parc, techniciens experts, administrateurs de garantie. Les univers et les critères de notation doivent venir de personnes qui ont réellement approuvé des réparations.",
+"s9.b2h":"La mesure relève de moi",
+"s9.b2p":"Ma recherche de maîtrise à McGill porte sur la <b>calibration de la confiance</b> — comment les personnes décident d'accepter ou d'infirmer une recommandation d'IA dans des décisions à fort enjeu. J'ai publié une analyse d'espace de conception sur les transferts d'agent entre véhicule et rôles de conduite, incluant les motifs d'autorisation délimitée et de bail de session que formalise la couche 2 ; et mon travail de conseil porte sur le cas fiduciaire : à quoi doit ressembler une primitive d'identité et d'audit quand le mandant ne peut pas l'auditer lui-même. La délégation, c'est la calibration de la confiance, flèche inversée.",
+"s9.b3h":"Pilote",
+"s9.b3p":"Une classe de véhicules, 8 à 10 univers, environ 150 tâches avec variantes injectées, six semaines jusqu'à un premier profil de délégabilité et une barrière de mise en production fonctionnelle. Le volet lisibilité de l'escalade se déroule avec des praticiens sur les mêmes cas cachés.",
+
+"foot.l":"FleetOps + TriageBench · Gainshin (Joshua) Hsiao · Document de travail v0.1",
+"foot.r":"EN · FR · 繁體中文"
+};
+
+T.zh = {
+"nav.label":"跳至","nav.1":"領域","nav.2":"架構","nav.3":"Benchmark","nav.4":"KYA","nav.5":"預測",
+"doc.kicker":"Mercor Research Fellowship — APEX · Benchmark 提案",
+"doc.title":"FleetOps + TriageBench",
+"doc.subtitle":"一套測量車隊與車輛維修代理<b>可被安全委派程度</b>的 benchmark — 它不是放在產品旁邊的研究報告，而是產品本身的執行機制。",
+"doc.meta":"Gainshin (Joshua) Hsiao · 蒙特婁 · 2026 年 8 月 · v0.1 · 所有預測具日期、可證偽，見 § 08",
+
+"s1.title":"領域與被測量的那個量",
+"s1.h5":"論點",
+"s1.lead":"被測量的不是任務完成度，而是一個車隊能安全交出去多少決策。",
+"s1.leadbody":"在這個領域，一個自信的錯誤答案不只是分數低一點——那是一台帶著缺陷被派出去的卡車。",
+"s1.body":"APEX 型 benchmark 評的是交付物，在投行或顧問業這是站得住腳的。維修是另一種情況：錯誤輸出的代價是金錢、法規地位，<b>以及</b>偶爾是高速公路上飛出去的一顆輪子。光是煞車就佔道路臨檢中約 41% 的 out-of-service 違規，而依 49 CFR 396.11，已被回報的安全缺陷必須修復後才能再次派車。代理產品早已賣進這條工作流——自動編碼維修、自動開工單、自動叫料。但目前沒有任何 benchmark 能告訴維修主管：哪些可以交出去。",
+"s1.b1.h":"正解可被機器查證",
+"s1.b1.p":"與顧問簡報不同，這裡大部分答案是「查表可驗」而非「LLM judge 判定」：零件相容與 supersession 鏈、故障碼對應失效模式、VMRS 維修編碼、以及 out-of-service 判定。正確與否是可查證的，不是可辯論的。",
+"s1.b2.h":"它自帶損失函數",
+"s1.b2.p":"每小時停機成本、拖車費、保固索賠被拒、重工（comeback）、out-of-service 帶來的 CSA 點數。每一種失敗模式都已經有車隊在追蹤的金額——所以可靠度可以用金錢與風險加權，而不是用通過率。幾乎沒有 agentic benchmark 具備這個條件。",
+
+"s2.title":"架構 — 三層，一個被測量的量",
+"arch.l3":"TriageBench — 持續驗證",
+"arch.l3s":"隱藏案例 · 資料衝突 · 工具故障 · 真人升級測試",
+"arch.l2":"Delegation controls — 政策層",
+"arch.l2s":"風險等級 · 花費 · 證據 · 保固 · 角色權限",
+"arch.l2d":"自主執行 · 要求確認 · 升級",
+"arch.l1":"FleetOps — 代理",
+"arch.l1s":"診斷 · 維修或採購建議 · 開立工單 · 協調下一步",
+"arch.l0":"KYA — 可驗證的代理身分",
+"arch.l0s":"代理 ↔ 人類委託人綁定 · 範圍受限且可撤銷的授權 · 可稽核簽章行為鏈",
+"arch.a1":"驗證政策是否真的成立",
+"arch.a2":"閘控每一個動作",
+"arch.a3":"使其跨組織可被證明",
+
+"s3.title":"第一層 — FleetOps，代理",
+"s3.body":"一個整合維修證據的代理：車聯網資料、故障碼、駕駛 DVIR 自由文字、VMRS 編碼的維修歷史、零件庫存、保固狀態、廠內產能、技師證照；據此提出診斷與維修／採購方案，開立工單，並與調度員及修理廠協調下一步。",
+"s3.note":"這一層不是貢獻所在。它是另外兩層得以被測量的前提。",
+
+"s4.title":"第二層 — Delegation controls，被測試的那份政策",
+"s4.th1":"維度","s4.th2":"它閘控什麼","s4.th3":"例子",
+"s4.r1a":"系統風險等級","s4.r1b":"判錯的物理後果","s4.r1c":"煞車與轉向不等同於車艙異音",
+"s4.r2a":"花費門檻","s4.r2b":"財務重大性","s4.r2c":"維修估價超過已核准上限",
+"s4.r3a":"證據完整性","s4.r3b":"診斷是否真的已被確定","s4.r3c":"故障碼在兩種失效模式間仍屬歧義",
+"s4.r4a":"保固與合約條款","s4.r4b":"成本可否回收","s4.r4c":"照對方要求做會導致索賠失效",
+"s4.r5a":"角色權限","s4.r5b":"誰可以授權、代表誰授權","s4.r5c":"調度員無權核可只有車主能決定的事",
+"s4.d1":"自主執行","s4.d2":"要求確認","s4.d3":"附證據升級",
+"s4.dnote":"— 政策會把每個動作收斂到三種處置的其中一種。第五個維度決定了這一切在單一廠商軟體之外是否還有拘束力；見 § 07。",
+"s4.h5":"定位",
+"s4.quote":"FleetOps 不只是把維修行政自動化。它給車隊一條可設定的委派邊界：例行且證據充分的工作可自動進行；涉及安全關鍵、財務重大或存在不確定性的案件，則附上證據與可稽核的決策軌跡向人類升級。",
+"s4.orig":"英文原句：「FleetOps does not merely automate maintenance administration. It gives fleets a configurable delegation boundary: routine, well-evidenced work can proceed automatically; safety-critical, financially material, or uncertain cases are escalated with evidence and an auditable decision trail.」",
+
+"s5.title":"第三層 — TriageBench，驗證那條邊界真的守得住",
+"s5.body":"一組保留不公開的案例，壓測的是邊界而不是能力。原本可解的任務沿四個軸被變異，而每一種變異的失敗都是安靜的：沒有任何東西報錯，只是資料就是錯的，或指令就是無法誠實地被滿足。",
+"s5.a1h":"1 · 診斷資料不完整",
+"s5.a1p":"故障碼在兩種失效模式之間有歧義，而能區辨的那項檢測從未執行。要繼續，就必須自行捏造一個假設。",
+"s5.a2h":"2 · 零件相容性衝突",
+"s5.a2p":"庫存零件是替代料號，符合該 VIN 的年份，卻不符合其車型等級或排放配置。",
+"s5.a3h":"3 · 授權與保固衝突",
+"s5.a3p":"維修跨越花費門檻，或只有在修理廠<b>不</b>照調度員要求的方式進行時才符合保固資格。",
+"s5.a4h":"4 · 工具故障",
+"s5.a4p":"零件 API 回傳過期庫存、VIN 解碼器回傳錯誤車型、車聯網資料流中斷。沒有明顯報錯——資料就只是錯的。",
+"s5.th1":"評分維度","s5.th2":"如何測量",
+"s5.m1a":"正確行動","s5.m1b":"正確診斷、正確零件、正確 VMRS 編碼——以型錄、維修編碼標準與 out-of-service 準則查表驗證。",
+"s5.m2a":"升級校準","s5.m2b":"在 {繼續執行, 升級} × {已確定, 未確定} 上做訊號偵測式度量，讓代理無法靠「什麼都問」取得高分。過度追問本身就是一種失敗模式，且有其自身成本。",
+"s5.m3a":"風險等級路由","s5.m3b":"以成本加權：它升級的是<b>安全關鍵且財務重大</b>的項目，還是只是文字上有歧義的項目？這是我最預期模型會失敗的一軸。",
+"s5.m4a":"工具故障下的恢復","s5.m4b":"它有沒有察覺工具輸出有問題，還是在被污染的資料上建立了一個自信的計畫？以植入錯誤回應中的 canary 值做確定性偵測——沒有 LLM grader 可以爭論。",
+"s5.m5a":"升級的可讀性","s5.m5b":"真人測試的那一軸。當代理升級時，一位車輛趴窩、司機在等的調度員，能否在他實際擁有的時間內，從這份升級包做出正確的接受或否決決定？技術上完整卻沒人能據以行動的稽核軌跡，是一次失敗的升級。",
+"s5.hlabel":"主指標",
+"s5.headline":"<b>Safe Delegation Threshold（安全委派門檻）</b>——在多少金額上限與哪些系統類別以內，代理的判斷不比一位持證技師更差。這是車隊真正能拿來下決策的數字，而目前沒有任何 benchmark 提供它。",
+
+"s6.title":"為什麼三層合起來才是貢獻",
+"s6.body":"現行 benchmark 測的是能力，回傳的是排行榜名次。這一套測的是<b>在對抗性資料條件下，對一份可設定政策的遵循程度</b>，因此評估單位變成 <i>(agent, policy)</i> 這個配對，而不是模型本身。正是這個轉換，讓同一個 artifact 能承擔四種功能——它們不是硬掛在 benchmark 上的四種用途，而是同一組測量的四種讀法。",
+"s6.f1h":"版本發布 gate",
+"s6.f1p":"新版本必須在隱藏案例集上守住邊界才能上線。判斷力的退化，變成與準確率退化同等的阻擋條件。",
+"s6.f2h":"Autonomy configuration",
+"s6.f2p":"客戶導入時，delegability profile 告訴這個特定車隊可以打開哪些自動化——用金額與系統類別表達，而不是憑感覺。",
+"s6.f3h":"信任證據",
+"s6.f3p":"大型車隊、保險公司、維修網絡與 OEM 要的是稽核軌跡，不是 demo。這套產生的證據，第三方可以自行重跑。",
+"s6.f4h":"Assurance layer",
+"s6.f4p":"Evaluation-as-a-Service：依每組設定、每個模型版本重跑。護城河在驗證，不在代理本身。",
+"s6.inth":"讓它維持是研究而非行銷的兩個條件",
+"s6.intp":"隱藏案例集必須輪替以避免過擬合，而且這套 benchmark 必須有能力<b>讓與它一起出貨的代理不及格</b>。一個從不判自家廠商失敗的 conformance test，對核保人而言毫無價值——事先知道這件事，是設計約束，不是免責聲明。",
+
+"s7.title":"第零層 — KYA，以及價值的去向",
+"s7.body":"一條委派邊界的強度，等於它對這個問題的回答強度：<b>哪一個代理、代表誰行動、依據什麼權限、事後能否被證明</b>。在單一產品內，這個答案只是一列資料庫紀錄。但維修不在單一產品內：一次維修同時橫跨車隊、修理廠、零件商、OEM 保固管理方與保險公司——沒有任何兩方共用平台。這正是 Know-Your-Agent 的問題：平台獨立的代理身分、與人類委託人的密碼學綁定、範圍受限且可撤銷的授權、以及可稽核的行為鏈。我不主張這是我的創見。重點在於它此刻正在獨立收斂——這才是可以放心把架構建在上面的理由。",
+"s7.e1c":"產業",
+"s7.e1p":"Block 於 2026 年 7 月發布的開源協作平台 Buzz，為每個代理在 Nostr 協定上提供獨立於平台的密碼金鑰對，並以第二道簽名將其綁定至人類所有者——形成可驗證護照與代理所有行為的簽章軌跡。它證明了這套密碼學造得出來，而且是開源的。",
+"s7.e2c":"政策",
+"s7.e2p":"加拿大 ISED 的 AI 透明度諮詢（2026 年 7 月）已將代理身分憑證、行為紀錄與多代理 chain of custody 列為政策關注，並引用 Workday Agent Passport 與 CSA STAR for AI 作為市場先例。問題已經被提出；只是還沒有人為受託情境回答它。",
+"s7.h1s":"近期",
+"s7.h1p":"<b>身分讓分數從宣稱變成證據。</b>若無法證明是哪個代理版本、在誰的授權之下、產生了哪個動作，一份 conformance 結果對核保人毫無意義。簽章行為鏈讓 TriageBench 證書成為第三方可以依賴的東西。",
+"s7.h2s":"中期",
+"s7.h2p":"<b>委派邊界變成可攜。</b>Safe Delegation Threshold 不再是某家廠商的設定畫面，而是一張車隊發出、修理廠驗證、OEM 在保固裁定中承認、保險公司據以定價的憑證。",
+"s7.h3s":"長期",
+"s7.h3p":"<b>可驗證不等於可讀懂——而這個落差正是最難被取代的部分。</b>現有實作都預設一位讀得懂自己稽核軌跡的技術型使用者。但在車隊運營中，承擔風險的那一方——owner-operator、沒有維修部門的小車隊——並不是那個人。授權範圍如何被理解、撤銷如何被<i>相信</i>已生效、稽核軌跡如何變成非技術委託人能據以校準信任的形式，至今沒有已發表研究，而且完完全全是 HCI 的問題。升級可讀性那一軸，就是它的第一個可測量版本。",
+"s7.scope":"為求準確的範圍註記：Buzz 是單一組織內、技術能力對等的同儕協作情境。此處引用它，是作為技術可行性與產業收斂的證據，而非作為「跨組織、承擔法律責任情境」的前案。這個差異正是本案的貢獻所在，而不是弱點。",
+
+"s8.title":"預測 Ledger — 可證偽、具日期",
+"s8.p1":"前沿代理會拿到不錯的<b>完成率</b>分數，但其升級行為仍與真實的成本與安全等級不相關——對便宜而歧義的異音發問，卻對煞車缺陷自信放行。",
+"s8.d1":"檢驗 2027-06",
+"s8.p2":"在工具故障與衝突變異上，<b>重複取樣（pass@k）會提高邊界違反率而非降低它</b>——嘗試次數愈多，依據被污染資料行動的機會也愈多。若成立，則對付低 agentic 分數的標準解法，正好惡化了讓代理進不了受規管流程的那個失敗模式。",
+"s8.d2":"檢驗 2027-06",
+"s8.p3":"至少會有一家保險公司或 OEM 保固方案，要求先出示可驗證的<b>代理權限憑證</b>（身分加授權範圍綁定），才承認由代理授權的維修工作。",
+"s8.d3":"檢驗 2029-12",
+
+"s9.title":"為什麼是我、為什麼是 Mercor，以及試點",
+"s9.b1h":"供給端是 Mercor 的強項",
+"s9.b1p":"這套 benchmark 最難的是專家供給，而那正是 Mercor 的本業：車隊維修主管、資深技師、保固管理人員。World 與評分標準必須來自真正簽核過維修的人。",
+"s9.b2h":"測量端是我的",
+"s9.b2p":"我在 McGill 的碩士研究主題是<b>信任校準</b>——人如何決定接受或推翻 AI 在高風險決策中的建議。我發表過關於代理在車輛與駕駛角色門檻之間交接的設計空間分析，其中的範圍授權與 session lease 模式，正是第二層所形式化的東西；而我的顧問工作處理的是受託情境：當委託人無法自行稽核時，身分與稽核原語應該長成什麼樣子。委派，就是把信任校準的箭頭反過來。",
+"s9.b3h":"試點",
+"s9.b3p":"一個車種、8–10 個 world、約 150 個任務加上注入變異，六週內產出第一份 delegability profile 與一個可運作的 release gate。升級可讀性那一軸，以實務工作者受試者在同一組隱藏案例上執行。",
+
+"foot.l":"FleetOps + TriageBench · Gainshin (Joshua) Hsiao · 工作文件 v0.1",
+"foot.r":"EN · FR · 繁體中文"
+};
+
+var SVGNS = "http://www.w3.org/2000/svg";
+var LANGTAG = {en:"en", fr:"fr", zh:"zh-Hant"};
+
+function setLang(lang){
+  var dict = T[lang] || T.en;
+  var nodes = document.querySelectorAll("[data-t]");
+  for (var i=0;i<nodes.length;i++){
+    var el = nodes[i];
+    var key = el.getAttribute("data-t");
+    var val = dict[key];
+    if (val === undefined || val === null) continue;
+    if (el.namespaceURI === SVGNS) { el.textContent = val.replace(/<[^>]+>/g,""); }
+    else { el.innerHTML = val; }
+  }
+  // hide the "original English" line when viewing English
+  var orig = document.querySelector(".exec-box .orig");
+  if (orig) orig.style.display = (lang === "en") ? "none" : "";
+  document.documentElement.setAttribute("lang", LANGTAG[lang] || "en");
+  var btns = document.querySelectorAll(".lang-switch button");
+  for (var j=0;j<btns.length;j++){
+    btns[j].classList.toggle("active", btns[j].getAttribute("data-lang") === lang);
+  }
+}
+
+document.querySelector(".lang-switch").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-lang]");
+  if (b) setLang(b.getAttribute("data-lang"));
+});
+
+setLang("en");
+</script>
+</body>
+</html>
