@@ -1,0 +1,846 @@
+[
+  {
+    "zh": "你講得越流利,錯誤傳得越遠",
+    "en": "The more fluent you sound, the farther the error travels"
+  },
+  {
+    "zh": "<span class=\"ep-chip\">EPSS 3</span><br><strong>有意識地努力</strong>",
+    "en": "<span class=\"ep-chip\">EPSS 3</span><br><strong>Conscious effort</strong>"
+  },
+  {
+    "zh": "有了 N=1 經驗、沒有對照組—「感覺快多了」就在這一級誕生",
+    "en": "N=1, no control—this is where \"feels faster\" is born"
+  },
+  {
+    "zh": "建立最小量測三個數:<strong>首次命中率、誤觸發次數、每任務總輪次</strong>",
+    "en": "Track three numbers:<strong>first-hit rate, false triggers, turns per task</strong>"
+  },
+  {
+    "zh": "感覺不是數據,前後對照才是",
+    "en": "Feeling isn't data. Before/after is."
+  },
+  {
+    "zh": "技術對照版 · EPSS 3–5 · 主張層級與引用原則",
+    "en": "Technical counterpart · EPSS 3–5 · Claim level and citation rules"
+  },
+  {
+    "zh": "合成用戶用於POC 階段 · 低預算驗證迴路（一人設計創業）",
+    "en": "Synthetic users for POC · Low-budget validation loop (solo design startup)"
+  },
+  {
+    "zh": "輸入 · 語料",
+    "en": "Input · Corpus"
+  },
+  {
+    "zh": "有限個案積累 + MacWhisper 轉錄的訪談/放聲思考語料(去識別化,見 §08 資料邊界)。",
+    "en": "Finite case notes + MacWhisper transcripts of interviews/think-aloud (de-identified; see §08 data boundary)."
+  },
+  {
+    "zh": "<b>對應</b> · RAW SOURCES<br>immutable 原料進場",
+    "en": "<b>Maps to</b> · RAW SOURCES<br>immutable raw in"
+  },
+  {
+    "zh": "蒸餾 · 旅程 Prompt",
+    "en": "Distill · Journey prompt"
+  },
+  {
+    "zh": "把個案蒸餾成可執行的用戶旅程 prompt:角色、任務、情境限制、成功條件(T4 模板)。",
+    "en": "Distill cases into an executable journey prompt: role, task, constraints, success criteria (T4 template)."
+  },
+  {
+    "zh": "<b>對應</b> · INGEST → LLM Wiki<br>寫入 curated + schema",
+    "en": "<b>Maps to</b> · INGEST → LLM Wiki<br>Write curated + schema"
+  },
+  {
+    "zh": "demo 主線",
+    "en": "Demo spine"
+  },
+  {
+    "zh": "執行 · 瀏覽器扮演",
+    "en": "Run · Browser-as-user"
+  },
+  {
+    "zh": "<b>對應</b> · UX AGENTS ← QUERY<br>Red Team · Perplexity",
+    "en": "<b>Maps to</b> · UX AGENTS ← QUERY<br>Red Team · Perplexity"
+  },
+  {
+    "zh": "輸出 · 腳本自動化",
+    "en": "Output · Script automation"
+  },
+  {
+    "zh": "Google Apps Script 由紀錄導出問卷;AppleScript 生成 Keynote 給利害關係人。",
+    "en": "Google Apps Script exports surveys from logs; AppleScript builds Keynote for stakeholders."
+  },
+  {
+    "zh": "<b>對應</b> · 寫回 Wiki + 對外交付<br>log.md · 簡報",
+    "en": "<b>Maps to</b> · Write back to wiki + ship out<br>log.md · Deck"
+  },
+  {
+    "zh": "4.0 · 迴路對應 · Raw → Wiki → Agents",
+    "en": "4.0 · Loop mapping · Raw → Wiki → Agents"
+  },
+  {
+    "zh": "① 訪談／放聲思考",
+    "en": "① Interviews / think-aloud"
+  },
+  {
+    "zh": "個案積累筆記",
+    "en": "Case notes"
+  },
+  {
+    "zh": "產品規格／功能",
+    "en": "PRD / features"
+  },
+  {
+    "zh": "旅程 · 流程 · 頁面",
+    "en": "Journey · Flow · Pages"
+  },
+  {
+    "zh": "— ② 蒸餾後的可執行真相",
+    "en": "— ② Distilled executable truth"
+  },
+  {
+    "zh": "分類目錄",
+    "en": "Catalog"
+  },
+  {
+    "zh": "時序 · ④ 寫回",
+    "en": "Chronology · ④ Write-back"
+  },
+  {
+    "zh": "② 旅程 Prompt",
+    "en": "② Journey prompt"
+  },
+  {
+    "zh": "Design.md · tokens · 設計系統規則",
+    "en": "Design.md · tokens · Design-system rules"
+  },
+  {
+    "zh": "Agent 要讀的規矩：品牌、元件叫什麼、語氣怎麼說",
+    "en": "Rules the agent reads: brand, component names, voice"
+  },
+  {
+    "zh": "改這份規則，比一頁一頁改划算",
+    "en": "Change this file once; cheaper than page-by-page"
+  },
+  {
+    "zh": "tokens.md + tokens.json · 元件資料 → Figma",
+    "en": "tokens.md + tokens.json · Component data → Figma"
+  },
+  {
+    "zh": "↑ 先 lint／定期查 · ③ 開跑前對齊這層 ↑",
+    "en": "↑ Lint first / audit on a cadence · ③ Align this layer before you run ↑"
+  },
+  {
+    "zh": "CLAUDE DESIGN · 套 Design.md",
+    "en": "CLAUDE DESIGN · Apply Design.md"
+  },
+  {
+    "zh": "POC → Pilot 招募",
+    "en": "POC → Pilot recruiting"
+  },
+  {
+    "zh": "④ 寫回 log · 交付",
+    "en": "④ Write back log · Ship"
+  },
+  {
+    "zh": "① RAW → ② WIKI → ③ RED TEAM / BROWSER → ④ ORCH 寫回",
+    "en": "① RAW → ② WIKI → ③ RED TEAM / BROWSER → ④ ORCH write-back"
+  },
+  {
+    "zh": "四步 × 三欄 · 對照速查",
+    "en": "4 steps × 3 columns · Quick lookup"
+  },
+  {
+    "zh": "步",
+    "en": "Step"
+  },
+  {
+    "zh": "Demo 迴路",
+    "en": "Demo loop"
+  },
+  {
+    "zh": "架構欄",
+    "en": "Architecture column"
+  },
+  {
+    "zh": "現場要講清楚的一件事",
+    "en": "The one thing to say live"
+  },
+  {
+    "zh": "輸入 · MacWhisper",
+    "en": "Input · MacWhisper"
+  },
+  {
+    "zh": "語料去識別化後才進雲端；原料是錄音／個案／PRD／旅程，不是招募名單本身",
+    "en": "De-identify corpus before it hits the cloud; raw is audio / cases / PRD / journeys—not the recruit list"
+  },
+  {
+    "zh": "寫進 wiki 的是可執行 prompt + schema，不是聊天窗裡的一次性貼文",
+    "en": "Wiki gets executable prompt + schema, not a one-off paste from chat"
+  },
+  {
+    "zh": "腳本自動化",
+    "en": "Script automation"
+  },
+  {
+    "zh": "寫回 Wiki + 對外交付",
+    "en": "Write back to wiki + ship out"
+  },
+  {
+    "zh": "問卷／Keynote 有出處；行為紀錄回 <code>log.md</code>，否則下輪無交叉引用",
+    "en": "Surveys / Keynote have provenance; behavior logs go to <code>log.md</code>, or next round has no cross-ref"
+  },
+  {
+    "zh": "環節 · 工具",
+    "en": "Stage · Tool"
+  },
+  {
+    "zh": "做什麼",
+    "en": "What it does"
+  },
+  {
+    "zh": "動手門檻",
+    "en": "Hands-on bar"
+  },
+  {
+    "zh": "替代的預算項(決策層)",
+    "en": "Budget line it replaces (decision layer)"
+  },
+  {
+    "zh": "本機轉錄訪談與放聲思考錄音,語料不出機器",
+    "en": "Transcribe interviews/think-aloud locally; corpus never leaves the machine"
+  },
+  {
+    "zh": "EPSS 2 · 裝了就會",
+    "en": "EPSS 2 · Install and go"
+  },
+  {
+    "zh": "逐字稿外包費用",
+    "en": "Outsourced transcript fees"
+  },
+  {
+    "zh": "依旅程 prompt 扮演用戶跑螢幕操作／對抗檢查",
+    "en": "Play the user from the journey prompt: screen ops / adversarial checks"
+  },
+  {
+    "zh": "EPSS 3 · 照 T4 模板改",
+    "en": "EPSS 3 · Fill the T4 template"
+  },
+  {
+    "zh": "前期易用性外測 pilot 場次",
+    "en": "Early external usability-pilot sessions"
+  },
+  {
+    "zh": "讀 wiki／Design.md 產出可溝通 UI view（後段，非起點）",
+    "en": "Read wiki / Design.md; emit a shareable UI view (late stage, not the start)"
+  },
+  {
+    "zh": "EPSS 3 · 先有 substrate",
+    "en": "EPSS 3 · Substrate first"
+  },
+  {
+    "zh": "靜態 mock 外包／簡報視覺工時",
+    "en": "Outsourced static mocks / deck visual hours"
+  },
+  {
+    "zh": "從行為紀錄自動生成/導出問卷",
+    "en": "Auto-generate / export surveys from behavior logs"
+  },
+  {
+    "zh": "問卷工具訂閱 + 人工彙整工時",
+    "en": "Survey-tool subscription + manual collation hours"
+  },
+  {
+    "zh": "把迴路結果生成利害關係人簡報",
+    "en": "Turn loop results into a stakeholder deck"
+  },
+  {
+    "zh": "簡報製作工時",
+    "en": "Deck production hours"
+  },
+  {
+    "zh": "操作步驟 · 迴路前半 ①② 回家版",
+    "en": "How-to · Loop first half ①②, take-home"
+  },
+  {
+    "zh": "EPSS 2 → 3 · ③④ 屬 EPSS 4 外溢,講座只 Demo",
+    "en": "EPSS 2 → 3 · ③④ are EPSS 4 spillover; talk only demos them"
+  },
+  {
+    "zh": "打開 <code>T4 旅程 prompt 模板</code>,把「角色/任務/情境限制/成功條件」四個欄位換成你的個案內容—只改欄位,不動結構。",
+    "en": "Open <code>T4 journey prompt template</code>. Swap the four fields—role / task / constraints / success—with your case. Fields only; leave the structure."
+  },
+  {
+    "zh": "4.1 · 設計師日常產出×AI 結構化分層",
+    "en": "4.1 · Daily design artifacts × AI structure layers"
+  },
+  {
+    "zh": "純 Markdown · agent-native",
+    "en": "Markdown-only · agent-native"
+  },
+  {
+    "zh": "Markdown 基礎的 html 可視化",
+    "en": "Markdown-based html view"
+  },
+  {
+    "zh": "視覺/空間原生",
+    "en": "Visual / spatial native"
+  },
+  {
+    "zh": "完整甘特圖",
+    "en": "Full Gantt"
+  },
+  {
+    "zh": "S0<br>探索期",
+    "en": "S0<br>Explore"
+  },
+  {
+    "zh": "S1<br>研究期<br>POC 階段",
+    "en": "S1<br>Research<br>POC stage"
+  },
+  {
+    "zh": "S2<br>架構期",
+    "en": "S2<br>Architecture"
+  },
+  {
+    "zh": "S3<br>原型期",
+    "en": "S3<br>Prototype"
+  },
+  {
+    "zh": "S4<br>規格期",
+    "en": "S4<br>Spec"
+  },
+  {
+    "zh": "S5<br>驗收期",
+    "en": "S5<br>Validation"
+  },
+  {
+    "zh": "探索 — Discovery",
+    "en": "Discovery"
+  },
+  {
+    "zh": "<div class=\"act-name\">利害關係人地圖</div><span class=\"act-en\">STAKEHOLDER MAP</span>",
+    "en": "<div class=\"act-name\">Stakeholder map</div><span class=\"act-en\">STAKEHOLDER MAP</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">問題陳述</div><span class=\"act-en\">PROBLEM STATEMENT</span>",
+    "en": "<div class=\"act-name\">Problem statement</div><span class=\"act-en\">PROBLEM STATEMENT</span>"
+  },
+  {
+    "zh": "研究 — Research",
+    "en": "Research"
+  },
+  {
+    "zh": "<div class=\"act-name\">使用者訪談</div><span class=\"act-en\">USER INTERVIEWS</span>",
+    "en": "<div class=\"act-name\">User interviews</div><span class=\"act-en\">USER INTERVIEWS</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">使用者輪廓</div><span class=\"act-en\">PERSONA</span>",
+    "en": "<div class=\"act-name\">Persona</div><span class=\"act-en\">PERSONA</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">旅程地圖</div><span class=\"act-en\">JOURNEY MAP</span>",
+    "en": "<div class=\"act-name\">Journey map</div><span class=\"act-en\">JOURNEY MAP</span>"
+  },
+  {
+    "zh": "定義 — Definition",
+    "en": "Definition"
+  },
+  {
+    "zh": "<div class=\"act-name\">使用案例</div><span class=\"act-en\">USE CASES</span>",
+    "en": "<div class=\"act-name\">Use cases</div><span class=\"act-en\">USE CASES</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">設計情境</div><span class=\"act-en\">DESIGN SCENARIOS</span>",
+    "en": "<div class=\"act-name\">Design scenarios</div><span class=\"act-en\">DESIGN SCENARIOS</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">成功指標</div><span class=\"act-en\">SUCCESS METRICS</span>",
+    "en": "<div class=\"act-name\">Success metrics</div><span class=\"act-en\">SUCCESS METRICS</span>"
+  },
+  {
+    "zh": "架構 — Architecture",
+    "en": "Architecture"
+  },
+  {
+    "zh": "<div class=\"act-name\">模組清單</div><span class=\"act-en\">MODULE LIST</span>",
+    "en": "<div class=\"act-name\">Module list</div><span class=\"act-en\">MODULE LIST</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">頁面清單</div><span class=\"act-en\">PAGE LIST</span>",
+    "en": "<div class=\"act-name\">Page list</div><span class=\"act-en\">PAGE LIST</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">使用者流程</div><span class=\"act-en\">USER FLOW</span>",
+    "en": "<div class=\"act-name\">User flow</div><span class=\"act-en\">USER FLOW</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">導覽模型</div><span class=\"act-en\">NAVIGATION MODEL</span>",
+    "en": "<div class=\"act-name\">Navigation model</div><span class=\"act-en\">NAVIGATION MODEL</span>"
+  },
+  {
+    "zh": "設計 — Design",
+    "en": "Design"
+  },
+  {
+    "zh": "<div class=\"act-name\">線框稿</div><span class=\"act-en\">WIREFRAMES</span>",
+    "en": "<div class=\"act-name\">Wireframes</div><span class=\"act-en\">WIREFRAMES</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">視覺設計</div><span class=\"act-en\">VISUAL DESIGN</span>",
+    "en": "<div class=\"act-name\">Visual design</div><span class=\"act-en\">VISUAL DESIGN</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">原型</div><span class=\"act-en\">PROTOTYPE</span>",
+    "en": "<div class=\"act-name\">Prototype</div><span class=\"act-en\">PROTOTYPE</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">介面文案</div><span class=\"act-en\">MICROCOPY</span>",
+    "en": "<div class=\"act-name\">Microcopy</div><span class=\"act-en\">MICROCOPY</span>"
+  },
+  {
+    "zh": "規格 — Specification",
+    "en": "Specification"
+  },
+  {
+    "zh": "<div class=\"act-name\">互動規格</div><span class=\"act-en\">INTERACTION SPEC</span>",
+    "en": "<div class=\"act-name\">Interaction spec</div><span class=\"act-en\">INTERACTION SPEC</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">邊界案例矩陣</div><span class=\"act-en\">EDGE CASE MATRIX</span>",
+    "en": "<div class=\"act-name\">Edge case matrix</div><span class=\"act-en\">EDGE CASE MATRIX</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">驗收標準</div><span class=\"act-en\">ACCEPTANCE CRITERIA</span>",
+    "en": "<div class=\"act-name\">Acceptance criteria</div><span class=\"act-en\">ACCEPTANCE CRITERIA</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">狀態圖</div><span class=\"act-en\">STATE DIAGRAMS</span>",
+    "en": "<div class=\"act-name\">State diagrams</div><span class=\"act-en\">STATE DIAGRAMS</span>"
+  },
+  {
+    "zh": "驗收 — Validation",
+    "en": "Validation"
+  },
+  {
+    "zh": "<div class=\"act-name\">測試計畫</div><span class=\"act-en\">TEST PLAN</span>",
+    "en": "<div class=\"act-name\">Test plan</div><span class=\"act-en\">TEST PLAN</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">測試發現</div><span class=\"act-en\">TEST FINDINGS</span>",
+    "en": "<div class=\"act-name\">Test findings</div><span class=\"act-en\">TEST FINDINGS</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">無障礙稽核</div><span class=\"act-en\">A11Y AUDIT</span>",
+    "en": "<div class=\"act-name\">A11y audit</div><span class=\"act-en\">A11Y AUDIT</span>"
+  },
+  {
+    "zh": "系統 · 持續維護 — System",
+    "en": "System · Ongoing"
+  },
+  {
+    "zh": "<div class=\"act-name\">設計令牌</div><span class=\"act-en\">DESIGN TOKENS</span>",
+    "en": "<div class=\"act-name\">Design tokens</div><span class=\"act-en\">DESIGN TOKENS</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">元件文件</div><span class=\"act-en\">COMPONENT DOCS</span>",
+    "en": "<div class=\"act-name\">Component docs</div><span class=\"act-en\">COMPONENT DOCS</span>"
+  },
+  {
+    "zh": "<div class=\"act-name\">決策日誌</div><span class=\"act-en\">DECISION LOG</span>",
+    "en": "<div class=\"act-name\">Decision log</div><span class=\"act-en\">DECISION LOG</span>"
+  },
+  {
+    "zh": "蒸餾的邊界 · 知識歸屬與透明度",
+    "en": "Distill boundary · Knowledge ownership and transparency"
+  },
+  {
+    "zh": "蒸餾標的",
+    "en": "Distill target"
+  },
+  {
+    "zh": "In-house · 受僱",
+    "en": "In-house · Employed"
+  },
+  {
+    "zh": "接案 · Freelance",
+    "en": "Client work · Freelance"
+  },
+  {
+    "zh": "自有教材 · Own IP",
+    "en": "Own courseware · Own IP"
+  },
+  {
+    "zh": "可自由蒸餾",
+    "en": "Free to distill"
+  },
+  {
+    "zh": "可自由蒸餾(附正確出處)",
+    "en": "Free to distill (cite the source)"
+  },
+  {
+    "zh": "組織內可;離職帶走需授權",
+    "en": "OK in-org; taking it on exit needs a license"
+  },
+  {
+    "zh": "依合約,預設歸客戶;帶走需約定",
+    "en": "By contract, defaults to client; taking it needs a clause"
+  },
+  {
+    "zh": "未經改寫與去識別化不得入教材",
+    "en": "Stay out of teaching materials until rewritten and de-identified"
+  },
+  {
+    "zh": "禁入個人 corpus",
+    "en": "Ban from personal corpus"
+  },
+  {
+    "zh": "禁區",
+    "en": "Forbidden"
+  },
+  {
+    "zh": "視聘僱合約(工作時間產出條款)",
+    "en": "See employment contract (work-product clause)"
+  },
+  {
+    "zh": "屬於你;交付物另計",
+    "en": "Yours; deliverables counted separately"
+  },
+  {
+    "zh": "核心資產",
+    "en": "Core asset"
+  },
+  {
+    "zh": "AI 使用透明度揭露",
+    "en": "AI-use transparency disclosure"
+  },
+  {
+    "zh": "1 · 工具與版本",
+    "en": "1 · Tools and versions"
+  },
+  {
+    "zh": "2 · 資料流向",
+    "en": "2 · Data flow"
+  },
+  {
+    "zh": "哪些資料進入哪個模型;是否雲端處理;是否用於訓練;留存與刪除方式。",
+    "en": "What data enters which model; cloud or not; used for training; retention and deletion."
+  },
+  {
+    "zh": "3 · 產出比例與審核",
+    "en": "3 · Output mix and review"
+  },
+  {
+    "zh": "AI 生成/人工修訂的大致比例;最終人工審核者與審核範圍。",
+    "en": "Rough AI-generate / human-edit split; who did final review, and of what."
+  },
+  {
+    "zh": "4 · 蒸餾聲明",
+    "en": "4 · Distill statement"
+  },
+  {
+    "zh": "本案知識是否進入承接方之個人知識庫;範圍、去識別化方式與客戶同意紀錄。",
+    "en": "Did this project's knowledge enter the contractor's personal knowledge base; scope, de-identification, client consent on file."
+  },
+  {
+    "zh": "操作步驟 · 邊界標注三步",
+    "en": "How-to · Three steps to mark the boundary"
+  },
+  {
+    "zh": "EPSS 1 → 3 · 決策者可直接跳步驟 1 推行",
+    "en": "EPSS 1 → 3 · Decision-makers can skip to step 1 and ship it"
+  },
+  {
+    "zh": "下載揭露範本(D2),照四個欄位填一份<strong>你目前手上專案</strong>的版本。填不出來的欄位,就是你的治理盲點—這一步不需要任何工具能力。",
+    "en": "Download the disclosure template (D2). Fill all four fields for <strong>a project you have now</strong>. Blank fields are your governance blind spots—no tool skill required."
+  },
+  {
+    "zh": "誰為知識歸屬與透明度負責 · 組織 RACI",
+    "en": "Who is accountable for knowledge ownership and transparency · Org RACI"
+  },
+  {
+    "zh": "活動 · 知識歸屬／透明度",
+    "en": "Activity · Knowledge ownership / transparency"
+  },
+  {
+    "zh": "帶走什麼 · 從範本到制度化物件",
+    "en": "What you leave with · From template to institutional objects"
+  },
+  {
+    "zh": "編號",
+    "en": "ID"
+  },
+  {
+    "zh": "物件",
+    "en": "Object"
+  },
+  {
+    "zh": "誰用",
+    "en": "Who"
+  },
+  {
+    "zh": "何時生效",
+    "en": "When live"
+  },
+  {
+    "zh": "形式 · 對四欄的作用",
+    "en": "Form · What it does to the four fields"
+  },
+  {
+    "zh": "<strong>邊界矩陣</strong>(三種身份 × 蒸餾標的)",
+    "en": "<strong>Boundary matrix</strong> (3 identities × distill targets)"
+  },
+  {
+    "zh": "全員",
+    "en": "All"
+  },
+  {
+    "zh": "聽完當日",
+    "en": "Same day"
+  },
+  {
+    "zh": "決策牆／wiki 首頁—回答「能不能蒸餾」",
+    "en": "Decision wall / wiki home—answers \"can I distill this?\""
+  },
+  {
+    "zh": "<strong>揭露範本 v0.1</strong>(四欄可填)",
+    "en": "<strong>Disclosure template v0.1</strong> (four fillable fields)"
+  },
+  {
+    "zh": "決策者 · 執行者",
+    "en": "Decision-maker · Operator"
+  },
+  {
+    "zh": "當週",
+    "en": "This week"
+  },
+  {
+    "zh": "markdown／一頁紙—工具·資料·審核·蒸餾",
+    "en": "markdown / one-pager—tools · data · review · distill"
+  },
+  {
+    "zh": "<strong>本專案揭露聲明</strong>(填好的 D2 實例)",
+    "en": "<strong>This-project disclosure</strong> (filled D2 instance)"
+  },
+  {
+    "zh": "交付對方",
+    "en": "Hand to the other party"
+  },
+  {
+    "zh": "結案／發包節點",
+    "en": "Close-out / contracting gate"
+  },
+  {
+    "zh": "附在交付物—透明度可被審核",
+    "en": "Attach to deliverables—transparency is auditable"
+  },
+  {
+    "zh": "<code>distill:</code> frontmatter 欄位",
+    "en": "<code>distill:</code> frontmatter field"
+  },
+  {
+    "zh": "執行者",
+    "en": "Operator"
+  },
+  {
+    "zh": "下一條蒸餾起",
+    "en": "From the next distill on"
+  },
+  {
+    "zh": "wiki 模板—寫入時強制 ● ◐ ○",
+    "en": "wiki template—force ● ◐ ○ on write"
+  },
+  {
+    "zh": "<strong>發包／合約揭露條款</strong>",
+    "en": "<strong>Contracting / contract disclosure clause</strong>"
+  },
+  {
+    "zh": "決策者 · 客戶",
+    "en": "Decision-maker · Client"
+  },
+  {
+    "zh": "下一份合約",
+    "en": "Next contract"
+  },
+  {
+    "zh": "義務寫進紙—乙方必附 D3",
+    "en": "Obligation on paper—vendor must attach D3"
+  },
+  {
+    "zh": "<strong>組織問責表</strong>(§06 填名版)",
+    "en": "<strong>Org accountability sheet</strong> (§06 named version)"
+  },
+  {
+    "zh": "設計管理者",
+    "en": "Design manager"
+  },
+  {
+    "zh": "當週例會",
+    "en": "This week's meeting"
+  },
+  {
+    "zh": "RACI 人名—每列一個 A",
+    "en": "RACI names—one A per row"
+  },
+  {
+    "zh": "<strong>離職／結案帶走清單</strong>",
+    "en": "<strong>Exit / close-out takeaway list</strong>"
+  },
+  {
+    "zh": "管理者 · 本人",
+    "en": "Manager · Self"
+  },
+  {
+    "zh": "結案前",
+    "en": "Before close-out"
+  },
+  {
+    "zh": "對照矩陣第二列—灰帶必授權",
+    "en": "Matrix row 2—grey zone needs a license"
+  },
+  {
+    "zh": "<strong>機敏資料禁入規則</strong>(一句 SOP)",
+    "en": "<strong>Sensitive-data ban</strong> (one-line SOP)"
+  },
+  {
+    "zh": "全員 · 法務",
+    "en": "All · Legal"
+  },
+  {
+    "zh": "立即",
+    "en": "Now"
+  },
+  {
+    "zh": "紅線書面化—對四欄「資料流向」",
+    "en": "Red line in writing—binds the Data-flow field"
+  },
+  {
+    "zh": "操作步驟 · 制度化三步(接 §05)",
+    "en": "How-to · Three steps to institutionalize (follows §05)"
+  },
+  {
+    "zh": "EPSS 0 → 3 · 決策者可停在步驟 1–2",
+    "en": "EPSS 0 → 3 · Decision-makers can stop at steps 1–2"
+  },
+  {
+    "zh": "指定 §06 兩格 A(揭露推行、交付附聲明),並下載／複製 D2 範本進你們的範本庫。",
+    "en": "Name the two §06 A's (roll out disclosure; attach the statement on delivery). Copy D2 into your template library."
+  },
+  {
+    "zh": "下一份發包或內部交付,把「必附 D3」寫進檢核項或合約附件清單(D5)。",
+    "en": "On the next contract or internal handoff, put \"D3 required\" on the checklist or contract-annex list (D5)."
+  },
+  {
+    "zh": "執行端啟用 D4(<code>distill:</code>)與 D7(結案帶走)—讓邊界從「聽過矩陣」變成「寫入時擋得住」。",
+    "en": "Operators turn on D4 (<code>distill:</code>) and D7 (close-out takeaway)—boundary moves from \"heard the matrix\" to \"blocked on write\"."
+  },
+  {
+    "zh": "管理判斷補充 · 白話版 · EPSS 1–5 · 接 §05–§07",
+    "en": "Management-judgment add-on · Plain talk · EPSS 1–5 · Follows §05–§07"
+  },
+  {
+    "zh": "現場主講用 · 不必先會寫 prompt · 決策者可只聽判準與收斂",
+    "en": "For live delivery · No prompt-writing required · Decision-makers can listen only for criteria and convergence"
+  },
+  {
+    "zh": "7.1 · 同一功能 × 四種產品形態",
+    "en": "7.1 · Same feature × four product forms"
+  },
+  {
+    "zh": "白話版 · 四張卡片：長怎樣／卡在哪／跟 AI 必講什麼",
+    "en": "Plain talk · Four cards: how it looks / where you stall / what you must tell AI"
+  },
+  {
+    "zh": "原生 App",
+    "en": "Native app"
+  },
+  {
+    "zh": "畫面長這樣",
+    "en": "How the screen looks"
+  },
+  {
+    "zh": "像 iOS／Android 設定裡的子頁：一排開關、分組列表、單欄往下捲",
+    "en": "Like an iOS/Android Settings subpage: toggles, grouped lists, single column, scroll down"
+  },
+  {
+    "zh": "你會卡住的地方",
+    "en": "Where you'll stall"
+  },
+  {
+    "zh": "系統推播權限要先問過；螢幕很窄；按鈕要夠大才點得準（約拇指大小）",
+    "en": "Ask push permission first; screen is narrow; tap targets need thumb size"
+  },
+  {
+    "zh": "跟 AI 必講清楚",
+    "en": "What you must tell AI"
+  },
+  {
+    "zh": "這是 iOS 還是 Android、推播權限怎麼開、多台裝置要不要同步",
+    "en": "iOS or Android; how push permission opens; whether devices sync"
+  },
+  {
+    "zh": "響應式網站",
+    "en": "Responsive web"
+  },
+  {
+    "zh": "設定頁、郵件偏好中心；常靠 cookie／帳號記住你的選擇",
+    "en": "Settings page, email preference center; often cookie/account remembers choices"
+  },
+  {
+    "zh": "Chrome／Safari 行為不一；多半沒有真正的手機推播；手機／平板／桌面斷點長得不一樣",
+    "en": "Chrome/Safari diverge; usually no real mobile push; phone/tablet/desktop breakpoints look different"
+  },
+  {
+    "zh": "主要在哪幾個螢幕寬度看、用哪家寄信、退訂／個資要合規",
+    "en": "Which widths you design for; which mailer; unsubscribe / PII must comply"
+  },
+  {
+    "zh": "SaaS 後台",
+    "en": "SaaS admin"
+  },
+  {
+    "zh": "管理員設定 + 可覆寫到個人；大量勾選、表格操作",
+    "en": "Admin defaults + per-user override; bulk checkboxes, table ops"
+  },
+  {
+    "zh": "不同角色預設不同；客戶與客戶資料要隔離；誰改過什麼通常要留稽核紀錄",
+    "en": "Defaults differ by role; tenant data stays isolated; who changed what usually needs an audit log"
+  },
+  {
+    "zh": "有哪些角色、租戶邊界在哪、合規／稽核要記到什麼程度",
+    "en": "Which roles; where the tenant boundary sits; how deep compliance/audit must go"
+  },
+  {
+    "zh": "Copilot · 對話優先",
+    "en": "Copilot · Conversation-first"
+  },
+  {
+    "zh": "常常<strong>沒有</strong>傳統設定頁；用白話跟助手說「幫我關掉行銷通知」、靠聰明預設",
+    "en": "Often <strong>no</strong> settings page; tell the assistant \"turn off marketing notices\" and lean on smart defaults"
+  },
+  {
+    "zh": "沒有固定畫面可回看；對話記不住太久；它「以為記得」但其實不可靠",
+    "en": "No stable screen to revisit; chat forgets; it \"thinks it remembers\" and doesn't"
+  },
+  {
+    "zh": "對話要記哪些、什麼時候改回一般畫面操作、重要設定要不要再確認一次",
+    "en": "What chat must persist; when to fall back to a normal UI; whether critical settings need a confirm"
+  },
+  {
+    "zh": "7.2 · AI 多方案工作流 · 五步收斂",
+    "en": "7.2 · AI multi-option workflow · Five-step converge"
+  },
+  {
+    "zh": "抽出功能點",
+    "en": "Extract the feature"
+  },
+  {
+    "zh": "從需求文件拆出「可單獨驗證」的最小功能，拿掉華麗形容詞，留下可測的一句話。",
+    "en": "From the brief, split a smallest independently testable feature. Strip adjectives. Leave one testable sentence."
+  },
+  {
+    "zh": "<b>進去</b> · 需求段落<br><b>出來</b> · 一句功能描述",
+    "en": "<b>In</b> · Spec paragraph<br><b>Out</b> · One feature sentence"
+  }
+]

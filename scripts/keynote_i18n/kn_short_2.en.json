@@ -1,0 +1,842 @@
+[
+  {
+    "zh": "指定產品形態",
+    "en": "Pin the stack"
+  },
+  {
+    "zh": "明白告訴 AI：你在做上面四種的哪一種、主要在哪個螢幕看、有沒有既有設計規範／色票元件。",
+    "en": "Tell the model which of the four you are building, the primary viewport, and whether a design system / tokens already exist."
+  },
+  {
+    "zh": "<b>進去</b> · 功能 + 形態限制<br><b>出來</b> · 完整的提問上下文",
+    "en": "<b>IN</b> · feature + stack constraints<br><b>OUT</b> · full prompt context"
+  },
+  {
+    "zh": "一次生成多方案",
+    "en": "Fan out variants"
+  },
+  {
+    "zh": "要求 3–5 個變體，每個走不同路線：極簡／資訊很密／一步步揭露／聰明預設／預設開啟可退出。",
+    "en": "Ask for 3–5 variants on different bets: minimal / dense / progressive disclosure / smart defaults / opt-out."
+  },
+  {
+    "zh": "<b>進去</b> · 提問<br><b>出來</b> · N 個可比較原型",
+    "en": "<b>IN</b> · prompt<br><b>OUT</b> · N comparable prototypes"
+  },
+  {
+    "zh": "設計師主場",
+    "en": "Designer's call"
+  },
+  {
+    "zh": "用判準篩選",
+    "en": "Judge against criteria"
+  },
+  {
+    "zh": "不是「哪個比較漂亮」。對三組問題：① 合不合 UX 原則 ② 符不符合這種產品形態的習慣 ③ 跟設計系統一不一致。",
+    "en": "Not “which looks nicer.” Score three: ① UX principles ② idioms of this stack ③ design-system fit."
+  },
+  {
+    "zh": "<b>進去</b> · N 個方案<br><b>出來</b> · 選定方案 + 理由",
+    "en": "<b>IN</b> · N variants<br><b>OUT</b> · chosen variant + why"
+  },
+  {
+    "zh": "寫進決策日誌",
+    "en": "Log the decision"
+  },
+  {
+    "zh": "把「為什麼選 B 不選 A」寫進筆記／wiki。被否決的方案、否決理由、取捨都要留—這正是後面可蒸餾的知識。",
+    "en": "Write why B beat A into notes / wiki. Keep rejected options, rejection reasons, trade-offs—that is what you later distill."
+  },
+  {
+    "zh": "<b>進去</b> · 選定方案<br><b>出來</b> · 不可亂改的紀錄",
+    "en": "<b>IN</b> · chosen variant<br><b>OUT</b> · immutable record"
+  },
+  {
+    "zh": "7.3 · 四個常見誤區",
+    "en": "7.3 · Four recurring mistakes"
+  },
+  {
+    "zh": "POC 階段最容易翻車的，通常不是「AI 生得差」，而是<strong>你怎麼處置 AI 交出來的東西</strong>。下面四個，現場幾乎都會踩到一次。",
+    "en": "POC rarely fails because “AI generated badly.” It fails on <strong>what you do with the output</strong>. These four show up in almost every room."
+  },
+  {
+    "zh": "誤區",
+    "en": "Mistake"
+  },
+  {
+    "zh": "你會看到什麼",
+    "en": "What you see"
+  },
+  {
+    "zh": "怎麼改",
+    "en": "Fix"
+  },
+  {
+    "zh": "<strong>沒先講產品形態</strong>",
+    "en": "<strong>No stack up front</strong>"
+  },
+  {
+    "zh": "網頁樣式 + 手機手勢 + 後台表格拼在一起的「四不像」",
+    "en": "A chimera: web chrome + mobile gestures + admin tables taped together"
+  },
+  {
+    "zh": "開口第一句就寫：哪種產品、主要螢幕、有沒有設計規範",
+    "en": "First line of the prompt: which product, primary screen, design system or not"
+  },
+  {
+    "zh": "<strong>每個方案都覺得不錯</strong>",
+    "en": "<strong>Every variant looks fine</strong>"
+  },
+  {
+    "zh": "陷入「再生成一輪試試」，永遠選不下來",
+    "en": "Stuck in “generate one more round.” Nothing gets chosen."
+  },
+  {
+    "zh": "生成<strong>之前</strong>先寫好 3 條選案標準，再開生成",
+    "en": "Write 3 selection criteria <strong>before</strong> you generate"
+  },
+  {
+    "zh": "<strong>把多方案直接當交付</strong>",
+    "en": "<strong>Ship variants as the deliverable</strong>"
+  },
+  {
+    "zh": "整包丟進 Figma；工程師一做發現邏輯破洞，回頭重做",
+    "en": "Dump the lot into Figma; engineering finds logic holes and rebuilds"
+  },
+  {
+    "zh": "多方案只是材料；只挑 <strong>1 個</strong>進 Figma 微調，並把規格補完",
+    "en": "Variants are material. Pick <strong>1</strong> into Figma for polish, and finish the spec"
+  },
+  {
+    "zh": "<strong>不寫為什麼這樣選</strong>",
+    "en": "<strong>No written reason</strong>"
+  },
+  {
+    "zh": "三週後同樣決策重來一輪；新人問「為什麼」沒人答得出",
+    "en": "Three weeks later the same decision restarts. A new hire asks “why?” and nobody can answer."
+  },
+  {
+    "zh": "第 5 步是關卡：沒決策紀錄，不准開下一個功能",
+    "en": "Step 5 is a hard gate: no decision log, no next feature"
+  },
+  {
+    "zh": "7.4 · 收斂 · 跟「蒸餾的邊界」什麼關係",
+    "en": "7.4 · Close the loop · how this maps to distill boundaries"
+  },
+  {
+    "zh": "你剛做完的事",
+    "en": "What you just did"
+  },
+  {
+    "zh": "撞上邊界主題的哪一刀",
+    "en": "Which boundary cut it hits"
+  },
+  {
+    "zh": "落到哪個帶走物",
+    "en": "Which takeaway it lands on"
+  },
+  {
+    "zh": "同一功能指定產品形態；prompt 必帶形態約束",
+    "en": "Pin the stack per feature; prompts must carry stack constraints"
+  },
+  {
+    "zh": "寫進 corpus 的「形態慣例／限制」算誰的？客戶專案裡練出的棧知識，離職／結案能不能帶走？",
+    "en": "Who owns the “stack idioms / constraints” you wrote into the corpus? Stack knowledge from a client project: can you take it when you leave / close?"
+  },
+  {
+    "zh": "邊界矩陣 · <code>distill:</code> · 揭露「工具」欄",
+    "en": "Boundary matrix · <code>distill:</code> · disclosure “tools” column"
+  },
+  {
+    "zh": "多方案 → 判準篩選 → <strong>決策日誌</strong>",
+    "en": "Variants → criteria → <strong>decision log</strong>"
+  },
+  {
+    "zh": "真正被蒸餾的常常不是畫面，是「為什麼選 B 不選 A」。沒 log＝沒有可歸屬的知識；有 log 才問得了歸屬。",
+    "en": "What actually gets distilled is rarely the screen—it is “why B, not A.” No log = no attributable knowledge. A log is what makes ownership askable."
+  },
+  {
+    "zh": "D3／D4 · 揭露「審核／蒸餾」欄",
+    "en": "D3 / D4 · disclosure “review / distill” column"
+  },
+  {
+    "zh": "四個誤區：沒講形態、選不下來、當交付、不寫理由",
+    "en": "Four mistakes: no stack, no pick, ship as deliverable, no reason"
+  },
+  {
+    "zh": "全是<strong>透明度失敗模式</strong>—對內說不清來源與把關，對外更交不出揭露聲明。",
+    "en": "All <strong>transparency failure modes</strong>—internally you cannot name source or gate; externally you cannot file a disclosure."
+  },
+  {
+    "zh": "揭露範本四欄全中 · D5 發包義務",
+    "en": "Hits all four disclosure columns · D5 contracting duty"
+  },
+  {
+    "zh": "7.5 · 套進實際場景 · 兩種團隊配置",
+    "en": "7.5 · Into real rooms · two team configs"
+  },
+  {
+    "zh": "配置 A",
+    "en": "Config A"
+  },
+  {
+    "zh": "一人 Product Designer",
+    "en": "One Product Designer"
+  },
+  {
+    "zh": "核心角色",
+    "en": "Core roles"
+  },
+  {
+    "zh": "一人扛 <strong>research / IA / UI / interaction / 微文案</strong> 全部",
+    "en": "One person holds <strong>research / IA / UI / interaction / microcopy</strong>"
+  },
+  {
+    "zh": "就是你自己",
+    "en": "You"
+  },
+  {
+    "zh": "Wiki 切分",
+    "en": "Wiki split"
+  },
+  {
+    "zh": "Harness 壓力",
+    "en": "Harness pressure"
+  },
+  {
+    "zh": "<strong>低</strong>—一顆腦、一個 context、單一 voice",
+    "en": "<strong>Low</strong>—one brain, one context, one voice"
+  },
+  {
+    "zh": "失敗模式",
+    "en": "Failure mode"
+  },
+  {
+    "zh": "判斷力疲勞、scope creep、<em>context 全在腦袋裡</em>、休假回來自己也看不懂上週決策",
+    "en": "Judgment fatigue, scope creep, <em>all context in one head</em>, back from leave and last week’s decisions are unreadable"
+  },
+  {
+    "zh": "AI 角色",
+    "en": "Role of AI"
+  },
+  {
+    "zh": "<strong>force multiplier</strong>—5 倍速跑所有 role",
+    "en": "<strong>force multiplier</strong>—run every role at 5×"
+  },
+  {
+    "zh": "Schema 重點",
+    "en": "Schema focus"
+  },
+  {
+    "zh": "個人 voice + 簡 frontmatter；重點放 <code>decisions/</code> 權衡記錄",
+    "en": "Personal voice + light frontmatter; weight sits on trade-offs in <code>decisions/</code>"
+  },
+  {
+    "zh": "入門",
+    "en": "First step"
+  },
+  {
+    "zh": "<code>personal wiki</code> + Claude Code（1–2 週）",
+    "en": "<code>personal wiki</code> + Claude Code (1–2 weeks)"
+  },
+  {
+    "zh": "配置 B",
+    "en": "Config B"
+  },
+  {
+    "zh": "分工團隊",
+    "en": "Split team"
+  },
+  {
+    "zh": "亞洲 style · explicit role split",
+    "en": "Asia-style · explicit role split"
+  },
+  {
+    "zh": "<strong>PM Designer + UR + UI + Visual + 文案</strong>，職能獨立",
+    "en": "<strong>PM Designer + UR + UI + Visual + copy</strong>, each a separate function"
+  },
+  {
+    "zh": "Lead designer 或 design manager（不是 PM）",
+    "en": "Lead designer or design manager (not the PM)"
+  },
+  {
+    "zh": "<strong>高</strong>—多 agent 同時跑、context 互蓋、跨 role 決策衝突",
+    "en": "<strong>High</strong>—multiple agents at once, overlapping context, cross-role decision conflict"
+  },
+  {
+    "zh": "知識孤島、跨 role 衝突、<em>角色邊界戰</em>（誰改 design system？誰定 copy？）",
+    "en": "Knowledge islands, cross-role fights, <em>role-border wars</em> (who edits the design system? who owns copy?)"
+  },
+  {
+    "zh": "<strong>glue</strong>—補角色縫、做跨 role 一致性檢查",
+    "en": "<strong>glue</strong>—fill the seams, check consistency across roles"
+  },
+  {
+    "zh": "strict schema + <code>owner</code> + 跨 role 強制 link + conflict protocol",
+    "en": "strict schema + <code>owner</code> + mandatory cross-role links + conflict protocol"
+  },
+  {
+    "zh": "Cross-role schema workshop（1 週）+ shared decision log + Red Team agent",
+    "en": "Cross-role schema workshop (1 week) + shared decision log + Red Team agent"
+  },
+  {
+    "zh": "離場三題 · 邊界落到哪一種人生 × 哪一種配置",
+    "en": "Three exit questions · which life × which config the boundary lands on"
+  },
+  {
+    "zh": "三題",
+    "en": "Three questions"
+  },
+  {
+    "zh": "配置 A · 一人 PD",
+    "en": "Config A · solo PD"
+  },
+  {
+    "zh": "配置 B · 分工團隊",
+    "en": "Config B · split team"
+  },
+  {
+    "zh": "1 · 個人",
+    "en": "1 · Personal"
+  },
+  {
+    "zh": "2 · 組織",
+    "en": "2 · Org"
+  },
+  {
+    "zh": "3 · 創業實務",
+    "en": "3 · Startup practice"
+  },
+  {
+    "zh": "講座怎麼成立",
+    "en": "How this talk holds"
+  },
+  {
+    "zh": "前面 §03–§07 是內容主張；§08 不重講內容，只回答一個問題：<strong>這場 90 分鐘靠什麼不垮？</strong>三件事，缺一個就翻車。",
+    "en": "§03–§07 are the claims. §08 does not rehash them. One question: <strong>what keeps this 90 minutes from collapsing?</strong> Three pieces. Drop one and it fails."
+  },
+  {
+    "zh": "每段都帶走東西",
+    "en": "Every section leaves a takeaway"
+  },
+  {
+    "zh": "§03 帳本 · §04 POC · §05–§07 邊界",
+    "en": "§03 ledger · §04 POC · §05–§07 boundary"
+  },
+  {
+    "zh": "Demo 先錄好",
+    "en": "Pre-record the demo"
+  },
+  {
+    "zh": "用了就揭露",
+    "en": "Disclose what you used"
+  },
+  {
+    "zh": "§05 揭露範本 · D2→D3",
+    "en": "§05 disclosure template · D2→D3"
+  },
+  {
+    "zh": "— M2→M3 · 為何是「UX 文件 → UI」不是「截圖 → UI」",
+    "en": "— M2→M3 · why “UX spec → UI,” not “screenshot → UI”"
+  },
+  {
+    "zh": "有人問「那 Screenshot→Figma／Design＋Build 呢？」",
+    "en": "Someone asks “what about Screenshot→Figma / Design＋Build?”"
+  },
+  {
+    "zh": "寫文件 → 看長怎樣 → 畫面 → 測行為 → 可跑 → 揭露（M3）",
+    "en": "Write spec → look at refs → screens → test behavior → runnable → disclose (M3)"
+  },
+  {
+    "zh": "① UX 文件<span>起點 · EPSS 1–2 也寫得出</span>",
+    "en": "① UX spec<span>start here · EPSS 1–2 can write this</span>"
+  },
+  {
+    "zh": "要做哪些頁（page）<span>例：登入／班級列表／複核頁／匯出</span>",
+    "en": "Which pages (page)<span>e.g. login / class list / review / export</span>"
+  },
+  {
+    "zh": "哪些模組（module）<span>例：OCR 比對／評分規則／覆核</span>",
+    "en": "Which modules (module)<span>e.g. OCR match / scoring rules / review</span>"
+  },
+  {
+    "zh": "使用者怎麼走（flow）<span>例：先看異常題→對照原圖→改分→送出</span>",
+    "en": "How users move (flow)<span>e.g. flag → original image → rescore → submit</span>"
+  },
+  {
+    "zh": "誰交接給誰<span>例：老師改完→寫回 log→組長審核</span>",
+    "en": "Who hands off to whom<span>e.g. teacher edits → write log → lead reviews</span>"
+  },
+  {
+    "zh": "② 參考素材<span>並排 · 不是起點</span>",
+    "en": "② Reference material<span>side-by-side · not the start</span>"
+  },
+  {
+    "zh": "Mobbin 截圖<span>例：看 Classroom 怎麼列作業</span>",
+    "en": "Mobbin screenshots<span>e.g. how Classroom lists assignments</span>"
+  },
+  {
+    "zh": "模板<span>例：套一個後台表格版型</span>",
+    "en": "Template<span>e.g. drop in an admin table layout</span>"
+  },
+  {
+    "zh": "一句 Prompt<span>例：「設計閱卷複核頁」</span>",
+    "en": "One-line prompt<span>e.g. “design a grading-review page”</span>"
+  },
+  {
+    "zh": "③ Design 道<span>出畫面 · 沒有資料</span>",
+    "en": "③ Design lane<span>screens · no data</span>"
+  },
+  {
+    "zh": "畫面 · 變體 · 可點的原型<span>例：3 個版面並排，按鈕能點但沒存到 DB</span>",
+    "en": "Screens · variants · clickable prototype<span>e.g. 3 layouts side by side; buttons click, nothing hits the DB</span>"
+  },
+  {
+    "zh": "④ POC + Red Team<span>測行為 · Design 出完才進場</span>",
+    "en": "④ POC + Red Team<span>test behavior · only after Design ships screens</span>"
+  },
+  {
+    "zh": "蒸餾旅程 prompt",
+    "en": "Distill the journey prompt"
+  },
+  {
+    "zh": "Browser-as-User 跑旅程<span>例：Perplexity 扮老師跑「看異常→改分→送出」</span>",
+    "en": "Browser-as-User runs the journey<span>e.g. Perplexity as teacher: flag → rescore → submit</span>"
+  },
+  {
+    "zh": "卡點寫回 log",
+    "en": "Write blockers back to the log"
+  },
+  {
+    "zh": "⑤ Build 道<span>可跑 · 仍要審核</span>",
+    "en": "⑤ Build lane<span>runnable · still needs review</span>"
+  },
+  {
+    "zh": "接資料 · 登入 · 付款<span>例：老師登入→分數寫進 DB→組長看得到</span>",
+    "en": "Wire data · login · pay<span>e.g. teacher logs in → scores hit DB → lead can see them</span>"
+  },
+  {
+    "zh": "禁區<span>別這樣做</span>",
+    "en": "Forbidden<span>don't</span>"
+  },
+  {
+    "zh": "← 跳過文件直接開畫布<span>例：只打「設計閱卷複核頁」→AI 自己發明頁／模組／流程</span>",
+    "en": "← Skip the spec, open the canvas<span>e.g. only “design a grading-review page” → AI invents pages / modules / flows</span>"
+  },
+  {
+    "zh": "← 畫面一鍵反解成設計規範<span>例：把生成的色票匯出成 tokens→下次直接套→幻覺變真相</span>",
+    "en": "← One-click reverse-engineer screens into a design system<span>e.g. export generated swatches as tokens → reuse next time → hallucination becomes truth</span>"
+  },
+  {
+    "zh": "<i></i>① 文件是起點 · 截圖只是並排參考",
+    "en": "<i></i>① Spec is the start · screenshots are side-by-side refs"
+  },
+  {
+    "zh": "<i class=\"coord\"></i>② 參考素材照用 · ④ POC+Red Team 測行為形狀",
+    "en": "<i class=\"coord\"></i>② Use refs as refs · ④ POC+Red Team tests behavior shape"
+  },
+  {
+    "zh": "<i></i>③ Design＝畫面 · ⑤ Build＝可跑",
+    "en": "<i></i>③ Design＝screens · ⑤ Build＝runnable"
+  },
+  {
+    "zh": "<i class=\"forbid\"></i>禁 · 跳過文件開畫布 · 畫面反解充當系統",
+    "en": "<i class=\"forbid\"></i>Ban · skip spec, open canvas · reverse-engineer screens as the system"
+  },
+  {
+    "zh": "白話對照 · 每列到底在講什麼（同一案例：AI 閱卷複核頁）",
+    "en": "Plain-language map · what each row actually means (same case: AI grading-review page)"
+  },
+  {
+    "zh": "列",
+    "en": "Row"
+  },
+  {
+    "zh": "白話",
+    "en": "In plain terms"
+  },
+  {
+    "zh": "案例裡具體長怎樣",
+    "en": "What it looks like in the case"
+  },
+  {
+    "zh": "常見誤解",
+    "en": "Common misread"
+  },
+  {
+    "zh": "<strong>① UX 文件</strong>",
+    "en": "<strong>① UX spec</strong>"
+  },
+  {
+    "zh": "動手畫之前，先把「要做什麼」寫成文字。不用漂亮，能讀就行。",
+    "en": "Write “what we’re building” before you draw. Ugly is fine. Readable is enough."
+  },
+  {
+    "zh": "寫一行：「頁：登入／班級列表／複核頁／匯出。模組：OCR 比對、評分規則、覆核。流程：先看異常題→對照原圖→改分→送出→組長審核。」",
+    "en": "One line: “Pages: login / class list / review / export. Modules: OCR match, scoring rules, review. Flow: flag → original image → rescore → submit → lead reviews.”"
+  },
+  {
+    "zh": "「文件太慢，先畫畫看」—結果 AI 自己發明頁跟流程",
+    "en": "“Spec is slow—just sketch first”—AI invents the pages and the flow"
+  },
+  {
+    "zh": "<strong>② 參考素材</strong>",
+    "en": "<strong>② Reference material</strong>"
+  },
+  {
+    "zh": "看別人怎麼做的，找靈感。可以截圖、套模板、打一句 Prompt。但這些是<strong>參考</strong>，不是你家的決策。",
+    "en": "Look at how others did it. Screenshots, templates, a one-line prompt are fine. They are <strong>refs</strong>, not your call."
+  },
+  {
+    "zh": "Mobbin 查 Classroom 怎麼列作業；套一個後台表格版型；打「設計閱卷複核頁」讓 AI 出三個方向。",
+    "en": "Mobbin: how Classroom lists assignments. Drop in an admin table. Prompt “design a grading-review page” for three directions."
+  },
+  {
+    "zh": "「截圖抄過來就是我們的設計系統」—抄到的是長相，不是判斷",
+    "en": "“Paste the screenshot, that’s our design system”—you copied looks, not judgment"
+  },
+  {
+    "zh": "<strong>③ Design 道</strong>",
+    "en": "<strong>③ Design lane</strong>"
+  },
+  {
+    "zh": "把文件裡的判斷畫成畫面。按鈕能點，但按了不會真的存資料。",
+    "en": "Draw the spec’s judgments as screens. Buttons click. Nothing actually saves."
+  },
+  {
+    "zh": "3 個版面並排：左 OCR 原圖、中學生作答、右 AI 分數。按「改分」跳視窗，但分數沒進 DB。",
+    "en": "3 layouts side by side: OCR original | student answer | AI score. “Rescore” opens a modal. Score never hits the DB."
+  },
+  {
+    "zh": "「畫面能點＝做完了」—能點跟能跑是兩件事",
+    "en": "“Clickable = done”—clickable ≠ runnable"
+  },
+  {
+    "zh": "Design 出完畫面後進場。讓 AI 扮演使用者跑一遍旅程，測「行為形狀」對不對—不是測真實動機。",
+    "en": "Enter after Design ships screens. AI plays the user through the journey. Test behavior shape, not real motive."
+  },
+  {
+    "zh": "Perplexity 扮老師跑「看異常題→對照原圖→改分→送出」；卡在哪、哪步猜錯，寫回 log。測完才決定要不要進 Build。",
+    "en": "Perplexity as teacher: flag → original image → rescore → submit. Where it stalls, where it guesses wrong, write back to the log. Then decide whether to enter Build."
+  },
+  {
+    "zh": "「POC 通過＝用戶研究」—heuristic 驗證≠用戶研究，對外必依 §05 揭露",
+    "en": "“POC pass = user research”—heuristic check ≠ research. Disclose under §05."
+  },
+  {
+    "zh": "<strong>⑤ Build 道</strong>",
+    "en": "<strong>⑤ Build lane</strong>"
+  },
+  {
+    "zh": "把畫面接上真的資料、登入、付款。這一步才算產品，而且要審核。",
+    "en": "Wire screens to real data, login, pay. This is the product. It still needs review."
+  },
+  {
+    "zh": "老師用學校帳號登入→改完分數寫進 DB→送出後組長看得到→匯出 Excel。",
+    "en": "Teacher logs in with school account → rescore hits DB → lead can see it after submit → export Excel."
+  },
+  {
+    "zh": "「Design 畫完就交付」—沒接資料的畫面，工程師還是從頭做",
+    "en": "“Design screens = ship”—unwired screens, engineering still starts from scratch"
+  },
+  {
+    "zh": "<strong>禁區 A</strong>",
+    "en": "<strong>Forbidden A</strong>"
+  },
+  {
+    "zh": "跳過 ① 直接開 ③。AI 把沒寫的頁／模組／流程用幻覺補完。",
+    "en": "Skip ①, open ③. AI hallucinates the missing pages / modules / flows."
+  },
+  {
+    "zh": "只打「設計閱卷複核頁」→AI 自己發明「家長端」「付費解鎖」「AI 自動評語」這些你沒要的東西。",
+    "en": "Prompt only “design a grading-review page” → AI invents “parent app,” “paywall,” “AI auto-comments” you never asked for."
+  },
+  {
+    "zh": "「生成出來的看起來很完整」—完整是假的，是 AI 猜的",
+    "en": "“The output looks complete”—complete is fake. AI guessed."
+  },
+  {
+    "zh": "<strong>禁區 B</strong>",
+    "en": "<strong>Forbidden B</strong>"
+  },
+  {
+    "zh": "把 ③ 的畫面一鍵反解成設計規範，下次生成直接套。等於把 AI 幻覺洗成真相。",
+    "en": "One-click reverse-engineer ③ screens into a design system, reuse next generation. Hallucination laundered into truth."
+  },
+  {
+    "zh": "把生成的色票／圓角匯出成 tokens→下次所有頁都套這組→第 10 頁跟第 1 頁各長一套，因為當初沒有語意只有數字。",
+    "en": "Export generated swatches / radii as tokens → every later page uses them → page 10 and page 1 look like two systems, because you had numbers, not meaning."
+  },
+  {
+    "zh": "「我們已經有設計系統了」—有的是一鍵匯出的色票，不是系統",
+    "en": "“We already have a design system”—you have one-click swatches, not a system"
+  },
+  {
+    "zh": "名詞速查",
+    "en": "Glossary"
+  },
+  {
+    "zh": "共通",
+    "en": "Shared"
+  },
+  {
+    "zh": "名詞",
+    "en": "Term"
+  },
+  {
+    "zh": "一句話",
+    "en": "In one line"
+  },
+  {
+    "zh": "<code>EPSS 熟練度</code>",
+    "en": "<code>EPSS proficiency</code>"
+  },
+  {
+    "zh": "0–6「你會到哪」。對號入座與 T1 用 §01 行為自查表,不要只看定義往高的靠",
+    "en": "0–6: where you actually sit. Place yourself and T1 with the §01 behavior checklist—don’t inflate from the definition."
+  },
+  {
+    "zh": "每段都帶走東西 · Demo 先錄好 · 用了就揭露—回應不同工作流的三件事，不是講座的自我介紹",
+    "en": "Every section leaves a takeaway · pre-record the demo · disclose what you used—three answers to different workflows, not the talk’s bio"
+  },
+  {
+    "zh": "<code>UX 文件</code>",
+    "en": "<code>UX spec</code>"
+  },
+  {
+    "zh": "動手畫之前先寫成的文字：要做哪些頁、哪些模組、使用者怎麼走、誰交接給誰。講座主線的起點，不是參考",
+    "en": "Text written before you draw: pages, modules, user path, handoffs. The talk’s start line, not a reference."
+  },
+  {
+    "zh": "Minimum Viable Product；剛好能驗證假設的最小可跑產品。Design＋Build 工具加速的是這個，不是跳過審核的藉口",
+    "en": "Minimum Viable Product: the smallest runnable product that tests the hypothesis. Design＋Build speeds this up. It is not an excuse to skip review."
+  },
+  {
+    "zh": "§03 · Token 帳本",
+    "en": "§03 · Token ledger"
+  },
+  {
+    "zh": "計費最小單位／你塞進模型的背景；塞錯層次又貴又差，所以是預算問題",
+    "en": "Smallest billed unit / the context you stuff into the model. Wrong layer = expensive and worse. That’s a budget problem."
+  },
+  {
+    "zh": "貼上 → 附檔／Project → Skill 調用 → Skill+程式；成本斷點常在 <strong>S1→S2</strong>",
+    "en": "Paste → attach / Project → Skill call → Skill+code. Cost cliff is usually <strong>S1→S2</strong>"
+  },
+  {
+    "zh": "<code>重貼 · 重造 · 整塞</code>",
+    "en": "<code>re-paste · rebuild · dump-all</code>"
+  },
+  {
+    "zh": "三個立即可砍的成本項；對治＝substrate+view／預設 skills+delta／分層壓縮",
+    "en": "Three costs you can cut now. Counter: substrate+view / default skills+delta / layered compression"
+  },
+  {
+    "zh": "<code>漸進揭露 / 誤觸發</code>",
+    "en": "<code>progressive disclosure / false trigger</code>"
+  },
+  {
+    "zh": "先宣告 skill 存在，真用才載全文；叫錯一次，全文照樣計費",
+    "en": "Announce the skill exists; load the full text only on real use. One false call still bills the whole file."
+  },
+  {
+    "zh": "<code>機制 / 效果 · 自評 vs 量測</code>",
+    "en": "<code>mechanism / effect · self-rate vs measure</code>"
+  },
+  {
+    "zh": "怎麼運作看官方；省多少自己量。採購不接受「我覺得比較快」當導入依據",
+    "en": "How it works: vendor docs. How much you save: measure it. Procurement will not take “feels faster” as an adoption case."
+  },
+  {
+    "zh": "<code>Skill · 問答 / Code / Design</code>",
+    "en": "<code>Skill · Ask / Code / Design</code>"
+  },
+  {
+    "zh": "同一套能力三端長得不同；Design＝畫布／POC 後段，常經 <code>/design-sync</code> 對接 Code—不要空白畫布起手",
+    "en": "Same capability, three surfaces. Design = canvas / late POC, often via <code>/design-sync</code> into Code—don’t start from a blank canvas."
+  },
+  {
+    "zh": "UX 文件的三個基本件：要做哪些頁、哪些功能模組、使用者怎麼走。缺定義 AI 就用幻覺補",
+    "en": "Three primitives of a UX spec: pages, modules, how users move. Missing defs, AI hallucinates the rest."
+  },
+  {
+    "zh": "<code>Agent 協作流程</code>",
+    "en": "<code>Agent collaboration flow</code>"
+  },
+  {
+    "zh": "人與人、人與 agent、agent 與 agent 之間誰先動、讀什麼、寫回哪、失敗怎麼接手。不會出現在 UI 幀上，卻決定產品能不能跑",
+    "en": "Who moves first, what they read, where they write back, how failure is handed off—human↔human, human↔agent, agent↔agent. Never on a UI frame. Decides whether the product runs."
+  },
+  {
+    "zh": "<code>IA（資訊架構）</code>",
+    "en": "<code>IA (information architecture)</code>"
+  },
+  {
+    "zh": "內容怎麼分、頁面怎麼排、使用者找東西的路徑。跟 page／module 一起寫進文件，不是畫完才補",
+    "en": "How content is grouped, how pages are ordered, how users find things. Write it with page / module. Don’t patch it after you draw."
+  },
+  {
+    "zh": "wiki 裡資料的結構約定（欄位名、型態、關聯）。agent 靠它讀寫；沒 schema 的 wiki 只是筆記",
+    "en": "Structure contract for wiki data (field names, types, relations). The agent reads/writes against it. A wiki with no schema is just notes."
+  },
+  {
+    "zh": "Replit Design 功能：看著你現在的畫面主動建議下一步變體，不必每次重打 Prompt。增選項，不增決策",
+    "en": "Replit Design: watches the current screen and suggests next variants. No re-prompt. Adds options, not decisions."
+  },
+  {
+    "zh": "真實產品畫面／flow 資料庫（&gt;60 萬筆）。用途是找靈感、寫進證據層，不是抽成自家 tokens",
+    "en": "Real product screens / flow corpus (&gt;600k). Use it for inspiration and as evidence. Don’t extract it into your own tokens."
+  },
+  {
+    "zh": "Claude／Genspark／Replit 把「畫完一鍵變 App／code」縮短成一條路。Design＝視覺原型，Build＝接資料／登入／付款才可跑",
+    "en": "Claude / Genspark / Replit collapse “draw then one-click App / code” into one path. Design = visual prototype. Build = data / login / pay, then it’s runnable."
+  },
+  {
+    "zh": "<code>反解禁令</code>",
+    "en": "<code>No reverse-engineer</code>"
+  },
+  {
+    "zh": "禁止把生成的 frame 一鍵反解成 Design.md／tokens 充當設計系統—那等於把 AI 幻覺洗成真相源",
+    "en": "Do not one-click reverse-engineer a generated frame into Design.md / tokens as a design system—that launders AI hallucination into a source of truth."
+  },
+  {
+    "zh": "§04 · 合成用戶",
+    "en": "§04 · Synthetic user"
+  },
+  {
+    "zh": "<code>合成用戶</code>",
+    "en": "<code>Synthetic user</code>"
+  },
+  {
+    "zh": "用 AI 扮演使用者跑旅程，測行為的形狀。不是真實動機，替代不了用戶研究，對外必依 §05 揭露來源",
+    "en": "AI plays the user through a journey. Tests behavior shape, not real motive. Does not replace research. Disclose source under §05."
+  },
+  {
+    "zh": "Proof of Concept；用合成用戶驗「流程走得通嗎」的階段。在 Design 出完畫面後、Build 之前進場",
+    "en": "Proof of Concept: synthetic-user stage that checks “does the flow even walk.” After Design ships screens, before Build."
+  },
+  {
+    "zh": "POC 通過後招募真人用戶的小規模試驗。Research Agent 負責招募（screener／名單意圖）",
+    "en": "Small live trial with real users after POC. Research Agent owns recruiting (screener / list intent)."
+  },
+  {
+    "zh": "<code>heuristic 驗證</code>",
+    "en": "<code>heuristic check</code>"
+  },
+  {
+    "zh": "合成用戶迴路的性質：測的是「行為形狀對不對」，不是真實動機。≠用戶研究",
+    "en": "Nature of the synthetic-user loop: tests “is the behavior shape right,” not real motive. ≠ user research"
+  },
+  {
+    "zh": "<code>四步迴路</code>",
+    "en": "<code>Four-step loop</code>"
+  },
+  {
+    "zh": "原料不可亂改 → LLM Wiki（可執行真相）→ 專責 agents；你是 <strong>Orchestrator</strong>",
+    "en": "Raw material is immutable → LLM Wiki (executable truth) → specialist agents; you are <strong>Orchestrator</strong>"
+  },
+  {
+    "zh": "＝ Browser-as-User（<strong>Perplexity</strong>）；讀 wiki 後對抗跑旅程—demo 主線",
+    "en": "= Browser-as-User (<strong>Perplexity</strong>); read the wiki, then run the journey adversarially—demo spine"
+  },
+  {
+    "zh": "你在迴路裡的角色：編排原料→wiki→agents，寫回 log。不是旁觀者，也不是讓 agent 自己跑",
+    "en": "Your role in the loop: orchestrate raw → wiki → agents, write back to the log. Not a spectator. Not “let the agent run.”"
+  },
+  {
+    "zh": "<code>T4（模板）</code>",
+    "en": "<code>T4 (template)</code>"
+  },
+  {
+    "zh": "旅程 prompt 的四欄結構：角色／任務／情境限制／成功條件。只改欄位不動結構",
+    "en": "Four-column journey prompt: role / task / situational constraints / success criteria. Change fields, not the structure."
+  },
+  {
+    "zh": "Claude Design <strong>套 Design.md</strong>（＋tokens／system）；後段出 UI，不是從空白畫布發明判斷",
+    "en": "Claude Design <strong>applies Design.md</strong> (+tokens / system); UI comes late. It does not invent judgment from a blank canvas."
+  },
+  {
+    "zh": "負責 <strong>POC → Pilot 招募</strong>（screener／名單意圖），不是左欄 RAW 原料格",
+    "en": "Owns <strong>POC → Pilot recruiting</strong> (screener / list intent), not the left-column RAW slot"
+  },
+  {
+    "zh": "28 文件裡約 86% markdown 主導（A+B）、14% Figma 原生（C）。合成用戶迴路前置吃 A＋B",
+    "en": "Of 28 file types, ~86% markdown-led (A+B), 14% Figma-native (C). The synthetic-user loop eats A+B up front."
+  },
+  {
+    "zh": "給 agent 讀的約束：品牌／元件名／語氣。真相源在 md／json，不只在 Figma；別從生成 frame 一鍵反解充當系統",
+    "en": "Constraints agents read: brand / component names / tone. Source of truth is md / json, not only Figma. Do not reverse-engineer a generated frame into a system."
+  },
+  {
+    "zh": "§05–§07 · 蒸餾的邊界",
+    "en": "§05–§07 · Distill boundary"
+  },
+  {
+    "zh": "<code>蒸餾</code>",
+    "en": "<code>Distill</code>"
+  },
+  {
+    "zh": "把判斷濃縮進 wiki／prompt corpus；原料歸誰＝邊界問題",
+    "en": "Compress judgment into wiki / prompt corpus; who owns the raw material = the boundary question"
+  },
+  {
+    "zh": "<code>邊界矩陣</code>",
+    "en": "<code>Boundary matrix</code>"
+  },
+  {
+    "zh": "依身份（受僱／接案／自有教材）標 ●可自由／◐需授權／○禁區—D1",
+    "en": "By identity (employed / freelance / own teaching materials) mark ● free / ◐ licensed / ○ forbidden—D1"
+  },
+  {
+    "zh": "<code>揭露聲明</code>",
+    "en": "<code>Disclosure statement</code>"
+  },
+  {
+    "zh": "四欄：工具·資料流向·審核·蒸餾聲明。範本＝D2；填好的實例＝D3",
+    "en": "Four columns: tools · data flow · review · distill statement. Template = D2; filled instance = D3"
+  },
+  {
+    "zh": "frontmatter：<code>free | licensed | forbidden</code>—蒸餾時強制標來源身份（D4）",
+    "en": "frontmatter: <code>free | licensed | forbidden</code>—mandatory source-identity mark at distill time (D4)"
+  },
+  {
+    "zh": "<code>RACI · 每列一 A</code>",
+    "en": "<code>RACI · one A per row</code>"
+  },
+  {
+    "zh": "§06 組織問責；決策者先指定兩格 A：範本推行、交付附聲明（D6）",
+    "en": "§06 org accountability. The decision-maker first assigns two A cells: roll out the template, attach disclosure on delivery (D6)"
+  },
+  {
+    "zh": "矩陣·範本·聲明·distill·合約條款·問責表·帶走清單·禁入規則。當週最小集＝D2＋D5＋D6",
+    "en": "Matrix · template · statement · distill · contract clause · accountability table · takeaway list · no-entry rules. This-week minimum set = D2+D5+D6"
+  },
+  {
+    "zh": "<code>7.1–7.3 / 決策日誌</code>",
+    "en": "<code>7.1–7.3 / decision log</code>"
+  },
+  {
+    "zh": "形態約束→多方案→判準→寫 log。沒 log，揭露第四欄沒有「被蒸餾的判斷」可聲明",
+    "en": "Stack constraints → variants → criteria → write the log. No log, disclosure column 4 has no “distilled judgment” to declare"
+  },
+  {
+    "zh": "<code>離場三題</code>",
+    "en": "<code>Three exit questions</code>"
+  },
+  {
+    "zh": "個人作品集與 AI 協作揭露 · 組織共享與著作權利 · 創業 POC 的法律灰區—須套進配置 A／B 才算落地",
+    "en": "Personal portfolio and AI-collab disclosure · org sharing and copyright · legal grey of startup POC—only lands when mapped onto Config A / B"
+  },
+  {
+    "zh": "<code>配置 A / B</code>",
+    "en": "<code>Config A / B</code>"
+  },
+  {
+    "zh": "軍事隱喻：AI 不是替代你，是放大你的判斷。正因放大，更要標清哪些是你選的、哪些是模型生成",
+    "en": "Military metaphor: AI does not replace you. It amplifies your judgment. Precisely because it amplifies, mark what you chose vs what the model generated."
+  },
+  {
+    "zh": "<code>Design 道 / Build 道</code>",
+    "en": "<code>Design lane / Build lane</code>"
+  }
+]

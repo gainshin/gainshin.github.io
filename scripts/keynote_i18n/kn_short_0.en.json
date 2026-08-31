@@ -1,0 +1,846 @@
+[
+  {
+    "zh": "講座講綱 — AI/UX 實務流 · H+M Token · 合成用戶用於POC · 知識蒸餾邊界",
+    "en": "Talk Outline — AI/UX Practice Flow · H+M Token · Synthetic Users for POC · Distill Boundary"
+  },
+  {
+    "zh": "開場 · 誰來聽 · 三題",
+    "en": "Hero · Who's here · Three questions"
+  },
+  {
+    "zh": "Token 帳本 · Design 後段",
+    "en": "Token Ledger · Design Last"
+  },
+  {
+    "zh": "合成用戶 · POC",
+    "en": "Synthetic User · POC"
+  },
+  {
+    "zh": "蒸餾邊界 · 誰負責",
+    "en": "Distill Boundary · Who owns it"
+  },
+  {
+    "zh": "這場靠什麼 · 詞表",
+    "en": "How it holds · Glossary"
+  },
+  {
+    "zh": "講座講綱",
+    "en": "Talk Outline"
+  },
+  {
+    "zh": "<span>版權所有 · PRIVACYUX CONSULTING LTD., 2026</span>",
+    "en": "<span>© PRIVACYUX CONSULTING LTD., 2026</span>"
+  },
+  {
+    "zh": "熟練度等級",
+    "en": "Proficiency level"
+  },
+  {
+    "zh": "能力描述",
+    "en": "What it looks like"
+  },
+  {
+    "zh": "<strong>0.完全不會</strong>",
+    "en": "<strong>0. Can't</strong>"
+  },
+  {
+    "zh": "完全不懂、初學者、小白",
+    "en": "No idea. Beginner."
+  },
+  {
+    "zh": "<strong>1.略懂</strong>",
+    "en": "<strong>1. Some awareness</strong>"
+  },
+  {
+    "zh": "了解定義，但無法清楚跟他人解釋",
+    "en": "Knows the term, can't explain it to anyone"
+  },
+  {
+    "zh": "<strong>2.能解釋</strong>",
+    "en": "<strong>2. Can explain</strong>"
+  },
+  {
+    "zh": "可以清楚跟他人解釋，但無法動手做",
+    "en": "Can explain it clearly, can't do it"
+  },
+  {
+    "zh": "<strong>3.有意識地努力</strong>",
+    "en": "<strong>3. Conscious effort</strong>"
+  },
+  {
+    "zh": "可參考步驟動手執行，但是會犯錯",
+    "en": "Follows steps, still errs"
+  },
+  {
+    "zh": "<strong>4.有意識地完成</strong>",
+    "en": "<strong>4. Conscious competence</strong>"
+  },
+  {
+    "zh": "可參考步驟動手執行，可自行排除問題",
+    "en": "Follows steps, self-debugs"
+  },
+  {
+    "zh": "<strong>5.精通</strong>",
+    "en": "<strong>5. Fluent</strong>"
+  },
+  {
+    "zh": "不需回想步驟，能舉一反三或自創方法",
+    "en": "No recall needed; transfers or invents methods"
+  },
+  {
+    "zh": "<strong>6.潛意識能力</strong>",
+    "en": "<strong>6. Automatic</strong>"
+  },
+  {
+    "zh": "不知不覺就執行完成，直覺反應",
+    "en": "Done without thinking. Instinct."
+  },
+  {
+    "zh": "Talk at a Glance · 一頁概覽",
+    "en": "Talk at a Glance · One-page overview"
+  },
+  {
+    "zh": "受眾與 EPSS 對位",
+    "en": "Audience × EPSS map"
+  },
+  {
+    "zh": "T1 題幹用這張 · 投影片附錄第一張同一張表 · 由上往下第一個「是」就是你",
+    "en": "T1 stem uses this table · Same as slide appendix 1 · First “yes” from the top is you"
+  },
+  {
+    "zh": "等級",
+    "en": "Level"
+  },
+  {
+    "zh": "你現在會這樣做",
+    "en": "What you do now"
+  },
+  {
+    "zh": "這場帶走",
+    "en": "Takeaway"
+  },
+  {
+    "zh": "<strong>0 完全不會</strong>",
+    "en": "<strong>0 Can't</strong>"
+  },
+  {
+    "zh": "打開檔案、全選、貼進對話。不知道還能怎麼做。",
+    "en": "Open file, select all, paste into chat. No other move."
+  },
+  {
+    "zh": "聽懂「附檔不重貼」",
+    "en": "Get “attach, don't re-paste”"
+  },
+  {
+    "zh": "<strong>1 略懂</strong>",
+    "en": "<strong>1 Some awareness</strong>"
+  },
+  {
+    "zh": "聽過不要重貼,講不清為什麼貴,也講不清給同事聽。",
+    "en": "Heard “don't re-paste”; can't say why it's expensive, can't brief a colleague."
+  },
+  {
+    "zh": "三個成本項的定義:重貼、重造、整塞",
+    "en": "Three cost items: re-paste, re-teach, dump-all"
+  },
+  {
+    "zh": "<strong>2 能解釋</strong>",
+    "en": "<strong>2 Can explain</strong>"
+  },
+  {
+    "zh": "能講 S0 vs S1、三個成本項;自己動手還是貼。",
+    "en": "Can say S0 vs S1 and the three cost items; still pastes when doing it."
+  },
+  {
+    "zh": "決策層範本:揭露四欄、兩格 A",
+    "en": "Decision-layer template: disclosure four columns, two cells A"
+  },
+  {
+    "zh": "<strong>3 有意識地努力</strong>",
+    "en": "<strong>3 Conscious effort</strong>"
+  },
+  {
+    "zh": "照步驟建文字檔、改 T4 四欄;會忘附檔、會犯錯。",
+    "en": "Follows steps: build a text file, edit T4's four columns; forgets the attach, still errs."
+  },
+  {
+    "zh": "S0→S1、T4 四欄、挑 5 條標 ●◐○",
+    "en": "S0→S1, T4 four columns, pick 5 and mark ●◐○"
+  },
+  {
+    "zh": "<strong>4+ 有意識地完成</strong>",
+    "en": "<strong>4+ Conscious competence</strong>"
+  },
+  {
+    "zh": "自己排錯、寫可被叫出來的範本、跑瀏覽器 agent。",
+    "en": "Self-debugs, writes callable templates, runs a browser agent."
+  },
+  {
+    "zh": "只 Demo,不在帶走物裡",
+    "en": "Demo only, not in the takeaway"
+  },
+  {
+    "zh": "5–6 不在本場範圍,T1 選項停在 4+。感覺跟碼錶不一致時,以行為為準。",
+    "en": "5–6 out of scope; T1 stops at 4+. When gut and stopwatch disagree, go by the behavior."
+  },
+  {
+    "zh": "— EPSS 熟練度對位 · 社群主體 0–3 · 決策者軌 0–2",
+    "en": "— EPSS map · Community core 0–3 · Decision-maker track 0–2"
+  },
+  {
+    "zh": "資源決策者（推廣階段期望新帶入的設計管理者/AI PM族群）多落在此段 · 握預算 · 不動手",
+    "en": "Budget holders (design managers / AI PMs we want in at the promo stage) mostly sit here · Own the budget · Don't do the work"
+  },
+  {
+    "zh": "完全不會",
+    "en": "Can't"
+  },
+  {
+    "zh": "略懂",
+    "en": "Some awareness"
+  },
+  {
+    "zh": "了解定義，無法清楚解釋",
+    "en": "Knows the term, can't explain it"
+  },
+  {
+    "zh": "能解釋",
+    "en": "Can explain"
+  },
+  {
+    "zh": "能解釋，無法動手做",
+    "en": "Can explain, can't do"
+  },
+  {
+    "zh": "有意識地努力",
+    "en": "Conscious effort"
+  },
+  {
+    "zh": "照步驟做，會犯錯",
+    "en": "Follows steps, still errs"
+  },
+  {
+    "zh": "有意識地完成",
+    "en": "Conscious competence"
+  },
+  {
+    "zh": "照步驟做，可自行排錯",
+    "en": "Follows steps, self-debugs"
+  },
+  {
+    "zh": "精通",
+    "en": "Fluent"
+  },
+  {
+    "zh": "舉一反三或自創方法",
+    "en": "Transfers or invents methods"
+  },
+  {
+    "zh": "潛意識能力",
+    "en": "Automatic"
+  },
+  {
+    "zh": "不知不覺完成，直覺反應",
+    "en": "Done on instinct"
+  },
+  {
+    "zh": "三題:帳本 → 用戶 → 邊界",
+    "en": "Three questions: ledger → user → boundary"
+  },
+  {
+    "zh": "一份給 AI 讀的文字檔 ＋ 一份給人看的畫面。Design＋Build 是後段，不是起點。",
+    "en": "One text file for AI + one screen for humans. Design＋Build is later, not the start."
+  },
+  {
+    "zh": "EPSS 1→3 · 無人掉隊",
+    "en": "EPSS 1→3 · Nobody left behind"
+  },
+  {
+    "zh": "→ §03 帳本",
+    "en": "→ §03 Ledger"
+  },
+  {
+    "zh": "低預算（一人設計創業）的 POC 驗證迴路：語料 → 旅程 prompt → Browser-as-User（Perplexity）→ 腳本寫回 wiki。",
+    "en": "Low-budget (solo design shop) POC loop: corpus → journey prompt → Browser-as-User (Perplexity) → script writes back to wiki."
+  },
+  {
+    "zh": "EPSS 2→4 · Demo 敘事",
+    "en": "EPSS 2→4 · Demo narrative"
+  },
+  {
+    "zh": "三段：矩陣＋揭露範本(§05) → 組織誰問責(§06) → 制度化物件 D1–D8(§07)。零技術門檻。",
+    "en": "Three beats: matrix + disclosure template (§05) → who is accountable (§06) → institutional objects D1–D8 (§07). Zero tech bar."
+  },
+  {
+    "zh": "→ §05–§07 邊界",
+    "en": "→ §05–§07 Boundary"
+  },
+  {
+    "zh": "Token 帳本 · Context 的 ROI 設計",
+    "en": "Token ledger · ROI of context"
+  },
+  {
+    "zh": "時間花在哪:問答＋Code 才是主場",
+    "en": "Where time goes: Chat + Code are the main stage"
+  },
+  {
+    "zh": "時間 →",
+    "en": "Time →"
+  },
+  {
+    "zh": "Claude 問答<span>CHAT · 深工時</span>",
+    "en": "Claude Chat<span>CHAT · Deep hours</span>"
+  },
+  {
+    "zh": "探索 · 改稿 · 決策寫回",
+    "en": "Explore · Revise · Write decisions back"
+  },
+  {
+    "zh": "下一輪迭代",
+    "en": "Next iteration"
+  },
+  {
+    "zh": "Claude Code<span>CODE · 深工時</span>",
+    "en": "Claude Code<span>CODE · Deep hours</span>"
+  },
+  {
+    "zh": "實作 · 改檔 · 除錯",
+    "en": "Build · Edit files · Debug"
+  },
+  {
+    "zh": "接續實作",
+    "en": "Keep building"
+  },
+  {
+    "zh": "Claude Desktop<span>DESKTOP · 協調</span>",
+    "en": "Claude Desktop<span>DESKTOP · Coord</span>"
+  },
+  {
+    "zh": "對齊",
+    "en": "Align"
+  },
+  {
+    "zh": "轉交 / 排程",
+    "en": "Handoff / schedule"
+  },
+  {
+    "zh": "收斂",
+    "en": "Converge"
+  },
+  {
+    "zh": "<i></i>深工時 · 問答 / Code 佔大多數時間",
+    "en": "<i></i>Deep hours · Chat / Code take most of the time"
+  },
+  {
+    "zh": "<i class=\"coord\"></i>協調節點 · Desktop 短、頻、為了對齊而非長做",
+    "en": "<i class=\"coord\"></i>Coord nodes · Desktop is short, frequent, for alignment—not long work"
+  },
+  {
+    "zh": "同一套 Design 能力在<strong>問答／Code／Design</strong>三端叫法不同—對照見下方 3.2。",
+    "en": "The same Design capability has different names on <strong>Chat／Code／Design</strong>—see 3.2 below."
+  },
+  {
+    "zh": "3.1 · Claude 操作階段:上下文怎麼進來",
+    "en": "3.1 · Claude stages: how context enters"
+  },
+  {
+    "zh": "白話版 · 現場主講用 · EPSS 0 起皆可讀 · 情境:共用一個 Claude 帳號",
+    "en": "Plain talk · Live delivery · Readable from EPSS 0 · Scene: one shared Claude account"
+  },
+  {
+    "zh": "階段",
+    "en": "Stage"
+  },
+  {
+    "zh": "你在共用帳號裡實際做的事",
+    "en": "What you actually do in the shared account"
+  },
+  {
+    "zh": "小團隊現場會長這樣",
+    "en": "How a small team looks live"
+  },
+  {
+    "zh": "症狀 → 升級訊號",
+    "en": "Symptom → upgrade signal"
+  },
+  {
+    "zh": "打開檔案 → 全選 → 複製 → 貼進對話框。下一位同事再來一遍",
+    "en": "Open file → select all → copy → paste into chat. Next colleague does it again"
+  },
+  {
+    "zh": "三位同事輪流登入<strong>同一個帳號</strong>,各自把同一份 brief 貼進新對話—像同一份稿印三份塞進同一個抽屜,改了誰也不知道哪份才算數",
+    "en": "Three people take turns on <strong>one account</strong>, each pasting the same brief into a new chat—like printing the same draft three times into one drawer. After edits, nobody knows which copy counts"
+  },
+  {
+    "zh": "你已經記得那段文字長什麼樣子,因為貼太多次<br><strong>→ 同一份材料(或同一帳號裡)貼第三次就升級</strong>",
+    "en": "You already know what that text looks like—you've pasted it too many times<br><strong>→ Upgrade on the third paste of the same material (or in the same account)</strong>"
+  },
+  {
+    "zh": "把檔案附上(或放進 Project),對話中直接說「看那份的第三節」,不再貼內容",
+    "en": "Attach the file (or drop it in Project). In chat, say “see section 3 of that file”—don't paste the body"
+  },
+  {
+    "zh": "有人問「我上次那份 spec 呢」,然後在對話紀錄裡翻半天<br><strong>→ 同一套判斷在三個專案重複就升級</strong>",
+    "en": "Someone asks “where's that spec from last time?” then digs through chat history<br><strong>→ Upgrade when the same judgment repeats across three projects</strong>"
+  },
+  {
+    "zh": "把重複的判斷寫成一份檔案放著;平常不附,AI 只看得到它的<strong>標題與用途</strong>,需要時才打開內容",
+    "en": "Park repeated judgment in a file; don't attach it by default. AI only sees the <strong>title and purpose</strong>, and opens the body when needed"
+  },
+  {
+    "zh": "團隊共用的檢查清單做成 skill(例如無障礙檢查)—不用每次開會重講一遍規則,要用才叫出來",
+    "en": "Team checklists become a skill (e.g. a11y review)—don't re-brief the rules every meeting; call it when you need it"
+  },
+  {
+    "zh": "你在不同專案重複解釋同一套標準<br><strong>→ 流程需要跑腳本或產出檔案就升級</strong>",
+    "en": "You re-explain the same standard across projects<br><strong>→ Upgrade when the flow must run a script or emit a file</strong>"
+  },
+  {
+    "zh": "不把內容搬進對話,讓 AI 直接讀那個檔案、並產出新檔案",
+    "en": "Don't haul content into chat. Let AI read the file and emit a new file"
+  },
+  {
+    "zh": "用 Claude Code 直接讀專案檔、交出新檔—大檔不必再貼進共用帳號的對話裡把 context 洗爆",
+    "en": "Use Claude Code to read project files and emit new ones—big files never paste into the shared-account chat and blow the context"
+  },
+  {
+    "zh": "你需要 AI 讀一個大到貼不進來的檔案,或要它直接交出檔案<br><strong>→ 已屬課程 C4 範圍,講座只點到</strong>",
+    "en": "You need AI to read a file too big to paste, or to emit a file directly<br><strong>→ That's course C4; this talk only flags it</strong>"
+  },
+  {
+    "zh": "技術對照版 · EPSS 3–5 · 同一件事的機制版本",
+    "en": "Technical map · EPSS 3–5 · Same moves, mechanism version"
+  },
+  {
+    "zh": "上下文怎麼進來",
+    "en": "How context enters"
+  },
+  {
+    "zh": "Token 行為",
+    "en": "Token behavior"
+  },
+  {
+    "zh": "什麼時候該升級",
+    "en": "When to upgrade"
+  },
+  {
+    "zh": "每輪把 spec、截圖、規範貼進對話",
+    "en": "Each turn, paste spec, screenshots, and guidelines into chat"
+  },
+  {
+    "zh": "全額重複計費;輪次越多、單價越貴,且長 context 中段指令易被稀釋",
+    "en": "Full-price re-billing every turn; more turns, higher unit cost; mid-context instructions get diluted"
+  },
+  {
+    "zh": "同一份材料貼第三次",
+    "en": "Third paste of the same material"
+  },
+  {
+    "zh": "markdown＋html 成對附檔,對話中<strong>引用不重貼</strong>;agent 同時讀兩者",
+    "en": "Paired markdown＋html attachments; in chat, <strong>cite, don't re-paste</strong>; the agent reads both"
+  },
+  {
+    "zh": "一次載入、整理 schema、多輪重用;<strong>何時附、附什麼由你人工決定</strong>",
+    "en": "Load once, tidy the schema, reuse across turns; <strong>you decide when to attach, and what</strong>"
+  },
+  {
+    "zh": "同一套判斷跨專案重複",
+    "en": "Same judgment repeats across projects"
+  },
+  {
+    "zh": "流程需要跑腳本或產出檔案",
+    "en": "The flow must run a script or emit a file"
+  },
+  {
+    "zh": "agent 以程式讀寫檔案,大檔不必整份進 context",
+    "en": "The agent reads/writes files in code; big files never enter context whole"
+  },
+  {
+    "zh": "檔案內容不全額吃進 context;成本從「讀多少」轉為「跑幾次」",
+    "en": "File body is not billed into context in full; cost shifts from “how much you read” to “how many runs”"
+  },
+  {
+    "zh": "已屬課程 C4 harness 範圍,講座只點到",
+    "en": "That's course C4 harness; this talk only flags it"
+  },
+  {
+    "zh": "3.2 · 官方建議與實作出入",
+    "en": "3.2 · Official advice vs. what actually happens"
+  },
+  {
+    "zh": "白話版 · 現場主講用 · 問答 · Code · Design",
+    "en": "Plain talk · Live delivery · Chat · Code · Design"
+  },
+  {
+    "zh": "Claude 問答 · Project／知識庫",
+    "en": "Claude Chat · Project／knowledge base"
+  },
+  {
+    "zh": "Claude Code · <code>/de</code> 指令選單",
+    "en": "Claude Code · <code>/de</code> command menu"
+  },
+  {
+    "zh": "Claude Design · 畫布／POC",
+    "en": "Claude Design · Canvas／POC"
+  },
+  {
+    "zh": "差異點",
+    "en": "Difference"
+  },
+  {
+    "zh": "Claude 問答",
+    "en": "Claude Chat"
+  },
+  {
+    "zh": "<strong>技能長怎樣</strong>",
+    "en": "<strong>How the skill looks</strong>"
+  },
+  {
+    "zh": "知識庫／Project 裡的<strong>檔名清單</strong>(Design 目錄)",
+    "en": "A <strong>filename list</strong> in the knowledge base／Project (Design folder)"
+  },
+  {
+    "zh": "對話框 <code>/</code> <strong>指令自動完成</strong>",
+    "en": "Chat box <code>/</code> <strong>command autocomplete</strong>"
+  },
+  {
+    "zh": "<strong>畫布＋專案</strong>;品牌資產／design system 匯入後當預設約束,驅動多變體 POC html",
+    "en": "<strong>Canvas + project</strong>; import brand assets／design system as default constraints, drive multi-variant POC html"
+  },
+  {
+    "zh": "<strong>你怎麼叫它</strong>",
+    "en": "<strong>How you call it</strong>"
+  },
+  {
+    "zh": "對話點名、附檔、或賭自動觸發",
+    "en": "Name it in chat, attach the file, or bet on auto-trigger"
+  },
+  {
+    "zh": "在 Design 裡出變體 view;必要時從 Code 同步系統—動效用視覺強度<strong>注記</strong>,不靠口頭「華麗一點」",
+    "en": "Ship variant views in Design; sync the system from Code when needed—<strong>annotate</strong> motion by visual intensity, don't say “make it fancier”"
+  },
+  {
+    "zh": "<strong>選錯代價</strong>",
+    "en": "<strong>Cost of the wrong pick</strong>"
+  },
+  {
+    "zh": "跑錯範本、COT 被帶歪;共用帳號下整隊跟著錯",
+    "en": "Wrong template runs, COT goes off-track; on a shared account the whole team follows"
+  },
+  {
+    "zh": "命名空間打架選錯列,<strong>多付一輪 L2 tokens</strong>",
+    "en": "Namespace clash, wrong row; <strong>you pay an extra L2 tokens round</strong>"
+  },
+  {
+    "zh": "無系統→模板臉變體;動效無注記→前端猜;與 Code 脫鉤→handoff 變截圖重做",
+    "en": "No system → template-face variants; motion unannotated → frontend guesses; decoupled from Code → handoff becomes screenshot-rebuild"
+  },
+  {
+    "zh": "<strong>現場怎麼教</strong>",
+    "en": "<strong>How we teach it live</strong>"
+  },
+  {
+    "zh": "「打開 Design 清單,點你要的那份」—EPSS 2–3",
+    "en": "“Open the Design list, pick the one you want”—EPSS 2–3"
+  },
+  {
+    "zh": "下面三條是接續的出入總表,每一條都能在<strong>共用帳號的對話混亂</strong>與上方問答／Code 截圖、Design 產品定位裡對上號。",
+    "en": "The next three rows continue the gap table. Each maps onto <strong>shared-account chat chaos</strong> and the Chat／Code screenshots plus Design product stance above."
+  },
+  {
+    "zh": "白話版 · 現場主講用 · EPSS 0 起皆可讀",
+    "en": "Plain talk · Live delivery · Readable from EPSS 0"
+  },
+  {
+    "zh": "你以為會這樣",
+    "en": "You think it works like this"
+  },
+  {
+    "zh": "實際上會這樣(你熟悉的版本)",
+    "en": "What actually happens (the version you know)"
+  },
+  {
+    "zh": "怎麼辦",
+    "en": "What to do"
+  },
+  {
+    "zh": "它會<strong>自己知道</strong>該用哪份範本",
+    "en": "It will <strong>just know</strong> which template to use"
+  },
+  {
+    "zh": "常常猜錯,或根本沒想到要用。<strong>像收件匣的自動分類規則—你設好了,信還是常常沒進到你要的那個資料夾</strong>",
+    "en": "It often guesses wrong, or never thinks to use one. <strong>Like inbox rules—you set them, mail still misses the folder you wanted</strong>"
+  },
+  {
+    "zh": "重要的時候<strong>自己點名</strong>,別賭它會自己想到",
+    "en": "When it matters, <strong>name it yourself</strong>. Don't bet it will think of it"
+  },
+  {
+    "zh": "每份範本<strong>名字清楚、各就各位</strong>",
+    "en": "Each template has a <strong>clear name, in its place</strong>"
+  },
+  {
+    "zh": "同類名字擠在一起,連你自己都會選錯。<strong>就像 Drive 裡有五份「設計規範_最終版」,你打開的常常是錯的那份</strong>",
+    "en": "Similar names pile up; even you pick the wrong one. <strong>Like five files named “design-spec_FINAL” in Drive—you open the wrong one</strong>"
+  },
+  {
+    "zh": "自己做的東西<strong>統一加前綴</strong>,一眼認得出哪個是你的",
+    "en": "<strong>Prefix your own stuff</strong> so you can spot it at a glance"
+  },
+  {
+    "zh": "多裝一點沒差,<strong>反正用不到就不會動</strong>",
+    "en": "Install more, no harm—<strong>unused ones just sit there</strong>"
+  },
+  {
+    "zh": "用不到的也要付錢養,更麻煩的是選項變多、它更容易挑錯。<strong>像桌面上放五十個捷徑,找東西反而變慢</strong>",
+    "en": "You still pay to keep unused ones. Worse: more options, more wrong picks. <strong>Like fifty shortcuts on the desktop—finding anything gets slower</strong>"
+  },
+  {
+    "zh": "<strong>定期清掉沒在用的</strong>;清單越短,挑錯越少",
+    "en": "<strong>Cull unused ones on a cadence</strong>; shorter list, fewer wrong picks"
+  },
+  {
+    "zh": "技術對照版 · EPSS 3–5 · 完整五項與機制說明",
+    "en": "Technical map · EPSS 3–5 · Full five items + mechanisms"
+  },
+  {
+    "zh": "官方建議",
+    "en": "Official advice"
+  },
+  {
+    "zh": "實作觀察",
+    "en": "What we see in practice"
+  },
+  {
+    "zh": "講座對策",
+    "en": "Talk counter"
+  },
+  {
+    "zh": "description 匹配到請求就會<strong>自動觸發</strong> skill",
+    "en": "A matching description <strong>auto-triggers</strong> the skill"
+  },
+  {
+    "zh": "同一句話有時觸發、有時不觸發;實務上大家最後都退回用 <code>/</code> 顯式呼叫",
+    "en": "The same sentence sometimes fires, sometimes doesn't; in practice everyone falls back to an explicit <code>/</code> call"
+  },
+  {
+    "zh": "把自動觸發當<strong>「可能觸發」</strong>:關鍵步驟一律顯式呼叫,並在步驟卡明寫",
+    "en": "Treat auto-trigger as <strong>“might fire”</strong>: explicit call on every critical step, written on the step card"
+  },
+  {
+    "zh": "L1 很便宜,所以可以同時具備很多 skill",
+    "en": "L1 is cheap, so you can keep many skills loaded"
+  },
+  {
+    "zh": "裝了 plugin 就<strong>整組常駐,清單不由你選</strong>;而真正的支出發生在誤觸發的 L2",
+    "en": "Install a plugin and the <strong>whole set stays resident—you don't pick the list</strong>; the real spend is L2 misfires"
+  },
+  {
+    "zh": "省 token 的注意力從 L1 移到 <strong>L2 誤觸發</strong>;定期清掉不用的 plugin",
+    "en": "Move token attention from L1 to <strong>L2 misfires</strong>; cull unused plugins on a cadence"
+  },
+  {
+    "zh": "description 要同時寫清楚「做什麼」與「何時用」",
+    "en": "description must state both “what it does” and “when to use it”"
+  },
+  {
+    "zh": "設計師照人類目錄直覺命名(critique / review / audit 邊界不清),模型分不出來就誤觸發",
+    "en": "Designers name by human-folder instinct (critique / review / audit blur); the model can't tell them apart and misfires"
+  },
+  {
+    "zh": "<strong>description 是寫給模型的觸發條件,不是寫給自己的目錄</strong>",
+    "en": "<strong>description is a trigger condition for the model, not a folder label for you</strong>"
+  },
+  {
+    "zh": "積極使用漸進揭露:只有偶爾需要的內容放參考檔",
+    "en": "Use progressive disclosure hard: rarely needed content goes in reference files"
+  },
+  {
+    "zh": "實務上把整份 guideline 塞進 SKILL.md 本體,每次觸發全額載入,漸進揭露形同失效",
+    "en": "In practice the whole guideline gets stuffed into the SKILL.md body, full-load on every trigger; progressive disclosure is dead"
+  },
+  {
+    "zh": "本體只留<strong>判斷流程</strong>;清單、範例、模板一律移到參考檔",
+    "en": "Keep only the <strong>judgment flow</strong> in the body; lists, examples, templates go to reference files"
+  },
+  {
+    "zh": "3.3 · 三個立即可砍的成本項",
+    "en": "3.3 · Three cost items you can cut today"
+  },
+  {
+    "zh": "你在做的事",
+    "en": "What you're doing"
+  },
+  {
+    "zh": "為什麼貴",
+    "en": "Why it's expensive"
+  },
+  {
+    "zh": "改成這樣",
+    "en": "Do this instead"
+  },
+  {
+    "zh": "<strong>① 每次重貼</strong>",
+    "en": "<strong>① Re-paste every time</strong>"
+  },
+  {
+    "zh": "同一份東西,你<strong>付了十次錢</strong>—就像同一份文件印十次發給同一個人",
+    "en": "Same file, you <strong>paid ten times</strong>—like printing the same doc ten times for the same person"
+  },
+  {
+    "zh": "檔案<strong>附一次</strong>,之後只說「看那份的第三節」",
+    "en": "<strong>Attach once</strong>, then say “see section 3 of that file”"
+  },
+  {
+    "zh": "<strong>② 教它已經會的</strong>",
+    "en": "<strong>② Teach it what it already knows</strong>"
+  },
+  {
+    "zh": "你整理了一份通用設計規範餵給它,<strong>但那些它本來就會</strong>—等於花錢請人上一堂他早就會的課",
+    "en": "You compiled generic design guidelines and fed them in—<strong>it already knows that</strong>. Like paying someone to sit a class they already passed"
+  },
+  {
+    "zh": "只寫<strong>你們家跟別人不一樣的地方</strong>,通用的部分讓它自己來",
+    "en": "Write only <strong>where you differ from everyone else</strong>; let it handle the generic parts"
+  },
+  {
+    "zh": "<strong>③ 整包丟過去</strong>",
+    "en": "<strong>③ Dump the whole pack</strong>"
+  },
+  {
+    "zh": "問一個問題,把整個檔案櫃搬過去。它得先翻完才回答—<strong>又慢、又貴、還容易抓錯重點</strong>",
+    "en": "One question, you haul the whole filing cabinet. It has to leaf through before answering—<strong>slow, expensive, and it grabs the wrong point</strong>"
+  },
+  {
+    "zh": "只給<strong>這次任務用得到的那幾頁</strong>",
+    "en": "Give only <strong>the pages this task needs</strong>"
+  },
+  {
+    "zh": "技術對照版 · EPSS 3–5 · 策略與決策層換算",
+    "en": "Technical map · EPSS 3–5 · Strategy and decision-layer money math"
+  },
+  {
+    "zh": "成本項",
+    "en": "Cost item"
+  },
+  {
+    "zh": "現況 · prompt-only 慣性",
+    "en": "Now · prompt-only habit"
+  },
+  {
+    "zh": "策略 · context-assisted",
+    "en": "Strategy · context-assisted"
+  },
+  {
+    "zh": "決策層解讀(換算成錢)",
+    "en": "Decision-layer read (in money)"
+  },
+  {
+    "zh": "<strong>① 每輪重貼</strong>",
+    "en": "<strong>① Re-paste every turn</strong>"
+  },
+  {
+    "zh": "spec、guideline、素材每次對話重新貼上,每輪重複計費",
+    "en": "spec, guideline, assets pasted fresh each chat; billed again every turn"
+  },
+  {
+    "zh": "markdown substrate＋html view 成對持久化,對話附檔引用不重貼;agent 同時讀兩者整理 schema,一次結構化、多輪重用",
+    "en": "Persist a markdown substrate＋html view pair; attach and cite, don't re-paste; the agent reads both, tidies schema, structure once, reuse across turns"
+  },
+  {
+    "zh": "月費方案下最大的隱形浪費;砍掉後<strong>同額度做更多輪迭代</strong>",
+    "en": "Biggest hidden waste on a monthly plan; cut it and <strong>the same quota buys more iteration rounds</strong>"
+  },
+  {
+    "zh": "<strong>② 重造基準</strong>",
+    "en": "<strong>② Rebuild the baseline</strong>"
+  },
+  {
+    "zh": "自己整理 design guidelines 餵給模型,教它已經會的東西",
+    "en": "You compile design guidelines and feed the model things it already knows"
+  },
+  {
+    "zh": "<strong>不付錢請模型讀它已經會的東西</strong>;教材維護量同步下降",
+    "en": "<strong>Don't pay the model to read what it already knows</strong>; teaching-material upkeep drops with it"
+  },
+  {
+    "zh": "<strong>③ 整份塞入</strong>",
+    "en": "<strong>③ Stuff the whole file</strong>"
+  },
+  {
+    "zh": "完整文件、整包截圖直接丟進對話",
+    "en": "Whole docs and screenshot dumps go straight into chat"
+  },
+  {
+    "zh": "分層壓縮:只給任務需要的層(C1 Tier 分層 → C4 Harness L1–L5 壓縮的講座版)",
+    "en": "Layered compression: only the layers the task needs (talk version of C1 Tier split → C4 Harness L1–L5 compression)"
+  },
+  {
+    "zh": "帳單與品質同時改善—<strong>context 越乾淨,輸出越穩</strong>,返工輪次下降",
+    "en": "Bill and quality both improve—<strong>cleaner context, steadier output</strong>, fewer rework turns"
+  },
+  {
+    "zh": "操作步驟 A · S0 → S1 建立你的 Substrate",
+    "en": "Steps A · S0 → S1: build your Substrate"
+  },
+  {
+    "zh": "EPSS 1 → 3 · 隨 T9 資料包附步驟卡",
+    "en": "EPSS 1 → 3 · Step card ships with the T9 pack"
+  },
+  {
+    "zh": "需要 POC 可視化或跟人溝通時,請 AI 從文字檔生成 html—<strong>html 是給人看的畫面;勿把同一段內文再重貼進對話</strong>。",
+    "en": "When you need a POC view or a human-readable screen, have AI generate html from the text file—<strong>html is the screen for humans; don't re-paste the same body into chat</strong>."
+  },
+  {
+    "zh": "操作步驟 B · S1 → S2 升級成 Skill",
+    "en": "Steps B · S1 → S2: promote to a Skill"
+  },
+  {
+    "zh": "EPSS 3 → 4 · 不是所有東西都該變 skill",
+    "en": "EPSS 3 → 4 · Not everything should become a skill"
+  },
+  {
+    "zh": "本體只寫<strong>判斷流程</strong>(控制在一頁內);清單、範例、模板移到參考檔,讓它只在真正需要時才載入。",
+    "en": "Body holds only the <strong>judgment flow</strong> (one page max); lists, examples, templates go to reference files so they load only when needed."
+  },
+  {
+    "zh": "關鍵步驟用<strong>顯式呼叫</strong>,不賭自動觸發;跑一次確認載入的確實是你要的那一個,再納入日常工作流。",
+    "en": "Critical steps use an <strong>explicit call</strong>—don't bet on auto-trigger. Run once, confirm it loaded the one you wanted, then put it in the daily flow."
+  },
+  {
+    "zh": "3.4 · 證據分層:誰的數字可以信",
+    "en": "3.4 · Evidence layers: whose numbers you can trust"
+  },
+  {
+    "zh": "現場版控制在 <strong>3 分鐘</strong>,而且用你最熟的那件事開場:",
+    "en": "Live version stays under <strong>3 minutes</strong>, and open with the thing you know best:"
+  },
+  {
+    "zh": "白話版 · 對號入座 · 現場主講用",
+    "en": "Plain talk · Find your seat · Live delivery"
+  },
+  {
+    "zh": "這一級特有的風險",
+    "en": "Risk unique to this level"
+  },
+  {
+    "zh": "一個動作",
+    "en": "One move"
+  },
+  {
+    "zh": "一句帶走",
+    "en": "One-line takeaway"
+  },
+  {
+    "zh": "<span class=\"ep-chip\">EPSS 2</span><br><strong>能解釋</strong>",
+    "en": "<span class=\"ep-chip\">EPSS 2</span><br><strong>Can explain</strong>"
+  },
+  {
+    "zh": "<strong>最危險的一級</strong>:能流暢轉述、卻無實作可校準,是二手數字的主要傳播節點",
+    "en": "<strong>The most dangerous level</strong>: fluent retell, no practice to calibrate against—main relay node for second-hand numbers"
+  },
+  {
+    "zh": "轉述前先標注層級—<strong>機制 / 效果 / 判斷</strong>;標不出來就不轉述",
+    "en": "Label the layer before you retell—<strong>mechanism / effect / judgment</strong>; if you can't label it, don't retell it"
+  }
+]

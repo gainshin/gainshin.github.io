@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX for AI | 4-Week Hands-on Course V4 | Joshua Hsiao</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --paper: #fdfaf1;
+      --ink-1: #1e1a15;
+      --ink-2: #4a3f30;
+      --ink-3: #7a6a55;
+      --ink-4: #a89e87;
+      --rule: #d2c8b0;
+      --rule-soft: #e4dcc3;
+      --accent: #7a2e1f;
+      --accent-deep: #5f2417;
+      --accent-soft: #c49a56;
+      --hilite: #e8dcba;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink-1);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .tab-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--ink-1);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      z-index: 1000;
+      overflow-x: auto;
+    }
+
+    .tab-nav .brand {
+      display: flex;
+      align-items: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-right: 24px;
+      padding-right: 20px;
+      border-right: 1px solid var(--rule);
+      white-space: nowrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0 16px;
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      height: 100%;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+
+    .tab-btn .tab-num {
+      font-family: 'Source Serif Pro', serif;
+      font-style: italic;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .tab-btn:hover { color: var(--ink-1); }
+    .tab-btn:hover .tab-num { color: var(--accent-deep); }
+    .tab-btn.active { color: var(--ink-1); border-bottom-color: var(--accent); }
+    .tab-btn.active .tab-num { color: var(--accent); }
+
+    
+    .tab-nav a.back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-2);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      background: var(--paper);
+      white-space: nowrap;
+      margin-right: 12px;
+    }
+    .tab-nav a.back-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .lang-switch {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+      align-items: center;
+    }
+    .lang-switch button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink-1);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .lang-switch button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .lang-switch button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+
+    .tab-panel {
+      position: absolute;
+      top: 52px; left: 0; right: 0; bottom: 0;
+      display: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .tab-panel.active { display: block; }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 56px 64px 120px;
+    }
+
+    .course-hero {
+      border-bottom: 2px solid var(--ink-1);
+      padding-bottom: 40px;
+      margin-bottom: 56px;
+    }
+
+    .hero-lesson {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 48px;
+      align-items: baseline;
+    }
+
+    .hero-grid h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--ink-1);
+    }
+
+    .hero-grid h1 em {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 300;
+    }
+
+    .hero-grid .deck {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      border-left: 2px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: baseline;
+      margin: 48px 0 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--ink-1);
+    }
+
+    .section-head .num {
+      font-family: 'Source Serif Pro', serif;
+      font-style: italic;
+      font-size: 32px;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .section-head .kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+
+    .section-head .title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink-1);
+      line-height: 1.3;
+    }
+
+    .sec-desc {
+      font-size: 14.5px;
+      line-height: 1.8;
+      color: var(--ink-2);
+      margin-bottom: 24px;
+      max-width: 960px;
+    }
+
+    .sec-desc strong {
+      color: var(--ink-1);
+      font-weight: 600;
+    }
+
+    .sec-desc em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .insight {
+      background: var(--paper);
+      border: 1px solid var(--ink-1);
+      padding: 24px 28px;
+      margin: 28px 0;
+      position: relative;
+    }
+
+    .insight::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--accent);
+    }
+
+    .insight-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .insight-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink-1);
+    }
+
+    .insight-body strong {
+      font-weight: 600;
+    }
+
+    .insight-body em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .tool-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tool-card .tc-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink-1);
+      margin-bottom: 4px;
+    }
+
+    .tool-card .tc-en {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .tool-card .tc-role {
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--ink-2);
+      flex: 1;
+    }
+
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .audit-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 24px;
+      position: relative;
+    }
+
+    .audit-card.primary { border-top: 3px solid var(--accent); }
+    .audit-card.secondary { border-top: 3px solid var(--accent-soft); }
+    .audit-card.tertiary { border-top: 3px solid var(--ink-3); }
+
+    .audit-card .ac-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 6px;
+    }
+
+    .audit-card .ac-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink-1);
+      margin-bottom: 4px;
+    }
+
+    .audit-card .ac-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .audit-card .ac-body {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .audit-card .ac-dims {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule-soft);
+    }
+
+    .dim-pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 2px 8px;
+      color: var(--ink-3);
+    }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 28px 0 32px;
+    }
+
+    .variant-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 24px 26px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .variant-card.best {
+      border: 2px solid var(--accent);
+      background: #fff;
+    }
+
+    .variant-card .vc-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .variant-card .vc-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink-1);
+      margin-bottom: 4px;
+    }
+
+    .variant-card .vc-en {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--ink-4);
+      margin-bottom: 12px;
+    }
+
+    .variant-card .vc-body {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      flex: 1;
+    }
+
+    .variant-card .vc-variance {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .variant-card .vv-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 6px;
+    }
+
+    .variance-bar {
+      height: 6px;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .variance-bar .fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+    }
+
+    .variance-bar .fill.high { width: 85%; background: var(--accent); }
+    .variance-bar .fill.mid { width: 55%; background: var(--accent-soft); }
+    .variance-bar .fill.low { width: 25%; background: #2D8A56; }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .workflow-step {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 20px 22px;
+      position: relative;
+    }
+
+    .workflow-step.pivot {
+      border: 2px solid var(--accent);
+      background: #fff;
+    }
+
+    .workflow-step .ws-num {
+      font-family: 'Source Serif Pro', serif;
+      font-style: italic;
+      font-size: 24px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .workflow-step .ws-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-1);
+      margin-bottom: 2px;
+    }
+
+    .workflow-step .ws-en {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 8px;
+    }
+
+    .workflow-step .ws-body {
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    .poc-spectrum {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 28px 0 32px;
+    }
+
+    .poc-type {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 24px 26px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .poc-type .pt-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .poc-type .pt-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink-1);
+      margin-bottom: 4px;
+    }
+
+    .poc-type .pt-ref {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+    }
+
+    .poc-type .pt-body {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      flex: 1;
+    }
+
+    .poc-type .pt-who {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .mat-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 32px;
+      font-size: 13px;
+    }
+
+    .mat-table th {
+      text-align: left;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--ink-1);
+      background: var(--paper);
+    }
+
+    .mat-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--rule-soft);
+      color: var(--ink-2);
+      vertical-align: top;
+    }
+
+    .mat-table tr:hover td {
+      background: var(--paper);
+    }
+
+    .deliverable {
+      border: 1px solid var(--ink-1);
+      background: var(--paper);
+      padding: 20px 24px;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .del-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+      padding-right: 20px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .del-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--ink-1);
+    }
+
+    .del-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .di-marker {
+      font-family: 'Source Serif Pro', serif;
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 960px) {
+      .tab-nav { padding: 0 16px; }
+      .tab-nav .brand { display: none; }
+      main { padding: 32px 20px 80px; }
+      .hero-grid, .tool-grid, .audit-grid, .variant-grid, .workflow-steps, .poc-spectrum {
+        grid-template-columns: 1fr;
+      }
+      .deliverable { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .del-label { border-right: none; padding-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 8px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="tab-nav">
+    <a class="back-link" href="../../course.html" data-t="nav.back">← Teaching Artifacts</a>
+    <div class="brand" data-t="nav.brand">PrivacyUX · UX for AI</div>
+    <button class="tab-btn active" data-tab="1" onclick="switchTab(1)"><span class="tab-num">W1.</span> <span data-t="nav.w1">Positioning × Toolchain</span></button>
+    <button class="tab-btn" data-tab="2" onclick="switchTab(2)"><span class="tab-num">W2.</span> <span data-t="nav.w2">Audit × Variants</span></button>
+    <button class="tab-btn" data-tab="3" onclick="switchTab(3)"><span class="tab-num">W3.</span> <span data-t="nav.w3">Wiki × Design System</span></button>
+    <button class="tab-btn" data-tab="4" onclick="switchTab(4)"><span class="tab-num">W4.</span> <span data-t="nav.w4">POC Delivery</span></button>
+    <button class="tab-btn" data-tab="5" onclick="switchTab(5)"><span class="tab-num">Kit.</span> <span data-t="nav.kit">Teaching Kit</span></button>
+    <span class="lang-switch">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="zh">繁中</button>
+    </span>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════
+   * TAB 1 · WEEK 1
+   * ══════════════════════════════════════════════════════════ -->
+  <div id="tab-1" class="tab-panel active">
+    <main>
+
+      <div class="course-hero">
+        <div class="hero-lesson" data-t="w1.hero_lesson">— Week 1 —</div>
+        <div class="hero-grid">
+          <div class="lead">
+            <h1 data-t="w1.hero_title">Positioning × Toolchain Setup <em>× First Knowledge Base Skeleton</em></h1>
+          </div>
+          <p class="deck" data-t="w1.hero_deck">
+            Starting from your first impression of AI output — skipping abstract frameworks to run live prompts first. <strong>Log where the AI drifts</strong>; these notes form next week's core material.
+          </p>
+        </div>
+      </div>
+
+      <!-- 01 · 典範轉移 -->
+      <div class="section-head">
+        <div class="num" data-t="w1.s1_num">01</div>
+        <div class="titles">
+          <div class="kicker" data-t="w1.s1_kicker">— paradigm shift</div>
+          <h2 class="title" data-t="w1.s1_title">From Producer to Curator: The Designer's Role in AI/UX</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w1.s1_desc">
+        AI can generate UI, flows, and prototypes — but generation is not design. The designer's core value shifts from crafting polished screens to <strong>judging what to keep, what to change, and why</strong>. This course does not teach prompt tricks; it turns your design judgment into durable, machine-readable knowledge assets.
+      </p>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w1.s1_ins_label">Core Thesis</div>
+        <div class="insight-body" data-t="w1.s1_ins_body">
+          Your existing design assets are the best starting point for a knowledge base. There is no standard answer here, only <strong>the right answer for your context</strong>. You leave after four weeks with a running operational system, not another slide deck.
+        </div>
+      </div>
+
+      <!-- 02 · 工具鏈 -->
+      <div class="section-head">
+        <div class="num" data-t="w1.s2_num">02</div>
+        <div class="titles">
+          <div class="kicker" data-t="w1.s2_kicker">— tool chain</div>
+          <h2 class="title" data-t="w1.s2_title">Toolchain: Antigravity × Pencil × Stitch</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w1.s2_desc">
+        The course toolchain divides into three distinct roles: <strong>Antigravity Agent</strong> handles generation and agent setup, <strong>Pencil</strong> handles HTML↔Figma assembly and refinement, and <strong>Stitch</strong> runs AI variant exploration. We complete setup and verification this week.
+      </p>
+
+      <div class="tool-grid">
+        <div class="tool-card">
+          <div class="tc-name" data-t="w1.tc1_name">Antigravity Agent</div>
+          <div class="tc-en" data-t="w1.tc1_en">generation × agent config</div>
+          <div class="tc-role" data-t="w1.tc1_role">AI generation engine + agent configuration. Houses the Week 4 Design Agent. Reads wiki context to produce UI candidates.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tc-name" data-t="w1.tc2_name">Antigravity IDE</div>
+          <div class="tc-en" data-t="w1.tc2_en">development environment</div>
+          <div class="tc-role" data-t="w1.tc2_role">IDE workspace. Manages wiki directory structure, skill sets, design tokens, and agent context configurations.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tc-name" data-t="w1.tc3_name">Pencil</div>
+          <div class="tc-en" data-t="w1.tc3_en">html ↔ figma bridge</div>
+          <div class="tc-role" data-t="w1.tc3_role">Assembles and refines design system components from AI-generated HTML. Two-way <code>HTML → Figma</code> bridge to reach production mockups.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tc-name" data-t="w1.tc4_name">Stitch</div>
+          <div class="tc-en" data-t="w1.tc4_en">ai variant exploration</div>
+          <div class="tc-role" data-t="w1.tc4_role">Platform for Week 2–3 variant exploration across all three paths: prompt→UI, screenshot→UI, and document→UI.</div>
+        </div>
+      </div>
+
+      <!-- 03 · 第一次 Prompt→UI -->
+      <div class="section-head">
+        <div class="num" data-t="w1.s3_num">03</div>
+        <div class="titles">
+          <div class="kicker" data-t="w1.s3_kicker">— first contact</div>
+          <h2 class="title" data-t="w1.s3_title">First Prompt→UI: Establishing a Baseline Impression</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w1.s3_desc1">
+        Run a full screen with default prompts. <strong>The goal is not perfection</strong>, but getting a raw impression of AI output: spotting where it drifts, what you would fix, and what trade-offs you notice. These observations become the input for Week 2's knowledge base.
+      </p>
+
+      <p class="sec-desc" data-t="w1.s3_desc2">
+        Pedagogical Note: <strong>We deliberately hold back UICrit here</strong>. Letting learners rely on raw instinct first before benchmarking against UICrit in Week 2 creates a much deeper impression: discovering what your instincts caught versus what they missed builds real judgment faster than memorizing rules upfront.
+      </p>
+
+      <!-- 04 · 觀察筆記 -->
+      <div class="section-head">
+        <div class="num" data-t="w1.s4_num">04</div>
+        <div class="titles">
+          <div class="kicker" data-t="w1.s4_kicker">— observation notes</div>
+          <h2 class="title" data-t="w1.s4_title">Observation Notes: AI Output vs. What I Would Do</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w1.s4_desc">
+        Record three things: (1) what AI generated, (2) what you would change, and (3) why you want to change it. The third point is most critical — it externalizes implicit design judgment into structured context that agents can parse.
+      </p>
+
+      <!-- Deliverable -->
+      <div class="deliverable">
+        <div class="del-label" data-t="w1.del_label">Week 1 Deliverables</div>
+        <div class="del-items">
+          <div class="del-item">
+            <div class="di-marker">a.</div>
+            <div class="di-body" data-t="w1.del_item1">Verified toolchain environment (Antigravity Agent/IDE + Pencil + Stitch)</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">b.</div>
+            <div class="di-body" data-t="w1.del_item2">Observation notes (<code>observation.md</code>) logging the gap between AI outputs and design judgment</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+   * TAB 2 · WEEK 2
+   * ══════════════════════════════════════════════════════════ -->
+  <div id="tab-2" class="tab-panel">
+    <main>
+
+      <div class="course-hero">
+        <div class="hero-lesson" data-t="w2.hero_lesson">— Week 2 —</div>
+        <div class="hero-grid">
+          <div class="lead">
+            <h1 data-t="w2.hero_title">UI Audit Standards <em>× First AI Variants</em></h1>
+          </div>
+          <p class="deck" data-t="w2.hero_deck">
+            Audit your Week 1 output using Google Research's <strong>UICrit</strong>, then run the first two AI variant paths in Stitch — <em>measuring how much variance screenshots actually eliminate</em>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 01 · UICrit -->
+      <div class="section-head">
+        <div class="num" data-t="w2.s1_num">01</div>
+        <div class="titles">
+          <div class="kicker" data-t="w2.s1_kicker">— research-based audit</div>
+          <h2 class="title" data-t="w2.s1_title">UICrit: From Google Research to Your Audit Standards</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w2.s1_desc">
+        UICrit is an open-source dataset published by Google Research at UIST '24 — featuring 3,059 expert critiques across 983 mobile UIs. We filter this into <strong>four core dimensions</strong> as our audit foundation. We avoid prescriptive guidelines like Material or HIG because we need an <em>evaluative</em> framework (auditing user intent), not a <em>prescriptive</em> one (auditing styling conventions).
+      </p>
+
+      <div class="audit-grid">
+        <div class="audit-card primary">
+          <div class="ac-tag" data-t="w2.ac1_tag">dimension 1</div>
+          <div class="ac-name" data-t="w2.ac1_name">Information Architecture</div>
+          <div class="ac-source" data-t="w2.ac1_source">UICrit · Information Architecture</div>
+          <div class="ac-body" data-t="w2.ac1_body">Page hierarchy, grouping logic, and navigation structure that allow users to predict the next step.</div>
+          <div class="ac-dims">
+            <span class="dim-pill">hierarchy</span>
+            <span class="dim-pill">grouping</span>
+            <span class="dim-pill">navigation</span>
+          </div>
+        </div>
+        <div class="audit-card primary">
+          <div class="ac-tag" data-t="w2.ac2_tag">dimension 2</div>
+          <div class="ac-name" data-t="w2.ac2_name">Accessibility</div>
+          <div class="ac-source" data-t="w2.ac2_source">UICrit + WCAG 2.2</div>
+          <div class="ac-body" data-t="w2.ac2_body">4.5:1 contrast ratios, focus order, keyboard navigation, screen reader compatibility. Pairing UICrit commentary with WCAG technical benchmarks.</div>
+          <div class="ac-dims">
+            <span class="dim-pill">contrast</span>
+            <span class="dim-pill">focus</span>
+            <span class="dim-pill">screen reader</span>
+          </div>
+        </div>
+        <div class="audit-card secondary">
+          <div class="ac-tag" data-t="w2.ac3_tag">dimension 3</div>
+          <div class="ac-name" data-t="w2.ac3_name">Progressive Disclosure</div>
+          <div class="ac-source" data-t="w2.ac3_source">UICrit · Progressive Disclosure</div>
+          <div class="ac-body" data-t="w2.ac3_body">Does information density scale with the user's task stage? Dumping all options at once makes AI outputs look superficially complete but practically unusable.</div>
+          <div class="ac-dims">
+            <span class="dim-pill">layering</span>
+            <span class="dim-pill">defaults</span>
+            <span class="dim-pill">complexity</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-grid" style="grid-template-columns: 1fr 2fr;">
+        <div class="audit-card tertiary">
+          <div class="ac-tag" data-t="w2.ac4_tag">dimension 4</div>
+          <div class="ac-name" data-t="w2.ac4_name">Interface Copy</div>
+          <div class="ac-source" data-t="w2.ac4_source">UICrit · UX Copy</div>
+          <div class="ac-body" data-t="w2.ac4_body">Button labels, error states, and empty state messaging — where AI most frequently outputs "correct but useless" text. Copy requires product context to work, which is why document→UI narrows variance most on this dimension.</div>
+          <div class="ac-dims">
+            <span class="dim-pill">labels</span>
+            <span class="dim-pill">errors</span>
+            <span class="dim-pill">empty states</span>
+            <span class="dim-pill">tone</span>
+          </div>
+        </div>
+        <div class="insight" style="margin: 0;">
+          <div class="insight-label" data-t="w2.ins_why_label">Why Not Material Design</div>
+          <div class="insight-body" data-t="w2.ins_why_body">
+            Material Design is <em>prescriptive</em> — it mandates rounded corners and 8px grid spacing. UICrit is <em>evaluative</em> — it asks whether this grouping helps the user complete their task. <strong>Auditors need evaluative frameworks to write substantive contradiction reports</strong> rather than complaining that something isn't Material style.
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 · 用 UICrit 審計 Week 1 -->
+      <div class="section-head">
+        <div class="num" data-t="w2.s2_num">02</div>
+        <div class="titles">
+          <div class="kicker" data-t="w2.s2_kicker">— audit your own output</div>
+          <h2 class="title" data-t="w2.s2_title">Audit Week 1 Output with UICrit</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w2.s2_desc1">
+        Benchmark your Week 1 observations against UICrit's four dimensions. <strong>Where was your intuition right? What did you miss?</strong> Filter 10–15 relevant criteria from the UICrit dataset to author <code>audit-criteria.md</code> — the first audit spec in your knowledge base.
+      </p>
+
+      <p class="sec-desc" data-t="w2.s2_desc2">
+        Author the product context document (<code>product-context.md</code>) in parallel: product definition, target users, tone of voice, prioritized use cases. Together, these two files form the skeleton of your wiki.
+      </p>
+
+      <!-- 03 · Screenshot→UI -->
+      <div class="section-head">
+        <div class="num" data-t="w2.s3_num">03</div>
+        <div class="titles">
+          <div class="kicker" data-t="w2.s3_kicker">— variant path 2</div>
+          <h2 class="title" data-t="w2.s3_title">Screenshot→UI: Mobbin × Notion Desktop Reference</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w2.s3_desc">
+        Use Notion desktop screenshots downloaded from Mobbin as visual references to run screenshot→UI in Stitch. Observe <strong>which dimensions converge and which continue to drift</strong> compared to Week 1.
+      </p>
+
+      <!-- 04 · 兩組並排 -->
+      <div class="section-head">
+        <div class="num" data-t="w2.s4_num">04</div>
+        <div class="titles">
+          <div class="kicker" data-t="w2.s4_kicker">— side-by-side comparison</div>
+          <h2 class="title" data-t="w2.s4_title">Two Variant Groups Side by Side: Prompt vs. Screenshot</h2>
+        </div>
+      </div>
+
+      <div class="variant-grid">
+        <div class="variant-card">
+          <div class="vc-num" data-t="w2.vc1_num">Path 1</div>
+          <div class="vc-name" data-t="w2.vc1_name">Prompt→UI</div>
+          <div class="vc-en" data-t="w2.vc1_en">text prompt only · week 1</div>
+          <div class="vc-body" data-t="w2.vc1_body">
+            Pure text prompts without visual references or product context. AI hallucinates freely. <strong>Outputs diverge widely across all dimensions</strong> — unstable IA, generic copy, random styling.
+          </div>
+          <div class="vc-variance">
+            <div class="vv-label" data-t="w2.vc1_vlabel">Variance Range</div>
+            <div class="variance-bar"><div class="fill high"></div></div>
+          </div>
+        </div>
+        <div class="variant-card">
+          <div class="vc-num" data-t="w2.vc2_num">Path 2</div>
+          <div class="vc-name" data-t="w2.vc2_name">Screenshot→UI</div>
+          <div class="vc-en" data-t="w2.vc2_en">visual reference · week 2</div>
+          <div class="vc-body" data-t="w2.vc2_body">
+            Adding Notion desktop screenshots anchors the visual layer. <strong>Visual layout stabilizes</strong> (layout, spacing, component styles match reference), but IA logic and UX copy still drift — because screenshots carry no product context.
+          </div>
+          <div class="vc-variance">
+            <div class="vv-label" data-t="w2.vc2_vlabel">Variance Range</div>
+            <div class="variance-bar"><div class="fill mid"></div></div>
+          </div>
+        </div>
+        <div class="variant-card best">
+          <div class="vc-num" data-t="w2.vc3_num">Path 3</div>
+          <div class="vc-name" data-t="w2.vc3_name">Document→UI</div>
+          <div class="vc-en" data-t="w2.vc3_en">wiki-assisted · week 3</div>
+          <div class="vc-body" data-t="w2.vc3_body">
+            Completed in Week 3. Feed the wiki (audit-criteria + product-context + decisions) into Antigravity. <strong>Context layer stabilizes</strong> — yet the right tail persists. Narrowing variance is not eliminating it.
+          </div>
+          <div class="vc-variance">
+            <div class="vv-label" data-t="w2.vc3_vlabel">Variance Range</div>
+            <div class="variance-bar"><div class="fill low"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w2.ins_summary_label">Pedagogical Takeaway</div>
+        <div class="insight-body" data-t="w2.ins_summary_body">
+          Screenshots narrow visual variance, but <strong>contextual variance requires a structured wiki to converge</strong>. That is Week 3's core work: not making AI blindly obedient, but <em>writing design judgment into machine-readable formats so output variance falls within your acceptable review threshold</em>.
+        </div>
+      </div>
+
+      <!-- Deliverable -->
+      <div class="deliverable">
+        <div class="del-label" data-t="w2.del_label">Week 2 Deliverables</div>
+        <div class="del-items">
+          <div class="del-item">
+            <div class="di-marker">a.</div>
+            <div class="di-body" data-t="w2.del_item1"><code>audit-criteria.md</code>: 10–15 audit criteria filtered from UICrit</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">b.</div>
+            <div class="di-body" data-t="w2.del_item2"><code>product-context.md</code>: Structured product context specification</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">c.</div>
+            <div class="di-body" data-t="w2.del_item3">Side-by-side comparison of two AI variant paths (prompt vs. screenshot)</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+   * TAB 3 · WEEK 3
+   * ══════════════════════════════════════════════════════════ -->
+  <div id="tab-3" class="tab-panel">
+    <main>
+
+      <div class="course-hero">
+        <div class="hero-lesson" data-t="w3.hero_lesson">— Week 3 —</div>
+        <div class="hero-grid">
+          <div class="lead">
+            <h1 data-t="w3.hero_title">Document→UI <em>× Wiki Integration × Design System</em></h1>
+          </div>
+          <p class="deck" data-t="w3.hero_deck">
+            The third path: feeding your wiki into AI. <strong>Compare all three variant groups side by side</strong> to prove that narrowing variance is not eliminating it — then <em>extract a starter design system from top elements</em>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 01 · Document→UI -->
+      <div class="section-head">
+        <div class="num" data-t="w3.s1_num">01</div>
+        <div class="titles">
+          <div class="kicker" data-t="w3.s1_kicker">— variant path 3 · the wiki-assisted path</div>
+          <h2 class="title" data-t="w3.s1_title">The Third Path: UX Document→UI</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w3.s1_desc">
+        Feed the Week 2 wiki (<code>audit-criteria.md</code> + <code>product-context.md</code>) plus course reference HTML files into Antigravity / Stitch. This is the most context-rich path: the AI receives <strong>visual references + product context + audit criteria</strong> simultaneously.
+      </p>
+
+      <!-- 02 · 三組並排 -->
+      <div class="section-head">
+        <div class="num" data-t="w3.s2_num">02</div>
+        <div class="titles">
+          <div class="kicker" data-t="w3.s2_kicker">— the variance gradient · lived experience</div>
+          <h2 class="title" data-t="w3.s2_title">Auditing Three Variant Groups Side by Side: The Variance Gradient</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w3.s2_desc">
+        Place all three outputs side by side and run audits using your UICrit subset. <strong>This is the pivotal teaching moment</strong>: document→UI outputs show clear convergence (correct IA, aligned tone, working progressive disclosure), but remain imperfect — the right tail still exists.
+      </p>
+
+      <div class="workflow-steps">
+        <div class="workflow-step">
+          <div class="ws-num">1</div>
+          <div class="ws-name" data-t="w3.ws1_name">Prompt→UI</div>
+          <div class="ws-en" data-t="w3.ws1_en">week 1 · baseline</div>
+          <div class="ws-body" data-t="w3.ws1_body">Widest variance. Kept as the baseline control group. High divergence across all four dimensions.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="ws-num">2</div>
+          <div class="ws-name" data-t="w3.ws2_name">Screenshot→UI</div>
+          <div class="ws-en" data-t="w3.ws2_en">week 2 · visual ref</div>
+          <div class="ws-body" data-t="w3.ws2_body">Visual layer converges. IA and copy still drift — screenshots contain no underlying context.</div>
+        </div>
+        <div class="workflow-step pivot">
+          <div class="ws-num">3</div>
+          <div class="ws-name" data-t="w3.ws3_name">Document→UI</div>
+          <div class="ws-en" data-t="w3.ws3_en">week 3 · wiki-assisted</div>
+          <div class="ws-body" data-t="w3.ws3_body">Context layer converges. Right tail persists — narrowing variance is not eliminating it.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="ws-num">→</div>
+          <div class="ws-name" data-t="w3.ws4_name">Learner Takeaway</div>
+          <div class="ws-en" data-t="w3.ws4_en">the insight</div>
+          <div class="ws-body" data-t="w3.ws4_body">Hands-on proof: the wiki's value is narrowing variance, not eliminating it. When outputs drift, audit standards catch the flaws.</div>
+        </div>
+      </div>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w3.ins_var_label">Managing Variance</div>
+        <div class="insight-body" data-t="w3.ins_var_body">
+          Learners produce three distinct curves: prompt (widest), screenshot (middle), and document (narrowest, yet still variable). They don't need lectures warning that outputs drift; they have seen it live. What they need is knowing <em>what to do when drift happens</em> — the two convergence steps below provide the answer.
+        </div>
+      </div>
+
+      <!-- 03 · 收斂設計系統 -->
+      <div class="section-head">
+        <div class="num" data-t="w3.s3_num">03</div>
+        <div class="titles">
+          <div class="kicker" data-t="w3.s3_kicker">— convergence · design system</div>
+          <h2 class="title" data-t="w3.s3_title">From Variants to Design System: Converging Tokens × Components × Patterns</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w3.s3_desc">
+        Extract top-performing elements across the three variant sets and assemble a starter design system in Pencil. Focus on three clean layers: <strong>Design Tokens</strong> (color, typography, spacing), <strong>Components</strong> (buttons, inputs, cards), and <strong>Patterns</strong> (navigation, forms, empty states). Log every convergence decision in design decision records.
+      </p>
+
+      <!-- 04 · Wiki 修補 -->
+      <div class="section-head">
+        <div class="num" data-t="w3.s4_num">04</div>
+        <div class="titles">
+          <div class="kicker" data-t="w3.s4_kicker">— wiki gap repair</div>
+          <h2 class="title" data-t="w3.s4_title">Wiki Gap Repair: Design Decision Records</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w3.s4_desc1">
+        Side-by-side auditing exposes wiki blind spots: some criteria are too vague ("clear IA" is useless; specify "primary navigation capped at 5 items, secondary items collapsed by default"); some product context was missing (tone stated "professional" but omitted "explain one extra step for novice users"). <strong>Patch exposed gaps back into</strong> <code>wiki/decisions/</code>.
+      </p>
+
+      <p class="sec-desc" data-t="w3.s4_desc2">
+        Design Decision Records (<code>decisions/</code>) are the highest-value wiki assets: they answer <strong>why</strong> a pattern was chosen over alternatives. In future iterations, agents read not just "use this", but "use this because of X constraint" — enabling sound extrapolation in novel scenarios.
+      </p>
+
+      <!-- Deliverable -->
+      <div class="deliverable">
+        <div class="del-label" data-t="w3.del_label">Week 3 Deliverables</div>
+        <div class="del-items">
+          <div class="del-item">
+            <div class="di-marker">a.</div>
+            <div class="di-body" data-t="w3.del_item1">Audit comparison report across three AI variant sets (HTML format, evaluated against UICrit subset)</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">b.</div>
+            <div class="di-body" data-t="w3.del_item2">Updated wiki repository (<code>audit-criteria.md</code> + <code>product-context.md</code> + <code>decisions/</code>)</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">c.</div>
+            <div class="di-body" data-t="w3.del_item3">Starter design system (tokens / components / patterns assembled in Pencil)</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+   * TAB 4 · WEEK 4
+   * ══════════════════════════════════════════════════════════ -->
+  <div id="tab-4" class="tab-panel">
+    <main>
+
+      <div class="course-hero">
+        <div class="hero-lesson" data-t="w4.hero_lesson">— Week 4 —</div>
+        <div class="hero-grid">
+          <div class="lead">
+            <h1 data-t="w4.hero_title">POC Delivery <em>× Design Agent × Showcase</em></h1>
+          </div>
+          <p class="deck" data-t="w4.hero_deck">
+            Polish the wiki into a deliverable package. Build your first Design Agent. Complete a full iteration cycle — <strong>from feature request to final audit</strong>. Showcase one POC archetype.
+          </p>
+        </div>
+      </div>
+
+      <!-- 01 · Wiki 整理 -->
+      <div class="section-head">
+        <div class="num" data-t="w4.s1_num">01</div>
+        <div class="titles">
+          <div class="kicker" data-t="w4.s1_kicker">— wiki as deliverable</div>
+          <h2 class="title" data-t="w4.s1_title">Wiki Consolidation: From Notes to Deliverables</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w4.s1_desc">
+        Four documents form your complete LLM wiki bundle: <strong>Product Context</strong> (product-context), <strong>Audit Criteria</strong> (audit-criteria), <strong>Design Decisions</strong> (decisions), and <strong>Design System</strong> (design-system tokens + components + patterns). Focus on closed-loop cross-referencing: agents reading any single file can follow links to resolve the other three.
+      </p>
+
+      <!-- 02 · Design Agent -->
+      <div class="section-head">
+        <div class="num" data-t="w4.s2_num">02</div>
+        <div class="titles">
+          <div class="kicker" data-t="w4.s2_kicker">— your first design agent</div>
+          <h2 class="title" data-t="w4.s2_title">Your First Design Agent: Context × Skill Set</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w4.s2_desc">
+        Configure an agent in Antigravity IDE: its <strong>context = your wiki</strong>, and its <strong>skill set = audit criteria + design system tokens</strong> refined in Weeks 2–3. This is not a generic bot; it is a specialized Design Agent calibrated directly by your domain judgment.",
+      </p>
+
+      <!-- 03 · 完整回合 -->
+      <div class="section-head">
+        <div class="num" data-t="w4.s3_num">03</div>
+        <div class="titles">
+          <div class="kicker" data-t="w4.s3_kicker">— full loop</div>
+          <h2 class="title" data-t="w4.s3_title">The Full Loop: Feature → Agent → Candidate → Audit</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w4.s3_desc">
+        Execute a full closed loop: new feature arrives → agent reads wiki to generate candidates → audit against UICrit criteria → decide to modify artifact, update wiki, or accept trade-off. <strong>This concludes the four-week arc</strong>: evolving from manual prompt testing in Week 1 to an integrated agent + wiki + audit operating model.
+      </p>
+
+      <div class="workflow-steps">
+        <div class="workflow-step">
+          <div class="ws-num">1</div>
+          <div class="ws-name" data-t="w4.ws1_name">Feature Intake</div>
+          <div class="ws-en" data-t="w4.ws1_en">new requirement</div>
+          <div class="ws-body" data-t="w4.ws1_body">A defined scenario requirement serving as input for the POC.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="ws-num">2</div>
+          <div class="ws-name" data-t="w4.ws2_name">Agent Generation</div>
+          <div class="ws-en" data-t="w4.ws2_en">wiki-informed candidate</div>
+          <div class="ws-body" data-t="w4.ws2_body">Design Agent reads wiki context and skill sets to output UI candidates.</div>
+        </div>
+        <div class="workflow-step pivot">
+          <div class="ws-num">3</div>
+          <div class="ws-name" data-t="w4.ws3_name">Audit Judgment</div>
+          <div class="ws-en" data-t="w4.ws3_en">audit × decision</div>
+          <div class="ws-body" data-t="w4.ws3_body">Run audit via UICrit subset. Choose one: modify artifact / update wiki / accept trade-off.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="ws-num">4</div>
+          <div class="ws-name" data-t="w4.ws4_name">Wiki Writeback</div>
+          <div class="ws-en" data-t="w4.ws4_en">close the loop</div>
+          <div class="ws-body" data-t="w4.ws4_body">Log decisions back into the wiki. Knowledge base becomes more complete. Compounding cycle begins.</div>
+        </div>
+      </div>
+
+      <!-- 04 · POC 展示光譜 -->
+      <div class="section-head">
+        <div class="num" data-t="w4.s4_num">04</div>
+        <div class="titles">
+          <div class="kicker" data-t="w4.s4_kicker">— poc showcase</div>
+          <h2 class="title" data-t="w4.s4_title">POC Showcase: Three Archetype Spectrums</h2>
+        </div>
+      </div>
+
+      <p class="sec-desc" data-t="w4.s4_desc">
+        Learners pick one POC archetype to present. Deliverable format is HTML (including design system tokens). All three archetypes hold equal standing, addressing distinct organizational roles.
+      </p>
+
+      <div class="poc-spectrum">
+        <div class="poc-type">
+          <div class="pt-tag" data-t="w4.pt1_tag">type a</div>
+          <div class="pt-name" data-t="w4.pt1_name">Screen-level Critique</div>
+          <div class="pt-ref" data-t="w4.pt1_ref">Benchmark: <code>design_review_IC.html</code></div>
+          <div class="pt-body" data-t="w4.pt1_body">Screen-by-screen design critique. Each screen features UICrit dimension tags, issue diagnosis, and remediation notes. Focuses on craft: palette, spacing, component selection, copy quality.</div>
+          <div class="pt-who" data-t="w4.pt1_who">→ Best for IC Designers</div>
+        </div>
+        <div class="poc-type">
+          <div class="pt-tag" data-t="w4.pt2_tag">type b</div>
+          <div class="pt-name" data-t="w4.pt2_name">Business-risk Framing</div>
+          <div class="pt-ref" data-t="w4.pt2_ref">Benchmark: <code>design_review_Manager.html</code></div>
+          <div class="pt-body" data-t="w4.pt2_body">Framed around commercial and operational risk: "what consequences does this design create, which stakeholders are impacted, and what is remediation cost?" UICrit standards packaged into risk severity matrices.</div>
+          <div class="pt-who" data-t="w4.pt2_who">→ Best for Senior Designers / Leads</div>
+        </div>
+        <div class="poc-type">
+          <div class="pt-tag" data-t="w4.pt3_tag">type c</div>
+          <div class="pt-name" data-t="w4.pt3_name">Wiki-driven Layer Inspector</div>
+          <div class="pt-ref" data-t="w4.pt3_ref">Benchmark: <code>layer-inspector.html</code></div>
+          <div class="pt-body" data-t="w4.pt3_body">Showcases structural mappings between wiki and UI. Layer inspector interface: left pane displays wiki structure (audit-criteria, decisions, tokens), right pane shows corresponding UI components with interactive cross-referencing.</div>
+          <div class="pt-who" data-t="w4.pt3_who">→ Best for Design Engineers / Systems Designers</div>
+        </div>
+      </div>
+
+      <!-- Deliverable -->
+      <div class="deliverable">
+        <div class="del-label" data-t="w4.del_label">Week 4 Deliverables (Final)</div>
+        <div class="del-items">
+          <div class="del-item">
+            <div class="di-marker">a.</div>
+            <div class="di-body" data-t="w4.del_item1">POC HTML (with embedded design system tokens), chosen from the 3 archetypes</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">b.</div>
+            <div class="di-body" data-t="w4.del_item2">Complete LLM Wiki package (product-context + audit-criteria + decisions + design-system)</div>
+          </div>
+          <div class="del-item">
+            <div class="di-marker">c.</div>
+            <div class="di-body" data-t="w4.del_item3">Design Agent configuration (context wired to wiki, skill set wired to audit criteria & tokens)</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+   * TAB 5 · TEACHING KIT
+   * ══════════════════════════════════════════════════════════ -->
+  <div id="tab-5" class="tab-panel">
+    <main>
+
+      <div class="course-hero">
+        <div class="hero-lesson" data-t="w5.hero_lesson">— Teaching Kit —</div>
+        <div class="hero-grid">
+          <div class="lead">
+            <h1 data-t="w5.hero_title">Teaching Kit <em>× Tools × Reference Examples</em></h1>
+          </div>
+          <p class="deck" data-t="w5.hero_deck">
+            Complete inventory of course materials, tools, and reference artifacts. <strong>Provided kit assets</strong> and <strong>learner-prepared prerequisites</strong> separated clearly.
+          </p>
+        </div>
+      </div>
+
+      <!-- 教材 -->
+      <div class="section-head">
+        <div class="num" data-t="w5.s1_num">01</div>
+        <div class="titles">
+          <div class="kicker" data-t="w5.s1_kicker">— course materials</div>
+          <h2 class="title" data-t="w5.s1_title">Course Materials Inventory</h2>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead>
+          <tr>
+            <th data-t="w5.th_mat">Material</th>
+            <th data-t="w5.th_fmt">Format</th>
+            <th data-t="w5.th_used">Used For</th>
+            <th data-t="w5.th_src">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-t="w5.r1_mat"><strong>UICrit Audit Subset</strong></td>
+            <td data-t="w5.r1_fmt"><code>.csv</code></td>
+            <td data-t="w5.r1_used">Week 2 · Audit criteria formulation</td>
+            <td data-t="w5.r1_src">Google Research · UIST '24 (Curated)</td>
+          </tr>
+          <tr>
+            <td data-t="w5.r2_mat"><strong>Notion Desktop Reference Screens</strong></td>
+            <td data-t="w5.r2_fmt">Images</td>
+            <td data-t="w5.r2_used">Week 2 · Screenshot→UI</td>
+            <td data-t="w5.r2_src">Mobbin exports</td>
+          </tr>
+          <tr>
+            <td data-t="w5.r3_mat"><strong>V4 Course HTML C1–C3</strong></td>
+            <td data-t="w5.r3_fmt"><code>.html</code></td>
+            <td data-t="w5.r3_used">Week 3 · Document→UI reference layer</td>
+            <td data-t="w5.r3_src">Course curriculum</td>
+          </tr>
+          <tr>
+            <td data-t="w5.r4_mat"><strong>design_review_IC</strong></td>
+            <td data-t="w5.r4_fmt"><code>.html</code></td>
+            <td data-t="w5.r4_used">Week 4 · POC Archetype A</td>
+            <td data-t="w5.r4_src">BitePal Settings Design Review</td>
+          </tr>
+          <tr>
+            <td data-t="w5.r5_mat"><strong>design_review_Manager</strong></td>
+            <td data-t="w5.r5_fmt"><code>.html</code></td>
+            <td data-t="w5.r5_used">Week 4 · POC Archetype B</td>
+            <td data-t="w5.r5_src">BitePal Business Risk Framing</td>
+          </tr>
+          <tr>
+            <td data-t="w5.r6_mat"><strong>layer-inspector</strong></td>
+            <td data-t="w5.r6_fmt"><code>.html</code></td>
+            <td data-t="w5.r6_used">Week 4 · POC Archetype C</td>
+            <td data-t="w5.r6_src">Design Wiki POC v3</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 工具 -->
+      <div class="section-head">
+        <div class="num" data-t="w5.s2_num">02</div>
+        <div class="titles">
+          <div class="kicker" data-t="w5.s2_kicker">— tool chain</div>
+          <h2 class="title" data-t="w5.s2_title">Toolchain Overview</h2>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead>
+          <tr>
+            <th data-t="w5.th_tool">Tool</th>
+            <th data-t="w5.th_role">Role</th>
+            <th data-t="w5.th_weeks">Active Weeks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-t="w5.t1_name"><strong>Antigravity Agent</strong></td>
+            <td data-t="w5.t1_role">AI generation engine + Design Agent configuration</td>
+            <td data-t="w5.t1_weeks">W1–W4 (All)</td>
+          </tr>
+          <tr>
+            <td data-t="w5.t2_name"><strong>Antigravity IDE</strong></td>
+            <td data-t="w5.t2_role">Workspace · wiki management · skill set · agent context</td>
+            <td data-t="w5.t2_weeks">W1–W4 (All)</td>
+          </tr>
+          <tr>
+            <td data-t="w5.t3_name"><strong>Pencil</strong></td>
+            <td data-t="w5.t3_role">HTML↔Figma bridge · design system assembly and refinement</td>
+            <td data-t="w5.t3_weeks">W3–W4</td>
+          </tr>
+          <tr>
+            <td data-t="w5.t4_name"><strong>Stitch</strong></td>
+            <td data-t="w5.t4_role">AI variant exploration (prompt / screenshot / document→UI)</td>
+            <td data-t="w5.t4_weeks">W1–W3</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 交付 timeline -->
+      <div class="section-head">
+        <div class="num" data-t="w5.s3_num">03</div>
+        <div class="titles">
+          <div class="kicker" data-t="w5.s3_kicker">— deliverable timeline</div>
+          <h2 class="title" data-t="w5.s3_title">Weekly Deliverables Timeline</h2>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead>
+          <tr>
+            <th data-t="w5.th_week">Week</th>
+            <th data-t="w5.th_del">Deliverable</th>
+            <th data-t="w5.th_del_fmt">Format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-t="w5.d1_wk"><strong>W1</strong></td>
+            <td data-t="w5.d1_del">Tool environment verification + observation notes</td>
+            <td data-t="w5.d1_fmt"><code>observation.md</code></td>
+          </tr>
+          <tr>
+            <td data-t="w5.d2_wk"><strong>W2</strong></td>
+            <td data-t="w5.d2_del">Wiki skeleton + two-group AI variant comparison</td>
+            <td data-t="w5.d2_fmt"><code>audit-criteria.md</code> + <code>product-context.md</code></td>
+          </tr>
+          <tr>
+            <td data-t="w5.d3_wk"><strong>W3</strong></td>
+            <td data-t="w5.d3_del">Three-group audit report + updated wiki + starter design system</td>
+            <td data-t="w5.d3_fmt">HTML report + markdown wiki + Pencil assembly</td>
+          </tr>
+          <tr>
+            <td data-t="w5.d4_wk"><strong>W4</strong></td>
+            <td data-t="w5.d4_del">POC HTML + complete LLM wiki package + Design Agent configuration</td>
+            <td data-t="w5.d4_fmt">HTML (with design tokens) + full wiki bundle</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 課程核心命題 -->
+      <div class="section-head">
+        <div class="num" data-t="w5.s4_num">04</div>
+        <div class="titles">
+          <div class="kicker" data-t="w5.s4_kicker">— core thesis</div>
+          <h2 class="title" data-t="w5.s4_title">Core Course Theses</h2>
+        </div>
+      </div>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w5.ins1_label">The Variance Gradient</div>
+        <div class="insight-body" data-t="w5.ins1_body">
+          Three paths (prompt→UI, screenshot→UI, document→UI) establish a <strong>variance gradient</strong>. A knowledge base does not eliminate variance; it <em>narrows variance into a manageable review range</em>. Learners validating this live in Weeks 2–3 is the load-bearing pillar of the course.
+        </div>
+      </div>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w5.ins2_label">Evaluative &gt; Prescriptive</div>
+        <div class="insight-body" data-t="w5.ins2_body">
+          UICrit + WCAG are evaluative frameworks — they ask "<strong>does this design help users complete tasks?</strong>", not "does this follow a specific company's UI guide?". Designer audit criteria should rest on empirical research rather than vendor style dogma.
+        </div>
+      </div>
+
+      <div class="insight">
+        <div class="insight-label" data-t="w5.ins3_label">Wiki as Interface</div>
+        <div class="insight-body" data-t="w5.ins3_body">
+          The wiki is not static human documentation — it is the <strong>interface between human designer and AI agent</strong>. Product context, audit criteria, design decisions, and tokens cross-reference to give agents complete situational awareness. <em>Wiki is the interface; Agent is the worker</em>.
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    var T = {
+      en: {"nav.back": "← Teaching Artifacts", "nav.brand": "PrivacyUX · UX for AI", "nav.w1": "Positioning × Toolchain", "nav.w2": "Audit × Variants", "nav.w3": "Wiki × Design System", "nav.w4": "POC Delivery", "nav.kit": "Teaching Kit", "w1.hero_lesson": "— Week 1 —", "w1.hero_title": "Positioning × Toolchain Setup <em>× First Knowledge Base Skeleton</em>", "w1.hero_deck": "Starting from your first impression of AI output — skipping abstract frameworks to run live prompts first. <strong>Log where the AI drifts</strong>; these notes form next week's core material.", "w1.s1_num": "01", "w1.s1_kicker": "— paradigm shift", "w1.s1_title": "From Producer to Curator: The Designer's Role in AI/UX", "w1.s1_desc": "AI can generate UI, flows, and prototypes — but generation is not design. The designer's core value shifts from crafting polished screens to <strong>judging what to keep, what to change, and why</strong>. This course does not teach prompt tricks; it turns your design judgment into durable, machine-readable knowledge assets.", "w1.s1_ins_label": "Core Thesis", "w1.s1_ins_body": "Your existing design assets are the best starting point for a knowledge base. There is no standard answer here, only <strong>the right answer for your context</strong>. You leave after four weeks with a running operational system, not another slide deck.", "w1.s2_num": "02", "w1.s2_kicker": "— tool chain", "w1.s2_title": "Toolchain: Antigravity × Pencil × Stitch", "w1.s2_desc": "The course toolchain divides into three distinct roles: <strong>Antigravity Agent</strong> handles generation and agent setup, <strong>Pencil</strong> handles HTML↔Figma assembly and refinement, and <strong>Stitch</strong> runs AI variant exploration. We complete setup and verification this week.", "w1.tc1_name": "Antigravity Agent", "w1.tc1_en": "generation × agent config", "w1.tc1_role": "AI generation engine + agent configuration. Houses the Week 4 Design Agent. Reads wiki context to produce UI candidates.", "w1.tc2_name": "Antigravity IDE", "w1.tc2_en": "development environment", "w1.tc2_role": "IDE workspace. Manages wiki directory structure, skill sets, design tokens, and agent context configurations.", "w1.tc3_name": "Pencil", "w1.tc3_en": "html ↔ figma bridge", "w1.tc3_role": "Assembles and refines design system components from AI-generated HTML. Two-way <code>HTML → Figma</code> bridge to reach production mockups.", "w1.tc4_name": "Stitch", "w1.tc4_en": "ai variant exploration", "w1.tc4_role": "Platform for Week 2–3 variant exploration across all three paths: prompt→UI, screenshot→UI, and document→UI.", "w1.s3_num": "03", "w1.s3_kicker": "— first contact", "w1.s3_title": "First Prompt→UI: Establishing a Baseline Impression", "w1.s3_desc1": "Run a full screen with default prompts. <strong>The goal is not perfection</strong>, but getting a raw impression of AI output: spotting where it drifts, what you would fix, and what trade-offs you notice. These observations become the input for Week 2's knowledge base.", "w1.s3_desc2": "Pedagogical Note: <strong>We deliberately hold back UICrit here</strong>. Letting learners rely on raw instinct first before benchmarking against UICrit in Week 2 creates a much deeper impression: discovering what your instincts caught versus what they missed builds real judgment faster than memorizing rules upfront.", "w1.s4_num": "04", "w1.s4_kicker": "— observation notes", "w1.s4_title": "Observation Notes: AI Output vs. What I Would Do", "w1.s4_desc": "Record three things: (1) what AI generated, (2) what you would change, and (3) why you want to change it. The third point is most critical — it externalizes implicit design judgment into structured context that agents can parse.", "w1.del_label": "Week 1 Deliverables", "w1.del_item1": "Verified toolchain environment (Antigravity Agent/IDE + Pencil + Stitch)", "w1.del_item2": "Observation notes (<code>observation.md</code>) logging the gap between AI outputs and design judgment", "w2.hero_lesson": "— Week 2 —", "w2.hero_title": "UI Audit Standards <em>× First AI Variants</em>", "w2.hero_deck": "Audit your Week 1 output using Google Research's <strong>UICrit</strong>, then run the first two AI variant paths in Stitch — <em>measuring how much variance screenshots actually eliminate</em>.", "w2.s1_num": "01", "w2.s1_kicker": "— research-based audit", "w2.s1_title": "UICrit: From Google Research to Your Audit Standards", "w2.s1_desc": "UICrit is an open-source dataset published by Google Research at UIST '24 — featuring 3,059 expert critiques across 983 mobile UIs. We filter this into <strong>four core dimensions</strong> as our audit foundation. We avoid prescriptive guidelines like Material or HIG because we need an <em>evaluative</em> framework (auditing user intent), not a <em>prescriptive</em> one (auditing styling conventions).", "w2.ac1_tag": "dimension 1", "w2.ac1_name": "Information Architecture", "w2.ac1_source": "UICrit · Information Architecture", "w2.ac1_body": "Page hierarchy, grouping logic, and navigation structure that allow users to predict the next step.", "w2.ac2_tag": "dimension 2", "w2.ac2_name": "Accessibility", "w2.ac2_source": "UICrit + WCAG 2.2", "w2.ac2_body": "4.5:1 contrast ratios, focus order, keyboard navigation, screen reader compatibility. Pairing UICrit commentary with WCAG technical benchmarks.", "w2.ac3_tag": "dimension 3", "w2.ac3_name": "Progressive Disclosure", "w2.ac3_source": "UICrit · Progressive Disclosure", "w2.ac3_body": "Does information density scale with the user's task stage? Dumping all options at once makes AI outputs look superficially complete but practically unusable.", "w2.ac4_tag": "dimension 4", "w2.ac4_name": "Interface Copy", "w2.ac4_source": "UICrit · UX Copy", "w2.ac4_body": "Button labels, error states, and empty state messaging — where AI most frequently outputs \"correct but useless\" text. Copy requires product context to work, which is why document→UI narrows variance most on this dimension.", "w2.ins_why_label": "Why Not Material Design", "w2.ins_why_body": "Material Design is <em>prescriptive</em> — it mandates rounded corners and 8px grid spacing. UICrit is <em>evaluative</em> — it asks whether this grouping helps the user complete their task. <strong>Auditors need evaluative frameworks to write substantive contradiction reports</strong> rather than complaining that something isn't Material style.", "w2.s2_num": "02", "w2.s2_kicker": "— audit your own output", "w2.s2_title": "Audit Week 1 Output with UICrit", "w2.s2_desc1": "Benchmark your Week 1 observations against UICrit's four dimensions. <strong>Where was your intuition right? What did you miss?</strong> Filter 10–15 relevant criteria from the UICrit dataset to author <code>audit-criteria.md</code> — the first audit spec in your knowledge base.", "w2.s2_desc2": "Author the product context document (<code>product-context.md</code>) in parallel: product definition, target users, tone of voice, prioritized use cases. Together, these two files form the skeleton of your wiki.", "w2.s3_num": "03", "w2.s3_kicker": "— variant path 2", "w2.s3_title": "Screenshot→UI: Mobbin × Notion Desktop Reference", "w2.s3_desc": "Use Notion desktop screenshots downloaded from Mobbin as visual references to run screenshot→UI in Stitch. Observe <strong>which dimensions converge and which continue to drift</strong> compared to Week 1.", "w2.s4_num": "04", "w2.s4_kicker": "— side-by-side comparison", "w2.s4_title": "Two Variant Groups Side by Side: Prompt vs. Screenshot", "w2.vc1_num": "Path 1", "w2.vc1_name": "Prompt→UI", "w2.vc1_en": "text prompt only · week 1", "w2.vc1_body": "Pure text prompts without visual references or product context. AI hallucinates freely. <strong>Outputs diverge widely across all dimensions</strong> — unstable IA, generic copy, random styling.", "w2.vc1_vlabel": "Variance Range", "w2.vc2_num": "Path 2", "w2.vc2_name": "Screenshot→UI", "w2.vc2_en": "visual reference · week 2", "w2.vc2_body": "Adding Notion desktop screenshots anchors the visual layer. <strong>Visual layout stabilizes</strong> (layout, spacing, component styles match reference), but IA logic and UX copy still drift — because screenshots carry no product context.", "w2.vc2_vlabel": "Variance Range", "w2.vc3_num": "Path 3", "w2.vc3_name": "Document→UI", "w2.vc3_en": "wiki-assisted · week 3", "w2.vc3_body": "Completed in Week 3. Feed the wiki (audit-criteria + product-context + decisions) into Antigravity. <strong>Context layer stabilizes</strong> — yet the right tail persists. Narrowing variance is not eliminating it.", "w2.vc3_vlabel": "Variance Range", "w2.ins_summary_label": "Pedagogical Takeaway", "w2.ins_summary_body": "Screenshots narrow visual variance, but <strong>contextual variance requires a structured wiki to converge</strong>. That is Week 3's core work: not making AI blindly obedient, but <em>writing design judgment into machine-readable formats so output variance falls within your acceptable review threshold</em>.", "w2.del_label": "Week 2 Deliverables", "w2.del_item1": "<code>audit-criteria.md</code>: 10–15 audit criteria filtered from UICrit", "w2.del_item2": "<code>product-context.md</code>: Structured product context specification", "w2.del_item3": "Side-by-side comparison of two AI variant paths (prompt vs. screenshot)", "w3.hero_lesson": "— Week 3 —", "w3.hero_title": "Document→UI <em>× Wiki Integration × Design System</em>", "w3.hero_deck": "The third path: feeding your wiki into AI. <strong>Compare all three variant groups side by side</strong> to prove that narrowing variance is not eliminating it — then <em>extract a starter design system from top elements</em>.", "w3.s1_num": "01", "w3.s1_kicker": "— variant path 3 · the wiki-assisted path", "w3.s1_title": "The Third Path: UX Document→UI", "w3.s1_desc": "Feed the Week 2 wiki (<code>audit-criteria.md</code> + <code>product-context.md</code>) plus course reference HTML files into Antigravity / Stitch. This is the most context-rich path: the AI receives <strong>visual references + product context + audit criteria</strong> simultaneously.", "w3.s2_num": "02", "w3.s2_kicker": "— the variance gradient · lived experience", "w3.s2_title": "Auditing Three Variant Groups Side by Side: The Variance Gradient", "w3.s2_desc": "Place all three outputs side by side and run audits using your UICrit subset. <strong>This is the pivotal teaching moment</strong>: document→UI outputs show clear convergence (correct IA, aligned tone, working progressive disclosure), but remain imperfect — the right tail still exists.", "w3.ws1_name": "Prompt→UI", "w3.ws1_en": "week 1 · baseline", "w3.ws1_body": "Widest variance. Kept as the baseline control group. High divergence across all four dimensions.", "w3.ws2_name": "Screenshot→UI", "w3.ws2_en": "week 2 · visual ref", "w3.ws2_body": "Visual layer converges. IA and copy still drift — screenshots contain no underlying context.", "w3.ws3_name": "Document→UI", "w3.ws3_en": "week 3 · wiki-assisted", "w3.ws3_body": "Context layer converges. Right tail persists — narrowing variance is not eliminating it.", "w3.ws4_name": "Learner Takeaway", "w3.ws4_en": "the insight", "w3.ws4_body": "Hands-on proof: the wiki's value is narrowing variance, not eliminating it. When outputs drift, audit standards catch the flaws.", "w3.ins_var_label": "Managing Variance", "w3.ins_var_body": "Learners produce three distinct curves: prompt (widest), screenshot (middle), and document (narrowest, yet still variable). They don't need lectures warning that outputs drift; they have seen it live. What they need is knowing <em>what to do when drift happens</em> — the two convergence steps below provide the answer.", "w3.s3_num": "03", "w3.s3_kicker": "— convergence · design system", "w3.s3_title": "From Variants to Design System: Converging Tokens × Components × Patterns", "w3.s3_desc": "Extract top-performing elements across the three variant sets and assemble a starter design system in Pencil. Focus on three clean layers: <strong>Design Tokens</strong> (color, typography, spacing), <strong>Components</strong> (buttons, inputs, cards), and <strong>Patterns</strong> (navigation, forms, empty states). Log every convergence decision in design decision records.", "w3.s4_num": "04", "w3.s4_kicker": "— wiki gap repair", "w3.s4_title": "Wiki Gap Repair: Design Decision Records", "w3.s4_desc1": "Side-by-side auditing exposes wiki blind spots: some criteria are too vague (\"clear IA\" is useless; specify \"primary navigation capped at 5 items, secondary items collapsed by default\"); some product context was missing (tone stated \"professional\" but omitted \"explain one extra step for novice users\"). <strong>Patch exposed gaps back into</strong> <code>wiki/decisions/</code>.", "w3.s4_desc2": "Design Decision Records (<code>decisions/</code>) are the highest-value wiki assets: they answer <strong>why</strong> a pattern was chosen over alternatives. In future iterations, agents read not just \"use this\", but \"use this because of X constraint\" — enabling sound extrapolation in novel scenarios.", "w3.del_label": "Week 3 Deliverables", "w3.del_item1": "Audit comparison report across three AI variant sets (HTML format, evaluated against UICrit subset)", "w3.del_item2": "Updated wiki repository (<code>audit-criteria.md</code> + <code>product-context.md</code> + <code>decisions/</code>)", "w3.del_item3": "Starter design system (tokens / components / patterns assembled in Pencil)", "w4.hero_lesson": "— Week 4 —", "w4.hero_title": "POC Delivery <em>× Design Agent × Showcase</em>", "w4.hero_deck": "Polish the wiki into a deliverable package. Build your first Design Agent. Complete a full iteration cycle — <strong>from feature request to final audit</strong>. Showcase one POC archetype.", "w4.s1_num": "01", "w4.s1_kicker": "— wiki as deliverable", "w4.s1_title": "Wiki Consolidation: From Notes to Deliverables", "w4.s1_desc": "Four documents form your complete LLM wiki bundle: <strong>Product Context</strong> (product-context), <strong>Audit Criteria</strong> (audit-criteria), <strong>Design Decisions</strong> (decisions), and <strong>Design System</strong> (design-system tokens + components + patterns). Focus on closed-loop cross-referencing: agents reading any single file can follow links to resolve the other three.", "w4.s2_num": "02", "w4.s2_kicker": "— your first design agent", "w4.s2_title": "Your First Design Agent: Context × Skill Set", "w4.s2_desc": "Configure an agent in Antigravity IDE: its <strong>context = your wiki</strong>, and its <strong>skill set = audit criteria + design system tokens</strong> refined in Weeks 2–3. This is not a generic bot; it is a specialized Design Agent calibrated directly by your domain judgment.", "w4.s3_num": "03", "w4.s3_kicker": "— full loop", "w4.s3_title": "The Full Loop: Feature → Agent → Candidate → Audit", "w4.s3_desc": "Execute a full closed loop: new feature arrives → agent reads wiki to generate candidates → audit against UICrit criteria → decide to modify artifact, update wiki, or accept trade-off. <strong>This concludes the four-week arc</strong>: evolving from manual prompt testing in Week 1 to an integrated agent + wiki + audit operating model.", "w4.ws1_name": "Feature Intake", "w4.ws1_en": "new requirement", "w4.ws1_body": "A defined scenario requirement serving as input for the POC.", "w4.ws2_name": "Agent Generation", "w4.ws2_en": "wiki-informed candidate", "w4.ws2_body": "Design Agent reads wiki context and skill sets to output UI candidates.", "w4.ws3_name": "Audit Judgment", "w4.ws3_en": "audit × decision", "w4.ws3_body": "Run audit via UICrit subset. Choose one: modify artifact / update wiki / accept trade-off.", "w4.ws4_name": "Wiki Writeback", "w4.ws4_en": "close the loop", "w4.ws4_body": "Log decisions back into the wiki. Knowledge base becomes more complete. Compounding cycle begins.", "w4.s4_num": "04", "w4.s4_kicker": "— poc showcase", "w4.s4_title": "POC Showcase: Three Archetype Spectrums", "w4.s4_desc": "Learners pick one POC archetype to present. Deliverable format is HTML (including design system tokens). All three archetypes hold equal standing, addressing distinct organizational roles.", "w4.pt1_tag": "type a", "w4.pt1_name": "Screen-level Critique", "w4.pt1_ref": "Benchmark: <code>design_review_IC.html</code>", "w4.pt1_body": "Screen-by-screen design critique. Each screen features UICrit dimension tags, issue diagnosis, and remediation notes. Focuses on craft: palette, spacing, component selection, copy quality.", "w4.pt1_who": "→ Best for IC Designers", "w4.pt2_tag": "type b", "w4.pt2_name": "Business-risk Framing", "w4.pt2_ref": "Benchmark: <code>design_review_Manager.html</code>", "w4.pt2_body": "Framed around commercial and operational risk: \"what consequences does this design create, which stakeholders are impacted, and what is remediation cost?\" UICrit standards packaged into risk severity matrices.", "w4.pt2_who": "→ Best for Senior Designers / Leads", "w4.pt3_tag": "type c", "w4.pt3_name": "Wiki-driven Layer Inspector", "w4.pt3_ref": "Benchmark: <code>layer-inspector.html</code>", "w4.pt3_body": "Showcases structural mappings between wiki and UI. Layer inspector interface: left pane displays wiki structure (audit-criteria, decisions, tokens), right pane shows corresponding UI components with interactive cross-referencing.", "w4.pt3_who": "→ Best for Design Engineers / Systems Designers", "w4.del_label": "Week 4 Deliverables (Final)", "w4.del_item1": "POC HTML (with embedded design system tokens), chosen from the 3 archetypes", "w4.del_item2": "Complete LLM Wiki package (product-context + audit-criteria + decisions + design-system)", "w4.del_item3": "Design Agent configuration (context wired to wiki, skill set wired to audit criteria & tokens)", "w5.hero_lesson": "— Teaching Kit —", "w5.hero_title": "Teaching Kit <em>× Tools × Reference Examples</em>", "w5.hero_deck": "Complete inventory of course materials, tools, and reference artifacts. <strong>Provided kit assets</strong> and <strong>learner-prepared prerequisites</strong> separated clearly.", "w5.s1_num": "01", "w5.s1_kicker": "— course materials", "w5.s1_title": "Course Materials Inventory", "w5.th_mat": "Material", "w5.th_fmt": "Format", "w5.th_used": "Used For", "w5.th_src": "Source", "w5.r1_mat": "<strong>UICrit Audit Subset</strong>", "w5.r1_fmt": "<code>.csv</code>", "w5.r1_used": "Week 2 · Audit criteria formulation", "w5.r1_src": "Google Research · UIST '24 (Curated)", "w5.r2_mat": "<strong>Notion Desktop Reference Screens</strong>", "w5.r2_fmt": "Images", "w5.r2_used": "Week 2 · Screenshot→UI", "w5.r2_src": "Mobbin exports", "w5.r3_mat": "<strong>V4 Course HTML C1–C3</strong>", "w5.r3_fmt": "<code>.html</code>", "w5.r3_used": "Week 3 · Document→UI reference layer", "w5.r3_src": "Course curriculum", "w5.r4_mat": "<strong>design_review_IC</strong>", "w5.r4_fmt": "<code>.html</code>", "w5.r4_used": "Week 4 · POC Archetype A", "w5.r4_src": "BitePal Settings Design Review", "w5.r5_mat": "<strong>design_review_Manager</strong>", "w5.r5_fmt": "<code>.html</code>", "w5.r5_used": "Week 4 · POC Archetype B", "w5.r5_src": "BitePal Business Risk Framing", "w5.r6_mat": "<strong>layer-inspector</strong>", "w5.r6_fmt": "<code>.html</code>", "w5.r6_used": "Week 4 · POC Archetype C", "w5.r6_src": "Design Wiki POC v3", "w5.s2_num": "02", "w5.s2_kicker": "— tool chain", "w5.s2_title": "Toolchain Overview", "w5.th_tool": "Tool", "w5.th_role": "Role", "w5.th_weeks": "Active Weeks", "w5.t1_name": "<strong>Antigravity Agent</strong>", "w5.t1_role": "AI generation engine + Design Agent configuration", "w5.t1_weeks": "W1–W4 (All)", "w5.t2_name": "<strong>Antigravity IDE</strong>", "w5.t2_role": "Workspace · wiki management · skill set · agent context", "w5.t2_weeks": "W1–W4 (All)", "w5.t3_name": "<strong>Pencil</strong>", "w5.t3_role": "HTML↔Figma bridge · design system assembly and refinement", "w5.t3_weeks": "W3–W4", "w5.t4_name": "<strong>Stitch</strong>", "w5.t4_role": "AI variant exploration (prompt / screenshot / document→UI)", "w5.t4_weeks": "W1–W3", "w5.s3_num": "03", "w5.s3_kicker": "— deliverable timeline", "w5.s3_title": "Weekly Deliverables Timeline", "w5.th_week": "Week", "w5.th_del": "Deliverable", "w5.th_del_fmt": "Format", "w5.d1_wk": "<strong>W1</strong>", "w5.d1_del": "Tool environment verification + observation notes", "w5.d1_fmt": "<code>observation.md</code>", "w5.d2_wk": "<strong>W2</strong>", "w5.d2_del": "Wiki skeleton + two-group AI variant comparison", "w5.d2_fmt": "<code>audit-criteria.md</code> + <code>product-context.md</code>", "w5.d3_wk": "<strong>W3</strong>", "w5.d3_del": "Three-group audit report + updated wiki + starter design system", "w5.d3_fmt": "HTML report + markdown wiki + Pencil assembly", "w5.d4_wk": "<strong>W4</strong>", "w5.d4_del": "POC HTML + complete LLM wiki package + Design Agent configuration", "w5.d4_fmt": "HTML (with design tokens) + full wiki bundle", "w5.s4_num": "04", "w5.s4_kicker": "— core thesis", "w5.s4_title": "Core Course Theses", "w5.ins1_label": "The Variance Gradient", "w5.ins1_body": "Three paths (prompt→UI, screenshot→UI, document→UI) establish a <strong>variance gradient</strong>. A knowledge base does not eliminate variance; it <em>narrows variance into a manageable review range</em>. Learners validating this live in Weeks 2–3 is the load-bearing pillar of the course.", "w5.ins2_label": "Evaluative > Prescriptive", "w5.ins2_body": "UICrit + WCAG are evaluative frameworks — they ask \"<strong>does this design help users complete tasks?</strong>\", not \"does this follow a specific company's UI guide?\". Designer audit criteria should rest on empirical research rather than vendor style dogma.", "w5.ins3_label": "Wiki as Interface", "w5.ins3_body": "The wiki is not static human documentation — it is the <strong>interface between human designer and AI agent</strong>. Product context, audit criteria, design decisions, and tokens cross-reference to give agents complete situational awareness. <em>Wiki is the interface; Agent is the worker</em>."},
+      zh: {"nav.back": "← 返回教材清單", "nav.brand": "PrivacyUX · UX for AI", "nav.w1": "定位 × 工具鏈", "nav.w2": "審計 × 變體", "nav.w3": "Wiki × 設計系統", "nav.w4": "POC 交付", "nav.kit": "教材包", "w1.hero_lesson": "— Week 1 —", "w1.hero_title": "定位 × 工具鏈建立 <em>× 第一份知識庫骨架</em>", "w1.hero_deck": "從「AI 產出的第一印象」出發，不教框架、先讓你動手跑一次。<strong>記下 AI 飄在哪</strong>，這份觀察是下一週的素材。", "w1.s1_num": "01", "w1.s1_kicker": "— paradigm shift", "w1.s1_title": "從產出者到策展者：設計師在 AI/UX 裡的角色", "w1.s1_desc": "AI 能生成 UI、flow、prototype——但生成不等於設計。設計師的核心價值從「做出漂亮的畫面」移到<strong>「判斷什麼該留、什麼該改、為什麼這樣決定」</strong>。這堂課不會讓你變成 prompt 高手，而是讓你的設計判斷變成 AI 讀得懂、持續可用的知識資產。", "w1.s1_ins_label": "核心命題", "w1.s1_ins_body": "你現有的設計資產，就是知識庫最好的起點。這門課沒有標準答案，只有<strong>適合你自己的答案</strong>。四週結束時你帶走的不是一套方法論，而是<em>一個跑得動的工作系統</em>。", "w1.s2_num": "02", "w1.s2_kicker": "— tool chain", "w1.s2_title": "工具鏈：Antigravity × Pencil × Stitch", "w1.s2_desc": "整門課的工具鏈圍繞三個角色分工：<strong>Antigravity Agent</strong> 負責生成與 agent 配置、<strong>Pencil</strong> 負責 HTML↔Figma 的組裝和細修、<strong>Stitch</strong> 負責 AI 變體探索。本週完成環境安裝與驗證。", "w1.tc1_name": "Antigravity Agent", "w1.tc1_en": "generation × agent config", "w1.tc1_role": "AI 生成引擎 + agent 配置。Week 4 的 Design Agent 建在這裡。負責讀 wiki context、產出 UI candidate。", "w1.tc2_name": "Antigravity IDE", "w1.tc2_en": "development environment", "w1.tc2_role": "整合開發環境。管理 wiki 檔案結構、skill set、design token，以及 agent 的 context 配置。", "w1.tc3_name": "Pencil", "w1.tc3_en": "html ↔ figma bridge", "w1.tc3_role": "從 AI 產出的 HTML 組裝和細修設計系統元件。<code>HTML → Figma</code> 雙向橋接，收斂到可交付的設計稿。", "w1.tc4_name": "Stitch", "w1.tc4_en": "ai variant exploration", "w1.tc4_role": "Week 2–3 的 AI 變體探索平台。三種路徑——prompt→UI、screenshot→UI、document→UI——都在這裡完成。", "w1.s3_num": "03", "w1.s3_kicker": "— first contact", "w1.s3_title": "第一次 Prompt→UI：建立 AI 產出的第一印象", "w1.s3_desc1": "用預設 prompt 跑一個完整畫面。<strong>目的不是做出好東西</strong>，是建立「AI 產出的第一印象」——觀察它飄在哪、哪些地方你會改、哪些地方你不確定要不要改。這些觀察，就是 Week 2 要餵進知識庫的素材。", "w1.s3_desc2": "教學提醒：<strong>這裡刻意不教 UICrit</strong>。先讓學員用自己的直覺判斷，Week 2 再用 UICrit 回頭對照——「你的直覺對了幾條、漏了什麼」比「先學框架再做判斷」的教學效果更好。先有體感，再有結構。", "w1.s4_num": "04", "w1.s4_kicker": "— observation notes", "w1.s4_title": "觀察筆記：AI 產出 vs. 我會怎麼做", "w1.s4_desc": "記錄三件事：(1) AI 產出了什麼、(2) 哪些地方我會改、(3) 我為什麼想改。第三點最重要——它是你對自己設計判斷的第一次顯影。大部分設計師的判斷都是隱性的，這份筆記是把它變成 AI 讀得懂的格式的第一步。", "w1.del_label": "Week 1 交付", "w1.del_item1": "工具環境跑通（Antigravity Agent/IDE + Pencil + Stitch）", "w1.del_item2": "觀察筆記（<code>observation.md</code>），記錄 AI 產出 vs. 自己的判斷差距", "w2.hero_lesson": "— Week 2 —", "w2.hero_title": "UI 審計標準 <em>× 第一輪 AI 變體</em>", "w2.hero_deck": "用 Google Research 的 <strong>UICrit</strong> 回頭審計你的 Week 1 產出，然後在 Stitch 裡完成前兩條 AI 變體路徑——<em>看看截圖能收窄多少變異</em>。", "w2.s1_num": "01", "w2.s1_kicker": "— research-based audit", "w2.s1_title": "UICrit：從 Google Research 到你的審計標準", "w2.s1_desc": "UICrit 是 Google Research 於 UIST '24 發表的開源資料集——3,059 條人類專家對 983 個行動 UI 的結構化評論。我們從中篩選<strong>四個維度</strong>作為課程的審計基礎，不用 Material Design 或 iOS HIG，因為我們需要的是 <em>evaluative</em> 框架（能 audit「意圖」），不是 <em>prescriptive</em> 框架（只 audit「外型」）。", "w2.ac1_tag": "dimension 1", "w2.ac1_name": "資訊架構", "w2.ac1_source": "UICrit · Information Architecture", "w2.ac1_body": "頁面層級、群組邏輯、導覽結構是否讓使用者能預測「下一步在哪裡」。", "w2.ac2_tag": "dimension 2", "w2.ac2_name": "無障礙", "w2.ac2_source": "UICrit + WCAG 2.2", "w2.ac2_body": "對比度 4.5:1、焦點順序、鍵盤操作、螢幕閱讀器相容性。UICrit 的 accessibility 評論對照 WCAG 技術標準使用。", "w2.ac3_tag": "dimension 3", "w2.ac3_name": "漸進式揭露", "w2.ac3_source": "UICrit · Progressive Disclosure", "w2.ac3_body": "資訊量是否根據使用者的任務階段遞增？一次顯示過多選項會讓 AI 產出看起來「什麼都對但什麼都沒做好」。", "w2.ac4_tag": "dimension 4", "w2.ac4_name": "介面文案", "w2.ac4_source": "UICrit · UX Copy", "w2.ac4_body": "按鈕標籤、錯誤訊息、空狀態文案——AI 最容易產出「正確但無用」的地方。文案需要產品語境才能寫對，這也是 document→UI 變異最明顯收窄的維度。", "w2.ins_why_label": "為什麼不用 Material", "w2.ins_why_body": "Material Design 是 <em>prescriptive</em>——它告訴你 button 要 round corner、spacing 要 8px grid。UICrit 是 <em>evaluative</em>——它問「這個 grouping 有沒有幫助使用者完成任務」。<strong>Auditor 用 evaluative 框架才能寫出有 substance 的 contradiction report</strong>，而不是只說「這個不是 Material 風格」。", "w2.s2_num": "02", "w2.s2_kicker": "— audit your own output", "w2.s2_title": "用 UICrit 回頭審計 Week 1 的 Prompt→UI 產出", "w2.s2_desc1": "把 Week 1 的直覺觀察，對照 UICrit 的四個維度。<strong>直覺對了幾條？漏了什麼？</strong> 從 UICrit CSV 中篩出跟自己 POC 場景最相關的 10–15 條標準，寫成 <code>audit-criteria.md</code>——這是你知識庫的第一份審計標準文件。", "w2.s2_desc2": "同步建立產品語境文件（<code>product-context.md</code>）：這個產品是什麼、給誰用、語氣是什麼、哪些使用場景優先。這兩份文件合起來就是 wiki 的骨架。", "w2.s3_num": "03", "w2.s3_kicker": "— variant path 2", "w2.s3_title": "Screenshot→UI：Mobbin × Notion Desktop 參考", "w2.s3_desc": "用從 Mobbin 下載的 Notion desktop 截圖作為視覺參照，在 Stitch 中跑 screenshot→UI。觀察跟 Week 1 的 prompt→UI 相比，<strong>哪些維度收窄了、哪些還在飄</strong>。", "w2.s4_num": "04", "w2.s4_kicker": "— side-by-side comparison", "w2.s4_title": "兩組變體並排：Prompt vs. Screenshot", "w2.vc1_num": "Path 1", "w2.vc1_name": "Prompt→UI", "w2.vc1_en": "text prompt only · week 1", "w2.vc1_body": "純文字 prompt，無視覺參照、無產品語境。AI 自由發揮。<strong>產出在所有維度都高度發散</strong>——IA 不穩定、文案通用、風格隨機。", "w2.vc1_vlabel": "變異幅度", "w2.vc2_num": "Path 2", "w2.vc2_name": "Screenshot→UI", "w2.vc2_en": "visual reference · week 2", "w2.vc2_body": "加入 Notion desktop 截圖作為視覺參照。<strong>視覺層穩定了</strong>（layout、spacing、元件風格接近參照），但 IA 邏輯和 UX copy 仍然飄——因為截圖裡讀不到語境。", "w2.vc2_vlabel": "變異幅度", "w2.vc3_num": "Path 3", "w2.vc3_name": "Document→UI", "w2.vc3_en": "wiki-assisted · week 3", "w2.vc3_body": "Week 3 完成。用 wiki（audit-criteria + product-context + 設計決策）餵進 Antigravity。<strong>語境層也收窄了</strong>——但右尾仍在。這就是「收窄不等於消除」。", "w2.vc3_vlabel": "變異幅度", "w2.ins_summary_label": "教學收束", "w2.ins_summary_body": "截圖能收窄視覺層變異，但<strong>語境層變異需要 wiki 才能收窄</strong>。這就是 Week 3 要做的事——不是「讓 AI 更聽話」，而是<em>把你的設計判斷寫成 AI 讀得懂的格式，讓變異的範圍落在你能接受的審查區間裡</em>。", "w2.del_label": "Week 2 交付", "w2.del_item1": "<code>audit-criteria.md</code>：從 UICrit 篩出的 10–15 條審計標準", "w2.del_item2": "<code>product-context.md</code>：產品語境文件", "w2.del_item3": "兩組 AI 變體並排比較（prompt vs. screenshot）", "w3.hero_lesson": "— Week 3 —", "w3.hero_title": "Document→UI <em>× Wiki 連動 × 設計系統</em>", "w3.hero_deck": "第三條路徑：用你的 wiki 餵 AI。<strong>三組變體並排</strong>，親手驗證「收窄不等於消除」——然後從最好的元素裡<em>收斂出初版設計系統</em>。", "w3.s1_num": "01", "w3.s1_kicker": "— variant path 3 · the wiki-assisted path", "w3.s1_title": "第三條路徑：UX Document→UI", "w3.s1_desc": "用 Week 2 建好的 wiki（<code>audit-criteria.md</code> + <code>product-context.md</code>）加上 V4 HTML C1–C3 教材作為 LLM wiki 的參考層，餵進 Antigravity / Stitch。這是三條路徑中 context 最完整的一條——AI 同時拿到了<strong>視覺參照 + 產品語境 + 審計標準</strong>。", "w3.s2_num": "02", "w3.s2_kicker": "— the variance gradient · lived experience", "w3.s2_title": "三組變體並排審計：變異梯度的實證", "w3.s2_desc": "三組產出並排，用自己的 UICrit 子集跑審計。<strong>這是整門課最關鍵的教學時刻</strong>：document→UI 的產出會明顯更收斂（IA 對了、語氣靠近了、progressive disclosure 的邏輯有了），但依然不完美——右尾還在。", "w3.ws1_name": "Prompt→UI", "w3.ws1_en": "week 1 · baseline", "w3.ws1_body": "最寬變異。保留作為對照組。四個維度都高度發散。", "w3.ws2_name": "Screenshot→UI", "w3.ws2_en": "week 2 · visual ref", "w3.ws2_body": "視覺層收窄。IA 和文案仍飄——截圖裡沒有語境。", "w3.ws3_name": "Document→UI", "w3.ws3_en": "week 3 · wiki-assisted", "w3.ws3_body": "語境層也收窄。但右尾仍在——收窄 ≠ 消除。", "w3.ws4_name": "學員結論", "w3.ws4_en": "the insight", "w3.ws4_body": "親手驗證：wiki 的價值是收窄變異，不是消除變異。飄的時候有審計標準接住。", "w3.ins_var_label": "不穩定性管理", "w3.ins_var_body": "學員親手做出的三條曲線——prompt（最寬）、screenshot（中間）、document（最窄但仍有寬度）——就是<strong>「收窄不等於消除」的活體版</strong>。他們不需要被告知「產出會飄」，他們已經看到了。他們需要的是知道「<em>飄的時候怎麼辦</em>」——下面兩個收斂動作就是答案。", "w3.s3_num": "03", "w3.s3_kicker": "— convergence · design system", "w3.s3_title": "從變體到設計系統：收斂 Token × Component × Pattern", "w3.s3_desc": "從三組變體中表現最好的元素抽出來，在 Pencil 裡組裝成初版設計系統。不求完整，先收斂三個層次：<strong>Design Token</strong>（色彩、字級、間距）、<strong>Component</strong>（按鈕、輸入框、卡片）、<strong>Pattern</strong>（導覽、表單、空狀態）。每個收斂決定都寫進設計決策紀錄。", "w3.s4_num": "04", "w3.s4_kicker": "— wiki gap repair", "w3.s4_title": "Wiki 缺口修補：設計決策紀錄", "w3.s4_desc1": "三組並排審計會暴露 wiki 的缺口——有些審計標準太粗（「IA 要清楚」沒有用，要寫清楚「主導覽不超過 5 個項目、次級選項預設收合」）；有些產品語境沒寫到（語氣只寫了「專業」，沒寫「但對新手要多解釋一句」）。<strong>把這輪暴露出來的缺口補回去</strong>，寫進 <code>wiki/decisions/</code>。", "w3.s4_desc2": "設計決策紀錄（<code>decisions/</code>）是 wiki 裡最有價值的部分：它回答「<strong>為什麼</strong>選這個 pattern 而不是那個」。AI 下一次生成時讀到的不只是「用這個」，而是「用這個，因為這個理由」——這讓它在碰到類似但不完全相同的場景時，有機會做出合理的延伸。", "w3.del_label": "Week 3 交付", "w3.del_item1": "三組 AI 變體的審計比較報告（HTML 格式，用自己的 UICrit 子集跑）", "w3.del_item2": "更新過的 wiki（<code>audit-criteria.md</code> + <code>product-context.md</code> + <code>decisions/</code>）", "w3.del_item3": "初版設計系統（token / component / pattern，在 Pencil 中組裝）", "w4.hero_lesson": "— Week 4 —", "w4.hero_title": "POC 交付 <em>× Design Agent × 展示</em>", "w4.hero_deck": "Wiki 整理成可交付狀態。建立第一組 Design Agent。跑完一個完整回合——<strong>從 feature 進來到審計完成</strong>。選一種 POC 型態展示。", "w4.s1_num": "01", "w4.s1_kicker": "— wiki as deliverable", "w4.s1_title": "Wiki 整理：從筆記到可交付", "w4.s1_desc": "四份文件組成你的 LLM wiki 完整包：<strong>產品語境</strong>（product-context）、<strong>審計標準</strong>（audit-criteria）、<strong>設計決策</strong>（decisions）、<strong>設計系統</strong>（design-system token + component + pattern）。不求完美，求閉環——每份文件之間有交叉引用，agent 讀任何一份都能順著連結找到其他三份。", "w4.s2_num": "02", "w4.s2_kicker": "— your first design agent", "w4.s2_title": "第一組 Design Agent：Context × Skill Set", "w4.s2_desc": "在 Antigravity IDE 裡配置一個 agent：它的 <strong>context = 你的 wiki</strong>，它的 <strong>skill set = Week 2–3 沉澱下來的審計標準 + 設計系統 token</strong>。這個 agent 不是通用型的——它是被你的設計判斷校準過的、專門服務你這個產品的 Design Agent。", "w4.s3_num": "03", "w4.s3_kicker": "— full loop", "w4.s3_title": "完整回合：Feature → Agent → Candidate → 審計", "w4.s3_desc": "跑一次完整的閉環：一個新 feature 需求進來 → agent 讀 wiki 產出 candidate → 用自己的審計標準跑一輪 → 決定修改 / 接受 / 回寫 wiki。<strong>這是四週課程的收尾</strong>——你從 Week 1 的「手動跑 prompt」走到了「agent + wiki + 審計」的完整工作流。", "w4.ws1_name": "Feature 進來", "w4.ws1_en": "new requirement", "w4.ws1_body": "一個指定情境的新需求，作為 POC 的輸入。", "w4.ws2_name": "Agent 產出", "w4.ws2_en": "wiki-informed candidate", "w4.ws2_body": "Design Agent 讀 wiki，基於 context + skill set 產出 UI candidate。", "w4.ws3_name": "審計判斷", "w4.ws3_en": "audit × decision", "w4.ws3_body": "用 UICrit 子集跑審計。三選一：改 artifact / 改 wiki / 接受 trade-off。", "w4.ws4_name": "回寫 Wiki", "w4.ws4_en": "close the loop", "w4.ws4_body": "決策紀錄寫回 wiki。知識庫比上一輪更完整。鏈式循環啟動。", "w4.s4_num": "04", "w4.s4_kicker": "— poc showcase", "w4.s4_title": "POC 展示：三種型態光譜", "w4.s4_desc": "學員選一種 POC 型態展示。交付格式為 HTML（需包含設計系統 token）。三種型態不分高低，反映不同角色和場景的需要。", "w4.pt1_tag": "type a", "w4.pt1_name": "Screen-level Critique", "w4.pt1_ref": "對標：<code>design_review_IC.html</code>", "w4.pt1_body": "逐畫面的設計判斷呈現。每一張截圖搭配 UICrit 維度的標注、問題診斷、改善建議。聚焦 craft 層——配色、間距、元件選擇、文案品質。", "w4.pt1_who": "→ 適合 IC 設計師", "w4.pt2_tag": "type b", "w4.pt2_name": "Business-risk Framing", "w4.pt2_ref": "對標：<code>design_review_Manager.html</code>", "w4.pt2_body": "從商業風險角度切入——「這個設計決策會造成什麼後果、影響哪些利害關係人、修復成本是什麼」。UICrit 標準被包裝成 risk matrix 或 severity table。", "w4.pt2_who": "→ 適合資深設計師 / Lead", "w4.pt3_tag": "type c", "w4.pt3_name": "Wiki-driven 結構檢視", "w4.pt3_ref": "對標：<code>layer-inspector.html</code>", "w4.pt3_body": "展示 wiki 和 UI 的映射關係。Layer inspector 型態——左邊是 wiki 的結構（audit-criteria、decisions、token），右邊是 UI 的對應元件，點選可交叉參照。", "w4.pt3_who": "→ 適合偏技術的設計師", "w4.del_label": "Week 4 交付（期末）", "w4.del_item1": "POC HTML（包含設計系統 token），型態三選一", "w4.del_item2": "LLM Wiki 完整包（product-context + audit-criteria + decisions + design-system）", "w4.del_item3": "Design Agent 配置（context 指向 wiki、skill set 對應審計標準和設計系統）", "w5.hero_lesson": "— Teaching Kit —", "w5.hero_title": "教材包 <em>× 工具 × 參考範例</em>", "w5.hero_deck": "所有教材、工具、參考範例的完整清單。<strong>學員拿到的東西</strong>和<strong>需要自己準備的東西</strong>分開列。", "w5.s1_num": "01", "w5.s1_kicker": "— course materials", "w5.s1_title": "教材清單", "w5.th_mat": "材料", "w5.th_fmt": "格式", "w5.th_used": "用於", "w5.th_src": "來源", "w5.r1_mat": "<strong>UICrit 審計子集</strong>", "w5.r1_fmt": "<code>.csv</code>", "w5.r1_used": "Week 2 · 審計標準建立", "w5.r1_src": "Google Research · UIST '24（清理版）", "w5.r2_mat": "<strong>Notion Desktop 參考截圖</strong>", "w5.r2_fmt": "圖片", "w5.r2_used": "Week 2 · Screenshot→UI", "w5.r2_src": "從 Mobbin 下載", "w5.r3_mat": "<strong>V4 課程 HTML C1–C3</strong>", "w5.r3_fmt": "<code>.html</code>", "w5.r3_used": "Week 3 · Document→UI 的參考層", "w5.r3_src": "課程教材", "w5.r4_mat": "<strong>design_review_IC</strong>", "w5.r4_fmt": "<code>.html</code>", "w5.r4_used": "Week 4 · POC 範例 Type A", "w5.r4_src": "BitePal Settings 設計審查", "w5.r5_mat": "<strong>design_review_Manager</strong>", "w5.r5_fmt": "<code>.html</code>", "w5.r5_used": "Week 4 · POC 範例 Type B", "w5.r5_src": "BitePal 商業風險 Framing", "w5.r6_mat": "<strong>layer-inspector</strong>", "w5.r6_fmt": "<code>.html</code>", "w5.r6_used": "Week 4 · POC 範例 Type C", "w5.r6_src": "Design Wiki POC v3", "w5.s2_num": "02", "w5.s2_kicker": "— tool chain", "w5.s2_title": "工具鏈", "w5.th_tool": "工具", "w5.th_role": "角色", "w5.th_weeks": "使用週次", "w5.t1_name": "<strong>Antigravity Agent</strong>", "w5.t1_role": "AI 生成引擎 + Design Agent 配置", "w5.t1_weeks": "W1–W4（全程）", "w5.t2_name": "<strong>Antigravity IDE</strong>", "w5.t2_role": "開發環境 · wiki 管理 · skill set · agent context", "w5.t2_weeks": "W1–W4（全程）", "w5.t3_name": "<strong>Pencil</strong>", "w5.t3_role": "HTML↔Figma bridge · 設計系統組裝和細修", "w5.t3_weeks": "W3–W4", "w5.t4_name": "<strong>Stitch</strong>", "w5.t4_role": "AI 變體探索（prompt / screenshot / document→UI）", "w5.t4_weeks": "W1–W3", "w5.s3_num": "03", "w5.s3_kicker": "— deliverable timeline", "w5.s3_title": "每週交付物一覽", "w5.th_week": "週次", "w5.th_del": "交付物", "w5.th_del_fmt": "格式", "w5.d1_wk": "<strong>W1</strong>", "w5.d1_del": "工具環境驗證 + 觀察筆記", "w5.d1_fmt": "<code>observation.md</code>", "w5.d2_wk": "<strong>W2</strong>", "w5.d2_del": "wiki 骨架 + 兩組 AI 變體並排比較", "w5.d2_fmt": "<code>audit-criteria.md</code> + <code>product-context.md</code>", "w5.d3_wk": "<strong>W3</strong>", "w5.d3_del": "三組變體審計報告 + 更新 wiki + 初版設計系統", "w5.d3_fmt": "HTML 報告 + markdown wiki + Pencil 組裝", "w5.d4_wk": "<strong>W4</strong>", "w5.d4_del": "POC HTML + LLM wiki 完整包 + Design Agent 配置", "w5.d4_fmt": "HTML（含設計系統 token）+ wiki 全包", "w5.s4_num": "04", "w5.s4_kicker": "— core thesis", "w5.s4_title": "課程核心命題", "w5.ins1_label": "變異梯度", "w5.ins1_body": "三條路徑（prompt→UI、screenshot→UI、document→UI）構成一個<strong>變異梯度</strong>。知識庫的價值不是消除變異，是<em>收窄變異到可審查的區間</em>。學員在 Week 2–3 親手驗證這件事——這是整門課的承重牆。", "w5.ins2_label": "Evaluative > Prescriptive", "w5.ins2_body": "UICrit + WCAG 是 evaluative 框架——它們問「<strong>這個設計有沒有幫使用者完成任務</strong>」，不是「這個設計有沒有符合某家公司的 guideline」。設計師的審計標準應該建在研究基礎上，而不是綁定在 vendor 的風格系統裡。", "w5.ins3_label": "Wiki 是介面", "w5.ins3_body": "Wiki 不是給人讀的文件——它是<strong>人和 agent 之間的介面</strong>。Product context、audit criteria、design decisions、design system token，四份文件交叉引用，構成 agent 理解你這個產品的完整 context。<em>Wiki 是介面，Agent 是 worker</em>。"}
+    };
+
+    var SVGNS = "http://www.w3.org/2000/svg";
+    var LANGTAG = {en: "en", zh: "zh-Hant"};
+
+    function setLang(lang) {
+      var dict = T[lang] || T.en;
+      var nodes = document.querySelectorAll("[data-t]");
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        var key = el.getAttribute("data-t");
+        var val = dict[key];
+        if (val === undefined || val === null) continue;
+        if (el.namespaceURI === SVGNS) {
+          el.textContent = val.replace(/<[^>]+>/g, "");
+        } else {
+          el.innerHTML = val;
+        }
+      }
+      document.documentElement.setAttribute("lang", LANGTAG[lang] || "en");
+      try { localStorage.setItem("courseLang", lang); } catch(e) {}
+      var btns = document.querySelectorAll(".lang-switch button");
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.toggle("active", btns[j].getAttribute("data-lang") === lang);
+      }
+    }
+
+    document.querySelectorAll(".lang-switch").forEach(function(sw) {
+      sw.addEventListener("click", function(e) {
+        var b = e.target.closest("button[data-lang]");
+        if (b) setLang(b.getAttribute("data-lang"));
+      });
+    });
+
+    var initialLang = "en";
+    try {
+      var saved = localStorage.getItem("courseLang");
+      if (saved === "en" || saved === "zh") initialLang = saved;
+    } catch(e) {}
+    setLang(initialLang);
+
+    function switchTab(n, fromHash) {
+      n = parseInt(n, 10);
+      if (!(n >= 1 && n <= 5)) n = 1;
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.tab === String(n));
+      });
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.toggle('active', p.id === 'tab-' + n);
+      });
+      var h = '#unit-' + n;
+      if (!fromHash && location.hash !== h) {
+        try { history.replaceState(null, '', h); } catch (e) { location.hash = h; }
+      }
+    }
+
+    function initFromHash() {
+      var m = /^#unit-([1-5])$/.exec(location.hash || '');
+      if (m) {
+        switchTab(m[1], true);
+      } else {
+        switchTab(1);
+      }
+    }
+
+    window.addEventListener('hashchange', function () {
+      var m = /^#unit-([1-5])$/.exec(location.hash || '');
+      if (m) switchTab(m[1], true);
+    });
+
+    initFromHash();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,677 @@
+[
+  {
+    "zh": "AI/UX 實務流<span class=\"ornament\">：</span><br>H+M 省下的 Token · 合成用戶用於POC 階段 · 知識蒸餾的邊界",
+    "n": 1,
+    "len": 82
+  },
+  {
+    "zh": "單場 90 分鐘講座的<strong>內容脊梁</strong>:以管理三面向收攏設計師的 AI 日常—<b>管資源(Token 帳本)</b>、<b>管流程(合成用戶用於POC 階段)</b>、<b>管邊界(蒸餾的邊界 §05–§07)</b>。\n    論證核心貫穿全文:<b>一份給 AI 讀的文字檔 ＋ 一份給人看的畫面</b>（markdown＝substrate、html＝view；細節見技術對照）。每節雙層帶走物對位 EPSS;邊界段以判斷→組織問責→制度化物件收束。\n    受眾為封閉社群(EPSS 0–3)與資源決策者（設計管理者／AI PM）;<b>本文件是講什麼、帶走什麼—不是規劃小組分工表。</b>",
+    "n": 1,
+    "len": 314
+  },
+  {
+    "zh": "本文件與講座以社群既有的 <strong>EPSS 熟練度量表</strong>(0–6)校準受眾與帶走物。下面是量表原文。對號入座與 T1 問卷<strong>不用這張</strong>——用 §01 行為自查表：由上往下，第一個「是」就是你；不要用定義往高的靠。",
+    "n": 1,
+    "len": 133
+  },
+  {
+    "zh": "90 分鐘 × 三題 × 每節雙層帶走物:讓 EPSS 0–3 的社群成員帶著可照做的步驟卡離場、讓資源決策者（推廣階段期望新帶入的設計管理者/AI PM族群）帶著當週可推行的揭露範本離場",
+    "n": 1,
+    "len": 94
+  },
+  {
+    "zh": "三題依「成本 → 方法 → 邊界」排列:<b>§03 Token 帳本</b>(markdown＋html 雙層架構省 token;三個立即可砍的成本項)、<b>§04 合成用戶用於POC 階段</b>(低預算（一人設計創業）的 POC 驗證迴路,demo 預錄)、<b>§05–§07 蒸餾的邊界</b>(矩陣＋揭露範本 → 組織問責 → 制度化物件 D1–D8)。\n      §05 蒸餾的邊界向後延續為 <b>§06 組織問責</b> 與 <b>§07 制度化物件(D1–D8)</b>—同主題三段:判斷→問責→帶走物。Demo 預錄與成效閉環見 §08–§09。\n      現場錨點:<b>§04 demo 預錄主線</b>;<b>§05–§07 揭露範本＋問責＋D1–D8</b>。",
+    "n": 1,
+    "len": 348
+  },
+  {
+    "zh": "受眾是按月訂閱的封閉社群,成員已固化,拉新漏斗不成立—講座的工作是兩件:<strong>對內服務 EPSS 0–3 的既有成員、對外說服資源決策者（推廣階段期望新帶入的設計管理者/AI PM族群）</strong>。推廣階段外溢帶到 EPSS 4。\n        決策者動手能力多在 EPSS 1–2 但握有預算,因此每一節固定收在<strong>雙層帶走物</strong>:動手層(EPSS 3 能照步驟做、允許犯錯)與決策層(EPSS 1–2 也能帶走的判斷或範本)。EPSS 4（自行排錯）<strong>只 Demo、只點到</strong>。動手層一律附條列化操作步驟,逐步標注 EPSS 等級。\n        EPSS 分佈採<strong>設計假設開場、課後驗證</strong>:現場對位依本節假設。T1 課後問卷(Google Form)於 Day 0 發、D+7 收,餵 §09 成效門檻與下檔校準—不在開場要真實分佈。\n        T1 的 EPSS 題幹<strong>不是</strong>「請自評 0–6」,是:<strong>「對照附錄第一張自查表,由上往下,第一個『是』是幾。」</strong>禁止用定義往高的靠。這是分佈校準,不是成效量測——採購規則「不接受自評數據」仍然成立。",
+    "n": 1,
+    "len": 562
+  },
+  {
+    "zh": "<span><span class=\"sw\" style=\"background:rgba(227, 18, 11, 0.07); border-color:var(--accent);\"></span>社群主體 EPSS 0–3</span>\n          <span><span class=\"sw\" style=\"background:rgba(183, 121, 31, 0.14); border-color:var(--amber);\"></span>推廣外溢 EPSS 4</span>\n          <span>對位課程語言:EPSS 0–3 ≈ Maturity Ladder L0–L1</span>",
+    "n": 1,
+    "len": 316
+  },
+  {
+    "zh": "順序即弧線:<strong>成本開場勾住決策者</strong>(門檻最低)、<strong>demo 在中段製造記憶點</strong>(風險最高,放在注意力峰值)、<strong>治理收尾給行動項</strong>(決策者主場,帶著可推行的東西離場)。點下方三卡直接跳到對應分頁。",
+    "n": 1,
+    "len": 142
+  },
+  {
+    "zh": "對決策者最友善的一節,放最前面。全程把 token 換算成錢講(月費額度、API 帳單),不停留在 token 數。\n        個案方法:用你的教材個案實測 <strong>prompt-only vs. context-assisted 的帳單對照</strong>—同一個設計任務、兩種 context 策略、兩張帳單,現場攤開。\n        論證核心:<strong>一份給 AI 讀的文字檔 ＋ 一份給人看的畫面</strong>,本身就是省 token 的架構—兩份成對放著,下一輪直接引用,不用再貼一次。",
+    "n": 1,
+    "len": 263
+  },
+  {
+    "zh": "多數深度工時落在 <strong>Claude 問答</strong>與 <strong>Claude Code</strong>;<strong>Claude Desktop（桌面版）</strong>反而更常是協調節點—排程、對齊、轉交—不是最長的那一段動手時間。",
+    "n": 1,
+    "len": 134
+  },
+  {
+    "zh": "先講一個你可能正在做的情境:<strong>小團隊共用同一個 Claude 帳號</strong>(省錢、好交接、對話都在同一個地方)。帳號裡其實早就能放專案檔—這本來就是 S1 的形狀;但現場常同時踩到三層問題:",
+    "n": 1,
+    "len": 107
+  },
+  {
+    "zh": "<span class=\"th-label\">① 共用混亂 · COT 與權限各說各話</span>\n        同事們打開對話框,做的往往還是 S0:<strong>A 把 brief 全選複製貼上 → B 換手又貼一次 → C 找不到剛才那版,再貼第三次</strong>。\n        同一份東西被付了三次錢;更關鍵的是<strong>每個人腦中的 COT(寫作思維鏈)不同</strong>—誰改過、依哪一版、下一步要做什麼,互不同步。\n        帳號共用也不代表權限相同:有人看得到客戶合約、有人只該看公開 brief,卻用同一個登入全部攤開。",
+    "n": 1,
+    "len": 284
+  },
+  {
+    "zh": "<span class=\"th-label\">② 邊界模糊 · 誰看得到、誰轉得出去</span>\n        <strong>共用帳號＝預設所有人看得到彼此的完整對話與附檔</strong>(客戶名、未公開稿、合約條件都在裡面)。\n        若再用 <strong>Claude Share</strong> 把對話連結轉出去,等於多開一扇門—連結可被轉寄、轉貼,「對內共用」與「對外分享」的邊界一次糊掉,你很難追這串 context 最後落到誰手上。",
+    "n": 1,
+    "len": 232
+  },
+  {
+    "zh": "<span class=\"th-label\">③ 公域可被搜尋 · Share 曾進索引</span>\n        Claude Share 連結一旦外流,風險不只是「熟人轉寄」:<strong>公網可被搜尋引擎收錄</strong>(Google、Bing 等曾可索引到這類分享頁—目前主流引擎多已移除／下架相關結果,但不代表風險歸零:快取、轉載、第三方鏡像、未撤的連結仍可能殘留)。\n        現場記一句:<strong>能 Share,就當可能進公域</strong>;不要用「搜不到了」當安全證明。",
+    "n": 1,
+    "len": 258
+  },
+  {
+    "zh": "本節只做一件事:<strong>共用帳號時,把「同一份真相」變成附檔／Project,而不是每人重貼</strong>—並把敏感內容當預設會外洩來管,而不是事後才驚訝。",
+    "n": 1,
+    "len": 84
+  },
+  {
+    "zh": "<strong>S0</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">複製貼上</span>",
+    "n": 1,
+    "len": 86
+  },
+  {
+    "zh": "<strong>S1</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">附檔 / Project</span>",
+    "n": 1,
+    "len": 94
+  },
+  {
+    "zh": "共用帳號的 Project 裡放一份 <code>project.md</code>＋html view—誰接手都說「先讀 Project 那份」;同一份真相,改了整隊接著用",
+    "n": 1,
+    "len": 87
+  },
+  {
+    "zh": "<strong>S2</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">範本被叫出來</span>",
+    "n": 1,
+    "len": 88
+  },
+  {
+    "zh": "<strong>S3</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">讓 AI 直接動檔案</span>",
+    "n": 1,
+    "len": 92
+  },
+  {
+    "zh": "<span class=\"th-label\">自我診斷三問 · 現場舉手</span>\n        ① 你上次要 AI 看一份文件,是<strong>打開檔案、全選複製、貼進對話框</strong>嗎?是 → 你在 S0。<br>\n        ② 你有沒有<strong>一份固定的檔案,每次開始工作都直接附上或放在 Project 裡</strong>,而不是貼內容?有 → 你在 S1。<br>\n        ③ 你有沒有把重複用的判斷<strong>做成一份平常不附、需要時才被叫出來的檔案</strong>?有 → 你在 S2。<br>\n        —三題都答「沒有」不代表落後。<strong>共用帳號最常見的坑,就是每人還在 S0 重貼—外加彼此對話與 Share 連結的隱私外洩</strong>;S0 → S1 是投報率最高的一步:一份附檔,整隊不用再貼。",
+    "n": 1,
+    "len": 393
+  },
+  {
+    "zh": "主講注意:「共用帳號」是<strong>好懂的現場情境,不是資安或採購建議</strong>—實際應分帳號與權限。三段口播順序固定:① 混亂(COT／權限)→ ② 邊界(Share 轉寄)→ ③ 公域(曾可被 Google／Bing 索引;現多已移除,但殘留風險仍在)。若有人追問機制細節,轉入技術對照版。",
+    "n": 1,
+    "len": 153
+  },
+  {
+    "zh": "現場帶走的是 <strong>S0 → S1</strong>:一份附檔,整隊不用再貼。S1 → S2（系統決定何時載入）<strong>只點到</strong>,機制進下方技術對照版。\n        三個成本項(3.3)則是它的細節。",
+    "n": 1,
+    "len": 119
+  },
+  {
+    "zh": "<strong>S0 · 問答</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">chat · prompt-only</span>",
+    "n": 1,
+    "len": 105
+  },
+  {
+    "zh": "<strong>S1 · 附檔</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">substrate · project.md</span>",
+    "n": 1,
+    "len": 109
+  },
+  {
+    "zh": "<strong>S2 · Skill 調用</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">SKILL.md · 漸進揭露</span>",
+    "n": 1,
+    "len": 108
+  },
+  {
+    "zh": "三層載入:<strong>L1</strong> name+description 啟動時常駐 → <strong>L2</strong> SKILL.md 本體觸發時載入 → <strong>L3</strong> 參考檔按需載入",
+    "n": 1,
+    "len": 116
+  },
+  {
+    "zh": "常駐成本低(官方 17 個 skill 的 L1 中位數約 80 tokens/個);<strong>但誤觸發要付整份 L2</strong>(body 中位數約 2,000、最大約 8,000 tokens)。換算成比例更直觀:<strong>誤觸發一次 ≈ 25 個 skill 的常駐費,最壞情況 ≈ 100 個</strong>",
+    "n": 1,
+    "len": 168
+  },
+  {
+    "zh": "<strong>S3 · Skill + code</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">agent 讀檔執行</span>",
+    "n": 1,
+    "len": 107
+  },
+  {
+    "zh": "機制與量級來源:Claude 官方文件 Agent Skills(漸進揭露三層載入、description 為觸發比對依據)· L1/L2 token 量測為第三方對官方 17 個 skill 的統計,講座中須標明為第三方數據。",
+    "n": 1,
+    "len": 114
+  },
+  {
+    "zh": "一句話講完:<strong>說明書寫的是「應該會怎樣」,你桌上發生的是「實際會怎樣」。</strong>\n        這不是抱怨工具—落差本身就是答案:如果照著官方文件做就會順,那這場講座、這門課都不必存在。\n        先對一件現場最容易混的事:<strong>同一套 Design 能力,在 Claude 問答、Claude Code、Claude Design 三端長得不一樣、用法也不一樣</strong>—問答與 Code 吃深工時(見上方泳道);Design 是可視化／POC 畫布端,常跟 Code 用 <code>/design-sync</code>、<code>/design</code> 對接。",
+    "n": 1,
+    "len": 313
+  },
+  {
+    "zh": "<strong>資料夾式清單</strong>(accessibility-review、design-critique…)。用法偏「點名這份範本／讓它讀這份」。",
+    "n": 1,
+    "len": 81
+  },
+  {
+    "zh": "<strong>slash 選單</strong>。<code>/de</code> 會同時跳出 debug、design、與 <code>design:…</code> 前綴版—選錯多付 L2。",
+    "n": 1,
+    "len": 98
+  },
+  {
+    "zh": "<strong>獨立產品端</strong>(claude.ai/design):用對話＋畫布產出原型、簡報、一頁式視覺;可匯入 design system,並與 Code 雙向同步(<code>/design-sync</code> 拉系統、<code>/design</code> 在 Code 裡開設計、做好可交回 Code 實作)。",
+    "n": 1,
+    "len": 170
+  },
+  {
+    "zh": "對講座核心的對位:<strong>html view layer（POC 可視化便於溝通）</strong>多半在這端發生—但它是<strong>後段</strong>,不是起點。後段鏈:<strong>品牌資產／設計系統</strong>約束並強化<strong>不同變體的 POC html</strong> → 用<strong>視覺強度引導動態效果注記</strong>(什麼動、多強、何時) → 再進<strong>更利於前端落地的框架</strong>(Code／元件庫／實作 repo)。缺系統的變體＝模板臉;有注記無判斷＝裝飾動效。",
+    "n": 1,
+    "len": 274
+  },
+  {
+    "zh": "幾乎都靠<strong>顯式 <code>/</code> 呼叫</strong>(含 <code>/design</code>、<code>/design-sync</code>)",
+    "n": 1,
+    "len": 91
+  },
+  {
+    "zh": "「先打 <code>/de</code>,分清 bare 與 <code>design:</code>」—EPSS 3–4;自有 skill 用 <code>pux-*</code> 前綴",
+    "n": 1,
+    "len": 94
+  },
+  {
+    "zh": "「substrate → 品牌／系統 → 變體 POC html → 動效注記 → 前端框架」—view 是後段,<strong>不要從 Design 空白開場</strong>",
+    "n": 1,
+    "len": 89
+  },
+  {
+    "zh": "<span class=\"th-label\">為何不建議直接從 Claude Design（與同族 Design＋Build）開始</span>\n        講座順序是 <strong>UX documents → UI</strong>,不是 <strong>空白畫布 → 看起來像 UI</strong>。Claude Design 擅長把<strong>已定稿的概念組合</strong>畫出來;若缺設計判斷的關鍵組件定義,它會用幻覺把組合補完—畫面完整,判斷空洞。<br><br>\n        所謂關鍵組件,至少包含:<strong>頁面(page)、模組(module)、流程(flow)</strong>。其中最容易漏、也最容易幻覺的是<strong>不可見的 Agent 協作流程</strong>—人與人、人與 agent、agent 與 agent 之間誰先動、讀什麼、寫回哪、失敗怎麼接手。這些不會出現在漂亮的 UI 幀上,卻決定產品能不能跑。<br><br>\n        直接從 Design 開場,缺哪份定義、幻覺就補哪份:\n        <table class=\"data-table\" style=\"margin:10px 0 12px; font-size:12px;\">\n          <thead>\n            <tr>\n              <th style=\"width:170px;\">缺的定義</th>\n              <th>Design 端常見幻覺</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td><strong>Use flow</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">可見的使用者任務路徑</span></td>\n              <td>畫面有按鈕、沒有任務順序;跳關、死路、或「每個頁都能做所有事」</td>\n            </tr>\n            <tr>\n              <td><strong>Agent 協作流程</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">不可見的交接／觸發／寫回</span></td>\n              <td>UI 假裝「一鍵完成」,背後誰先動、寫回哪、失敗怎麼接手全部沒定義—demo 能點,系統接不起來;或發明不存在的自動魔法</td>\n            </tr>\n            <tr>\n              <td><strong>Module list</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">功能／模組清單</span></td>\n              <td>發明不存在的功能、重複造輪子、或把兩個模組糊成一個漂亮區塊</td>\n            </tr>\n            <tr>\n              <td><strong>Page list</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">頁面清單</span></td>\n              <td>亂增頁、漏頁、同名異頁;導覽看起來完整,實際對不上要做的頁</td>\n            </tr>\n            <tr>\n              <td><strong>Information architecture</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">資訊架構</span></td>\n              <td>分類與命名靠模型套話;階層亂跳、標籤同義詞分裂、找不到東西卻到處是入口</td>\n            </tr>\n          </tbody>\n        </table>\n        另外三個產品層坑仍在:① 沒 schema 只有畫面,下一輪又從頭描述;② 未 <code>/design-sync</code>／未匯入品牌資產·設計系統就變模板臉;③ 與 Code 脫鉤後 handoff 變截圖重做(動效若只存在於口頭,前端落地同樣失敗)。<br>\n        一人設計創業的低預算打法:<strong>問答／Project 先把 page · module · use flow · <em>Agent 協作流程</em> · IA 寫進 markdown substrate（文字版 COT）→ 品牌資產／設計系統約束變體 → Design／html 產出可溝通的 POC view,並以視覺強度寫清動態效果注記 → 再進利於前端落地的框架(Code／元件庫)</strong>。html view layer 多半在這後段發生—Design 放大的是判斷,不是用來代替判斷,也不是起點。\n\n        <p class=\"tbl-label\" style=\"margin-top:18px;\">現場反方 · 很多工作仍是 Screenshot／Template／Prompt → Figma</p>\n        <p style=\"margin:0 0 10px; font-size:13px; line-height:1.65; color:var(--ink-2);\">\n          <strong>別裝了，現場大家都在用 Mobbin 截圖、套模板、打 Prompt 丟 Figma。</strong>這條探索路徑沒有消失，我們也不禁。Claude Design、Genspark Design、Replit Design 甚至把這條路縮短成 <strong>Design＋Build</strong>（畫完一鍵變 App／code）。<br><br>\n          講座不反對你用它來快速探索 MVP。我們要釘死的是下一手：<strong>禁止把漂亮的 frame 綑綁反解成 Design.md 和 tokens，假裝這叫設計系統！</strong>\n        </p>\n        <table class=\"data-table\" style=\"margin:10px 0 12px; font-size:12px;\">\n          <thead>\n            <tr>\n              <th style=\"width:150px;\">動作</th>\n              <th>可以</th>\n              <th>別當成</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td><strong>Screenshot／Mobbin</strong></td>\n              <td>找靈感、對 pattern、寫進證據層（app·flow·url·analog／gap）</td>\n              <td>直接抽成自家 tokens；或複製成「我們的 Design system」</td>\n            </tr>\n            <tr>\n              <td><strong>Template／Prompt</strong></td>\n              <td>早期並排比方向、少一點空白焦慮</td>\n              <td>產品決策本身；模板≠品牌策略，Prompt≠page／module／flow 定稿</td>\n            </tr>\n            <tr>\n              <td><strong>進 Figma／Design 畫布</strong></td>\n              <td>Tier C 視覺本體、原型溝通、精修 1 個勝出方向</td>\n              <td>補寫沒做過的判斷；多方案整包當交付</td>\n            </tr>\n            <tr>\n              <td><strong>Design＋Build</strong></td>\n              <td>選定方向後進可測 MVP；少一次「截圖重做」交接</td>\n              <td>畫面好看＝已上線；跳過研究／a11y／QA／權限與資料邊界</td>\n            </tr>\n          </tbody>\n        </table>\n\n        <p class=\"tbl-label\" style=\"margin-top:14px;\">為何不建議「畫面 → 綑綁解析 → Design.md ＋ tokens」</p>\n        <p style=\"margin:0 0 10px; font-size:13px; line-height:1.65; color:var(--ink-2);\">\n          <code>Design.md</code> 與 tokens 的價值是<strong>下一輪可引用的約束（輸入）</strong>，不是上一輪輸出的回聲。從 frame 反解，等於<strong>把輸出洗成輸入，把 AI 的幻覺洗成真相源</strong>：<br><br>\n          一鍵反解只會得到<strong>沒有語意、沒有使用條件、沒有狀態對照的色票與間距數字</strong>。第 10 頁、第 3 人加入後，系統立刻各長一套。這不叫系統，這叫「用速度掩蓋未做的判斷」，一接真實資料、登入、付款立刻破功。<br><br>\n          記一句：<strong>先約束再生成＝Design.md／tokens 當輸入；先生成再反解＝把輸出洗成輸入</strong>。後者會自我強化偏誤—下一輪 Ambient 變體都在回聲裡集體退化。允許的寫回是<strong>人工策展</strong>：勝出方向裡，人決定哪幾條判斷進 <code>Design.md</code>，哪幾個 token 進 <code>tokens.json</code>；不是一鍵「從 frame 匯出系統」。\n        </p>\n\n        <p class=\"tbl-label\" style=\"margin-top:14px;\">三家 Design＋Build 大白話對位</p>\n        <p style=\"margin:0 0 10px; font-size:13px; line-height:1.65; color:var(--ink-2);\">\n          三家共同賣點都是<strong>少一次失真交接</strong>（畫完一鍵變 App／code）。這對 PM、創業者做 MVP 確實有用。但要釘死官方也承認的邊界：<strong>Design＝視覺原型；Build／Code＝資料、登入、付款、外部服務</strong>。適合加速探索，不是跳過設計審核與 QA。\n        </p>\n        <table class=\"data-table\" style=\"margin:10px 0 12px; font-size:12px;\">\n          <thead>\n            <tr>\n              <th style=\"width:120px;\">產品</th>\n              <th>它強在哪</th>\n              <th>講座怎麼接</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td><strong>Claude Design</strong></td>\n              <td>畫布＋對話出 POC；可匯入 design system；與 Code 經 <code>/design-sync</code>、<code>/design</code> 對接</td>\n              <td>後段 view；缺 page·module·flow·Agent 協作流程就別開畫布</td>\n            </tr>\n            <tr>\n              <td><strong>Genspark Design</strong></td>\n              <td>對話到 prototype／多格式；可套 Design System；一鍵 Build it 出可跑 code</td>\n              <td>「Build it」解的是實作距離，不解判斷距離；Verifier≠用戶研究</td>\n            </tr>\n            <tr>\n              <td><strong>Replit Design</strong></td>\n              <td>Prompt／Template／Figma／Claude／URL／Screenshot／Design system 起手；Ambient Intelligence 提下一步；內建 Mobbin；Design→同專案 Build</td>\n              <td>Mobbin＝靈感／證據，不是 tokens 來源；Ambient 增選項不增決策；frame→App 仍要 Core／Pro 與真實測試</td>\n            </tr>\n          </tbody>\n        </table>\n        <p class=\"tbl-label\" style=\"margin-top:14px;\">給 EPSS 0–2 · Replit Design 白話拆解</p>\n        <p style=\"margin:0 0 10px; font-size:13px; line-height:1.65; color:var(--ink-2);\">\n          沒碰過 Replit Design 沒關係，把它想成「一個能把點子很快變成能點的畫面、再一鍵變成能跑的小程式」的工具。六個重點，用白話講：\n        </p>\n        <table class=\"data-table\" style=\"margin:10px 0 12px; font-size:12px;\">\n          <thead>\n            <tr>\n              <th style=\"width:180px;\">功能</th>\n              <th>白話講</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td><strong>很多種起手方式</strong></td>\n              <td>不用從空白開始。你可以丟一段 Prompt、套一個 Template、匯入 Figma、貼 Claude 產出的 html、給一個 URL、丟一張 Screenshot，甚至直接吃你的 Design system。</td>\n            </tr>\n            <tr>\n              <td><strong>Ambient Intelligence</strong></td>\n              <td>它會看著你現在的畫面，主動建議「下一個變體」「下一步可以做什麼」—你不用每次都重打一遍 Prompt。</td>\n            </tr>\n            <tr>\n              <td><strong>內建 Mobbin 靈感庫</strong></td>\n              <td>超過 60 萬個真實產品畫面可以直接參考，不用自己跳出去找截圖。</td>\n            </tr>\n            <tr>\n              <td><strong>Design ≠ Build</strong></td>\n              <td><strong>Design</strong> 階段只出視覺原型（畫面好看、按鈕能點，但沒有真的資料）。要變成<strong>能跑的 App</strong>（接資料、登入、付款、外部服務）要進 <strong>Build</strong>—那是另一段。</td>\n            </tr>\n            <tr>\n              <td><strong>方案差異</strong></td>\n              <td>大部分 Design 功能各方案都能用；但要把 design frame 真的建成一個新 App，需要 Core 或 Pro 方案。</td>\n            </tr>\n            <tr>\n              <td><strong>適合誰</strong></td>\n              <td>PM、創業者、小團隊加速 MVP。是「快一點看到東西」的工具，<strong>不是</strong>跳過設計審核與 QA 的捷徑。</td>\n            </tr>\n          </tbody>\n        </table>\n        <p style=\"margin:0; font-size:12.5px; line-height:1.6; color:var(--ink-3);\">\n          一句話收束：<strong>Design 出畫面、Build 才能跑；加速 MVP，不等於跳過審核</strong>。來源見講綱資料註。\n        </p>\n\n        <p class=\"tbl-label\" style=\"margin-top:14px;\">給 EPSS 0–2 · Replit Design 的五種起點</p>\n        <p style=\"margin:0 0 10px; font-size:13px; line-height:1.65; color:var(--ink-2);\">\n          「可以從很多地方開始」聽起來抽象，拆成五種實際做法就清楚了：\n        </p>\n        <table class=\"data-table\" style=\"margin:10px 0 12px; font-size:12px;\">\n          <thead>\n            <tr>\n              <th style=\"width:160px;\">起點</th>\n              <th>白話講</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td><strong>① 直接描述</strong></td>\n              <td>用一句話講出想做什麼—網站、App、海報、社群貼文、產品原型都行。不用先畫。</td>\n            </tr>\n            <tr>\n              <td><strong>② 套 Template</strong></td>\n              <td>從 Replit 內建的模板挑一個改。適合「有參考就不空白焦慮」的人。</td>\n            </tr>\n            <tr>\n              <td><strong>③ 匯入 Figma／Claude</strong></td>\n              <td>已經在別的地方畫好了，直接搬進來繼續改，不用重畫。</td>\n            </tr>\n            <tr>\n              <td><strong>④ 給 URL 或 Screenshot</strong></td>\n              <td>看到一個喜歡的網站或畫面，貼網址或截圖，它幫你重建方向。</td>\n            </tr>\n            <tr>\n              <td><strong>⑤ 套 Design system</strong></td>\n              <td>已經有品牌規範，新畫面一開始就符合—不用事後調色調字。</td>\n            </tr>\n          </tbody>\n        </table>\n        <p style=\"margin:0; font-size:12.5px; line-height:1.6; color:var(--ink-3);\">\n          什麼時候用 Design 起手？<strong>外觀方向還不確定，需要先看見選項</strong>的時候。如果你的核心難題是<strong>產品行為、資料結構、串接外部服務</strong>，那直接從 Build 開始反而更有效率—先讓東西跑起來，畫面之後再調。\n        </p>",
+    "n": 1,
+    "len": 9403
+  },
+  {
+    "zh": "Design＋Build 對照來源:Replit Introducing Replit Design／Docs（Design vs Build、Import Figma）· 整理見 <a href=\"https://www.aiposthub.com/replit-design-ai-design-tool/\">AI郵報 · Replit Design 是什麼</a>（2026-07-30）;Genspark Design Help Center（Design System 匯入、Build it）;Claude Design 產品定位見上方三端表。講座主張是流程對位,不是產品評分。",
+    "n": 1,
+    "len": 295
+  },
+  {
+    "zh": "官方文件描述的是<strong>機制</strong>,實際操作遇到的是<strong>環境</strong>。五項出入各配一句對策;上方白話版對應其中第 1–3 項,第 4、5 項屬於自製 skill 的維護細節。",
+    "n": 1,
+    "len": 108
+  },
+  {
+    "zh": "skill 清單是乾淨、彼此獨立的單元<span style=\"font-size:10.5px; color:var(--ink-4);\">(如官方 Design 清單:accessibility-review / design-critique / design-handoff / design-system / research-synthesis / user-research / ux-copy)</span>",
+    "n": 1,
+    "len": 212
+  },
+  {
+    "zh": "<strong>命名空間會打架</strong>:輸入 <code>/de</code> 時,bare 名稱與 <code>design:</code> 前綴版本並列,還混入自訂命令(design-sync、design-revoke、design-consent)與 debug、deep-research—選錯一個,等於白付一次 L2 載入",
+    "n": 1,
+    "len": 172
+  },
+  {
+    "zh": "現場<strong>直接放上方兩張截圖對照</strong>(問答＝清單;Code＝<code>/de</code> 選單);自有 skill 統一前綴(如 <code>pux-*</code>),不與既有 plugin 前綴競爭",
+    "n": 1,
+    "len": 115
+  },
+  {
+    "zh": "前面兩節講的是<strong>你在哪</strong>與<strong>會踩什麼坑</strong>;這一節是<strong>今天就能停止的三件事</strong>。三條都不需要學新工具,只需要改掉一個習慣。",
+    "n": 1,
+    "len": 104
+  },
+  {
+    "zh": "以 <code>Claude 預設 design skills</code> + <code>Anthropic Academy 手冊</code>為零成本基準,自家教材只補 delta",
+    "n": 1,
+    "len": 93
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · Hands-on · EPSS 3</div>\n          <div class=\"td-body\">先把 S0 升到 S1(步驟卡 A):建一份給 AI 讀的文字檔,養成「附檔不重貼」。S2 只點到—有跨專案重複的判斷再談。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · Decision · EPSS 1–2</div>\n          <div class=\"td-body\">帶走三個立即可砍的成本項:<strong>重貼、重造、整塞</strong>,以及一句盤點問題:<strong>「我們的團隊停在 S0 還是 S1?」</strong>—停在 S0 的團隊,買再多工具也省不下來。另帶走 3.4 的<strong>採購規則</strong>:不接受自評數據作為導入依據。</div>\n        </div>",
+    "n": 1,
+    "len": 509
+  },
+  {
+    "zh": "開一個專案資料夾,建立 <code>project.md</code>—這一份檔案就是你的 substrate（文字版 COT·與 LLM 協作的寫作思維鏈）。",
+    "n": 1,
+    "len": 80
+  },
+  {
+    "zh": "把 spec、design tokens、關鍵決策分成三段貼進去,各加一行標題(<code>## Spec</code> / <code>## Tokens</code> / <code>## Decisions</code>)。不求完整,先求有。",
+    "n": 1,
+    "len": 124
+  },
+  {
+    "zh": "之後每次開新對話,第一個動作是附上 <code>project.md</code>(與需要的 html view),並說「先讀這些」—<strong>從此不再把同一段內文重貼進對話</strong>。\n            <span class=\"ts-fail\">忘了附檔、又開始重貼,是最常見的退化;把附檔做成對話的固定開場。</span>",
+    "n": 1,
+    "len": 174
+  },
+  {
+    "zh": "每輪對話結束,把有效的新決策<strong>寫回</strong> <code>project.md</code>(可以請 AI 幫你濃縮成 2–3 行再貼回)。\n            <span class=\"ts-fail\">分不清哪些值得寫回?先只寫「下次對話還會用到的結論」。</span>",
+    "n": 1,
+    "len": 150
+  },
+  {
+    "zh": "先找<strong>候選</strong>:你在三個以上不同專案重複貼的同一段判斷。只出現一次的東西留在 substrate 就好。\n            <span class=\"ts-fail\">找不到候選,代表你還在 S1 的收益區—不必急著升級。</span>",
+    "n": 1,
+    "len": 135
+  },
+  {
+    "zh": "建 <code>SKILL.md</code>,frontmatter 寫 <code>name</code> 與 <code>description</code>。description 同時交代<strong>做什麼 + 何時用</strong>—這是模型判斷要不要觸發的唯一依據。\n            <span class=\"ts-fail\">描述裡出現「等」「相關」「各種」這類模糊詞,就是誤觸發的來源。</span>",
+    "n": 1,
+    "len": 216
+  },
+  {
+    "zh": "命名加自有前綴(如 <code>pux-audit</code>),避開與既有 plugin 的前綴競爭—打 <code>/</code> 時能一眼認出哪個是自己的。",
+    "n": 1,
+    "len": 83
+  },
+  {
+    "zh": "<span class=\"th-label\">白話版 · 一句話 · 現場主講用</span>\n        <strong>你不會用「我覺得這個介面很好用」來結束一場易用性測試。</strong>那為什麼要用「我覺得快多了」來結束一次工具評估?<br>\n        —我們對別人的產品要求證據,對自己的工作方法卻只用感覺。這一節就是把你已經有的研究紀律,套用在自己身上。",
+    "n": 1,
+    "len": 189
+  },
+  {
+    "zh": "兩件事要分清楚:<strong>「這個功能怎麼運作」</strong>去看官方說明書(那是他們做的,可信);<strong>「用了省多少、快多少」</strong>要問是誰量的、量的是什麼。網路上流傳的數字多半是後者,而且轉手幾次之後就找不到出處了。\n        有一份研究值得知道:資深工程師在自己熟悉的專案上用 AI 工具,實際上<strong>變慢了</strong>,但他們事後仍然覺得自己變快—<strong>感覺跟碼錶不一致</strong>。這份研究自己也聲明不能推論到所有情境,所以結論不是「AI 沒用」,而是<strong>感覺不能當數據用</strong>。",
+    "n": 1,
+    "len": 291
+  },
+  {
+    "zh": "風險換方向了,不是變小:低等級的風險在<strong>接收端</strong>(信錯別人的數字),高等級的風險在<strong>產出端</strong>(自己變成錯誤數字的來源)—交叉點正是 EPSS 3。對號入座用投影片附錄第一張自查表,不是七列定義。",
+    "n": 1,
+    "len": 127
+  },
+  {
+    "zh": "完整版:<strong>官方文件與社群經驗多數時候不是矛盾,是主張層級不同</strong>—官方講<strong>機制</strong>(怎麼載入、怎麼觸發),社群講<strong>效果</strong>(省了多少、快了多少)。問題不在誰對,在於社群把機制陳述當成效果承諾轉述,數字在轉手中失去出處。\n        真正的衝突只有一處值得講:一份隨機對照試驗發現,資深開發者在熟悉的程式庫上使用 AI 工具反而變慢,而他們事後仍認為自己變快了—<strong>感知與量測之間存在持續落差</strong>。該研究同時聲明不代表其他情境無效,後續實驗也因參與者選擇偏誤而難以解讀。\n        所以結論不是「AI 沒用」,而是<strong>自評不能替代量測</strong>。這正是 T3 帳單對照存在的理由:同一套方法論,不同尺度。",
+    "n": 1,
+    "len": 371
+  },
+  {
+    "zh": "來源分層引用原則—<strong>機制引官方、效果引自己實測、判斷引研究</strong>。講座中提及的第三方研究須點名出處與其自述限制,不可只取結論。可補充的收斂觀察:近期 UX 研究界已將設計產出描述為「引導 AI 的策展式脈絡」與「把設計判斷編碼為明確評估標準」,與 context engineering 的主張正在靠攏—此點為課程定位論證,非講座必講。",
+    "n": 1,
+    "len": 181
+  },
+  {
+    "zh": "<span class=\"th-label\">決策軌 · 聽完隔天可制度化</span>\n        <strong>不接受自評數據作為採購或導入依據。</strong>當供應商或內部團隊聲稱效率提升時,要求提供<strong>對照方式與失敗案例</strong>;拿不出來的,一律視為未量測。\n        —這是本講座給決策者的第二個制度化工具(第一個是 §05 的揭露範本),握有的槓桿是預算,不是動手能力。",
+    "n": 1,
+    "len": 210
+  },
+  {
+    "zh": "對 0–3 最容易滅頂的一節,做最大幅度降載:整條迴路從「教學」改成 <strong>demo 敘事</strong>,不教 step-by-step。\n        前提誠實交代:POC 階段<strong>沒有外部 synthetic persona 數據</strong>,能用的只有自己有限的個案積累—這正是一人設計創業與低研究預算團隊的真實處境。",
+    "n": 1,
+    "len": 179
+  },
+  {
+    "zh": "<div class=\"insight-label\">Demo 敘事主軸</div>\n        <div class=\"insight-body\">一人設計創業、低研究預算,能走到這裡。<br><span style=\"font-size:12px; opacity:0.85;\">迴路四段全程預錄(見 §08 機制 M2),現場只講卡點與判斷,不裸跑主線。</span></div>",
+    "n": 1,
+    "len": 195
+  },
+  {
+    "zh": "<strong>Red Team ＝ Browser-as-User（Perplexity）</strong>：依旅程 prompt 扮演用戶跑螢幕操作／對抗檢查，產出行為紀錄與卡點。Design Agent 另線用 Claude Design 套 Design.md；Research Agent 做 POC→Pilot 招募。",
+    "n": 1,
+    "len": 165
+  },
+  {
+    "zh": "四步不是孤島工具鏈—它落在同一張架構上：左欄<strong>不可改寫的原料</strong>，中欄<strong>LLM Wiki</strong>，右欄<strong>專責 agents</strong>—其中 <strong>Red Team＝Browser-as-User（Perplexity）</strong>，Design Agent 用 Claude Design 套 Design.md，Research Agent 做 POC→Pilot 招募；你是 Orchestrator。",
+    "n": 1,
+    "len": 248
+  },
+  {
+    "zh": "<strong>① Raw Sources</strong>\n            錄音、個案、PRD、旅程頁面清單—這些原料別亂改。音訊先走本機 <code>MacWhisper</code>，進場後才准蒸成可跑的旅程。",
+    "n": 1,
+    "len": 112
+  },
+  {
+    "zh": "<strong>② LLM Wiki</strong>\n            蒸成 <code>journey-prompt.md</code>（T4）；catalog／log／persona 互相掛著。設計規矩仍放 Design.md · tokens · system—給 Design Agent 讀。",
+    "n": 1,
+    "len": 155
+  },
+  {
+    "zh": "<strong>③④ Agents</strong>\n            Demo 主線是 <strong>Red Team＝Browser-as-User（Perplexity）</strong>。Design Agent 用 Claude Design 套 Design.md；Research Agent 做 POC→Pilot 招募。你是 Orchestrator，編排完寫回 <code>log.md</code>。",
+    "n": 1,
+    "len": 215
+  },
+  {
+    "zh": "工具是 <strong>Perplexity</strong>；讀 wiki 後對抗跑旅程—不是憑空演用戶。Design Agent 套 Design.md；Research Agent 做 POC→Pilot 招募",
+    "n": 1,
+    "len": 108
+  },
+  {
+    "zh": "<span class=\"th-label\">誠實邊界 · 講座內明說</span>\n        合成用戶用於POC 階段是 <strong>heuristic 驗證</strong>,不是用戶研究的替代—測的是「行為的形狀」,不是真實動機。它產出的變異本身就是資料(三路徑變異梯度的延伸),但任何對外報告都必須按 §05 的揭露範本標注來源。這一句話同時是通往第三題的橋。",
+    "n": 1,
+    "len": 189
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · Hands-on · EPSS 3</div>\n          <div class=\"td-body\">帶走 <strong>T4 旅程 prompt 模板</strong>與工具對應表;回家先跑 ①②,③④ 等到 EPSS 4 再接。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · Decision · EPSS 1–2</div>\n          <div class=\"td-body\">資源論證:這條迴路替代了<strong>逐字稿外包、外測 pilot、問卷訂閱、簡報工時</strong>四個預算項—一人設計創業的 POC 階段,外部研究預算可壓到最低。</div>\n        </div>",
+    "n": 1,
+    "len": 448
+  },
+  {
+    "zh": "安裝 <code>MacWhisper</code>,把一段訪談錄音或你自己的放聲思考丟進去轉逐字稿—<strong>全程本機處理,語料不出你的機器</strong>。",
+    "n": 1,
+    "len": 84
+  },
+  {
+    "zh": "手動刪除逐字稿裡的人名、公司名、產品名(去識別化)。<strong>這一步做完才能進任何雲端模型</strong>—順序不能反。\n            <span class=\"ts-fail\">不確定刪乾淨沒有?用搜尋逐一檢查專有名詞,而不是用讀的。</span>",
+    "n": 1,
+    "len": 134
+  },
+  {
+    "zh": "把去識別化後的逐字稿貼進模板語料區,請 AI 蒸餾成一頁旅程 prompt,人工核對成功條件是否還是你要驗證的那件事。\n            <span class=\"ts-fail\">蒸餾結果太籠統?回到模板把「成功條件」寫得更可判定(能用是/否回答)。</span>",
+    "n": 1,
+    "len": 136
+  },
+  {
+    "zh": "(外溢步驟)把旅程 prompt 交給瀏覽器 agent 跑一次並錄下過程。此步會遇到需要排除的問題—這正是 EPSS 3 與 4 的分界,<strong>講座現場以 T6 預錄示範,不要求回家完成</strong>。",
+    "n": 1,
+    "len": 109
+  },
+  {
+    "zh": "把一個典型產品設計專案六個 Sprint 內的 UX 活動全部攤開——<strong>28 種文件、8 個階段</strong>。重點不是「設計師有多忙」，而是要回答：<em>如果設計師日常產出有 28 種文件，哪些可以被 AI 結構化、哪些必須留在 Figma？</em>結論：<strong>86% 是 markdown 主導的結構化知識</strong>，只有 14% 是視覺/空間為主的 Figma 原生文件。合成用戶用於POC 階段的迴路，前置吃的就是這 86%（Tier A＋B）；沒有它們，瀏覽器 agent 產出便缺乏可依循的脈絡依據。",
+    "n": 1,
+    "len": 276
+  },
+  {
+    "zh": "有 schema 的結構化文件，可被 agent 查詢、引用、版本控管。<br>persona、use case、page list、<strong>design tokens</strong>、<strong>Design.md</strong>（設計判斷／系統說明）、decision log 都在這一層。",
+    "n": 1,
+    "len": 155
+  },
+  {
+    "zh": "prose 主體 + 內嵌 Mermaid / PlantUML / 結構化區塊。<br>journey map、IA、user flow、state diagram 在這一層。",
+    "n": 1,
+    "len": 89
+  },
+  {
+    "zh": "Figma 是交付 hub；<strong>Design system 的元件畫面</strong>落在這裡。過程可用 Pencil 微調，仍從本地 IDE 讀 UX documents。<br>wireframe、visual design、prototype、component 在這一層。",
+    "n": 1,
+    "len": 147
+  },
+  {
+    "zh": "<div class=\"act-name\">競品分析</div><span class=\"act-en\">COMPETITIVE ANALYSIS</span>",
+    "n": 1,
+    "len": 80
+  },
+  {
+    "zh": "<div class=\"act-name\">資訊架構 IA</div><span class=\"act-en\">INFO ARCHITECTURE</span>",
+    "n": 1,
+    "len": 80
+  },
+  {
+    "zh": "<span class=\"th-label\">補述 · Design.md／Design system／Design tokens 到哪了？</span>\n        三件事常被混成「設計系統」一口袋—分層要拆開講：<br><br>\n        <strong>① Design tokens</strong>→ <strong>Tier A</strong>（甘特「系統 · 持續維護」列）。落點是 <code>wiki/tokens.md</code>＋機器可讀的 <code>tokens.json</code>：色／字／間距的<strong>真相源</strong>在 markdown／JSON，不是只活在 Figma 變數面板。<br>\n        <strong>② Design.md</strong>→ <strong>Tier A</strong>。這是給 agent／團隊讀的<strong>設計判斷與系統說明 substrate</strong>（用什麼棧、品牌約束、元件怎麼取用、什麼時候同步 Design／Code）。它不是畫面檔；缺它，§03 講的「先有系統再進 Design 出 view」就沒有可附的那份檔。<br>\n        <strong>③ Design system</strong>→ <strong>跨 Tier，不是單層</strong>。<em>規則、tokens、使用說明、命名</em>進 Tier A（含 Design.md）；<em>元件視覺、變體、原型畫布</em>進 Tier C（Figma／Pencil）。跨層靠 wiki 的 component metadata 對得上 Figma 名稱—否則 agent 讀得到 tokens，對不到畫面。<br><br>\n        記一句：<strong>tokens 與 Design.md 管「可被引用的約束」；Figma 管「看得見的系統本體」</strong>。合成用戶 demo 驗證行為形狀時，原料仍應對得上 Tier A／B；Tier C 可以晚到，但 metadata 不能不回 wiki。<br><br>\n        與 §03 對齊：<strong>Screenshot／Template／Prompt → Figma／Design＋Build 可以拿來探索</strong>；別把勝出 frame 一鍵反解成 Design.md／tokens 當真相—那是把輸出洗成輸入。要寫回就人工挑；Mobbin 進證據層，別進 tokens。",
+    "n": 1,
+    "len": 1094
+  },
+  {
+    "zh": "決策者的主場:零技術門檻,EPSS 0 也能全程參與。論證核心:<strong>你蒸餾進 wiki 和 prompt corpus 的知識,歸屬取決於你的身份</strong>—同一份東西,受僱、接案、做自有教材,三種身份三種答案。矩陣講完,直接發揭露範本,決策者當週就能在組織內推行。",
+    "n": 1,
+    "len": 143
+  },
+  {
+    "zh": "<strong>通用方法論與公開框架</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">UICrit · WCAG · VSD…</span>",
+    "n": 1,
+    "len": 110
+  },
+  {
+    "zh": "<strong>專案過程產出</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">research notes · decision log</span>",
+    "n": 1,
+    "len": 115
+  },
+  {
+    "zh": "<strong>客戶/組織機敏資料</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">用戶數據 · 商業機密</span>",
+    "n": 1,
+    "len": 100
+  },
+  {
+    "zh": "<strong>個人模板與心法</strong><br><span style=\"font-size:10.5px; color:var(--ink-4);\">prompt corpus · wiki schema</span>",
+    "n": 1,
+    "len": 114
+  },
+  {
+    "zh": "<span style=\"color:var(--accent);\">●</span> 可自由蒸餾 · <span style=\"color:var(--amber);\">◐</span> 需授權/去識別化 · <span style=\"color:var(--ink-4);\">○</span> 禁區",
+    "n": 1,
+    "len": 151
+  },
+  {
+    "zh": "本案使用之 AI 工具、模型與版本。<em>ex. Claude Fable 5 · Antigravity IDE · MacWhisper(本機)</em>",
+    "n": 1,
+    "len": 80
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · Hands-on · EPSS 3</div>\n          <div class=\"td-body\">挑最近蒸餾的 <strong>5 條</strong>內容,對照矩陣逐條標上 ● ◐ ○。標不下去的那一條,通常就落在灰帶。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · Decision · EPSS 0+</div>\n          <div class=\"td-body\"><strong>揭露範本當週可推行</strong>:發包時要求乙方附揭露聲明,或在組織內部把它變成交付檢核項。這是本講座唯一「聽完隔天就能制度化」的東西。</div>\n        </div>",
+    "n": 1,
+    "len": 435
+  },
+  {
+    "zh": "翻開你的 wiki 或筆記,挑最近蒸餾的 <strong>5 條內容</strong>,對照邊界矩陣逐條標上 <code>●</code> <code>◐</code> <code>○</code>。\n            <span class=\"ts-fail\">標不下去的那一條,通常就落在「專案過程產出」的灰帶—回矩陣第二列看你的身份欄。</span>",
+    "n": 1,
+    "len": 181
+  },
+  {
+    "zh": "在筆記模板的 frontmatter 加一個欄位 <code>distill: free | licensed | forbidden</code>,之後<strong>每一條新蒸餾強制標注</strong>—把倫理判斷變成寫入時的預設動作,而不是事後回想。",
+    "n": 1,
+    "len": 129
+  },
+  {
+    "zh": "<span class=\"tt-label\">現場收束 · M3</span><div class=\"tt-body\">遞迴示範:<strong>講座自己交一份揭露聲明</strong>—「本講座」就是範本的第一個實例:教材用了哪些工具、demo 語料如何去識別化,現場走讀四欄。接下兩節是同一主題的延續—<strong>§06 組織裡誰問責</strong>、<strong>§07 你帶走什麼並怎麼制度化</strong>—不是另開的營運附錄。</div>",
+    "n": 1,
+    "len": 230
+  },
+  {
+    "zh": "§05 給了<strong>邊界矩陣</strong>與<strong>揭露範本</strong>;本節回答決策者下一個問題:<strong>在組織裡,這兩件事的 A 是誰?</strong>\n        每列僅一個 Accountable—沒有 A 的揭露聲明等於沒人負責的儀式。角色欄是通用職能,請對你自己的職稱改名,不要照抄人名。",
+    "n": 1,
+    "len": 170
+  },
+  {
+    "zh": "<span style=\"white-space:nowrap;\">設計管理者</span><br><span style=\"white-space:nowrap;\">／ AI PM</span>",
+    "n": 1,
+    "len": 98
+  },
+  {
+    "zh": "<span style=\"white-space:nowrap;\">執行設計師</span><br><span style=\"white-space:nowrap;\">／ 研究員</span>",
+    "n": 1,
+    "len": 96
+  },
+  {
+    "zh": "<span style=\"white-space:nowrap;\">法務 · 資安</span><br><span style=\"white-space:nowrap;\">／ 合規</span>",
+    "n": 1,
+    "len": 97
+  },
+  {
+    "zh": "<span style=\"white-space:nowrap;\">客戶 · 發包方</span><br><span style=\"white-space:nowrap;\">／ 贊助者</span>",
+    "n": 1,
+    "len": 99
+  },
+  {
+    "zh": "<strong>邊界矩陣落地</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">三種身份 × 蒸餾標的寫進 wiki／SOP</span>",
+    "n": 1,
+    "len": 107
+  },
+  {
+    "zh": "<strong>揭露範本定版與推行</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">四欄透明度 · 當週可進檢核</span>",
+    "n": 1,
+    "len": 102
+  },
+  {
+    "zh": "<strong>專案交付附揭露聲明</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">工具 · 資料流 · 審核 · 蒸餾</span>",
+    "n": 1,
+    "len": 106
+  },
+  {
+    "zh": "<strong>個人 corpus 蒸餾審核</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">● ◐ ○ 標注 · frontmatter</span>",
+    "n": 1,
+    "len": 115
+  },
+  {
+    "zh": "<strong>機敏資料禁入規則</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">用戶數據 · 商業機密 · 雲端訓練</span>",
+    "n": 1,
+    "len": 105
+  },
+  {
+    "zh": "<strong>發包／合約寫入揭露義務</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">乙方必附聲明 · 客戶同意蒸餾範圍</span>",
+    "n": 1,
+    "len": 107
+  },
+  {
+    "zh": "<strong>離職／結案知識帶走審核</strong><br><span style=\"font-size:10.5px;color:var(--ink-4);\">對照矩陣第二列 · 灰帶必授權</span>",
+    "n": 1,
+    "len": 105
+  },
+  {
+    "zh": "<span class=\"raci-R\">R</span> Responsible 執行 · <span class=\"raci-A\">A</span> Accountable 問責(每列僅一) · <span class=\"raci-C\">C</span> Consulted 諮詢 · <span class=\"raci-I\">I</span> Informed 知會",
+    "n": 1,
+    "len": 186
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · Hands-on · EPSS 3</div>\n          <div class=\"td-body\">把上表改成你團隊的職稱,標出<strong>每一列的 A 人名</strong>;找不到 A 的那一列,本週先空著也要寫「待指定」—空欄比假 A 誠實。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · Decision · EPSS 0+</div>\n          <div class=\"td-body\"><strong>先指定兩格 A</strong>:「揭露範本推行」與「專案交付附揭露聲明」。其餘可下周補;這兩格沒主人,§05 的範本不會自己長進制度。</div>\n        </div>",
+    "n": 1,
+    "len": 447
+  },
+  {
+    "zh": "延續 §05／§06:不是講座製作的 T1–T10 時程表,是你離場後<strong>能放進 wiki／合約／交付檢核</strong>的物件清單。脊梁仍是揭露四欄—每個物件最終都要能回答「工具、資料、人工把關、蒸餾聲明」至少一欄。",
+    "n": 1,
+    "len": 116
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · Hands-on · EPSS 3</div>\n          <div class=\"td-body\">今晚只做 <strong>D2→D3</strong>:用四欄填你手上專案;填不出的欄＝治理盲點。明天把 D4 加進筆記模板。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · Decision · EPSS 0+</div>\n          <div class=\"td-body\"><strong>當週制度化最小集 = D2＋D5＋D6</strong>:範本進檢核、合約寫義務、問責表指定 A。D1／D8 掛決策牆即可,不必等完美 SOP。</div>\n        </div>",
+    "n": 1,
+    "len": 438
+  },
+  {
+    "zh": "§05–§07 處理的是<strong>知識歸屬取決於身份</strong>、誰問責、以及揭露範本推行。7.1–7.3 則回答決策者下一個問題：寫進 wiki 與 prompt corpus 的那些「設計判斷」是如何產生的。串起來就是：功能如何落實為具體產品形態、多方案如何篩選、決策怎麼留存—進而決定如何蒸餾與揭露。",
+    "n": 1,
+    "len": 159
+  },
+  {
+    "zh": "以「<strong>通知管理</strong>」為例：PRD 可能只寫「使用者可以管理通知」。這句話放到手機 App、網站、後台、對話助手，會長成完全不同的畫面語言。與 AI 協作時，必須先指定產品形態與對應的介面慣例，否則生成結果容易產生平台特性的混雜。",
+    "n": 1,
+    "len": 128
+  },
+  {
+    "zh": "AI 的價值常常不是「一次給對」，而是「<strong>一次給很多</strong>」。但很多方案不會自己變成決策—你需要一條可重複的流程，把它們收成<strong>可審閱、可追溯</strong>的選擇。真正的設計判斷在<strong>第 4 步</strong>：那是 AI 替不了你的地方。",
+    "n": 1,
+    "len": 148
+  },
+  {
+    "zh": "<div class=\"insight-label\">POC<br>到底在做什麼</div>\n        <div class=\"insight-body\">\n          核心邏輯在於<strong>由 AI 快速產出多種提案，並由設計師進行判斷收斂</strong>。前期甘特圖中偏早的段落（約 S0–S2）之所以不可或缺，是因<strong>人／情境／案例</strong>（Tier A）必須先行確立，第 2 步才能準確指引平台形態；同時<strong>旅程／流程</strong>（Tier B）成形後，多變體生成才有明確的對照基準。<br><br>\n          如果缺乏前期的結構化文件（如 Tier A 與 Tier B），生成變體時容易流於盲目拼湊。實務上的 POC 是將「結構化前置、AI 方案生成、設計判準收斂」三者結合，否則成果往往淪為空洞、缺乏邏輯的視覺草稿。\n        </div>",
+    "n": 1,
+    "len": 416
+  },
+  {
+    "zh": "此處與「知識蒸餾邊界」直接對應：寫入 wiki 與 prompt corpus 的知識歸屬取決於當下身份（如受僱、外包接案或自有智慧財產權）。7.1–7.3 確立了設計決策的產出流程，而 §05–§07 規範這些成果能否納入長期語料庫並進行適當揭露。兩者互為表裡，否則合規流程將流於形式。",
+    "n": 1,
+    "len": 144
+  },
+  {
+    "zh": "<div class=\"td-col hands\">\n          <div class=\"td-label\">動手層 · EPSS 3–5</div>\n          <div class=\"td-body\">下一個功能跑完 7.2 第 5 步後，立刻在筆記加 <code>distill: free | licensed | forbidden</code>，並用 D2 四欄各填一句（工具含產品形態、資料流、誰審、蒸餾範圍）。</div>\n        </div>\n        <div class=\"td-col decision\">\n          <div class=\"td-label\">決策層 · EPSS 0+</div>\n          <div class=\"td-body\"><strong>制度句</strong>：組織不接受「只有漂亮 variants、沒有決策紀錄」的交付。發包／內部結案必附揭露聲明；決策日誌是可審計物件，不是個人習慣。零技術門檻—你要的是欄位與問責，不是會不會寫 prompt。</div>\n        </div>",
+    "n": 1,
+    "len": 499
+  },
+  {
+    "zh": "<span class=\"th-label\">收束 · 決策者主場</span>\n        設計判斷的留存由 7.1–7.3 的流程與日誌負責，而這些成果能否納入長期語料庫並對外披露，則受 §05–§07 的矩陣與範本規範。有了「7.2 決策日誌」提供真實的決策依據，揭露範本第四欄的蒸餾聲明才能真正落實，否則只是形式上的欄位填寫。",
+    "n": 1,
+    "len": 169
+  },
+  {
+    "zh": "北美 Product Designer 角色往往一人涵蓋研究、資訊架構與介面設計；亞洲團隊則多採用 PM、UR、UI 與視覺分工明確的流程。不論組織架構如何演變，底層皆共用同一套 Wiki、Agent 與 Schema 機制，僅有職能邊界切分與治理密度的差別。",
+    "n": 1,
+    "len": 130
+  },
+  {
+    "zh": "個人 scratchpad + 對工程的 handoff。<code>personas/</code> 與 <code>decisions/</code> 主要寫給未來的自己",
+    "n": 1,
+    "len": 87
+  },
+  {
+    "zh": "各 role own 切片—UR→<code>research/</code>、UI→<code>components/</code>、PMD→<code>decisions/</code>、文案→<code>copy/</code>。Schema 統一、ownership 明確",
+    "n": 1,
+    "len": 140
+  },
+  {
+    "zh": "作品集展<strong>你的判斷與方法</strong>，不是 AI 產出。force multiplier 更要標清：哪些是你選的、哪些是模型生成—對得上揭露「審核／蒸餾」欄。<code>decisions/</code> 寫給未來的自己；沒 log＝休假回來自己也蒸餾不出第四欄。",
+    "n": 1,
+    "len": 142
+  },
+  {
+    "zh": "作品集只能主張<strong>你 own 的切片</strong>；跨 role 決策不能偷渡成個人功勞。<code>owner</code> 欄＝作品集與揭露審核欄的同一條線。AI 當 glue 時，一致性檢查結果要寫進 shared log，不是嘴說「大家一起做的」。",
+    "n": 1,
+    "len": 136
+  },
+  {
+    "zh": "就算一人，受僱／接案身份仍吃邊界矩陣：個人 scratchpad ≠ 公司 corpus；對工程的 handoff 要能回答誰能讀、誰能帶走。失敗模式是「context 全在腦袋」—共享還沒開始就已經是灰色拷貝。",
+    "n": 1,
+    "len": 106
+  },
+  {
+    "zh": "主場在這裡。誰讀／誰帶走／著作權＝矩陣身份列 × §06 問責格。沒指定 A，共享升級成<strong>角色邊界戰</strong>。當週先釘兩格 A：揭露範本推行、交付附聲明（D2＋D5＋D6）。",
+    "n": 1,
+    "len": 99
+  },
+  {
+    "zh": "一人設計／接案把合成用戶與 AI 變體當 POC 武器時，法律常灰：客戶資料進 personal wiki？demo 語料能不能再展示？合約有沒有蒸餾義務？<strong>D2／D5 先畫邊</strong>—別等爭議才補 frontmatter。",
+    "n": 1,
+    "len": 124
+  },
+  {
+    "zh": "Studio／agency 同樣灰，只是戰場在跨 role：誰的 corpus 能帶走、Red Team 跑過的語料算誰的。入門就是 schema workshop + <strong>shared decision log</strong>—沒有共用 log，D5 寫進合約也執行不動。",
+    "n": 1,
+    "len": 144
+  },
+  {
+    "zh": "<span class=\"tt-label\">治理共性</span>\n        <div class=\"tt-body\">\n          不論團隊規模或組織型態，底層都是同一套 Wiki 與 Schema 機制，僅有切片方式與治理密度的差別。\n          獨立 PD 最常卡在脈絡留存在腦中、未曾落盤；分工團隊則容易流於多頭馬車，缺乏明確的 Owner 來拍板。\n          不論哪種情境，核心都在於建立可追溯的<strong>7.2 決策日誌</strong>。缺乏日誌記載當下的判斷依據，後續在做蒸餾聲明時，內容自然失去憑據、無法落實。\n        </div>",
+    "n": 1,
+    "len": 299
+  },
+  {
+    "zh": "§03–§07 每段都收在<strong>動手／決策</strong>兩欄。動手那欄一定要有步驟、標 EPSS—EPSS 3＝「照著做、允許犯錯」；EPSS 4 只 Demo、只點到。沒步驟，對 0–3 就不算帶走。<br><br><strong>沒有 M1 會怎樣：</strong>聽完覺得「有道理」但手上沒東西可以做。",
+    "n": 1,
+    "len": 162
+  },
+  {
+    "zh": "§04 四步（本機轉錄 → 旅程 prompt → 瀏覽器扮演 → 寫回）<strong>全程預錄</strong>。現場只講卡點與判斷；③④ 自己跑、自己排錯＝EPSS 4，這堂課不教。<br><br><strong>沒有 M2 會怎樣：</strong>現場裸跑，網路斷了／模型抽風了，整場垮。",
+    "n": 1,
+    "len": 149
+  },
+  {
+    "zh": "你用了 Design＋Build、screenshot→Figma、合成用戶 POC 這些流程，交付時就要附揭露：用了哪些工具、資料怎麼流、AI 產出比例、誰審核。不是事後補，是<strong>流程裡的一步</strong>。",
+    "n": 1,
+    "len": 113
+  },
+  {
+    "zh": "M2（Demo 先錄好）跟 M3（用了就揭露）之間有一條橋：<strong>demo 跑了什麼流程、用了什麼工具、資料怎麼流，就是 M3 要揭露的內容</strong>。下面泳道把這條橋畫出來—也是有人追問「那 Screenshot→Figma／Design＋Build 呢？」時，指回去的那張圖。",
+    "n": 1,
+    "len": 149
+  },
+  {
+    "zh": "截圖、模板、Prompt 照用—我們不禁。但它們是<strong>並排參考</strong>，不是起點。講座主線是 <strong>UX 文件 → UI</strong>：先把「要做哪些頁、哪些模組、使用者怎麼走、誰交接給誰」寫成文件，再進 Design 出畫面。參考文（Replit Design 等）也把流程拆兩段：<strong>Design＝畫面原型，Build＝接上資料／登入／付款才可跑</strong>。跳過文件直接開畫布，AI 會把沒寫的判斷用幻覺補完—畫面完整，判斷空洞。<br><br>下面用同一個案例貫穿：<strong>設計一個給國中老師用的「AI 閱卷複核頁」</strong>。",
+    "n": 1,
+    "len": 303
+  },
+  {
+    "zh": "主線「UX 文件 → UI」對位 §03 缺定義幻覺表（page／module／flow／Agent 協作流程／IA）；Design≠Build 對位 Replit Design vs Build 文件。加速 MVP ≠ 跳過審核。案例改編自 Replit 官方 PM 指南示範。",
+    "n": 1,
+    "len": 140
+  },
+  {
+    "zh": "<code>markdown</code>＝文字版 COT；<code>html</code>＝POC 可視化 view。agent 同時讀兩者整理 schema；Design 多半在後段",
+    "n": 1,
+    "len": 94
+  },
+  {
+    "zh": "① MacWhisper 語料 → ② 蒸餾 <code>journey-prompt.md</code>（T4）→ ③ Browser-as-User → ④ 腳本寫回 <code>log.md</code>／交付",
+    "n": 1,
+    "len": 108
+  },
+  {
+    "zh": "一人 PD（NA-style）vs 分工團隊（亞洲 style）。共用底層 wiki 與 agents；配置 A 最常卡在判斷留存在腦中未曾落盤，配置 B 則因分工界線模糊而缺乏主責 Owner。",
+    "n": 1,
+    "len": 98
+  },
+  {
+    "zh": "泳道裡的兩段：Design 道＝出畫面（按鈕能點但沒存 DB），Build 道＝接資料／登入／付款（可跑且要審核）。對位 Replit Design vs Build",
+    "n": 1,
+    "len": 83
+  }
+]

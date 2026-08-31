@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course — Teaching Artifacts | Joshua Hsiao</title>
+<meta name="description" content="Teaching portfolio: interactive units, lecture spines, teaching briefs and anonymized teaching cases for AI/UX practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ai-primary:#8b5cf6; --ai-secondary:#a855f7; --ai-accent:#ec4899;
+  --ux-primary:#74CF96; --ux-secondary:#06b6d4; --ux-accent:#14b8a6;
+  --neutral-50:#0f172a; --neutral-100:#1e293b; --neutral-200:#334155;
+  --neutral-300:#475569; --neutral-400:#64748b; --neutral-500:#94a3b8;
+  --neutral-600:#cbd5e1; --neutral-700:#e2e8f0; --neutral-800:#f1f5f9; --neutral-900:#f8fafc;
+  --brand-primary:var(--ux-primary); --brand-hover:var(--ai-primary);
+  --text-primary:var(--neutral-900); --text-secondary:var(--neutral-600);
+  --surface:var(--neutral-100); --surface-card:var(--neutral-100);
+  --border-color:var(--neutral-300);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --cjk:"Noto Sans TC",-apple-system,Inter,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--neutral-50); color:var(--text-primary);
+  font-family:Inter,sans-serif; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.container{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(15,23,42,.85); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(71,85,105,.4);
+}
+header nav{display:flex;align-items:center;gap:28px;height:64px}
+.logo{font-weight:800;font-size:1.05rem;color:var(--text-primary);text-decoration:none;letter-spacing:-.01em;white-space:nowrap}
+.nav-links{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.nav-links a{
+  color:var(--text-secondary);text-decoration:none;font-size:.875rem;font-weight:500;
+  transition:color .18s ease;
+}
+.nav-links a:hover{color:var(--brand-primary)}
+.nav-links a[aria-current="page"]{color:var(--brand-primary);font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 40px;border-bottom:1px solid rgba(71,85,105,.35)}
+.eyebrow{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brand-primary);margin-bottom:18px;
+}
+.hero h1{
+  font-size:clamp(2.1rem,5vw,3.2rem);font-weight:800;letter-spacing:-.025em;
+  line-height:1.12;margin-bottom:20px;
+}
+.hero h1 em{font-style:normal;color:var(--brand-primary)}
+.hero p{max-width:70ch;color:var(--text-secondary);font-size:1.02rem}
+.hero p + p{margin-top:14px}
+
+/* ---------- legend ---------- */
+.legend{padding:44px 0 8px}
+.section-label{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--neutral-500);margin-bottom:8px;
+}
+.section-title{font-size:1.35rem;font-weight:700;letter-spacing:-.015em;margin-bottom:8px}
+.section-note{color:var(--text-secondary);font-size:.92rem;max-width:70ch;margin-bottom:26px}
+
+.legend-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+  background:rgba(71,85,105,.4);border:1px solid rgba(71,85,105,.4);border-radius:10px;overflow:hidden;
+}
+.legend-cell{background:var(--neutral-50);padding:18px 20px}
+.legend-cell .fmt{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:9px;display:inline-block;
+}
+.legend-cell p{font-size:.85rem;color:var(--text-secondary);line-height:1.55}
+.legend-cell strong{color:var(--neutral-700);font-weight:600}
+
+/* format accent colors */
+.f-unit{color:var(--ux-primary)}
+.f-lecture{color:var(--ux-secondary)}
+.f-brief{color:var(--ai-primary)}
+.f-case{color:var(--ai-accent)}
+.f-program{color:var(--neutral-500)}
+
+/* ---------- cards ---------- */
+.artifacts{padding:52px 0}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--surface-card);border:1px solid rgba(71,85,105,.55);border-radius:12px;
+  padding:26px 24px 22px;text-decoration:none;color:inherit;
+  transition:border-color .2s ease,transform .2s ease,background .2s ease;
+}
+.card:hover{border-color:var(--brand-primary);transform:translateY(-3px);background:#22304a}
+.card::before{
+  content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;border-radius:2px;
+  background:currentColor;opacity:.55;
+}
+.card.u-unit{color:var(--ux-primary)} .card.u-lecture{color:var(--ux-secondary)}
+.card.u-brief{color:var(--ai-primary)} .card.u-case{color:var(--ai-accent)}
+.card.u-program{color:var(--neutral-400)}
+
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.chip{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:600;padding:4px 9px;border-radius:4px;
+  border:1px solid currentColor;
+}
+.chip-lang,.chip-flag{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 8px;border-radius:4px;color:var(--neutral-500);
+  border:1px solid rgba(100,116,139,.55);
+}
+.chip-flag{color:var(--ux-accent);border-color:rgba(20,184,166,.5)}
+
+.card h3{
+  font-size:1.13rem;font-weight:700;letter-spacing:-.015em;line-height:1.32;
+  color:var(--text-primary);margin-bottom:4px;
+}
+.card .cn{
+  font-family:var(--cjk);font-size:.95rem;font-weight:500;
+  color:var(--neutral-600);margin-bottom:13px;line-height:1.5;
+}
+.card .teaches{font-size:.88rem;color:var(--text-secondary);line-height:1.62;margin-bottom:18px;flex-grow:1}
+
+.meta{
+  display:flex;flex-wrap:wrap;gap:6px 16px;
+  padding-top:14px;border-top:1px solid rgba(71,85,105,.45);
+}
+.meta div{font-size:.76rem;color:var(--neutral-500);line-height:1.4}
+.meta div span{
+  display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--neutral-400);margin-bottom:2px;
+}
+.meta div b{color:var(--neutral-700);font-weight:600}
+
+.card-cta{
+  margin-top:16px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:7px;
+}
+.card:hover .card-cta{color:var(--brand-primary)}
+
+/* ---------- note ---------- */
+.disclosure{
+  margin-top:40px;padding:22px 24px;border-radius:10px;
+  background:rgba(30,41,59,.6);border:1px solid rgba(71,85,105,.5);
+  border-left:2px solid var(--ux-accent);
+}
+.disclosure h4{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ux-accent);margin-bottom:10px;font-weight:600;
+}
+.disclosure p{font-size:.85rem;color:var(--text-secondary);line-height:1.65;max-width:78ch}
+.disclosure p + p{margin-top:9px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid rgba(71,85,105,.4);padding:32px 0 44px;margin-top:20px}
+footer p{font-size:.78rem;color:var(--neutral-400);line-height:1.6}
+footer a{color:var(--neutral-500);text-decoration:none}
+footer a:hover{color:var(--brand-primary)}
+.back{
+  display:inline-flex;align-items:center;gap:7px;margin-bottom:14px;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--neutral-500);text-decoration:none;
+}
+.back:hover{color:var(--brand-primary)}
+
+@media (max-width:640px){
+  .hero{padding:48px 0 32px}
+  .nav-links{gap:14px}
+  .card-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header role="banner">
+  <nav class="container" aria-label="Primary navigation">
+    <a href="index.html" class="logo"><span>Joshua Hsiao</span></a>
+    <div class="nav-links">
+      <a href="Zotero_5C_graph_V5.html">Research</a>
+      <a href="Resume.html">Resume</a>
+      <a href="FleetOps_TriageBench.html">Industry</a>
+      <a href="course.html" aria-current="page">Course</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#articles">Column</a>
+      <a href="index.html#experience">Co-Creation</a>
+      <a href="index.html#products">Cases</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Teaching Portfolio</div>
+    <h1>Four formats, one&nbsp;argument:<br><em>make the thinking inspectable.</em></h1>
+    <p>These are working teaching artifacts, not course descriptions. Each one is a different
+       format because it answers a different question — whether a learner can <em>do</em> the thing,
+       whether a room of decision-makers will <em>fund</em> the thing, or whether a group can
+       <em>diagnose</em> why a change stalled.</p>
+    <p>Every artifact ships as a single self-contained HTML file: readable by a person, parseable by
+       an agent, and versionable in git. That constraint is itself part of what is being taught.</p>
+  </div>
+</section>
+
+<section class="legend">
+  <div class="container">
+    <div class="section-label">How to read this page</div>
+    <h2 class="section-title">The formats differ on purpose</h2>
+    <p class="section-note">Pick by what you want to see. The four formats sit at different points of a
+       delivery arc — from a self-serve unit a learner clicks through alone, to a case a facilitator
+       runs with a room.</p>
+
+    <div class="legend-grid">
+      <div class="legend-cell">
+        <div class="fmt f-unit">Interactive Unit</div>
+        <p><strong>Learner clicks through alone.</strong> Self-paced, stepped, no facilitator. Success = they can perform the task afterward.</p>
+      </div>
+      <div class="legend-cell">
+        <div class="fmt f-lecture">Lecture Spine</div>
+        <p><strong>What gets said, and what leaves the room.</strong> The content backbone of a live talk — every section pinned to a takeaway for two audience tiers.</p>
+      </div>
+      <div class="legend-cell">
+        <div class="fmt f-brief">Teaching Brief</div>
+        <p><strong>One argument, worked through.</strong> A short position piece that becomes the source material for slides, workshops and reading groups.</p>
+      </div>
+      <div class="legend-cell">
+        <div class="fmt f-case">Teaching Case</div>
+        <p><strong>A room argues about a decision.</strong> HBS-style: exhibits, no verdict. Built for discussion, not for reading alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="artifacts">
+  <div class="container">
+    <div class="section-label">Artifacts</div>
+    <h2 class="section-title">Open any one</h2>
+    <p class="section-note">Five artifacts default to English with a ZH-TW toggle. The auth unit stays Traditional Chinese.</p>
+
+    <div class="card-grid">
+
+      <!-- 1 -->
+      <a class="card u-unit" href="assets/course/online_workshop_auth.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Interactive Unit</span>
+          <span class="chip-lang">ZH-TW</span>
+          <span class="chip-flag">AI Disclosure</span>
+        </div>
+        <h3>Low-friction Auth &amp; Third-party Login</h3>
+        <div class="cn">低門檻身份驗證與第三方登入</div>
+        <p class="teaches">Five stepped screens that reframe passwords as a <em>liability</em> rather than a
+           feature — a toggle exposes the ten things you must own forever if you roll your own, before
+           the unit walks the OAuth authorization-code flow and where credentials may and may not live.</p>
+        <div class="meta">
+          <div><span>Format</span><b>5 steps · self-paced</b></div>
+          <div><span>Audience</span><b>Bootcamp · EPSS 0–2</b></div>
+          <div><span>Context</span><b>Design proposal</b></div>
+        </div>
+        <div class="card-cta">Open unit →</div>
+      </a>
+
+      <!-- 2 -->
+      <a class="card u-lecture" href="assets/course/keynote_speech_token_ledger.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Lecture Spine</span>
+          <span class="chip-lang">EN · ZH-TW</span>
+        </div>
+        <h3>The Token Ledger, Synthetic Users &amp; the Limits of Distillation</h3>
+        <div class="cn">AI/UX 實務流：H+M 省下的 Token · 合成用戶用於 POC · 知識蒸餾的邊界</div>
+        <p class="teaches">A 90-minute talk organised as three management questions — <em>manage cost</em>
+           (a token ledger, and three line items you can cut this week), <em>manage process</em>
+           (synthetic users as a low-budget POC loop), and <em>manage boundaries</em> (when distillation
+           stops being learning and starts being appropriation). Each section closes with a two-tier
+           takeaway: one for people who will build, one for people who will fund.</p>
+        <div class="meta">
+          <div><span>Format</span><b>90 min · 3 acts</b></div>
+          <div><span>Audience</span><b>EPSS 0–3 + budget holders</b></div>
+          <div><span>Artifact</span><b>Disclosure template v0.1</b></div>
+        </div>
+        <div class="card-cta">Read the spine →</div>
+      </a>
+
+      <!-- 3 -->
+      <a class="card u-brief" href="assets/course/teaching_brief_annotated_prototype.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Teaching Brief</span>
+          <span class="chip-lang">EN · ZH-TW</span>
+          <span class="chip-flag">Live Prototypes</span>
+        </div>
+        <h3>The Prototype Ladder Grew a Rung</h3>
+        <div class="cn">AI 時代的原型階梯 — 中間多了一階</div>
+        <p class="teaches">Paper → wireframe → interactive survived the arrival of AI intact. What changed
+           is the middle rung: an exploration stage that now has real output and a borrowed name,
+           <em>Annotated Prototype</em>. Argues the three diving heights — chat, design tool, code —
+           differ by sunk cost, not capability, and shows one audit concept climbing two of them so you
+           can see that fidelity rose barely while <em>convergence</em> rose a lot.</p>
+        <div class="meta">
+          <div><span>Format</span><b>Brief · v0.1 draft</b></div>
+          <div><span>Builds on</span><b>Owens, DCUX 2019</b></div>
+          <div><span>Includes</span><b>2 openable prototypes</b></div>
+        </div>
+        <div class="card-cta">Read the brief →</div>
+      </a>
+
+      <!-- 4 -->
+      <a class="card u-case" href="assets/course/in_person_workshop_second_brain.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Teaching Case</span>
+          <span class="chip-lang">EN · ZH-TW</span>
+          <span class="chip-flag">Anonymized</span>
+        </div>
+        <h3>The Demo Landed. The Catch Mechanism Didn’t.</h3>
+        <div class="cn">甲集團知識代理工作坊 — 從工作坊到變革管理（匿名）</div>
+        <p class="teaches">Two cohorts, eleven teams: most reached ADKAR <em>Ability</em>. The shared
+           stall was Reinforcement — who intercepts a wrong output, what gets measured, who owns the
+           miss. Reads the closeout through ADKAR, Kotter, Prosci and IBM’s 2025 AI-change principles,
+           and treats “every group shipped a demo” as the finding, not the win.</p>
+        <div class="meta">
+          <div><span>Format</span><b>Closeout · 11 teams</b></div>
+          <div><span>Frameworks</span><b>ADKAR · Kotter · Prosci · IBM 2025</b></div>
+          <div><span>Use</span><b>Facilitated discussion</b></div>
+        </div>
+        <div class="card-cta">Open the case →</div>
+      </a>
+
+      <!-- 5 -->
+      <a class="card u-program" href="assets/course/online_course_ux_for_ai.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Cohort Program</span>
+          <span class="chip-lang">EN · ZH-TW</span>
+        </div>
+        <h3>Four Weeks to a Runnable Work System</h3>
+        <div class="cn">UX for AI｜四週實作課程</div>
+        <p class="teaches">A four-week build, not a reading list: locate the tool chain, audit and
+           variant-test, turn design knowledge into a queryable wiki, then close a POC loop —
+           candidate in, audit run, write-back. The takeaway is a system that runs, not a framework
+           that sits on a slide.</p>
+        <div class="meta">
+          <div><span>Length</span><b>4 weeks · 4 tabs</b></div>
+          <div><span>Close</span><b>Agent + wiki + audit</b></div>
+          <div><span>Includes</span><b>Kit · teaching pack</b></div>
+        </div>
+        <div class="card-cta">Open the unit →</div>
+      </a>
+
+      <!-- 6 -->
+      <a class="card u-brief" href="assets/course/teaching_brief_market_map.html#unit-1">
+        <div class="card-head">
+          <span class="chip">Teaching Brief</span>
+          <span class="chip-lang">EN · ZH-TW</span>
+        </div>
+        <h3>Five Lessons Against the 2026 Market</h3>
+        <div class="cn">AI/UX 5 堂課 × 市場對照表</div>
+        <p class="teaches">Maps a five-lesson AI/UX sequence onto what’s already for sale. Lessons 1–3
+           have decent competitors; 2, 4 and 5 are close to empty — design knowledge as a queryable
+           repository, red-team acceptance that writes back, and workflow governance for design leads.</p>
+        <div class="meta">
+          <div><span>Format</span><b>Market map</b></div>
+          <div><span>Lens</span><b>Maven · coverage depth</b></div>
+          <div><span>Use</span><b>Curriculum design</b></div>
+        </div>
+        <div class="card-cta">Read the map →</div>
+      </a>
+
+      <!-- 7 -->
+      <a class="card u-program" href="index.html#experience">
+        <div class="card-head">
+          <span class="chip">Co-Creation</span>
+          <span class="chip-lang">Ongoing</span>
+        </div>
+        <h3>Co-Creating an AI / UX Book</h3>
+        <div class="cn">與讀書會校友共創 AI/UX 書籍 · 兩面式手稿</div>
+        <p class="teaches">A two-sided manuscript built with reading-group alumni: Side A walks a
+           practitioner from foundations to applied product decisions; Side B is a strategy path for
+           leaders managing AI-augmented teams. Drafts iterate against real trial-reader reactions.</p>
+        <div class="meta">
+          <div><span>Progress</span><b>22 chapters / 6 months</b></div>
+          <div><span>Readers</span><b>90+ trial readers</b></div>
+          <div><span>Model</span><b>Patreon-supported</b></div>
+        </div>
+        <div class="card-cta">See co-creation →</div>
+      </a>
+
+    </div>
+
+    <div class="disclosure">
+      <h4>Anonymization &amp; AI-use disclosure</h4>
+      <p><strong>Client material.</strong> The closeout is a teaching artifact from real delivery,
+         published for classroom and coaching discussion only — not as evidence that anyone managed
+         anything well or badly. No commercial terms appear. Read it as a case, not a scorecard.</p>
+      <p><strong>AI use.</strong> Instructional design, argument and structure are mine and I am
+         accountable for them; front-end implementation is AI-assisted, with every technical claim
+         verified line by line. This disclosure follows the transparency template published in the
+         AI/UX practice-flow lecture — a course that asks learners to own their AI output should hold
+         its own materials to the same rule.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <a class="back" href="index.html">← Back to portfolio</a>
+    <p>© PRIVACYUX CONSULTING LTD., 2026 · Teaching materials are the author’s copyright.
+       Please do not reproduce, adapt or use commercially without written permission.</p>
+  </div>
+</footer>
+
+</body>
+</html>

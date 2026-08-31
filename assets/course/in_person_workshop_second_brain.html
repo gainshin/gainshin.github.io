@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group A Knowledge Agent Workshop — Closeout Report | Joshua Hsiao</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1D1D1B;--red:#E3120B;--ox:#7a2e1f;--warm:#F5F1EB;--rule:#D4D1CB;--mid:#6B6B6B;--bg2:#f7f7f5;
+  --amber:#B7791F;--green:#2D8A56;--blue:#2471A3;
+}
+html{background:#e8ecef;scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,'PingFang TC','Noto Sans TC',sans-serif;color:var(--ink);line-height:1.6;background:#fff;max-width:1040px;margin:0 auto;padding:2.1rem 2.5rem 2.8rem;box-shadow:0 2px 12px rgba(0,0,0,.12);border-top:3px solid var(--red)}
+
+/* ── nav bar ── */
+.doc-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-2.1rem -2.5rem 1.4rem;padding:.55rem 2.5rem;background:var(--bg2);border-bottom:1px solid var(--rule);font-size:.78rem;position:sticky;top:0;z-index:70;backdrop-filter:blur(8px)}
+.doc-nav a.back-link{color:var(--ink);text-decoration:none;font-weight:600;padding:.32rem .6rem;border:1px solid var(--rule);background:#fff;border-radius:4px;display:inline-flex;align-items:center;gap:4px}
+.doc-nav a.back-link:hover{border-color:var(--red);color:var(--red)}
+.doc-nav .nav-title{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ox)}
+.lang-switch{display:flex;gap:4px;margin-left:auto;flex-shrink:0}
+.lang-switch button{font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:.32rem .6rem;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:4px;cursor:pointer}
+.lang-switch button:hover{border-color:var(--red);color:var(--red)}
+.lang-switch button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.cover-label{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
+.cover-title{font-weight:800;font-size:1.78rem;letter-spacing:-.01em;margin:0 0 .15rem;line-height:1.2}
+.cover-subtitle{font-size:.9rem;color:var(--mid);max-width:84ch;line-height:1.55}
+.divider{height:3px;width:64px;background:var(--red);border-radius:2px;margin:.7rem 0 1.1rem}
+.section-header{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:2px solid var(--ink);margin:1.6rem 0 .7rem;scroll-margin-top:60px}
+.sec-num{font-size:.72rem;font-weight:800;color:var(--red);min-width:2.2rem;flex-shrink:0}
+.sec-title{font-size:1.02rem;font-weight:700;color:var(--ink)}
+.exec-box{border:2px solid var(--ink);background:var(--warm);padding:1rem 1.2rem;margin-bottom:.4rem;font-size:.87rem;line-height:1.55}
+.exec-box h5{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--ox);text-transform:uppercase;margin-bottom:.55rem}
+.exec-lead{font-weight:800;font-size:1.15rem;line-height:1.35;color:var(--ink);margin-bottom:.55rem}
+.exec-box p{color:var(--mid)}
+.exec-box p b,.exec-box b{color:var(--ink)}
+.body-text{font-size:.87rem;color:var(--mid);line-height:1.68}
+.chart-block{border:1px solid var(--rule);background:#fff;padding:12px 14px;margin:.4rem 0 .9rem}
+.chart-svg-wrap{margin:0;display:flex;justify-content:center}
+.chart-svg-wrap svg{width:100%;height:auto;display:block}
+.chart-takeaway{margin:.3rem 0 1.1rem;padding:.85rem 1.1rem;background:var(--warm);border-left:3px solid var(--red);font-size:.86rem;line-height:1.68;color:var(--mid)}
+.takeaway-label{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.45rem}
+.chart-takeaway b{color:var(--ink)}
+.chart-takeaway ul{margin:.35rem 0 0 1.15rem;padding:0;line-height:1.62}
+.chart-takeaway li{margin-bottom:.3rem}
+.chart-takeaway li b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:.5rem 0 .8rem}
+th{text-align:left;font-weight:700;font-size:.74rem;letter-spacing:.04em;color:var(--mid);text-transform:uppercase;padding:.45rem .6rem;border-bottom:2px solid var(--ink)}
+td{padding:.55rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--mid);line-height:1.55}
+td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+td b{color:var(--ink)}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.08rem .5rem;border-radius:10px;white-space:nowrap}
+.hi{background:rgba(45,138,86,.12);color:var(--green)}
+.md{background:rgba(183,121,31,.13);color:var(--amber)}
+.lo{background:rgba(227,18,11,.10);color:var(--red)}
+.ok{color:var(--green);font-weight:800}
+.half{color:var(--amber);font-weight:800}
+.no{color:var(--red);font-weight:800}
+.note{font-size:.76rem;color:var(--mid);margin:-.3rem 0 .9rem;line-height:1.5}
+.framework-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.4rem 0 .8rem}
+.fw-card{border:1px solid var(--rule);padding:.85rem 1rem;background:var(--bg2);font-size:.84rem;line-height:1.55}
+.fw-card h6{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:.3rem}
+.fw-card p{color:var(--mid)}
+.fw-card p b{color:var(--ink)}
+.fw-card.plan{border-left:3px solid var(--blue)}
+.warn-box{border:2px solid var(--red);background:#fdf3f2;padding:.85rem 1rem;font-size:.84rem;line-height:1.55}
+.warn-box h5{font-weight:700;font-size:.95rem;color:var(--red);margin-bottom:.3rem}
+.warn-box p{color:var(--mid)}
+.warn-box p b{color:var(--ink)}
+.bench-card{border:1px solid var(--rule);padding:.85rem 1rem;background:#fff;font-size:.84rem;line-height:1.55}
+.bench-card h5{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:.3rem}
+.bench-card p{color:var(--mid)}
+.bench-card p b{color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.4rem 0 .8rem}
+.kotter{display:flex;flex-direction:column;gap:.4rem;margin:.4rem 0 .8rem}
+.kstep{display:grid;grid-template-columns:2.2rem 11rem 1fr auto;gap:.7rem;align-items:baseline;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--rule);font-size:.82rem}
+.kstep .n{font-weight:800;color:var(--ox)}
+.kstep .t{font-weight:700;color:var(--ink)}
+.kstep .e{color:var(--mid)}
+.kstep.next{border-left:3px solid var(--blue)}
+.kstep.done{border-left:3px solid var(--green)}
+.refs{font-size:.8rem;color:var(--mid);line-height:1.8}
+.refs li{margin-left:1.2rem}
+.pig-wrap{display:grid;grid-template-columns:1.6rem 1fr 1fr;grid-template-rows:1fr 1fr 1.6rem;gap:.6rem;margin:.4rem 0 .8rem}
+.pig-y{grid-row:1/3;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:.72rem;font-weight:700;color:var(--mid);letter-spacing:.1em;display:flex;align-items:center;justify-content:center}
+.pig-x{grid-column:2/4;text-align:center;font-size:.72rem;font-weight:700;color:var(--mid);letter-spacing:.1em}
+.pq{border:1px solid var(--rule);border-radius:3px;padding:.75rem .9rem;background:var(--bg2)}
+.pq h4{font-weight:800;font-size:.9rem;margin-bottom:.15rem}
+.pq .st{font-size:.74rem;color:var(--mid);margin-bottom:.45rem}
+.pq.q-mc{border-top:3px solid var(--red)}.pq.q-mc h4{color:var(--red)}
+.pq.q-ks{border-top:3px solid var(--amber)}.pq.q-ks h4{color:var(--amber)}
+.pq.q-ki{border-top:3px solid var(--blue)}.pq.q-ki h4{color:var(--blue)}
+.pq.q-mo{border-top:3px solid var(--mid)}.pq.q-mo h4{color:var(--mid)}
+.sk{display:inline-block;font-size:.76rem;font-weight:600;background:#fff;border:1px solid var(--rule);padding:.15rem .45rem;border-radius:2px;margin:0 .25rem .25rem 0}
+.sk small{color:var(--mid);font-weight:400}
+.sk.warn{border-color:var(--red);color:var(--red)}
+.q-page-footer{margin-top:1.6rem;padding-top:.8rem;border-top:1px solid var(--rule);font-size:.74rem;color:#9b9a97}
+@media(max-width:760px){
+  body{padding:1.4rem 1.2rem 2rem}
+  .doc-nav{margin:-1.4rem -1.2rem 1rem;padding:.55rem 1.2rem}
+  .framework-grid,.grid2{grid-template-columns:1fr}
+  .kstep{grid-template-columns:2.2rem 1fr;gap:.3rem}
+  .kstep .e{grid-column:2/3}
+  .kstep .pill{grid-column:2/3;justify-self:start}
+  .pig-wrap{grid-template-columns:1fr;grid-template-rows:auto}
+  .pig-y,.pig-x{display:none}
+}
+@media print{html{background:#fff}body{box-shadow:none;max-width:100%}}
+</style>
+</head>
+<body>
+
+<nav class="doc-nav">
+  <a class="back-link" href="../../course.html" data-t="nav.back">← Teaching Artifacts</a>
+  <span class="nav-title" data-t="nav.label">Closeout Report</span>
+  <span class="lang-switch">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="zh">繁中</button>
+  </span>
+</nav>
+
+<div class="cover-label" data-t="doc.kicker">Anonymized Teaching Case · Sessions A + B · 11 Cohort Teams</div>
+<h1 class="cover-title" data-t="doc.title">Group A Knowledge Agent Workshop — Closeout Report</h1>
+<p class="note" data-t="doc.anon_note">Anonymized for teaching. Organization renamed to "Group A"; subsidiaries mapped to functional tags (Auto Units A/B, Consumer Finance, Financing, Logistics, Leasing, Data, Mobility, Distribution, HQ Security/Planning). System names replaced by functional descriptions. Not for performance review or client identification.</p>
+<p class="cover-subtitle" data-t="doc.subtitle">This report synthesizes Session B deliverables and 30-day action roadmaps across 11 teams, organized around four change management frameworks: <b>ADKAR for team progress, Kotter for the group roadmap, Prosci stakeholder tools for assessment, and IBM's five principles for AI-specific dynamics</b>. Qualitative findings are derived from self-reported readiness, not rankings.</p>
+<div class="divider"></div>
+
+<div class="exec-box">
+  <h5 data-t="exec.h5">Executive Summary · Three Core Findings</h5>
+  <div class="exec-lead" data-t="exec.lead">Course design maps directly to IBM's AI change principles. 8 of 11 teams reached ADKAR's Ability. The shared bottleneck across the group is not skill, but Reinforcement — landing metrics and human intercept checkpoints.</div>
+  <p data-t="exec.body">① This course went beyond tool tutorials. Mapping to IBM (2025) principles in hindsight shows that the 3-line summaries, 2×2 critical engagement matrix, accountability tests, and final human authority gates share the same structure (§02). Group A is already driving change with standard global frameworks. ② The ADKAR progress matrix (§05) shows most teams stuck at Reinforcement: <b>teams can ship a demo, but "who intercepts errors, what numbers to track, and who owns risk" remain theoretical</b>. ③ Running 11 initiatives alongside existing digital transformations creates change saturation — we advise HQ Planning to pace deployment via a shared platform (§08).</p>
+</div>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="exec.takeaway_lbl">Consultant Advice</span><p data-t="exec.takeaway">The shared pain point across 11 teams is not building a demo, but "shipping a demo without knowing who catches errors or what numbers count as success." The next steps require only three things: <b>stop tracking prompt counts or usage volume, and measure actual time saved and caught errors</b>; clean documents into AI-readable formats before buying heavy knowledge management suites; and formally empower process rebuilders identified in this workshop to restructure workflows.</p></div>
+
+<div class="section-header"><span class="sec-num">§01</span><span class="sec-title" data-t="s1.title">Methodology Architecture · Framework Breakdown</span></div>
+<div class="framework-grid">
+  <div class="fw-card plan"><h6 data-t="s1.fw1_h6">ADKAR (Hiatt, 2006) — The Spine</h6><p data-t="s1.fw1_p">Change happens at the individual level. The five workshop modules map directly: Session A = <b>A</b>wareness, Red-Team Dual Inquiry = <b>D</b>esire (self-persuasion), NotebookLM build = <b>K</b>nowledge, Demo delivery = <b>A</b>bility, 30-day list + impact dashboard = <b>R</b>einforcement.</p></div>
+  <div class="fw-card plan"><h6 data-t="s1.fw2_h6">Kotter (1996) — The Roadmap</h6><p data-t="s1.fw2_p">Organization-wide 8-step roadmap. This workshop covered steps 1–6 (§07). Steps 7–8 (consolidating gains, anchoring in culture) define the next phase. Using Kotter alongside ADKAR is Prosci standard practice: Kotter guides the organization, ADKAR guides individual milestones.</p></div>
+  <div class="fw-card plan"><h6 data-t="s1.fw3_h6">Prosci Stakeholder Tools — Assessment</h6><p data-t="s1.fw3_p">Classifies stakeholders by impact × proximity to identify sponsors and build change teams. Supports 4 diagnostics: change impact, readiness, culture, and <b>change saturation</b> (§08 is critical for this group).</p></div>
+  <div class="fw-card plan"><h6 data-t="s1.fw4_h6">IBM AI Change Principles (2025) — The AI Lens</h6><p data-t="s1.fw4_p">Key differences in AI transformation: start with "Why", anticipate resistance, treat AI as a capability rather than a project, balance governance with speed, and <b>measure outcomes rather than activity</b>. §02 compares these with our workshop design.</p></div>
+</div>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s1.takeaway_lbl">Consultant Advice</span><p data-t="s1.takeaway">Methodologies align internal teams; when reporting to leadership, keep it plain: <b>The bottleneck is never whether the model is smart enough, but unorganized documents and missing human guardrails.</b> The first four steps got everyone aware, willing, and capable of shipping a demo. For the next 30 to 90 days, the only priority is making defensive checkpoints and outcome tracking real.</p></div>
+
+<div class="section-header"><span class="sec-num">§02</span><span class="sec-title" data-t="s2.title">IBM Five Principles × Workshop Design Mapping</span></div>
+<table>
+<thead><tr><th data-t="s2.th1">IBM Principle</th><th data-t="s2.th2">Workshop Design Feature</th><th data-t="s2.th3">Evidence (Deliverables)</th></tr></thead>
+<tbody>
+<tr><td data-t="s2.r1a">Start with "Why"</td><td data-t="s2.r1b">3-line conclusions (why it matters / before vs after / next step), Investor Q1 "give one concrete number"</td><td data-t="s2.r1c">11 team templates submitted; 10 completed</td></tr>
+<tr><td data-t="s2.r2a">Anticipate resistance with predictive analytics</td><td data-t="s2.r2b">Critical engagement 2×2, Q1 "adversarial disengagement" — veteran silence is modeled in advance, not discovered after launch</td><td data-t="s2.r2c">Leasing CDP, Data metrics dictionary scenarios</td></tr>
+<tr><td data-t="s2.r3a">AI is a capability, not a project</td><td data-t="s2.r3b">Copilot → Agent → Multi-Agent ladder: AI evolves decisions, workflows, and roles over time, not as a one-off project</td><td data-t="s2.r3c">Auto Unit A · Quality Agent prototype</td></tr>
+<tr><td data-t="s2.r4a">Balance governance and speed</td><td data-t="s2.r4b">Accountability A/B, final human authority, confidence ladder, exception governance loop — embedded upfront without slowing delivery</td><td data-t="s2.r4c">Consumer Finance confidence ladder, Logistics policy baseline</td></tr>
+<tr><td data-t="s2.r5a">Measure outcomes, not activity</td><td data-t="s2.r5b">Vanity metrics 2×2: "track business outputs, not question counts" maps directly to IBM's "avoid seat count or login frequency metrics"</td><td data-t="s2.r5c">Leasing outcome boundary, Mobility token cost analysis</td></tr>
+</tbody>
+</table>
+<p class="note" data-t="s2.note">This table can serve directly as slide one for executive briefings: proving this was not a vendor tool demo, but structured capability building aligned with global standards.</p>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s2.takeaway_lbl">Consultant Advice</span><p data-t="s2.takeaway">This mapping is the cleanest opening for executive updates — proving this was structured capability building, not a vendor showcase. <b>Immediately stop ranking employee prompt counts or token usage leaderboard</b>; those are costs. Shift focus to business KPIs validated in the demos (e.g., ticket reduction, error interception rate).</p></div>
+
+<div class="section-header"><span class="sec-num">§03</span><span class="sec-title" data-t="s3.title">Prosci Stakeholder Matrix · 11 Team Positions</span></div>
+<table>
+<thead><tr><th data-t="s3.th1">Cluster</th><th data-t="s3.th2">Unit · Scenario</th><th data-t="s3.th3">Impact × Proximity</th><th data-t="s3.th4">Recommended Engagement</th></tr></thead>
+<tbody>
+<tr><td data-t="s3.r1a">Governance Core</td><td data-t="s3.r1b">HQ Security (Security Assistant), HQ Planning (Shared AI Platform)</td><td data-t="s3.r1c">Group-wide × Highest</td><td data-t="s3.r1d"><b>Natural fit for the Change Management team</b> — already managing group standards and pipelines; recommend formal governance mandate and methodology training.</td></tr>
+<tr><td data-t="s3.r2a">High-Consequence Frontline</td><td data-t="s3.r2b">Consumer Finance (Loan Docs), Financing (Vendor Knowledge Base), Logistics (Expense Claims)</td><td data-t="s3.r2c">Legal / Financial Risk × High</td><td data-t="s3.r2d">Deep involvement in solution design: their confidence ladders and exception loops should become group-wide templates.</td></tr>
+<tr><td data-t="s3.r3a">Operations Frontline</td><td data-t="s3.r3b">Distribution (Competitor Q&A), Mobility (Support Self-Service), Leasing (CDP Onboarding)</td><td data-t="s3.r3c">Customer Facing × Medium</td><td data-t="s3.r3d">Co-create outcome metrics — this group is most vulnerable to vanity usage KPIs. Measure outputs, not questions.</td></tr>
+<tr><td data-t="s3.r4a">Manufacturing Pioneers</td><td data-t="s3.r4b">Auto Unit A (Quality Agent), Auto Unit B (Owner's Manual), Data Unit (Metrics Dictionary)</td><td data-t="s3.r4c">Quality / Decision × Medium</td><td data-t="s3.r4d">Quality Agent is the group's only Agent prototype; use it as the benchmark for final human authority. Auto Unit B must first complete Awareness → Desire.</td></tr>
+</tbody>
+</table>
+<p class="note" data-t="s3.note">Prosci Sponsor Identification note: all above are execution layers. <b>Executive sponsors must be explicitly named and publicly committed in the next phase</b> to address internal leadership friction first.</p>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s3.takeaway_lbl">Consultant Advice</span><p data-t="s3.takeaway">HQ Security and HQ Planning are natural change hubs: officially authorize them to manage component reuse and review pipelines so subsidiaries don't reinvent the wheel. Guardrails from high-risk teams (Consumer Finance, Financing, Logistics) should become group standards. For teams needing cross-department restructuring, <b>stop sending them to classes; assign dedicated builders with authority to modify processes.</b></p></div>
+
+<div class="section-header"><span class="sec-num">§04</span><span class="sec-title" data-t="s4.title">Power-Interest Grid · Mendelow Stakeholder Matrix</span></div>
+<p class="note" data-t="s4.note1">§03 identifies positions; this section defines resource allocation. Based on Mendelow (1991), 8 stakeholder groups are mapped across four quadrants with distinct engagement strategies.</p>
+<div class="chart-block">
+<div class="chart-svg-wrap">
+<svg viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" font-family="Inter,-apple-system,'PingFang TC','Noto Sans TC',sans-serif">
+  <rect x="510" y="60"  width="350" height="218.2" fill="#E3120B" opacity="0.05"/>
+  <rect x="510" y="278.2" width="350" height="261.8" fill="#B7791F" opacity="0.06"/>
+  <rect x="90"  y="60"  width="420" height="218.2" fill="#2471A3" opacity="0.05"/>
+  <rect x="90"  y="278.2" width="420" height="261.8" fill="#6B6B6B" opacity="0.05"/>
+  <rect x="90" y="60" width="770" height="480" fill="none" stroke="#D4D1CB" stroke-width="1"/>
+  <g stroke="#D4D1CB" stroke-width="0.6" opacity="0.7">
+    <line x1="230" y1="60" x2="230" y2="540"/><line x1="370" y1="60" x2="370" y2="540"/>
+    <line x1="650" y1="60" x2="650" y2="540"/><line x1="790" y1="60" x2="790" y2="540"/>
+    <line x1="90" y1="103.6" x2="860" y2="103.6"/><line x1="90" y1="190.9" x2="860" y2="190.9"/>
+    <line x1="90" y1="365.5" x2="860" y2="365.5"/><line x1="90" y1="452.7" x2="860" y2="452.7"/>
+  </g>
+  <line x1="510" y1="60" x2="510" y2="540" stroke="#1D1D1B" stroke-width="1.2" stroke-dasharray="7 5" opacity="0.5"/>
+  <line x1="90" y1="278.2" x2="860" y2="278.2" stroke="#1D1D1B" stroke-width="1.2" stroke-dasharray="7 5" opacity="0.5"/>
+  <g font-size="12" fill="#6B6B6B">
+    <text x="90" y="558">Low</text><text x="852" y="558" text-anchor="end">High</text>
+    <text x="72" y="536">Low</text><text x="72" y="74">High</text>
+  </g>
+  <g font-size="15" font-weight="800">
+    <text x="845" y="86" text-anchor="end" fill="#E3120B">Manage Closely</text>
+    <text x="845" y="528" text-anchor="end" fill="#B7791F">Keep Satisfied</text>
+    <text x="104" y="86" fill="#2471A3">Keep Informed</text>
+    <text x="104" y="528" fill="#6B6B6B">Monitor</text>
+  </g>
+  <text x="475" y="596" text-anchor="middle" font-size="14" font-weight="700" fill="#3a3a37">Power / Influence →</text>
+  <text x="40" y="300" text-anchor="middle" font-size="14" font-weight="700" fill="#3a3a37" transform="rotate(-90 40 300)">Interest Level →</text>
+
+  <defs>
+    <marker id="arr-red" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,-4L10,0L0,4" fill="#E3120B"/>
+    </marker>
+    <marker id="arr-grey" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,-4L10,0L0,4" fill="#6B6B6B"/>
+    </marker>
+  </defs>
+
+  <path d="M 748,330 L 748,218" stroke="#E3120B" stroke-width="2.2" stroke-dasharray="6 4" fill="none" marker-end="url(#arr-red)"/>
+  <text x="762" y="272" font-size="11.5" fill="#E3120B" font-weight="700">Public Endorsement →</text>
+  <text x="762" y="287" font-size="11.5" fill="#E3120B" font-weight="700">Manage Closely</text>
+  <path d="M 306,236 L 284,300" stroke="#E3120B" stroke-width="1.8" stroke-dasharray="4 4" fill="none" marker-end="url(#arr-red)"/>
+  <text x="272" y="268" font-size="11.5" fill="#E3120B" text-anchor="end">⚠ Without focus groups →</text>
+  <text x="272" y="283" font-size="11.5" fill="#E3120B" text-anchor="end">slides to Monitor</text>
+  <path d="M 286,400 L 322,320" stroke="#6B6B6B" stroke-width="1.6" stroke-dasharray="4 4" fill="none" marker-end="url(#arr-grey)"/>
+  <text x="330" y="352" font-size="11" fill="#6B6B6B">Vendors may move up</text>
+
+  <g>
+    <circle cx="692" cy="129.8" r="8" fill="#E3120B" stroke="#fff" stroke-width="2"/>
+    <text x="706" y="126" font-size="13" font-weight="700" fill="#1D1D1B">④ HQ Security</text>
+    <circle cx="650" cy="160.4" r="8" fill="#E3120B" stroke="#fff" stroke-width="2"/>
+    <text x="636" y="165" font-size="13" font-weight="700" fill="#1D1D1B" text-anchor="end">⑤ HQ Planning</text>
+    <circle cx="608" cy="234.6" r="8" fill="#E3120B" stroke="#fff" stroke-width="2"/>
+    <text x="622" y="239" font-size="13" font-weight="700" fill="#1D1D1B">⑥ Subsidiary IT Leads</text>
+  </g>
+  <g>
+    <circle cx="748" cy="348" r="9" fill="#fff" stroke="#E3120B" stroke-width="2.5"/>
+    <text x="748" y="352.5" font-size="10" font-weight="800" fill="#E3120B" text-anchor="middle">!</text>
+    <text x="732" y="352" font-size="13" font-weight="700" fill="#E3120B" text-anchor="end">① Executive Sponsor (TBD)</text>
+    <circle cx="622" cy="391.6" r="8" fill="#B7791F" stroke="#fff" stroke-width="2"/>
+    <text x="636" y="396" font-size="13" font-weight="700" fill="#1D1D1B">② Legal & Compliance</text>
+    <circle cx="552" cy="339.3" r="8" fill="#B7791F" stroke="#fff" stroke-width="2"/>
+    <text x="552" y="322" font-size="13" font-weight="700" fill="#1D1D1B" text-anchor="middle">③ Subsidiary CFOs</text>
+  </g>
+  <g>
+    <circle cx="384" cy="138.6" r="8" fill="#2471A3" stroke="#fff" stroke-width="2"/>
+    <text x="398" y="143" font-size="13" font-weight="700" fill="#1D1D1B">⑧ 11 Cohort Teams</text>
+    <circle cx="314" cy="217.1" r="9" fill="#fff" stroke="#E3120B" stroke-width="2.5"/>
+    <text x="314" y="221.5" font-size="10" font-weight="800" fill="#E3120B" text-anchor="middle">!</text>
+    <text x="328" y="212" font-size="13" font-weight="700" fill="#E3120B">⑧' Senior Frontline Staff</text>
+  </g>
+  <g>
+    <circle cx="272" cy="417.8" r="8" fill="#6B6B6B" stroke="#fff" stroke-width="2"/>
+    <text x="258" y="437" font-size="13" font-weight="700" fill="#1D1D1B" text-anchor="start">⑦ Untrained Staff / Vendors</text>
+  </g>
+
+  <g font-size="11.5" fill="#3a3a37">
+    <circle cx="100" cy="622" r="5" fill="#fff" stroke="#E3120B" stroke-width="2"/>
+    <text x="112" y="626">Red border = Proactive Repositioning</text>
+    <line x1="330" y1="622" x2="360" y2="622" stroke="#E3120B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr-red)"/>
+    <text x="370" y="626">Target Movement</text>
+    <line x1="480" y1="622" x2="510" y2="622" stroke="#6B6B6B" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arr-grey)"/>
+    <text x="520" y="626">Natural Drift (Monitor)</text>
+    <text x="845" y="626" text-anchor="end" fill="#6B6B6B">Consultant qualitative read · Redrawn quarterly</text>
+  </g>
+</svg>
+</div>
+</div>
+
+<p class="note" data-t="s4.note2">Quadrant strategies detailed below. Point positions represent qualitative consultant assessments; red borders indicate direct targets for §09 actions.</p>
+<div class="pig-wrap">
+  <div class="pig-y">Power → High</div>
+  <div class="pq q-ks">
+    <h4 data-t="s4.q_ks_h4">Keep Satisfied</h4>
+    <div class="st" data-t="s4.q_ks_st">High Power × Low Interest | Monitor dynamics, treat with care, regular brief updates</div>
+    <span class="sk warn" data-t="s4.q_ks_t1">① Executive Sponsor (To Be Named) <small>· Current Position</small></span>
+    <span class="sk" data-t="s4.q_ks_t2">② Legal & Compliance</span>
+    <span class="sk" data-t="s4.q_ks_t3">③ Subsidiary CFOs / Finance Leads</span>
+    <p style="font-size:.76rem;color:var(--mid);margin-top:.4rem" data-t="s4.q_ks_p">High influence but low participation; <b>the main source of unexpected friction</b> (e.g., Distribution Q&A stalled on legal review). ⚠ Having sponsors in this quadrant is the project's biggest risk: the goal is to move ① into "Manage Closely" via public endorsement.</p>
+  </div>
+  <div class="pq q-mc">
+    <h4 data-t="s4.q_mc_h4">Manage Closely</h4>
+    <div class="st" data-t="s4.q_mc_st">High Power × High Interest | Active involvement, joint decisions, regular reporting</div>
+    <span class="sk" data-t="s4.q_mc_t1">④ HQ Security</span>
+    <span class="sk" data-t="s4.q_mc_t2">⑤ HQ Planning</span>
+    <span class="sk" data-t="s4.q_mc_t3">⑥ Subsidiary IT / CIOs</span>
+    <p style="font-size:.76rem;color:var(--mid);margin-top:.4rem" data-t="s4.q_mc_p">Priority group. ④ and ⑤ are natural change team leads (§03); ⑥ controls implementation resources. Include them in component review loops to trade ownership for commitment — turning them into change champions rather than gatekeepers.</p>
+  </div>
+  <div class="pq q-mo">
+    <h4 data-t="s4.q_mo_h4">Monitor</h4>
+    <div class="st" data-t="s4.q_mo_st">Low Power × Low Interest | Minimal effort, routine notices</div>
+    <span class="sk" data-t="s4.q_mo_t1">⑦ Non-Trained Staff / External Vendors</span>
+    <p style="font-size:.76rem;color:var(--mid);margin-top:.4rem" data-t="s4.q_mo_p">Low priority, standard notices only. Watch one-way flows: as AI tools enter daily routines, some move right into "Keep Informed" (e.g., Financing's vendor tech transfer partners require cooperation).</p>
+  </div>
+  <div class="pq q-ki">
+    <h4 data-t="s4.q_ki_h4">Keep Informed</h4>
+    <div class="st" data-t="s4.q_ki_st">Low Power × High Interest | Regular updates, supportive engagement, focus groups</div>
+    <span class="sk" data-t="s4.q_ki_t1">⑧ 11 Cohort Seed Teams</span>
+    <span class="sk warn" data-t="s4.q_ki_t2">⑧' Frontline Senior Staff <small>· Adversarial Disengagement</small></span>
+    <p style="font-size:.76rem;color:var(--mid);margin-top:.4rem" data-t="s4.q_ki_p">Highly impacted but lack decision authority. ⑧ serves as the change network; keep them updated to maintain momentum. ⑧' requires special handling: 2×2 Q1 groups rarely voice overt opposition; they stay silent and bypass the tool. <b>Focus groups recover their domain judgment far better than surveys</b> (IBM: anticipate resistance).</p>
+  </div>
+  <div class="pig-x">Interest → High</div>
+</div>
+<p class="note" data-t="s4.note3">Reading: Vertical = Power (top high), Horizontal = Interest (right high). Red highlights indicate targets requiring active repositioning: move sponsors to "Manage Closely", keep disengaged veterans from sliding to "Monitor". Update quarterly alongside saturation reviews (§08).</p>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s4.takeaway_lbl">Consultant Advice</span><p data-t="s4.takeaway">Key action from the matrix: <b>Move Executive Sponsors into "Manage Closely" via public backing</b>, or legal and financial gates will become silent blockers. For veteran frontline staff, skip survey forms — run direct focus groups to absorb their domain heuristics. Include subsidiary IT leads in component reviews to secure buy-in.</p></div>
+
+<div class="section-header"><span class="sec-num">§05</span><span class="sec-title" data-t="s5.title">ADKAR Progress Matrix</span></div>
+<table>
+<thead><tr><th data-t="s5.th1">Team</th><th data-t="s5.th2">A Awareness</th><th data-t="s5.th3">D Desire</th><th data-t="s5.th4">K Knowledge</th><th data-t="s5.th5">A Ability</th><th data-t="s5.th6">R Reinforcement</th><th data-t="s5.th7">Bottleneck Diagnosis</th></tr></thead>
+<tbody>
+<tr><td data-t="s5.r1a">Auto Unit A · Quality Agent</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r1b">Final human review remains conceptual; multi-source rating variance unresolved in NotebookLM</td></tr>
+<tr><td data-t="s5.r2a">Consumer Finance · Loan Approval</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r2b">RACI submitted; key-field review checklist pending formal sign-off</td></tr>
+<tr><td data-t="s5.r3a">HQ Security · Security Assistant</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r3b">Subsidiary self-service adoption threshold unset; automated re-indexing triggers pending</td></tr>
+<tr><td data-t="s5.r4a">HQ Planning · Shared Platform</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r4b">Component pipeline fully designed; live Security Gate execution needs proof</td></tr>
+<tr><td data-t="s5.r5a">Logistics · Expense Claims</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r5b">Exception governance loop mature; monthly review cadence needs first cycle run</td></tr>
+<tr><td data-t="s5.r6a">Leasing · CDP Onboarding</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td data-t="s5.r6b">Accountability A picked correctly, but output metrics undefined — classic R bottleneck</td></tr>
+<tr><td data-t="s5.r7a">Data Unit · Metrics Dictionary</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td class="half">◐</td><td data-t="s5.r7b">Single author without review; new customer definitions lack cross-department consensus</td></tr>
+<tr><td data-t="s5.r8a">Financing · Vendor Knowledge Base</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td class="half">◐</td><td data-t="s5.r8b">Tacit knowledge extraction on track; coverage rate and update schedule undecided</td></tr>
+<tr><td data-t="s5.r9a">Mobility · Support Self-Service</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td class="no">☐</td><td data-t="s5.r9b">Rate card linting only conceptual; consumer token budget cap unset</td></tr>
+<tr><td data-t="s5.r10a">Distribution · Sales Q&A</td><td class="ok">✓</td><td class="ok">✓</td><td class="half">◐</td><td class="half">◐</td><td class="no">☐</td><td data-t="s5.r10b">3-criteria template blank, Q&A script lacks legal sign-off — official path trailing shadow tools</td></tr>
+<tr><td data-t="s5.r11a">Auto Unit B · Owner's Manual</td><td class="ok">✓</td><td class="half">◐</td><td class="half">◐</td><td class="no">☐</td><td class="no">☐</td><td data-t="s5.r11b">3-line summary blank, before/after evidence absent — must revisit Desire; run 1-on-1 interviews to uncover real concerns</td></tr>
+</tbody>
+</table>
+<p class="note" data-t="s5.note">✓ Achieved | ◐ Partial | ☐ Not Started. Basis: Session B submission completeness and 30-day checklist items. Prosci rule: <b>If any ADKAR step is 0, overall progress is 0</b>. Auto Unit B priority is not building a demo, but resolving Desire.</p>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s5.takeaway_lbl">Consultant Advice</span><p data-t="s5.takeaway_intro">Non-negotiable defensive checkpoints and first actions for next week:</p>
+<ul>
+<li data-t="s5.li1"><b>Auto Unit A · Quality Agent</b>: Write "human final review" into SOP — AI suggests, human confirms before execution.</li>
+<li data-t="s5.li2"><b>Consumer Finance</b>: Submit key-field checklists for sign-off; handwritten forms require mandatory double sign-off.</li>
+<li data-t="s5.li3"><b>HQ Security</b>: Set up audit checks for assistant publishing timelines and version updates.</li>
+<li data-t="s5.li4"><b>HQ Planning</b>: Run the first Security Gate review cycle on the shared platform.</li>
+<li data-t="s5.li5"><b>Logistics</b>: Complete the first monthly review cycle for exception claims to refine policy.</li>
+<li data-t="s5.li6"><b>Leasing</b>: Define tangible employee outputs for CDP; stop tallying question volumes.</li>
+<li data-t="s5.li7"><b>Data Unit</b>: W1 must lock cross-unit consensus on new customer definitions — self-identified top risk.</li>
+<li data-t="s5.li8"><b>Financing</b>: Assign an owner for vendor knowledge sources and establish update cycles.</li>
+<li data-t="s5.li9"><b>Mobility</b>: Audit expired rate cards to prevent AI quoting stale pricing.</li>
+<li data-t="s5.li10"><b>Distribution</b>: Route competitor scripts through legal — official channels must beat private shadow searches.</li>
+<li data-t="s5.li11"><b>Auto Unit B</b>: Pause demo demands; managers run 1-on-1 interviews to uncover why summaries were left blank.</li>
+</ul></div>
+
+<div class="section-header"><span class="sec-num">§06</span><span class="sec-title" data-t="s6.title">Change Readiness Heatmap (Qualitative)</span></div>
+<table>
+<thead><tr><th data-t="s6.th1">Team</th><th data-t="s6.th2">Content Readiness<br><small>Structured Docs</small></th><th data-t="s6.th3">Mechanism Readiness<br><small>Human-AI Guardrails</small></th><th data-t="s6.th4">Accountability Readiness<br><small>RACI / KPIs</small></th><th data-t="s6.th5">Quant Readiness<br><small>Measurable Impact</small></th></tr></thead>
+<tbody>
+<tr><td>HQ Security</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td></tr>
+<tr><td>HQ Planning</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td></tr>
+<tr><td>Consumer Finance</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td></tr>
+<tr><td>Logistics</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td></tr>
+<tr><td>Auto Unit A</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td></tr>
+<tr><td>Leasing</td><td><span class="pill hi" data-t="s6.pill_hi">High</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+<tr><td>Data Unit</td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+<tr><td>Financing</td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+<tr><td>Mobility</td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill md" data-t="s6.pill_md">Med</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+<tr><td>Distribution</td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+<tr><td>Auto Unit B</td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td><td><span class="pill lo" data-t="s6.pill_lo">Low</span></td></tr>
+</tbody>
+</table>
+<p class="note" data-t="s6.note">Group-wide read: "Content Readiness" is highest, "Quant Readiness" is lowest — reflecting the R bottleneck across four dimensions. Corresponds to Prosci's readiness diagnostic; formal impact and culture reviews should follow in the next phase.</p>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s6.takeaway_lbl">Consultant Advice</span><p data-t="s6.takeaway">The heatmap plainly shows group status: <b>Our document assets are well-prepared, but accountability and quantitative metrics are weakest.</b> Do not rush broad rollout. Fix three items first: who owns AI answers, escalation steps for errors, and the exact business number defining success.</p></div>
+
+<div class="section-header"><span class="sec-num">§07</span><span class="sec-title" data-t="s7.title">Kotter Group Roadmap · Covered vs Next Phase</span></div>
+<div class="kotter">
+  <div class="kstep done"><span class="n">1</span><span class="t" data-t="s7.step1_t">Create Urgency</span><span class="e" data-t="s7.step1_e">Opened with peer benchmarks (JPM 3 horizons, GS AI appraisals) — "peers are already institutionalizing"</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep done"><span class="n">2</span><span class="t" data-t="s7.step2_t">Build Guiding Coalition</span><span class="e" data-t="s7.step2_e">HQ dual departments + cohort seed teams; §03 advises formalizing into the Change Management team</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep done"><span class="n">3</span><span class="t" data-t="s7.step3_t">Form Strategic Vision</span><span class="e" data-t="s7.step3_e">"Knowledge Agent" as shared language; HQ Planning platform as institutional vehicle</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep done"><span class="n">4</span><span class="t" data-t="s7.step4_t">Communicate Vision</span><span class="e" data-t="s7.step4_e">3-line summary discipline: every team must state why it matters in one sentence</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep done"><span class="n">5</span><span class="t" data-t="s7.step5_t">Enable Action</span><span class="e" data-t="s7.step5_e">NotebookLM tool deployment + human-AI boundary matrices — empower while setting redlines</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep done"><span class="n">6</span><span class="t" data-t="s7.step6_t">Generate Short-Term Wins</span><span class="e" data-t="s7.step6_e">30-day action roadmaps engineer quick wins; Quality Agent annual quantified value provides immediate reference</span><span class="pill hi" data-t="s7.pill_done">Covered</span></div>
+  <div class="kstep next"><span class="n">7</span><span class="t" data-t="s7.step7_t">Consolidate Gains</span><span class="e" data-t="s7.step7_e">Cross-team reuse: confidence ladders, exception loops, and 2×2 engagement matrices published via shared platform</span><span class="pill md" data-t="s7.pill_next">Next Phase</span></div>
+  <div class="kstep next"><span class="n">8</span><span class="t" data-t="s7.step8_t">Anchor in Culture</span><span class="e" data-t="s7.step8_e">Accountability A/B integrated into official KPIs; "measure outputs, not usage" written into group guidelines</span><span class="pill md" data-t="s7.pill_next">Next Phase</span></div>
+</div>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s7.takeaway_lbl">Consultant Advice</span><p data-t="s7.takeaway">Kotter Steps 7–8 succeed by avoiding vague culture talk. Directly publish proven artifacts ("final human review", "exception loops", "confidence ladders") across subsidiaries via the shared platform, and formally write "measure outputs, not prompt counts" into policy. <b>Learn management discipline and rollout sequences from top peers, not their budget scale.</b></p></div>
+
+<div class="section-header"><span class="sec-num">§08</span><span class="sec-title" data-t="s8.title">Change Saturation · Group Risk Advisory</span></div>
+<div class="grid2">
+  <div class="warn-box"><h5 data-t="s8.w_h5">Risk: 11 Teams in Parallel + Existing Digital Transformation</h5><p data-t="s8.w_p">Prosci's Change Saturation diagnostic warns: individuals have a ceiling for concurrent change. Teams already carry active digital transformation projects; <b>frontline and middle managers (critical for adoption) bear overlapping pressure</b>. Saturation shows up not as open resistance, but superficial compliance — leading to 2×2 Q4 "performative expansion".</p></div>
+  <div class="bench-card"><h5 data-t="s8.b_h5">Solution: Pace Rollout via Shared Platform</h5><p data-t="s8.b_p">HQ Planning's component pipeline acts as a pacing valve: <b>centralize rollout timing decisions in the pipeline rather than letting subsidiaries start uncoordinated projects</b>. Audit portfolio saturation quarterly (active changes × audience overlap); queue projects when thresholds are exceeded.</p></div>
+</div>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s8.takeaway_lbl">Consultant Advice</span><p data-t="s8.takeaway">Saturation manifests as superficial compliance from frontline managers. <b>Every AI project must define ROI thresholds and sunset conditions before launch</b> — if expected results aren't measured within 30 days, sunset it immediately. Land a few solid projects rather than jamming dozens of parallel trials.</p></div>
+
+<div class="section-header"><span class="sec-num">§09</span><span class="sec-title" data-t="s9.title">Next Phase Recommendations (30 → 90 Days)</span></div>
+<div class="framework-grid">
+  <div class="fw-card plan"><h6 data-t="s9.c1_h6">① Fix R: One "Interception Record" Per Team in 3 Months</h6><p data-t="s9.c1_p">Reinforcement is not launching a dashboard, but <b>recording the first real error catch</b>: Quality Agent evaluator rejecting an AI recommendation, Consumer Finance catching a handwriting error, or Logistics reviewing an exception claim. Require one documented catch per team in 90 days — the MVP of measuring impact over activity.</p></div>
+  <div class="fw-card plan"><h6 data-t="s9.c2_h6">② Formalize Change Management Team & Sponsors</h6><p data-t="s9.c2_p">Per Prosci: appoint executive sponsors with public backing; form the change team from HQ Security, HQ Planning, and cluster reps, complete ADKAR training, and manage cross-unit reuse (Kotter Step 7).</p></div>
+  <div class="fw-card plan"><h6 data-t="s9.c3_h6">③ Differentiated Support for Low-Readiness Teams</h6><p data-t="s9.c3_p">Rebuild Desire for Auto Unit B via 1-on-1 interviews; secure legal clearance for Distribution before expanding models — <b>shadow tools won't wait</b>; every week official tools lag, risks multiply.</p></div>
+  <div class="fw-card plan"><h6 data-t="s9.c4_h6">④ Conduct Formal Assessments (Prosci 4 Tools)</h6><p data-t="s9.c4_p">This report's heatmap is qualitative; follow up with formal change impact and culture diagnostics, establishing quarterly saturation reviews for change tracking.</p></div>
+</div>
+
+<div class="chart-takeaway"><span class="takeaway-label" data-t="s9.takeaway_lbl">Consultant Advice</span><p data-t="s9.takeaway">The 90-day focus: <b>Track "evidence of the first real error intercept", not dashboard launch dates</b> (e.g., evaluator rejecting an AI prompt, or loan officer catching a flawed OCR). Identify seed champions who actively restructured workflows and give them cross-department mandate. Official paths must be faster and more accurate than private workarounds, or shadow workflows will persist.</p></div>
+
+<div class="section-header"><span class="sec-num">§10</span><span class="sec-title" data-t="s10.title">Reference Frameworks</span></div>
+<ul class="refs">
+  <li>Hiatt, J. M. (2006). <i>ADKAR: A Model for Change in Business, Government and our Community</i>. Prosci Learning Center.</li>
+  <li>Kotter, J. P. (1996). <i>Leading Change</i>. Harvard Business School Press.</li>
+  <li>Mendelow, A. L. (1991). Environmental Scanning: The Impact of the Stakeholder Concept. <i>Proceedings of the 2nd International Conference on Information Systems</i>, Cambridge, MA.</li>
+  <li>Prosci. <i>How to Start Managing Change When the Change Is Unclear</i>. prosci.com/blog</li>
+  <li>IBM (2025). <i>AI Change Management</i>. ibm.com/think/topics/ai-change-management</li>
+  <li>Moveworks. <i>HR Change Management for AI Digital Transformation</i>. moveworks.com</li>
+</ul>
+<p class="note" data-t="s10.note">Web sources (Prosci/IBM/Moveworks) should be verified prior to presentations; citations reflect published framework versions.</p>
+
+<footer class="q-page-footer" data-t="doc.footer">PrivacyUX Consulting Ltd. · Group A Knowledge Agent Workshop Closeout · Anonymized Teaching Case · 2026-07 · Qualitative findings derived from submitted materials; not for performance appraisal or client identification.</footer>
+
+<script>
+var T = {
+  en: {"nav.back": "← Teaching Artifacts", "nav.label": "Closeout Report", "doc.kicker": "Anonymized Teaching Case · Sessions A + B · 11 Cohort Teams", "doc.title": "Group A Knowledge Agent Workshop — Closeout Report", "doc.anon_note": "Anonymized for teaching. Organization renamed to \"Group A\"; subsidiaries mapped to functional tags (Auto Units A/B, Consumer Finance, Financing, Logistics, Leasing, Data, Mobility, Distribution, HQ Security/Planning). System names replaced by functional descriptions. Not for performance review or client identification.", "doc.subtitle": "This report synthesizes Session B deliverables and 30-day action roadmaps across 11 teams, organized around four change management frameworks: <b>ADKAR for team progress, Kotter for the group roadmap, Prosci stakeholder tools for assessment, and IBM's five principles for AI-specific dynamics</b>. Qualitative findings are derived from self-reported readiness, not rankings.", "exec.h5": "Executive Summary · Three Core Findings", "exec.lead": "Course design maps directly to IBM's AI change principles. 8 of 11 teams reached ADKAR's Ability. The shared bottleneck across the group is not skill, but Reinforcement — landing metrics and human intercept checkpoints.", "exec.body": "① This course went beyond tool tutorials. Mapping to IBM (2025) principles in hindsight shows that the 3-line summaries, 2×2 critical engagement matrix, accountability tests, and final human authority gates share the same structure (§02). Group A is already driving change with standard global frameworks. ② The ADKAR progress matrix (§05) shows most teams stuck at Reinforcement: <b>teams can ship a demo, but \"who intercepts errors, what numbers to track, and who owns risk\" remain theoretical</b>. ③ Running 11 initiatives alongside existing digital transformations creates change saturation — we advise HQ Planning to pace deployment via a shared platform (§08).", "exec.takeaway_lbl": "Consultant Advice", "exec.takeaway": "The shared pain point across 11 teams is not building a demo, but \"shipping a demo without knowing who catches errors or what numbers count as success.\" The next steps require only three things: <b>stop tracking prompt counts or usage volume, and measure actual time saved and caught errors</b>; clean documents into AI-readable formats before buying heavy knowledge management suites; and formally empower process rebuilders identified in this workshop to restructure workflows.", "s1.title": "Methodology Architecture · Framework Breakdown", "s1.fw1_h6": "ADKAR (Hiatt, 2006) — The Spine", "s1.fw1_p": "Change happens at the individual level. The five workshop modules map directly: Session A = <b>A</b>wareness, Red-Team Dual Inquiry = <b>D</b>esire (self-persuasion), NotebookLM build = <b>K</b>nowledge, Demo delivery = <b>A</b>bility, 30-day list + impact dashboard = <b>R</b>einforcement.", "s1.fw2_h6": "Kotter (1996) — The Roadmap", "s1.fw2_p": "Organization-wide 8-step roadmap. This workshop covered steps 1–6 (§07). Steps 7–8 (consolidating gains, anchoring in culture) define the next phase. Using Kotter alongside ADKAR is Prosci standard practice: Kotter guides the organization, ADKAR guides individual milestones.", "s1.fw3_h6": "Prosci Stakeholder Tools — Assessment", "s1.fw3_p": "Classifies stakeholders by impact × proximity to identify sponsors and build change teams. Supports 4 diagnostics: change impact, readiness, culture, and <b>change saturation</b> (§08 is critical for this group).", "s1.fw4_h6": "IBM AI Change Principles (2025) — The AI Lens", "s1.fw4_p": "Key differences in AI transformation: start with \"Why\", anticipate resistance, treat AI as a capability rather than a project, balance governance with speed, and <b>measure outcomes rather than activity</b>. §02 compares these with our workshop design.", "s1.takeaway_lbl": "Consultant Advice", "s1.takeaway": "Methodologies align internal teams; when reporting to leadership, keep it plain: <b>The bottleneck is never whether the model is smart enough, but unorganized documents and missing human guardrails.</b> The first four steps got everyone aware, willing, and capable of shipping a demo. For the next 30 to 90 days, the only priority is making defensive checkpoints and outcome tracking real.", "s2.title": "IBM Five Principles × Workshop Design Mapping", "s2.th1": "IBM Principle", "s2.th2": "Workshop Design Feature", "s2.th3": "Evidence (Deliverables)", "s2.r1a": "Start with \"Why\"", "s2.r1b": "3-line conclusions (why it matters / before vs after / next step), Investor Q1 \"give one concrete number\"", "s2.r1c": "11 team templates submitted; 10 completed", "s2.r2a": "Anticipate resistance with predictive analytics", "s2.r2b": "Critical engagement 2×2, Q1 \"adversarial disengagement\" — veteran silence is modeled in advance, not discovered after launch", "s2.r2c": "Leasing CDP, Data metrics dictionary scenarios", "s2.r3a": "AI is a capability, not a project", "s2.r3b": "Copilot → Agent → Multi-Agent ladder: AI evolves decisions, workflows, and roles over time, not as a one-off project", "s2.r3c": "Auto Unit A · Quality Agent prototype", "s2.r4a": "Balance governance and speed", "s2.r4b": "Accountability A/B, final human authority, confidence ladder, exception governance loop — embedded upfront without slowing delivery", "s2.r4c": "Consumer Finance confidence ladder, Logistics policy baseline", "s2.r5a": "Measure outcomes, not activity", "s2.r5b": "Vanity metrics 2×2: \"track business outputs, not question counts\" maps directly to IBM's \"avoid seat count or login frequency metrics\"", "s2.r5c": "Leasing outcome boundary, Mobility token cost analysis", "s2.note": "This table can serve directly as slide one for executive briefings: proving this was not a vendor tool demo, but structured capability building aligned with global standards.", "s2.takeaway_lbl": "Consultant Advice", "s2.takeaway": "This mapping is the cleanest opening for executive updates — proving this was structured capability building, not a vendor showcase. <b>Immediately stop ranking employee prompt counts or token usage leaderboard</b>; those are costs. Shift focus to business KPIs validated in the demos (e.g., ticket reduction, error interception rate).", "s3.title": "Prosci Stakeholder Matrix · 11 Team Positions", "s3.th1": "Cluster", "s3.th2": "Unit · Scenario", "s3.th3": "Impact × Proximity", "s3.th4": "Recommended Engagement", "s3.r1a": "Governance Core", "s3.r1b": "HQ Security (Security Assistant), HQ Planning (Shared AI Platform)", "s3.r1c": "Group-wide × Highest", "s3.r1d": "<b>Natural fit for the Change Management team</b> — already managing group standards and pipelines; recommend formal governance mandate and methodology training.", "s3.r2a": "High-Consequence Frontline", "s3.r2b": "Consumer Finance (Loan Docs), Financing (Vendor Knowledge Base), Logistics (Expense Claims)", "s3.r2c": "Legal / Financial Risk × High", "s3.r2d": "Deep involvement in solution design: their confidence ladders and exception loops should become group-wide templates.", "s3.r3a": "Operations Frontline", "s3.r3b": "Distribution (Competitor Q&A), Mobility (Support Self-Service), Leasing (CDP Onboarding)", "s3.r3c": "Customer Facing × Medium", "s3.r3d": "Co-create outcome metrics — this group is most vulnerable to vanity usage KPIs. Measure outputs, not questions.", "s3.r4a": "Manufacturing Pioneers", "s3.r4b": "Auto Unit A (Quality Agent), Auto Unit B (Owner's Manual), Data Unit (Metrics Dictionary)", "s3.r4c": "Quality / Decision × Medium", "s3.r4d": "Quality Agent is the group's only Agent prototype; use it as the benchmark for final human authority. Auto Unit B must first complete Awareness → Desire.", "s3.note": "Prosci Sponsor Identification note: all above are execution layers. <b>Executive sponsors must be explicitly named and publicly committed in the next phase</b> to address internal leadership friction first.", "s3.takeaway_lbl": "Consultant Advice", "s3.takeaway": "HQ Security and HQ Planning are natural change hubs: officially authorize them to manage component reuse and review pipelines so subsidiaries don't reinvent the wheel. Guardrails from high-risk teams (Consumer Finance, Financing, Logistics) should become group standards. For teams needing cross-department restructuring, <b>stop sending them to classes; assign dedicated builders with authority to modify processes.</b>", "s4.title": "Power-Interest Grid · Mendelow Stakeholder Matrix", "s4.note1": "§03 identifies positions; this section defines resource allocation. Based on Mendelow (1991), 8 stakeholder groups are mapped across four quadrants with distinct engagement strategies.", "s4.note2": "Quadrant strategies detailed below. Point positions represent qualitative consultant assessments; red borders indicate direct targets for §09 actions.", "s4.q_ks_h4": "Keep Satisfied", "s4.q_ks_st": "High Power × Low Interest | Monitor dynamics, treat with care, regular brief updates", "s4.q_ks_t1": "① Executive Sponsor (To Be Named) <small>· Current Position</small>", "s4.q_ks_t2": "② Legal & Compliance", "s4.q_ks_t3": "③ Subsidiary CFOs / Finance Leads", "s4.q_ks_p": "High influence but low participation; <b>the main source of unexpected friction</b> (e.g., Distribution Q&A stalled on legal review). ⚠ Having sponsors in this quadrant is the project's biggest risk: the goal is to move ① into \"Manage Closely\" via public endorsement.", "s4.q_mc_h4": "Manage Closely", "s4.q_mc_st": "High Power × High Interest | Active involvement, joint decisions, regular reporting", "s4.q_mc_t1": "④ HQ Security", "s4.q_mc_t2": "⑤ HQ Planning", "s4.q_mc_t3": "⑥ Subsidiary IT / CIOs", "s4.q_mc_p": "Priority group. ④ and ⑤ are natural change team leads (§03); ⑥ controls implementation resources. Include them in component review loops to trade ownership for commitment — turning them into change champions rather than gatekeepers.", "s4.q_mo_h4": "Monitor", "s4.q_mo_st": "Low Power × Low Interest | Minimal effort, routine notices", "s4.q_mo_t1": "⑦ Non-Trained Staff / External Vendors", "s4.q_mo_p": "Low priority, standard notices only. Watch one-way flows: as AI tools enter daily routines, some move right into \"Keep Informed\" (e.g., Financing's vendor tech transfer partners require cooperation).", "s4.q_ki_h4": "Keep Informed", "s4.q_ki_st": "Low Power × High Interest | Regular updates, supportive engagement, focus groups", "s4.q_ki_t1": "⑧ 11 Cohort Seed Teams", "s4.q_ki_t2": "⑧' Frontline Senior Staff <small>· Adversarial Disengagement</small>", "s4.q_ki_p": "Highly impacted but lack decision authority. ⑧ serves as the change network; keep them updated to maintain momentum. ⑧' requires special handling: 2×2 Q1 groups rarely voice overt opposition; they stay silent and bypass the tool. <b>Focus groups recover their domain judgment far better than surveys</b> (IBM: anticipate resistance).", "s4.note3": "Reading: Vertical = Power (top high), Horizontal = Interest (right high). Red highlights indicate targets requiring active repositioning: move sponsors to \"Manage Closely\", keep disengaged veterans from sliding to \"Monitor\". Update quarterly alongside saturation reviews (§08).", "s4.takeaway_lbl": "Consultant Advice", "s4.takeaway": "Key action from the matrix: <b>Move Executive Sponsors into \"Manage Closely\" via public backing</b>, or legal and financial gates will become silent blockers. For veteran frontline staff, skip survey forms — run direct focus groups to absorb their domain heuristics. Include subsidiary IT leads in component reviews to secure buy-in.", "s5.title": "ADKAR Progress Matrix", "s5.th1": "Team", "s5.th2": "A Awareness", "s5.th3": "D Desire", "s5.th4": "K Knowledge", "s5.th5": "A Ability", "s5.th6": "R Reinforcement", "s5.th7": "Bottleneck Diagnosis", "s5.r1a": "Auto Unit A · Quality Agent", "s5.r1b": "Final human review remains conceptual; multi-source rating variance unresolved in NotebookLM", "s5.r2a": "Consumer Finance · Loan Approval", "s5.r2b": "RACI submitted; key-field review checklist pending formal sign-off", "s5.r3a": "HQ Security · Security Assistant", "s5.r3b": "Subsidiary self-service adoption threshold unset; automated re-indexing triggers pending", "s5.r4a": "HQ Planning · Shared Platform", "s5.r4b": "Component pipeline fully designed; live Security Gate execution needs proof", "s5.r5a": "Logistics · Expense Claims", "s5.r5b": "Exception governance loop mature; monthly review cadence needs first cycle run", "s5.r6a": "Leasing · CDP Onboarding", "s5.r6b": "Accountability A picked correctly, but output metrics undefined — classic R bottleneck", "s5.r7a": "Data Unit · Metrics Dictionary", "s5.r7b": "Single author without review; new customer definitions lack cross-department consensus", "s5.r8a": "Financing · Vendor Knowledge Base", "s5.r8b": "Tacit knowledge extraction on track; coverage rate and update schedule undecided", "s5.r9a": "Mobility · Support Self-Service", "s5.r9b": "Rate card linting only conceptual; consumer token budget cap unset", "s5.r10a": "Distribution · Sales Q&A", "s5.r10b": "3-criteria template blank, Q&A script lacks legal sign-off — official path trailing shadow tools", "s5.r11a": "Auto Unit B · Owner's Manual", "s5.r11b": "3-line summary blank, before/after evidence absent — must revisit Desire; run 1-on-1 interviews to uncover real concerns", "s5.note": "✓ Achieved | ◐ Partial | ☐ Not Started. Basis: Session B submission completeness and 30-day checklist items. Prosci rule: <b>If any ADKAR step is 0, overall progress is 0</b>. Auto Unit B priority is not building a demo, but resolving Desire.", "s5.takeaway_lbl": "Consultant Advice", "s5.takeaway_intro": "Non-negotiable defensive checkpoints and first actions for next week:", "s5.li1": "<b>Auto Unit A · Quality Agent</b>: Write \"human final review\" into SOP — AI suggests, human confirms before execution.", "s5.li2": "<b>Consumer Finance</b>: Submit key-field checklists for sign-off; handwritten forms require mandatory double sign-off.", "s5.li3": "<b>HQ Security</b>: Set up audit checks for assistant publishing timelines and version updates.", "s5.li4": "<b>HQ Planning</b>: Run the first Security Gate review cycle on the shared platform.", "s5.li5": "<b>Logistics</b>: Complete the first monthly review cycle for exception claims to refine policy.", "s5.li6": "<b>Leasing</b>: Define tangible employee outputs for CDP; stop tallying question volumes.", "s5.li7": "<b>Data Unit</b>: W1 must lock cross-unit consensus on new customer definitions — self-identified top risk.", "s5.li8": "<b>Financing</b>: Assign an owner for vendor knowledge sources and establish update cycles.", "s5.li9": "<b>Mobility</b>: Audit expired rate cards to prevent AI quoting stale pricing.", "s5.li10": "<b>Distribution</b>: Route competitor scripts through legal — official channels must beat private shadow searches.", "s5.li11": "<b>Auto Unit B</b>: Pause demo demands; managers run 1-on-1 interviews to uncover why summaries were left blank.", "s6.title": "Change Readiness Heatmap (Qualitative)", "s6.th1": "Team", "s6.th2": "Content Readiness<br><small>Structured Docs</small>", "s6.th3": "Mechanism Readiness<br><small>Human-AI Guardrails</small>", "s6.th4": "Accountability Readiness<br><small>RACI / KPIs</small>", "s6.th5": "Quant Readiness<br><small>Measurable Impact</small>", "s6.pill_hi": "High", "s6.pill_md": "Med", "s6.pill_lo": "Low", "s6.note": "Group-wide read: \"Content Readiness\" is highest, \"Quant Readiness\" is lowest — reflecting the R bottleneck across four dimensions. Corresponds to Prosci's readiness diagnostic; formal impact and culture reviews should follow in the next phase.", "s6.takeaway_lbl": "Consultant Advice", "s6.takeaway": "The heatmap plainly shows group status: <b>Our document assets are well-prepared, but accountability and quantitative metrics are weakest.</b> Do not rush broad rollout. Fix three items first: who owns AI answers, escalation steps for errors, and the exact business number defining success.", "s7.title": "Kotter Group Roadmap · Covered vs Next Phase", "s7.step1_t": "Create Urgency", "s7.step1_e": "Opened with peer benchmarks (JPM 3 horizons, GS AI appraisals) — \"peers are already institutionalizing\"", "s7.step2_t": "Build Guiding Coalition", "s7.step2_e": "HQ dual departments + cohort seed teams; §03 advises formalizing into the Change Management team", "s7.step3_t": "Form Strategic Vision", "s7.step3_e": "\"Knowledge Agent\" as shared language; HQ Planning platform as institutional vehicle", "s7.step4_t": "Communicate Vision", "s7.step4_e": "3-line summary discipline: every team must state why it matters in one sentence", "s7.step5_t": "Enable Action", "s7.step5_e": "NotebookLM tool deployment + human-AI boundary matrices — empower while setting redlines", "s7.step6_t": "Generate Short-Term Wins", "s7.step6_e": "30-day action roadmaps engineer quick wins; Quality Agent annual quantified value provides immediate reference", "s7.step7_t": "Consolidate Gains", "s7.step7_e": "Cross-team reuse: confidence ladders, exception loops, and 2×2 engagement matrices published via shared platform", "s7.step8_t": "Anchor in Culture", "s7.step8_e": "Accountability A/B integrated into official KPIs; \"measure outputs, not usage\" written into group guidelines", "s7.pill_done": "Covered", "s7.pill_next": "Next Phase", "s7.takeaway_lbl": "Consultant Advice", "s7.takeaway": "Kotter Steps 7–8 succeed by avoiding vague culture talk. Directly publish proven artifacts (\"final human review\", \"exception loops\", \"confidence ladders\") across subsidiaries via the shared platform, and formally write \"measure outputs, not prompt counts\" into policy. <b>Learn management discipline and rollout sequences from top peers, not their budget scale.</b>", "s8.title": "Change Saturation · Group Risk Advisory", "s8.w_h5": "Risk: 11 Teams in Parallel + Existing Digital Transformation", "s8.w_p": "Prosci's Change Saturation diagnostic warns: individuals have a ceiling for concurrent change. Teams already carry active digital transformation projects; <b>frontline and middle managers (critical for adoption) bear overlapping pressure</b>. Saturation shows up not as open resistance, but superficial compliance — leading to 2×2 Q4 \"performative expansion\".", "s8.b_h5": "Solution: Pace Rollout via Shared Platform", "s8.b_p": "HQ Planning's component pipeline acts as a pacing valve: <b>centralize rollout timing decisions in the pipeline rather than letting subsidiaries start uncoordinated projects</b>. Audit portfolio saturation quarterly (active changes × audience overlap); queue projects when thresholds are exceeded.", "s8.takeaway_lbl": "Consultant Advice", "s8.takeaway": "Saturation manifests as superficial compliance from frontline managers. <b>Every AI project must define ROI thresholds and sunset conditions before launch</b> — if expected results aren't measured within 30 days, sunset it immediately. Land a few solid projects rather than jamming dozens of parallel trials.", "s9.title": "Next Phase Recommendations (30 → 90 Days)", "s9.c1_h6": "① Fix R: One \"Interception Record\" Per Team in 3 Months", "s9.c1_p": "Reinforcement is not launching a dashboard, but <b>recording the first real error catch</b>: Quality Agent evaluator rejecting an AI recommendation, Consumer Finance catching a handwriting error, or Logistics reviewing an exception claim. Require one documented catch per team in 90 days — the MVP of measuring impact over activity.", "s9.c2_h6": "② Formalize Change Management Team & Sponsors", "s9.c2_p": "Per Prosci: appoint executive sponsors with public backing; form the change team from HQ Security, HQ Planning, and cluster reps, complete ADKAR training, and manage cross-unit reuse (Kotter Step 7).", "s9.c3_h6": "③ Differentiated Support for Low-Readiness Teams", "s9.c3_p": "Rebuild Desire for Auto Unit B via 1-on-1 interviews; secure legal clearance for Distribution before expanding models — <b>shadow tools won't wait</b>; every week official tools lag, risks multiply.", "s9.c4_h6": "④ Conduct Formal Assessments (Prosci 4 Tools)", "s9.c4_p": "This report's heatmap is qualitative; follow up with formal change impact and culture diagnostics, establishing quarterly saturation reviews for change tracking.", "s9.takeaway_lbl": "Consultant Advice", "s9.takeaway": "The 90-day focus: <b>Track \"evidence of the first real error intercept\", not dashboard launch dates</b> (e.g., evaluator rejecting an AI prompt, or loan officer catching a flawed OCR). Identify seed champions who actively restructured workflows and give them cross-department mandate. Official paths must be faster and more accurate than private workarounds, or shadow workflows will persist.", "s10.title": "Reference Frameworks", "s10.note": "Web sources (Prosci/IBM/Moveworks) should be verified prior to presentations; citations reflect published framework versions.", "doc.footer": "PrivacyUX Consulting Ltd. · Group A Knowledge Agent Workshop Closeout · Anonymized Teaching Case · 2026-07 · Qualitative findings derived from submitted materials; not for performance appraisal or client identification."},
+  zh: {"nav.back": "← 返回教材清單", "nav.label": "結案報告", "doc.kicker": "教學匿名版 · Session A＋B · 兩梯次共 11 組", "doc.title": "甲集團知識代理工作坊 — 結案報告", "doc.anon_note": "教學用匿名改寫。組織改稱「甲集團」；子公司以職能代號（車輛 A／B、消金、融資、後勤、租賃、數據、出行、通路、總部資安／規劃）。系統名改為職能描述。非人事考核、非客戶識別。", "doc.subtitle": "本報告彙整兩梯次共 11 組的 Session B 繳交內容與課後 30 天行動清單，以變革管理四框架收斂：<b>ADKAR 作個人／小組進度脊椎、Kotter 作集團路線圖、Prosci 利害關係人工具作儀器、IBM AI 變革五原則作 AI 特殊性透鏡</b>。所有評估由各組自繳的「已具備／待補強」推導，屬定性判讀、非評分排名。", "exec.h5": "Executive Summary · 三個核心發現", "exec.lead": "課程設計與 IBM AI 變革五原則高度同構；11 組中 8 組已抵達 ADKAR 的 Ability；全集團的共同卡點不在能力，在 Reinforcement——成效衡量與攔截機制的落地", "exec.body": "① 本課程並非「教工具」——事後以 IBM（2025）五原則對照，課程的三行結論、批判投入 2×2、問責 A/B、人類終審權等設計，與其逐條同構（§02），意味集團已在用國際框架的語言操作變革。② ADKAR 進度矩陣（§05）顯示多數組卡在 R：<b>Demo 做得出來，但「誰攔截、量什麼、誰扛責」的強化機制多停在構想</b>。③ 十一組並行疊加各公司既有數轉案，變革飽和度（Change Saturation）是下一階段的集團級風險——建議由集團總部規劃的共享平台統籌節奏（§08）。", "exec.takeaway_lbl": "顧問建議", "exec.takeaway": "全集團 11 組的共同痛點，不是做不出 Demo，而是「做得出來，但攔不住、量不到」。下一步只有三件事：<b>別再追提問次數或用量，改盯實際省下多少時間、攔下幾次核錯</b>；不要迷信買整套知識管理系統，先把文件淨化成 AI 讀得懂的格式；從這次實作中找出真正能重設跨部門流程的「流程重設者」，正式授權他們去推動。", "s1.title": "方法論架構 · 四框架的分工", "s1.fw1_h6": "ADKAR（Hiatt, 2006）— 脊椎", "s1.fw1_p": "變革的單位是人。課程五個環節天然對應五格：Session A＝<b>A</b>wareness、紅隊雙立場質詢＝<b>D</b>esire（讓學員自己說服自己）、NotebookLM 實作＝<b>K</b>nowledge、Demo 繳交＝<b>A</b>bility、30 天清單＋成效儀表板＝<b>R</b>einforcement。", "s1.fw2_h6": "Kotter（1996）— 屋頂", "s1.fw2_p": "組織級八步路線圖。本課程已覆蓋第 1–6 步（§07），第 7–8 步（鞏固戰果、深植文化）即下一階段工作的定義——Kotter 與 ADKAR 並用是 Prosci 的標準建議：前者給組織路線，後者指導每一站的個人變革。", "s1.fw3_h6": "Prosci 利害關係人工具 — 儀器", "s1.fw3_p": "依「受影響程度 × 與變革的鄰近度」分類參與方、識別變革發起人、組建變革管理團隊；配合四項評估：變革影響分析、就緒度評估、組織文化評估、<b>變革飽和度評估</b>（§08 對本集團最關鍵）。", "s1.fw4_h6": "IBM AI 變革五原則（2025）— 透鏡", "s1.fw4_p": "AI 變革與傳統變革的差異點：從「為什麼」開始、預判抗拒、AI 是能力不是專案、治理與速度平衡、<b>衡量影響而非活動</b>。§02 逐條對照課程既有設計。", "s1.takeaway_lbl": "顧問建議", "s1.takeaway": "方法論是我們內部對齊用的，對外溝通或向決策層報告時，請直接講大白話：<b>落地瓶頸從來不是模型好不好，而是我們的知識沒整理、人機把關沒寫死。</b>課程前四步已經讓大家知道、願意、且做得出 Demo，接下來 30 到 90 天，唯一的任務就是把「撐得住」的防呆關卡與成效追蹤真的做實。", "s2.title": "IBM 五原則 × 課程設計同構表", "s2.th1": "IBM 原則", "s2.th2": "課程已有的操作", "s2.th3": "證據（繳交物）", "s2.r1a": "從「為什麼」開始", "s2.r1b": "三行結論（為什麼值得／前後差距／下一步）、投資人 Q1「給一個數字」", "s2.r1c": "11 組繳交模板；10 組已填", "s2.r2a": "用預測分析預判抗拒", "s2.r2b": "批判投入 2×2 的 Q1「對抗性空置」——資深者的沉默抗拒被提前建模，而非事後發現", "s2.r2c": "租賃事業 CDP、數據事業指標字典場景", "s2.r3a": "AI 是能力不是專案", "s2.r3b": "Copilot→Agent→Multi-Agent 階梯：AI 隨時間改變決策、流程與角色，非一次性交付", "s2.r3c": "車輛事業 A · 品質代理（Agent 雛形定位）", "s2.r4a": "治理與速度平衡", "s2.r4b": "問責 A/B、人類終審權、信賴度階梯、例外治理迴路——治理先嵌入、不擋速度", "s2.r4c": "消金事業信賴度階梯、後勤事業 policy baseline", "s2.r5a": "衡量影響而非活動", "s2.r5b": "用量虛榮 2×2：「不量提問數、量產出」與 IBM「不以授權數／登入頻率衡量」完全同構", "s2.r5c": "租賃事業成效邊界、出行事業 Token 成本論", "s2.note": "此表可直接作為對高階簡報的第一頁：課程不是廠商工具教學，而是已對齊國際變革框架的集團能力建設。", "s2.takeaway_lbl": "顧問建議", "s2.takeaway": "這張表是向決策層報告的最佳起手式——用國際變革標準證明我們不是在辦工具體驗課，而是在做集團能力建設。<b>請立刻停止追蹤員工的提問次數或 Token 用量排行榜</b>，那些只是成本。下一步直接改盯各組在 Demo 中已經驗證的業務成效指標（例如客服工單降幅、核錯攔截率）。", "s3.title": "Prosci 利害關係人矩陣 · 11 組的變革位置", "s3.th1": "群組", "s3.th2": "單位 · 場景", "s3.th3": "受影響 × 鄰近度", "s3.th4": "建議參與方式", "s3.r1a": "治理核心", "s3.r1b": "總部資安（資安小幫手）、總部規劃（AI 共享平台）", "s3.r1c": "全集團 × 最高", "s3.r1d": "<b>變革管理團隊的天然人選</b>——兩單位已在做集團口徑與發布管線，建議正式授予變革治理職權並完成方法論培訓", "s3.r2a": "高後果前線", "s3.r2b": "消金事業（核貸文件）、融資事業（供應商知識庫）、後勤事業（費用報支）", "s3.r2c": "法律／財務後果 × 高", "s3.r2d": "深度參與方案設計：其信賴度階梯與例外治理迴路應上升為集團模式", "s3.r3a": "營運前線", "s3.r3b": "通路事業（競牌問答）、出行事業（客服自助）、租賃事業（客戶資料平台教學）", "s3.r3c": "客戶接觸面 × 中", "s3.r3d": "成效指標共創——此群最容易被用量 KPI 帶偏，量產出不量提問", "s3.r4a": "製造先行", "s3.r4b": "車輛事業 A（品質代理）、車輛事業 B（車主手冊）、數據事業（指標字典）", "s3.r4c": "品質／決策 × 中", "s3.r4d": "品質代理是全集團唯一 Agent 雛形，應作為「終審權設計」的示範案；車輛事業 B 需先補齊 Awareness→Desire 段", "s3.note": "Prosci 的「變革發起人識別」提醒：以上皆為執行層——<b>領導層贊助者（sponsor）需在下一階段明確指定並公開背書</b>，以先處理領導層內部的抗拒。", "s3.takeaway_lbl": "顧問建議", "s3.takeaway": "總部資安與總部規劃是天然的集團變革樞紐，應正式授權他們統籌元件複用與上架審查，避免各子公司重複造輪子。高後果的三組（消金事業、融資事業、後勤事業）所設計的人機邊界與例外治理，應直接上升為集團範本。至於需要跨部門重設流程的組別，<b>不要再給他們上課，而是直接指派有權限改流程的專責人員（Builder）補位。</b>", "s4.title": "Power-Interest Grid · Mendelow 權力—利益矩陣", "s4.note1": "§03 回答「誰在哪個位置」，本節回答「對誰投入多少」：基於 Mendelow（1991）權力—利益矩陣，將本案 8 類典型利害關係人定位於四象限，每象限對應不同參與策略與投入水位。", "s4.note2": "四象限策略細節如下；圓點位置為顧問定性判讀（非量表評分），紅框者為 §09 行動的直接對象。", "s4.q_ks_h4": "保持滿意 Keep Satisfied", "s4.q_ks_st": "高權力 × 低利益 ｜ 監督動態、審慎處理、定期但不頻繁的簡報", "s4.q_ks_t1": "① 領導層贊助者（待指定）<small>·目前位置</small>", "s4.q_ks_t2": "② 法務／法遵", "s4.q_ks_t3": "③ 各公司財務主管", "s4.q_ks_p": "此群有影響力但參與度低，<b>是意外阻力的主要來源</b>——通路事業 QA 稿卡在法務未確認即為實例。⚠ sponsor 落在此象限本身就是本案最大風險：目標是透過公開背書把 ① 拉入右側「管理密切」。", "s4.q_mc_h4": "管理密切 Manage Closely", "s4.q_mc_st": "高權力 × 高利益 ｜ 主動參與、共同決策、定期匯報", "s4.q_mc_t1": "④ 集團總部資安", "s4.q_mc_t2": "⑤ 集團總部規劃", "s4.q_mc_t3": "⑥ 子公司 IT／資訊主管", "s4.q_mc_p": "優先群組。④⑤ 已是變革管理團隊天然人選（§03）；⑥ 掌握各公司落地資源，建議納入共享平台的元件審查迴路，以所有權換投入——使其成為「變革倡導者」而非審批關卡。", "s4.q_mo_h4": "監督 Monitor", "s4.q_mo_st": "低權力 × 低利益 ｜ 最低投入、一般性通知", "s4.q_mo_t1": "⑦ 未參訓一般員工／外部系統廠商", "s4.q_mo_p": "低優先，僅需一般性通知。但注意單向流動：AI 應用進入日常流程後，此群會向右移入「保持知情」——融資事業的技轉廠商即是可能上移的例子（隱性知識萃取需其配合）。", "s4.q_ki_h4": "保持知情 Keep Informed", "s4.q_ki_st": "低權力 × 高利益 ｜ 定期更新、支持參與、焦點小組", "s4.q_ki_t1": "⑧ 11 組種子學員", "s4.q_ki_t2": "⑧' 前線資深員工<small>·對抗性空置者</small>", "s4.q_ki_p": "高度受影響但缺乏決定權。⑧ 是變革的毛細血管，持續告知進展以維持認同；⑧' 需特別處理——批判投入 2×2 的 Q1 族群不會出聲反對，只會沉默不用，<b>焦點小組比問卷更能把他們的判斷力換回來</b>（IBM：以預測預判抗拒，而非事後報告）。", "s4.note3": "讀法：縱軸＝權力（上高下低）、橫軸＝利益（右高左低）。標紅者為需主動改變其位置的對象：sponsor 要拉入「管理密切」、對抗性空置者要防止滑入「監督」。此矩陣應為活文件——每季隨組織變動重繪一次，與 §08 飽和度盤點同節奏。", "s4.takeaway_lbl": "顧問建議", "s4.takeaway": "對齊上圖的核心行動：<b>必須把領導層贊助者（Sponsor）拉入「管理密切」區</b>，由其公開背書，否則法務與財務關卡將成為最大的隱形阻力。對於前線資深員工（對抗性空置者），千萬不要用問卷調查，請直接召開焦點小組，把他們的實務判斷力收編進來。另外，將各子公司 IT 主管納入元件審查迴路，用參與感換取他們的落地支持。", "s5.title": "ADKAR 進度矩陣", "s5.th1": "組別", "s5.th2": "A 認知", "s5.th3": "D 意願", "s5.th4": "K 知識", "s5.th5": "A 能力", "s5.th6": "R 強化", "s5.th7": "卡點診斷", "s5.r1a": "車輛事業 A · 品質代理", "s5.r1b": "終審攔截機制仍是構想；NotebookLM 多源評級不一致未解", "s5.r2a": "消金事業 · 核貸文件", "s5.r2b": "RACI 已繳，關鍵欄位覆核清單待簽核生效", "s5.r3a": "總部資安 · 資安小幫手", "s5.r3b": "子公司自助採用率門檻未設；版本觸發重索引待建", "s5.r4a": "總部規劃 · 共享平台", "s5.r4b": "元件發布管線設計完整，Security Gate 實際運轉待驗證", "s5.r5a": "後勤事業 · 費用報支", "s5.r5b": "例外治理迴路成熟，月度覆盤節奏待跑第一輪", "s5.r6a": "租賃事業 · 客戶資料平台教學", "s5.r6b": "問責 A 選對，但「量什麼」未定義——最典型的 R 卡點", "s5.r7a": "數據事業 · 指標字典", "s5.r7b": "單人來源無覆核；新戶口徑未與業務別共識", "s5.r8a": "融資事業 · 供應商知識庫", "s5.r8b": "隱性知識萃取方向正確，覆蓋率與維護節奏待定", "s5.r9a": "出行事業 · 客服自助", "s5.r9b": "費率 Lint 僅構想；消費者端 Token 預算上限未設", "s5.r10a": "通路事業 · 銷售問答", "s5.r10b": "三準則模板未填、QA 稿未過法務——影子路徑賽跑中官方路徑尚未領先", "s5.r11a": "車輛事業 B · 車主手冊", "s5.r11b": "三行結論空白、前後對照證據缺席——需回頭補 Desire 段，建議一對一訪談找出真實顧慮", "s5.note": "✓ 已達成｜◐ 部分達成｜☐ 未啟動。判定依據：各組 Session B 繳交完整度與 30 天清單「已具備／待補強」。Prosci 定律：<b>ADKAR 有一格是 0，整體就是 0</b>——車輛事業 B 的優先事項不是補 Demo，是補 D。", "s5.takeaway_lbl": "顧問建議", "s5.takeaway_intro": "各組下週不可延後的防呆關卡與首要動作：", "s5.li1": "<b>車輛事業 A · 品質代理</b>：將「人類終審攔截」寫入 SOP——AI 給建議、人確認才生效。", "s5.li2": "<b>消金事業</b>：關鍵欄位覆核清單送簽核，潦草手寫一律人工雙簽。", "s5.li3": "<b>總部資安</b>：建立小幫手上架與版本更新的時效稽核機制。", "s5.li4": "<b>總部規劃</b>：啟動共享平台的第一輪 Security Gate 安全審查。", "s5.li5": "<b>後勤事業</b>：跑通第一輪例外報支的月度覆盤與制度收斂。", "s5.li6": "<b>租賃事業</b>：定義 CDP 的「同仁產出成效」，停止計算提問數。", "s5.li7": "<b>數據事業</b>：W1 必須敲定新戶口徑的跨單位共識——這是自評的最大風險。", "s5.li8": "<b>融資事業</b>：指派專人維護外部廠商知識源，定出版本更新節奏。", "s5.li9": "<b>出行事業</b>：建立費率過期稽核機制，防止 AI 引用舊費率導致客訴。", "s5.li10": "<b>通路事業</b>：競牌話術先過法務覆核——官方入口要比私下亂查更快。", "s5.li11": "<b>車輛事業 B</b>：暫緩 Demo 催促，由主管進行一對一訪談，找出三行結論空白背後的真實顧慮。", "s6.title": "變革就緒度熱圖（定性）", "s6.th1": "組別", "s6.th2": "素材就緒<br><small>文件結構化</small>", "s6.th3": "機制就緒<br><small>人機邊界落地</small>", "s6.th4": "問責就緒<br><small>RACI／KPI</small>", "s6.th5": "量化就緒<br><small>成效可衡量</small>", "s6.pill_hi": "高", "s6.pill_md": "中", "s6.pill_lo": "低", "s6.note": "全集團縱向讀法：「素材就緒」整體最高、「量化就緒」整體最低——這正是 Executive Summary 的 R 卡點在四個維度上的投影。對應 Prosci 四評估：本表＝就緒度評估的定性版；影響分析與文化評估建議於下一階段以正式工具補做。", "s6.takeaway_lbl": "顧問建議", "s6.takeaway": "熱圖直白地揭露了集團現狀：<b>我們的文件素材準備得最好，但問責機制與量化成效最弱。</b>下一階段不要急著擴大部署，請優先補齊三件事：誰對 AI 的回答負責、出錯時的升級處理流程是什麼、以及專案成功到底看哪個業務數字。正式的文化評估可以排，但不要等評估做完才動手。", "s7.title": "Kotter 集團路線圖 · 已覆蓋 vs 下一階段", "s7.step1_t": "建立危機感", "s7.step1_e": "課程以 JPM 三地平線、GS AI 員工考核等同業對標開場——「別人已在制度化」", "s7.step2_t": "組建引導聯盟", "s7.step2_e": "集團總部雙部門＋各公司種子學員；§03 建議將其正式化為變革管理團隊", "s7.step3_t": "形塑願景", "s7.step3_e": "「知識代理」作為集團共同語言；總部規劃共享平台為願景的制度載體", "s7.step4_t": "溝通願景", "s7.step4_e": "三行結論的紀律：每組必須用一句話說清「為什麼值得」", "s7.step5_t": "授權行動", "s7.step5_e": "NotebookLM 工具落地＋人機邊界矩陣——授權同時畫紅線", "s7.step6_t": "創造短期勝利", "s7.step6_e": "30 天行動清單即短期勝利的工程化；品質代理全年量化效益為現成範例", "s7.step7_t": "鞏固戰果", "s7.step7_e": "跨組複用：信賴度階梯、例外治理迴路、批判投入 2×2 上升為集團模式，經共享平台發布", "s7.step8_t": "深植文化", "s7.step8_e": "問責 A/B 進入正式 KPI 制度；「量產出不量用量」寫入集團 AI 使用規範", "s7.pill_done": "已覆蓋", "s7.pill_next": "下一階段", "s7.takeaway_lbl": "顧問建議", "s7.takeaway": "Kotter 第 7–8 步的關鍵在於「不要空談文化」。請直接把這次表現優異的「人類終審權」「例外治理迴路」「信賴度階梯」經由共享平台複用給其他子公司；同時將「量產出、不量用量」正式寫入集團 AI 使用規範。<b>我們學同業（如 JPM、GS）的是他們的落地順序與管理紀律，而不是他們的預算規模。</b>", "s8.title": "變革飽和度 · 集團級風險提示", "s8.w_h5": "風險：11 組並行 ＋ 既有數轉案", "s8.w_p": "Prosci 的變革飽和度評估提醒：同一群人同時承受的變革數量有上限。各公司在本課程之外多有進行中的數位轉型專案，<b>前線與中層管理者（IBM 指出的採用成敗關鍵人群）正是重疊承壓點</b>。飽和的症狀不是抗拒，是敷衍——批判投入 2×2 的 Q4「表演式擴用」會大量出現。", "s8.b_h5": "解法：以共享平台統籌節奏", "s8.b_p": "總部規劃的元件發布管線天然是節奏閥門：<b>把「何時導入什麼」的決定權集中到管線，而非任由各公司同時起案</b>。建議每季集團變革組合盤點一次（進行中變革數 × 承壓人群重疊度），超標即排隊。", "s8.takeaway_lbl": "顧問建議", "s8.takeaway": "變革飽和的症狀不是抗拒，而是前線主管的「敷衍與表演式使用」。<b>每個 AI 專案在啟動前，必須寫死投資回報門檻與下架條件</b>——30 天內如果量不到預期成效，立刻下架。寧可少做幾個但個個落地，也不要讓幾十個試點同時塞車，把前線拖垮。", "s9.title": "下一階段建議（30 → 90 天）", "s9.c1_h6": "① 補 R：三個月內每組一個「攔截證據」", "s9.c1_p": "Reinforcement 不是儀表板上線，是<b>第一次真實攔截</b>：品質代理評價員第一次否決 AI 建議、消金事業第一筆手寫核錯被人擋下、後勤事業第一個例外進月度覆盤。要求每組在 90 天內交出一則攔截敘事——這是 IBM「衡量影響而非活動」的最小可行版。", "s9.c2_h6": "② 正式化變革管理團隊與 sponsor", "s9.c2_p": "依 Prosci：指定領導層贊助者並公開背書；總部資安＋總部規劃＋各群組代表組成變革管理團隊，完成 ADKAR 方法論培訓，接手跨組複用（Kotter 第 7 步）。", "s9.c3_h6": "③ 低就緒組的差異化處置", "s9.c3_p": "車輛事業 B 回補 Desire（一對一訪談，找出三行結論空白背後的真實顧慮）；通路事業先過法務關再擴車型——<b>影子路徑的賽跑不等人</b>，官方路徑每慢一週，話術失控的成本就複利一週。", "s9.c4_h6": "④ 補做正式評估（Prosci 四工具）", "s9.c4_p": "本報告的熱圖為定性推導；建議下一階段以正式工具補做變革影響分析與組織文化評估，並建立季度飽和度盤點——讓變革管理本身也有儀表板。", "s9.takeaway_lbl": "顧問建議", "s9.takeaway": "90 天收束的核心戰術：<b>不要盯儀表板有沒有上線，改盯「第一次真實攔截的證據」</b>——例如 品質代理評價員第一次否決 AI 建議、消金事業第一筆核錯被人工擋下。從這次 Demo 中直接點名那些主動重設流程的種子學員，正式給予跨部門授權。記住：官方入口要比員工私下繞道問人更快、更準，否則影子工作流永遠收不回來。", "s10.title": "參考框架", "s10.note": "網路來源（Prosci／IBM／Moveworks）建議簡報前回訪確認內容現行有效；本報告引用以其框架名稱與公開版本為準。", "doc.footer": "PrivacyUX Consulting Ltd. · 甲集團知識代理工作坊結案 · 教學匿名版 · 2026-07 · 評估由繳交物推導，不構成人事考核，亦不可回推原組織。"}
+};
+
+var SVGNS = "http://www.w3.org/2000/svg";
+var LANGTAG = {en: "en", zh: "zh-Hant"};
+
+function setLang(lang) {
+  var dict = T[lang] || T.en;
+  var nodes = document.querySelectorAll("[data-t]");
+  for (var i = 0; i < nodes.length; i++) {
+    var el = nodes[i];
+    var key = el.getAttribute("data-t");
+    var val = dict[key];
+    if (val === undefined || val === null) continue;
+    if (el.namespaceURI === SVGNS) {
+      el.textContent = val.replace(/<[^>]+>/g, "");
+    } else {
+      el.innerHTML = val;
+    }
+  }
+  document.documentElement.setAttribute("lang", LANGTAG[lang] || "en");
+  try { localStorage.setItem("courseLang", lang); } catch(e) {}
+  var btns = document.querySelectorAll(".lang-switch button");
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].classList.toggle("active", btns[j].getAttribute("data-lang") === lang);
+  }
+}
+
+document.querySelectorAll(".lang-switch").forEach(function(sw) {
+  sw.addEventListener("click", function(e) {
+    var b = e.target.closest("button[data-lang]");
+    if (b) setLang(b.getAttribute("data-lang"));
+  });
+});
+
+var initialLang = "en";
+try {
+  var saved = localStorage.getItem("courseLang");
+  if (saved === "en" || saved === "zh") initialLang = saved;
+} catch(e) {}
+setLang(initialLang);
+
+(function () {
+  var secs = document.querySelectorAll('.section-header');
+  secs.forEach(function (s, i) {
+    s.id = 'unit-' + (i + 1);
+    s.style.scrollMarginTop = '60px';
+  });
+  function setHash(n) {
+    var h = '#unit-' + n;
+    if (location.hash !== h) {
+      try { history.replaceState(null, '', h); } catch (e) { location.hash = h; }
+    }
+  }
+  var m = /^#unit-(\d+)$/.exec(location.hash || '');
+  if (m) {
+    var el = document.getElementById('unit-' + m[1]);
+    if (el) el.scrollIntoView();
+  } else {
+    setHash(1);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      var vis = entries.filter(function (e) { return e.isIntersecting; })
+        .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; })[0];
+      if (!vis) return;
+      var n = vis.target.id.replace('unit-', '');
+      if (n) setHash(n);
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    secs.forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

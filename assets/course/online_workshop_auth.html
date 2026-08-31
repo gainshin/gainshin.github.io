@@ -1,0 +1,903 @@
+<title>低門檻身份驗證與第三方登入</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#F7F5F2; --surface:#FFFFFF; --surface-2:#F1EEE9; --line:#E3DED6;
+  --ink:#1C1917; --ink-2:#57534E; --ink-3:#8A837B;
+  --accent:#5B4BE8; --accent-soft:#EEEBFE; --accent-ink:#4436C9;
+  --ok:#127A4B; --ok-soft:#E2F5EC; --err:#C0392B; --err-soft:#FCEBE9;
+  --warn:#9A6300; --warn-soft:#FBF1DC;
+  --radius:14px; --shadow:0 1px 2px rgba(28,25,23,.05), 0 8px 24px -12px rgba(28,25,23,.18);
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141312; --surface:#1D1B19; --surface-2:#262320; --line:#38332E;
+    --ink:#F2EFEA; --ink-2:#B3ACA3; --ink-3:#847D74;
+    --accent:#9B8DFF; --accent-soft:#282348; --accent-ink:#B7ADFF;
+    --ok:#5FD79E; --ok-soft:#14332580; --err:#F79287; --err-soft:#3A201C;
+    --warn:#E8B455; --warn-soft:#33280F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141312; --surface:#1D1B19; --surface-2:#262320; --line:#38332E;
+  --ink:#F2EFEA; --ink-2:#B3ACA3; --ink-3:#847D74;
+  --accent:#9B8DFF; --accent-soft:#282348; --accent-ink:#B7ADFF;
+  --ok:#5FD79E; --ok-soft:#143325; --err:#F79287; --err-soft:#3A201C;
+  --warn:#E8B455; --warn-soft:#33280F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
+  font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+h1,h2,h3{line-height:1.4;margin:0}
+code,.mono{font-family:var(--mono);font-size:.88em}
+
+/* ---------- header ---------- */
+.eyebrow{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--accent);text-transform:uppercase}
+.unit-title{font-size:clamp(26px,5vw,38px);font-weight:900;letter-spacing:-.02em;margin:8px 0 10px}
+.unit-sub{color:var(--ink-2);font-size:16px;max-width:56ch}
+.masthead{padding-bottom:18px}
+
+/* ---------- sticky navbar ---------- */
+.navbar{
+  position:sticky;top:0;z-index:30;margin:0 -20px 24px;padding:10px 20px 0;
+  background:var(--bg);border-bottom:1px solid var(--line);
+}
+@supports (backdrop-filter:blur(8px)){
+  .navbar{background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:saturate(1.5) blur(10px);-webkit-backdrop-filter:saturate(1.5) blur(10px)}
+}
+.modes{display:flex;gap:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px;width:max-content;max-width:100%}
+.modes button{
+  border:0;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink-2);
+  padding:6px 16px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:.15s
+}
+.modes button:hover{color:var(--ink)}
+.modes button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.subnav{display:flex;gap:5px;overflow-x:auto;padding:9px 0;scrollbar-width:none}
+.subnav::-webkit-scrollbar{height:0;display:none}
+.navchip{
+  flex:0 0 auto;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:99px;
+  padding:6px 14px;font-family:inherit;font-size:12.5px;color:var(--ink-2);white-space:nowrap;transition:.15s;
+  display:inline-flex;align-items:center;gap:7px;line-height:1.4
+}
+.navchip:hover{border-color:var(--accent);color:var(--ink)}
+.navchip[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.navchip .num{font-family:var(--mono);font-size:10.5px;opacity:.72;font-weight:700}
+.navchip.done .num::after{content:" ✓";color:var(--ok)}
+.navchip[aria-current="true"].done .num::after{color:#fff}
+.bar{height:2px;background:var(--line)}
+.bar i{display:block;height:100%;width:20%;background:var(--accent);transition:width .32s ease}
+.kbdhint{font-size:11px;color:var(--ink-3);margin:10px 0 20px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--surface);color:var(--ink-2)}
+
+/* ---------- views & panels ---------- */
+.view{display:none}
+.view.active{display:block}
+.step,.note-panel{display:none;animation:fade .3s ease}
+.step.active,.note-panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card + .card{margin-top:16px}
+h2.st{font-size:22px;font-weight:900;letter-spacing:-.01em;margin-bottom:6px}
+.lede{color:var(--ink-2);margin:0 0 18px;max-width:62ch}
+.task{
+  display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-ink);
+  border-radius:99px;padding:5px 14px;font-size:13px;font-weight:700;margin-bottom:16px
+}
+
+/* ---------- step 1: tiles ---------- */
+.toggle-row{display:flex;gap:0;background:var(--surface-2);border-radius:10px;padding:4px;margin-bottom:18px;border:1px solid var(--line)}
+.toggle-row button{
+  flex:1;border:0;background:transparent;font-family:inherit;font-size:14px;font-weight:700;
+  color:var(--ink-2);padding:9px;border-radius:7px;cursor:pointer;transition:.15s
+}
+.toggle-row button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{
+  border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13.5px;font-weight:500;
+  background:var(--surface-2);cursor:pointer;transition:.25s;text-align:left;font-family:inherit;color:var(--ink);
+  line-height:1.4
+}
+.tile:hover{border-color:var(--accent)}
+.tile.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.tile.off{opacity:.34;filter:grayscale(1)}
+.tile.gone{opacity:.5;filter:grayscale(1)}
+.tile.gone .lbl{text-decoration:line-through;text-decoration-color:var(--ink-3)}
+.tile .badge{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ok);margin-top:3px}
+.counter{display:flex;align-items:baseline;gap:10px;margin:18px 0 6px}
+.counter .big{font-size:52px;font-weight:900;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.counter .lbl{color:var(--ink-2);font-size:14px}
+.detail{margin-top:12px;background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 14px;font-size:14px;color:var(--ink-2);min-height:62px}
+.detail b{color:var(--ink)}
+
+/* ---------- step 2: sortable ---------- */
+.sortlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sortitem{
+  display:flex;align-items:flex-start;gap:12px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:10px;padding:12px 14px;cursor:grab;transition:.15s
+}
+.sortitem.dragging{opacity:.4}
+.sortitem.correct{border-color:var(--ok);background:var(--ok-soft)}
+.sortitem.wrong{border-color:var(--err);background:var(--err-soft);animation:shake .32s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.sortitem .pos{
+  flex:0 0 26px;height:26px;border-radius:7px;background:var(--surface);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:12.5px;font-weight:900;color:var(--ink-2);font-variant-numeric:tabular-nums
+}
+.sortitem .txt{flex:1;font-size:14.5px;line-height:1.55}
+.sortitem .who{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:1px 7px;border-radius:5px;margin-right:7px;vertical-align:1.5px}
+.who.you{background:var(--accent-soft);color:var(--accent-ink)}
+.who.g{background:var(--warn-soft);color:var(--warn)}
+.who.u{background:var(--surface);color:var(--ink-2);border:1px solid var(--line)}
+.arrows{display:flex;flex-direction:column;gap:2px}
+.arrows button{
+  border:1px solid var(--line);background:var(--surface);border-radius:5px;width:24px;height:17px;
+  cursor:pointer;color:var(--ink-2);font-size:9px;line-height:1;padding:0;display:grid;place-items:center
+}
+.arrows button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- step 3: redirect uri ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.split{grid-template-columns:1fr}}
+.pane{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px}
+.pane h4{margin:0 0 4px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.pane .note{font-size:12px;color:var(--ink-3);margin-bottom:9px}
+.locked{font-family:var(--mono);font-size:13px;background:var(--surface);border:1px dashed var(--line);border-radius:7px;padding:10px;word-break:break-all;color:var(--ink-2)}
+.uri-input{
+  width:100%;font-family:var(--mono);font-size:13px;padding:10px;border-radius:7px;
+  border:2px solid var(--accent);background:var(--surface);color:var(--ink)
+}
+.uri-input:focus{outline:2px solid var(--accent-soft);outline-offset:1px}
+.browser{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.browser .bar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.browser .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.browser .url{flex:1;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);background:var(--surface);border-radius:5px;padding:3px 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.browser .screen{padding:26px 20px;text-align:center;transition:.2s}
+.browser .screen .icon{font-size:30px;line-height:1}
+.browser .screen .h{font-weight:900;font-size:17px;margin:8px 0 4px}
+.browser .screen .p{font-size:13.5px;color:var(--ink-2);max-width:44ch;margin:0 auto}
+.screen.fail{background:var(--err-soft)} .screen.fail .h{color:var(--err)}
+.screen.pass{background:var(--ok-soft)} .screen.pass .h{color:var(--ok)}
+.diffhint{font-family:var(--mono);font-size:12px;margin-top:9px;color:var(--err)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:12px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 11px;cursor:pointer;font-family:var(--mono);color:var(--ink-2)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- step 4: sort secrets ---------- */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.qcard{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px}
+.qcard .name{font-family:var(--mono);font-size:14.5px;font-weight:700;margin-bottom:2px}
+.qcard .desc{font-size:12.5px;color:var(--ink-2);line-height:1.5;margin-bottom:11px}
+.qbtns{display:flex;gap:6px}
+.qbtns button{
+  flex:1;font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 4px;border-radius:7px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;transition:.15s
+}
+.qbtns button:hover{border-color:var(--accent);color:var(--accent)}
+.qbtns button.picked-right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.qbtns button.picked-wrong{background:var(--err-soft);border-color:var(--err);color:var(--err)}
+.qfb{font-size:12.5px;margin-top:9px;line-height:1.55;display:none}
+.qfb.show{display:block}
+.qfb.good{color:var(--ok)} .qfb.bad{color:var(--err)}
+
+/* ---------- step 5 ---------- */
+.opt{
+  display:block;width:100%;text-align:left;font-family:inherit;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:10px;padding:13px 15px;cursor:pointer;margin-bottom:8px;color:var(--ink);transition:.15s
+}
+.opt:hover{border-color:var(--accent)}
+.opt .ot{font-weight:700;font-size:14.5px}
+.opt .od{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.opt.sel-ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.sel-no{border-color:var(--err);background:var(--err-soft)}
+table.db{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-top:12px}
+table.db th,table.db td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+table.db th{background:var(--surface-2);color:var(--ink-3);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+.tblwrap{overflow-x:auto}
+
+/* ---------- shared ---------- */
+.insight{
+  margin-top:16px;background:var(--accent-soft);border-radius:10px;padding:15px 17px;
+  border:1px solid transparent;display:none
+}
+.insight.show{display:block;animation:fade .35s}
+.insight .k{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--accent-ink);text-transform:uppercase}
+.insight p{margin:5px 0 0;font-size:14.5px;color:var(--ink);line-height:1.7}
+.insight p + p{margin-top:9px}
+.btn{
+  font-family:inherit;font-size:14px;font-weight:700;border-radius:9px;padding:10px 20px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;transition:.15s
+}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.caution{background:var(--warn-soft);border-radius:9px;padding:12px 14px;font-size:13.5px;color:var(--ink);margin-top:14px;line-height:1.65}
+.caution b{color:var(--warn)}
+
+/* ---------- team-facing zone ---------- */
+.zlabel{font-size:11px;letter-spacing:.15em;font-weight:900;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.fw{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.fw h2{font-size:21px;font-weight:900;letter-spacing:-.01em}
+.fwlede{color:var(--ink-2);font-size:14.5px;margin:9px 0 22px;max-width:64ch;line-height:1.8}
+.lane{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin-bottom:24px}
+.lane:last-of-type{margin-bottom:0}
+.lane .tag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;background:var(--accent-soft);color:var(--accent-ink);padding:3px 9px;border-radius:5px}
+.lane h4{margin:9px 0 7px;font-size:16.5px;font-weight:900;line-height:1.45}
+.lane p{margin:0 0 9px;font-size:14.5px;color:var(--ink-2);line-height:1.8}
+.lane .map{font-size:13px;color:var(--ink-2);background:var(--surface-2);border-radius:8px;padding:10px 13px;line-height:1.85}
+.lane .map .mh{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:3px}
+.lane .map b{color:var(--ink)}
+.fwclose{margin-top:24px;padding-top:19px;border-top:1px solid var(--line);font-size:15px;color:var(--ink);line-height:1.85}
+
+/* ---------- footer ---------- */
+footer.pg{margin-top:40px;border-top:1px solid var(--line);padding-top:22px;font-size:12.5px;color:var(--ink-3);line-height:1.9}
+footer.pg .cr{font-weight:700;color:var(--ink-2);letter-spacing:.03em;font-size:13px}
+footer.pg .disc{margin-top:14px;background:var(--surface-2);border-left:3px solid var(--line);border-radius:0 9px 9px 0;padding:12px 15px;font-size:12px;line-height:1.85}
+footer.pg .disc .dh{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;font-weight:700;color:var(--ink-2);display:block;margin-bottom:4px}
+
+/* ---------- designer notes ---------- */
+.ncard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.ncard h2{font-size:21px;font-weight:900;letter-spacing:-.01em;margin-bottom:8px}
+.ncard .nlede{color:var(--ink-2);font-size:14.5px;margin:0 0 18px;max-width:64ch;line-height:1.8}
+.ncard ul{padding-left:20px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.85}
+.ncard li{margin-bottom:12px}
+.ncard li:last-child{margin-bottom:0}
+.ncard li b{color:var(--ink)}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">氛圍學院 · 互動單元設計提案</div>
+    <h1 class="unit-title">低門檻身份驗證與第三方登入</h1>
+    <p class="unit-sub">用第三方登入快速做出安全的註冊與登入，不用自己從零管密碼。</p>
+  </header>
+
+  <div class="navbar">
+    <div class="modes" role="group" aria-label="檢視模式">
+      <button type="button" id="mUnit" aria-pressed="true">互動單元</button>
+      <button type="button" id="mNotes" aria-pressed="false">設計說明</button>
+    </div>
+    <nav class="subnav" id="subnav" aria-label="章節"></nav>
+    <div class="bar"><i id="bar"></i></div>
+  </div>
+
+  <p class="kbdhint"><kbd>←</kbd><kbd>→</kbd> 切換章節 · 上方兩顆按鈕切換檢視 · 網址會記住你停在哪一章，可以直接分享 · 目前：<span id="whereami">互動單元 · 1／5</span></p>
+
+  <!-- ===================== VIEW: UNIT ===================== -->
+  <div class="view active" id="viewUnit">
+
+  <!-- ===================== STEP 1 ===================== -->
+  <section class="step active" data-step="0">
+    <div class="card">
+      <h2 class="st">密碼不是功能，是負債</h2>
+      <p class="lede">大部分人想到「做登入」，想的是那個表單。但表單是最簡單的部分。先看看一個真的能上線的密碼系統，你要長期養多少東西。</p>
+      <div class="task">👆 切換下面的開關，看清單怎麼變</div>
+
+      <div class="toggle-row" role="group" aria-label="選擇做法">
+        <button id="modeSelf" aria-pressed="true">自己從零做密碼系統</button>
+        <button id="modeOauth" aria-pressed="false">改用第三方登入</button>
+      </div>
+
+      <div class="tiles" id="tiles"></div>
+
+      <div class="counter">
+        <span class="big" id="count">10</span>
+        <span class="lbl">個你要自己寫、自己修、出事自己扛的東西</span>
+      </div>
+
+      <div class="detail" id="tileDetail">點任一塊看它的隱藏成本 —— 每一塊都不是寫完就結束，是要一直養的。</div>
+
+      <div class="caution" id="honesty" style="display:none">
+        <b>但它不是 0。</b>第三方登入不是免費午餐：你把「保管密碼」外包出去了，但「這個人是誰、他在我的系統裡是哪個帳號、他的 session 多久過期」還是你的事。下面幾步就是在教你這剩下的三件事怎麼做對。
+      </div>
+    </div>
+    <div class="nav"><span></span><button class="btn" data-go="1">下一步：看它到底怎麼運作 →</button></div>
+  </section>
+
+  <!-- ===================== STEP 2 ===================== -->
+  <section class="step" data-step="1">
+    <div class="card">
+      <h2 class="st">把流程排回正確順序</h2>
+      <p class="lede">「用 Google 登入」按下去之後發生了六件事。它們現在是亂的 —— 拖動卡片，或用右邊的箭頭，把它排成正確的順序。</p>
+      <div class="task">✋ 拖曳排序，排完按「檢查」</div>
+
+      <ul class="sortlist" id="sortlist"></ul>
+
+      <div class="nav" style="margin-top:16px">
+        <button class="btn ghost" id="shuffleBtn">重新打亂</button>
+        <button class="btn" id="checkOrder">檢查順序</button>
+      </div>
+
+      <div class="insight" id="orderInsight">
+        <div class="k">關鍵洞察</div>
+        <p>回頭看第 3 步：使用者輸入密碼的那個畫面，<b>在 Google 的網域上，不在你的網站上</b>。從頭到尾，使用者的密碼沒有經過你的伺服器一次。</p>
+        <p>這就是「低門檻」的真正意思 —— 不是少寫幾行程式，是<b>你的資料庫裡根本沒有密碼可以外洩</b>。你把風險移走了，不是把風險藏起來。</p>
+      </div>
+    </div>
+    <div class="nav"><button class="btn ghost" data-go="0">← 上一步</button><button class="btn" data-go="2">下一步：踩第一個坑 →</button></div>
+  </section>
+
+  <!-- ===================== STEP 3 ===================== -->
+  <section class="step" data-step="2">
+    <div class="card">
+      <h2 class="st">改一個字，登入就壞了</h2>
+      <p class="lede">第 4 步裡 Google 要「把使用者導回你的網站」。它不會亂導 —— 只導到你事先登記過的網址。而它的比對方式是<b>一字不差的字串比對</b>。</p>
+      <div class="task">⌨️ 改右邊那行，看下面的畫面即時反應</div>
+
+      <div class="split">
+        <div class="pane">
+          <h4>Google Cloud Console</h4>
+          <div class="note">你事先登記的網址（不可改）</div>
+          <div class="locked">https://myapp.com/auth/callback</div>
+        </div>
+        <div class="pane">
+          <h4>你的程式碼</h4>
+          <div class="note">送出去的 redirect_uri（可以改）</div>
+          <input class="uri-input" id="uriInput" value="http://myapp.com/callback" spellcheck="false" autocomplete="off">
+          <div class="chips">
+            <span class="chip" data-fill="http://myapp.com/auth/callback">試試只差 https</span>
+            <span class="chip" data-fill="https://myapp.com/auth/callback/">試試多一個斜線</span>
+            <span class="chip" data-fill="https://myapp.com/auth/callback">填成正確的</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser">
+        <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url" id="fakeUrl">accounts.google.com/o/oauth2/auth?...</span></div>
+        <div class="screen fail" id="screen">
+          <div class="icon">🚫</div>
+          <div class="h">錯誤 400：redirect_uri_mismatch</div>
+          <div class="p">你送出的網址跟登記的不一樣，Google 拒絕繼續。</div>
+          <div class="diffhint" id="diffhint"></div>
+        </div>
+      </div>
+
+      <div class="insight" id="uriInsight">
+        <div class="k">關鍵洞察</div>
+        <p>這不是 Google 龜毛。如果它願意「差不多就好」，攻擊者就能登記一個像你的網址，把使用者的授權碼導到自己手上 —— <b>這條規則嚴格，是因為它在擋人</b>。</p>
+        <p>順帶一提：這是新手第一天最常卡住的地方。看到 <code>redirect_uri_mismatch</code>，永遠先去逐字比對這兩個字串，不要去改程式邏輯。</p>
+      </div>
+    </div>
+    <div class="nav"><button class="btn ghost" data-go="1">← 上一步</button><button class="btn" data-go="3">下一步：哪些東西不能給人看 →</button></div>
+  </section>
+
+  <!-- ===================== STEP 4 ===================== -->
+  <section class="step" data-step="3">
+    <div class="card">
+      <h2 class="st">這個可以放在前端嗎？</h2>
+      <p class="lede">前端的程式碼，任何人按 F12 都看得到 —— 包含你以為藏起來的環境變數。下面四樣東西在流程裡都會出現，判斷一下它們能不能出現在瀏覽器裡。</p>
+      <div class="task">🤔 每張卡選一邊，馬上知道對不對</div>
+      <div class="qgrid" id="qgrid"></div>
+
+      <div class="insight" id="secretInsight">
+        <div class="k">關鍵洞察</div>
+        <p>分辨方法很簡單：問「這東西是<b>用來宣告我是誰</b>，還是<b>用來證明我是我</b>？」宣告身分的（client_id、redirect_uri）本來就會公開；用來證明的（client_secret、token）進了前端就等於送出去。</p>
+        <p>所以流程的第 5 步 —— 拿 code 去換 token —— <b>一定發生在你的後端</b>。整個 OAuth 的設計，就是繞著這一條線在切。</p>
+      </div>
+    </div>
+    <div class="nav"><button class="btn ghost" data-go="2">← 上一步</button><button class="btn" data-go="4">最後一步：上線後才會爆的坑 →</button></div>
+  </section>
+
+  <!-- ===================== STEP 5 ===================== -->
+  <section class="step" data-step="4">
+    <div class="card">
+      <h2 class="st">同一個人，還是兩個人？</h2>
+      <p class="lede">Amy 週一用 Google 登入你的網站。週三她忘了，改點 GitHub 登入 —— 兩邊的 email 都是 <code>amy@gmail.com</code>。你的資料庫該怎麼認？</p>
+      <div class="task">🧩 選一個做法，看它三個月後長什麼樣</div>
+
+      <div id="optbox">
+        <button class="opt" data-opt="email">
+          <div class="ot">用 email 當唯一鍵</div>
+          <div class="od">email 一樣就是同一個人，直接合併。</div>
+        </button>
+        <button class="opt" data-opt="provider">
+          <div class="ot">用「provider + 該平台的使用者 ID」當唯一鍵</div>
+          <div class="od">Google 的 Amy 和 GitHub 的 Amy 先各自存一筆，再讓她自己綁定。</div>
+        </button>
+        <button class="opt" data-opt="none">
+          <div class="ot">不管，讓它開兩個帳號</div>
+          <div class="od">使用者自己記得上次用哪個登入。</div>
+        </button>
+      </div>
+
+      <div class="tblwrap"><table class="db" id="dbtable"></table></div>
+      <div class="caution" id="optResult" style="display:none"></div>
+
+      <div class="insight" id="linkInsight">
+        <div class="k">關鍵洞察</div>
+        <p><b>email 不能當身分。</b>使用者會改 email、有些平台根本不給你 email、還有平台給的是每次都不同的轉發地址。唯一穩定的識別是 provider 給的那組 ID（Google 叫它 <code>sub</code>）。</p>
+        <p>正確做法是兩張表：一張 <code>users</code> 是「人」，一張 <code>identities</code> 是「這個人有哪些登入方式」，一對多。要合併帳號時，讓使用者<b>在已登入狀態下主動綁定</b>第二個 provider —— 而不是你在後端偷偷憑 email 幫他合併。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:17px;font-weight:900;margin-bottom:10px">這個單元你帶走了什麼</h3>
+      <ul style="margin:0;padding-left:20px;color:var(--ink-2);font-size:14.5px;line-height:1.9">
+        <li>第三方登入省的不是程式碼，是<b style="color:var(--ink)">你資料庫裡不會有密碼可以外洩</b></li>
+        <li>使用者輸入密碼的畫面在 provider 的網域，永遠不在你的網站上</li>
+        <li><code>redirect_uri</code> 是<b style="color:var(--ink)">逐字比對</b>，差一個斜線就會擋下來 —— 而它擋的是攻擊者</li>
+        <li><code>client_secret</code> 和 token 只能待在後端；<code>client_id</code> 本來就是公開的</li>
+        <li>用 <b style="color:var(--ink)">provider + sub</b> 認人，不要用 email；帳號合併要使用者自己來</li>
+      </ul>
+    </div>
+    <div class="nav"><button class="btn ghost" data-go="3">← 上一步</button><button class="btn" id="toNotes">看這個單元怎麼設計出來的 →</button></div>
+  </section>
+
+  </div><!-- /viewUnit -->
+
+  <!-- ===================== VIEW: NOTES ===================== -->
+  <div class="view" id="viewNotes">
+
+    <section class="note-panel active" data-note="0">
+    <div class="zlabel">設計提案說明 · 非學員內容</div>
+    <div class="fw">
+      <h2>設計者的框架：HCI × HITL × AI/UX</h2>
+      <p class="fwlede">這個單元不是單點發想。它落在我三條長期主張的交會處 —— 三條線各自解決互動教材的一個失敗模式，少一條就會做出「好玩、但學完帶不走判斷力」的東西。</p>
+
+      <div class="lane">
+        <span class="tag">HCI</span>
+        <h4>互動不是裝飾，是心智模型的施工方法</h4>
+        <p>學習的瓶頸從來不是資訊量，是學員腦中有沒有一個能自己往下推演的模型。HCI 給的核心啟示是：<b>回饋延遲愈短，因果連結愈強</b>。所以我不把互動放在「講完之後練習」的位置，而是放在「概念還沒講之前」—— 先讓他動手撞到牆，解釋才有地方掛。</p>
+        <div class="map">
+          <span class="mh">在這個單元裡的落點</span>
+          <b>Step 2</b> 排序題逼出因果鏈 —— 選擇題可以猜，排序不行 · <b>Step 3</b> 把 debug 的回饋延遲，從「查半天 Stack Overflow」壓到 0.1 秒
+        </div>
+      </div>
+
+      <div class="lane">
+        <span class="tag">HITL</span>
+        <h4>「低門檻」的陷阱，是迴圈裡沒有人了</h4>
+        <p>AI 十分鐘就能接好 OAuth，門檻確實降了 —— 但如果沒人看得懂那段程式碼、出事沒人知道往哪裡找，那不是低門檻，是<b>把人踢出了迴圈</b>。所以這個單元的目標不是教他寫，是<b>讓他有資格當那個 human in the loop</b>：能驗收、能定位錯誤、能說出邊界在哪。</p>
+        <p>而這個主題剛好給了一個罕見的雙層對位 —— <b>教學層的 HITL 和產品層的 HITL 是同一個動作</b>。</p>
+        <div class="map">
+          <span class="mh">在這個單元裡的落點</span>
+          <b>Step 4</b> 給的是判斷法則（宣告身分 vs 證明身分），讓他能判斷沒教過的第五個東西 · <b>Step 5</b> 產品層的 HITL：帳號合併不能讓後端憑 email 替使用者決定，要她在已登入狀態下自己綁 —— <b>同一堂課裡，學員一邊在學怎麼當迴圈裡的人，一邊在學不要把自己的使用者踢出迴圈</b>
+        </div>
+      </div>
+
+      <div class="lane">
+        <span class="tag">AI/UX</span>
+        <h4>安全規則要講「它在擋誰」，不能只講「規定如此」</h4>
+        <p>我在講座與專欄裡一貫主張的是<b>揭露與問責</b>：一份產出要能說清楚誰供料、模型做了什麼、誰核准、哪些結論不能外推。搬到教學上就是 —— 每一條安全規則都必須附上它的攻擊情境。不解釋動機的規則，學員會當成 AI 的怪癖繞過去；解釋了，他才會在 AI 給出一段繞過它的程式碼時停下來。</p>
+        <div class="map">
+          <span class="mh">在這個單元裡的落點</span>
+          <b>Step 1</b> 誠實標註「第三方登入把責任外包，不是消滅責任」 · <b>Step 3</b> 逐字比對是在擋網址劫持 · <b>Step 4</b> secret 進前端等於把鑰匙交出去 · <b>Step 5</b> 用未驗證 email 自動合併＝帳號接管漏洞
+        </div>
+      </div>
+
+      <div class="fwclose">
+        三條線收在同一句話上：<b>低門檻不該等於低判斷力。</b>門檻可以交給 AI 降，判斷力必須是課程給的 —— 這也是我認同氛圍學院「才有能力驗收 AI、修正 AI」這個定位的原因。
+      </div>
+    </div>
+    </section>
+
+    <section class="note-panel" data-note="1">
+    <div class="zlabel">設計提案說明 · 非學員內容</div>
+    <div class="ncard">
+      <h2>五步的設計邏輯</h2>
+      <p class="nlede">單元在世界地圖上的位置是「已經做得出畫面、開始要碰真實使用者」。學員的痛點不是不會接 SDK（AI 十分鐘就幫他接好了），是<b>接完之後看不懂它在幹嘛、出錯時不知道往哪裡找</b>。所以目標不是「教會他寫 OAuth」，是<b>建立一組能拿去驗收 AI 產出的判斷力</b>。</p>
+      <ul>
+        <li><b>1 動機在前，知識在後。</b>先讓他親眼看到「自己做要養十樣東西」的重量，第三方登入才有意義。直接從 OAuth 講起，學員沒有動機接住它。</li>
+        <li><b>2 排序題強迫建立心智模型。</b>排序是唯一逼學員在腦中形成因果鏈的互動形式 —— 選擇題可以猜，排序不行。每張卡標了「誰在做」（你／Google／使用者），排完那個「密碼從沒經過我」的洞察就是他自己發現的，不是被告知的。</li>
+        <li><b>3 挑真實會踩的坑，不挑好教的坑。</b><code>redirect_uri_mismatch</code> 是這個主題的第一名求助關鍵字。改一個字元、畫面立刻變紅並指出差在哪 —— 這是「即時回饋」最該用在的地方：<b>把 debug 的因果關係壓縮到 0.1 秒</b>。</li>
+        <li><b>4 給的是判斷法則，不是記憶清單。</b>四張卡答完之後給的是「宣告身分 vs 證明身分」這條分辨規則，學員下次遇到沒教過的第五個東西也能自己判斷。</li>
+        <li><b>5 留一個轉折。</b>學員在第 4 步會以為單元結束了，第 5 步把他推進真實產品才會遇到的問題。這一步的功能是<b>讓他知道自己還不知道什麼</b> —— 這比多教一個知識點更能建立長期信任。</li>
+      </ul>
+    </div>
+    </section>
+
+    <section class="note-panel" data-note="2">
+    <div class="zlabel">設計提案說明 · 非學員內容</div>
+    <div class="ncard">
+      <h2>三個貫穿全篇的原則</h2>
+      <p class="nlede">這三條不是這個單元專用的。它們是我做任何一堂互動課都會先立的規矩，也是我判斷別人的課有沒有效時實際在看的東西。</p>
+      <ul>
+        <li><b>誠實優先於漂亮。</b>第 1 步結尾特地說明「它不是 0」。課程如果只賣輕鬆，學員上線那天會恨你。誠實的邊界說明是留存率的來源，不是掃興。</li>
+        <li><b>每個安全規則都要解釋「它在擋誰」。</b>不解釋動機的規則會被學員當成 AI 的怪癖繞過去。第 3、4 步都補上了攻擊情境。</li>
+        <li><b>互動要有唯一解且能自動判對錯。</b>沒有「自由發揮」的互動 —— 每一步都能在 0.1 秒內給出對／錯與原因，這才是互動式教材相對於影片的真正優勢。做不到自動判對錯的題目，就不該做成互動。</li>
+      </ul>
+    </div>
+    </section>
+
+    <section class="note-panel" data-note="3">
+    <div class="zlabel">設計提案說明 · 非學員內容</div>
+    <div class="ncard">
+      <h2>還沒做進去的（若要正式產出）</h2>
+      <p class="nlede">這是一份為徵才表單製作的提案，不是可上架的成品。以下是我知道還缺什麼 —— 我認為「說得出自己漏了什麼」比多做一個功能更能說明專業程度。</p>
+      <ul>
+        <li>AI 助教的接入點：第 3 步錯誤畫面旁應該有「問助教為什麼」，把錯誤上下文直接餵進去。</li>
+        <li>學習成效追蹤：第 2 步的排序錯誤模式（哪兩張最常排反）是很強的教材迭代訊號，值得埋事件。</li>
+        <li>行動版：排序在手機上要換成點選交換，拖曳體感在小螢幕會掉。</li>
+        <li>簡化的地方（有意為之，需標註）：第 2 步的流程是 authorization code flow，前端應用實務上會改用 PKCE、不帶 client_secret。這一層對本單元的學員是雜訊，但正式版應在延伸閱讀補一句，避免他去查資料時對不上。</li>
+        <li>延伸單元的接點：session 與 JWT、token 過期與 refresh、多裝置登出、PKCE。</li>
+      </ul>
+    </div>
+    </section>
+
+  </div><!-- /viewNotes -->
+
+  <footer class="pg">
+    <div class="cr">版權所有 · PRIVACYUX CONSULTING LTD., 2026</div>
+    <div>本互動單元係為氛圍學院 VibeAcademy 徵才表單所製作之設計提案。教學設計、互動結構與內容之著作權為作者所有；未經書面授權，請勿轉載、改作或用於商業用途。</div>
+
+    <div class="disc">
+      <span class="dh">製作揭露 · DISCLOSURE</span>
+      教學設計、互動形式與五步結構由本人決定並負責；前端程式碼實作以 AI 協作完成，所有技術敘述（OAuth 授權碼流程、<code>redirect_uri</code> 比對規則、憑證的前後端邊界、帳號連結風險）皆經本人逐項查核。<br>
+      此揭露格式取自本人於〈AI/UX 實務流〉講座發布的<b>「AI 使用透明度揭露範本 v0.1」</b> —— 我認為要求學員對 AI 產出負責的課程，自己的教材也該先做到同一件事。
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ ROUTER : two views, chip subnav, hash, arrow keys ============ */
+  var VIEWS = {
+    unit:{
+      label:'互動單元',
+      btn:document.getElementById('mUnit'),
+      el:document.getElementById('viewUnit'),
+      panels:Array.prototype.slice.call(document.querySelectorAll('#viewUnit .step')),
+      names:['密碼是負債','流程排序','改一個字','秘密放哪','同一個人？'],
+      prefix:'STEP'
+    },
+    notes:{
+      label:'設計說明',
+      btn:document.getElementById('mNotes'),
+      el:document.getElementById('viewNotes'),
+      panels:Array.prototype.slice.call(document.querySelectorAll('#viewNotes .note-panel')),
+      names:['HCI × HITL × AI/UX 框架','五步的設計邏輯','三個貫穿的原則','還沒做進去的'],
+      prefix:''
+    }
+  };
+  var subnav = document.getElementById('subnav');
+  var barFill = document.getElementById('bar');
+  var whereami = document.getElementById('whereami');
+  var done = [false,false,false,false,false];
+  var mode = 'unit', idx = {unit:0, notes:0};
+
+  function buildSubnav(){
+    var v = VIEWS[mode];
+    subnav.innerHTML = '';
+    v.names.forEach(function(name,i){
+      var b = document.createElement('button');
+      b.type='button'; b.className='navchip';
+      b.innerHTML = '<span class="num">'+(v.prefix? v.prefix+' ':'')+(i+1)+'</span>'+name;
+      b.addEventListener('click',function(){ go(mode,i,true); });
+      subnav.appendChild(b);
+    });
+  }
+
+  function paint(){
+    var v = VIEWS[mode], i = idx[mode];
+    Object.keys(VIEWS).forEach(function(k){
+      VIEWS[k].el.classList.toggle('active', k===mode);
+      VIEWS[k].btn.setAttribute('aria-pressed', k===mode ? 'true':'false');
+    });
+    v.panels.forEach(function(p,j){ p.classList.toggle('active', j===i); });
+    Array.prototype.forEach.call(subnav.children,function(b,j){
+      b.setAttribute('aria-current', j===i ? 'true':'false');
+      if(mode==='unit') b.classList.toggle('done', !!done[j]);
+      if(j===i && b.scrollIntoView) b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+    });
+    barFill.style.width = ((i+1)/v.panels.length*100)+'%';
+    whereami.textContent = v.label+' · '+(i+1)+'／'+v.panels.length;
+  }
+
+  function go(m,i,scroll){
+    if(!VIEWS[m]) return;
+    var changedMode = (m!==mode);
+    mode = m;
+    idx[m] = Math.max(0, Math.min(i, VIEWS[m].panels.length-1));
+    if(changedMode || !subnav.children.length) buildSubnav();
+    paint();
+    var h = '#'+m+'-'+(idx[m]+1);
+    if(location.hash !== h){ try{ history.replaceState(null,'',h); }catch(e){ location.hash = h; } }
+    if(scroll!==false) window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  VIEWS.unit.btn.addEventListener('click',function(){ go('unit', idx.unit, true); });
+  VIEWS.notes.btn.addEventListener('click',function(){ go('notes', idx.notes, true); });
+  var toNotes = document.getElementById('toNotes');
+  if(toNotes) toNotes.addEventListener('click',function(){ go('notes', 0, true); });
+
+  document.addEventListener('click',function(e){
+    var t = e.target.closest ? e.target.closest('[data-go]') : null;
+    if(t) go('unit', parseInt(t.getAttribute('data-go'),10), true);
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var a = document.activeElement;
+    if(a && (a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.isContentEditable)) return;
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(mode, idx[mode]+1, true); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); go(mode, idx[mode]-1, true); }
+  });
+
+  function markDone(i){
+    done[i]=true;
+    if(mode==='unit' && subnav.children[i]) subnav.children[i].classList.add('done');
+  }
+
+  (function initFromHash(){
+    var m = /^#(unit|notes)-(\d+)$/.exec(location.hash||'');
+    buildSubnav();
+    if(m) go(m[1], parseInt(m[2],10)-1, false); else go('unit',0,false);
+  })();
+  window.addEventListener('hashchange',function(){
+    var m = /^#(unit|notes)-(\d+)$/.exec(location.hash||'');
+    if(m) go(m[1], parseInt(m[2],10)-1, false);
+  });
+
+  /* ============ STEP 1 : TILES ============ */
+  var TILES = [
+    {t:'註冊表單與 email 驗證', keep:false, cost:'看起來最簡單，但你要處理重複註冊、假信箱、驗證信被丟垃圾桶、驗證連結過期。'},
+    {t:'密碼雜湊與加鹽',        keep:false, cost:'不能存明碼，也不能用 MD5／SHA1。要用 bcrypt 或 argon2，而且參數要隨硬體變快而往上調。'},
+    {t:'忘記密碼流程',          keep:false, cost:'重設連結要一次性、要過期、不能被猜到，而且不能洩漏「這個 email 有沒有註冊過」。'},
+    {t:'寄送重設信',            keep:false, cost:'你要接一個信件服務、處理退信、還要顧網域信譽，不然信會直接進垃圾桶。'},
+    {t:'防暴力破解／限流',      keep:false, cost:'不擋就會被字典檔攻擊。擋太兇又會把真的使用者鎖在門外，這條線很難拿捏。'},
+    {t:'密碼強度規則',          keep:false, cost:'太鬆不安全，太嚴使用者就寫在便利貼上。而且各國的建議值這幾年一直在改。'},
+    {t:'二階段驗證 2FA',        keep:false, cost:'TOTP、簡訊、備用碼、裝置遺失的救援流程 —— 每一條都是完整的子系統。'},
+    {t:'外洩偵測與強制改密',    keep:false, cost:'要比對已知外洩密碼庫，出事時要能在幾小時內讓全站使用者強制換掉密碼。'},
+    {t:'登入狀態與 session',    keep:true,  cost:'第三方登入也逃不掉這塊 —— 認出他是誰之後，「他現在還在登入狀態嗎、多久過期」還是你自己要維護。'},
+    {t:'帳號資料表與權限',      keep:true,  cost:'不管用哪種登入方式，「這個人在我的系統裡是哪一筆、他能看什麼」永遠是你的責任。'},
+    {t:'註冊 OAuth 憑證',       keep:'only',cost:'去 Google／GitHub 開一個應用程式，拿 client_id 和 client_secret，登記你的 redirect URI。大約十分鐘，一次搞定。'}
+  ];
+  var tilesEl = document.getElementById('tiles');
+  var countEl = document.getElementById('count');
+  var detailEl = document.getElementById('tileDetail');
+  var honesty = document.getElementById('honesty');
+  var mode = 'self';
+
+  TILES.forEach(function(x,i){
+    var b=document.createElement('button');
+    b.type='button'; b.className='tile'; b.dataset.i=i;
+    b.innerHTML='<span class="lbl">'+x.t+'</span>';
+    b.addEventListener('click',function(){
+      detailEl.innerHTML = '<b>'+x.t+'</b><br>'+x.cost;
+    });
+    tilesEl.appendChild(b);
+  });
+
+  function renderTiles(){
+    Array.prototype.forEach.call(tilesEl.children,function(b,i){
+      var x=TILES[i];
+      var on = (mode==='self') ? (x.keep!=='only') : (x.keep===true||x.keep==='only');
+      b.classList.toggle('on', on && mode==='oauth');
+      b.classList.toggle('off', !on && mode==='self');
+      b.classList.toggle('gone', !on && mode==='oauth');
+      var badge = b.querySelector('.badge');
+      if(!on && mode==='oauth'){
+        if(!badge){ badge=document.createElement('span'); badge.className='badge'; b.appendChild(badge); }
+        badge.textContent='Google 幫你扛';
+      } else if(badge){ badge.remove(); }
+    });
+    var n = mode==='self' ? 10 : 3;
+    animateCount(parseInt(countEl.textContent,10), n);
+    honesty.style.display = mode==='oauth' ? 'block':'none';
+    if(mode==='oauth') markDone(0);
+  }
+  function animateCount(from,to){
+    var t0=performance.now(), d=380;
+    function tick(now){
+      var p=Math.min(1,(now-t0)/d);
+      countEl.textContent = Math.round(from+(to-from)*p);
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  document.getElementById('modeSelf').addEventListener('click',function(){
+    mode='self'; this.setAttribute('aria-pressed','true');
+    document.getElementById('modeOauth').setAttribute('aria-pressed','false'); renderTiles();
+  });
+  document.getElementById('modeOauth').addEventListener('click',function(){
+    mode='oauth'; this.setAttribute('aria-pressed','true');
+    document.getElementById('modeSelf').setAttribute('aria-pressed','false'); renderTiles();
+  });
+  countEl.textContent='10'; renderTiles();
+
+  /* ============ STEP 2 : SORT ============ */
+  var ORDER = [
+    {who:'使用者',cls:'u', txt:'在你的網站上點下「用 Google 登入」。'},
+    {who:'你的網站',cls:'you', txt:'把他導去 Google，網址帶上你的 <code>client_id</code> 和 <code>redirect_uri</code>。'},
+    {who:'Google',cls:'g', txt:'在 <b>Google 自己的頁面上</b>顯示登入畫面，使用者在這裡輸入密碼、同意授權。'},
+    {who:'Google',cls:'g', txt:'把使用者導回你登記的 <code>redirect_uri</code>，網址後面附一組一次性的 <code>code</code>。'},
+    {who:'你的後端',cls:'you', txt:'拿這組 <code>code</code> 加上 <code>client_secret</code>，跟 Google 換一個 <code>access_token</code>。'},
+    {who:'你的後端',cls:'you', txt:'用 token 跟 Google 要使用者資料，建立或找到帳號，發出<b>你自己的</b> session。'}
+  ];
+  var listEl = document.getElementById('sortlist');
+  var current = [];
+
+  function buildList(){
+    listEl.innerHTML='';
+    current.forEach(function(idx,pos){
+      var o=ORDER[idx];
+      var li=document.createElement('li');
+      li.className='sortitem'; li.draggable=true; li.dataset.idx=idx;
+      li.innerHTML =
+        '<span class="pos">'+(pos+1)+'</span>'+
+        '<span class="txt"><span class="who '+o.cls+'">'+o.who+'</span>'+o.txt+'</span>'+
+        '<span class="arrows"><button type="button" data-mv="-1" aria-label="往上">▲</button>'+
+        '<button type="button" data-mv="1" aria-label="往下">▼</button></span>';
+      listEl.appendChild(li);
+    });
+  }
+  function shuffle(){
+    current=[0,1,2,3,4,5];
+    do{ for(var i=current.length-1;i>0;i--){ var j=(Math.random()*(i+1))|0; var t=current[i]; current[i]=current[j]; current[j]=t; } }
+    while(current.every(function(v,i){return v===i;}));
+    buildList();
+    document.getElementById('orderInsight').classList.remove('show');
+  }
+  listEl.addEventListener('click',function(e){
+    var btn = e.target.closest ? e.target.closest('[data-mv]') : null;
+    if(!btn) return;
+    var li=btn.closest('.sortitem');
+    var pos=Array.prototype.indexOf.call(listEl.children,li);
+    var np=pos+parseInt(btn.getAttribute('data-mv'),10);
+    if(np<0||np>=current.length) return;
+    var tmp=current[pos]; current[pos]=current[np]; current[np]=tmp;
+    buildList();
+  });
+  var dragged=null;
+  listEl.addEventListener('dragstart',function(e){
+    var li=e.target.closest ? e.target.closest('.sortitem') : null;
+    if(!li) return; dragged=li; li.classList.add('dragging');
+    try{ e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',''); }catch(err){}
+  });
+  listEl.addEventListener('dragend',function(){
+    if(dragged) dragged.classList.remove('dragging');
+    current = Array.prototype.map.call(listEl.children,function(li){ return parseInt(li.dataset.idx,10); });
+    buildList(); dragged=null;
+  });
+  listEl.addEventListener('dragover',function(e){
+    e.preventDefault(); if(!dragged) return;
+    var over=e.target.closest ? e.target.closest('.sortitem') : null;
+    if(!over||over===dragged) return;
+    var r=over.getBoundingClientRect();
+    var after = (e.clientY - r.top) > r.height/2;
+    listEl.insertBefore(dragged, after ? over.nextSibling : over);
+  });
+  document.getElementById('shuffleBtn').addEventListener('click',shuffle);
+  document.getElementById('checkOrder').addEventListener('click',function(){
+    var all=true;
+    Array.prototype.forEach.call(listEl.children,function(li,pos){
+      var ok = parseInt(li.dataset.idx,10)===pos;
+      li.classList.remove('correct','wrong');
+      void li.offsetWidth;
+      li.classList.add(ok?'correct':'wrong');
+      if(!ok) all=false;
+    });
+    if(all){ document.getElementById('orderInsight').classList.add('show'); markDone(1); }
+  });
+  shuffle();
+
+  /* ============ STEP 3 : REDIRECT URI ============ */
+  var REGISTERED='https://myapp.com/auth/callback';
+  var uriInput=document.getElementById('uriInput');
+  var screen=document.getElementById('screen');
+  var diffhint=document.getElementById('diffhint');
+  var fakeUrl=document.getElementById('fakeUrl');
+  var uriInsight=document.getElementById('uriInsight');
+
+  function why(a,b){
+    if(a===b) return '';
+    var pa,pb;
+    try{ pa=new URL(a); }catch(e){ return '這串不是合法的網址。'; }
+    try{ pb=new URL(b); }catch(e){ return ''; }
+    if(pa.protocol!==pb.protocol) return '差在協定：'+pa.protocol+'// ≠ '+pb.protocol+'//';
+    if(pa.host!==pb.host)         return '差在網域：'+pa.host+' ≠ '+pb.host;
+    if(pa.pathname!==pb.pathname) return '差在路徑：'+pa.pathname+' ≠ '+pb.pathname;
+    return '差在網址後面的參數或片段。';
+  }
+  function checkUri(){
+    var v=uriInput.value.trim();
+    fakeUrl.textContent='accounts.google.com/o/oauth2/auth?client_id=8241...&redirect_uri='+encodeURIComponent(v);
+    if(v===REGISTERED){
+      screen.className='screen pass';
+      screen.querySelector('.icon').textContent='✅';
+      screen.querySelector('.h').textContent='登入成功，已導回你的網站';
+      screen.querySelector('.p').textContent='Google 確認網址完全相符，把使用者連同一次性的 code 送了回來。';
+      diffhint.textContent='';
+      uriInsight.classList.add('show'); markDone(2);
+    }else{
+      screen.className='screen fail';
+      screen.querySelector('.icon').textContent='🚫';
+      screen.querySelector('.h').textContent='錯誤 400：redirect_uri_mismatch';
+      screen.querySelector('.p').textContent='你送出的網址跟登記的不一樣，Google 拒絕繼續。';
+      diffhint.textContent=why(REGISTERED,v);
+    }
+  }
+  uriInput.addEventListener('input',checkUri);
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(c){
+    c.addEventListener('click',function(){ uriInput.value=c.getAttribute('data-fill'); checkUri(); uriInput.focus(); });
+  });
+  checkUri();
+
+  /* ============ STEP 4 : SECRETS ============ */
+  var SECRETS=[
+    {n:'client_id', d:'你的應用程式在 Google 那邊的編號。', front:true,
+     ok:'對。它設計上就是公開的 —— 使用者一被導去 Google，它就出現在網址列裡了。藏它沒有意義。',
+     no:'其實可以。它一被送去 Google，就直接出現在使用者的網址列上了 —— 它是「名字」，不是「鑰匙」。'},
+    {n:'client_secret', d:'跟 client_id 成對的密鑰，用來換 token。', front:false,
+     ok:'對。這是唯一能證明「請求真的來自你」的東西。放進前端，任何人都能冒充你的應用程式。',
+     no:'不行。它一進前端 bundle，按 F12 就看得到；別人拿去就能冒充你的應用程式去換 token。'},
+    {n:'redirect_uri', d:'授權完成後要導回哪裡。', front:true,
+     ok:'對。它同樣會出現在網址列。它的安全性不是靠隱藏，是靠「必須事先登記」。',
+     no:'其實可以。它本來就會出現在網址列。保護它的是「事前登記＋逐字比對」，不是保密。'},
+    {n:'access_token', d:'換回來的通行證，能代表使用者去要資料。', front:false,
+     ok:'對。拿到它就等於拿到那段期間的使用者權限。它只該待在後端，或存在 HttpOnly 的 cookie 裡。',
+     no:'不行。它等同一把有期限的鑰匙 —— 被別人拿到，就能用使用者的身分去要資料。'}
+  ];
+  var qgrid=document.getElementById('qgrid');
+  var answered=0;
+  SECRETS.forEach(function(s,i){
+    var d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML='<div class="name">'+s.n+'</div><div class="desc">'+s.d+'</div>'+
+      '<div class="qbtns"><button type="button" data-v="1">可以放前端</button>'+
+      '<button type="button" data-v="0">只能留後端</button></div><div class="qfb"></div>';
+    var fb=d.querySelector('.qfb');
+    Array.prototype.forEach.call(d.querySelectorAll('.qbtns button'),function(b){
+      b.addEventListener('click',function(){
+        var picked = b.getAttribute('data-v')==='1';
+        var right = picked===s.front;
+        Array.prototype.forEach.call(d.querySelectorAll('.qbtns button'),function(x){
+          x.classList.remove('picked-right','picked-wrong');
+        });
+        b.classList.add(right?'picked-right':'picked-wrong');
+        fb.className='qfb show '+(right?'good':'bad');
+        fb.textContent=(right?'✓ ':'✗ ')+(right?s.ok:s.no);
+        if(!d.dataset.seen){ d.dataset.seen='1'; answered++; }
+        if(answered===SECRETS.length){ document.getElementById('secretInsight').classList.add('show'); markDone(3); }
+      });
+    });
+    qgrid.appendChild(d);
+  });
+
+  /* ============ STEP 5 : ACCOUNT LINKING ============ */
+  var TABLES={
+    start:{rows:[['1','google','118…4402','amy@gmail.com','週一']],note:null},
+    email:{rows:[['1','google → github','118…4402 → amy-dev','amy@gmail.com','週一 / 週三']],
+      cls:'', txt:'<b>看起來對，但這是漏洞。</b>只要有任何一個 provider 允許使用者填一個「未驗證」的 email，攻擊者就能註冊一個 email 跟 Amy 一樣的帳號，登入之後直接接管她的資料。用 email 自動合併，等於把帳號的門交給 email 欄位。'},
+    provider:{rows:[['1','google','118…4402','amy@gmail.com','週一'],['1','github','amy-dev','amy@gmail.com','週三（她自己綁的）']],
+      cls:'', txt:'<b>這是正解。</b>兩筆是兩個「登入方式」，但指向同一個 user_id = 1。Amy 用哪一邊進來都是同一個帳號，而合併是她在已登入狀態下自己按的 —— 你沒有替她猜。'},
+    none:{rows:[['1','google','118…4402','amy@gmail.com','週一'],['2','github','amy-dev','amy@gmail.com','週三']],
+      cls:'', txt:'<b>三個月後這會變成客服災難。</b>Amy 週三看不到週一存的東西，會來信說「我的資料不見了」。而且你的付費紀錄、使用量統計全部從此對不起來。這個坑補起來的成本，遠高於一開始就設計對。'}
+  };
+  var dbtable=document.getElementById('dbtable');
+  var optResult=document.getElementById('optResult');
+  function renderTable(key){
+    var d=TABLES[key];
+    var h='<thead><tr><th>user_id</th><th>provider</th><th>provider_user_id (sub)</th><th>email</th><th>建立</th></tr></thead><tbody>';
+    d.rows.forEach(function(r){ h+='<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>'; });
+    dbtable.innerHTML=h+'</tbody>';
+  }
+  renderTable('start');
+  Array.prototype.forEach.call(document.querySelectorAll('.opt'),function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-opt');
+      Array.prototype.forEach.call(document.querySelectorAll('.opt'),function(x){ x.classList.remove('sel-ok','sel-no'); });
+      b.classList.add(k==='provider'?'sel-ok':'sel-no');
+      renderTable(k);
+      optResult.style.display='block';
+      optResult.innerHTML=TABLES[k].txt;
+      if(k==='provider'){ document.getElementById('linkInsight').classList.add('show'); markDone(4); }
+    });
+  });
+})();
+</script>
