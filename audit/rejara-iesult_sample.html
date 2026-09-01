@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI medical product — Content & UX Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F5F2; --surface:#FFFFFF; --surface-2:#F0EEE9; --surface-3:#E9E6E0; --line:#E0DBD3;
+  --ink:#1A1A18; --ink-2:#54514C; --ink-3:#867F76;
+  --accent:#0F6E64; --accent-soft:#E2F1EE; --accent-ink:#0B564E;
+  --crit:#B3261E; --crit-soft:#FBE9E7;
+  --maj:#8A5A00; --maj-soft:#FBF2DF;
+  --min:#3F5E8C; --min-soft:#E9EFF8;
+  --ok:#12704A; --ok-soft:#E2F3EA;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(26,26,24,.05), 0 10px 28px -14px rgba(26,26,24,.20);
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#131311; --surface:#1C1B19; --surface-2:#252320; --surface-3:#2E2B27; --line:#39352F;
+    --ink:#F1EEE9; --ink-2:#B2ABA2; --ink-3:#847D74;
+    --accent:#4FC4B4; --accent-soft:#0F2C29; --accent-ink:#79D8CA;
+    --crit:#F58F86; --crit-soft:#3A1D1A;
+    --maj:#E3B25C; --maj-soft:#332810;
+    --min:#8FB2E0; --min-soft:#182437;
+    --ok:#5CD29B; --ok-soft:#122E22;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131311; --surface:#1C1B19; --surface-2:#252320; --surface-3:#2E2B27; --line:#39352F;
+  --ink:#F1EEE9; --ink-2:#B2ABA2; --ink-3:#847D74;
+  --accent:#4FC4B4; --accent-soft:#0F2C29; --accent-ink:#79D8CA;
+  --crit:#F58F86; --crit-soft:#3A1D1A;
+  --maj:#E3B25C; --maj-soft:#332810;
+  --min:#8FB2E0; --min-soft:#182437;
+  --ok:#5CD29B; --ok-soft:#122E22;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+body[data-lang="en"] .fr{display:none !important}
+body[data-lang="fr"] .en{display:none !important}
+
+.wrap{max-width:940px;margin:0 auto;padding:30px 20px 80px}
+h1,h2,h3,h4{line-height:1.35;margin:0}
+code,.mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--accent-ink)}
+
+/* ---------- masthead ---------- */
+.eyebrow{font-size:11.5px;letter-spacing:.15em;font-weight:800;color:var(--accent);text-transform:uppercase}
+.doc-title{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(28px,5.4vw,42px);font-weight:700;letter-spacing:-.02em;margin:9px 0 10px}
+.doc-sub{color:var(--ink-2);font-size:16.5px;max-width:60ch}
+.masthead{padding-bottom:16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--ink-2)}
+
+/* ---------- navbar ---------- */
+.navbar{position:sticky;top:0;z-index:30;margin:0 -20px 22px;padding:10px 20px 0;background:var(--bg);border-bottom:1px solid var(--line)}
+@supports (backdrop-filter:blur(8px)){
+  .navbar{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(1.5) blur(10px);-webkit-backdrop-filter:saturate(1.5) blur(10px)}
+}
+.toprow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.modes{display:flex;gap:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px;width:max-content;max-width:100%}
+.modes button{border:0;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink-2);padding:7px 15px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:.15s}
+.modes button:hover{color:var(--ink)}
+.modes button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.langbox{margin-left:auto;display:flex;gap:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px}
+.langbox button{border:0;background:transparent;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-2);padding:7px 13px;border-radius:6px;cursor:pointer;transition:.15s}
+.langbox button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.subnav{display:flex;gap:5px;overflow-x:auto;padding:9px 0;scrollbar-width:none}
+.subnav::-webkit-scrollbar{height:0;display:none}
+.navchip{flex:0 0 auto;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:6px 13px;font-family:inherit;font-size:12.5px;color:var(--ink-2);white-space:nowrap;transition:.15s;display:inline-flex;align-items:center;gap:7px;line-height:1.4}
+.navchip:hover{border-color:var(--accent);color:var(--ink)}
+.navchip[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.navchip .num{font-family:var(--mono);font-size:10.5px;opacity:.72;font-weight:700}
+.bar{height:2px;background:var(--line)}
+.bar i{display:block;height:100%;width:10%;background:var(--accent);transition:width .32s ease}
+.kbdhint{font-size:11.5px;color:var(--ink-3);margin:10px 0 20px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--surface);color:var(--ink-2)}
+
+/* ---------- panels ---------- */
+.view{display:none} .view.active{display:block}
+.panel{display:none;animation:fade .3s ease} .panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card + .card{margin-top:16px}
+h2.st{font-family:'Source Serif 4',Georgia,serif;font-size:25px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.lede{color:var(--ink-2);margin:0 0 18px;max-width:64ch;font-size:15.5px}
+.sec-h{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--ink-3);margin:26px 0 10px}
+.sec-h:first-child{margin-top:0}
+p{margin:0 0 12px}
+p:last-child{margin-bottom:0}
+
+/* ---------- severity ---------- */
+.sev{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:5px}
+.sev.c{background:var(--crit-soft);color:var(--crit)}
+.sev.m{background:var(--maj-soft);color:var(--maj)}
+.sev.n{background:var(--min-soft);color:var(--min)}
+.sev.g{background:var(--ok-soft);color:var(--ok)}
+.fhead{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.fid{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;padding-top:5px}
+.ftitle{font-size:19px;font-weight:800;letter-spacing:-.01em;flex:1;min-width:220px;line-height:1.4}
+
+/* ---------- evidence recreation ---------- */
+.ev{margin:14px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#EEF3F8}
+.ev-cap{display:flex;gap:8px;align-items:center;padding:8px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ev-cap .live{width:7px;height:7px;border-radius:50%;background:var(--crit);flex:0 0 auto}
+.ev-body{padding:16px;overflow-x:auto}
+.ev-note{font-size:12.5px;color:var(--ink-3);padding:0 14px 12px;line-height:1.6}
+
+/* faux app chrome — matched to the AI medical product computed styles */
+.fx{font-family:Inter,system-ui,sans-serif;color:#1E293B;min-width:520px}
+.fx-card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:14px 16px}
+.fx-card + .fx-card{margin-top:10px}
+.fx-h{font-size:15px;font-weight:700;color:#1E293B;display:flex;align-items:center;gap:8px}
+.fx-sub{font-size:12.5px;color:#64748B;margin-top:2px}
+.fx-input{margin-top:10px;border:1px solid #CBD5E1;border-radius:999px;padding:10px 14px;font-size:13.5px;color:#94A3B8;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fx-input .send{width:26px;height:26px;border-radius:50%;background:#E2E8F0;flex:0 0 auto}
+.fx-chip{display:inline-block;font-size:11px;background:#E3F3E8;color:#3B8F63;border-radius:999px;padding:3px 10px;font-weight:500}
+.fx-msg-u{background:#41586F;color:#fff;border-radius:12px;padding:10px 13px;font-size:13px;max-width:78%;margin-left:auto;line-height:1.55}
+.fx-msg-a{background:#F1F5F9;color:#1E293B;border-radius:12px;padding:10px 13px;font-size:13px;max-width:88%;margin-top:10px;line-height:1.6}
+.fx-msg-a ul{margin:8px 0 0;padding-left:18px} .fx-msg-a li{margin-bottom:5px}
+.fx-disc{font-size:12px;color:#94A3B8;text-align:center;margin-top:12px}
+.fx-pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#64748B;background:#F1F5F9;border-radius:5px;padding:2px 7px}
+.fx-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fx-tile{position:relative;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;background:#fff;width:270px;flex:0 0 auto}
+.fx-tile .img{height:66px;background:linear-gradient(120deg,#1B3A5C,#2E6B8F)}
+.fx-tile .nm{font-size:12px;font-weight:700;letter-spacing:.04em;padding:9px 12px 0;color:#334155}
+.fx-tile .ds{font-size:12px;color:#64748B;padding:4px 12px 12px;line-height:1.5}
+.fx-arrow{position:absolute;left:-11px;top:50%;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid #E2E8F0;box-shadow:0 1px 4px rgba(0,0,0,.12);display:grid;place-items:center;font-size:9px;color:#475569}
+.fx-badge{position:absolute;right:8px;top:8px;background:#fff;border-radius:999px;font-size:10.5px;font-weight:700;padding:2px 8px;color:#0F766E}
+.hl{background:#FDE68A;border-radius:3px;padding:0 3px;box-shadow:0 0 0 1px #FCD34D inset}
+.hl-r{background:#FECACA;border-radius:3px;padding:0 3px;box-shadow:0 0 0 1px #FCA5A5 inset}
+.pin{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--crit);color:#fff;font-family:var(--mono);font-size:10px;font-weight:700;vertical-align:1px;margin:0 3px}
+.pinlist{list-style:none;margin:10px 0 0;padding:0;font-size:13.5px;color:var(--ink-2)}
+.pinlist li{display:flex;gap:9px;margin-bottom:8px;line-height:1.6}
+.pinlist b{color:var(--ink)}
+
+/* ---------- tables ---------- */
+.tblwrap{overflow-x:auto;margin-top:10px}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+table.t th{background:var(--surface-2);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:800;white-space:nowrap}
+table.t td code{background:var(--surface-2);border-radius:4px;padding:1px 4px}
+
+/* ---------- before / after ---------- */
+.ba{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:12px}
+.ba-tabs{display:flex;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.ba-tabs button{flex:1;border:0;background:transparent;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-2);padding:9px;cursor:pointer;transition:.15s;border-bottom:2px solid transparent}
+.ba-tabs button[aria-pressed="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);background:var(--surface)}
+.ba-body{padding:0}
+.ba-pane{display:none;padding:15px 17px} .ba-pane.on{display:block}
+.ba-pane .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-3);display:block;margin-bottom:6px}
+.quote{font-size:14.5px;line-height:1.65;border-left:3px solid var(--line);padding-left:13px;color:var(--ink)}
+.quote.bad{border-left-color:var(--crit)}
+.quote.good{border-left-color:var(--ok)}
+.why{font-size:13px;color:var(--ink-2);margin-top:11px;line-height:1.7;padding-top:11px;border-top:1px dashed var(--line)}
+.why b{color:var(--ink)}
+
+/* ---------- layer switcher ---------- */
+.layers{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.layer-tabs{display:flex;gap:0;background:var(--surface-2);border-bottom:1px solid var(--line);overflow-x:auto}
+.layer-tabs button{flex:1;min-width:120px;border:0;background:transparent;font-family:inherit;font-size:12px;font-weight:700;color:var(--ink-2);padding:10px 8px;cursor:pointer;border-bottom:2px solid transparent;line-height:1.4}
+.layer-tabs button[aria-pressed="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);background:var(--surface)}
+.layer-tabs .n{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;opacity:.7}
+.layer-pane{display:none;padding:16px 18px} .layer-pane.on{display:block}
+.layer-pane .where{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-bottom:8px}
+.layer-demo{background:var(--surface-2);border-radius:9px;padding:13px 15px;font-size:14px;line-height:1.65;border-left:3px solid var(--accent)}
+.layer-why{font-size:13px;color:var(--ink-2);margin-top:11px;line-height:1.7}
+
+/* ---------- misc ---------- */
+.callout{background:var(--accent-soft);border-radius:10px;padding:15px 17px;margin-top:16px}
+.callout .k{font-size:10.5px;font-weight:900;letter-spacing:.13em;color:var(--accent-ink);text-transform:uppercase}
+.callout p{margin:6px 0 0;font-size:14.5px;color:var(--ink);line-height:1.7}
+.callout p + p{margin-top:9px}
+.warn{background:var(--maj-soft);border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.7;margin-top:14px}
+.warn b{color:var(--maj)}
+.ul{padding-left:19px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.8}
+.ul li{margin-bottom:9px} .ul li:last-child{margin-bottom:0}
+.ul b{color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+.mini{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.mini h4{font-size:14px;font-weight:800;margin-bottom:5px}
+.mini p{font-size:13px;color:var(--ink-2);line-height:1.65;margin:0}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.btn{font-family:inherit;font-size:14px;font-weight:700;border-radius:9px;padding:10px 19px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff;transition:.15s}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent-ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent)}
+.scorebar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.score{flex:1;min-width:120px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.score .n{font-size:30px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.score .l{font-size:11.5px;color:var(--ink-2);margin-top:4px;line-height:1.4}
+.score.c .n{color:var(--crit)} .score.m .n{color:var(--maj)} .score.n2 .n{color:var(--min)} .score.g .n{color:var(--ok)}
+
+/* ---------- footer ---------- */
+footer.pg{margin-top:40px;border-top:1px solid var(--line);padding-top:22px;font-size:12.5px;color:var(--ink-3);line-height:1.9}
+footer.pg .cr{font-weight:700;color:var(--ink-2);letter-spacing:.03em;font-size:13px}
+footer.pg .disc{margin-top:14px;background:var(--surface-2);border-left:3px solid var(--line);border-radius:0 9px 9px 0;padding:12px 15px;font-size:12px;line-height:1.85}
+footer.pg .disc .dh{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;font-weight:700;color:var(--ink-2);display:block;margin-bottom:4px}
+</style>
+</head>
+<body data-lang="en">
+<nav class="side-nav" id="audit-sidebar" aria-label="Audit pages"></nav>
+<div class="main-content">
+<div class="page-chrome" id="audit-chrome"></div>
+<div class="main-body">
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">
+    <span class="en">Content & UX audit · Independent review</span>
+    <span class="fr">Audit de contenu et d'expérience · Revue indépendante</span>
+  </div>
+  <h1 class="doc-title">
+    <span class="en">AI medical product: what the words do under pressure</span>
+    <span class="fr">AI medical product : ce que les mots font sous pression</span>
+  </h1>
+  <p class="doc-sub">
+    <span class="en">A content-design review of a caregiving platform, run against the live product with a caregiver in an acute discharge crisis. Interface copy, information architecture, and the two AI surfaces: <b>Create a Plan</b> and <b>Search in profile</b>.</span>
+    <span class="fr">Revue de conception de contenu d'une plateforme de proche aidance, menée sur le produit en ligne à partir d'un cas réel : un proche aidant en situation de congé hospitalier urgent. Textes d'interface, architecture de l'information et les deux surfaces IA : <b>Create a Plan</b> et <b>Search in profile</b>.</span>
+  </p>
+  <div class="meta-row">
+    <span class="meta">AI medical product · Beta</span>
+    <span class="meta">2026-08-28</span>
+    <span class="meta">WCAG 2.1 AA</span>
+    <span class="meta">EN / FR</span>
+  </div>
+</header>
+
+<div class="navbar">
+  <div class="toprow">
+    <div class="modes" role="group" aria-label="View">
+      <button type="button" id="mAudit" aria-pressed="true"><span class="en">Audit</span><span class="fr">Audit</span></button>
+      <button type="button" id="mMethod" aria-pressed="false"><span class="en">Method</span><span class="fr">Méthode</span></button>
+    </div>
+    <div class="langbox" role="group" aria-label="Language / Langue">
+      <button type="button" id="lEN" aria-pressed="true">EN</button>
+      <button type="button" id="lFR" aria-pressed="false">FR</button>
+    </div>
+  </div>
+  <nav class="subnav" id="subnav" aria-label="Sections"></nav>
+  <div class="bar"><i id="bar"></i></div>
+</div>
+
+<p class="kbdhint">
+  <kbd>←</kbd><kbd>→</kbd>
+  <span class="en">move between sections · the URL remembers where you are · currently:</span>
+  <span class="fr">naviguer entre les sections · l'URL retient votre position · actuellement :</span>
+  <span id="whereami">Audit · 1/10</span>
+</p>
+
+<!-- ================= AUDIT VIEW ================= -->
+<div class="view active" id="viewAudit">
+
+<!-- ===== 1. SCOPE ===== -->
+<section class="panel active">
+  <div class="card">
+    <h2 class="st"><span class="en">What I tested, and how</span><span class="fr">Ce que j'ai testé, et comment</span></h2>
+    <p class="lede">
+      <span class="en">Every quoted string in this document was read off the live DOM of <code>the AI medical product</code> on 28 August 2026, signed in to a real account. Nothing is paraphrased from memory, and nothing is invented. Where I could not verify something, it is listed under <b>Out of scope</b> rather than asserted.</span>
+      <span class="fr">Chaque citation de ce document provient du DOM en direct de <code>the AI medical product</code>, le 28 août 2026, sur un compte réel. Rien n'est reformulé de mémoire, rien n'est inventé. Ce que je n'ai pas pu vérifier figure sous <b>Hors portée</b> plutôt que d'être affirmé.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Scope</span><span class="fr">Portée</span></div>
+    <ul class="ul">
+      <li><b><span class="en">Interface copy</span><span class="fr">Textes d'interface</span></b> — <span class="en">navigation, buttons, headings, empty states, step instructions, loading states, placeholders.</span><span class="fr">navigation, boutons, titres, états vides, consignes d'étape, états de chargement, textes indicatifs.</span></li>
+      <li><b><span class="en">Content design</span><span class="fr">Conception de contenu</span></b> — <span class="en">information architecture, content layering, plain-language grade, terminology consistency.</span><span class="fr">architecture de l'information, hiérarchisation du contenu, niveau de langue claire, cohérence terminologique.</span></li>
+      <li><b><span class="en">AI surfaces</span><span class="fr">Surfaces IA</span></b> — <span class="en"><code>Create a Plan</code> and <code>Search in profile</code>: answer quality, tone, and language risk in care, legal, and financial contexts.</span><span class="fr"><code>Create a Plan</code> et <code>Search in profile</code> : qualité des réponses, ton et risque de formulation en contexte de soins, juridique et financier.</span></li>
+      <li><b><span class="en">Accessibility</span><span class="fr">Accessibilité</span></b> — <span class="en">WCAG 2.1 AA, automated DOM scan plus manual review of the home screen and the plan output.</span><span class="fr">WCAG 2.1 AA, analyse automatisée du DOM et revue manuelle de l'accueil et du plan généré.</span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">The probe</span><span class="fr">Le scénario de test</span></div>
+    <p style="font-size:14.5px;color:var(--ink-2)">
+      <span class="en">Rather than click around, I gave the product the situation it exists for. Here is a caregiver 48 hours from a discharge decision:</span>
+      <span class="fr">Plutôt que d'explorer au hasard, j'ai soumis au produit la situation pour laquelle il existe. Voici un proche aidant à 48 heures d'une décision de congé hospitalier :</span>
+    </p>
+    <div class="quote" style="margin-top:6px">
+      <span class="en">"Mom fell last night and the hospital says she cannot go home alone. I have to decide in two days and I do not know what to do about her money or her medications."</span>
+      <span class="fr">« Ma mère est tombée cette nuit et l'hôpital dit qu'elle ne peut pas rentrer seule. Je dois décider d'ici deux jours et je ne sais pas quoi faire pour son argent ni pour ses médicaments. »</span>
+    </div>
+
+    <div class="scorebar">
+      <div class="score c"><div class="n">3</div><div class="l"><span class="en">Critical — affecting users today, not at expansion</span><span class="fr">Critiques — touchant les utilisateurs dès aujourd'hui</span></div></div>
+      <div class="score m"><div class="n">6</div><div class="l"><span class="en">Major — erodes trust or comprehension</span><span class="fr">Majeurs — érodent la confiance ou la compréhension</span></div></div>
+      <div class="score n2"><div class="n">5</div><div class="l"><span class="en">Minor — polish and consistency</span><span class="fr">Mineurs — finition et cohérence</span></div></div>
+      <div class="score g"><div class="n">4</div><div class="l"><span class="en">Working well — worth protecting</span><span class="fr">Points forts — à préserver</span></div></div>
+    </div>
+
+    <div class="callout">
+      <div class="k"><span class="en">Headline</span><span class="fr">Constat principal</span></div>
+      <p>
+        <span class="en">The product is competent at <i>generating</i> caregiving content and weak at <i>governing</i> it. It produced a substantial, well-organised 30-item plan in about two minutes: attached to the wrong person, quoting state-determined dollar figures it had no way to know applied, with no first step.</span>
+        <span class="fr">Le produit sait <i>produire</i> du contenu d'aidance ; il ne sait pas encore le <i>gouverner</i>. Il a généré en deux minutes un plan de 30 éléments, structuré et substantiel : rattaché à la mauvaise personne, citant des montants fixés par les États sans pouvoir savoir s'ils s'appliquaient, et sans première action.</span>
+      </p>
+    </div>
+  </div>
+  <div class="nav"><span></span><button class="btn" data-go="1"><span class="en">Finding 01: the wrong person →</span><span class="fr">Constat 01 : la mauvaise personne →</span></button></div>
+</section>
+
+<!-- ===== 2. F01 IDENTITY ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-01</span>
+      <h3 class="ftitle"><span class="en">The assistant silently swapped who the plan is about</span><span class="fr">L'assistant a silencieusement changé la personne concernée par le plan</span></h3>
+      <span class="sev c"><span class="en">Critical</span><span class="fr">Critique</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">I wrote "Mom". The profile's only care receiver is <code>Spouse: Mary</code>. Every one of the 30 generated items is about <b>Mary</b>, including advice that only makes sense for a spouse. The substitution is never surfaced, never confirmed, and never flagged.</span>
+      <span class="fr">J'ai écrit « ma mère ». Le seul bénéficiaire au dossier est <code>Spouse: Mary</code>. Les 30 éléments générés portent tous sur <b>Mary</b>, y compris des conseils qui n'ont de sens que pour un conjoint. La substitution n'est jamais signalée, jamais confirmée, jamais marquée.</span>
+    </p>
+
+    <div class="ev">
+      <div class="ev-cap"><span class="live"></span><span class="en">Evidence 01 · Search in profile, then Create a Plan · verbatim</span><span class="fr">Preuve 01 · Search in profile, puis Create a Plan · verbatim</span></div>
+      <div class="ev-body"><div class="fx">
+        <div class="fx-card" style="background:#F8FAFC">
+          <span class="fx-pill">Search in profile</span>
+          <div class="fx-msg-u" style="margin-top:10px">Who are my care receivers, and how are they related to me?</div>
+          <div class="fx-msg-a"><span class="fx-pill">Care receivers</span><br><br>Your profile lists the following care receivers:<ul style="margin-top:6px"><li><b>Spouse: Mary</b></li></ul></div>
+        </div>
+        <div class="fx-card" style="margin-top:12px">
+          <span class="fx-pill">Create a Plan</span>
+          <div class="fx-msg-u" style="margin-top:10px">Mom fell last night and the hospital says she cannot go home alone…</div>
+          <div class="fx-msg-a" style="margin-top:12px"><b>Secure Legal &amp; Financial Management</b><br>
+          Establish the necessary legal authority to manage <span class="hl-r">Mary's</span> financial and medical affairs…
+          <ul>
+            <li>Consult an elder law attorney promptly to prepare a Durable Power of Attorney for <span class="hl-r">Mary</span>.</li>
+            <li><span class="hl-r">The Community Spouse Resource Allowance (CSRA)</span> and Minimum Monthly Maintenance Needs Allowance protect <span class="hl-r">the non-applicant spouse's</span> financial stability…</li>
+          </ul></div>
+        </div>
+      </div></div>
+      <div class="ev-note">
+        <span class="en">Rebuilt from the live DOM. Highlighting added.</span>
+        <span class="fr">Reconstitué à partir du DOM en direct. Surlignage ajouté.</span>
+      </div>
+    </div>
+
+    <ul class="pinlist">
+      <li><span class="pin">1</span><span><b><span class="en">A mother is not a spouse.</span><span class="fr">Une mère n'est pas une conjointe.</span></b> <span class="en">Spousal-impoverishment rules exist to protect a <i>husband or wife</i>. Applied to a parent, that consideration is not merely irrelevant; it points the caregiver at a benefits calculation that does not apply to them.</span><span class="fr">Les règles d'appauvrissement du conjoint protègent un <i>époux ou une épouse</i>. Appliquées à un parent, ce point n'est pas seulement hors sujet : il oriente l'aidant vers un calcul de prestations qui ne le concerne pas.</span></span></li>
+      <li><span class="pin">2</span><span><b><span class="en">Grounding was never offered as a choice.</span><span class="fr">L'ancrage n'a jamais été proposé comme un choix.</span></b> <span class="en">The assistant asked three clarifying questions before generating. None of them was <i>"Which person is this for?"</i></span><span class="fr">L'assistant a posé trois questions de clarification avant de générer. Aucune n'était : <i>« De quelle personne s'agit-il ? »</i></span></span></li>
+      <li><span class="pin">3</span><span><b><span class="en">The plan is savable.</span><span class="fr">Le plan est enregistrable.</span></b> <span class="en">"Save plan and Create Task" turns the misattribution into 30 persistent tasks in the user's account, where the original prompt is no longer visible next to them.</span><span class="fr">« Save plan and Create Task » transforme l'erreur d'attribution en 30 tâches persistantes, détachées de la question d'origine.</span></span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">Content fix — name the person before the plan exists</span><span class="fr">Correctif de contenu — nommer la personne avant que le plan existe</span></div>
+    <div class="ba" data-ba>
+      <div class="ba-tabs" role="group">
+        <button type="button" aria-pressed="true" data-pane="0"><span class="en">Now</span><span class="fr">Actuel</span></button>
+        <button type="button" aria-pressed="false" data-pane="1"><span class="en">Proposed</span><span class="fr">Proposé</span></button>
+      </div>
+      <div class="ba-body">
+        <div class="ba-pane on">
+          <span class="lbl"><span class="en">Shipped copy — first assistant turn</span><span class="fr">Texte actuel — première réponse</span></span>
+          <div class="quote bad">
+            <span class="en">"To help you navigate this urgent situation, I need a bit more information about Mom's immediate needs and your specific concerns."</span>
+            <span class="fr">« To help you navigate this urgent situation, I need a bit more information about Mom's immediate needs and your specific concerns. »</span>
+          </div>
+          <div class="why">
+            <span class="en"><b>Why it fails:</b> it mirrors "Mom" back, which reads as confirmation that the system understood, and then quietly builds the plan around Mary. Mirroring without binding is worse than not mirroring at all: it manufactures confidence.</span>
+            <span class="fr"><b>Pourquoi cela échoue :</b> la réponse reprend « Mom », ce qui se lit comme une confirmation de compréhension, puis le plan est construit autour de Mary. Reprendre un mot sans le lier à une entité est pire que ne rien reprendre : cela fabrique de la confiance.</span>
+          </div>
+        </div>
+        <div class="ba-pane">
+          <span class="lbl"><span class="en">Proposed — bind the entity in turn one</span><span class="fr">Proposé — lier l'entité dès le premier tour</span></span>
+          <div class="quote good">
+            <span class="en">"Before I build anything — who is this for?<br><br>• <b>Mary</b> (spouse, in your profile)<br>• Someone not in my profile yet<br><br>I'll ask about her needs next. If it's someone new, I'll only use what you tell me here."</span>
+            <span class="fr">« Avant de créer quoi que ce soit — de qui s'agit-il ?<br><br>• <b>Mary</b> (conjointe, à votre dossier)<br>• Une personne qui n'est pas encore à mon dossier<br><br>Je poserai ensuite des questions sur ses besoins. S'il s'agit d'une nouvelle personne, je n'utiliserai que ce que vous m'indiquez ici. »</span>
+          </div>
+          <div class="why">
+            <span class="en"><b>Why it works:</b> one tap, no typing, at the only moment the caregiver still has the context in their head. It also converts a silent failure into a labelled state. The plan header can then read <i>"For: Mary · from your profile"</i> or <i>"For: an unnamed person · not saved to your profile"</i>, so the attribution travels with the content into saved tasks.</span>
+            <span class="fr"><b>Pourquoi cela fonctionne :</b> un seul geste, sans saisie, au seul moment où l'aidant a encore le contexte en tête. Cela transforme aussi une défaillance silencieuse en état étiqueté. L'en-tête du plan devient <i>« Pour : Mary · issue de votre dossier »</i> ou <i>« Pour : une personne non nommée · non enregistrée »</i>, et l'attribution suit le contenu jusque dans les tâches sauvegardées.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="0">←</button><button class="btn" data-go="2"><span class="en">Finding 02: no jurisdiction →</span><span class="fr">Constat 02 : aucune juridiction →</span></button></div>
+</section>
+
+<!-- ===== 3. F02 JURISDICTION ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-02</span>
+      <h3 class="ftitle"><span class="en">State-determined rules are presented as national facts, and the product never asks what state you live in</span><span class="fr">Des règles fixées par les États sont présentées comme des faits nationaux, et le produit ne demande jamais dans quel État vous vivez</span></h3>
+      <span class="sev c"><span class="en">Critical</span><span class="fr">Critique</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">The plan mixes two kinds of claim at identical confidence. <b>Medicare</b> is federal, so those sentences hold anywhere. <b>Medicaid eligibility, HCBS waivers, power-of-attorney formalities and guardianship procedure are set state by state</b>, and those sentences were written as if they were federal too. The clarifying turn asked about needs, money and medications. It never asked where the caregiver lives.</span>
+      <span class="fr">Le plan mêle deux types d'affirmations avec la même assurance. <b>Medicare</b> est fédéral : ces phrases tiennent partout. <b>L'admissibilité à Medicaid, les exemptions HCBS, les formalités de procuration et la procédure de tutelle relèvent de chaque État</b>, et ces phrases-là ont pourtant été rédigées comme si elles étaient fédérales. Le tour de clarification a porté sur les besoins, l'argent et les médicaments. Jamais sur le lieu de résidence.</span>
+    </p>
+
+    <div class="tblwrap">
+      <table class="t">
+        <thead><tr>
+          <th><span class="en">What the plan said</span><span class="fr">Ce que le plan a dit</span></th>
+          <th><span class="en">What it actually depends on</span><span class="fr">Ce dont cela dépend réellement</span></th>
+          <th><span class="en">Consequence of the gap</span><span class="fr">Conséquence de l'écart</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="en">"strict income/asset limits (<b>$2,982/month income, $2,000 assets</b> for individuals)"</span><span class="fr">« strict income/asset limits (<b>$2,982/month income, $2,000 assets</b> for individuals) »</span></td>
+            <td><span class="en">Medicaid long-term-care limits are set by each state within federal rules. The figures quoted resemble one common state pattern, but at least one large state has removed the asset test for these programs entirely.</span><span class="fr">Les seuils Medicaid pour les soins de longue durée sont fixés par chaque État dans le cadre fédéral. Les chiffres cités correspondent à un schéma courant, mais au moins un grand État a supprimé toute limite d'actifs pour ces programmes.</span></td>
+            <td><span class="en">A caregiver in that state is told to spend their mother's savings down to $2,000 when no asset limit applies to her. Precise dollar figures are the most trusted and least questioned content on the page.</span><span class="fr">Dans cet État, on dit à l'aidant de réduire l'épargne de sa mère à 2 000 $ alors qu'aucune limite d'actifs ne s'applique. Les montants précis sont le contenu le plus cru et le moins remis en question.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">"apply for <b>Medicaid HCBS waivers</b> if extensive personal care… is needed"</span><span class="fr">« apply for <b>Medicaid HCBS waivers</b> if extensive personal care… is needed »</span></td>
+            <td><span class="en">Waiver programs are individually designed by each state, with their own names, eligibility, enrolment caps and, in many states, waiting lists.</span><span class="fr">Les programmes d'exemption sont conçus par chaque État, avec leurs propres noms, critères, plafonds d'inscription et, dans plusieurs États, des listes d'attente.</span></td>
+            <td><span class="en">"Apply for a waiver" is a different action, under a different name, with a different wait, in every state. As written it reads like a single national form.</span><span class="fr">« Demander une exemption » est une démarche différente, sous un autre nom, avec un délai différent, dans chaque État. Tel quel, cela se lit comme un formulaire national unique.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">"initiating a court-appointed <b>guardianship or conservatorship</b>"</span><span class="fr">« initiating a court-appointed <b>guardianship or conservatorship</b> »</span></td>
+            <td><span class="en">These are two distinct proceedings whose names and division of duties differ by state. In some, one word covers the person and the other the finances; in others the terminology is reversed or a single term is used.</span><span class="fr">Ce sont deux procédures distinctes dont les noms et le partage des responsabilités varient d'un État à l'autre. Ailleurs, la terminologie est inversée ou un seul terme est employé.</span></td>
+            <td><span class="en">The caregiver walks into a court or a lawyer's office asking for something that may not be what it is called where they live.</span><span class="fr">L'aidant se présente au tribunal ou chez l'avocat en demandant une chose qui ne porte peut-être pas ce nom chez lui.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">"prepare a <b>Durable Power of Attorney</b> for finances"</span><span class="fr">« prepare a <b>Durable Power of Attorney</b> for finances »</span></td>
+            <td><span class="en">Execution formalities (notarisation, number of witnesses, whether a springing power is recognised, whether a bank must honour a statutory form) are state law.</span><span class="fr">Les formalités d'exécution (notarisation, nombre de témoins, reconnaissance d'un pouvoir à effet différé, obligation pour la banque d'honorer un formulaire type) relèvent du droit de l'État.</span></td>
+            <td><span class="en">The recommendation to consult an attorney is sound. The surrounding detail is what a caregiver will act on first, and it is the part that varies.</span><span class="fr">Recommander de consulter un avocat est juste. Ce sont les détails autour que l'aidant appliquera en premier, et ce sont eux qui varient.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">"Medicare Part D has a <b>$2,100 annual out-of-pocket cap</b>"</span><span class="fr">« Medicare Part D has a <b>$2,100 annual out-of-pocket cap</b> »</span></td>
+            <td><span class="en">Federal, so nationally true, but the cap is re-indexed every year, and the sentence carries no year and no verification date.</span><span class="fr">Fédéral, donc vrai partout, mais le plafond est réindexé chaque année, et la phrase ne porte ni année ni date de vérification.</span></td>
+            <td><span class="en">Correct today, silently wrong every January. This row is the control: the defect is not "the model is American", it is that nothing marks what a claim depends on.</span><span class="fr">Exact aujourd'hui, faux en silence chaque janvier. Cette ligne sert de témoin : le défaut n'est pas que « le modèle est américain », mais que rien n'indique ce dont dépend une affirmation.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn">
+      <b><span class="en">The missing primitive is location, not language.</span><span class="fr">La primitive manquante est le lieu, pas la langue.</span></b>
+      <span class="en"> Jurisdiction has to be resolved <i>before</i> generation and carried into retrieval: one question in the first turn, stored on the profile, stamped on every regulated claim. The retrieval sources show the same gap: the four cited references are <code>brevy.com</code>, <code>berger-lawfirm.com</code>, <code>medicaidplanningassistance.org</code> and <code>medicaidlongtermcare.org</code>. Three of the four are commercial or law-firm marketing pages, none of them state-specific, and none of them a primary source such as a state Medicaid agency.</span>
+      <span class="fr"> La juridiction doit être résolue <i>avant</i> la génération et transmise à la récupération : une question au premier tour, enregistrée au dossier, apposée sur chaque affirmation réglementée. Les sources révèlent le même écart : les quatre références citées sont <code>brevy.com</code>, <code>berger-lawfirm.com</code>, <code>medicaidplanningassistance.org</code> et <code>medicaidlongtermcare.org</code>. Trois sur quatre sont des pages commerciales ou promotionnelles de cabinets, aucune n'est propre à un État, aucune n'est une source primaire telle qu'une agence Medicaid d'État.</span>
+    </div>
+
+    <div class="sec-h"><span class="en">The same fix covers language, later, at no extra cost</span><span class="fr">Le même correctif couvre la langue, plus tard, sans coût additionnel</span></div>
+    <p style="font-size:14.5px;color:var(--ink-2)">
+      <span class="en">A DOM scan found no locale concept in the product at all: no switcher, no locale metadata, <code>&lt;html lang="en"&gt;</code> hard-coded. That is worth noting here only because <b>state and language are the same missing primitive</b>. Once location is an input to generation and retrieval rather than an assumption baked into the prompt, serving a Spanish-speaking household — or any market beyond the current one — becomes a content-catalogue job rather than a rebuild. Treating it as a future translation project is what makes it expensive; treating it as jurisdiction binding makes it free.</span>
+      <span class="fr">L'analyse du DOM ne révèle aucune notion de locale : ni sélecteur, ni métadonnée, <code>&lt;html lang="en"&gt;</code> codé en dur. Cela mérite d'être noté ici uniquement parce que <b>l'État et la langue sont la même primitive manquante</b>. Dès lors que le lieu devient une entrée de la génération et de la récupération plutôt qu'une hypothèse figée dans l'invite, desservir un foyer hispanophone, ou tout autre marché, devient une affaire de catalogue de contenu et non une refonte. C'est le traiter comme un futur projet de traduction qui le rend coûteux ; le traiter comme un liage de juridiction le rend gratuit.</span>
+    </p>
+    <p style="font-size:13.5px;color:var(--ink-3)">
+      <span class="en">This document is published in English and French as a demonstration of that argument, not as a recommendation that the product ship French. Switch languages in the header to see what changes and what does not. The terminology in the table above is the part that cannot be translated, only re-decided.</span>
+      <span class="fr">Ce document est publié en anglais et en français pour démontrer cet argument, et non pour recommander que le produit livre une version française. Changez de langue dans l'en-tête pour voir ce qui change et ce qui ne change pas. La terminologie du tableau ci-dessus est précisément ce qui ne se traduit pas, mais se redécide.</span>
+    </p>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="1">←</button><button class="btn" data-go="3"><span class="en">Finding 03: 30 items, no first step →</span><span class="fr">Constat 03 : 30 éléments, aucune première action →</span></button></div>
+</section>
+
+<!-- ===== 4. F03 PRIORITY ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-03</span>
+      <h3 class="ftitle"><span class="en">The plan has no priority layer: 30 items, all pre-selected, no first step</span><span class="fr">Le plan n'a aucune couche de priorité : 30 éléments, tous précochés, aucune première action</span></h3>
+      <span class="sev m"><span class="en">Major</span><span class="fr">Majeur</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">Three sections × (5 considerations + 5 tasks) = <b>30 items selected</b> by default. No sequence, no time estimate, no dependencies, no "today vs. this month". The caregiver said they had two days.</span>
+      <span class="fr">Trois sections × (5 considérations + 5 tâches) = <b>30 éléments sélectionnés</b> par défaut. Aucun ordre, aucune estimation de durée, aucune dépendance, aucun « aujourd'hui / ce mois-ci ». L'aidant avait dit : deux jours.</span>
+    </p>
+
+    <div class="ev">
+      <div class="ev-cap"><span class="live"></span><span class="en">Evidence 02 · Plan footer, verbatim</span><span class="fr">Preuve 02 · Pied du plan, verbatim</span></div>
+      <div class="ev-body"><div class="fx" style="min-width:420px">
+        <div class="fx-card fx-row" style="justify-content:space-between">
+          <div><input type="text" placeholder="Plan name" style="border:1px solid #CBD5E1;border-radius:8px;padding:7px 11px;font-size:13px;width:180px" disabled></div>
+          <div style="font-size:12.5px;color:#64748B"><b>30 items selected</b> &nbsp;·&nbsp; <span style="color:#0F766E">Clear</span></div>
+          <div style="background:#41586F;color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600">Save plan and Create Task</div>
+        </div>
+        <div class="fx-disc">AI medical product can make mistakes; please double-check its responses.</div>
+      </div></div>
+      <div class="ev-note"><span class="en">Note the singular "Task" on a control that creates thirty. Note also the disclaimer: 12px, <code>#94A3B8</code> on white, a contrast of 2.6:1, below the 4.5:1 minimum, positioned after all 30 items.</span><span class="fr">Noter le singulier « Task » sur un bouton qui en crée trente. Noter aussi l'avertissement : 12 px, <code>#94A3B8</code> sur blanc, contraste de 2,6:1, sous le minimum de 4,5:1, placé après les 30 éléments.</span></div>
+    </div>
+
+    <div class="sec-h"><span class="en">What high-stress content design requires here</span><span class="fr">Ce qu'exige ici une conception de contenu en contexte de stress élevé</span></div>
+    <p style="font-size:14.5px;color:var(--ink-2)">
+      <span class="en">Under acute stress, working memory narrows and people satisfice: they take the first plausible action. A flat list of 30 equally-weighted items in that state does not get triaged; it gets abandoned, or the caregiver does item #1 because it is item #1. Here, item #1 is "obtain a doctor's order", which is reasonable. But the highest-leverage item in the whole plan is buried at position #4 of section 1:</span>
+      <span class="fr">Sous stress aigu, la mémoire de travail se rétrécit et l'on se contente de la première action plausible. Une liste plate de 30 éléments de poids égal n'est pas triée : elle est abandonnée, ou l'aidant fait le n° 1 parce que c'est le n° 1. Ici, le n° 1 est « obtenir une ordonnance médicale », ce qui est raisonnable. Mais l'élément le plus déterminant du plan est enfoui en 4<sup>e</sup> position de la section 1 :</span>
+    </p>
+    <div class="quote" style="margin-top:8px">"The hospital social worker or discharge planner is a key resource for identifying home health agencies and coordinating discharge planning."</div>
+    <p style="font-size:14px;color:var(--ink-2);margin-top:10px">
+      <span class="en">That person is free, is in the building, is available today, and is the only actor in the plan who can change the two-day deadline. It is filed as a "consideration" — the section the interface visually de-emphasises — rather than as the first action.</span>
+      <span class="fr">Cette personne est gratuite, sur place, disponible aujourd'hui, et c'est le seul acteur du plan capable de modifier l'échéance de deux jours. Elle est classée comme « consideration » — la section que l'interface dévalorise visuellement — plutôt que comme première action.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Proposed structure — three tiers, not one list</span><span class="fr">Structure proposée — trois paliers, pas une liste</span></div>
+    <div class="layers" data-layers>
+      <div class="layer-tabs" role="group">
+        <button type="button" aria-pressed="true" data-lp="0"><span class="n">Tier 1</span><span class="en">Today</span><span class="fr">Aujourd'hui</span></button>
+        <button type="button" aria-pressed="false" data-lp="1"><span class="n">Tier 2</span><span class="en">This week</span><span class="fr">Cette semaine</span></button>
+        <button type="button" aria-pressed="false" data-lp="2"><span class="n">Tier 3</span><span class="en">Before the next crisis</span><span class="fr">Avant la prochaine crise</span></button>
+      </div>
+      <div class="layer-pane on">
+        <div class="where"><span class="en">Ceiling: 3 items · free · reversible · doable from a hospital corridor</span><span class="fr">Plafond : 3 éléments · gratuits · réversibles · faisables depuis un couloir d'hôpital</span></div>
+        <div class="layer-demo">
+          <b><span class="en">Start here — today</span><span class="fr">Commencez ici — aujourd'hui</span></b>
+          <ol style="margin:8px 0 0;padding-left:20px">
+            <li><span class="en">Ask the ward for the <b>discharge planner or social worker</b>. Say: "I need a home-support assessment before discharge." They can extend the timeline.</span><span class="fr">Demandez à l'unité de soins l'<b>intervenant social ou le planificateur de congé</b>. Dites : « J'ai besoin d'une évaluation de soutien à domicile avant le congé. » Il peut repousser l'échéance.</span></li>
+            <li><span class="en">Ask the nurse to print the <b>current medication list</b> before she leaves. It gets harder to obtain afterwards.</span><span class="fr">Demandez à l'infirmière d'imprimer la <b>liste de médicaments à jour</b> avant le départ. Elle est plus difficile à obtenir après.</span></li>
+            <li><span class="en">Ask your mother, while she is able to answer: <b>who does she want deciding for her?</b> That answer is what every legal document later records.</span><span class="fr">Demandez à votre mère, pendant qu'elle peut répondre : <b>qui veut-elle voir décider pour elle ?</b> C'est cette réponse que consigneront tous les documents juridiques ultérieurs.</span></li>
+          </ol>
+        </div>
+        <div class="layer-why"><span class="en"><b>Content rule:</b> tier 1 is capped at three items and may only contain actions that cost nothing, need no professional, and cannot be done later at the same quality. Nothing in the current plan met that test, but three items in it did, scattered across three sections.</span><span class="fr"><b>Règle de contenu :</b> le palier 1 est plafonné à trois éléments et ne peut contenir que des actions gratuites, sans professionnel, et impossibles à faire plus tard avec la même qualité. Rien dans le plan actuel ne passe ce test, mais trois éléments le pouvaient, dispersés dans trois sections.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">Appointments, paperwork, and anything needing a professional</span><span class="fr">Rendez-vous, démarches et tout ce qui exige un professionnel</span></div>
+        <div class="layer-demo">
+          <span class="en">Home-safety evaluation · pharmacist medication review · attorney appointment for the two decision documents · gather account statements and bills.</span>
+          <span class="fr">Évaluation de sécurité du domicile · révision des médicaments par le pharmacien · rendez-vous chez l'avocat pour les deux documents de décision · rassembler relevés et factures.</span>
+        </div>
+        <div class="layer-why"><span class="en"><b>Content rule:</b> every tier-2 item states who you are contacting and what you are asking them for. "Consult an elder law attorney" fails this; "Book an elder law attorney to draft a health care proxy and a durable power of attorney — bring her insurance card and the medication list" passes it.</span><span class="fr"><b>Règle de contenu :</b> chaque élément du palier 2 précise qui l'on contacte et ce qu'on lui demande. « Consult an elder law attorney » échoue ; « Prendre rendez-vous chez un avocat spécialisé pour rédiger une procuration médicale et une procuration durable — apporter sa carte d'assurance et la liste de médicaments » réussit.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">Long-horizon planning · the material the Gather flow already collects</span><span class="fr">Planification à long terme · le contenu que le parcours Gather collecte déjà</span></div>
+        <div class="layer-demo">
+          <span class="en">Benefits eligibility · long-term-care financing · legacy and end-of-life wishes · document inventory.</span>
+          <span class="fr">Admissibilité aux prestations · financement des soins de longue durée · volontés de fin de vie · inventaire documentaire.</span>
+        </div>
+        <div class="layer-why"><span class="en"><b>Content rule:</b> tier 3 never appears above tier 1 on a screen. This is also the tier that should hand off to the existing <code>Things to Do</code> module instead of duplicating it, which is finding F-04.</span><span class="fr"><b>Règle de contenu :</b> le palier 3 n'apparaît jamais au-dessus du palier 1. C'est aussi le palier qui devrait passer le relais au module <code>Things to Do</code> existant plutôt que de le dupliquer ; c'est le constat F-04.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="2">←</button><button class="btn" data-go="4"><span class="en">Finding 04: six words for one thing →</span><span class="fr">Constat 04 : six mots pour une seule chose →</span></button></div>
+</section>
+
+<!-- ===== 5. F04 NAMING ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-04</span>
+      <h3 class="ftitle"><span class="en">Six names for one concept, and four placeholders in one box</span><span class="fr">Six noms pour un même concept, et quatre textes indicatifs dans une même zone</span></h3>
+      <span class="sev m"><span class="en">Major</span><span class="fr">Majeur</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">The product asks the caregiver to hold six overlapping vocabularies for "a thing I have to do", and shows them a different explanation of the AI box every few seconds. Both are terminology-governance problems, not writing problems.</span>
+      <span class="fr">Le produit demande à l'aidant de retenir six vocabulaires qui se chevauchent pour « une chose à faire », et lui montre une explication différente de la zone IA toutes les quelques secondes. Ce sont des problèmes de gouvernance terminologique, pas de rédaction.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Terminology collisions, verbatim from the interface</span><span class="fr">Collisions terminologiques, relevées verbatim dans l'interface</span></div>
+    <div class="tblwrap">
+      <table class="t">
+        <thead><tr>
+          <th><span class="en">Concept</span><span class="fr">Concept</span></th>
+          <th><span class="en">Names in use</span><span class="fr">Noms utilisés</span></th>
+          <th><span class="en">Recommendation</span><span class="fr">Recommandation</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="en">A unit of work</span><span class="fr">Une unité de travail</span></td>
+            <td><code>Things to Do</code> · <code>Step 1 of 11</code> · <code>Manage Steps</code> · <code>Tasks</code> · <code>Quick actions</code> · <code>Save plan and Create Task</code></td>
+            <td><span class="en">One noun — <b>Task</b> — everywhere. Reserve <b>Step</b> for ordered positions inside a single flow, and drop <code>Things to Do</code>.</span><span class="fr">Un seul nom — <b>Tâche</b> — partout. Réserver <b>Étape</b> aux positions ordonnées d'un même parcours, et abandonner <code>Things to Do</code>.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">Saved AI output</span><span class="fr">Résultat IA enregistré</span></td>
+            <td><code>Plan History</code> · <code>Saved Plans</code> · <code>History</code> · <code>Conversations</code> · <code>Your Conversation</code></td>
+            <td><span class="en">Two objects only: <b>Conversation</b> (what you said) and <b>Plan</b> (what it produced). One list each.</span><span class="fr">Deux objets seulement : <b>Conversation</b> (ce que vous avez dit) et <b>Plan</b> (ce qui en découle). Une liste pour chacun.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">Help</span><span class="fr">Aide</span></td>
+            <td><span class="en"><code>Support</code> (desktop nav) vs <code>Assist</code> (mobile nav)</span><span class="fr"><code>Support</code> (nav bureau) et <code>Assist</code> (nav mobile)</span></td>
+            <td><span class="en">Same destination, two labels, split by viewport. Pick one.</span><span class="fr">Même destination, deux libellés, selon la taille d'écran. En choisir un.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">The product</span><span class="fr">Le produit</span></td>
+            <td><span class="en"><code>AI medical product</code> (title, disclaimer) vs <code>CAREGIVING</code> (wordmark in the header)</span><span class="fr"><code>AI medical product</code> (titre, avertissement) et <code>CAREGIVING</code> (logotype de l'en-tête)</span></td>
+            <td><span class="en">The user is told the brand is one thing and shown another on every screen.</span><span class="fr">On dit à l'utilisateur que la marque est X et on lui montre Y sur chaque écran.</span></td>
+          </tr>
+          <tr>
+            <td><span class="en">Facts vs. actions</span><span class="fr">Faits et actions</span></td>
+            <td><code>Considerations</code> / <code>Tasks</code></td>
+            <td><span class="en">"Considerations" is abstract and hides the most urgent item in the plan (F-03). Rename to <b>What to know</b> / <b>What to do</b>.</span><span class="fr">« Considerations » est abstrait et masque l'élément le plus urgent (F-03). Renommer : <b>À savoir</b> / <b>À faire</b>.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-h"><span class="en">Three progress numbers, one module</span><span class="fr">Trois indicateurs de progression, un seul module</span></div>
+    <div class="ev">
+      <div class="ev-cap"><span class="live"></span><span class="en">Evidence 03 · "Things to Do" module, home screen</span><span class="fr">Preuve 03 · Module « Things to Do », écran d'accueil</span></div>
+      <div class="ev-body"><div class="fx" style="min-width:440px">
+        <div class="fx-card">
+          <div class="fx-row" style="justify-content:space-between">
+            <div>
+              <div class="fx-h">Things to Do</div>
+              <div class="fx-sub" style="max-width:230px">Gather what matters to you, and share only what you're comfortable sharing</div>
+            </div>
+            <div class="fx-row">
+              <span style="width:22px;height:22px;border:1px solid #E2E8F0;border-radius:6px;display:grid;place-items:center;font-size:9px;color:#475569">‹</span>
+              <span style="font-size:12px;color:#475569"><span class="hl">Step 1 of 11</span></span>
+              <span style="width:22px;height:22px;border:1px solid #E2E8F0;border-radius:6px;display:grid;place-items:center;font-size:9px;color:#475569">›</span>
+              <span style="background:#41586F;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:600">Manage Steps ↗</span>
+            </div>
+          </div>
+          <div style="height:4px;background:#E2E8F0;border-radius:2px;margin:12px 0 4px"><i style="display:block;height:100%;width:2%;background:#B3261E;border-radius:2px"></i></div>
+          <div style="text-align:right;font-size:11.5px;color:#64748B"><span class="hl">1% complete</span></div>
+          <div style="font-size:13.5px;font-weight:700;margin:10px 0 8px;color:#1E293B">Administrative, Documentation &amp; Legal</div>
+          <div class="fx-row" style="flex-wrap:nowrap;overflow:hidden">
+            <div class="fx-tile">
+              <div class="img"></div>
+              <div class="fx-badge"><span class="hl">3%</span></div>
+              <div class="fx-arrow">‹</div>
+              <div class="nm" style="padding-left:14px">IDENTITY &amp; VITAL RECORDS</div>
+              <div class="ds">Capture passport, birth certificate, citizenship, license, and other identity document details</div>
+            </div>
+            <div class="fx-tile" style="width:110px">
+              <div class="img"></div>
+              <div class="nm">FINANCIAL &amp;…</div>
+              <div class="ds">Gather details on recent credit report, tax returns and <span class="hl-r">password inventory</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <div class="ev-note"><span class="en">Reconstructed from measured layout. The carousel's previous-step control sits at <code>left:−11px</code> over the tile, clipping the first characters of the card name. That defect is reproduced above.</span><span class="fr">Reconstitué d'après la mise en page mesurée. Le bouton « étape précédente » du carrousel se place à <code>left:−11px</code> par-dessus la tuile et rogne les premiers caractères du nom. Ce défaut est reproduit ci-dessus.</span></div>
+    </div>
+
+    <ul class="pinlist">
+      <li><span class="pin">1</span><span><span class="en"><b>Three numbers, three denominators.</b> "Step 1 of 11" counts categories, "1% complete" counts the whole profile, "3%" counts one card. A caregiver cannot tell which one means "am I nearly done?" The answer to that question is the only reason a progress indicator exists.</span><span class="fr"><b>Trois chiffres, trois dénominateurs.</b> « Step 1 of 11 » compte des catégories, « 1% complete » compte l'ensemble du dossier, « 3% » compte une seule carte. L'aidant ne peut pas savoir lequel répond à « suis-je bientôt arrivé ? » C'est la seule raison d'être d'un indicateur de progression.</span></span></li>
+      <li><span class="pin">2</span><span><span class="en"><b>The heading is the description.</b> Semantically, the card's <code>&lt;h3&gt;</code> is "Capture passport, birth certificate…" while "IDENTITY &amp; VITAL RECORDS" is unheaded text. A screen-reader user navigating by heading hears the sentence and not the label.</span><span class="fr"><b>Le titre, c'est la description.</b> Sémantiquement, le <code>&lt;h3&gt;</code> de la carte est « Capture passport, birth certificate… », tandis que « IDENTITY &amp; VITAL RECORDS » n'est pas un titre. En navigation par titres, l'utilisateur de lecteur d'écran entend la phrase et non l'étiquette.</span></span></li>
+      <li><span class="pin">3</span><span><span class="en"><b>"Password inventory", asked with no reason given.</b> The single highest-anxiety request in the whole product sits inside a one-line card description, next to "credit report" and "tax returns", with no explanation of why it is needed, who can see it, or what happens if you skip it. The reassurance copy on this module — "share only what you're comfortable sharing" — is generic and does not attach to the specific ask.</span><span class="fr"><b>« Password inventory », demandé sans justification.</b> La demande la plus anxiogène du produit tient dans une ligne de description de carte, à côté de « credit report » et « tax returns », sans expliquer pourquoi elle est nécessaire, qui y a accès, ni ce qui se passe si on la saute. Le texte rassurant du module — « share only what you're comfortable sharing » — est générique et ne se rattache pas à cette demande précise.</span></span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">The rotating placeholder</span><span class="fr">Le texte indicatif rotatif</span></div>
+    <p style="font-size:14.5px;color:var(--ink-2)">
+      <span class="en">The <code>Create a Plan</code> input cycles through at least four placeholders, and <code>Search in profile</code> through at least four more. Each one teaches a different mental model of what the box is:</span>
+      <span class="fr">La zone <code>Create a Plan</code> fait défiler au moins quatre textes indicatifs, et <code>Search in profile</code> quatre autres. Chacun enseigne un modèle mental différent :</span>
+    </p>
+    <div class="grid2" style="margin-top:10px">
+      <div class="mini">
+        <h4>Create a Plan</h4>
+        <p style="font-family:var(--mono);font-size:11.5px;line-height:1.9">
+          "Describe your caregiving situation…"<br>
+          "e.g. \"What if mom needs help with mobility?\""<br>
+          "Ask about elderly parent care…"<br>
+          "I need help with medication management…"
+        </p>
+        <p style="margin-top:9px"><span class="en">Describe a state · ask a hypothetical · ask about a topic · state a need. Four different genres of input.</span><span class="fr">Décrire une situation · poser une hypothèse · interroger un sujet · exprimer un besoin. Quatre genres d'entrée différents.</span></p>
+      </div>
+      <div class="mini">
+        <h4>Search in profile</h4>
+        <p style="font-family:var(--mono);font-size:11.5px;line-height:1.9">
+          "Ask anything about your profile…"<br>
+          "Where is my power of attorney stored?"<br>
+          "What's in my care plan?"<br>
+          "Ask me anything about you…"
+        </p>
+        <p style="margin-top:9px"><span class="en">Two of these promise retrieval of documents the user may never have uploaded, and the box only answers from stored profile data.</span><span class="fr">Deux d'entre eux promettent de retrouver des documents que l'utilisateur n'a peut-être jamais téléversés, or la zone ne répond qu'à partir des données enregistrées.</span></p>
+      </div>
+    </div>
+    <div class="warn">
+      <b><span class="en">Recommendation:</span><span class="fr">Recommandation :</span></b>
+      <span class="en"> one static placeholder that states the input contract, plus a persistent visible label above the field. Move the examples into the tappable suggestion chips that already exist below both boxes, where they are readable, selectable, and do not disappear mid-sentence. Rotating placeholder text also fails <b>WCAG 2.2.2</b> (moving content under five seconds with no pause control) and leaves the field with no persistent label under <b>3.3.2</b>.</span>
+      <span class="fr"> un seul texte indicatif fixe énonçant le contrat d'entrée, plus une étiquette visible et permanente au-dessus du champ. Déplacer les exemples vers les puces de suggestion déjà présentes sous les deux zones, où ils sont lisibles, sélectionnables et ne disparaissent pas en cours de lecture. Le texte indicatif rotatif contrevient aussi à <b>WCAG 2.2.2</b> (contenu en mouvement de moins de cinq secondes sans commande de pause) et prive le champ d'étiquette permanente au sens de <b>3.3.2</b>.</span>
+    </div>
+    <p style="font-size:13.5px;color:var(--ink-3);margin-top:12px">
+      <span class="en">Two smaller defects in the same family: pressing <kbd>Enter</kbd> in <code>Search in profile</code> inserts a line break instead of sending, breaking a near-universal chat convention; and the <code>Quick actions</code> cards truncate mid-sentence — "Add trusted people to support and stay…" — losing the verb the sentence was built around.</span>
+      <span class="fr">Deux défauts mineurs de la même famille : dans <code>Search in profile</code>, la touche <kbd>Entrée</kbd> insère un saut de ligne au lieu d'envoyer, rompant une convention quasi universelle ; et les cartes <code>Quick actions</code> se tronquent en milieu de phrase — « Add trusted people to support and stay… » — supprimant le verbe autour duquel la phrase est construite.</span>
+    </p>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="3">←</button><button class="btn" data-go="5"><span class="en">Finding 05: how risk is disclosed →</span><span class="fr">Constat 05 : la divulgation du risque →</span></button></div>
+</section>
+
+<!-- ===== 6. F05 RISK ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-05</span>
+      <h3 class="ftitle"><span class="en">The riskiest sentences carry the lightest disclosure</span><span class="fr">Les phrases les plus risquées portent la divulgation la plus légère</span></h3>
+      <span class="sev c"><span class="en">Critical</span><span class="fr">Critique</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">Disclosure in this product is flat: one 12px grey line at the very bottom of the plan, identical whether the content is "use a pill organiser" or "here is the Medicaid asset limit". Risk is not flat, so disclosure cannot be.</span>
+      <span class="fr">La divulgation est ici uniforme : une ligne grise de 12 px tout au bas du plan, identique que le contenu soit « utilisez un pilulier » ou « voici le plafond d'actifs Medicaid ». Le risque, lui, n'est pas uniforme ; la divulgation ne peut donc pas l'être.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Four disclosure defects</span><span class="fr">Quatre défauts de divulgation</span></div>
+    <ul class="ul">
+      <li><b><span class="en">Sources are attached to sections, not claims.</span><span class="fr">Les sources sont rattachées aux sections, pas aux affirmations.</span></b> <span class="en">"View 4 sources" sits on the section header. The figure "$2,982/month income, $2,000 assets" — the most consequential and most jurisdiction-sensitive sentence in the plan — cannot be traced to which of the four it came from, or to what year.</span><span class="fr">« View 4 sources » se trouve sur l'en-tête de section. Le chiffre « $2,982/month income, $2,000 assets » — la phrase la plus lourde de conséquences et la plus sensible à la juridiction — ne peut être rattachée à laquelle des quatre sources, ni à quelle année.</span></li>
+      <li><b><span class="en">The sources are commercial.</span><span class="fr">Les sources sont commerciales.</span></b> <span class="en">Three of four cited references for legal and benefits content are a law firm's marketing page and two lead-generation sites. For regulated-adjacent content, the source policy should require a primary or government source for any eligibility rule, dollar figure, or legal instrument.</span><span class="fr">Trois références sur quatre pour du contenu juridique et de prestations sont une page promotionnelle de cabinet et deux sites de génération de prospects. Pour du contenu quasi réglementé, la politique de sources devrait exiger une source primaire ou gouvernementale pour toute règle d'admissibilité, tout montant ou tout instrument juridique.</span></li>
+      <li><b><span class="en">"No data" is used as the answer to "out of scope".</span><span class="fr">« Aucune donnée » sert de réponse à « hors de mon champ ».</span></b> <span class="en">Asked a legal-financial question, <code>Search in profile</code> replied: <i>"There is no information available about this topic in your profile."</i> That is true but misleading; it implies the answer would appear if the user uploaded more, when in fact the assistant should not answer it at all. Scope refusals and empty results need different sentences.</span><span class="fr">Devant une question juridico-financière, <code>Search in profile</code> a répondu : <i>« There is no information available about this topic in your profile. »</i> C'est exact mais trompeur : cela laisse croire que la réponse apparaîtrait si l'on téléversait davantage, alors que l'assistant ne devrait pas y répondre. Un refus de portée et un résultat vide exigent deux phrases différentes.</span></li>
+      <li><b><span class="en">One task is an elder-financial-abuse pattern.</span><span class="fr">Une tâche reproduit un schéma d'exploitation financière des aînés.</span></b> <span class="en"><i>"With Mary's permission, explore options with her bank… such as adding you as an authorized user"</i>. The safeguard is four words of preamble. Adding a relative to an older adult's account is a recognised abuse vector; if the product recommends it, it owes the user the safer alternative (view-only access, third-party notification, bill-pay authority) in the same sentence.</span><span class="fr"><i>« With Mary's permission, explore options with her bank… such as adding you as an authorized user »</i>. La sauvegarde tient en quatre mots de préambule. Ajouter un proche au compte d'une personne âgée est un vecteur reconnu d'exploitation ; si le produit le recommande, il doit offrir l'option plus sûre (accès en lecture seule, personne-ressource de confiance, autorisation de paiement de factures) dans la même phrase.</span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">Proposed: risk-tiered disclosure, three layers</span><span class="fr">Proposition : divulgation par paliers de risque</span></div>
+    <div class="layers" data-layers>
+      <div class="layer-tabs" role="group">
+        <button type="button" aria-pressed="true" data-lp="0"><span class="n">Risk 1</span><span class="en">Everyday</span><span class="fr">Courant</span></button>
+        <button type="button" aria-pressed="false" data-lp="1"><span class="n">Risk 2</span><span class="en">Consequential</span><span class="fr">Conséquent</span></button>
+        <button type="button" aria-pressed="false" data-lp="2"><span class="n">Risk 3</span><span class="en">Regulated</span><span class="fr">Réglementé</span></button>
+      </div>
+      <div class="layer-pane on">
+        <div class="where"><span class="en">Practical caregiving. No professional needed, easily reversed.</span><span class="fr">Aidance pratique. Aucun professionnel requis, facilement réversible.</span></div>
+        <div class="layer-demo"><span class="en">"Set up a weekly pill organiser."<br><span style="color:var(--ink-3);font-size:13px">→ No inline disclosure. The page-level notice is enough.</span></span><span class="fr">« Installez un pilulier hebdomadaire. »<br><span style="color:var(--ink-3);font-size:13px">→ Aucune mention en ligne. L'avis de page suffit.</span></span></div>
+        <div class="layer-why"><span class="en">Most of the plan lives here. Over-disclosing at this tier is what trains users to ignore the notice at tier 3.</span><span class="fr">L'essentiel du plan se situe ici. Trop divulguer à ce palier apprend à l'utilisateur à ignorer l'avis du palier 3.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">Money, access, or someone else's autonomy is involved.</span><span class="fr">Argent, accès ou autonomie d'autrui en jeu.</span></div>
+        <div class="layer-demo"><span class="en">"Ask her bank about <b>view-only access</b> or a <b>trusted contact</b> before considering joint access — joint access gives you ownership of her money, not just visibility."<br><span style="color:var(--ink-3);font-size:13px">→ Inline, in the item itself. Names the safer option first.</span></span><span class="fr">« Demandez à sa banque un <b>accès en lecture seule</b> ou une <b>personne-ressource de confiance</b> avant d'envisager un compte conjoint — un compte conjoint vous donne la propriété de son argent, pas seulement la visibilité. »<br><span style="color:var(--ink-3);font-size:13px">→ En ligne, dans l'élément lui-même. L'option la plus sûre en premier.</span></span></div>
+        <div class="layer-why"><span class="en">The disclosure is the content. A separate warning box would be read as boilerplate; a rewritten recommendation cannot be skipped.</span><span class="fr">La divulgation <i>est</i> le contenu. Un encadré séparé serait lu comme une formule type ; une recommandation réécrite ne peut être sautée.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">Eligibility rules, dollar thresholds, legal instruments, clinical instructions.</span><span class="fr">Règles d'admissibilité, seuils monétaires, instruments juridiques, consignes cliniques.</span></div>
+        <div class="layer-demo"><span class="en"><b>[Her state] · verified 2026-08</b><br>"A <b>durable power of attorney</b> is the document that lets you manage her money if she becomes unable to. She has to sign it while she is still capable — that is why this is urgent. Your state sets how it must be signed, and whether her bank has to accept a standard form.<br><br><span style="color:var(--ink-3);font-size:13px">Source: [state bar consumer guide] · This explains the instrument; it is not legal advice, and the AI medical product does not know her situation. An elder law attorney in her state can confirm what applies."</span></span><span class="fr"><b>[Son État] · vérifié 2026-08</b><br>« La <b>procuration durable</b> est le document qui vous permet de gérer son argent si elle en devient incapable. Elle doit la signer tant qu'elle est apte — c'est pourquoi cela presse. Votre État fixe les modalités de signature et l'obligation ou non pour sa banque d'accepter un formulaire type.<br><br><span style="color:var(--ink-3);font-size:13px">Source : [guide du barreau de l'État] · Ceci explique l'instrument ; ce n'est pas un avis juridique et AI medical product ne connaît pas sa situation. Un avocat spécialisé de son État peut confirmer ce qui s'applique. »</span></span></div>
+        <div class="layer-why"><span class="en">Four obligations at this tier: <b>jurisdiction stamp</b>, <b>verification date</b>, <b>claim-level source</b>, and a <b>scope statement</b> that names the professional who can actually answer. If any of the four cannot be supplied, the item does not ship; the assistant says what it does not know instead. Note what the stamp does even when it is unresolved: <i>"[Her state]"</i> rendered as an unfilled slot is itself a prompt to ask, which is strictly better than silently defaulting.</span><span class="fr">Quatre obligations à ce palier : <b>mention de juridiction</b>, <b>date de vérification</b>, <b>source au niveau de l'affirmation</b> et <b>énoncé de portée</b> nommant le professionnel compétent. Si l'une des quatre manque, l'élément n'est pas publié ; l'assistant énonce plutôt ce qu'il ne sait pas. Noter l'effet de la mention même non résolue : <i>« [Son État] »</i> affiché comme champ vide invite à poser la question, ce qui vaut nettement mieux qu'une valeur par défaut silencieuse.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="4">←</button><button class="btn" data-go="6"><span class="en">Finding 06: accessibility →</span><span class="fr">Constat 06 : accessibilité →</span></button></div>
+</section>
+
+<!-- ===== 7. F06 A11Y ===== -->
+<section class="panel">
+  <div class="card">
+    <div class="fhead">
+      <span class="fid">F-06</span>
+      <h3 class="ftitle"><span class="en">Accessibility: WCAG 2.1 AA</span><span class="fr">Accessibilité : WCAG 2.1 AA</span></h3>
+      <span class="sev m"><span class="en">Major</span><span class="fr">Majeur</span></span>
+    </div>
+    <p class="lede">
+      <span class="en">Automated DOM scan of the home screen and the generated plan, plus manual review. The base is better than most products at this stage (ARIA roles and control names are largely correct), but the failures cluster in exactly the places an older or distressed user meets first.</span>
+      <span class="fr">Analyse automatisée du DOM de l'accueil et du plan généré, complétée d'une revue manuelle. La base est meilleure que la moyenne à ce stade (rôles ARIA et noms de contrôles sont largement corrects), mais les défaillances se concentrent là où un utilisateur âgé ou en détresse arrive en premier.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Colour contrast — measured</span><span class="fr">Contraste — mesuré</span></div>
+    <div class="tblwrap">
+      <table class="t">
+        <thead><tr><th><span class="en">Element</span><span class="fr">Élément</span></th><th>FG / BG</th><th><span class="en">Ratio</span><span class="fr">Ratio</span></th><th><span class="en">Required</span><span class="fr">Requis</span></th><th></th></tr></thead>
+        <tbody>
+          <tr><td>"AI medical product can make mistakes…" <span class="en">(AI disclaimer)</span><span class="fr">(avertissement IA)</span></td><td><code>#94A3B8</code> / <code>#FFFFFF</code></td><td>2.56:1</td><td>4.5:1</td><td><span class="sev c">FAIL</span></td></tr>
+          <tr><td>"Reminder" <span class="en">badge</span><span class="fr">(étiquette)</span></td><td><code>#FFFFFF</code> / <code>#22C55E</code></td><td>2.28:1</td><td>4.5:1</td><td><span class="sev c">FAIL</span></td></tr>
+          <tr><td>"Your data is protected" <span class="en">trust chip</span><span class="fr">(puce de confiance)</span></td><td><code>#3B8F63</code> / <code>#E3F3E8</code></td><td>3.45:1</td><td>4.5:1</td><td><span class="sev m">FAIL</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13.5px;color:var(--ink-2);margin-top:10px">
+      <span class="en">All three are content whose whole job is trust: the AI limitation notice, the state of a reminder, and the privacy promise. They are the three lowest-contrast strings in the interface.</span>
+      <span class="fr">Ces trois éléments ont pour unique fonction d'inspirer confiance : l'avis de limite de l'IA, l'état d'un rappel et la promesse de confidentialité. Ce sont les trois chaînes au plus faible contraste de l'interface.</span>
+    </p>
+
+    <div class="sec-h"><span class="en">Structure, input and target findings</span><span class="fr">Structure, saisie et cibles</span></div>
+    <div class="tblwrap">
+      <table class="t">
+        <thead><tr><th>#</th><th><span class="en">Finding</span><span class="fr">Constat</span></th><th>WCAG</th><th><span class="en">Sev.</span><span class="fr">Grav.</span></th><th><span class="en">Fix</span><span class="fr">Correctif</span></th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><span class="en">Card description is the <code>&lt;h3&gt;</code>; the card name ("IDENTITY &amp; VITAL RECORDS") is unheaded text.</span><span class="fr">La description de la carte est le <code>&lt;h3&gt;</code> ; le nom (« IDENTITY &amp; VITAL RECORDS ») n'est pas un titre.</span></td><td>1.3.1</td><td><span class="sev m">Maj</span></td><td><span class="en">Swap: name becomes the heading, description becomes <code>&lt;p&gt;</code>.</span><span class="fr">Inverser : le nom devient le titre, la description un <code>&lt;p&gt;</code>.</span></td></tr>
+          <tr><td>2</td><td><span class="en">No <code>&lt;main&gt;</code> landmark on the home screen; the primary <code>&lt;nav&gt;</code> has no accessible name.</span><span class="fr">Aucun repère <code>&lt;main&gt;</code> à l'accueil ; le <code>&lt;nav&gt;</code> principal n'a pas de nom accessible.</span></td><td>1.3.1</td><td><span class="sev m">Maj</span></td><td><span class="en">Add <code>&lt;main&gt;</code> and <code>aria-label</code> on each nav. The mobile nav already does this correctly.</span><span class="fr">Ajouter <code>&lt;main&gt;</code> et un <code>aria-label</code> à chaque nav. La nav mobile le fait déjà correctement.</span></td></tr>
+          <tr><td>3</td><td><span class="en">The only <code>&lt;h1&gt;</code> is "Good afternoon, Joshua" — a greeting, not a page identity.</span><span class="fr">Le seul <code>&lt;h1&gt;</code> est « Good afternoon, Joshua » — une salutation, pas l'identité de la page.</span></td><td>2.4.6</td><td><span class="sev n">Min</span></td><td><span class="en">Make the greeting an <code>&lt;h2&gt;</code>; give the page a real <code>&lt;h1&gt;</code>.</span><span class="fr">Passer la salutation en <code>&lt;h2&gt;</code> et donner un vrai <code>&lt;h1&gt;</code> à la page.</span></td></tr>
+          <tr><td>4</td><td><span class="en">Both AI inputs rely on <code>aria-label</code> only, with rotating placeholder text and no visible persistent label.</span><span class="fr">Les deux zones IA reposent uniquement sur <code>aria-label</code>, avec texte indicatif rotatif et sans étiquette visible permanente.</span></td><td>3.3.2 / 2.2.2</td><td><span class="sev m">Maj</span></td><td><span class="en">Visible label + one static placeholder. See F-04.</span><span class="fr">Étiquette visible + un seul texte indicatif fixe. Voir F-04.</span></td></tr>
+          <tr><td>5</td><td><span class="en">Touch targets below 44×44: carousel arrows 28×28, voice input 32×32, help-widget drag handle 20×20.</span><span class="fr">Cibles tactiles sous 44×44 : flèches du carrousel 28×28, saisie vocale 32×32, poignée du widget d'aide 20×20.</span></td><td>2.5.5</td><td><span class="sev m">Maj</span></td><td><span class="en">Enlarge hit areas. These control the primary data-entry flow for an older-adult audience.</span><span class="fr">Agrandir les zones actives. Elles pilotent le principal parcours de saisie pour un public âgé.</span></td></tr>
+          <tr><td>6</td><td><span class="en">The logo link's only content is an image with <code>alt="AI medical product-Logo"</code>; the wordmark reads "CAREGIVING".</span><span class="fr">Le lien du logo ne contient qu'une image avec <code>alt="AI medical product-Logo"</code> ; le logotype affiche « CAREGIVING ».</span></td><td>1.1.1 / 2.4.4</td><td><span class="sev n">Min</span></td><td><span class="en"><code>alt="AI medical product — home"</code>. Never put "logo" in alt text.</span><span class="fr"><code>alt="AI medical product — accueil"</code>. Ne jamais écrire « logo » dans un texte alternatif.</span></td></tr>
+          <tr><td>7</td><td><span class="en"><code>lang="en"</code> hard-coded, no locale switcher, no per-node <code>lang</code> on foreign strings.</span><span class="fr"><code>lang="en"</code> codé en dur, aucun sélecteur de locale, aucun <code>lang</code> local sur les chaînes en langue étrangère.</span></td><td>3.1.1 / 3.1.2</td><td><span class="sev m">Maj</span></td><td><span class="en">Blocks French screen-reader pronunciation entirely. See F-02.</span><span class="fr">Bloque totalement la prononciation en français par lecteur d'écran. Voir F-02.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="k"><span class="en">What is already right</span><span class="fr">Ce qui est déjà juste</span></div>
+      <p>
+        <span class="en">Each of the 30 plan checkboxes carries a full accessible name (<code>"Deselect: Medicare does not cover 24-hour personal care…"</code>) rather than a bare "checkbox". The progress indicator uses <code>role="progressbar"</code> with a text value, the community panel is a proper <code>tablist</code>, and toggle states use <code>aria-pressed</code>. Someone on this team knows what they are doing; the gaps are governance gaps, not skill gaps.</span>
+        <span class="fr">Chacune des 30 cases du plan porte un nom accessible complet (<code>« Deselect: Medicare does not cover 24-hour personal care… »</code>) plutôt qu'un simple « case à cocher ». L'indicateur de progression utilise <code>role="progressbar"</code> avec une valeur textuelle, le panneau communautaire est un véritable <code>tablist</code>, et les bascules emploient <code>aria-pressed</code>. Quelqu'un dans cette équipe sait ce qu'il fait ; les écarts relèvent de la gouvernance, pas de la compétence.</span>
+      </p>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="5">←</button><button class="btn" data-go="7"><span class="en">Content principles →</span><span class="fr">Principes de contenu →</span></button></div>
+</section>
+
+<!-- ===== 8. PRINCIPLES ===== -->
+<section class="panel">
+  <div class="card">
+    <h2 class="st"><span class="en">Five content principles I would install here</span><span class="fr">Cinq principes de contenu que j'installerais ici</span></h2>
+    <p class="lede">
+      <span class="en">Each one is written so a reviewer can fail a specific string against it. A principle that cannot fail anything is decoration.</span>
+      <span class="fr">Chacun est formulé pour qu'un relecteur puisse recaler une chaîne précise. Un principe qui ne peut rien recaler est décoratif.</span>
+    </p>
+    <ul class="ul">
+      <li><b>1. <span class="en">Name the person and the place before the advice.</span><span class="fr">Nommer la personne et le lieu avant le conseil.</span></b><br>
+        <span class="en">No generated item ships without a bound care receiver and a resolved jurisdiction. <i>Fails:</i> every one of the 30 items in the test plan.</span>
+        <span class="fr">Aucun élément généré n'est publié sans bénéficiaire lié ni juridiction résolue. <i>Recale :</i> les 30 éléments du plan testé.</span></li>
+      <li><b>2. <span class="en">Three things today, then everything else.</span><span class="fr">Trois choses aujourd'hui, puis tout le reste.</span></b><br>
+        <span class="en">Any output longer than five items opens with a capped, free, reversible first tier. <i>Fails:</i> "30 items selected".</span>
+        <span class="fr">Toute sortie de plus de cinq éléments s'ouvre sur un premier palier plafonné, gratuit et réversible. <i>Recale :</i> « 30 items selected ».</span></li>
+      <li><b>3. <span class="en">Disclosure scales with risk, and lives inside the sentence.</span><span class="fr">La divulgation suit le risque et vit dans la phrase.</span></b><br>
+        <span class="en">Regulated claims carry jurisdiction, date, claim-level source, and the professional who can confirm. <i>Fails:</i> "$2,982/month income, $2,000 assets".</span>
+        <span class="fr">Les affirmations réglementées portent juridiction, date, source au niveau de l'affirmation et le professionnel compétent. <i>Recale :</i> « $2,982/month income, $2,000 assets ».</span></li>
+      <li><b>4. <span class="en">Say why before you ask for something frightening.</span><span class="fr">Dire pourquoi avant de demander quelque chose d'effrayant.</span></b><br>
+        <span class="en">Every sensitive field states its purpose, its audience, and the cost of skipping it, next to the field. <i>Fails:</i> "password inventory".</span>
+        <span class="fr">Chaque champ sensible énonce sa finalité, son destinataire et le coût de l'omission, à côté du champ. <i>Recale :</i> « password inventory ».</span></li>
+      <li><b>5. <span class="en">One noun per concept, across surfaces and viewports.</span><span class="fr">Un seul nom par concept, toutes surfaces et tailles d'écran confondues.</span></b><br>
+        <span class="en">The term list is versioned, owned, and enforced in review. <i>Fails:</i> Support/Assist, Tasks/Steps/Things to Do, AI medical product/CAREGIVING.</span>
+        <span class="fr">La liste terminologique est versionnée, attribuée et appliquée en revue. <i>Recale :</i> Support/Assist, Tasks/Steps/Things to Do, AI medical product/CAREGIVING.</span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">Message layering model — one idea, three depths</span><span class="fr">Modèle de hiérarchisation — une idée, trois profondeurs</span></div>
+    <p style="font-size:14.5px;color:var(--ink-2)"><span class="en">Applied to the single most sensitive concept in the product: who is allowed to decide for someone who can no longer decide.</span><span class="fr">Appliqué au concept le plus sensible du produit : qui peut décider pour une personne devenue inapte.</span></p>
+    <div class="layers" data-layers>
+      <div class="layer-tabs" role="group">
+        <button type="button" aria-pressed="true" data-lp="0"><span class="n">L1</span><span class="en">In the flow</span><span class="fr">Dans le parcours</span></button>
+        <button type="button" aria-pressed="false" data-lp="1"><span class="n">L2</span><span class="en">On demand</span><span class="fr">Sur demande</span></button>
+        <button type="button" aria-pressed="false" data-lp="2"><span class="n">L3</span><span class="en">Reference</span><span class="fr">Référence</span></button>
+      </div>
+      <div class="layer-pane on">
+        <div class="where"><span class="en">≤ 25 words · reading level ≈ grade 6 · appears in the task itself</span><span class="fr">≤ 25 mots · niveau de lecture ≈ 6<sup>e</sup> année · dans la tâche elle-même</span></div>
+        <div class="layer-demo"><span class="en">"Ask her who she wants deciding for her. Write the name down. Every legal document later just records that answer."</span><span class="fr">« Demandez-lui qui elle veut voir décider pour elle. Notez le nom. Tous les documents juridiques ne feront que consigner cette réponse. »</span></div>
+        <div class="layer-why"><span class="en">No instrument names, no acronyms, no professional required. This is the layer a caregiver reads standing in a corridor.</span><span class="fr">Aucun nom d'instrument, aucun acronyme, aucun professionnel requis. C'est la couche qu'on lit debout dans un couloir.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">≤ 90 words · named instrument · one link out · behind "What does this mean?"</span><span class="fr">≤ 90 mots · instrument nommé · un lien sortant · derrière « Qu'est-ce que cela signifie ? »</span></div>
+        <div class="layer-demo"><span class="en">"There are two documents, and they do different jobs. A <b>health care proxy</b> names who makes medical decisions for her. A <b>durable power of attorney</b> lets someone manage her money. She has to sign both while she is still capable — that is why this is urgent. How they have to be signed depends on her state."</span><span class="fr">« Il y a deux documents, aux rôles distincts. La <b>procuration médicale</b> désigne qui prend les décisions de santé pour elle. La <b>procuration durable</b> permet de gérer son argent. Elle doit signer les deux tant qu'elle est apte — c'est pourquoi cela presse. Les modalités de signature dépendent de son État. »</span></div>
+        <div class="layer-why"><span class="en">The acronym-dense material from the shipped plan (DPOA, CSRA, MMMNA, HCBS) belongs at this layer at the earliest, and only once the state is known. Note that the shipped plan put all of it in the first thing the caregiver ever saw.</span><span class="fr">Le matériel dense en acronymes du plan actuel (DPOA, CSRA, MMMNA, HCBS) n'a sa place qu'à partir de cette couche, et seulement une fois l'État connu. À noter : le plan livré a mis tout cela dans la toute première chose que l'aidant a vue.</span></div>
+      </div>
+      <div class="layer-pane">
+        <div class="where"><span class="en">Full article · versioned · dated · owned by a named reviewer</span><span class="fr">Article complet · versionné · daté · sous la responsabilité d'un relecteur nommé</span></div>
+        <div class="layer-demo"><span class="en">Health care proxy vs. durable power of attorney vs. guardianship · state-by-state execution requirements · what happens if nothing was signed and she loses capacity · how banks handle a POA they did not draft.<br><span style="color:var(--ink-3);font-size:13px">Reviewed by: [elder law partner] · Jurisdiction: [state] · Verified: 2026-08 · Next review: 2027-02</span></span><span class="fr">Procuration médicale, procuration durable et tutelle · exigences d'exécution État par État · ce qui arrive si rien n'a été signé et qu'elle devient inapte · comment les banques traitent une procuration qu'elles n'ont pas rédigée.<br><span style="color:var(--ink-3);font-size:13px">Révisé par : [associé en droit des aînés] · Juridiction : [État] · Vérifié : 2026-08 · Prochaine revue : 2027-02</span></span></div>
+        <div class="layer-why"><span class="en">L3 is the only layer the AI may retrieve from for regulated topics. That is the mechanism that makes principle 3 enforceable rather than aspirational: the model does not compose legal content, it surfaces reviewed content and says where it came from.</span><span class="fr">L3 est la seule couche dans laquelle l'IA peut puiser pour les sujets réglementés. C'est le mécanisme qui rend le principe 3 applicable plutôt qu'aspirationnel : le modèle ne compose pas de contenu juridique, il expose du contenu révisé et en indique la provenance.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="6">←</button><button class="btn" data-go="8"><span class="en">How this gets built and governed →</span><span class="fr">Construction et gouvernance →</span></button></div>
+</section>
+
+<!-- ===== 9. COLLABORATION ===== -->
+<section class="panel">
+  <div class="card">
+    <h2 class="st"><span class="en">How I would run this with design, research, clinical/legal and engineering</span><span class="fr">Comment je mènerais ce travail avec le design, la recherche, le clinique/juridique et l'ingénierie</span></h2>
+    <p class="lede">
+      <span class="en">Almost none of the findings above are fixed by rewriting a string. They are fixed by deciding who owns a term, who signs off a regulated claim, and where in the pipeline jurisdiction gets resolved. That is the job.</span>
+      <span class="fr">Presque aucun des constats ci-dessus ne se règle en réécrivant une chaîne. Ils se règlent en décidant qui possède un terme, qui approuve une affirmation réglementée et à quel moment du pipeline la juridiction est résolue. C'est cela, le travail.</span>
+    </p>
+
+    <div class="tblwrap">
+      <table class="t">
+        <thead><tr>
+          <th><span class="en">Partner</span><span class="fr">Partenaire</span></th>
+          <th><span class="en">What I bring them</span><span class="fr">Ce que je leur apporte</span></th>
+          <th><span class="en">What I need back</span><span class="fr">Ce dont j'ai besoin en retour</span></th>
+          <th><span class="en">Shared artefact</span><span class="fr">Artefact partagé</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><b><span class="en">Product design</span><span class="fr">Design produit</span></b></td>
+            <td><span class="en">The three-tier plan structure and the layering model as component requirements: a "Start here" block, a risk-tier slot inside list items, a jurisdiction stamp.</span><span class="fr">La structure en trois paliers et le modèle de hiérarchisation comme exigences de composants : un bloc « Commencez ici », un emplacement de palier de risque dans les éléments de liste, une mention de juridiction.</span></td>
+            <td><span class="en">Content-first components: character ranges agreed before layout, and no truncation on any string that carries a verb.</span><span class="fr">Des composants pensés pour le contenu : plages de caractères convenues avant la mise en page, et aucune troncature sur une chaîne porteuse d'un verbe.</span></td>
+            <td><span class="en">Figma component specs with copy ranges + content patterns in the design system</span><span class="fr">Spécifications de composants Figma avec plages de texte + motifs de contenu dans le design system</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="en">User research</span><span class="fr">Recherche utilisateur</span></b></td>
+            <td><span class="en">Comprehension-test protocols for the rewritten tiers, and the specific question I need answered: at hour 48, what did they actually do first?</span><span class="fr">Des protocoles de test de compréhension pour les paliers réécrits, et la question à trancher : à la 48<sup>e</sup> heure, qu'ont-ils réellement fait en premier ?</span></td>
+            <td><span class="en">Recruitment that includes bilingual and low-literacy caregivers, not only confident English-speaking early adopters.</span><span class="fr">Un recrutement incluant des aidants bilingues et à faible littératie, pas seulement des adopteurs anglophones à l'aise.</span></td>
+            <td><span class="en">Miro synthesis wall → tagged content-defect backlog</span><span class="fr">Mur de synthèse Miro → arriéré de défauts de contenu étiquetés</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="en">Clinical &amp; legal</span><span class="fr">Clinique et juridique</span></b></td>
+            <td><span class="en">A risk-tier definition and a short list of claim types that cannot be model-generated. I do not ask them to review everything; I ask them to review tier 3 only.</span><span class="fr">Une définition des paliers de risque et une courte liste de types d'affirmations que le modèle ne peut pas générer. Je ne leur demande pas de tout relire ; seulement le palier 3.</span></td>
+            <td><span class="en">Sign-off and a review cadence with an expiry date on every approved claim, so "verified 2026-08" means something.</span><span class="fr">Une approbation et une cadence de revue avec date d'expiration sur chaque affirmation approuvée, pour que « vérifié 2026-08 » ait un sens.</span></td>
+            <td><span class="en">Reviewed-claims library, versioned, with owner and expiry</span><span class="fr">Bibliothèque d'affirmations révisées, versionnée, avec responsable et échéance</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="en">Engineering &amp; AI</span><span class="fr">Ingénierie et IA</span></b></td>
+            <td><span class="en">Entity-binding and jurisdiction as required inputs to generation, retrieval restricted to the reviewed library for tier-3 topics, and claim-level source attribution in the response schema.</span><span class="fr">Le liage d'entité et la juridiction comme entrées obligatoires de la génération, une récupération limitée à la bibliothèque révisée pour les sujets de palier 3, et l'attribution des sources au niveau de l'affirmation dans le schéma de réponse.</span></td>
+            <td><span class="en">Strings out of the codebase and into a managed catalogue, so terminology can be enforced and French is a locale rather than a rebuild.</span><span class="fr">Les chaînes hors du code et dans un catalogue géré, pour que la terminologie soit applicable et que le français soit une locale plutôt qu'une refonte.</span></td>
+            <td><span class="en">Content catalogue + eval set built from the failing cases in this audit</span><span class="fr">Catalogue de contenu + jeu d'évaluation bâti sur les cas en échec de cet audit</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="k"><span class="en">The governance loop</span><span class="fr">La boucle de gouvernance</span></div>
+      <p><span class="en">Every failing example in this audit becomes a test case. "Mom → Mary" is an entity-binding eval. "$2,982" is a jurisdiction eval. "There is no information available about this topic" is a scope-refusal eval. Content governance in an AI product is not a style guide — it is a regression suite written in sentences, and it is the artefact that lets a small team ship generative content without re-reading every output.</span><span class="fr">Chaque exemple en échec de cet audit devient un cas de test. « Mom → Mary » devient une évaluation de liage d'entité. « $2,982 » devient une évaluation de juridiction. « There is no information available about this topic » devient une évaluation de refus de portée. La gouvernance de contenu dans un produit IA n'est pas un guide de style : c'est une suite de non-régression écrite en phrases, et c'est l'artefact qui permet à une petite équipe de livrer du contenu génératif sans relire chaque sortie.</span></p>
+    </div>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="7">←</button><button class="btn" data-go="9"><span class="en">What works, and what I did not test →</span><span class="fr">Points forts et limites →</span></button></div>
+</section>
+
+<!-- ===== 10. CLOSE ===== -->
+<section class="panel">
+  <div class="card">
+    <h2 class="st"><span class="en">What is working, and what I did not test</span><span class="fr">Ce qui fonctionne, et ce que je n'ai pas testé</span></h2>
+
+    <div class="sec-h"><span class="en">Worth protecting</span><span class="fr">À préserver</span></div>
+    <ul class="ul">
+      <li><b><span class="en">Loading states that set expectations.</span><span class="fr">Des états de chargement qui posent des attentes.</span></b> <span class="en">"Generating recommendations… Usually takes about a minute" then "Finalizing… Just a little longer. Thanks for your patience." Two-stage, honest, human. (It then ran well past a minute; the copy is right, the estimate needs to be.)</span><span class="fr">« Generating recommendations… Usually takes about a minute », puis « Finalizing… Just a little longer. Thanks for your patience. » En deux temps, honnête, humain. (La génération a largement dépassé la minute ; le texte est juste, l'estimation doit l'être aussi.)</span></li>
+      <li><b><span class="en">The clarifying turn exists at all.</span><span class="fr">Le tour de clarification existe.</span></b> <span class="en">Most products would have generated immediately. Asking first is the right instinct. It asked the wrong three questions, which is a fixable content problem rather than an architectural one.</span><span class="fr">La plupart des produits auraient généré immédiatement. Demander d'abord est le bon réflexe. Les trois questions posées sont les mauvaises, ce qui est un problème de contenu corrigible et non d'architecture.</span></li>
+      <li><b><span class="en">Selectable plan items.</span><span class="fr">Des éléments de plan sélectionnables.</span></b> <span class="en">Letting the caregiver deselect before saving is a genuine human-in-the-loop control. It is undermined only by defaulting all 30 to selected.</span><span class="fr">Permettre à l'aidant de décocher avant d'enregistrer est un véritable contrôle humain dans la boucle. Il n'est affaibli que par le précochage des 30 éléments.</span></li>
+      <li><b><span class="en">The consent framing on data gathering.</span><span class="fr">Le cadrage du consentement à la collecte.</span></b> <span class="en">"Gather what matters to you, and share only what you're comfortable sharing" is the right sentence in the right place. It needs to be specific per field rather than blanket.</span><span class="fr">« Gather what matters to you, and share only what you're comfortable sharing » est la bonne phrase au bon endroit. Il faut la décliner champ par champ plutôt que globalement.</span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">Out of scope — what I could not verify</span><span class="fr">Hors portée — ce que je n'ai pas pu vérifier</span></div>
+    <p style="font-size:14px;color:var(--ink-2)"><span class="en">Naming these matters as much as the findings. An audit that does not state its limits invites its conclusions to be over-applied.</span><span class="fr">Nommer ces limites compte autant que les constats. Un audit qui tait ses limites invite à surinterpréter ses conclusions.</span></p>
+    <ul class="ul">
+      <li><span class="en">One account, one session, one scenario. Findings F-01 and F-02 are structural and would recur; the specific wording of any single AI response will vary.</span><span class="fr">Un compte, une session, un scénario. Les constats F-01 et F-02 sont structurels et se reproduiraient ; la formulation exacte d'une réponse IA donnée variera.</span></li>
+      <li><span class="en">Onboarding, sign-up, consent and privacy flows were not seen. Given that the product asks for a password inventory and financial records, the consent copy is the first thing I would read next.</span><span class="fr">Les parcours d'inscription, de consentement et de confidentialité n'ont pas été vus. Puisque le produit demande un inventaire de mots de passe et des documents financiers, les textes de consentement seraient ma prochaine lecture prioritaire.</span></li>
+      <li><span class="en">Sharing Hub, Community and the invite flow were not exercised; multi-party access to a care receiver's records is where the highest consent risk usually sits.</span><span class="fr">Sharing Hub, Community et le parcours d'invitation n'ont pas été explorés ; l'accès multipartite au dossier d'un bénéficiaire est généralement le lieu du plus grand risque de consentement.</span></li>
+      <li><span class="en">No assistive-technology testing on hardware. The accessibility findings come from a DOM scan plus manual review and should be confirmed with VoiceOver and NVDA.</span><span class="fr">Aucun test sur technologie d'assistance réelle. Les constats d'accessibilité proviennent d'une analyse du DOM et d'une revue manuelle ; ils devraient être confirmés avec VoiceOver et NVDA.</span></li>
+      <li><span class="en">No mobile-device testing; mobile navigation labels were read from the DOM, not used.</span><span class="fr">Aucun test sur appareil mobile ; les libellés de navigation mobile ont été lus dans le DOM, non utilisés.</span></li>
+    </ul>
+
+    <div class="sec-h"><span class="en">If I could only fix three things</span><span class="fr">Si je ne pouvais corriger que trois choses</span></div>
+    <ul class="ul">
+      <li><b>1. <span class="en">Bind the person and the jurisdiction before generating.</span><span class="fr">Lier la personne et la juridiction avant de générer.</span></b> <span class="en">Two questions in turn one. It removes both critical findings and costs one interaction.</span><span class="fr">Deux questions au premier tour. Cela élimine les deux constats critiques au prix d'une seule interaction.</span></li>
+      <li><b>2. <span class="en">Put three items above the thirty.</span><span class="fr">Placer trois éléments au-dessus des trente.</span></b> <span class="en">Free, reversible, doable today. This is the change a caregiver would feel most, and it is pure content structure, with no new model behaviour required.</span><span class="fr">Gratuits, réversibles, faisables aujourd'hui. C'est le changement le plus perceptible pour un aidant, et c'est de la pure structure de contenu, sans aucun nouveau comportement de modèle requis.</span></li>
+      <li><b>3. <span class="en">Move disclosure into the sentence and scale it to risk.</span><span class="fr">Déplacer la divulgation dans la phrase et l'adapter au risque.</span></b> <span class="en">Starting with the bank-access task and every dollar figure. A 2.6:1 grey line at the bottom of a 30-item plan is not disclosure; it is a record that someone thought about disclosure.</span><span class="fr">En commençant par la tâche d'accès bancaire et chaque montant. Une ligne grise à 2,6:1 au bas d'un plan de 30 éléments n'est pas une divulgation : c'est la trace que quelqu'un y a pensé.</span></li>
+    </ul>
+  </div>
+  <div class="nav"><button class="btn ghost" data-go="8">←</button><button class="btn" id="toMethod"><span class="en">How this audit was run →</span><span class="fr">Comment cet audit a été mené →</span></button></div>
+</section>
+
+</div><!-- /viewAudit -->
+
+<div class="view" id="viewMethod">
+
+<section class="panel active">
+  <div class="card">
+    <h2 class="st"><span class="en">Method: how the evidence was produced</span><span class="fr">Méthode : comment les preuves ont été produites</span></h2>
+    <p class="lede"><span class="en">A content audit is only worth what its evidence discipline is worth. Here is exactly what I did, in order, and what I refused to do.</span><span class="fr">Un audit de contenu ne vaut que par la rigueur de ses preuves. Voici précisément ce que j'ai fait, dans l'ordre, et ce que j'ai refusé de faire.</span></p>
+    <ul class="ul">
+      <li><b><span class="en">Read the DOM, not the screen.</span><span class="fr">Lire le DOM, pas l'écran.</span></b> <span class="en">Every quoted string was extracted from the live accessibility tree and DOM text, then re-verified against it before writing. This is why the rotating placeholders were caught at all. On a screenshot you see one of them and assume it is the label.</span><span class="fr">Chaque citation a été extraite de l'arbre d'accessibilité et du texte du DOM, puis revérifiée avant rédaction. C'est ainsi que les textes indicatifs rotatifs ont été repérés. Sur une capture, on n'en voit qu'un et on le prend pour l'étiquette.</span></li>
+      <li><b><span class="en">Measure, do not eyeball.</span><span class="fr">Mesurer, ne pas estimer à l'œil.</span></b> <span class="en">Contrast ratios were computed from resolved computed styles against the nearest opaque ancestor background, and touch targets from actual bounding rectangles. The three failing ratios are measurements, not impressions.</span><span class="fr">Les ratios de contraste ont été calculés à partir des styles calculés et du premier arrière-plan opaque ascendant ; les cibles tactiles, à partir des rectangles réels. Les trois échecs sont des mesures, pas des impressions.</span></li>
+      <li><b><span class="en">Probe with the product's own worst day.</span><span class="fr">Sonder avec le pire jour du produit.</span></b> <span class="en">Clicking around finds polish defects. Giving the product a caregiver 48 hours from a discharge decision finds the defects that matter. F-01 and F-02 are invisible to anyone browsing the interface calmly.</span><span class="fr">Explorer au hasard révèle des défauts de finition. Soumettre au produit un aidant à 48 heures d'un congé hospitalier révèle les défauts qui comptent. F-01 et F-02 sont invisibles pour qui parcourt l'interface tranquillement.</span></li>
+      <li><b><span class="en">Separate observation from inference.</span><span class="fr">Séparer l'observation de l'inférence.</span></b> <span class="en">"The plan says Mary" is an observation. "This would recur for any user whose prompt names someone not in their profile" is an inference, and it is labelled as one. Severity ratings are my judgement and are argued, not asserted.</span><span class="fr">« Le plan dit Mary » est une observation. « Cela se reproduirait pour tout utilisateur nommant une personne absente de son dossier » est une inférence, et elle est identifiée comme telle. Les niveaux de gravité relèvent de mon jugement et sont argumentés, non décrétés.</span></li>
+      <li><b><span class="en">Write the limits down.</span><span class="fr">Écrire les limites.</span></b> <span class="en">One session, one account, one scenario, no assistive-technology hardware. Stated in the audit itself, not in a footnote nobody reads.</span><span class="fr">Une session, un compte, un scénario, aucune technologie d'assistance matérielle. Énoncé dans l'audit lui-même, pas dans une note que personne ne lit.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="card">
+    <h2 class="st"><span class="en">Why French is a content problem, not a translation project</span><span class="fr">Pourquoi le français est un enjeu de contenu, pas un projet de traduction</span></h2>
+    <p class="lede"><span class="en">This document is bilingual as a demonstration, not as a recommendation for the product. I built it this way because doing so reproduces, in miniature, the exact failure F-02 describes, and because the same discipline is what a US product needs to move between states, and later between languages.</span><span class="fr">Ce document est bilingue à titre de démonstration, non comme recommandation pour le produit. Je l'ai construit ainsi parce que cela reproduit en miniature la défaillance décrite en F-02, et parce que la même discipline est celle dont un produit américain a besoin pour passer d'un État à l'autre, puis d'une langue à l'autre.</span></p>
+    <div class="grid2">
+      <div class="mini">
+        <h4><span class="en">Terminology has no translation</span><span class="fr">La terminologie n'a pas de traduction</span></h4>
+        <p><span class="en">"Power of attorney" has no single French equivalent that is also a legal equivalent, and it has no single <i>American</i> equivalent either, since execution rules and even the word for the court proceeding change at the state line. A translator produces a fluent wrong answer; so does a model generalising across states. Both need the same fix: decide the term per jurisdiction, then write.</span><span class="fr">« Power of attorney » n'a pas d'équivalent français unique qui soit aussi un équivalent juridique, et il n'a pas davantage d'équivalent <i>américain</i> unique, puisque les modalités d'exécution et jusqu'au nom de la procédure changent d'un État à l'autre. Un traducteur produit une réponse fluide et fausse ; un modèle qui généralise entre États aussi. Même correctif : décider le terme par juridiction, puis rédiger.</span></p>
+      </div>
+      <div class="mini">
+        <h4><span class="en">Expansion is a layout contract</span><span class="fr">L'expansion est un contrat de mise en page</span></h4>
+        <p><span class="en">French runs 15–25% longer. The <code>Quick actions</code> cards already truncate mid-sentence in English. In French they will truncate earlier and lose more. Character ranges have to be agreed with design before the component ships, not after the locale is added.</span><span class="fr">Le français s'allonge de 15 à 25 %. Les cartes <code>Quick actions</code> se tronquent déjà en anglais. En français, elles tronqueront plus tôt et perdront davantage. Les plages de caractères doivent être convenues avec le design avant la livraison du composant, pas après l'ajout de la locale.</span></p>
+      </div>
+      <div class="mini">
+        <h4><span class="en">Register differs</span><span class="fr">Le registre diffère</span></h4>
+        <p><span class="en">"Good afternoon, Joshua" translates cleanly. The <i>tu/vous</i> decision does not, and neither does how much emotional directness is welcome from an institution. That is a voice decision requiring francophone caregivers in research, not a string table.</span><span class="fr">« Good afternoon, Joshua » se traduit sans peine. Le choix <i>tu/vous</i>, non ; pas plus que le degré de proximité émotionnelle acceptable venant d'une institution. C'est une décision de voix qui exige des aidants francophones en recherche, pas une table de chaînes.</span></p>
+      </div>
+      <div class="mini">
+        <h4><span class="en">The model has to be located, not the shell</span><span class="fr">C'est le modèle qu'il faut situer, pas la coquille</span></h4>
+        <p><span class="en">Localising the interface while the model still generates unqualified benefits rules produces the most dangerous version of any product: a shell that looks adapted, giving answers that are not. This is why F-02 is filed as jurisdiction and not as language. A US product hits the identical wall at the state line, today, with no expansion plan required.</span><span class="fr">Localiser l'interface pendant que le modèle génère encore des règles de prestations non qualifiées produit la version la plus dangereuse de n'importe quel produit : une coquille qui paraît adaptée, donnant des réponses qui ne le sont pas. C'est pourquoi F-02 relève de la juridiction et non de la langue. Un produit américain heurte le même mur à la frontière d'un État, aujourd'hui, sans aucun plan d'expansion.</span></p>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="k"><span class="en">The through-line</span><span class="fr">Le fil conducteur</span></div>
+      <p><span class="en">Everything in this audit reduces to one sentence: <b>a caregiving product's job is to make the next hour smaller, not the plan bigger.</b> The model is already good at bigger. Content design is what makes it smaller, and what makes sure the small thing it hands over is about the right person, under the right law, at a size a frightened human can actually hold.</span><span class="fr">Tout cet audit se ramène à une phrase : <b>le rôle d'un produit d'aidance est de rendre l'heure qui vient plus petite, pas le plan plus gros.</b> Le modèle sait déjà faire plus gros. La conception de contenu, c'est ce qui rend les choses plus petites, et ce qui garantit que la petite chose remise concerne la bonne personne, sous le bon droit, à une taille qu'un humain effrayé peut réellement tenir.</span></p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="pg">
+  <div class="cr">© PRIVACYUX CONSULTING LTD., 2026</div>
+  <div>
+    <span class="en">Independent content and UX audit, prepared as a work sample. Findings describe the product as observed on 28 August 2026 and may not reflect later releases. No confidential material was used; the account and its contents belong to the reviewer.</span>
+    <span class="fr">Audit indépendant de contenu et d'expérience, réalisé à titre d'échantillon de travail. Les constats décrivent le produit tel qu'observé le 28 août 2026 et peuvent ne pas refléter des versions ultérieures. Aucun matériel confidentiel n'a été utilisé ; le compte et son contenu appartiennent à l'auteure.</span>
+  </div>
+  <div class="disc">
+    <span class="dh">Disclosure · Divulgation</span>
+    <span class="en">Findings, severity ratings, rewrites and recommendations are mine and I am accountable for them. Every quoted string was read from the live DOM and re-verified against it. The evidence panels are faithful HTML reconstructions built from the app's own computed styles, not screenshots. Colours, type sizes and the clipped-label defect are reproduced from measured values, and each panel is labelled as a reconstruction. Front-end implementation of this document was done with AI assistance. Statements about legal and benefits content describe how the categories vary by state; they are offered as content-governance analysis, not as legal advice, and any specific figure should be confirmed against the relevant state agency.</span>
+    <span class="fr">Les constats, niveaux de gravité, réécritures et recommandations sont les miens et j'en réponds. Chaque citation a été lue dans le DOM en direct puis revérifiée. Les panneaux de preuve sont des reconstitutions HTML fidèles bâties à partir des styles calculés de l'application, et non des captures d'écran. Couleurs, corps de texte et défaut de troncature sont reproduits d'après des valeurs mesurées, et chaque panneau est identifié comme reconstitution. L'implémentation front-end de ce document a été réalisée avec l'aide de l'IA. Les énoncés portant sur le contenu juridique et les prestations décrivent la manière dont ces catégories varient selon l'État ; ils relèvent de l'analyse de gouvernance de contenu et ne constituent pas un avis juridique. Tout montant précis devrait être confirmé auprès de l'agence d'État concernée.</span>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- i18n ---------- */
+var NAMES = {
+  audit:{
+    en:['Scope & method','F-01 Wrong person','F-02 No jurisdiction','F-03 No first step','F-04 Naming & placeholders','F-05 Risk disclosure','F-06 Accessibility','Content principles','Collaboration','What works / limits'],
+    fr:['Portée et méthode','F-01 Mauvaise personne','F-02 Aucune juridiction','F-03 Aucune 1re action','F-04 Nommage et libellés','F-05 Divulgation du risque','F-06 Accessibilité','Principes de contenu','Collaboration','Forces et limites']
+  },
+  method:{
+    en:['Evidence discipline','French ≠ translation'],
+    fr:['Rigueur des preuves','Français ≠ traduction']
+  }
+};
+var LABEL = {audit:{en:'Audit',fr:'Audit'}, method:{en:'Method',fr:'Méthode'}};
+
+var VIEWS = {
+  audit:{ btn:document.getElementById('mAudit'), el:document.getElementById('viewAudit'),
+          panels:[].slice.call(document.querySelectorAll('#viewAudit .panel')) },
+  method:{ btn:document.getElementById('mMethod'), el:document.getElementById('viewMethod'),
+          panels:[].slice.call(document.querySelectorAll('#viewMethod .panel')) }
+};
+var subnav = document.getElementById('subnav');
+var barFill = document.getElementById('bar');
+var whereami = document.getElementById('whereami');
+var mode = 'audit', idx = {audit:0, method:0};
+var lang = 'en';
+
+function buildSubnav(){
+  var names = NAMES[mode][lang];
+  subnav.innerHTML = '';
+  names.forEach(function(name,i){
+    var b = document.createElement('button');
+    b.type='button'; b.className='navchip';
+    b.innerHTML = '<span class="num">'+String(i+1).padStart(2,'0')+'</span>'+name;
+    b.addEventListener('click',function(){ go(mode,i,true); });
+    subnav.appendChild(b);
+  });
+}
+
+function paint(){
+  var v = VIEWS[mode], i = idx[mode];
+  Object.keys(VIEWS).forEach(function(k){
+    VIEWS[k].el.classList.toggle('active', k===mode);
+    VIEWS[k].btn.setAttribute('aria-pressed', k===mode ? 'true':'false');
+  });
+  v.panels.forEach(function(p,j){ p.classList.toggle('active', j===i); });
+  [].forEach.call(subnav.children,function(b,j){
+    b.setAttribute('aria-current', j===i ? 'true':'false');
+    if(j===i && b.scrollIntoView) b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+  });
+  barFill.style.width = ((i+1)/v.panels.length*100)+'%';
+  whereami.textContent = LABEL[mode][lang]+' · '+(i+1)+'/'+v.panels.length;
+}
+
+function go(m,i,scroll){
+  if(!VIEWS[m]) return;
+  var changed = (m!==mode);
+  mode = m;
+  idx[m] = Math.max(0, Math.min(i, VIEWS[m].panels.length-1));
+  if(changed || !subnav.children.length) buildSubnav();
+  paint();
+  var h = '#'+m+'-'+(idx[m]+1)+'-'+lang;
+  if(location.hash !== h){ try{ history.replaceState(null,'',h); }catch(e){ location.hash = h; } }
+  if(scroll!==false) (document.querySelector('.main-body')||window).scrollTo({top:0,behavior:'smooth'});
+}
+
+function setLang(l,scroll){
+  lang = (l==='fr') ? 'fr' : 'en';
+  document.body.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.getElementById('lEN').setAttribute('aria-pressed', lang==='en'?'true':'false');
+  document.getElementById('lFR').setAttribute('aria-pressed', lang==='fr'?'true':'false');
+  document.title = lang==='fr' ? 'AI medical product — Audit de contenu et d’UX' : 'AI medical product — Content & UX Audit';
+  buildSubnav();
+  paint();
+  var h = '#'+mode+'-'+(idx[mode]+1)+'-'+lang;
+  try{ history.replaceState(null,'',h); }catch(e){}
+  if(scroll) (document.querySelector('.main-body')||window).scrollTo({top:0,behavior:'smooth'});
+}
+
+VIEWS.audit.btn.addEventListener('click',function(){ go('audit', idx.audit, true); });
+VIEWS.method.btn.addEventListener('click',function(){ go('method', idx.method, true); });
+document.getElementById('lEN').addEventListener('click',function(){ setLang('en',false); });
+document.getElementById('lFR').addEventListener('click',function(){ setLang('fr',false); });
+var toMethod = document.getElementById('toMethod');
+if(toMethod) toMethod.addEventListener('click',function(){ go('method',0,true); });
+
+document.addEventListener('click',function(e){
+  var t = e.target.closest ? e.target.closest('[data-go]') : null;
+  if(t) go('audit', parseInt(t.getAttribute('data-go'),10), true);
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  var a = document.activeElement;
+  if(a && (a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.isContentEditable)) return;
+  if(e.key==='ArrowRight'){ e.preventDefault(); go(mode, idx[mode]+1, true); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); go(mode, idx[mode]-1, true); }
+});
+
+/* ---------- before / after ---------- */
+[].forEach.call(document.querySelectorAll('[data-ba]'),function(box){
+  var btns = [].slice.call(box.querySelectorAll('.ba-tabs button'));
+  var panes = [].slice.call(box.querySelectorAll('.ba-pane'));
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x,j){ x.setAttribute('aria-pressed', j===i?'true':'false'); });
+      panes.forEach(function(p,j){ p.classList.toggle('on', j===i); });
+    });
+  });
+});
+
+/* ---------- layer switchers ---------- */
+[].forEach.call(document.querySelectorAll('[data-layers]'),function(box){
+  var btns = [].slice.call(box.querySelectorAll('.layer-tabs button'));
+  var panes = [].slice.call(box.querySelectorAll('.layer-pane'));
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x,j){ x.setAttribute('aria-pressed', j===i?'true':'false'); });
+      panes.forEach(function(p,j){ p.classList.toggle('on', j===i); });
+    });
+  });
+});
+
+/* ---------- init from hash ---------- */
+(function init(){
+  var m = /^#(audit|method)-(\d+)(?:-(en|fr))?$/.exec(location.hash||'');
+  if(m && m[3]) lang = m[3];
+  document.body.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.getElementById('lEN').setAttribute('aria-pressed', lang==='en'?'true':'false');
+  document.getElementById('lFR').setAttribute('aria-pressed', lang==='fr'?'true':'false');
+  buildSubnav();
+  if(m) go(m[1], parseInt(m[2],10)-1, false); else go('audit',0,false);
+})();
+window.addEventListener('hashchange',function(){
+  var m = /^#(audit|method)-(\d+)(?:-(en|fr))?$/.exec(location.hash||'');
+  if(!m) return;
+  if(m[3] && m[3]!==lang){ setLang(m[3],false); }
+  go(m[1], parseInt(m[2],10)-1, false);
+});
+})();
+</script>
+</div>
+</div>
+<script src="sidebar.js"></script>
+<script>renderAuditSidebar('result');</script>
+</body>
+</html>

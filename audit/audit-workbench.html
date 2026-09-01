@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interface Audit Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F5F2; --panel:#FFFFFF; --panel-2:#F0EEE9; --panel-3:#E7E4DE; --line:#DFDAD2; --line-2:#CFC9BF;
+  --ink:#1A1A18; --ink-2:#57534D; --ink-3:#8B857B;
+  --accent:#0F6E64; --accent-soft:#E2F1EE; --accent-ink:#0B564E;
+  --gap:#B3261E; --gap-soft:#FBE9E7;
+  --maj:#8A5A00; --maj-soft:#FBF2DF;
+  --ok:#12704A; --ok-soft:#E2F3EA;
+  --unk:#6C6A93; --unk-soft:#ECEBF5;
+  --stage:#D9D5CD;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121210; --panel:#1A1917; --panel-2:#221F1C; --panel-3:#2B2823; --line:#332F2A; --line-2:#443F38;
+  --ink:#F0EDE8; --ink-2:#B0A99F; --ink-3:#807A71;
+  --accent:#4FC4B4; --accent-soft:#0E2B28; --accent-ink:#7BD9CB;
+  --gap:#F58F86; --gap-soft:#371C19;
+  --maj:#E3B25C; --maj-soft:#30260F;
+  --ok:#5CD29B; --ok-soft:#112C20;
+  --unk:#A7A4CE; --unk-soft:#22203A;
+  --stage:#0C0C0B;
+}}
+:root[data-theme="dark"]{
+  --bg:#121210; --panel:#1A1917; --panel-2:#221F1C; --panel-3:#2B2823; --line:#332F2A; --line-2:#443F38;
+  --ink:#F0EDE8; --ink-2:#B0A99F; --ink-3:#807A71;
+  --accent:#4FC4B4; --accent-soft:#0E2B28; --accent-ink:#7BD9CB;
+  --gap:#F58F86; --gap-soft:#371C19;
+  --maj:#E3B25C; --maj-soft:#30260F;
+  --ok:#5CD29B; --ok-soft:#112C20;
+  --unk:#A7A4CE; --unk-soft:#22203A;
+  --stage:#0C0C0B;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Inter',-apple-system,"PingFang TC","Noto Sans TC",sans-serif;
+  font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden}
+svg.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:block}
+svg.ic.lg{width:19px;height:19px}
+svg.ic.sm{width:13px;height:13px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.mono{font-family:var(--mono)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* ── shell ── */
+.app{display:grid;grid-template-columns:46px var(--lw,268px) minmax(0,1fr) var(--rw,320px);height:100%}
+.app.lcol{--lw:0px}
+.col{min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.col.rail{background:var(--panel-2);border-right:1px solid var(--line);align-items:center;padding:10px 0;gap:4px}
+.col.left{background:var(--panel);border-right:1px solid var(--line)}
+.col.mid{background:var(--bg)}
+.col.right{background:var(--panel);border-left:1px solid var(--line)}
+.app.lcol .col.left{display:none}
+
+/* rail */
+.rbtn{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:var(--ink-3)}
+.rbtn:hover{background:var(--panel-3);color:var(--ink)}
+.rbtn.on{background:var(--accent-soft);color:var(--accent-ink)}
+.rbtn.lang{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em}
+.lang-switch{display:flex;flex-direction:column;gap:2px;margin-bottom:4px}
+.lang-switch button{
+  width:32px;height:22px;border-radius:6px;font-family:var(--mono);font-size:9.5px;font-weight:600;
+  letter-spacing:.04em;color:var(--ink-3)
+}
+.lang-switch button:hover{background:var(--panel-3);color:var(--ink)}
+.lang-switch button.active{background:var(--ink);color:var(--bg)}
+.rsp{flex:1}
+
+/* panel headers */
+.ph{display:flex;align-items:center;gap:7px;padding:11px 13px;border-bottom:1px solid var(--line);flex:none}
+.ph h2{font-size:12px;font-weight:600;letter-spacing:.01em}
+.ph .cnt{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.ph .ghost{color:var(--ink-3);display:grid;place-items:center;width:22px;height:22px;border-radius:5px}
+.ph .ghost:hover{background:var(--panel-3);color:var(--ink)}
+.scroll{overflow-y:auto;flex:1}
+
+/* ── left: session steps ── */
+.steps{padding:8px 6px}
+.step{display:flex;gap:9px;align-items:flex-start;padding:7px 8px;border-radius:8px;width:100%;text-align:left}
+.step:hover{background:var(--panel-2)}
+.step .sic{margin-top:1px;color:var(--ink-3)}
+.step.done .sic{color:var(--ok)}
+.step.run .sic{color:var(--accent)}
+.step .st{font-size:12.5px;font-weight:500;line-height:1.4}
+.step .ss{font-size:11px;color:var(--ink-3);line-height:1.4;font-family:var(--mono)}
+.step.run .st{color:var(--accent-ink)}
+
+.tools{display:flex;gap:6px;padding:9px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tool{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:7px;
+  color:var(--ink-2);font-size:11.5px}
+.tool:hover{border-color:var(--line-2);color:var(--ink)}
+.tool.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+
+.notes{padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.note{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel-2)}
+.note .nh{display:flex;gap:6px;align-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+.note .nh button{margin-left:auto;color:var(--ink-3);display:grid;place-items:center}
+.note .nh button:hover{color:var(--gap)}
+.note .nsel{font-family:var(--mono);font-size:10.5px;color:var(--accent-ink);word-break:break-all;margin-top:3px}
+.note .ntx{font-size:11.5px;color:var(--ink-2);margin-top:4px}
+.empty{padding:16px 14px;color:var(--ink-3);font-size:11.5px;text-align:center;line-height:1.7}
+
+.composer{border-top:1px solid var(--line);padding:10px 12px;flex:none}
+.cbox{display:flex;gap:7px;align-items:flex-end;border:1px solid var(--line);border-radius:10px;padding:7px 9px;background:var(--panel-2)}
+.cbox textarea{flex:1;border:0;background:none;resize:none;font:inherit;font-size:12px;color:var(--ink);
+  outline:none;max-height:88px;min-height:19px;line-height:1.5}
+.cbox textarea::placeholder{color:var(--ink-3)}
+.cbox .send{color:var(--ink-3);display:grid;place-items:center;width:24px;height:24px;border-radius:6px}
+.cbox .send:hover{background:var(--panel-3);color:var(--accent-ink)}
+
+/* ── middle ── */
+.omni{display:flex;align-items:center;gap:7px;padding:9px 12px;border-bottom:1px solid var(--line);flex:none;background:var(--panel)}
+.nav-b{color:var(--ink-3);display:grid;place-items:center;width:26px;height:26px;border-radius:6px}
+.nav-b:hover{background:var(--panel-3);color:var(--ink)}
+.addr{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;
+  padding:5px 10px;background:var(--panel-2);min-width:0}
+.addr .modes{display:flex;gap:2px;flex:none}
+.mbtn{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;color:var(--ink-3)}
+.mbtn:hover{background:var(--panel-3);color:var(--ink)}
+.mbtn.on{background:var(--accent);color:var(--panel)}
+.addr input{flex:1;border:0;background:none;outline:none;font-family:var(--mono);font-size:11.5px;color:var(--ink);min-width:0}
+.addr input::placeholder{color:var(--ink-3)}
+.addr select{border:0;background:none;outline:none;font:inherit;font-size:11.5px;color:var(--ink);flex:1;min-width:0}
+.go{color:var(--ink-3);display:grid;place-items:center;width:22px;height:22px;border-radius:5px;flex:none}
+.go:hover{background:var(--panel-3);color:var(--accent-ink)}
+
+.carriers{display:flex;align-items:center;gap:4px;padding:7px 12px;border-bottom:1px solid var(--line);
+  flex:none;background:var(--panel)}
+.car{display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:7px;color:var(--ink-3);border:1px solid transparent}
+.car:hover{background:var(--panel-2);color:var(--ink)}
+.car.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.car .cdim{font-family:var(--mono);font-size:9.5px;opacity:.7}
+.carriers .modechip{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.carriers .modechip button{padding:4px 10px;font-size:11px;color:var(--ink-3)}
+.carriers .modechip button.on{background:var(--ink);color:var(--bg)}
+
+.stage{flex:1;overflow:auto;background:var(--stage);display:grid;place-items:center;padding:26px;position:relative}
+.frame{position:relative;transform-origin:center center}
+.device{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 6px rgba(0,0,0,.10),0 24px 60px -30px rgba(0,0,0,.5)}
+.device.ar{border-radius:70px/34px}
+.device.hud{border-radius:6px;border-style:dashed}
+.device iframe{display:block;border:0;background:var(--panel);width:100%;height:100%}
+.ovl{position:absolute;inset:0;pointer-events:none}
+.mk{position:absolute;pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%)}
+.mk .dot{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--mono);font-size:10px;font-weight:600;border:2px solid var(--panel)}
+.mk.gap .dot{background:var(--gap);color:#fff}
+.mk.maj .dot{background:var(--maj);color:#fff}
+.mk.ok .dot{background:var(--ok);color:#fff}
+.mk.unk .dot{background:var(--unk);color:#fff}
+.mk.sel .dot{box-shadow:0 0 0 4px color-mix(in srgb,currentColor 30%,transparent)}
+.box{position:absolute;border:1.5px dashed var(--gap);border-radius:5px;pointer-events:none;
+  background:color-mix(in srgb,var(--gap) 7%,transparent)}
+.box.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 7%,transparent)}
+.box.unk{border-color:var(--unk);background:color-mix(in srgb,var(--unk) 7%,transparent)}
+.pin{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;color:var(--accent-ink)}
+.stagenote{position:absolute;left:0;right:0;bottom:0;padding:8px 12px;font-size:11px;color:var(--ink-3);
+  background:linear-gradient(transparent,rgba(0,0,0,.06));text-align:center;font-family:var(--mono)}
+.blocked{max-width:380px;text-align:center;color:var(--ink-2);background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:22px 24px}
+.blocked h3{font-size:13px;margin-bottom:6px}
+.blocked p{font-size:11.5px;color:var(--ink-3);line-height:1.7}
+
+/* ── right: checks ── */
+.chk{border-bottom:1px solid var(--line)}
+.chk-h{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;width:100%;text-align:left}
+.chk-h:hover{background:var(--panel-2)}
+.chk.sel .chk-h{background:var(--accent-soft)}
+.chk.na{opacity:.42}
+.chk-h .num{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:3px;width:12px;flex:none}
+.chk-h .stx{flex:1;min-width:0}
+.chk-h .nm{font-size:12.5px;font-weight:600;line-height:1.35}
+.chk-h .en{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);letter-spacing:.02em}
+.chk-h .rt{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none;margin-top:1px}
+.sevbar{display:flex;gap:2px}
+.sevbar i{width:11px;height:3px;border-radius:1px;background:var(--line-2)}
+.sevbar i.f{background:var(--gap)}
+.sevbar i.f.m{background:var(--maj)}
+.sic-gap{color:var(--gap)} .sic-ok{color:var(--ok)} .sic-unk{color:var(--unk)} .sic-na{color:var(--ink-3)}
+
+.chk-b{padding:2px 12px 14px 33px;display:none}
+.chk.open .chk-b{display:block}
+.fld{margin-top:10px}
+.fld .lb{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.fld .vl{font-size:12px;color:var(--ink-2);line-height:1.65}
+.fld .vl b{color:var(--ink)}
+.verb{background:var(--panel-2);border-left:2px solid var(--line-2);padding:7px 10px;border-radius:0 6px 6px 0;
+  font-size:11.5px;color:var(--ink);margin-top:3px}
+.verb.claim{border-left-color:var(--accent)}
+.verb em{font-style:normal;background:var(--gap-soft);color:var(--gap);padding:0 3px;border-radius:2px;font-weight:600}
+.alt{background:var(--unk-soft);border:1px solid var(--unk);border-radius:7px;padding:8px 10px;margin-top:9px;
+  font-size:11.5px;color:var(--ink-2)}
+.alt .lb{color:var(--unk);font-weight:600;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.jump{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:4px 9px;border:1px solid var(--line);
+  border-radius:6px;font-size:11px;color:var(--ink-2)}
+.jump:hover{border-color:var(--accent);color:var(--accent-ink)}
+
+.evi{border-top:1px solid var(--line);background:var(--panel-2);flex:none}
+.evi-h{display:flex;align-items:center;gap:7px;padding:9px 12px}
+.evi-h span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.evi-h button{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-3);
+  border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.evi-h button:hover{color:var(--accent-ink);border-color:var(--accent)}
+.evi pre{margin:0;padding:0 12px 12px;font-family:var(--mono);font-size:10px;line-height:1.6;
+  color:var(--ink-3);max-height:168px;overflow:auto;white-space:pre}
+.evi pre b{color:var(--ink)}
+
+.legend{display:flex;gap:12px;padding:8px 12px;border-top:1px solid var(--line);font-size:10.5px;color:var(--ink-3);flex:none}
+.legend div{display:flex;align-items:center;gap:4px}
+
+@media (max-width:1180px){ .app{grid-template-columns:46px minmax(0,1fr) 300px} .col.left{display:none} }
+</style>
+</head>
+<body>
+<nav class="side-nav" id="audit-sidebar" aria-label="Audit pages"></nav>
+<div class="main-content">
+<div class="page-chrome" id="audit-chrome"></div>
+<div class="main-body is-app">
+
+<div class="app" id="app">
+
+  <!-- ═════ icon rail ═════ -->
+  <div class="col rail">
+    <button class="rbtn" id="tgLeft" data-t-title="tgLeft" title="Collapse session"></button>
+    <button class="rbtn on" data-t-title="railSess" title="Session"></button>
+    <button class="rbtn" data-t-title="railEvi" title="Evidence"></button>
+    <button class="rbtn" data-t-title="railSet" title="Settings"></button>
+    <div class="rsp"></div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="zh">繁</button>
+    </div>
+    <button class="rbtn" id="tgTheme" data-t-title="tgTheme" title="Toggle theme"></button>
+  </div>
+
+  <!-- ═════ left ═════ -->
+  <div class="col left" id="colLeft">
+    <div class="ph"><span id="icSess"></span><h2 data-t="sessH">Session</h2><span class="cnt" id="sessCnt"></span></div>
+    <div class="scroll">
+      <div class="steps" id="steps"></div>
+      <div class="tools">
+        <button class="tool" id="tCap"><span></span><span data-t="cap">Capture</span></button>
+        <button class="tool" id="tAnn"><span></span><span data-t="ann">Annotate</span></button>
+      </div>
+      <div class="notes" id="notes"></div>
+    </div>
+    <div class="composer">
+      <div class="cbox">
+        <textarea id="inp" rows="1" data-t-ph="inpPh" placeholder="Type an observation or instruction…"></textarea>
+        <button class="send" id="send" data-t-title="send" title="Send"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════ middle ═════ -->
+  <div class="col mid">
+    <div class="omni">
+      <button class="nav-b" data-t-title="navBack" title="Previous"></button>
+      <button class="nav-b" data-t-title="navFwd" title="Next"></button>
+      <button class="nav-b" id="reload" data-t-title="reload" title="Reload"></button>
+      <div class="addr">
+        <div class="modes">
+          <button class="mbtn on" data-m="sample" data-t-title="mSample" title="Built-in sample"></button>
+          <button class="mbtn" data-m="url" data-t-title="mUrl" title="URL (embeddable sites only)"></button>
+          <button class="mbtn" data-m="repo" data-t-title="mRepo" title="Public GitHub repo"></button>
+          <button class="mbtn" data-m="file" data-t-title="mFile" title="Upload html / mdx"></button>
+        </div>
+        <select id="selSample"></select>
+        <input id="inAddr" hidden>
+        <input type="file" id="inFile" accept=".html,.htm,.md,.mdx" hidden>
+        <button class="go" id="goBtn" data-t-title="go" title="Load"></button>
+      </div>
+    </div>
+
+    <div class="carriers" id="carriers"></div>
+
+    <div class="stage" id="stage">
+      <div class="frame" id="frame">
+        <div class="device" id="device"><iframe id="fr" data-t-title="frTitle" title="Surface under test"></iframe></div>
+        <div class="ovl" id="ovl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════ right ═════ -->
+  <div class="col right">
+    <div class="ph"><span id="icAlert"></span><h2 data-t="chkH">Audit results</h2><span class="cnt" id="chkCnt"></span></div>
+    <div class="scroll" id="checks"></div>
+    <div class="legend" id="legend"></div>
+    <div class="evi">
+      <div class="evi-h"><span id="icDoc"></span><span data-t="eviH">Evidence record</span>
+        <button id="copyEvi"><span></span><span data-t="copy">Copy</span></button></div>
+      <pre id="eviBody"></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════ line icons — stroke only, no fill ══════════════ */
+const P = d => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const ICON = {
+  panel:  P('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>'),
+  steps:  P('<path d="M4 6h1M4 12h1M4 18h1M9 6h11M9 12h11M9 18h11"/>'),
+  doc:    P('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>'),
+  gear:   P('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>'),
+  moon:   P('<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>'),
+  back:   P('<path d="M15 5l-7 7 7 7"/>'),
+  fwd:    P('<path d="M9 5l7 7-7 7"/>'),
+  reload: P('<path d="M20 11a8 8 0 1 0-1.6 5.6"/><path d="M20 5v6h-6"/>'),
+  grid:   P('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
+  globe:  P('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>'),
+  branch: P('<circle cx="7" cy="5" r="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="9" r="2"/><path d="M7 7v10M17 11v1a4 4 0 0 1-4 4H7"/>'),
+  upload: P('<path d="M12 15V4"/><path d="M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>'),
+  enter:  P('<path d="M5 12h13"/><path d="M13 7l5 5-5 5"/>'),
+  send:   P('<path d="M5 12h13"/><path d="M13 7l5 5-5 5"/>'),
+  capture:P('<path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><rect x="9" y="9" width="6" height="6" rx="1"/>'),
+  pen:    P('<path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M15 6l3 3"/>'),
+  pin:    P('<path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/><circle cx="12" cy="11" r="2"/>'),
+  trash:  P('<path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/>'),
+  copy:   P('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>'),
+  alert:  P('<path d="M12 4.5L2.8 20h18.4z"/><path d="M12 10v4M12 17.2v.1"/>'),
+  check:  P('<circle cx="12" cy="12" r="9"/><path d="M8.2 12.4l2.6 2.6 5-5.4"/>'),
+  unk:    P('<circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><path d="M12 16.6v.1"/><path d="M9.7 9.6a2.4 2.4 0 1 1 2.9 2.6v1"/>'),
+  na:     P('<circle cx="12" cy="12" r="9"/><path d="M6 18L18 6"/>'),
+  dotO:   P('<circle cx="12" cy="12" r="7" stroke-dasharray="2.5 2.5"/>'),
+  dotR:   P('<circle cx="12" cy="12" r="7"/><path d="M12 8.5V12l2.3 1.6"/>'),
+  dotD:   P('<circle cx="12" cy="12" r="7"/><path d="M8.9 12.2l2.1 2.1 4-4.4"/>'),
+  /* carriers — line only */
+  desktop:P('<rect x="2.5" y="4" width="19" height="12" rx="1.8"/><path d="M9 20h6M12 16v4"/>'),
+  mobile: P('<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M10.5 18.6h3"/>'),
+  glasses:P('<rect x="2.5" y="9" width="7.5" height="6" rx="3"/><rect x="14" y="9" width="7.5" height="6" rx="3"/><path d="M10 12.2c.7-.6 3.3-.6 4 0"/><path d="M2.5 11.6L1 9.4M21.5 11.6L23 9.4"/>'),
+  hud:    P('<path d="M2.5 17c3.6-6.6 15.4-6.6 19 0"/><rect x="8" y="8.6" width="8" height="4.6" rx="1"/><path d="M2.5 19.6h19"/>'),
+};
+const setIc=(el,k)=>{el&&(el.innerHTML=ICON[k])};
+
+let lang = "en";
+try { const saved = localStorage.getItem("auditLang"); if(saved==="en"||saved==="zh") lang = saved; } catch(e){}
+const LANGTAG = {en:"en", zh:"zh-Hant"};
+const I18N = {
+  en: {
+    title:"Interface Audit Workbench",
+    tgLeft:"Collapse session", railSess:"Session", railEvi:"Evidence", railSet:"Settings", tgTheme:"Toggle theme",
+    sessH:"Session", cap:"Capture", ann:"Annotate",
+    inpPh:"Type an observation or instruction…", send:"Send",
+    navBack:"Previous", navFwd:"Next", reload:"Reload",
+    mSample:"Built-in sample", mUrl:"URL (embeddable sites only)", mRepo:"Public GitHub repo", mFile:"Upload html / mdx",
+    go:"Load", frTitle:"Surface under test",
+    chkH:"Audit results", eviH:"Evidence record", copy:"Copy", copied:"Copied",
+    watch:"Watch", enforce:"Enforce",
+    lgUnchecked:"Unchecked", lgGap:"Gap", lgClear:"Pass", lgNa:"N/A",
+    claim:"Product claim", obs:"Observation", why:"Why it fails", fix:"Suggested fix",
+    jump:"Locate on the surface",
+    altAdj:"carrier · criterion adjusted",
+    altDiff:" · criterion differs", naTag:" · N/A",
+    chkCnt:(g,n)=>`${g} gaps / ${n} applicable`,
+    notesEmpty:`No annotations yet.<br>Pick Capture or Annotate, then click an element on the screen.<br><span class="mono" style="font-size:10.5px">Capture stores a DOM reference and verbatim text, not a bitmap</span>`,
+    capNote:"Region capture (DOM reference, not a bitmap)",
+    phUrl:"https://… (sites that allow embedding; cross-origin cannot be annotated)",
+    phRepo:"owner/repo/path/file.html (public repo)",
+    blkXtitle:"Cross-origin — cannot annotate",
+    blkXbody:"This site may still render if it allows embedding, but same-origin policy blocks DOM access. Anchors and annotations are off in this mode. For a full audit, use GitHub or upload.",
+    blkRead:"Reading…",
+    blkFail:"Cannot fetch this file",
+    blkFailBody: e => `${e}. Public repos only (no tokens). If this page is served as a GitHub Pages artifact, CSP blocks every external fetch — this mode works locally only.`,
+    mdxNote:"MDX renders markdown and frontmatter only; JSX components do not run.",
+    product:"(de-identified) AI care-planning product",
+    eviNote:"Strings are paraphrases, not verbatim. Verbatim originals stay in the internal file."
+  },
+  zh: {
+    title:"介面稽核工作台",
+    tgLeft:"收合工作階段", railSess:"工作階段", railEvi:"證據", railSet:"設定", tgTheme:"切換主題",
+    sessH:"工作階段", cap:"擷取", ann:"標註",
+    inpPh:"輸入觀察或指示…", send:"送出",
+    navBack:"上一步", navFwd:"下一步", reload:"重新載入",
+    mSample:"內建樣本", mUrl:"網址（僅限允許嵌入的站）", mRepo:"GitHub 公開 repo", mFile:"上傳 html / mdx",
+    go:"載入", frTitle:"受測介面",
+    chkH:"稽核結果", eviH:"證據紀錄", copy:"複製", copied:"已複製",
+    watch:"監看", enforce:"強制",
+    lgUnchecked:"未檢查", lgGap:"缺口", lgClear:"通過", lgNa:"不適用",
+    claim:"產品宣稱", obs:"觀察", why:"為什麼失敗", fix:"修正建議",
+    jump:"在介面中定位",
+    altAdj:"載具 · 判準調整",
+    altDiff:" · 判準不同", naTag:" · 不適用",
+    chkCnt:(g,n)=>`${g} 缺口 / ${n} 適用`,
+    notesEmpty:`尚無標註。<br>選「擷取」或「標註」後點畫面上的元素。<br><span class="mono" style="font-size:10.5px">擷取記錄的是 DOM 參照與逐字內容，不是點陣圖</span>`,
+    capNote:"區域擷取（DOM 參照，非點陣圖）",
+    phUrl:"https://…（僅限允許嵌入的站；跨來源無法標註）",
+    phRepo:"owner/repo/path/file.html（公開 repo）",
+    blkXtitle:"跨來源，無法標註",
+    blkXbody:"此站若允許嵌入即可檢視，但同源政策擋住 DOM 讀取——錨點與標註在此模式下不可用。要完整稽核請改用 GitHub 或上傳模式。",
+    blkRead:"讀取中…",
+    blkFail:"抓不到這個檔案",
+    blkFailBody: e => `${e}。僅支援公開 repo（不處理權杖）。若此頁被發布為 artifact，CSP 會擋掉所有外部 fetch，此模式僅在本機可用。`,
+    mdxNote:"MDX 僅渲染 markdown 與 frontmatter；JSX 元件不執行。",
+    product:"（去識別）AI 照護規劃產品",
+    eviNote:"字串為意譯，非逐字。逐字原文留內部存查。"
+  }
+};
+const t = k => { const v = I18N[lang][k]; return v != null ? v : (I18N.en[k] || k); };
+const L = v => (v && typeof v === "object" && ("en" in v || "zh" in v)) ? (v[lang] || v.en) : v;
+
+/* ══════════════ de-identified surface samples (中文意譯) ══════════════ */
+const SS = `<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:13px/1.65 -apple-system,"PingFang TC","Noto Sans TC",sans-serif;color:#1d1f22;background:#fff}
+.top{background:#12695c;color:#fff;padding:11px 15px;display:flex;align-items:center;gap:9px}
+.top b{font-size:14px;font-weight:600} .top s{font-size:11.5px;opacity:.85;text-decoration:none}
+.bd{padding:14px 15px;display:flex;flex-direction:column;gap:11px}
+.bub{max-width:84%;padding:9px 12px;border-radius:12px;font-size:12.5px}
+.u{align-self:flex-end;background:#f1f2f4} .a{align-self:flex-start;background:#e9f4f1;border:1px solid #d3e7e2}
+.a ul{margin:6px 0 0 16px} .a li{margin-bottom:3px}
+.card{border:1px solid #e4e6ea;border-radius:9px;padding:12px}
+.card h4{font-size:13px;margin-bottom:4px}
+.lbl{font-size:10px;letter-spacing:.06em;color:#7b8089;text-transform:uppercase;font-family:ui-monospace,monospace}
+.btn{display:inline-block;background:#12695c;color:#fff;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500}
+.btn.sec{background:#f1f2f4;color:#1d1f22}
+.foot{border-top:1px solid #e4e6ea;padding:10px 15px;font-size:10.5px;color:#7b8089}
+.chip{display:inline-flex;gap:5px;align-items:center;border:1px solid #e4e6ea;border-radius:20px;padding:2px 9px;font-size:10.5px;color:#7b8089}
+.row{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:12px}
+.cb{width:14px;height:14px;border-radius:3px;background:#12695c;flex:none;margin-top:3px;position:relative}
+.cb:after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 1.6px 1.6px 0;transform:rotate(42deg)}
+.sc{border:1px solid #e4e6ea;border-radius:9px;padding:12px;margin-bottom:10px}
+.tree{padding:14px 15px;font-size:12.5px}
+.tn{padding:5px 0 5px 14px;border-left:1px solid #e4e6ea;margin-left:6px}
+.tn.root{border:0;margin:0;padding-left:0;font-weight:600}
+.warn{color:#b3261e}
+.fg{display:flex;flex-direction:column;gap:3px;margin-bottom:11px}
+.fg label{font-size:11px;color:#5c6068}
+.fg .fi{border:1px solid #d9dce1;border-radius:7px;padding:7px 10px;font-size:12.5px;background:#fff}
+.fg .fi.sel{display:flex;justify-content:space-between;color:#1d1f22}
+.res{background:#f7f8f9;border:1px solid #e4e6ea;border-radius:9px;padding:11px 13px;margin-top:12px;font-size:12.5px}
+</style>`;
+
+const SAMPLES = {
+  chat:{
+    label:{en:'Create a Plan · chat', zh:'建立計畫 · 對話段'}, route:'planning/chat', w:430, h:720,
+    html:{
+      en:SS+`<div class="top"><b>Care Planning Assistant</b><s>Create a Plan</s></div><div class="bd">
+      <div class="bub u">Mom fell last night. The hospital says she can't go home alone. I have two days to decide, and I don't know what to do about her money or her meds.</div>
+      <div class="bub a" data-a="turns">To help with your mom's money and medication situation, I need a bit more.
+        <ul><li>Can she still make her own financial and medical decisions?</li>
+        <li>Does she already have legal documents such as a financial or healthcare power of attorney?</li>
+        <li>What kind of help does she need with her medication?</li></ul></div>
+      <div class="bub u">She can still decide for herself, but she gets confused about money. No POA of any kind. She takes several pills a day and often forgets.</div>
+      <div class="bub a">To decide the next step I still need a few details.
+        <ul><li>With money, what specifically is hard for her?</li>
+        <li>For meds: is it organising, reminding, or picking them up?</li>
+        <li>Since she can't go home alone, where is she expected to go after discharge?</li></ul></div>
+      <div class="bub u">She forgets bills — we've already had collection calls. She needs pill reminders and someone to pick up the prescriptions. The hospital wants her in rehab first, then maybe my place.</div>
+      <div class="bub a" data-a="claim">I have enough to build <b>personalised</b> recommendations for your situation. Add anything else now, or tap Generate recommendations to continue.
+        <div style="margin-top:9px"><span class="btn">Generate recommendations</span></div></div>
+    </div><div class="foot">Care Planning Assistant · Terms · Privacy · FAQ</div>`,
+      zh:SS+`<div class="top"><b>照護規劃助手</b><s>建立計畫</s></div><div class="bd">
+      <div class="bub u">媽媽昨晚跌倒，醫院說她不能一個人回家。我兩天內必須做決定，但我不知道她的錢和藥該怎麼辦。</div>
+      <div class="bub a" data-a="turns">為了協助你處理媽媽在金錢與用藥上的狀況，我需要多一點資訊。
+        <ul><li>媽媽目前能自己做財務與醫療決定嗎？</li>
+        <li>她是否已經有財務或醫療委任書之類的法律文件？</li>
+        <li>她在用藥上具體需要哪一種協助？</li></ul></div>
+      <div class="bub u">她還能自己做決定，但對金錢容易搞混。目前沒有任何委任文件。她一天要吃好幾種藥，常忘記。</div>
+      <div class="bub a">為了判斷下一步，我還需要一些細節。
+        <ul><li>金錢方面，她具體在哪些事情上有困難？</li>
+        <li>用藥上，她需要的是整理、提醒，還是取藥？</li>
+        <li>既然她不能獨自回家，出院後預計去哪裡？</li></ul></div>
+      <div class="bub u">她常忘記繳帳單，已經接到催繳電話。需要吃藥提醒，也需要人幫忙取藥。醫院想讓她先去復健機構，之後可能來我家。</div>
+      <div class="bub a" data-a="claim">我已經掌握足夠資訊，可以為你的情況建立<b>個人化</b>建議。若還有想補充的請現在告訴我，否則請點「產生建議」繼續。
+        <div style="margin-top:9px"><span class="btn">產生建議</span></div></div>
+    </div><div class="foot">照護規劃助手 · 服務條款 · 隱私政策 · 常見問題</div>`
+    }
+  },
+  rec:{
+    label:{en:'Create a Plan · recommendations', zh:'建立計畫 · 建議段'}, route:'planning/recommendations', w:430, h:900,
+    html:{
+      en:SS+`<div class="top"><b>Care Planning Assistant</b><s>Mom's care decision</s></div><div class="bd">
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>Initial home support and transition</h4><span class="chip" data-a="sources">5 sources</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">Immediate discharge needs and the move home, using informal help, tech, and family for meds and money.</div>
+        <div class="lbl">Considerations (7 / 7 selected)</div>
+        <div class="row"><span class="cb"></span>Discharge needs urgent coordination.</div>
+        <div class="row"><span class="cb"></span>Mom can decide for herself but struggles with bills and gets confused about money.</div>
+        <div class="row"><span class="cb"></span>Needs medication reminders and help picking up prescriptions.</div>
+        <div class="row"><span class="cb"></span>No legal documents such as a power of attorney yet.</div>
+        <div class="lbl" style="margin-top:9px">To-dos (8 / 8 selected)</div>
+        <div class="row"><span class="cb"></span>Coordinate closely with the hospital social worker or case manager on discharge to rehab.</div>
+        <div class="row"><span class="cb"></span>Set up temporary bill-pay, e.g. autopay on the important ones.</div>
+        <div class="row"><span class="cb"></span>Use a pillbox or a medication-reminder app.</div>
+      </div>
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>Formalise home care with legal and professional help</h4><span class="chip">5 sources</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">Set up lasting powers of attorney and bring in professional services for money and meds.</div>
+        <div class="lbl">Considerations (8 / 8 selected)</div>
+        <div class="row"><span class="cb"></span>If the confusion worsens, lasting POAs for finance and healthcare become necessary.</div>
+        <div class="row"><span class="cb"></span>Moving her into your home means assessing and adapting the space for safety.</div>
+        <div class="lbl" style="margin-top:9px">To-dos (8 / 8 selected)</div>
+        <div class="row"><span class="cb"></span>See an elder-law attorney to set up financial and healthcare lasting POAs.</div>
+      </div>
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>Evaluate residential long-term care</h4><span class="chip">5 sources</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">Weigh a move into professional long-term care, including the money and the emotional cost.</div>
+        <div class="lbl">Considerations (8 / 8 selected)</div>
+        <div class="row"><span class="cb"></span>A facility can provide structured money oversight and medication administration.</div>
+        <div class="lbl" style="margin-top:9px">To-dos (7 / 7 selected)</div>
+        <div class="row"><span class="cb"></span>Research nearby assisted-living or memory-care facilities.</div>
+        <div class="row" data-a="jurisdiction"><span class="cb"></span>Contact <b>the state's</b> aging department about long-term-care subsidy eligibility and how to apply.</div>
+        <div class="row"><span class="cb"></span>Prepare a financial snapshot (assets, income) and estimate out-of-pocket cost.</div>
+      </div>
+      <div class="card" data-a="exclusive" style="display:flex;align-items:center;gap:12px">
+        <div style="flex:1"><div class="lbl">Plan name</div><b style="font-size:13px">46 items selected</b></div>
+        <span class="btn sec">Clear</span><span class="btn">Save plan and create tasks</span>
+      </div>
+    </div>
+    <div class="foot" data-a="disclosure">This assistant can be wrong. Check its answers yourself.</div>`,
+      zh:SS+`<div class="top"><b>照護規劃助手</b><s>媽媽的照護決定</s></div><div class="bd">
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>初期居家支援與轉銜規劃</h4><span class="chip" data-a="sources">資料來源 5</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">著重出院當下的即時需求與返家轉銜，以非正式方式、科技工具與家人協助處理用藥與財務。</div>
+        <div class="lbl">考量事項（已選 7 / 7）</div>
+        <div class="row"><span class="cb"></span>出院需要緊急協調。</div>
+        <div class="row"><span class="cb"></span>媽媽能自己做決定，但在繳費上有困難、對金錢容易搞混。</div>
+        <div class="row"><span class="cb"></span>需要用藥提醒與取藥協助。</div>
+        <div class="row"><span class="cb"></span>目前沒有委任書之類的法律文件。</div>
+        <div class="lbl" style="margin-top:9px">待辦（已選 8 / 8）</div>
+        <div class="row"><span class="cb"></span>與醫院社工或個管師密切協調出院至復健機構。</div>
+        <div class="row"><span class="cb"></span>設定臨時繳費安排，例如重要帳單自動扣繳。</div>
+        <div class="row"><span class="cb"></span>使用藥盒或用藥提醒 app。</div>
+      </div>
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>以法律與專業協助正式化居家照護</h4><span class="chip">資料來源 5</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">建立持久委任書等正式法律與財務保障，並引入專業服務管理財務與用藥。</div>
+        <div class="lbl">考量事項（已選 8 / 8）</div>
+        <div class="row"><span class="cb"></span>若混亂加劇，財務與醫療的持久委任書是必要的。</div>
+        <div class="row"><span class="cb"></span>轉為在你家照護，需評估並改造居住空間的安全性。</div>
+        <div class="lbl" style="margin-top:9px">待辦（已選 8 / 8）</div>
+        <div class="row"><span class="cb"></span>諮詢長者法律專業律師，設立財務與醫療持久委任書。</div>
+      </div>
+      <div class="sc"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <h4>評估機構式長期照護</h4><span class="chip">資料來源 5</span></div>
+        <div style="font-size:11.5px;color:#5c6068;margin-bottom:9px">評估轉入專業長期照護機構的可能，涵蓋財務與情感層面。</div>
+        <div class="lbl">考量事項（已選 8 / 8）</div>
+        <div class="row"><span class="cb"></span>機構可提供結構化的財務監督與給藥管理。</div>
+        <div class="lbl" style="margin-top:9px">待辦（已選 7 / 7）</div>
+        <div class="row"><span class="cb"></span>研究鄰近的安養或失智照護機構。</div>
+        <div class="row" data-a="jurisdiction"><span class="cb"></span>聯繫<b>該州</b>的高齡事務部門，詢問長照補助資格與申請流程。</div>
+        <div class="row"><span class="cb"></span>準備財務概況（資產、收入），估算自費金額。</div>
+      </div>
+      <div class="card" data-a="exclusive" style="display:flex;align-items:center;gap:12px">
+        <div style="flex:1"><div class="lbl">計畫名稱</div><b style="font-size:13px">已選取 46 個項目</b></div>
+        <span class="btn sec">清除</span><span class="btn">儲存計畫並建立任務</span>
+      </div>
+    </div>
+    <div class="foot" data-a="disclosure">本助手可能出錯，請自行複核其回覆。</div>`
+    }
+  },
+  profile:{
+    label:{en:'Profile overview · care receiver', zh:'檔案總覽 · 受照護者'}, route:'profile-graph', w:430, h:620,
+    html:{
+      en:SS+`<div class="top"><b>Care Planning Assistant</b><s>Profile overview</s></div>
+    <div class="tree" data-a="roster">
+      <div class="tn root">Caregiver · James Chen</div>
+      <div class="tn"><div class="lbl">Care receiver</div>
+        <div class="tn">Spouse: Mary Lin</div>
+        <div class="tn"><div class="lbl">Pets</div><div class="tn">Dog: Mary's Lucky</div></div>
+        <div class="tn"><div class="lbl">Vehicles</div><div class="tn warn">Car: Mary's (none)</div></div>
+        <div class="tn"><div class="lbl">Property</div><div class="tn warn">Residential investment property: Mary's Mary</div></div>
+      </div>
+      <div style="margin-top:16px;font-size:11.5px;color:#7b8089">
+        This page is read-only. Nowhere in the product is there a control to add, edit, or remove a care receiver.</div>
+    </div>
+    <div class="foot">Profile overview · Document collection · Care settings</div>`,
+      zh:SS+`<div class="top"><b>照護規劃助手</b><s>檔案總覽</s></div>
+    <div class="tree" data-a="roster">
+      <div class="tn root">照顧者 · 陳建志</div>
+      <div class="tn"><div class="lbl">受照護者</div>
+        <div class="tn">配偶：林美華</div>
+        <div class="tn"><div class="lbl">寵物</div><div class="tn">狗：林美華的 小福</div></div>
+        <div class="tn"><div class="lbl">汽車</div><div class="tn warn">車：林美華的（無）</div></div>
+        <div class="tn"><div class="lbl">不動產</div><div class="tn warn">住宅投資用不動產：林美華的 林美華</div></div>
+      </div>
+      <div style="margin-top:16px;font-size:11.5px;color:#7b8089">
+        此頁為唯讀。產品各處皆無新增、編輯或移除受照護者的控制項。</div>
+    </div>
+    <div class="foot">檔案總覽 · 文件蒐集 · 照護設定</div>`
+    }
+  },
+  account:{
+    label:{en:'Account settings · jurisdiction', zh:'帳號設定 · 轄區'}, route:'account-settings', w:430, h:640,
+    html:{
+      en:SS+`<div class="top"><b>Care Planning Assistant</b><s>Account settings</s></div>
+    <div class="bd">
+      <div class="fg"><label>Country</label><div class="fi sel">United States <span>⌄</span></div></div>
+      <div class="fg" data-a="state"><label>State</label><div class="fi sel" style="border-color:#12695c">New York <span>⌄</span></div></div>
+      <div class="fg"><label>City</label><div class="fi sel" style="color:#9aa0a8">Select a city <span>⌄</span></div></div>
+      <div class="fg"><label>ZIP</label><div class="fi" style="color:#9aa0a8">—</div></div>
+      <div><span class="btn">Update</span> <span style="font-size:11.5px;color:#12704a;margin-left:8px">Saved</span></div>
+      <div class="res" data-a="lookup"><div class="lbl">Profile lookup</div>
+        <div style="margin-top:6px"><b>Q:</b> What state do I live in? Does that change which benefit rules apply to me?</div>
+        <div style="margin-top:6px;color:#b3261e"><b>A:</b> There is no information about this topic in your profile.</div>
+      </div>
+    </div>
+    <div class="foot">Account settings · Two-factor authentication off</div>`,
+      zh:SS+`<div class="top"><b>照護規劃助手</b><s>帳號設定</s></div>
+    <div class="bd">
+      <div class="fg"><label>國家</label><div class="fi sel">美國 <span>⌄</span></div></div>
+      <div class="fg" data-a="state"><label>州別</label><div class="fi sel" style="border-color:#12695c">紐約州 <span>⌄</span></div></div>
+      <div class="fg"><label>城市</label><div class="fi sel" style="color:#9aa0a8">請選擇城市 <span>⌄</span></div></div>
+      <div class="fg"><label>郵遞區號</label><div class="fi" style="color:#9aa0a8">—</div></div>
+      <div><span class="btn">更新</span> <span style="font-size:11.5px;color:#12704a;margin-left:8px">已儲存</span></div>
+      <div class="res" data-a="lookup"><div class="lbl">檔案查詢</div>
+        <div style="margin-top:6px"><b>問：</b>我住哪一州？這會影響適用於我的補助規則嗎？</div>
+        <div style="margin-top:6px;color:#b3261e"><b>答：</b>你的檔案中沒有這個主題的相關資訊。</div>
+      </div>
+    </div>
+    <div class="foot">帳號設定 · 兩階段驗證未啟用</div>`
+    }
+  }
+};
+
+/* ══════════════ carriers ══════════════ */
+const CARRIERS = {
+  desktop:{ic:'desktop',label:{en:'Desktop',zh:'桌面'},w:1180,h:760},
+  mobile: {ic:'mobile', label:{en:'Mobile',zh:'行動'},w:430, h:860},
+  ar:     {ic:'glasses',label:{en:'Glasses',zh:'眼鏡'},w:640, h:210},
+  hud:    {ic:'hud',    label:{en:'HUD',zh:'抬頭'},w:760, h:180}
+};
+
+/* ══════════════ checks ══════════════ */
+const CHECKS = [
+  { id:'C1', nm:{en:'Subject binding', zh:'主體綁定'}, en:'subject binding', state:'unchecked', sev:0,
+    sample:'chat', sel:'[data-a="claim"]',
+    claim:{en:'I have enough to build <em>personalised</em> recommendations for your situation.',
+           zh:'我已經掌握足夠資訊，可以為你的情況建立<em>個人化</em>建議。'},
+    obs:{en:'The plan is about "Mom", but only because the word appears six times in the chat — the system never bound an entity. The only care receiver on file is still the spouse. The plan itself never says who it is for.',
+         zh:'計畫確實是關於「媽媽」的，但那是對話中重複六次的結果，不是系統綁定了任何實體。檔案裡唯一的受照護者仍是配偶，計畫本身沒有任何「此計畫的對象是誰」的標示。'},
+    why:{en:'No declared subject means no subject that can be wrong, and none that can be checked. This cannot be marked pass — it is <b>unchecked</b>.',
+         zh:'沒有宣告的對象，就沒有可以錯的對象，也沒有可以驗的對象。這一條不能記通過——它是<b>未檢查</b>。'},
+    fix:{en:'Bind the entity before generate: one click, two options (someone on file / someone new). Plan header always shows "For: …", and that label travels into saved tasks.',
+         zh:'產生前先綁定實體：一次點選，兩個選項（檔案中的某人／不在檔案中的新對象）。計畫標頭固定顯示「對象：⋯」，並隨內容進入已存任務。'},
+    carriers:{desktop:'full',mobile:'full',ar:'full',hud:'full'} },
+
+  { id:'C2', nm:{en:'Jurisdiction binding', zh:'轄區綁定'}, en:'jurisdiction binding', state:'gap', sev:3,
+    sample:'account', sel:'[data-a="lookup"]',
+    claim:{en:'There is no information about this topic in your profile.',
+           zh:'你的檔案中沒有這個主題的相關資訊。'},
+    obs:{en:'Account settings has country / state / city / ZIP. State is New York and saves. A minute later the product\'s own profile lookup still answers "no information about this topic". The same plan then tells the user to "contact the state\'s aging department".',
+         zh:'帳號設定有國家／州別／城市／郵遞區號。州別設為紐約州並成功儲存，一分鐘後產品自己的檔案查詢仍回答「沒有這個主題的相關資訊」。同一份計畫接著要使用者「聯繫該州的高齡事務部門」。'},
+    why:{en:'Account database and the assistant\'s retrieval index are two places, unjoined. The product asked for the one fact that decides whether its money and benefit advice is valid, wrote it to disk, then generated that advice without using it.',
+         zh:'帳號資料庫與助手的檢索索引是兩個地方，中間沒有接。產品向使用者索取了決定其財務與補助建議是否有效的那一個事實，寫進磁碟，然後在不使用它的情況下產生那些建議。'},
+    fix:{en:'Put the jurisdiction fields in the retrieval index. If empty, output "unknown jurisdiction" rather than skip. Any response with jurisdiction-dependent content must show the jurisdiction it used, or say it is unknown.',
+         zh:'把轄區欄位納入檢索索引；未填時輸出「未知轄區」而非略過。任何含轄區相依內容的回應，必須顯示所依據的轄區，或明示其為未知。'},
+    carriers:{desktop:'full',mobile:'full',ar:'full',hud:'full'} },
+
+  { id:'C3', nm:{en:'Validity-condition coverage', zh:'效力條件涵蓋'}, en:'validity-condition coverage', state:'gap', sev:3,
+    sample:'chat', sel:'[data-a="turns"]',
+    claim:{en:'I have enough information…', zh:'我已經掌握足夠資訊⋯'},
+    obs:{en:'Two rounds, six clarifying questions: decision capacity, POA documents, medication help, which money tasks are hard, what kind of med help, where after discharge. All six are care detail. None establish a validity condition (who this is, which state, who has authority).',
+         zh:'兩輪共六個澄清問題：決策能力、委任文件、用藥協助、財務困難項目、用藥協助型態、出院去向。六個全部是照護細節，沒有一個確立效力條件（這是誰、在哪一州、誰有決定權）。'},
+    why:{en:'Wrong care detail makes a weaker plan. Wrong validity condition voids the whole plan, and the surface looks identical. The system spent all six questions on the cheap kind.',
+         zh:'問錯照護細節只讓計畫不夠好；問錯效力條件會讓整份計畫失效，而外觀完全不變。系統把全部六次提問都花在便宜的那一類上。'},
+    fix:{en:'Force a validity-condition checklist before declaring "enough". Missing conditions must be marked unknown on the output, not silently skipped.',
+         zh:'在宣告「資訊足夠」之前，強制通過效力條件檢核表。未取得的條件必須在輸出上標示為未知，而不是靜默略過。'},
+    carriers:{desktop:'full',mobile:'full',ar:'full',hud:'full'} },
+
+  { id:'C4', nm:{en:'Source resolvability', zh:'來源可驗證性'}, en:'source resolvability', state:'gap', sev:2,
+    sample:'rec', sel:'[data-a="sources"]',
+    claim:{en:'5 sources', zh:'資料來源 5'},
+    obs:{en:'Three options, five named sources each — fifteen in total — all plain text. A query for hyperlinks across the output returns zero. One of them is a state-by-state long-term-care cost survey, cited inside a plan that never established a state.',
+         zh:'三個方案各掛五個具名來源，共十五個，全部是純文字。對整份輸出查詢超連結，結果為零。其中一項是分州統計的長照成本調查，被引用在一份從未確立州別的計畫裡。'},
+    why:{en:'A list of authority names that cannot be opened performs the function of evidence without doing the work. The user cannot tell an attributed claim from a made-up one.',
+         zh:'一串打不開的權威名稱，執行了證據的功能卻沒有做證據的工作。使用者無法分辨正確歸屬的主張與虛構的主張。'},
+    fix:{en:'Every source resolves: link, edition, retrieved date. If it cannot resolve, it is not listed. Mark which claim each source actually supports. A source that supports nothing should not appear.',
+         zh:'每一個來源可解析：連結、版次、取用日期。無法解析者不列出。並標示該來源實際支撐了哪一條主張，未支撐任何主張的來源不應出現。'},
+    carriers:{desktop:'full',mobile:'full',ar:'alt',hud:'na'},
+    alt:{en:'Glasses have no room for a source list. The criterion becomes: is there an action that sends this claim back to the main screen for checking — not a demand to read sources in place.',
+         zh:'眼鏡沒有版面容納來源清單。判準改為：是否提供一個可把該主張轉回主畫面查證的動作，而非要求當場閱讀來源。'} },
+
+  { id:'C5', nm:{en:'Option exclusivity', zh:'選項互斥性'}, en:'option exclusivity', state:'gap', sev:3,
+    sample:'rec', sel:'[data-a="exclusive"]',
+    claim:{en:'46 items selected', zh:'已選取 46 個項目'},
+    obs:{en:'The three options are mutually exclusive paths (informal support / formalise legal help / residential care). Each group arrives fully selected — 7/7, 8/8, 8/8, 8/8, 8/8, 7/7. The footer shows 46 items. One tap turns them into 46 tasks on the account.',
+         zh:'三個方案是互斥的替代路徑（非正式支援／正式化法律協助／進機構）。每一組都以全選狀態抵達，7/7、8/8、8/8、8/8、8/8、7/7，footer 顯示 46 個項目，一鍵即成為帳號中的 46 項任務。'},
+    why:{en:'The product produced a decision, then refused to present it as one. It added an option layer without option semantics, which is worse than a flat list: a flat list is visibly unlayered; this looks like a considered choice and still behaves like a dump.',
+         zh:'產品產生了一個決策，然後拒絕把它呈現為決策。加了方案層卻沒加選擇語意，比原本的平鋪清單更糟：平鋪一眼看得出未分層，這個看起來像深思熟慮的選項，行為上仍是清單。'},
+    fix:{en:'Options default to none selected. Selection is an explicit act. The generated content is already good enough; only the default is wrong.',
+         zh:'方案預設全不選，選擇為明確動作。產生的內容已經足夠好，錯的只是預設值。'},
+    carriers:{desktop:'full',mobile:'full',ar:'na',hud:'na'} },
+
+  { id:'C6', nm:{en:'Profile mutability', zh:'檔案可修改性'}, en:'profile mutability', state:'gap', sev:3,
+    sample:'profile', sel:'[data-a="roster"]',
+    claim:{en:'(no claim — this page explains nothing)', zh:'（無宣稱——此頁沒有任何說明）'},
+    obs:{en:'The care-receiver list is a read-only tree. Nowhere in the product is there a control to add, edit, or remove. The list also shows concatenated junk strings — "Mary\'s (none)", "Mary\'s Mary" — equally unfixable.',
+         zh:'受照護者名單以唯讀樹呈現，產品各處皆無新增、編輯或移除的控制項。名單中同時可見拼接錯誤的字串「林美華的（無）」「林美華的 林美華」，同樣無法修正。'},
+    why:{en:'A wrong answer you can edit is a usability problem. A wrong answer you cannot edit is a governance problem. The whole profile is namespaced to a single care receiver. That node is the root of the graph, and it has no edit right.',
+         zh:'答錯還能改是可用性問題；答錯而改不了是治理問題。整個檔案以單一受照護者為命名空間，那個節點是圖的根，卻沒有編輯權。'},
+    fix:{en:'Add / rename / change relationship / remove for care receivers, reachable from inside the plan-generation flow. Empty strings must not enter concatenation.',
+         zh:'提供受照護者的新增／改名／改關係／移除，並在計畫產生流程內可直接觸達。空字串不得參與字串拼接。'},
+    carriers:{desktop:'full',mobile:'full',ar:'na',hud:'na'} },
+
+  { id:'C7', nm:{en:'Disclosure prominence', zh:'揭露顯著性'}, en:'disclosure prominence', state:'clear', sev:0,
+    sample:'rec', sel:'[data-a="disclosure"]',
+    claim:{en:'This assistant can be wrong. Check its answers yourself.',
+           zh:'本助手可能出錯，請自行複核其回覆。'},
+    obs:{en:'The disclosure exists, pinned to the output footer.',
+         zh:'揭露存在，常駐於輸出頁尾。'},
+    why:{en:'Presence is not effectiveness. This is marked pass only because the component is on the page. Whether it is read, or whether it changes the user\'s confidence, this workbench cannot measure.',
+         zh:'存在不等於有效。這一條記為通過，只代表元件在場；它是否被讀到、是否改變了使用者的信心，本工作台量不到。'},
+    fix:{en:'Measure with an effectiveness study, not a presence check. Live results for an anchored treatment vs a sidebar treatment are the only path that upgrades this to evidence.',
+         zh:'以效力研究測定，而非以存在性判定。錨定式與側欄式兩種呈現的實測結果，是這一條唯一能升級為證據的路徑。'},
+    carriers:{desktop:'full',mobile:'full',ar:'alt',hud:'alt'},
+    alt:{en:'Glasses and HUD have a one-line attention budget. The criterion becomes: does the disclosure sit inside that line, and does it not compete with the primary content for the same line. "Somewhere you can scroll to" equals absent.',
+         zh:'眼鏡與抬頭顯示的注意力預算是單行。判準改為：揭露是否落在該單行之內、且不與主要內容競爭同一行；置於「可捲動處」等同不存在。'} }
+];
+
+const SEVMAP={0:'',2:'maj',3:'gap'};
+const STATE_IC={gap:'alert',clear:'check',unchecked:'unk',na:'na'};
+const STATE_CLS={gap:'sic-gap',clear:'sic-ok',unchecked:'sic-unk',na:'sic-na'};
+const MK_CLS={gap:'gap',clear:'ok',unchecked:'unk'};
+
+/* ══════════════ state ══════════════ */
+let carrier='mobile', mode='sample', sampleKey='chat', selected=null, tool=null;
+const notes=[];
+const fr=document.getElementById('fr'), dev=document.getElementById('device'),
+      ovl=document.getElementById('ovl'), frame=document.getElementById('frame'),
+      stage=document.getElementById('stage');
+
+/* ── static icons ── */
+setIc(document.getElementById('tgLeft'),'panel');
+document.querySelectorAll('.col.rail .rbtn')[1].innerHTML=ICON.steps;
+document.querySelectorAll('.col.rail .rbtn')[2].innerHTML=ICON.doc;
+document.querySelectorAll('.col.rail .rbtn')[3].innerHTML=ICON.gear;
+setIc(document.getElementById('tgTheme'),'moon');
+setIc(document.getElementById('icSess'),'steps');
+setIc(document.getElementById('icAlert'),'alert');
+setIc(document.getElementById('icDoc'),'doc');
+document.querySelectorAll('.omni .nav-b')[0].innerHTML=ICON.back;
+document.querySelectorAll('.omni .nav-b')[1].innerHTML=ICON.fwd;
+document.getElementById('reload').innerHTML=ICON.reload;
+document.getElementById('goBtn').innerHTML=ICON.enter;
+document.getElementById('send').innerHTML=ICON.send;
+document.querySelector('#tCap span').innerHTML=ICON.capture;
+document.querySelector('#tAnn span').innerHTML=ICON.pen;
+document.querySelector('#copyEvi span').innerHTML=ICON.copy;
+{ const m=document.querySelectorAll('.addr .mbtn');
+  m[0].innerHTML=ICON.grid; m[1].innerHTML=ICON.globe; m[2].innerHTML=ICON.branch; m[3].innerHTML=ICON.upload; }
+
+/* ── legend ── */
+function renderLegend(){
+  document.getElementById('legend').innerHTML =
+    [['unchecked',t('lgUnchecked')],['gap',t('lgGap')],['clear',t('lgClear')],['na',t('lgNa')]]
+    .map(([k,l])=>`<div><span class="${STATE_CLS[k]}">${ICON[STATE_IC[k]].replace('class="ic"','class="ic sm"')}</span>${l}</div>`).join('');
+}
+
+/* ── session steps ── */
+const STEPS=[
+  ['done',{en:'Build test profile',zh:'建立受測檔案'},'profile · 4 surfaces'],
+  ['done',{en:'Re-run planning flow',zh:'重跑規劃流程'},'2 rounds · 6 turns'],
+  ['run',{en:'Check each criterion',zh:'逐條驗收'},'7 checks'],
+  ['idle',{en:'Annotate and capture',zh:'標註與擷取'},'0 notes'],
+  ['idle',{en:'Write evidence record',zh:'產生證據紀錄'},'ral/0.1']
+];
+function renderSteps(){
+  document.getElementById('steps').innerHTML = STEPS.map(([s,title,sub],i)=>{
+    const ic = s==='done'?'dotD':s==='run'?'dotR':'dotO';
+    const cls = s==='done'?'done':s==='run'?'run':'';
+    const sb = i===3 ? `${notes.length} notes` : sub;
+    return `<button class="step ${cls}"><span class="sic">${ICON[ic]}</span>
+      <span><span class="st">${L(title)}</span><br><span class="ss">${sb}</span></span></button>`;
+  }).join('');
+  document.getElementById('sessCnt').textContent='3 / 5';
+}
+
+/* ── carriers bar ── */
+function renderCarriers(){
+  const el=document.getElementById('carriers');
+  el.innerHTML = Object.entries(CARRIERS).map(([k,c])=>
+    `<button class="car ${k===carrier?'on':''}" data-c="${k}">${ICON[c.ic]}
+      <span>${L(c.label)}</span><span class="cdim">${c.w}×${c.h}</span></button>`).join('')
+    + `<div class="modechip"><button class="on">${t('watch')}</button><button>${t('enforce')}</button></div>`;
+  el.querySelectorAll('.car').forEach(b=>b.onclick=()=>{carrier=b.dataset.c;renderCarriers();applyCarrier();renderChecks();});
+  el.querySelectorAll('.modechip button').forEach(b=>b.onclick=()=>{
+    el.querySelectorAll('.modechip button').forEach(x=>x.classList.remove('on')); b.classList.add('on');});
+}
+
+/* ── sample select ── */
+const sel=document.getElementById('selSample');
+function fillSampleSel(){
+  const cur=sel.value||sampleKey;
+  sel.innerHTML=Object.entries(SAMPLES).map(([k,s])=>`<option value="${k}">${L(s.label)}　·　${s.route}</option>`).join('');
+  sel.value=cur;
+}
+fillSampleSel();
+sel.onchange=()=>{sampleKey=sel.value;loadSample();};
+
+/* ── load / carrier ── */
+function applyCarrier(){
+  const c=CARRIERS[carrier];
+  dev.className='device'+(carrier==='ar'?' ar':carrier==='hud'?' hud':'');
+  dev.style.width=c.w+'px'; dev.style.height=c.h+'px';
+  const avail=Math.max(240,stage.clientWidth-56), availH=Math.max(200,stage.clientHeight-56);
+  const s=Math.max(.34, Math.min(1, avail/c.w, availH/c.h));
+  frame.style.transform=`scale(${s})`; frame.dataset.scale=s;
+  frame.style.width=c.w+'px'; frame.style.height=c.h+'px';
+  ovl.style.width=c.w+'px'; ovl.style.height=c.h+'px';
+  setTimeout(drawMarkers,60);
+}
+function loadSample(){
+  const s=SAMPLES[sampleKey];
+  fr.removeAttribute('src'); fr.srcdoc=L(s.html);
+  fr.onload=()=>{ hookFrame(); drawMarkers(); };
+}
+function hookFrame(){
+  let d; try{ d=fr.contentDocument }catch(e){ return }
+  if(!d) return;
+  d.addEventListener('click',ev=>{
+    if(tool!=='ann'&&tool!=='cap') return;
+    ev.preventDefault(); ev.stopPropagation();
+    const t=ev.target.closest('[data-a]')||ev.target;
+    const selr = t.getAttribute('data-a') ? `[data-a="${t.getAttribute('data-a')}"]`
+      : t.tagName.toLowerCase()+(t.className&&typeof t.className==='string'?'.'+t.className.trim().split(/\s+/)[0]:'');
+    notes.push({ kind:tool, sample:sampleKey, route:SAMPLES[sampleKey].route, sel:selr,
+      verbatim:(t.innerText||'').trim().slice(0,90), x:ev.clientX, y:ev.clientY,
+      text: tool==='cap'?t('capNote'):'' });
+    renderNotes(); renderSteps(); drawMarkers(); buildEvidence();
+  },true);
+  try{ fr.contentWindow.addEventListener('scroll',drawMarkers,{passive:true}) }catch(e){}
+}
+
+/* ── markers ── */
+function applicable(c){ return c.carriers[carrier]||'na' }
+function effState(c){ const a=applicable(c); return a==='na'?'na':c.state }
+function drawMarkers(){
+  ovl.innerHTML='';
+  let d; try{ d=fr.contentDocument }catch(e){ return }
+  if(!d||!d.body) return;
+  CHECKS.forEach((c,i)=>{
+    if(c.sample!==sampleKey) return;
+    const st=effState(c); if(st==='na') return;
+    const el=d.querySelector(c.sel); if(!el) return;
+    const r=el.getBoundingClientRect();
+    const b=document.createElement('div');
+    b.className='box '+(st==='clear'?'ok':st==='unchecked'?'unk':'');
+    b.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
+    ovl.appendChild(b);
+    const m=document.createElement('button');
+    m.className='mk '+(st==='clear'?'ok':st==='unchecked'?'unk':(c.sev===2?'maj':'gap'))+(selected===c.id?' sel':'');
+    m.style.cssText=`left:${r.left}px;top:${r.top}px`;
+    m.innerHTML=`<span class="dot">${i+1}</span>`;
+    m.title=L(c.nm); m.onclick=()=>selectCheck(c.id,false);
+    ovl.appendChild(m);
+  });
+  notes.filter(n=>n.sample===sampleKey).forEach(n=>{
+    const el=d.querySelector(n.sel); if(!el) return;
+    const r=el.getBoundingClientRect();
+    const p=document.createElement('span');
+    p.className='pin'; p.style.cssText=`left:${r.left+r.width-8}px;top:${r.top+6}px`;
+    p.innerHTML=ICON[n.kind==='cap'?'capture':'pin'].replace('class="ic"','class="ic sm"');
+    ovl.appendChild(p);
+  });
+}
+
+/* ── checks ── */
+function renderChecks(){
+  const wrap=document.getElementById('checks');
+  wrap.innerHTML=CHECKS.map((c,i)=>{
+    const a=applicable(c), st=effState(c);
+    const bars=[1,2,3].map(n=>`<i class="${c.sev>=n&&st!=='na'?'f '+(c.sev===2?'m':''):''}"></i>`).join('');
+    return `<div class="chk ${st==='na'?'na':''} ${selected===c.id?'sel open':''}" data-id="${c.id}">
+      <button class="chk-h"><span class="num">${i+1}</span>
+        <span class="stx"><span class="nm">${L(c.nm)}</span><br><span class="en">${c.en}${a==='alt'?t('altDiff'):a==='na'?t('naTag'):''}</span></span>
+        <span class="rt"><span class="${STATE_CLS[st]}">${ICON[STATE_IC[st]].replace('class="ic"','class="ic sm"')}</span>
+        <span class="sevbar">${bars}</span></span></button>
+      <div class="chk-b">
+        ${a==='alt'&&c.alt?`<div class="alt"><div class="lb">${L(CARRIERS[carrier].label)} ${t('altAdj')}</div>${L(c.alt)}</div>`:''}
+        <div class="fld"><div class="lb">${t('claim')}</div><div class="verb claim">${L(c.claim)}</div></div>
+        <div class="fld"><div class="lb">${t('obs')}</div><div class="vl">${L(c.obs)}</div></div>
+        <div class="fld"><div class="lb">${t('why')}</div><div class="vl">${L(c.why)}</div></div>
+        <div class="fld"><div class="lb">${t('fix')}</div><div class="vl">${L(c.fix)}</div></div>
+        <button class="jump" data-j="${c.id}">${ICON.pin.replace('class="ic"','class="ic sm"')}${t('jump')}</button>
+      </div></div>`;
+  }).join('');
+  wrap.querySelectorAll('.chk-h').forEach(b=>b.onclick=()=>selectCheck(b.parentElement.dataset.id,true));
+  wrap.querySelectorAll('.jump').forEach(b=>b.onclick=e=>{e.stopPropagation();selectCheck(b.dataset.j,true);});
+  const act=CHECKS.filter(c=>applicable(c)!=='na');
+  const gaps=act.filter(c=>c.state==='gap').length;
+  document.getElementById('chkCnt').textContent=t('chkCnt')(gaps,act.length);
+}
+function selectCheck(id,scroll){
+  const c=CHECKS.find(x=>x.id===id); if(!c) return;
+  selected=id;
+  if(c.sample!==sampleKey){ sampleKey=c.sample; sel.value=c.sample; loadSample(); }
+  renderChecks(); buildEvidence();
+  setTimeout(()=>{
+    try{ const el=fr.contentDocument.querySelector(c.sel);
+      el&&el.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+    setTimeout(drawMarkers,320);
+  },scroll?180:0);
+  const row=document.querySelector(`.chk[data-id="${id}"]`);
+  row&&row.scrollIntoView({block:'nearest'});
+}
+
+/* ── notes ── */
+function renderNotes(){
+  const el=document.getElementById('notes');
+  if(!notes.length){ el.innerHTML=`<div class="empty">${t('notesEmpty')}</div>`; return; }
+  el.innerHTML=notes.map((n,i)=>`<div class="note">
+    <div class="nh">${ICON[n.kind==='cap'?'capture':'pen'].replace('class="ic"','class="ic sm"')}
+      <span>${n.route}</span><button data-d="${i}">${ICON.trash.replace('class="ic"','class="ic sm"')}</button></div>
+    <div class="nsel">${n.sel}</div>
+    ${n.verbatim?`<div class="ntx">「${n.verbatim}」</div>`:''}
+    ${n.text?`<div class="ntx">${n.text}</div>`:''}</div>`).join('');
+  el.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{notes.splice(+b.dataset.d,1);renderNotes();renderSteps();drawMarkers();buildEvidence();});
+}
+
+/* ── evidence ── */
+function buildEvidence(){
+  const act=CHECKS.filter(c=>applicable(c)!=='na');
+  const c=CHECKS.find(x=>x.id===selected);
+  const rec={
+    schema:'ral/0.1', method:'interface-evidence/v1',
+    surface_under_test:{ product:t('product'), carrier:carrier,
+      viewport:`${CARRIERS[carrier].w}x${CARRIERS[carrier].h}`, route:SAMPLES[sampleKey]?.route||mode },
+    audited_at:'2026-08-29T09:00Z', enforcement:'monitor',
+    checks: act.map(x=>({id:x.id, name:x.en, state:x.state,
+      severity:x.sev===3?'critical':x.sev===2?'major':null,
+      anchor:{route:SAMPLES[x.sample].route, selector:x.sel},
+      carrier_rule:x.carriers[carrier]})),
+    summary:{ applicable:act.length, gaps:act.filter(x=>x.state==='gap').length,
+      unchecked:act.filter(x=>x.state==='unchecked').length,
+      clear:act.filter(x=>x.state==='clear').length },
+    annotations: notes.map(n=>({kind:n.kind,route:n.route,selector:n.sel,verbatim:n.verbatim})),
+    focus: c?c.id:null,
+    note:t('eviNote')
+  };
+  document.getElementById('eviBody').innerHTML =
+    JSON.stringify(rec,null,2).replace(/"(gap|unchecked|critical|major)"/g,'<b>"$1"</b>');
+  document.getElementById('copyEvi').onclick=e=>{
+    navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(rec,null,2));
+    const s=e.currentTarget; s.lastChild.textContent=t('copied');
+    setTimeout(()=>s.lastChild.textContent=t('copy'),1400);
+  };
+}
+
+/* ── modes ── */
+const inAddr=document.getElementById('inAddr'), inFile=document.getElementById('inFile');
+document.querySelectorAll('.addr .mbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.addr .mbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); mode=b.dataset.m;
+  sel.hidden = mode!=='sample'; inAddr.hidden = mode==='sample'||mode==='file';
+  if(mode==='url') inAddr.placeholder=t('phUrl');
+  if(mode==='repo') inAddr.placeholder=t('phRepo');
+  if(mode==='file') inFile.click();
+  if(mode==='sample') loadSample();
+});
+function blocked(title,body){
+  ovl.innerHTML=''; fr.removeAttribute('srcdoc');
+  fr.srcdoc=`<div style="font:13px/1.7 -apple-system,'PingFang TC',sans-serif;padding:40px;color:#57534d;text-align:center">
+    <div style="font-weight:600;color:#1a1a18;margin-bottom:6px">${title}</div><div style="font-size:12px">${body}</div></div>`;
+}
+document.getElementById('goBtn').onclick=async()=>{
+  const v=inAddr.value.trim();
+  if(mode==='sample'){ loadSample(); return; }
+  if(mode==='url'){
+    if(!v) return;
+    fr.removeAttribute('srcdoc'); fr.src=v; ovl.innerHTML='';
+    setTimeout(()=>{ let ok=false; try{ ok=!!fr.contentDocument }catch(e){ ok=false }
+      if(!ok) blocked(t('blkXtitle'), t('blkXbody')); },1400);
+    return;
+  }
+  if(mode==='repo'){
+    if(!v) return;
+    const raw = v.startsWith('http') ? v :
+      'https://raw.githubusercontent.com/'+v.replace(/^\/+/,'').replace(/\/blob\//,'/');
+    blocked(t('blkRead'), raw);
+    try{
+      const r=await fetch(raw); if(!r.ok) throw new Error('HTTP '+r.status);
+      let t=await r.text();
+      const base=raw.replace(/\/[^/]*$/,'/');
+      t=t.replace(/(src|href)=["'](?!https?:|data:|#|\/\/)([^"']+)["']/g,(m,a,p)=>`${a}="${base}${p.replace(/^\.\//,'')}"`);
+      fr.removeAttribute('src'); fr.srcdoc=t; fr.onload=()=>{hookFrame();drawMarkers();};
+    }catch(e){
+      blocked(t('blkFail'), t('blkFailBody')(e.message));
+    }
+    return;
+  }
+};
+inAddr.addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('goBtn').click(); });
+inFile.onchange=async()=>{
+  const f=inFile.files[0]; if(!f) return;
+  const t=await f.text();
+  if(/\.(md|mdx)$/i.test(f.name)){
+    const body=t.replace(/^---[\s\S]*?---/,'')
+      .replace(/^### (.*)$/gm,'<h3>$1</h3>').replace(/^## (.*)$/gm,'<h2>$1</h2>')
+      .replace(/^# (.*)$/gm,'<h1>$1</h1>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
+      .replace(/^- (.*)$/gm,'<li>$1</li>').replace(/\n{2,}/g,'</p><p>');
+    fr.removeAttribute('src');
+    fr.srcdoc=`<div style="font:14px/1.75 -apple-system,'PingFang TC',sans-serif;padding:28px;max-width:70ch;margin:auto"><p>${body}</p>
+      <hr><div style="font-size:11px;color:#8b857b">${t('mdxNote')}</div></div>`;
+  } else { fr.removeAttribute('src'); fr.srcdoc=t; }
+  fr.onload=()=>{hookFrame();drawMarkers();};
+};
+
+/* ── tools / misc ── */
+function setTool(t){ tool = tool===t?null:t;
+  document.getElementById('tCap').classList.toggle('on',tool==='cap');
+  document.getElementById('tAnn').classList.toggle('on',tool==='ann'); }
+document.getElementById('tCap').onclick=()=>setTool('cap');
+document.getElementById('tAnn').onclick=()=>setTool('ann');
+document.getElementById('tgLeft').onclick=()=>document.getElementById('app').classList.toggle('lcol');
+document.getElementById('tgTheme').onclick=()=>{
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  r.setAttribute('data-theme',cur==='dark'?'light':'dark'); setTimeout(drawMarkers,60);
+};
+document.getElementById('reload').onclick=()=>{ if(mode==='sample') loadSample(); };
+const inp=document.getElementById('inp');
+inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=inp.scrollHeight+'px';});
+document.getElementById('send').onclick=()=>{
+  const v=inp.value.trim(); if(!v) return;
+  notes.push({kind:'ann',sample:sampleKey,route:SAMPLES[sampleKey].route,sel:'(session note)',verbatim:'',text:v});
+  inp.value=''; inp.style.height='auto'; renderNotes(); renderSteps(); buildEvidence();
+};
+addEventListener('resize',()=>{applyCarrier()});
+
+function applyChrome(){
+  document.title = t('title');
+  document.documentElement.lang = LANGTAG[lang];
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const val = I18N[lang][el.getAttribute('data-t')];
+    if(val != null && typeof val === 'string') el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-t-title]').forEach(el=>{
+    el.title = t(el.getAttribute('data-t-title'));
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(el=>{
+    el.placeholder = t(el.getAttribute('data-t-ph'));
+  });
+  document.querySelectorAll('.lang-switch button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-lang')===lang);
+  });
+}
+
+function setLang(next){
+  lang = next === 'zh' ? 'zh' : 'en';
+  try { localStorage.setItem('auditLang', lang); } catch(e){}
+  applyChrome();
+  fillSampleSel();
+  renderLegend(); renderSteps(); renderCarriers(); renderNotes(); renderChecks();
+  if(mode==='sample') loadSample();
+  applyCarrier(); buildEvidence();
+  if(selected) setTimeout(()=>selectCheck(selected,false),220);
+}
+
+document.querySelector('.lang-switch').addEventListener('click', e=>{
+  const b = e.target.closest('button[data-lang]');
+  if(b) setLang(b.getAttribute('data-lang'));
+});
+
+/* ── boot ── */
+applyChrome();
+renderLegend(); renderSteps(); renderCarriers(); renderNotes(); renderChecks();
+loadSample(); applyCarrier(); buildEvidence();
+setTimeout(()=>selectCheck('C3',true),500);
+</script>
+</div>
+</div>
+<script src="sidebar.js"></script>
+<script>renderAuditSidebar('workbench');</script>
+</body>
+</html>

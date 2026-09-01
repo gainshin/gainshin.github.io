@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interface Acceptance Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+
+<style>
+:root{
+  --ground:#EDEFF3; --surface:#FFFFFF; --surface-2:#F6F7FA;
+  --ink:#15181F; --muted:#5C6476; --line:#D8DCE5; --line-strong:#BFC6D2;
+  --accent:#8C2F39; --accent-soft:#F3E3E5;
+  --pass:#1E6B4B; --gap:#94620F; --fail:#A33322;
+  --pass-bg:#E3EFE9; --gap-bg:#F6EBD6; --fail-bg:#F7E3DF;
+  --shadow:0 1px 2px rgba(21,24,31,.06), 0 8px 24px -12px rgba(21,24,31,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#101319; --surface:#171B23; --surface-2:#1E232D;
+    --ink:#E7EAF0; --muted:#98A1B3; --line:#2A303D; --line-strong:#3B4354;
+    --accent:#E28A93; --accent-soft:#3A2227;
+    --pass:#72CCA2; --gap:#DDB067; --fail:#EE8D78;
+    --pass-bg:#16281F; --gap-bg:#2C2517; --fail-bg:#2F1D19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#171B23; --surface-2:#1E232D;
+  --ink:#E7EAF0; --muted:#98A1B3; --line:#2A303D; --line-strong:#3B4354;
+  --accent:#E28A93; --accent-soft:#3A2227;
+  --pass:#72CCA2; --gap:#DDB067; --fail:#EE8D78;
+  --pass-bg:#16281F; --gap-bg:#2C2517; --fail-bg:#2F1D19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans","Noto Sans TC",-apple-system,system-ui,sans-serif;
+  font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1220px; margin:0 auto; padding:44px 24px 72px; display:flex; flex-direction:column; gap:30px}
+
+/* ---- header ---- */
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 12px;
+}
+h1{
+  font-family:"Newsreader","Songti TC",serif; font-weight:500; font-size:clamp(32px,5vw,50px);
+  line-height:1.12; letter-spacing:-.01em; margin:0; text-wrap:balance;
+}
+.lede{max-width:62ch; color:var(--muted); margin:14px 0 0; font-size:16px}
+.lede b{color:var(--ink); font-weight:600}
+
+/* ---- stack strip ---- */
+.stack{display:flex; flex-wrap:wrap; align-items:stretch; gap:10px; margin-top:4px}
+.layer{
+  flex:1 1 190px; background:var(--surface); border:1px solid var(--line);
+  border-radius:3px; padding:13px 15px;
+}
+.layer.here{border-color:var(--accent); background:var(--accent-soft)}
+.layer h4{margin:0 0 3px; font-size:13.5px; font-weight:600; letter-spacing:.01em}
+.layer p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.5}
+.layer.here p{color:var(--ink); opacity:.8}
+.layer .tag{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px;
+}
+.layer.here .tag{color:var(--accent)}
+
+/* ---- scoreboard ---- */
+.scores{display:grid; grid-template-columns:1fr 1fr auto; gap:1px; background:var(--line);
+  border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.score{background:var(--surface); padding:18px 20px}
+.score .k{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted)}
+.score .v{font-family:"Newsreader",serif; font-size:38px; line-height:1.1; margin-top:6px;
+  font-variant-numeric:tabular-nums}
+.score .v small{font-size:17px; color:var(--muted)}
+.score .n{font-size:12.5px; color:var(--muted); margin-top:2px}
+.score.claim .v{color:var(--pass)}
+.score.real .v{color:var(--accent)}
+.score.act{display:flex; align-items:center; padding:18px 20px; background:var(--surface)}
+
+button{font-family:inherit; font-size:13.5px; cursor:pointer; border-radius:3px}
+.btn{
+  background:var(--accent); color:#fff; border:1px solid var(--accent);
+  padding:9px 16px; font-weight:500; letter-spacing:.01em;
+}
+:root[data-theme="dark"] .btn, :root:not([data-theme="light"]) .btn{}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#1A0F12}}
+:root[data-theme="dark"] .btn{color:#1A0F12}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent; color:var(--ink); border-color:var(--line-strong)}
+.btn.ghost:hover{background:var(--surface-2); filter:none}
+.btn:disabled{opacity:.4; cursor:default}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ---- console ---- */
+.console{display:grid; grid-template-columns:250px minmax(0,1fr) 340px; gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.pane{background:var(--surface); min-width:0}
+.pane-h{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted); padding:13px 16px 11px;
+  border-bottom:1px solid var(--line);
+}
+
+/* clause rail */
+.clause{display:block; width:100%; text-align:left; background:none; border:0;
+  border-bottom:1px solid var(--line); padding:13px 16px; color:var(--ink); font-size:13.5px}
+.clause:hover{background:var(--surface-2)}
+.clause[aria-current="true"]{background:var(--accent-soft); box-shadow:inset 3px 0 0 var(--accent)}
+.clause .cid{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--muted); letter-spacing:.04em}
+.clause .cn{display:block; margin-top:3px; font-weight:500; line-height:1.4}
+.clause .cst{display:flex; gap:3px; margin-top:8px}
+.dot{width:16px; height:5px; border-radius:1px; background:var(--line-strong)}
+.dot.pass{background:var(--pass)} .dot.gap{background:var(--gap)} .dot.fail{background:var(--fail)}
+
+/* center */
+.claimbox{margin:16px; padding:13px 15px; border-left:2px solid var(--pass); background:var(--pass-bg);
+  border-radius:0 3px 3px 0}
+.claimbox .k{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--pass); margin-bottom:4px}
+.claimbox p{margin:0; font-size:13.5px; line-height:1.6}
+.claimbox cite{display:block; margin-top:7px; font-style:normal; font-size:11.5px; color:var(--muted);
+  font-family:"IBM Plex Mono",monospace}
+
+.stagewrap{padding:0 16px 16px}
+.stage{position:relative; margin:0 auto; max-width:400px}
+
+/* mock device — own fixed light world, reads as a screenshot */
+.mock{
+  --mk-bg:#FFFFFF; --mk-alt:#F4F5F7; --mk-ink:#1B1D22; --mk-mut:#767B85;
+  --mk-line:#E3E5EA; --mk-brand:#0E6E5E;
+  background:var(--mk-bg); color:var(--mk-ink); border:1px solid var(--line-strong);
+  border-radius:12px; overflow:hidden; box-shadow:var(--shadow); font-size:12px; line-height:1.55;
+}
+.mk-top{background:var(--mk-brand); color:#fff; padding:11px 14px; display:flex; align-items:center; gap:8px}
+.mk-top .lg{font-weight:600; font-size:13px; letter-spacing:.01em}
+.mk-top .sl{font-size:11px; opacity:.85}
+.mk-body{padding:13px 14px; display:flex; flex-direction:column; gap:11px}
+.bub{max-width:82%; padding:8px 11px; border-radius:11px; font-size:11.5px}
+.bub.u{align-self:flex-end; background:var(--mk-alt)}
+.bub.a{align-self:flex-start; background:#EAF3F1; border:1px solid #D6E7E3}
+.mk-card{border:1px solid var(--mk-line); border-radius:8px; padding:11px}
+.mk-card h5{margin:0 0 3px; font-size:12.5px; font-weight:600}
+.mk-meta{font-size:10.5px; color:var(--mk-mut); font-family:"IBM Plex Mono",monospace}
+.mk-card ul{margin:8px 0 0; padding-left:15px; font-size:11px; color:#3A3E46}
+.mk-card ul li{margin-bottom:3px}
+.mk-row{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:11px}
+.mk-btns{display:flex; gap:7px; margin-top:11px}
+.mk-b{flex:1; text-align:center; padding:7px; border-radius:6px; font-size:11px; font-weight:500;
+  background:var(--mk-brand); color:#fff}
+.mk-b.sec{background:var(--mk-alt); color:var(--mk-ink)}
+.mk-foot{border-top:1px solid var(--mk-line); padding:9px 14px; font-size:10px; color:var(--mk-mut)}
+.mk-label{font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--mk-mut);
+  font-family:"IBM Plex Mono",monospace}
+.mk-doc{background:var(--mk-alt); border:1px solid var(--mk-line); border-radius:6px; padding:10px;
+  font-size:11px; line-height:1.75}
+.tok{background:#2A2E36; color:#F2F3F5; border-radius:3px; padding:0 5px;
+  font-family:"IBM Plex Mono",monospace; font-size:10px}
+.chk{display:flex; gap:8px; align-items:flex-start; font-size:11px; padding:5px 0}
+.box{width:13px; height:13px; border:1.5px solid #9BA1AC; border-radius:3px; flex:none; margin-top:2px}
+.box.on{background:var(--mk-brand); border-color:var(--mk-brand); position:relative}
+.box.on::after{content:""; position:absolute; left:3.5px; top:.5px; width:4px; height:8px;
+  border:solid #fff; border-width:0 1.6px 1.6px 0; transform:rotate(42deg)}
+.mk-toggle{width:32px; height:18px; border-radius:9px; background:var(--mk-brand); position:relative; flex:none}
+.mk-toggle::after{content:""; position:absolute; right:2px; top:2px; width:14px; height:14px;
+  border-radius:50%; background:#fff}
+
+/* hotspots */
+.hs{
+  position:absolute; width:22px; height:22px; border-radius:50%; border:2px solid var(--surface);
+  color:#fff; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  display:grid; place-items:center; cursor:pointer; padding:0;
+  transform:translate(-50%,-50%) scale(.4); opacity:0;
+  transition:transform .3s cubic-bezier(.2,1.4,.4,1), opacity .3s, box-shadow .2s;
+  z-index:3;
+}
+.hs.show{transform:translate(-50%,-50%) scale(1); opacity:1}
+.hs.pass{background:var(--pass)} .hs.gap{background:var(--gap)} .hs.fail{background:var(--fail)}
+.hs.hot{box-shadow:0 0 0 5px color-mix(in srgb, currentColor 25%, transparent), 0 0 0 5px rgba(140,47,57,.25)}
+.hs.hot{transform:translate(-50%,-50%) scale(1.25)}
+@media (prefers-reduced-motion: reduce){.hs{transition:none}}
+
+/* right pane */
+.crit{border-bottom:1px solid var(--line); padding:12px 16px; cursor:pointer}
+.crit:hover{background:var(--surface-2)}
+.crit.hot{background:var(--surface-2)}
+.crit-h{display:flex; gap:9px; align-items:baseline}
+.num{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); flex:none; width:14px}
+.crit p{margin:0; font-size:13px; line-height:1.5; flex:1}
+.verd{display:inline-block; margin-top:7px; margin-left:23px; font-family:"IBM Plex Mono",monospace;
+  font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding:2px 7px; border-radius:2px}
+.verd.pass{background:var(--pass-bg); color:var(--pass)}
+.verd.gap{background:var(--gap-bg); color:var(--gap)}
+.verd.fail{background:var(--fail-bg); color:var(--fail)}
+.verd.pend{background:var(--surface-2); color:var(--muted)}
+.finding{margin:6px 0 0 23px; font-size:12px; color:var(--muted); line-height:1.5}
+.empty{padding:22px 16px; color:var(--muted); font-size:13px}
+
+.evi{border-top:1px solid var(--line); background:var(--surface-2)}
+.evi-h{display:flex; justify-content:space-between; align-items:center; padding:11px 16px 9px}
+.evi-h span{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted)}
+.evi-h button{background:none; border:1px solid var(--line-strong); color:var(--ink); font-size:11px;
+  padding:3px 9px}
+.evi pre{margin:0; padding:0 16px 16px; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  line-height:1.65; color:var(--muted); overflow-x:auto; white-space:pre}
+.evi pre b{color:var(--ink); font-weight:500}
+
+/* footer */
+.notes{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px;
+  border-top:1px solid var(--line); padding-top:24px}
+.note h4{margin:0 0 6px; font-size:13.5px; font-weight:600}
+.note p{margin:0; font-size:13px; color:var(--muted); line-height:1.6}
+.note code{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink)}
+
+@media (max-width:1000px){
+  .console{grid-template-columns:1fr}
+  .scores{grid-template-columns:1fr 1fr}
+  .score.act{grid-column:1/-1}
+}
+
+.topline{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.lang-switch{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;flex:none}
+.lang-switch button{
+  background:transparent;color:var(--muted);border:0;border-right:1px solid var(--line);
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+  padding:6px 11px;cursor:pointer
+}
+.lang-switch button:last-child{border-right:0}
+.lang-switch button.active{background:var(--ink);color:var(--surface)}
+.lang-switch button:hover:not(.active){background:var(--surface-2);color:var(--ink)}
+</style>
+</head>
+<body>
+<nav class="side-nav" id="audit-sidebar" aria-label="Audit pages"></nav>
+<div class="main-content">
+<div class="page-chrome" id="audit-chrome"></div>
+<div class="main-body is-app">
+
+<div class="wrap">
+
+<header>
+  <div class="topline">
+    <p class="eyebrow" data-t="eyebrow">Interface Evidence Layer</p>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="zh">繁中</button>
+    </div>
+  </div>
+  <h1 data-t="h1">The documents say disclosed.<br>The screen does not.</h1>
+  <p class="lede" data-t="lede">PIA, Model Card, and FRIA from the governance platform stop at the <b>claim</b>. Nobody checks whether the shipped screen actually delivers that sentence. This desk splits each clause into interface criteria, maps them onto the live surface, and writes an audit trail back. Pick a clause. Run the check.</p>
+</header>
+
+<section class="stack" data-t-aria="stackAria" aria-label="Governance stack">
+  <div class="layer">
+    <span class="tag">Layer 1 · Shielk</span>
+    <h4 data-t="l1h">Before data hits the model</h4>
+    <p data-t="l1p">PII detection, tokenisation, de-identification — then send.</p>
+  </div>
+  <div class="layer">
+    <span class="tag">Layer 2 · Valdra</span>
+    <h4 data-t="l2h">Org process and evidence</h4>
+    <p data-t="l2p">AI inventory, risk tiering, PIA / ROPA / Model Card, audit log.</p>
+  </div>
+  <div class="layer here">
+    <span class="tag" data-t="l3tag">Layer 3 · The gap</span>
+    <h4 data-t="l3h">Interface delivery check</h4>
+    <p data-t="l3p">Clause → interface pattern → pass criteria. The one stretch between paper and screen that nobody owns.</p>
+  </div>
+</section>
+
+<section class="scores" data-t-aria="scoreAria" aria-label="Compliance score">
+  <div class="score claim">
+    <div class="k" data-t="skClaim">Document layer · platform output</div>
+    <div class="v">5<small> / 5</small></div>
+    <div class="n" data-t="snClaim">All five compliance docs claim satisfied</div>
+  </div>
+  <div class="score real">
+    <div class="k" data-t="skReal">Interface layer · live check</div>
+    <div class="v" id="realScore">—<small> / 18</small></div>
+    <div class="n" id="realNote">Not yet audited</div>
+  </div>
+  <div class="score act">
+    <button class="btn" id="runAll" data-t="runAll">Run all</button>
+  </div>
+</section>
+
+<section class="console">
+  <div class="pane">
+    <div class="pane-h" data-t="paneClauses">Clauses</div>
+    <div id="clauseRail"></div>
+  </div>
+
+  <div class="pane">
+    <div class="pane-h" id="screenName">Surface under test</div>
+    <div class="claimbox">
+      <div class="k" data-t="claimK">Documented claim</div>
+      <p id="claimText"></p>
+      <cite id="claimSrc"></cite>
+    </div>
+    <div class="stagewrap">
+      <div class="stage" id="stage"></div>
+    </div>
+  </div>
+
+  <div class="pane">
+    <div class="pane-h" id="critHead">Acceptance criteria</div>
+    <div id="critList"></div>
+    <div class="evi" id="evi" hidden>
+      <div class="evi-h"><span data-t="eviH">Evidence record · attach to Model Card</span><button id="copyEvi" data-t="copy">Copy</button></div>
+      <pre id="eviBody"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="note">
+    <h4 data-t="n1h">Where the criteria come from</h4>
+    <p data-t="n1p">Each criterion maps to an interface pattern with a positive and a negative case. Evidence comes from the existing pattern library and UI teardowns (<code>UX_for_AI_RITE</code>, BiasGuard's risk matrix). Repeatable checks, not opinions.</p>
+  </div>
+  <div class="note">
+    <h4 data-t="n2h">How evidence plugs back</h4>
+    <p data-t="n2p">Each run writes a record with build hash and per-criterion results. It hangs under the existing PIA / Model Card on the governance platform — the UI-level evidence cell. Gate and replay follow the <code>HITL Proxy Auditor</code>.</p>
+  </div>
+  <div class="note">
+    <h4 data-t="n3h">Why a third party</h4>
+    <p data-t="n3p">Clause E sits on the Shielk boundary: de-identification itself creates a trust problem. The user cannot see what was masked, and has no remedy if the mask is wrong. The data layer cannot answer that. The document layer should not.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+let lang = "en";
+const LANGTAG = {en:"en", zh:"zh-Hant"};
+
+const UI = {
+  en: {
+    title:"Interface Acceptance Desk",
+    eyebrow:"Interface Evidence Layer",
+    h1:"The documents say disclosed.<br>The screen does not.",
+    lede:"PIA, Model Card, and FRIA from the governance platform stop at the <b>claim</b>. Nobody checks whether the shipped screen actually delivers that sentence. This desk splits each clause into interface criteria, maps them onto the live surface, and writes an audit trail back. Pick a clause. Run the check.",
+    stackAria:"Governance stack", scoreAria:"Compliance score",
+    l1h:"Before data hits the model", l1p:"PII detection, tokenisation, de-identification — then send.",
+    l2h:"Org process and evidence", l2p:"AI inventory, risk tiering, PIA / ROPA / Model Card, audit log.",
+    l3tag:"Layer 3 · The gap", l3h:"Interface delivery check",
+    l3p:"Clause → interface pattern → pass criteria. The one stretch between paper and screen that nobody owns.",
+    skClaim:"Document layer · platform output", snClaim:"All five compliance docs claim satisfied",
+    skReal:"Interface layer · live check", runAll:"Run all",
+    paneClauses:"Clauses", claimK:"Documented claim",
+    eviH:"Evidence record · attach to Model Card",
+    n1h:"Where the criteria come from",
+    n1p:"Each criterion maps to an interface pattern with a positive and a negative case. Evidence comes from the existing pattern library and UI teardowns (<code>UX_for_AI_RITE</code>, BiasGuard's risk matrix). Repeatable checks, not opinions.",
+    n2h:"How evidence plugs back",
+    n2p:"Each run writes a record with build hash and per-criterion results. It hangs under the existing PIA / Model Card on the governance platform — the UI-level evidence cell. Gate and replay follow the <code>HITL Proxy Auditor</code>.",
+    n3h:"Why a third party",
+    n3p:"Clause E sits on the Shielk boundary: de-identification itself creates a trust problem. The user cannot see what was masked, and has no remedy if the mask is wrong. The data layer cannot answer that. The document layer should not.",
+    pass:"Pass", gap:"Partial gap", fail:"Not delivered", pend:"Pending",
+    screen:"Surface under test · ", crit:"Acceptance criteria",
+    critDone:"Acceptance criteria · pass ",
+    runOne:"Run interface check", copy:"Copy", copied:"Copied",
+    notYet:"Not yet audited",
+    allDone: n => `All checks run · ${n} criteria not delivered`,
+    partial: n => `${n} criteria checked, rest pending`,
+    critAria: (i,v) => `Criterion ${i}: ${v}`
+  },
+  zh: {
+    title:"介面驗收台",
+    eyebrow:"Interface Evidence Layer · 介面驗收層",
+    h1:"文件說有揭露。<br>畫面沒有。",
+    lede:"治理平台產出的 PIA、Model Card 與 FRIA 停在<b>宣稱</b>；沒有人驗證出貨的畫面真的兌現了那句話。這是把條文拆成介面判準、逐條落到實際畫面上、再回吐可稽核證據的驗收台。選一條條文，按下驗收。",
+    stackAria:"治理堆疊分層", scoreAria:"合規計分",
+    l1h:"資料進模型前", l1p:"PII 偵測、token 化、去識別化後才送出。",
+    l2h:"組織流程與證據", l2p:"AI inventory、風險分級、PIA／ROPA／Model Card、稽核紀錄。",
+    l3tag:"Layer 3 · 缺口", l3h:"介面兌現驗收",
+    l3p:"條文 → 介面模式 → 通過判準。文件與畫面之間唯一沒人守的一段。",
+    skClaim:"文件層 · 治理平台輸出", snClaim:"五份合規文件皆聲稱已滿足",
+    skReal:"介面層 · 實際驗收", runAll:"全部驗收",
+    paneClauses:"條文 / Clauses", claimK:"文件聲稱 · Documented claim",
+    eviH:"證據紀錄 · 可掛回 Model Card",
+    n1h:"判準從哪來",
+    n1p:"每條判準都對應一個有正反例的介面模式，證據來自既有的模式庫與 UI 案例拆解（<code>UX_for_AI_RITE</code>、<code>BiasGuard</code> 的風險矩陣方法）。不是意見，是可重複的檢查。",
+    n2h:"證據怎麼接回去",
+    n2p:"每次驗收吐出一筆帶 build hash 與判準逐條結果的紀錄，掛在治理平台既有的 PIA／Model Card 底下，補上 UI-level evidence 這一格。架構沿用 <code>HITL Proxy Auditor</code> 的評估閘門與重播機制。",
+    n3h:"為什麼是三方",
+    n3p:"條文 E 落在 Shielk 的交界：去識別化本身製造了信任問題——使用者看不到遮了什麼、遮錯了沒有救濟。那是資料層做不到、也不該由文件層代答的。",
+    pass:"通過", gap:"部分缺口", fail:"未兌現", pend:"待驗收",
+    screen:"受測畫面 · ", crit:"介面判準 / Acceptance criteria",
+    critDone:"介面判準 · 通過 ",
+    runOne:"執行介面驗收", copy:"複製", copied:"已複製",
+    notYet:"尚未驗收",
+    allDone: n => `全部驗收完畢 · ${n} 條判準未兌現`,
+    partial: n => `已驗收 ${n} 條判準，其餘待驗`,
+    critAria: (i,v) => `判準 ${i}：${v}`
+  }
+};
+const u = k => UI[lang][k];
+const L = v => (v && typeof v === "object" && ("en" in v || "zh" in v)) ? (v[lang] || v.en) : v;
+const V = () => ({pass:u("pass"), gap:u("gap"), fail:u("fail")});
+
+const SCREENS = {
+  triage: {
+    name: {en:"MapleCare Assist · claims intake chat", zh:"MapleCare Assist · 理賠初審對話"},
+    html: {
+      en: `
+      <div class="mock">
+        <div class="mk-top"><span class="lg">MapleCare Assist</span><span class="sl">✦ Your smart claims partner</span></div>
+        <div class="mk-body">
+          <div class="bub u">Can I claim the physio I had last week? I uploaded the receipt.</div>
+          <div class="bub a">I've read your receipt and policy terms. Checking coverage…</div>
+          <div class="mk-card">
+            <div class="mk-label">Initial review</div>
+            <h5>Needs documents — missing referral</h5>
+            <div class="mk-meta">confidence 87% · 2.3s</div>
+            <ul>
+              <li>Policy requires a GP referral before physio</li>
+              <li>Receipt date is outside the waiting period — eligible</li>
+              <li>Remaining annual limit: CA$420</li>
+            </ul>
+            <div class="mk-btns"><div class="mk-b">Upload referral</div><div class="mk-b sec">Later</div></div>
+          </div>
+          <div class="bub a">Summary: your claim cannot be paid yet. Resubmit after you add the referral.</div>
+        </div>
+        <div class="mk-foot">MapleCare Inc. · Terms · Privacy · FAQ</div>
+      </div>`,
+      zh: `
+      <div class="mock">
+        <div class="mk-top"><span class="lg">MapleCare Assist</span><span class="sl">✦ 你的智慧理賠夥伴</span></div>
+        <div class="mk-body">
+          <div class="bub u">我上週做的物理治療可以報銷嗎？收據我上傳了。</div>
+          <div class="bub a">已讀取你的收據與保單條款，正在比對給付範圍⋯</div>
+          <div class="mk-card">
+            <div class="mk-label">初審結果</div>
+            <h5>需補件 — 缺轉介證明</h5>
+            <div class="mk-meta">confidence 87% · 2.3s</div>
+            <ul>
+              <li>保單需物理治療前有家醫轉介</li>
+              <li>收據日期落在等待期外，符合</li>
+              <li>本年度額度尚餘 CA$420</li>
+            </ul>
+            <div class="mk-btns"><div class="mk-b">上傳轉介證明</div><div class="mk-b sec">稍後處理</div></div>
+          </div>
+          <div class="bub a">摘要：你的申請暫時無法給付，補上轉介證明後可重新送出。</div>
+        </div>
+        <div class="mk-foot">MapleCare Inc. · 服務條款 · 隱私政策 · 常見問題</div>
+      </div>`
+    }
+  },
+  intake: {
+    name: {en:"MapleCare · case file and submit", zh:"MapleCare · 案件建檔與送出"},
+    html: {
+      en: `
+      <div class="mock">
+        <div class="mk-top"><span class="lg">MapleCare</span><span class="sl">Case file</span></div>
+        <div class="mk-body">
+          <div><div class="mk-label" style="margin-bottom:6px">Content to be sent for analysis</div>
+          <div class="mk-doc">Patient <span class="tok">[NAME_01]</span> attended a follow-up on <span class="tok">[DATE_01]</span> for lower back pain. Phone <span class="tok">[PHONE_01]</span>, policy <span class="tok">[POLICY_01]</span>. Recommend six more weeks of physio.</div></div>
+          <div class="mk-card">
+            <div class="mk-row"><div><strong style="font-size:11.5px">Auto-mask personal data</strong><div class="mk-meta" style="margin-top:2px">4 fields detected</div></div><div class="mk-toggle"></div></div>
+          </div>
+          <div>
+            <div class="mk-label" style="margin-bottom:4px">Data-use consent</div>
+            <div class="chk"><span class="box on"></span><span>Process this claim</span></div>
+            <div class="chk"><span class="box on"></span><span>Use this case to improve our AI models</span></div>
+            <div class="chk"><span class="box"></span><span>Receive policy-related marketing</span></div>
+          </div>
+          <div class="mk-btns"><div class="mk-b">Submit case</div></div>
+        </div>
+        <div class="mk-foot">MapleCare Inc. · Terms · Privacy · FAQ</div>
+      </div>`,
+      zh: `
+      <div class="mock">
+        <div class="mk-top"><span class="lg">MapleCare</span><span class="sl">案件建檔</span></div>
+        <div class="mk-body">
+          <div><div class="mk-label" style="margin-bottom:6px">將送交分析的內容</div>
+          <div class="mk-doc">病患 <span class="tok">[NAME_01]</span> 於 <span class="tok">[DATE_01]</span> 至本院複診，主訴下背痛。聯絡電話 <span class="tok">[PHONE_01]</span>，保單號 <span class="tok">[POLICY_01]</span>。建議續行物理治療六週。</div></div>
+          <div class="mk-card">
+            <div class="mk-row"><div><strong style="font-size:11.5px">自動遮罩個資</strong><div class="mk-meta" style="margin-top:2px">偵測到 4 個欄位</div></div><div class="mk-toggle"></div></div>
+          </div>
+          <div>
+            <div class="mk-label" style="margin-bottom:4px">資料使用同意</div>
+            <div class="chk"><span class="box on"></span><span>處理本次理賠申請</span></div>
+            <div class="chk"><span class="box on"></span><span>以本案內容改進我們的 AI 模型</span></div>
+            <div class="chk"><span class="box"></span><span>接收保單相關行銷資訊</span></div>
+          </div>
+          <div class="mk-btns"><div class="mk-b">送出案件</div></div>
+        </div>
+        <div class="mk-foot">MapleCare Inc. · 服務條款 · 隱私政策 · 常見問題</div>
+      </div>`
+    }
+  }
+};
+
+const CLAUSES = [
+  {
+    id:"A", cid:"EU AI Act Art. 50(1)",
+    name:{en:"Disclosure of AI interaction", zh:"與 AI 互動的揭露義務"},
+    screen:"triage",
+    claim:{
+      en:"Users are clearly told they are interacting with an AI system on first entry.",
+      zh:"使用者在首次進入助理時會被明確告知正在與 AI 系統互動。"
+    },
+    src:"Model Card v2.1 §4.2 · Transparency Obligations",
+    crit:[
+      {t:{en:"Clear AI-identity disclosure on first entry", zh:"首次進入時有明確的 AI 身分揭露"}, v:"pass", x:50, y:7,
+       f:{en:"The one-shot banner on entry says \"AI-generated\". Meets the floor.",
+          zh:"進入時的一次性橫幅有寫「由 AI 產生」，符合最低要求。"}},
+      {t:{en:"Disclosure stays visible for the session, not a one-shot banner", zh:"揭露在對話持續期間仍可見，非一次性提示"}, v:"gap", x:50, y:26,
+       f:{en:"The banner never comes back. After two turns, nothing on screen marks this as AI.",
+          zh:"橫幅關閉後不再出現，捲動兩輪後畫面上已無任何 AI 標示。"}},
+      {t:{en:"Identity switch is marked when a human takes over", zh:"轉接真人時明確標示身分切換"}, v:"fail", x:22, y:44,
+       f:{en:"No identity-switch mark in the thread. The user cannot tell who is speaking now.",
+          zh:"對話中沒有任何身分切換標記；使用者無從判斷此刻的回覆來自誰。"}},
+      {t:{en:"Disclosure is not diluted by marketing language", zh:"揭露未被行銷語言稀釋"}, v:"gap", x:78, y:7,
+       f:{en:"Title bar says \"Your smart claims partner\". The persona drowns the AI identity.",
+          zh:"標題列寫「你的智慧理賠夥伴」，擬人化敘述壓過了 AI 身分本身。"}}
+    ]
+  },
+  {
+    id:"B", cid:"EU AI Act Art. 50(2)",
+    name:{en:"Marking of AI-generated content", zh:"AI 生成內容的標示"},
+    screen:"triage",
+    claim:{
+      en:"All system-generated text is marked as machine-generated and machine-readable.",
+      zh:"所有由系統生成的文字輸出均標示為機器生成，並可被機器辨識。"
+    },
+    src:"FRIA §3 · Synthetic content marking",
+    crit:[
+      {t:{en:"Generated content is marked at output level, item by item", zh:"生成內容在輸出層級逐則標示"}, v:"gap", x:35, y:88,
+       f:{en:"The mark sits at page-header level only. The summary block itself has none; a screenshot loses the context.",
+          zh:"標示只在頁首層級；摘要區塊本身沒有任何標記，截圖後即失去脈絡。"}},
+      {t:{en:"Machine-readable provenance mark (C2PA / metadata)", zh:"具備可機讀的來源標記（C2PA／metadata）"}, v:"fail", x:70, y:60,
+       f:{en:"No provenance mark in the DOM or response headers. Downstream systems cannot detect this automatically.",
+          zh:"DOM 與回應標頭皆無來源標記，下游系統無法自動辨識。"}},
+      {t:{en:"Mark survives export, copy, or print", zh:"匯出、複製或列印後標示仍保留"}, v:"fail", x:50, y:97,
+       f:{en:"Copy the summary out and only plain text remains. The mark is gone.",
+          zh:"複製摘要文字貼出後只剩純文字，標示完全消失。"}}
+    ]
+  },
+  {
+    id:"C", cid:"Law 25 s.12.1 (Québec)",
+    name:{en:"Automated-decision notice and human review", zh:"自動化決策告知與人工複核"},
+    screen:"triage",
+    claim:{
+      en:"When a decision is fully automated, the user is told, and can ask for human review.",
+      zh:"當決定完全基於自動化處理時，使用者會被告知，並可要求人工複核。"
+    },
+    src:"PIA／ÉFVP v4 §6.1 · Automated decision-making",
+    crit:[
+      {t:{en:"At the decision, state that it is fully automated", zh:"決策當下告知「此決定完全基於自動化處理」"}, v:"fail", x:50, y:52,
+       f:{en:"The decision card shows the result and a confidence score. No sentence says this decision is fully automated.",
+          zh:"決策卡只呈現結果與信心分數，全程未出現自動化處理的告知語句。"}},
+      {t:{en:"Disclose which personal-data fields the decision used", zh:"揭露決策所使用的個人資料項目"}, v:"gap", x:50, y:70,
+       f:{en:"Reasons cite policy terms, not which personal-data fields were used. The only pointer is a footer link to the full privacy policy.",
+          zh:"理由列出了條款依據，但沒說用了哪些個資欄位；僅頁尾連結至隱私政策全文。"}},
+      {t:{en:"Human-review entry is reachable inside the flow", zh:"人工複核入口在流程內可直接觸達"}, v:"gap", x:50, y:79,
+       f:{en:"Review is three clicks away, through the footer FAQ — outside the flow.",
+          zh:"複核只能透過頁尾「常見問題」進入，離開流程且需三次點擊。"}},
+      {t:{en:"Give an understandable reason, not only a confidence score", zh:"提供可理解的決策理由，而非僅信心分數"}, v:"pass", x:50, y:62,
+       f:{en:"Three reasons map to policy clauses and can be traced. Passes understandability.",
+          zh:"三條理由對應保單條款，可追溯，符合可理解性要求。"}}
+    ]
+  },
+  {
+    id:"D", cid:"PIPEDA · meaningful consent",
+    name:{en:"Consent given and withdrawn", zh:"同意的取得與撤回"},
+    screen:"intake",
+    claim:{
+      en:"We take purpose-specific consent in layers, and do not use customer content to train third-party models.",
+      zh:"我們以分層方式取得目的別同意，且不將客戶內容用於訓練第三方模型。"
+    },
+    src:"ROPA v1.8 §2 · Lawful basis",
+    crit:[
+      {t:{en:"Purposes disclosed in layers, not one long clause", zh:"目的分層揭露，非單一長文條款"}, v:"pass", x:50, y:70,
+       f:{en:"Three purposes, each a concrete sentence. Meets layered-consent form.",
+          zh:"三個目的分列且語句具體，符合分層同意的形式要求。"}},
+      {t:{en:"Secondary use (model improvement) unchecked by default", zh:"次要用途（模型改進）預設未勾選"}, v:"fail", x:26, y:76,
+       f:{en:"\"Improve our AI models\" is pre-checked — opt-out, not valid consent.",
+          zh:"「改進我們的 AI 模型」預設為勾選狀態——此為選擇退出，非有效同意。"}},
+      {t:{en:"Withdrawing consent is as easy as giving it", zh:"撤回同意的路徑與給予同樣容易"}, v:"gap", x:50, y:94,
+       f:{en:"No withdraw control on the submit page. Withdrawal is an email to support.",
+          zh:"送出頁沒有撤回入口；撤回需另行寄信至客服信箱。"}}
+    ]
+  },
+  {
+    id:"E", cid:"Shielk boundary · de-ID transparency",
+    name:{en:"Mask visibility and remedy", zh:"遮罩的可見性與救濟"},
+    screen:"intake",
+    claim:{
+      en:"Personal identifiers are tokenised before anything is sent to an external model.",
+      zh:"送交外部模型前，個人識別資料已完成 token 化替換。"
+    },
+    src:"Data flow diagram v3 · Pre-processing",
+    crit:[
+      {t:{en:"Show which fields will be masked, before send", zh:"送出前顯示哪些欄位將被遮罩"}, v:"pass", x:50, y:33,
+       f:{en:"Four masked fields show as tokens in the text block. Visible before send.",
+          zh:"文字區塊內以 token 呈現四個被遮罩欄位，使用者送出前看得到。"}},
+      {t:{en:"Masking decisions can be overridden field by field", zh:"可逐項覆寫遮罩決策"}, v:"gap", x:84, y:55,
+       f:{en:"One master toggle. To keep a single field, the user has to turn masking off for all of them.",
+          zh:"只有一個全開全關的總開關；使用者若需保留某一欄位，只能整批關閉遮罩。"}},
+      {t:{en:"Who can reverse a token, and when, is visible to the user", zh:"還原 token 的條件與對象對使用者可見"}, v:"fail", x:20, y:55,
+       f:{en:"The screen never says who can reverse a token, or under what conditions. The user is looking at the other end of a black box.",
+          zh:"畫面未說明誰能還原、在什麼條件下還原。使用者看到的是黑箱的另一端。"}},
+      {t:{en:"A report path for a masking miss", zh:"提供遮罩失誤的回報入口"}, v:"fail", x:50, y:44,
+       f:{en:"No report path for a miss (e.g. an address in free text).",
+          zh:"偵測漏掉的個資（如自由文字中的地址）無任何回報途徑。"}}
+    ]
+  }
+];
+
+const TOTAL = CLAUSES.reduce((n,c)=>n+c.crit.length,0);
+const done = new Set();
+let active = CLAUSES[0];
+
+const rail = document.getElementById("clauseRail");
+const stage = document.getElementById("stage");
+const critList = document.getElementById("critList");
+
+function applyChrome(){
+  const dict = UI[lang];
+  document.querySelectorAll("[data-t]").forEach(el=>{
+    const val = dict[el.getAttribute("data-t")];
+    if(val != null) el.innerHTML = val;
+  });
+  document.querySelectorAll("[data-t-aria]").forEach(el=>{
+    const val = dict[el.getAttribute("data-t-aria")];
+    if(val != null) el.setAttribute("aria-label", val);
+  });
+  document.title = dict.title;
+  document.documentElement.lang = LANGTAG[lang];
+  document.querySelectorAll(".lang-switch button").forEach(b=>{
+    b.classList.toggle("active", b.getAttribute("data-lang")===lang);
+  });
+}
+
+function railHTML(){
+  rail.innerHTML = CLAUSES.map(c=>{
+    const shown = done.has(c.id);
+    const dots = c.crit.map(k=>`<span class="dot ${shown?k.v:""}"></span>`).join("");
+    return `<button class="clause" data-id="${c.id}" aria-current="${c===active}">
+      <span class="cid">${c.cid}</span><span class="cn">${L(c.name)}</span>
+      <span class="cst">${dots}</span></button>`;
+  }).join("");
+  rail.querySelectorAll(".clause").forEach(b=>{
+    b.onclick = ()=>{ active = CLAUSES.find(c=>c.id===b.dataset.id); render(); };
+  });
+}
+
+function render(){
+  railHTML();
+  document.getElementById("screenName").textContent = u("screen") + L(SCREENS[active.screen].name);
+  document.getElementById("claimText").textContent = (lang==="zh"?"「":"“") + L(active.claim) + (lang==="zh"?"」":"”");
+  document.getElementById("claimSrc").textContent = active.src;
+
+  stage.innerHTML = L(SCREENS[active.screen].html);
+  const shown = done.has(active.id);
+  const verd = V();
+  active.crit.forEach((k,i)=>{
+    const b = document.createElement("button");
+    b.className = "hs " + k.v + (shown?" show":"");
+    b.style.left = k.x + "%"; b.style.top = k.y + "%";
+    b.textContent = i+1;
+    b.setAttribute("aria-label", u("critAria")(i+1, verd[k.v]));
+    b.dataset.i = i;
+    b.onmouseenter = ()=>hot(i,true); b.onmouseleave = ()=>hot(i,false);
+    b.onfocus = ()=>hot(i,true); b.onblur = ()=>hot(i,false);
+    stage.appendChild(b);
+  });
+
+  const head = document.getElementById("critHead");
+  head.textContent = shown
+    ? u("critDone") + active.crit.filter(k=>k.v==="pass").length + " / " + active.crit.length
+    : u("crit");
+
+  critList.innerHTML = active.crit.map((k,i)=>`
+    <div class="crit" data-i="${i}">
+      <div class="crit-h"><span class="num">${i+1}</span><p>${L(k.t)}</p></div>
+      <span class="verd ${shown?k.v:"pend"}">${shown?verd[k.v]:u("pend")}</span>
+      ${shown?`<p class="finding">${L(k.f)}</p>`:""}
+    </div>`).join("")
+    + (shown?"":`<div class="empty" style="padding:18px 16px"><button class="btn" id="runOne">${u("runOne")}</button></div>`);
+
+  critList.querySelectorAll(".crit").forEach(el=>{
+    const i = +el.dataset.i;
+    el.onmouseenter = ()=>hot(i,true); el.onmouseleave = ()=>hot(i,false);
+  });
+  const one = document.getElementById("runOne");
+  if(one) one.onclick = ()=>run(active);
+
+  evidence(shown);
+  score();
+}
+
+function hot(i,on){
+  const h = stage.querySelector(`.hs[data-i="${i}"]`);
+  const c = critList.querySelector(`.crit[data-i="${i}"]`);
+  if(h) h.classList.toggle("hot",on);
+  if(c) c.classList.toggle("hot",on);
+}
+
+function run(c){
+  done.add(c.id);
+  render();
+  const marks = stage.querySelectorAll(".hs");
+  marks.forEach(m=>m.classList.remove("show"));
+  marks.forEach((m,i)=>setTimeout(()=>m.classList.add("show"), 90*i + 60));
+}
+
+function evidence(shown){
+  const box = document.getElementById("evi");
+  box.hidden = !shown;
+  if(!shown) return;
+  const rec = {
+    clause: active.cid,
+    surface: L(SCREENS[active.screen].name),
+    build: "mc-assist@4.7.2 · sha 9f31ac0",
+    audited_at: "2026-08-28T14:22Z",
+    method: "interface-evidence/v1",
+    documented_claim: "asserted_compliant",
+    interface_verdict: active.crit.every(k=>k.v==="pass") ? "compliant"
+      : (active.crit.some(k=>k.v==="fail") ? "not_evidenced" : "partial"),
+    criteria: active.crit.map((k,i)=>({id:`${active.id}${i+1}`, verdict:k.v})),
+    attaches_to: ["ModelCard v2.1 §4.2", "PIA/ÉFVP v4 §6.1"]
+  };
+  document.getElementById("eviBody").innerHTML =
+    JSON.stringify(rec,null,2).replace(/"(not_evidenced|partial|fail|gap)"/g,'<b>"$1"</b>');
+  document.getElementById("copyEvi").onclick = e=>{
+    navigator.clipboard && navigator.clipboard.writeText(JSON.stringify(rec,null,2));
+    e.target.textContent = u("copied"); setTimeout(()=>e.target.textContent=u("copy"),1400);
+  };
+}
+
+function score(){
+  let pass=0, checked=0;
+  CLAUSES.forEach(c=>{ if(done.has(c.id)){ checked+=c.crit.length; pass+=c.crit.filter(k=>k.v==="pass").length; }});
+  const el = document.getElementById("realScore");
+  const note = document.getElementById("realNote");
+  if(!checked){ el.innerHTML = `—<small> / ${TOTAL}</small>`; note.textContent = u("notYet"); return; }
+  el.innerHTML = `${pass}<small> / ${TOTAL}</small>`;
+  note.textContent = checked===TOTAL
+    ? u("allDone")(TOTAL-pass)
+    : u("partial")(checked);
+}
+
+document.getElementById("runAll").onclick = ()=>{
+  CLAUSES.forEach(c=>done.add(c.id));
+  render();
+  const marks = stage.querySelectorAll(".hs");
+  marks.forEach(m=>m.classList.remove("show"));
+  marks.forEach((m,i)=>setTimeout(()=>m.classList.add("show"), 90*i + 60));
+};
+
+function setLang(next){
+  lang = next === "zh" ? "zh" : "en";
+  try { localStorage.setItem("auditLang", lang); } catch(e){}
+  applyChrome();
+  render();
+}
+
+document.querySelector(".lang-switch").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-lang]");
+  if(b) setLang(b.getAttribute("data-lang"));
+});
+
+try {
+  const saved = localStorage.getItem("auditLang");
+  if(saved === "en" || saved === "zh") lang = saved;
+} catch(e){}
+applyChrome();
+render();
+</script>
+</div>
+</div>
+<script src="sidebar.js"></script>
+<script>renderAuditSidebar('console');</script>
+</body>
+</html>

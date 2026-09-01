@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reasoning Audit Layer — The design space for effectiveness evidence | Joshua Hsiao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ink:#1D1D1B;--red:#E3120B;--ox:#7a2e1f;--warm:#F5F1EB;--rule:#D4D1CB;--mid:#6B6B6B;--bg2:#f7f7f5;
+  --amber:#B7791F;--green:#2D8A56;--blue:#2471A3;--violet:#6d28d9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',-apple-system,'PingFang TC','Noto Sans TC',sans-serif;
+  color:var(--ink);line-height:1.6;background:#fff;font-size:15px;
+}
+.prd-inner{
+  max-width:1100px;margin:0 auto;padding:2.1rem 2.5rem 2.8rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.12);
+}
+h1,h2,h3,h4,h5,h6{line-height:1.3}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+/* cover */
+.kicker{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.cover-title{font-size:2.05rem;font-weight:800;letter-spacing:-.02em;margin:.5rem 0 .1rem;text-wrap:balance}
+.cover-sub{font-size:1.05rem;font-weight:600;color:var(--mid);margin-bottom:.9rem}
+.cover-lead{font-size:.95rem;line-height:1.7;color:var(--mid);max-width:70ch}
+.cover-lead b{color:var(--ink)}
+.cover-meta{margin-top:.9rem;font-size:.74rem;color:var(--mid);border-top:1px solid var(--rule);padding-top:.55rem}
+
+/* section */
+.section-header{display:flex;align-items:baseline;gap:10px;padding:5px 0;border-bottom:2px solid var(--ink);margin:2.2rem 0 .8rem}
+.sec-n{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--red);font-weight:600}
+.sec-title{font-size:1.02rem;font-weight:700}
+.sec-note{margin-left:auto;font-size:.72rem;color:var(--mid)}
+
+.body-text{font-size:.89rem;line-height:1.7;color:var(--mid);margin-bottom:.7rem;max-width:78ch}
+.body-text b{color:var(--ink)}
+.exec-box{border:2px solid var(--ink);background:var(--warm);padding:1rem 1.2rem;font-size:.88rem;line-height:1.6}
+.exec-lead{font-weight:800;font-size:1.02rem;line-height:1.4;margin-bottom:.5rem}
+.exec-box p{color:var(--mid)}
+.exec-box p b{color:var(--ink)}
+
+/* framework cards */
+.fw{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:.7rem 0}
+.fw-card{border:1px solid var(--rule);padding:.8rem .95rem;background:var(--bg2);font-size:.82rem;line-height:1.6;color:var(--mid)}
+.fw-card h6{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:.3rem}
+.fw-card .tagline{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);display:block;margin-bottom:.45rem}
+.fw-card.hit{background:#fff;border-color:var(--red);border-width:2px}
+.fw-card.hit h6{color:var(--red)}
+
+/* gates nav */
+.gates{display:flex;gap:0;margin:1.1rem 0 .3rem;border:1px solid var(--rule);overflow:hidden;flex-wrap:wrap}
+.gate{flex:1 1 150px;padding:.55rem .7rem;border-right:1px solid var(--rule);cursor:pointer;background:#fff;text-align:left;font-family:inherit}
+.gate:last-child{border-right:0}
+.gate:hover{background:var(--warm)}
+.gate.active{background:var(--ink);color:#fff}
+.gate .g-id{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.1em;color:var(--red);font-weight:600;display:block}
+.gate.active .g-id{color:#ff8a80}
+.gate .g-t{font-size:.79rem;font-weight:600;display:block;margin-top:2px;line-height:1.35}
+.gate .g-s{font-size:.68rem;color:var(--mid);display:block;margin-top:2px}
+.gate.active .g-s{color:rgba(255,255,255,.6)}
+
+/* gate block */
+.gate-block{margin-top:1.6rem;scroll-margin-top:12px}
+.gb-h{border-left:4px solid var(--red);padding-left:.75rem;margin-bottom:.7rem}
+.gb-h .gb-id{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--red);font-weight:600;letter-spacing:.08em}
+.gb-h h3{font-size:1.22rem;font-weight:800;letter-spacing:-.01em;margin-top:1px}
+.gb-h .gb-sub{font-size:.83rem;color:var(--mid);margin-top:2px}
+
+.sub-h{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);
+  border-bottom:1px solid var(--rule);padding-bottom:.25rem;margin:1.1rem 0 .5rem}
+
+.tension{background:var(--warm);border-left:3px solid var(--amber);padding:.7rem .9rem;font-size:.86rem;line-height:1.65}
+.tension b{display:block;font-size:.92rem;margin-bottom:.25rem;color:var(--ink)}
+.tension span{color:var(--mid)}
+
+/* status rows */
+.status{border-top:1px solid var(--rule)}
+.st-row{display:grid;grid-template-columns:96px 1fr;gap:.8rem;padding:.5rem 0;border-bottom:1px solid var(--rule);font-size:.83rem;line-height:1.6}
+.st-row .st-k{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;
+  font-weight:600;color:#fff;background:var(--mid);padding:2px 6px;border-radius:2px;height:fit-content;text-align:center}
+.st-row .st-k.ok{background:var(--green)}
+.st-row .st-k.gap{background:var(--red)}
+.st-row .st-k.chk{background:var(--amber)}
+.st-row .st-v{color:var(--mid)}
+.st-row .st-v b{color:var(--ink)}
+
+/* pattern cards */
+.pats{display:flex;flex-direction:column;gap:.55rem}
+.pat{border:1px solid var(--rule);padding:.75rem .9rem;background:#fff}
+.pat-h{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.35rem}
+.pbadge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:700;background:var(--ink);color:#fff;
+  padding:2px 6px;letter-spacing:.06em}
+.pat-h .pn{font-size:.92rem;font-weight:700}
+.pat-h .ptag{font-size:.62rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--rule);color:var(--mid);padding:1px 5px;margin-left:auto}
+.pat p{font-size:.83rem;line-height:1.65;color:var(--mid)}
+.pat p b{color:var(--ink)}
+.pat .acc{margin-top:.45rem;font-size:.76rem;color:var(--green);border-top:1px dashed var(--rule);padding-top:.4rem}
+.pat .acc b{color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+
+/* CI list */
+.ci{font-size:.83rem;line-height:1.9}
+.ci div{display:flex;gap:.5rem;border-bottom:1px dotted var(--rule);padding:.15rem 0}
+.ci .flow{color:var(--mid);flex:1}
+.ci .flow b{color:var(--ink)}
+.ci .vd{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.05em;white-space:nowrap}
+.vd.ok{color:var(--green)} .vd.no{color:var(--red)} .vd.cond{color:var(--amber)}
+
+.fails{font-size:.83rem;line-height:1.7;color:var(--mid);padding-left:1.1rem}
+.fails li{margin-bottom:.25rem}
+
+/* gradient 3col */
+.grad{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.5rem}
+.grad-c{border:1px solid var(--rule);padding:.65rem .8rem;font-size:.79rem;line-height:1.6;color:var(--mid);background:var(--bg2)}
+.grad-c h6{font-size:.66rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:.3rem;font-weight:700}
+
+/* prediction */
+.pred{border:1px solid var(--ink);background:#fff;padding:.6rem .8rem;font-size:.82rem;line-height:1.65;margin-top:.45rem;
+  display:grid;grid-template-columns:34px 1fr auto;gap:.6rem;align-items:start}
+.pred .pid{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--red);font-size:.78rem}
+.pred .pv{color:var(--mid)}
+.pred .pv b{color:var(--ink)}
+.pred .pd{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--mid);white-space:nowrap;
+  border:1px solid var(--rule);padding:1px 5px;height:fit-content}
+
+/* tables */
+.tw{overflow-x:auto;margin:.5rem 0}
+table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:640px}
+th{text-align:left;font-weight:700;font-size:.66rem;letter-spacing:.06em;color:var(--mid);text-transform:uppercase;
+  padding:.45rem .55rem;border-bottom:2px solid var(--ink);white-space:nowrap}
+td{padding:.5rem .55rem;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--mid);line-height:1.55}
+td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+td b{color:var(--ink)}
+td.fail-c{color:var(--ox)}
+
+/* swimlane */
+.swim{border:1px solid var(--rule);background:#fff;padding:.5rem;overflow-x:auto}
+.swim svg{display:block;min-width:700px}
+
+/* invariants */
+.inv{background:var(--ink);color:#fff;padding:.75rem .95rem;font-size:.82rem;line-height:1.75;margin-top:.6rem}
+.inv h6{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+  color:#ff8a80;margin-bottom:.3rem;font-weight:700}
+.inv ul{padding-left:1.1rem}
+
+/* partner cards */
+.partners{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:.6rem}
+.pc{border:1px solid var(--rule);background:#fff;display:flex;flex-direction:column}
+.pc-h{padding:.6rem .8rem;border-bottom:1px solid var(--rule);background:var(--bg2)}
+.pc-h .pc-n{font-size:1rem;font-weight:800}
+.pc-h .pc-r{font-size:.68rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)}
+.pc.lead{border:2px solid var(--red)}
+.pc.lead .pc-h{background:#fff5f4}
+.pc.lead .pc-r{color:var(--red)}
+.pc-b{padding:.7rem .8rem;font-size:.8rem;line-height:1.6;color:var(--mid);flex:1;display:flex;flex-direction:column;gap:.55rem}
+.pc-b dt{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:700}
+.pc-b dd{margin-top:2px}
+.pc-b dd b{color:var(--ink)}
+
+/* agent payload */
+.agent-box{border:2px solid var(--violet);background:#faf8ff}
+.agent-box .ab-h{background:var(--violet);color:#fff;padding:.5rem .8rem;font-size:.78rem;font-weight:700;
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.agent-box .ab-h .mono{font-size:.68rem;opacity:.75;letter-spacing:.06em}
+.agent-box .ab-h button{margin-left:auto;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);
+  color:#fff;font-family:'IBM Plex Mono',monospace;font-size:.68rem;padding:2px 9px;cursor:pointer;border-radius:2px}
+.agent-box .ab-h button:hover{background:rgba(255,255,255,.28)}
+pre.code{margin:0;padding:.8rem .9rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;line-height:1.6;
+  color:#2a2a28;overflow-x:auto;white-space:pre;background:#faf8ff}
+pre.code .k{color:var(--violet);font-weight:600}
+pre.code .s{color:var(--green)}
+pre.code .c{color:#9a9a95;font-style:italic}
+
+.caveat{border:1px dashed var(--red);background:#fff8f7;padding:.7rem .9rem;font-size:.81rem;line-height:1.7;color:var(--ox)}
+.caveat b{color:var(--red)}
+.caveat ol{padding-left:1.15rem;margin-top:.3rem}
+
+footer.pf{margin-top:2.2rem;border-top:2px solid var(--ink);padding-top:.6rem;font-size:.7rem;color:var(--mid);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+
+.doc-nav{display:flex;align-items:stretch;gap:8px;flex-wrap:nowrap;margin:0 -2.5rem 1.2rem;padding:.55rem 2.5rem;background:var(--bg2);border-bottom:1px solid var(--rule);font-size:.78rem;position:sticky;top:0;z-index:70;backdrop-filter:blur(8px)}
+.doc-nav .doc-nav-label{font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-right:4px;display:flex;align-items:center;flex-shrink:0}
+.doc-nav a{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0;color:var(--ink);text-decoration:none;font-weight:600;padding:.42rem .7rem;border:1px solid var(--rule);background:#fff;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-nav a:hover{border-color:var(--red);color:var(--red)}
+.lang-switch{display:flex;gap:4px;margin-left:auto;flex-shrink:0;padding-left:10px;border-left:1px solid var(--rule)}
+.lang-switch button{font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:.42rem .6rem;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:4px;cursor:pointer}
+.lang-switch button:hover{border-color:var(--red);color:var(--red)}
+.lang-switch button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+@media (max-width:820px){
+  .prd-inner{padding:1.4rem 1.1rem 2rem}
+  .fw,.grad,.partners{grid-template-columns:1fr}
+  .pred{grid-template-columns:30px 1fr}
+  .pred .pd{grid-column:2}
+  .doc-nav{margin:0 -1.1rem 1rem;padding:.55rem 1.1rem;flex-wrap:wrap;row-gap:8px}
+  .doc-nav a{flex:1 1 40%}
+  .lang-switch{margin-left:0;border-left:none;padding-left:0;width:100%}
+  .lang-switch button{flex:1}
+}
+@media print{.prd-inner{box-shadow:none;max-width:none}.gates,.doc-nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="side-nav" id="audit-sidebar" aria-label="Audit pages"></nav>
+<div class="main-content">
+<div class="page-chrome" id="audit-chrome"></div>
+<div class="main-body">
+<div class="prd-inner">
+
+<nav class="doc-nav">
+  <span class="doc-nav-label" data-t="nav.label">Jump to</span>
+  <a href="#s0" data-t="nav.0">Thesis</a>
+  <a href="#s1" data-t="nav.1">Evidence</a>
+  <a href="#s2" data-t="nav.2">Gates</a>
+  <a href="#s5" data-t="nav.5">Partners</a>
+  <a href="#s8" data-t="nav.8">Ledger</a>
+  <span class="lang-switch" role="group" aria-label="Language">
+    <button type="button" data-lang="en" class="active">EN</button>
+    <button type="button" data-lang="zh">繁中</button>
+  </span>
+</nav>
+
+<!-- ══════════ COVER ══════════ -->
+<p class="kicker" data-t="kicker">Reasoning Audit Layer · B2B adoption brief · v0.1</p>
+<h1 class="cover-title" data-t="h1">After the Answer Comes Back</h1>
+<p class="cover-sub" data-t="sub">The design space for effectiveness evidence in a reasoning audit layer</p>
+<p class="cover-lead" data-t="lead">The evidence chain in governance products stops at <b>what the organisation said</b>. Nobody produces evidence of <b>what the user received</b>. The regulation actually asks for the latter — Art. 50 says <b>clear and distinguishable</b>, Law 25 says <b>informed</b>, PIPEDA says <b>meaningful</b>. Those three adjectives describe something that happens in a person's head. A checklist cannot answer that. A document cannot either.<br>This brief splits the audit layer into four insertion points in a B2B setting. Each one is a place the existing governance stack does not cover. Each one has an acceptable module candidate and a falsifiable prediction.</p>
+<p class="cover-meta" data-t="meta">Joshua Hsiao · 2026-08 · v0.1 · Every prediction is dated and falsifiable — see the Prediction Ledger · Agent-readable payload in §7</p>
+
+<!-- ══════════ 0. EXEC ══════════ -->
+<div class="section-header" id="s0"><span class="sec-n">§0</span><span class="sec-title" data-t="s0.title">In one sentence</span><span class="sec-note">Executive</span></div>
+<div class="exec-box">
+  <p class="exec-lead" data-t="s0.lead">The audit layer is not another module in the governance stack. It is the counterparty that stack never had — standing next to the person who received the AI output.</p>
+  <p data-t="s0.body">Do toB first: the institution deploys, and is accountable to its own users. The first partner is <b>Shielk</b>, not because of content or marketing, but because of architecture — they already sit on the intercept between user and model, and they only use the outbound direction. <b>The inbound direction is empty.</b></p>
+</div>
+
+<!-- ══════════ 1. 閱讀框架 ══════════ -->
+<div class="section-header" id="s1"><span class="sec-n">§1</span><span class="sec-title" data-t="s1.title">Reading frame · three kinds of compliance evidence</span><span class="sec-note" data-t="s1.note">Who can evidence the adjectives in the regulation?</span></div>
+<p class="body-text" data-t="s1.p1">Behind every compliance claim sits a type of evidence. The market only produces the first two. The regulation's test is written on the third. The commercial logic of this brief sits in that gap.</p>
+<div class="fw">
+  <div class="fw-card">
+    <span class="tagline">Evidence Type 1</span>
+    <h6 data-t="t1.h">Existence evidence · checklist</h6>
+    <span data-t="t1.p">Is the component on the screen. Cheap, automatable, regression-testable. Proves "we put a disclosure there." Does not prove it did anything. <b>Today's UI audit tools all stop here.</b></span>
+  </div>
+  <div class="fw-card">
+    <span class="tagline">Evidence Type 2</span>
+    <h6 data-t="t2.h">Process evidence · documents</h6>
+    <span data-t="t2.p">PIA / ÉFVP, ROPA, Model Card, FRIA. Proves the organisation thought about it, wrote it down, and someone signed. This is what platforms like Valdra produce, and the only thing B2B procurement currently accepts.</span>
+  </div>
+  <div class="fw-card hit">
+    <span class="tagline" data-t="t3.tag">Evidence Type 3 · The gap</span>
+    <h6 data-t="t3.h">Effectiveness evidence · live measure</h6>
+    <span data-t="t3.p">Did the reader receive it, and did it change the judgment. The only evidence type that maps onto clear / informed / meaningful. Needs subjects, counterbalancing, and a behaviour log — <b>no governance product is producing it.</b></span>
+  </div>
+</div>
+<p class="body-text" data-t="s1.pos"><b>Where this layer sits:</b> it does not compete with Type 1 or Type 2. It supplies the third kind, the only one that makes those two claims stand up. For a partner, this is an <b>evidence upgrade</b> of their existing line, not a replacement.</p>
+
+<!-- ══════════ 2. GATES ══════════ -->
+<div class="section-header" id="s2"><span class="sec-n">§2</span><span class="sec-title" data-t="s2.title">Four insertion points</span><span class="sec-note" data-t="s2.note">I1 → I4 · in deployment order</span></div>
+<p class="body-text" data-t="s2.p">From the question going out to the evidence coming back, the audit layer has four places that must land. The first two are engineering. The third is the variable this POC is measuring. The fourth is the commercial close.</p>
+
+<nav class="gates" id="gates">
+  <button class="gate active" data-gate="i1"><span class="g-id">I1</span><span class="g-t" data-t="g.i1.t">Inbound intercept</span><span class="g-s" data-t="g.i1.s">Reverse the proxy</span></button>
+  <button class="gate" data-gate="i2"><span class="g-id">I2</span><span class="g-t" data-t="g.i2.t">Gap generation</span><span class="g-s" data-t="g.i2.s">Who writes the observation</span></button>
+  <button class="gate" data-gate="i3"><span class="g-id">I3</span><span class="g-t" data-t="g.i3.t">Presentation</span><span class="g-s" data-t="g.i3.s">Anchored vs sidebar</span></button>
+  <button class="gate" data-gate="i4"><span class="g-id">I4</span><span class="g-t" data-t="g.i4.t">Effectiveness evidence</span><span class="g-s" data-t="g.i4.s">Write back to the risk register</span></button>
+</nav>
+
+<!-- ─── I1 ─── -->
+<section class="gate-block" id="i1">
+  <div class="gb-h">
+    <span class="gb-id" data-t="i1.id">I1 · Intercept</span>
+    <h3 data-t="i1.h">Inbound intercept — turn the proxy around</h3>
+    <div class="gb-sub" data-t="i1.sub">Outbound already has an owner. The return trip does not.</div>
+  </div>
+
+  <div class="sub-h" data-t="sh.scene">Scene</div>
+  <p class="body-text" data-t="i1.scene">A de-identification proxy sits between the user and the model. Before send, it tells you which fields will be masked. When the answer comes back, nobody on that same pipe looks at it. It lands in front of the user as-is. <b>The user has to decide whether this answer can be trusted, and is holding nothing.</b></p>
+
+  <div class="tension"><b data-t="tn.h">Structural tension</b><span data-t="i1.tn">The intercept is only half used. Outbound protects the institution's data. Inbound protects the user's judgment — the latter has no owner, but they sit on the same pipe.</span></div>
+
+  <div class="sub-h" data-t="sh.now">Current state</div>
+  <div class="status">
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i1.st1">The proxy already sits on the request path. It sees the prompt, the model output, and the token map. <b>This is the only physical location the audit layer needs.</b></span></div>
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i1.st2">Outbound already has a UI that talks to the user (the pre-send mask preview). Users have already been trained that "this pipe will tip me off."</span></div>
+    <div class="st-row"><span class="st-k gap" data-t="st.gap">Gap</span><span class="st-v" data-t="i1.st3">Inbound does nothing. The model response passes through as-is. Nothing on that path takes a position on the reasoning's integrity.</span></div>
+    <div class="st-row"><span class="st-k chk" data-t="st.chk">To confirm</span><span class="st-v" data-t="i1.st4">Is the proxy a synchronous in-line proxy (can intervene when the response returns), or only a pre-send preprocessor. <b>This decides whether I1 is an integration or a rebuild. Confirm it in the first technical meeting.</b></span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.mod">Module candidates</div>
+  <div class="pats">
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M1.1</span><span class="pn" data-t="i1.m11.n">Return-path Hook — mount on the return path</span><span class="ptag">Workflow</span></div>
+      <p data-t="i1.m11.p">Mount an audit hook on the existing proxy's return path. <b>Do not touch the outbound path, do not touch the masking logic, do not add send latency</b> — that is the first condition for convincing their engineering team. The audit runs in parallel as a stream after the response returns. The answer arrives first; the observation arrives later.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i1.m11.a">After mount, outbound p95 latency change &lt; 2%. If the audit fails, the answer still arrives (fail-open on answer, fail-closed on claim).</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M1.2</span><span class="pn" data-t="i1.m12.n">Token Re-binding — the map as audit input</span><span class="ptag">Workflow</span></div>
+      <p data-t="i1.m12.p">The token↔original map the proxy holds is the only basis the audit layer has for asking "did this answer use a masked key fact." <b>The map never enters the audit module.</b> The audit module only sends field-type questions ("did this response cite a POLICY-class field"); the proxy answers with a boolean.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i1.m12.a">No original value may appear in the audit module's memory or logs. Verify with synthetic PII injection; pass rate must be 100%.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M1.3</span><span class="pn" data-t="i1.m13.n">Answer-first Streaming — answer first</span><span class="ptag">Workflow</span></div>
+      <p data-t="i1.m13.p">The audit never blocks the answer. Observations arrive on a second stream. The UI reserves anchors but does not reserve empty space — if the audit times out, the interface must <b>look as if the audit layer never existed</b>, not leave a loading wreck.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i1.m13.a">On audit timeout (&gt; 2.5s), the UI has no leftover elements. In user tests, nobody can point to "something was supposed to be here."</span></div>
+    </div>
+  </div>
+
+  <div class="sub-h" data-t="sh.ci">Data flow and boundaries · Contextual Integrity</div>
+  <div class="ci">
+    <div><span class="flow" data-t="i1.ci1">Full model output → <b>audit module</b></span><span class="vd ok" data-t="vd.ok">Fit</span></div>
+    <div><span class="flow" data-t="i1.ci2">De-identified prompt → <b>audit module</b></span><span class="vd ok" data-t="vd.ok">Fit</span></div>
+    <div><span class="flow" data-t="i1.ci3">token↔original map → <b>audit module</b></span><span class="vd no" data-t="vd.no">Breach</span></div>
+    <div><span class="flow" data-t="i1.ci4">Field-type boolean query → <b>proxy</b>, returns true/false</span><span class="vd cond" data-t="i1.ci4v">Fit, and the query content must not be retained</span></div>
+    <div><span class="flow" data-t="i1.ci5">User interaction log (open / dwell) → <b>efficacy aggregate</b></span><span class="vd cond" data-t="i1.ci5v">Fit, but must be aggregated; not traceable to a person</span></div>
+    <div><span class="flow" data-t="i1.ci6">Original question, original answer → <b>efficacy aggregate</b></span><span class="vd no" data-t="vd.no">Breach</span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.fail">Failure modes</div>
+  <ul class="fails">
+    <li data-t="i1.f1">Audit latency slows the answer → users treat the whole pipe as "the thing that got slower." The first thing the institution kills is this layer.</li>
+    <li data-t="i1.f2">The audit module restores tokens to judge integrity → turns a privacy product into a privacy incident.</li>
+    <li data-t="i1.f3">The observation arrives too late → the user has already scrolled away, or already acted. An audit that speaks after the fact is an audit that did not speak.</li>
+  </ul>
+
+  <div class="sub-h" data-t="sh.grad">Adoption gradient</div>
+  <div class="grad">
+    <div class="grad-c"><h6 data-t="gr.paid">Already paid</h6><span data-t="i1.g1">Four-eyes in finance and healthcare, cross-check in aviation — regulated industries already paid the cost of "a second pair of eyes on the same output."</span></div>
+    <div class="grad-c"><h6 data-t="gr.beach">Beachhead</h6><span data-t="i1.g2">Institutions that already bought a de-identification proxy: they already admitted this pipe needs a middleman. Adding a direction is a much lower psychological bar than starting from zero.</span></div>
+    <div class="grad-c"><h6 data-t="gr.trig">Enterprise trigger</h6><span data-t="i1.g3">The first enterprise security questionnaire that writes "did the user understand the limits of the AI output" into the procurement form.</span></div>
+  </div>
+</section>
+
+<!-- ─── I2 ─── -->
+<section class="gate-block" id="i2">
+  <div class="gb-h">
+    <span class="gb-id" data-t="i2.id">I2 · Generation</span>
+    <h3 data-t="i2.h">Gap generation — who writes Observation #3</h3>
+    <div class="gb-sub" data-t="i2.sub">In the POC it is a handwritten static array. The answer to this question decides whether it is an instrument or a product.</div>
+  </div>
+
+  <div class="sub-h" data-t="sh.scene">Scene</div>
+  <p class="body-text" data-t="i2.scene">The most important observation in the POC — "ACS family-history criteria were not checked" / "renal-injury risk was not raised" — was written by a person in advance. That is fully legitimate in a research setting: <b>the gap is the experimental stimulus; it must be controllable.</b> To go into B2B deployment, the same observation must be produced by the system at runtime, and it cannot be less reliable than the model it audits.</p>
+
+  <div class="tension"><b data-t="tn.h">Structural tension</b><span data-t="i2.tn">If the auditor is also a language model, it inherits the same class of failure. Using something that misses things to catch what something else missed needs an asymmetric advantage — and that advantage can only come from "the auditor holds the list the auditee did not consult."</span></div>
+
+  <div class="sub-h" data-t="sh.now">Current state</div>
+  <div class="status">
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i2.st1">The POC's four observations already have a complete structure: <b>region anchor, gap flag, title, body.</b> This is the output contract. It does not need to be redesigned.</span></div>
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i2.st2">Two domain gap types have already been hand-coded: <b>single-guideline dependence</b> (should have checked two, checked one) and <b>risk-dimension omission</b> (three risks, discussed two). Both types can be formalized.</span></div>
+    <div class="st-row"><span class="st-k gap" data-t="st.gap">Gap</span><span class="st-v" data-t="i2.st3">No runtime generation. All four observations are static arrays, bound one-to-one to a scenario.</span></div>
+    <div class="st-row"><span class="st-k chk" data-t="st.chk">To confirm</span><span class="st-v" data-t="i2.st4">Clinical sign-off has not been obtained. The supervisor has blocked the current task set (two pairs of near-identical tasks, learning effects). <b>Until data collection is finished, no efficacy number exists. No outbound proposal may cite expected results.</b></span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.mod">Module candidates</div>
+  <div class="pats">
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M2.1</span><span class="pn" data-t="i2.m21.n">Checklist Asymmetry — the auditor's asymmetric advantage</span><span class="ptag">Workflow</span></div>
+      <p data-t="i2.m21.p">The auditor does not re-reason. It does one thing the model did not: <b>walk the domain's authoritative list item by item.</b> "Which guidelines / which risk dimensions should this decision consider" is a finite, maintainable set. "Did those items appear in the answer" is decidable. Reasoning stays with the model. Roll-call stays with the audit.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i2.m21.a">Detection rate on known gaps ≥ 95%. False-positive rate on gap-free responses ≤ 5%. A false positive costs more than a miss — cry wolf once, the whole layer dies.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M2.2</span><span class="pn" data-t="i2.m22.n">Source-Use Divergence — listed vs used</span><span class="ptag">Workflow</span></div>
+      <p data-t="i2.m22.p">POC Observation #6 already named this type: <b>lists ten sources, applies one.</b> This is mechanically detectable — compare the source list against the citations that actually carry the conclusion. This type needs no domain knowledge. It is the first one that can land across industries.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i2.m22.a">Set-difference of listed vs used sources, human-reviewed agreement ≥ 90% on 200 historical responses.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M2.3</span><span class="pn" data-t="i2.m23.n">Confidence Decoupling — a gap does not inherit model confidence</span><span class="ptag">Workflow</span></div>
+      <p data-t="i2.m23.p">If the audit layer is uncertain about a gap, it outputs <b>"unchecked", not "no gap".</b> Three states (gap / no gap / unchecked) must not be collapsed into two. "Unchecked" is useful information to the user. Folding it into "all clear" is this layer's most serious breach of trust.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i2.m23.a">All three states have a corresponding UI. "Unchecked" must not be silently hidden. It must be identifiable in user tests.</span></div>
+    </div>
+  </div>
+
+  <div class="sub-h" data-t="sh.ci">Data flow and boundaries · Contextual Integrity</div>
+  <div class="ci">
+    <div><span class="flow" data-t="i2.ci1">Domain authority list (guidelines, risk dimensions) → <b>audit module</b></span><span class="vd ok" data-t="i2.ci1v">Fit, and should be publicly inspectable</span></div>
+    <div><span class="flow" data-t="i2.ci2">Institution's own internal criteria → <b>audit module</b></span><span class="vd cond" data-t="i2.ci2v">Fit, but the list source must be inspectable by the user</span></div>
+    <div><span class="flow" data-t="i2.ci3">Full answer text → <b>third-party audit model</b></span><span class="vd cond" data-t="i2.ci3v">Requires separate cross-border and outsourcing authorization</span></div>
+    <div><span class="flow" data-t="i2.ci4">Gap statistics → <b>institution's model-improvement process</b></span><span class="vd ok" data-t="i2.ci4v">Fit — this is the part the institution will pay for</span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.fail">Failure modes</div>
+  <ul class="fails">
+    <li data-t="i2.f1">False positives accumulate → users learn to skip every observation. The audit layer becomes a second cookie banner.</li>
+    <li data-t="i2.f2">The list goes stale → the audit layer accuses a new answer with an old guideline, and manufactures error. Lists must be versioned and the version marked on the observation.</li>
+    <li data-t="i2.f3">Auditor and auditee share a source → the same model's blind spots appear on both ends. The layer is a dead letter that still emits an "already checked" signal.</li>
+  </ul>
+
+  <div class="sub-h" data-t="sh.grad">Adoption gradient</div>
+  <div class="grad">
+    <div class="grad-c"><h6 data-t="gr.paid">Already paid</h6><span data-t="i2.g1">Clinical decision support and drug-interaction checks have run for decades — healthcare already paid the methodological cost of "list against output."</span></div>
+    <div class="grad-c"><h6 data-t="gr.beach">Beachhead</h6><span data-t="i2.g2">Industries where the domain list already exists and has a maintainer: healthcare, tax, insurance underwriting. The list is the moat.</span></div>
+    <div class="grad-c"><h6 data-t="gr.trig">Enterprise trigger</h6><span data-t="i2.g3">The first claim for "the AI assistant missed a material risk," and the underwriting questionnaires insurers write after it.</span></div>
+  </div>
+</section>
+
+<!-- ─── I3 ─── -->
+<section class="gate-block" id="i3">
+  <div class="gb-h">
+    <span class="gb-id" data-t="i3.id">I3 · Presentation</span>
+    <h3 data-t="i3.h">Presentation — anchored vs sidebar</h3>
+    <div class="gb-sub" data-t="i3.sub">The only insertion point that already has an experimental instrument waiting for an answer.</div>
+  </div>
+
+  <div class="sub-h" data-t="sh.scene">Scene</div>
+  <p class="body-text" data-t="i3.scene">Once the observation is generated, where does it go. <b>Format A</b> anchors each observation next to the paragraph it points at (tooltip). <b>Format B</b> folds seven of them into an expandable panel (list). The information is identical — the difference is whether the reader will encounter it, and what they are reading when they do.</p>
+
+  <div class="tension"><b data-t="tn.h">Structural tension</b><span data-t="i3.tn">Anchored sits on the evidence, but it interrupts reading and occupies the page. Sidebar is clean and browsable as a batch, but it requires the user to leave the answer on purpose. <b>This is the entire distance between "the disclosure exists" and "the disclosure worked," and it can only be answered by experiment.</b></span></div>
+
+  <div class="sub-h" data-t="sh.now">Current state</div>
+  <div class="status">
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i3.st1">The V4 instrument is done: four-block Latin-square counterbalancing, prev/next stepper against scenario drift, format does not covary with persona or clinical topic.</span></div>
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i3.st2">Behaviour log is live: <b>which observations were opened, in what order, dwell time</b>, plus format / scenario / block-switch events, CSV export. This is the raw material of effectiveness evidence.</span></div>
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i3.st3">Synthetic-data banner, researcher control bar hidden, shortcut hints moved out of participant sight — research ethics and contamination control are handled.</span></div>
+    <div class="st-row"><span class="st-k gap" data-t="st.gap">Gap</span><span class="st-v" data-t="i3.st4">Task set is blocked: four scenarios are actually two pairs of near-identical tasks. Learning effects cannot be repaired by counterbalancing. <b>The mechanism is content-independent. What must be replaced is the content of slots 1–4 and both persona cards.</b></span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.mod">Module candidates</div>
+  <div class="pats">
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M3.1</span><span class="pn" data-t="i3.m31.n">Anchored Observation — Format A</span><span class="ptag" data-t="tag.test">Under test</span></div>
+      <p data-t="i3.m31.p">The observation is anchored to the content block it points at, with a badge and a connector. <b>The bet: attention does not need to be transferred. The gap hits the user when they reach that paragraph.</b> The risk is crowding and interruption, and users treating the badge as decorative footnote.</p>
+      <div class="acc"><b data-t="dv">Dependent variable</b> <span data-t="i3.m31.a">Open rate of gap:true items, reading time before first open, rate of spontaneously mentioning the gap in think-aloud.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M3.2</span><span class="pn" data-t="i3.m32.n">Review Panel — Format B</span><span class="ptag" data-t="tag.test">Under test</span></div>
+      <p data-t="i3.m32.p">Seven observations sit in an "Audit Review" panel, expandable, readable as a batch. <b>The bet: a complete audit opinion is more persuasive than fragments, and it does not interrupt reading of the answer itself.</b> The risk is it competes with the answer for attention, and the answer always wins.</p>
+      <div class="acc"><b data-t="dv">Dependent variable</b> <span data-t="i3.m32.a">Same as above, plus panel-expand rate — unexpanded is zero effect. That number is itself a finding.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M3.3</span><span class="pn" data-t="i3.m33.n">Task Set Redesign — four mutually exclusive tasks</span><span class="ptag" data-t="tag.block">Blocking</span></div>
+      <p data-t="i3.m33.p">SEQ table, stepper, persona mechanism, and logging are all content-independent and correct. <b>Only the content of slots 1–4 needs replacing.</b> The four tasks must be mutually exclusive in clinical decision type (not rewrites of the same decision), and each must carry a gap type that M2.1 / M2.2 can detect.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i3.m33.a">No two of the four tasks share a guideline source or a risk dimension. Counted participants only after clinical sign-off.</span></div>
+    </div>
+  </div>
+
+  <div class="sub-h" data-t="sh.ci">Data flow and boundaries · Contextual Integrity</div>
+  <div class="ci">
+    <div><span class="flow" data-t="i3.ci1">Open events, order, dwell → <b>research record</b></span><span class="vd ok" data-t="i3.ci1v">Fit (research consent obtained)</span></div>
+    <div><span class="flow" data-t="i3.ci2">Think-aloud recording → <b>research record</b></span><span class="vd cond" data-t="i3.ci2v">Fit, must follow REB-approved retention and de-identification</span></div>
+    <div><span class="flow" data-t="i3.ci3">Participant behaviour log → <b>partner</b></span><span class="vd no" data-t="i3.ci3v">Breach (only aggregate stats may leave)</span></div>
+    <div><span class="flow" data-t="i3.ci4">Live user behaviour after deployment → <b>efficacy aggregate</b></span><span class="vd cond" data-t="i3.ci4v">Fit, but requires separate notice, and must not bind to account</span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.fail">Failure modes</div>
+  <ul class="fails">
+    <li data-t="i3.f1">Neither format shows a significant effect → this is a <b>publishable and commercially valuable result</b>: it falsifies the assumption that "disclosure exists = compliant," which is why this layer exists. Do not treat it as failure.</li>
+    <li data-t="i3.f2">Data collection starts before learning effects are cleared → within-subject comparison collapses into between-subject. Sample-size demand explodes.</li>
+    <li data-t="i3.f3">Observations written too well → effect comes from copy quality, not position, confounding the independent variable. Copy across both formats must be identical, word for word.</li>
+  </ul>
+
+  <div class="sub-h" data-t="sh.grad">Adoption gradient</div>
+  <div class="grad">
+    <div class="grad-c"><h6 data-t="gr.paid">Already paid</h6><span data-t="i3.g1">Mode annunciation in aviation, alert grading in clinic — safety-critical industries already paid the design cost of "the state must be seen."</span></div>
+    <div class="grad-c"><h6 data-t="gr.beach">Beachhead</h6><span data-t="i3.g2">Product teams already running usability tests: they have a participant pipeline and a process. They lack this specific dependent variable.</span></div>
+    <div class="grad-c"><h6 data-t="gr.trig">Enterprise trigger</h6><span data-t="i3.g3">The first supervisory guidance or procurement clause that asks for an "effectiveness test report" instead of a "disclosure screenshot."</span></div>
+  </div>
+</section>
+
+<!-- ─── I4 ─── -->
+<section class="gate-block" id="i4">
+  <div class="gb-h">
+    <span class="gb-id" data-t="i4.id">I4 · Evidence</span>
+    <h3 data-t="i4.h">Effectiveness evidence — write back to the risk register</h3>
+    <div class="gb-sub" data-t="i4.sub">Why an institution would install something that points out its own defects.</div>
+  </div>
+
+  <div class="sub-h" data-t="sh.scene">Scene</div>
+  <p class="body-text" data-t="i4.scene">This is the most fragile link in the brief, and it has to be faced: <b>a component that tells the user, at runtime, "this answer missed a material risk" looks, at first glance, like it increases the institution's exposure.</b> If this objection cannot be answered, the first three insertion points — however well built — will not sell.</p>
+
+  <div class="tension"><b data-t="tn.h">Structural tension</b><span data-t="i4.tn">Institutions buy governance to reduce liability, not to be honest. The audit layer must be positioned as a <b>mitigation of a known risk</b> — a control the institution chose to deploy, can enter in the register, and can later claim as duty discharged — not as an audit report that accuses itself. Those two frames produce opposite commercial outcomes.</span></div>
+
+  <div class="sub-h" data-t="sh.now">Current state</div>
+  <div class="status">
+    <div class="st-row"><span class="st-k ok" data-t="st.ok">In place</span><span class="st-v" data-t="i4.st1">Governance platforms already have the container for this kind of control: risk register, mitigation field, Model Card, FRIA. <b>They do not need to build anything new.</b></span></div>
+    <div class="st-row"><span class="st-k gap" data-t="st.gap">Gap</span><span class="st-v" data-t="i4.st2">Almost every mitigation in existing registers is procedural (training, policy, review). None of them carries an effectiveness number. The audit layer is the first thing that can fill that cell.</span></div>
+    <div class="st-row"><span class="st-k chk" data-t="st.chk">To confirm</span><span class="st-v" data-t="i4.st3">Whether AI Act Art. 14 (human oversight) — "enable the natural person to correctly understand the capacities and limitations of the system" — can be partly met by this kind of runtime control. <b>This is a legal characterisation. It must be confirmed by their counsel or an external lawyer. This side cannot assert it unilaterally.</b></span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.mod">Module candidates</div>
+  <div class="pats">
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M4.1</span><span class="pn" data-t="i4.m41.n">Mitigation Entry — register as a control, not an audit report</span><span class="ptag">Workflow</span></div>
+      <p data-t="i4.m41.p">Output format aligns with the governance platform's existing mitigation fields: control name, mapped risk, deployment scope, <b>efficacy metric</b>, review cycle. Wording is always "this institution deployed X to mitigate Y," never "this institution's interface failed to achieve Z." Same number. Two frames.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i4.m41.a">Output pastes directly into the other party's mitigation field, no rewrite. Field mapping passes on the first pilot attempt.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M4.2</span><span class="pn" data-t="i4.m42.n">Aggregate-only Efficacy — aggregates only, no individuals</span><span class="ptag">Workflow</span></div>
+      <p data-t="i4.m42.p">Efficacy metrics are population statistics: reach rate, open rate, median dwell, stratified by format. <b>No field that can be traced to an individual user</b> — this is both a privacy requirement and a commercial one: institutions will not buy something that logs their users' every move.</p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i4.m42.a">Output schema has no user-identifying field. Any metric whose minimum group size is &lt; 20 is not emitted.</span></div>
+    </div>
+    <div class="pat">
+      <div class="pat-h"><span class="pbadge">M4.3</span><span class="pn" data-t="i4.m43.n">Claim Binding — bind the claim to the evidence</span><span class="ptag">Workflow</span></div>
+      <p data-t="i4.m43.p">Every efficacy record binds to the compliance claim it supports (which document, which section, which adjective). That is the first time the evidence chain closes: <b>the document says informed → this is the measurement of informed → this is the method and the date.</b></p>
+      <div class="acc"><b data-t="acc">Acceptance</b> <span data-t="i4.m43.a">Every record points back to one concrete claim. Unbindable records are not emitted — no orphan evidence.</span></div>
+    </div>
+  </div>
+
+  <div class="sub-h" data-t="sh.ci">Data flow and boundaries · Contextual Integrity</div>
+  <div class="ci">
+    <div><span class="flow" data-t="i4.ci1">Aggregate efficacy metrics → <b>institution's risk register</b></span><span class="vd ok" data-t="vd.ok">Fit</span></div>
+    <div><span class="flow" data-t="i4.ci2">Individual user open logs → <b>institution</b></span><span class="vd no" data-t="vd.no">Breach</span></div>
+    <div><span class="flow" data-t="i4.ci3">Efficacy metrics → <b>external compliance documents</b></span><span class="vd cond" data-t="i4.ci3v">Fit, must attach method and date; must not cite the conclusion number alone</span></div>
+    <div><span class="flow" data-t="i4.ci4">Cross-institution benchmark → <b>participating institutions</b></span><span class="vd cond" data-t="i4.ci4v">Fit, must be anonymised and n ≥ 5 institutions</span></div>
+  </div>
+
+  <div class="sub-h" data-t="sh.fail">Failure modes</div>
+  <ul class="fails">
+    <li data-t="i4.f1">Read as audit, not control → counsel kills it on first contact. Wording and output fields must be control vocabulary from day one.</li>
+    <li data-t="i4.f2">Ugly numbers get suppressed → selective disclosure, once discovered, destroys the layer's credibility — worse than an ugly number. The output contract must include a "regardless of result" commitment.</li>
+    <li data-t="i4.f3">Becomes a rubber stamp for self-certification → if the institution can tune the metric, this layer immediately degrades to Type 1 evidence. The measurement method must be fixed externally.</li>
+  </ul>
+
+  <div class="sub-h" data-t="sh.grad">Adoption gradient</div>
+  <div class="grad">
+    <div class="grad-c"><h6 data-t="gr.paid">Already paid</h6><span data-t="i4.g1">Post-market surveillance for drugs, clinical evaluation for devices — regulated industries already paid the institutional cost of "you still have to evidence effectiveness after deployment."</span></div>
+    <div class="grad-c"><h6 data-t="gr.beach">Beachhead</h6><span data-t="i4.g2">Institutions already being chased by enterprise procurement questionnaires, who already bought a governance platform: they are already paying to produce Type 2 evidence, and they cannot answer the effectiveness question.</span></div>
+    <div class="grad-c"><h6 data-t="gr.trig">Enterprise trigger</h6><span data-t="i4.g3">The first supervisory guidance that lists effectiveness measurement as a condition for recognising a mitigation; or the first fine on the grounds that "disclosure was not sufficient to constitute notice."</span></div>
+  </div>
+</section>
+
+<!-- ══════════ 3. Runtime flow ══════════ -->
+<div class="section-header" id="s3"><span class="sec-n">§3</span><span class="sec-title" data-t="s3.title">Runtime flow · swimlane</span><span class="sec-note" data-t="s3.note">One full round-trip · I1 → I3</span></div>
+<p class="body-text" data-t="s3.p">Five swimlanes: principal, audit agent, de-identification proxy, model, product UI. <b>Red is the existing outbound path (do not touch). Blue is the inbound path this layer adds.</b></p>
+<div class="swim" id="swim"></div>
+
+<div class="inv">
+  <h6 data-t="inv.h">Invariants · must not be violated</h6>
+  <ul>
+    <li data-t="inv.1">The answer is never delayed by the audit. If the audit fails, the UI reverts to looking like there is no audit layer.</li>
+    <li data-t="inv.2">The original-value map never enters the audit module. The audit asks type, never content.</li>
+    <li data-t="inv.3">When uncertain, output "unchecked." Never output "no gap."</li>
+    <li data-t="inv.4">Efficacy records are aggregate only, never individual. Output regardless of whether the result looks good.</li>
+  </ul>
+</div>
+
+<!-- ══════════ 4. Flow Spec ══════════ -->
+<div class="section-header" id="s4"><span class="sec-n">§4</span><span class="sec-title" data-t="s4.title">Flow Spec</span><span class="sec-note" data-t="s4.note">Product teams can turn this into a build spec as-is</span></div>
+<div class="tw">
+<table>
+<thead><tr><th>#</th><th data-t="th.phase">Phase</th><th data-t="th.actor">Actor</th><th data-t="th.bound">Data boundary</th><th data-t="th.fail">Failure handling</th><th data-t="th.grad">Gradient</th></tr></thead>
+<tbody>
+<tr><td>1</td><td data-t="fs.1.p">Question sent</td><td>User → Proxy</td><td data-t="fs.1.b">Original text stays on the user side and the proxy. The audit module is not in yet.</td><td class="fail-c" data-t="fs.1.f">Proxy offline → institution policy decides whether to pass; the audit layer does not join that decision.</td><td data-t="grad.paid">Already paid</td></tr>
+<tr><td>2</td><td data-t="fs.2.p">Outbound de-identification</td><td>Proxy</td><td data-t="fs.2.b">PII replaced with tokens; the map lives only on the proxy. <b>Existing capability. Do not change it.</b></td><td class="fail-c" data-t="fs.2.f">Mask fails → existing fail-closed logic. This layer does not intervene.</td><td data-t="grad.paid">Already paid</td></tr>
+<tr><td>3</td><td data-t="fs.3.p">Response returns</td><td>LLM → Proxy</td><td data-t="fs.3.b">Full answer + source list enter the proxy.</td><td class="fail-c" data-t="fs.3.f">Model timeout → existing error handling; the audit layer produces no observation.</td><td data-t="grad.paid">Already paid</td></tr>
+<tr><td>4</td><td data-t="fs.4.p">Gap roll-call</td><td>Audit Agent</td><td data-t="fs.4.b">Gets the full answer and the domain list; <b>does not get the map</b>; queries the proxy with type questions only.</td><td class="fail-c" data-t="fs.4.f">List version stale → output "unchecked" and mark the list version. Do not guess.</td><td data-t="grad.beach">Beachhead</td></tr>
+<tr><td>5</td><td data-t="fs.5.p">Answer first</td><td>Proxy → HMI</td><td data-t="fs.5.b">The answer does not wait for the audit. The UI renders in full first.</td><td class="fail-c" data-t="fs.5.f">Audit timeout → no leftover UI elements, as if there is no audit layer.</td><td data-t="grad.trig">Enterprise trigger</td></tr>
+<tr><td>6</td><td data-t="fs.6.p">Observation anchored</td><td>Audit Agent → HMI</td><td data-t="fs.6.b">Observations arrive on a second stream, with region anchors and a three-state flag.</td><td class="fail-c" data-t="fs.6.f">Anchor dead (content changed) → degrade to panel. Do not misplace a badge.</td><td data-t="grad.trig">Enterprise trigger</td></tr>
+<tr><td>7</td><td data-t="fs.7.p">User reads</td><td>User</td><td data-t="fs.7.b">Open / skip events logged locally; <b>no Q&amp;A content</b>.</td><td class="fail-c" data-t="fs.7.f">All skipped → that session is zero reach, counted in the efficacy denominator. Do not retry or nag.</td><td data-t="grad.trig">Enterprise trigger</td></tr>
+<tr><td>8</td><td data-t="fs.8.p">Efficacy aggregate</td><td>Audit Agent</td><td data-t="fs.8.b">Aggregate stats, minimum group 20; bound to a concrete compliance claim.</td><td class="fail-c" data-t="fs.8.f">Sample too small → do not emit a metric. Do not pad with a low-confidence number.</td><td data-t="grad.beach">Beachhead</td></tr>
+<tr><td>9</td><td data-t="fs.9.p">Write back to register</td><td>Audit Agent → Governance</td><td data-t="fs.9.b">Output in mitigation-field format; attach method and date.</td><td class="fail-c" data-t="fs.9.f">Field mapping fails → emit standard JSON for manual attach. Do not silently drop.</td><td data-t="grad.beach">Beachhead</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ══════════ 5. Partners ══════════ -->
+<div class="section-header" id="s5"><span class="sec-n">§5</span><span class="sec-title" data-t="s5.title">Three-party collaboration</span><span class="sec-note" data-t="s5.note">Sorted by architectural fit, not by negotiation difficulty</span></div>
+<p class="body-text" data-t="s5.p">Three brands look like three relationships. They are <b>one relationship, three doors</b> — the content front is not a standalone SaaS. The sort key is architectural fit: who owns the position this layer needs.</p>
+<div class="partners">
+  <div class="pc lead">
+    <div class="pc-h"><div class="pc-n">Shielk</div><div class="pc-r" data-t="p1.r">Priority 1 · Architectural fit</div></div>
+    <div class="pc-b">
+      <div><dt data-t="dt.own">What they own</dt><dd data-t="p1.own">The <b>intercept</b> between user and model, and an outbound panel that already taught users to read a tip.</dd></div>
+      <div><dt data-t="dt.ask">The ask</dt><dd data-t="p1.ask">Joint pilot: mount an inbound hook on the existing proxy (M1.1–M1.3), one domain, one customer.</dd></div>
+      <div><dt data-t="dt.get">What they get</dt><dd data-t="p1.get">Expand from "protect the data" to "protect the judgment" — the second half of the same intercept. A competitor cannot follow without rebuilding the pipe.</dd></div>
+      <div><dt data-t="dt.keep">We keep</dt><dd data-t="p1.keep">The gap-generation list and method (M2.1), and the efficacy-measurement protocol. <b>The interface is joint. The method is ours.</b></dd></div>
+      <div><dt data-t="dt.risk">Main risk</dt><dd data-t="p1.risk">If their architecture is not a synchronous in-line proxy, I1 degrades from integration to rebuild — clear this in the first technical meeting.</dd></div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><div class="pc-n">Valdra</div><div class="pc-r" data-t="p2.r">Priority 2 · Evidence close</div></div>
+    <div class="pc-b">
+      <div><dt data-t="dt.own">What they own</dt><dd data-t="p2.own">Risk register, PIA / ROPA / Model Card / FRIA, and customers already being chased by procurement questionnaires.</dd></div>
+      <div><dt data-t="dt.ask">The ask</dt><dd data-t="p2.ask">Output-contract alignment (M4.1): this layer as a <b>registerable mitigation</b>, not a report that audits their customers.</dd></div>
+      <div><dt data-t="dt.get">What they get</dt><dd data-t="p2.get">The first control in the register that carries an effectiveness number. The first time they have something to put on the table when asked "how do you know the user was informed."</dd></div>
+      <div><dt data-t="dt.keep">We keep</dt><dd data-t="p2.keep">The measurement method must be fixed externally. The platform or the institution cannot tune it, or it degrades to Type 1 evidence.</dd></div>
+      <div><dt data-t="dt.risk">Main risk</dt><dd data-t="p2.risk">Read as audit, not control. Get the wording wrong once, counsel kills it, and it is hard to reverse.</dd></div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><div class="pc-n">Canuckt</div><div class="pc-r" data-t="p3.r">Priority 3 · Door</div></div>
+    <div class="pc-b">
+      <div><dt data-t="dt.own">What they own</dt><dd data-t="p3.own">Content channel, regulatory knowledge base, SEO position. <b>Not a standalone SaaS. A front.</b></dd></div>
+      <div><dt data-t="dt.ask">The ask</dt><dd data-t="p3.ask">Joint publication: method and results of the efficacy study. Lowest bar. Can start before any technical collaboration.</dd></div>
+      <div><dt data-t="dt.get">What they get</dt><dd data-t="p3.get">The only first-hand experimental data in that content circle — cannot be bought, cannot be copied.</dd></div>
+      <div><dt data-t="dt.keep">We keep</dt><dd data-t="p3.keep">Publish results. Do not publish the list or the criterion set. <b>The article is bait. The method is the asset.</b></dd></div>
+      <div><dt data-t="dt.risk">Main risk</dt><dd data-t="p3.risk">Becomes a free content feed. Price it as "one article for one technical meeting." No open-ended supply.</dd></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 6. Open questions ══════════ -->
+<div class="section-header" id="s6"><span class="sec-n">§6</span><span class="sec-title" data-t="s6.title">Open questions</span><span class="sec-note" data-t="s6.note">Must be cleared before the brief goes out</span></div>
+<div class="caveat">
+<b data-t="s6.h">This document contains the following independently unverified assumptions. Any one of them, if falsified, changes the structure of the brief. Confirm each before sending it out.</b>
+<ol>
+  <li data-t="s6.1">Whether the three brands are in fact three fronts of one organisation — that decides "one relationship, three doors" vs three separate negotiations.</li>
+  <li data-t="s6.2">Whether the de-identification proxy is a synchronous in-line proxy — that decides whether I1 is an integration (weeks) or a rebuild (months).</li>
+  <li data-t="s6.3">The actual text and current guidance of AI Act Art. 14 / Art. 50, Law 25 s.12.1, and PIPEDA consent — the adjectives this brief hangs on (clear / informed / meaningful) are load-bearing. Check them against the current statute and guidance, and have counsel confirm whether they constitute an effectiveness standard.</li>
+  <li data-t="s6.4">Until clinical sign-off and the task-set redesign are done, <b>no efficacy number exists</b>. Outbound proposals may cite method, not expected results.</li>
+</ol>
+</div>
+
+<!-- ══════════ 7. Agent payload ══════════ -->
+<div class="section-header" id="s7"><span class="sec-n">§7</span><span class="sec-title" data-t="s7.title">Agent-readable layer</span><span class="sec-note" data-t="s7.note">Same content, two readers</span></div>
+<p class="body-text" data-t="s7.p1">The structured content of this document is embedded as <code>application/json</code>, id <code>#ral-proposal</code>. Any agent can read it without parsing the DOM. The schema reuses the existing pattern library's <code>spec.rows</code> contract (<code>phase / actor / boundary / failure / grad</code>), so this document can share the same retrieval and render pipeline as the Agent-based Onboarding series.</p>
+
+<div class="agent-box">
+  <div class="ab-h">Embedded payload <span class="mono">#ral-proposal · schema ral/0.1</span>
+    <button id="copyJson" type="button" data-t="json.copy">Copy JSON</button></div>
+  <pre class="code" id="jsonPreview"></pre>
+</div>
+
+<p class="body-text" style="margin-top:1rem" data-t="s7.p2">Suggested MCP tool contract below. Each insertion point maps to one tool. <b><code>ral.audit_response</code> is the only one that needs a runtime deploy</b>; the other three are offline or aggregate, and can be built first to lower the technical bar of the first collaboration.</p>
+
+<div class="agent-box" style="margin-top:.4rem">
+  <div class="ab-h">MCP tool contract <span class="mono">draft</span></div>
+<pre class="code">
+<span class="c" data-t="mcp.c1">// I2 + I3 — runtime: generate observations and pick the presentation</span>
+<span class="k">ral.audit_response</span>(
+  answer_text: <span class="s">string</span>,          <span class="c" data-t="mcp.c2">// full model output</span>
+  sources: <span class="s">string[]</span>,             <span class="c" data-t="mcp.c3">// sources the response claims to use</span>
+  domain: <span class="s">"clinical"|"tax"|…</span>,   <span class="c" data-t="mcp.c4">// which authority list to apply</span>
+  checklist_version: <span class="s">string</span>,    <span class="c" data-t="mcp.c5">// list version, written onto the observation</span>
+  format: <span class="s">"anchored"|"panel"</span>
+) → { observations: Observation[], checklist_version, coverage: <span class="s">"checked"|"partial"|"unchecked"</span> }
+
+<span class="c" data-t="mcp.c6">// Observation — same contract as the POC static array; drop-in replacement</span>
+<span class="k">Observation</span> = { id, region, side, label, title, text,
+                gap: <span class="s">boolean</span>, state: <span class="s">"gap"|"clear"|"unchecked"</span> }
+
+<span class="c" data-t="mcp.c7">// I1 — boundary query: ask type, never take the original value</span>
+<span class="k">ral.field_type_query</span>(response_id, field_class: <span class="s">"POLICY"|"NAME"|…</span>) → { used: <span class="s">boolean</span> }
+
+<span class="c" data-t="mcp.c8">// I4 — aggregate efficacy, min group 20, no user-identifying fields</span>
+<span class="k">ral.efficacy_record</span>(session_events[], bound_claim) →
+  { n, format, gap_reach_rate, gap_open_rate, median_dwell_ms,
+    bound_claim: { document, section, adjective }, method, measured_at }
+
+<span class="c" data-t="mcp.c9">// Retrieve: module and criterion library; shared schema with Agent-based Onboarding</span>
+<span class="k">ral.list_modules</span>(gate?: <span class="s">"I1"|"I2"|"I3"|"I4"</span>) → { modules: Module[] }
+</pre>
+</div>
+
+<!-- ══════════ 8. Ledger ══════════ -->
+<div class="section-header" id="s8"><span class="sec-n">§8</span><span class="sec-title" data-t="s8.title">Prediction Ledger</span><span class="sec-note" data-t="s8.note">Falsifiable · dated</span></div>
+<div class="pred"><span class="pid">P1</span><span class="pv" data-t="p1.v">The two presentation formats differ significantly on gap detection rate, <b>anchored above sidebar</b>. If not significant, the assumption that "disclosure exists = compliant" is empirically overturned — both results are valuable to this layer, but only one supports M3.1.</span><span class="pd" data-t="p1.d">After data collection</span></div>
+<div class="pred"><span class="pid">P2</span><span class="pv" data-t="p2.v">By end of 2027, at least one AI governance platform will ship a <b>user-facing</b> (not org-facing) audit or explanation surface, rather than documents only.</span><span class="pd">2027-12</span></div>
+<div class="pred"><span class="pid">P3</span><span class="pv" data-t="p3.v">By end of 2028, a first supervisory guidance, enforcement case, or mainstream enterprise procurement clause will explicitly require <b>effectiveness evidence</b> (did the user actually understand) rather than existence evidence (is the component on the screen).</span><span class="pd">2028-12</span></div>
+<div class="pred"><span class="pid">P4</span><span class="pv" data-t="p4.v">"Listed sources vs sources actually used" (M2.2) will enter commercial use before domain-specific gap detection, because it <b>needs no domain knowledge and no maintained list</b>.</span><span class="pd">2027-06</span></div>
+<div class="pred"><span class="pid">P5</span><span class="pv" data-t="p5.v">The first commercial deploy will be at an institution that <b>already bought data-side protection</b>, not one starting governance from zero — the existence of the intercept decides adoption order more than the budget does.</span><span class="pd">2028-06</span></div>
+
+<footer class="pf">
+  <span data-t="foot.l">PrivacyUX Consulting Ltd. · 2026-08 · Confidential — for partnership conversations only</span>
+  <span class="mono">Reasoning Audit Layer v0.1 · schema ral/0.1</span>
+</footer>
+
+<script>
+/* ---------- gate nav ---------- */
+const gateBtns = document.querySelectorAll('.gate');
+gateBtns.forEach(b => b.addEventListener('click', () => {
+  const el = document.getElementById(b.dataset.gate);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}));
+const gmap = {i1:0, i2:1, i3:2, i4:3};
+const gobs = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      gateBtns.forEach(g => g.classList.remove('active'));
+      const i = gmap[e.target.id];
+      if (i !== undefined) gateBtns[i].classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -65% 0px'});
+['i1','i2','i3','i4'].forEach(id => {
+  const el = document.getElementById(id); if (el) gobs.observe(el);
+});
+
+/* ---------- swimlane engine ---------- */
+const LANE_DEFS = {
+  user:  {label:{en:'User · principal', zh:'User · 委託人'}, color:'#1D1D1B'},
+  audit: {label:{en:'Audit Agent', zh:'Audit Agent · 稽核'}, color:'#2471A3'},
+  proxy: {label:{en:'Proxy · de-ID', zh:'Proxy · 去識別化'}, color:'#E3120B'},
+  llm:   {label:{en:'LLM · model', zh:'LLM · 模型'}, color:'#6B6B6B'},
+  hmi:   {label:{en:'HMI · product UI', zh:'HMI · 產品介面'}, color:'#2D8A56'}
+};
+const FLOW = {
+  id:'ral-runtime',
+  lanes:['user','hmi','proxy','llm','audit'],
+  steps:[
+    ['m','user','hmi',{en:'Ask',zh:'提問'}],
+    ['m','hmi','proxy',{en:'Original text',zh:'原文'}],
+    ['a','proxy',{en:'Outbound de-ID (existing)',zh:'出站去識別化（既有）'}],
+    ['m','proxy','llm',{en:'Tokenised prompt',zh:'token 化 prompt'}],
+    ['m','llm','proxy',{en:'Answer + source list',zh:'答案 + 來源清單'}],
+    ['n',{en:'Below is new: outbound path untouched, answer not blocked',zh:'以下為本層新增：不改動出站路徑，不阻塞答案'}],
+    ['m','proxy','hmi',{en:'Answer first',zh:'答案先達'}],
+    ['m','proxy','audit',{en:'Full answer (no map)',zh:'答案全文（無對照表）'}],
+    ['a','audit',{en:'Roll-call against the domain list',zh:'以領域清單逐項點名'}],
+    ['m','audit','proxy',{en:'Field-type query',zh:'欄位型別查詢'}],
+    ['m','proxy','audit',{en:'true / false',zh:'true / false'}],
+    ['m','audit','hmi',{en:'Observation (anchored or panel)',zh:'觀察（錨定 or 面板）'}],
+    ['a','user',{en:'Read: was the gap seen',zh:'讀取：缺口被看見了嗎'}],
+    ['m','user','audit',{en:'Open / skip (dwell)',zh:'開啟 / 略過（dwell）'}],
+    ['a','audit',{en:'Aggregate efficacy (no PII)',zh:'聚合效力紀錄（無個資）'}]
+  ]
+};
+function Ltxt(v){
+  if (v && typeof v === 'object') return v[lang] || v.en || '';
+  return v == null ? '' : v;
+}
+function svgT(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function renderSwimlane(wf, W){
+  W = W || 900;
+  const lanes = wf.lanes, n = lanes.length;
+  const M = 10, laneW = (W - M*2)/n, cx = i => M + laneW*i + laneW/2;
+  const headH = 30; let y = headH + 24; const parts = []; const mid = 'arr-'+wf.id;
+  wf.steps.forEach(s => {
+    if (s[0]==='m'){
+      const i1 = lanes.indexOf(s[1]), i2 = lanes.indexOf(s[2]);
+      const x1 = cx(i1), x2 = cx(i2), lx = (x1+x2)/2;
+      parts.push(`<line x1="${x1}" y1="${y}" x2="${x2+(x2>x1?-7:7)}" y2="${y}" stroke="#555" stroke-width="1.3" marker-end="url(#${mid})"/>`);
+      parts.push(`<text x="${lx}" y="${y-6}" text-anchor="middle" font-size="10.5" fill="#1D1D1B" font-weight="600">${svgT(Ltxt(s[3]))}</text>`);
+      y += 36;
+    } else if (s[0]==='a'){
+      const i1 = lanes.indexOf(s[1]), c = LANE_DEFS[s[1]].color;
+      const bw = Math.min(laneW-14, 230);
+      parts.push(`<rect x="${cx(i1)-bw/2}" y="${y-13}" width="${bw}" height="26" rx="6" fill="${c}" fill-opacity="0.07" stroke="${c}" stroke-opacity="0.55" stroke-width="1"/>`);
+      parts.push(`<text x="${cx(i1)}" y="${y+4}" text-anchor="middle" font-size="10.5" fill="${c}" font-weight="600">${svgT(Ltxt(s[2]))}</text>`);
+      y += 38;
+    } else {
+      parts.push(`<rect x="${M+4}" y="${y-12}" width="${W-M*2-8}" height="24" rx="5" fill="#fdf6e3" stroke="#f0e2b6"/>`);
+      parts.push(`<text x="${W/2}" y="${y+4}" text-anchor="middle" font-size="10" font-style="italic" fill="#7a6420">${svgT(Ltxt(s[1]))}</text>`);
+      y += 34;
+    }
+  });
+  const H = y + 8; let head = '', life = '';
+  lanes.forEach((k,i) => {
+    const d = LANE_DEFS[k];
+    head += `<rect x="${M+laneW*i+3}" y="4" width="${laneW-6}" height="${headH-4}" rx="6" fill="${d.color}" fill-opacity="0.08" stroke="${d.color}" stroke-opacity="0.6"/>`;
+    head += `<text x="${cx(i)}" y="${headH/2+6}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${d.color}">${svgT(Ltxt(d.label))}</text>`;
+    life += `<line x1="${cx(i)}" y1="${headH+4}" x2="${cx(i)}" y2="${H-4}" stroke="${d.color}" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="3 3"/>`;
+  });
+  const aria = Ltxt({en:'Runtime audit flow swimlane', zh:'執行期稽核流程泳道圖'});
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${svgT(aria)}">
+    <defs><marker id="${mid}" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#555"/></marker></defs>
+    ${life}${head}${parts.join('')}</svg>`;
+}
+
+/* ---------- structured payload ---------- */
+const PROPOSAL = {
+  en: {
+  "schema": "ral/0.1",
+  "id": "reasoning-audit-layer-b2b",
+  "title": "Reasoning Audit Layer — The design space for effectiveness evidence",
+  "version": "0.1",
+  "date": "2026-08",
+  "author": "Joshua Hsiao · PrivacyUX Consulting Ltd.",
+  "confidentiality": "For partnership conversations only",
+  "thesis": "The audit layer is not another module in the governance stack. It is the counterparty that stack never had — standing next to the person who received the AI output.",
+  "evidence_types": [
+    {
+      "id": "T1",
+      "name": "Existence evidence",
+      "medium": "checklist",
+      "answers": "Is the component on the screen",
+      "gap": "Cannot map onto the regulation's effectiveness adjectives"
+    },
+    {
+      "id": "T2",
+      "name": "Process evidence",
+      "medium": "documents",
+      "answers": "Did the organisation think about it",
+      "gap": "Does not prove the user received it"
+    },
+    {
+      "id": "T3",
+      "name": "Effectiveness evidence",
+      "medium": "live measure",
+      "answers": "Did the reader receive it",
+      "gap": "Nobody in the market produces it — this layer's position"
+    }
+  ],
+  "gates": [
+    {
+      "id": "I1",
+      "name": "Inbound intercept",
+      "question": "Who handles the proxy's return path",
+      "modules": [
+        "M1.1 Return-path Hook",
+        "M1.2 Token Re-binding",
+        "M1.3 Answer-first Streaming"
+      ],
+      "blocking": [
+        "Is the proxy a synchronous in-line proxy"
+      ]
+    },
+    {
+      "id": "I2",
+      "name": "Gap generation",
+      "question": "Who produces the Observation at runtime",
+      "modules": [
+        "M2.1 Checklist Asymmetry",
+        "M2.2 Source-Use Divergence",
+        "M2.3 Confidence Decoupling"
+      ],
+      "blocking": [
+        "Clinical sign-off",
+        "Task-set redesign"
+      ]
+    },
+    {
+      "id": "I3",
+      "name": "Presentation",
+      "question": "Which actually gets read: anchored or sidebar",
+      "modules": [
+        "M3.1 Anchored Observation",
+        "M3.2 Review Panel",
+        "M3.3 Task Set Redesign"
+      ],
+      "blocking": [
+        "Data collection has not started — no efficacy number exists"
+      ]
+    },
+    {
+      "id": "I4",
+      "name": "Effectiveness evidence",
+      "question": "Why an institution would deploy a component that points out its own defects",
+      "modules": [
+        "M4.1 Mitigation Entry",
+        "M4.2 Aggregate-only Efficacy",
+        "M4.3 Claim Binding"
+      ],
+      "blocking": [
+        "Legal characterisation of Art. 14 must be confirmed by counsel"
+      ]
+    }
+  ],
+  "spec": {
+    "rows": [
+      {
+        "n": "1",
+        "phase": "Question sent",
+        "actor": "User → Proxy",
+        "boundary": "Original text stays on the user side and the proxy.",
+        "failure": "Proxy offline → institution policy; audit layer does not join.",
+        "grad": {
+          "regime": "Already paid"
+        }
+      },
+      {
+        "n": "2",
+        "phase": "Outbound de-identification",
+        "actor": "Proxy",
+        "boundary": "The map lives only on the proxy. Existing capability. Do not change it.",
+        "failure": "Mask fails → existing fail-closed. This layer does not intervene.",
+        "grad": {
+          "regime": "Already paid"
+        }
+      },
+      {
+        "n": "3",
+        "phase": "Response returns",
+        "actor": "LLM → Proxy",
+        "boundary": "Full answer and source list enter the proxy.",
+        "failure": "Model timeout → existing error handling; no observation.",
+        "grad": {
+          "regime": "Already paid"
+        }
+      },
+      {
+        "n": "4",
+        "phase": "Gap roll-call",
+        "actor": "Audit Agent",
+        "boundary": "Gets answer and list; does not get the map; type questions only.",
+        "failure": "List stale → output unchecked and mark version. Do not guess.",
+        "grad": {
+          "regime": "Beachhead"
+        }
+      },
+      {
+        "n": "5",
+        "phase": "Answer first",
+        "actor": "Proxy → HMI",
+        "boundary": "The answer does not wait for the audit.",
+        "failure": "Audit timeout → no leftover UI, as if there is no audit layer.",
+        "grad": {
+          "regime": "Enterprise trigger"
+        }
+      },
+      {
+        "n": "6",
+        "phase": "Observation anchored",
+        "actor": "Audit Agent → HMI",
+        "boundary": "Second stream, with region anchors and a three-state flag.",
+        "failure": "Anchor dead → degrade to panel. Do not misplace a badge.",
+        "grad": {
+          "regime": "Enterprise trigger"
+        }
+      },
+      {
+        "n": "7",
+        "phase": "User reads",
+        "actor": "User",
+        "boundary": "Open / skip events logged; no Q&A content.",
+        "failure": "All skipped → zero reach. Do not retry or nag.",
+        "grad": {
+          "regime": "Enterprise trigger"
+        }
+      },
+      {
+        "n": "8",
+        "phase": "Efficacy aggregate",
+        "actor": "Audit Agent",
+        "boundary": "Aggregate stats, minimum group 20; bound to a concrete claim.",
+        "failure": "Sample too small → do not emit. Do not pad.",
+        "grad": {
+          "regime": "Beachhead"
+        }
+      },
+      {
+        "n": "9",
+        "phase": "Write back to register",
+        "actor": "Audit Agent → Governance",
+        "boundary": "Mitigation-field format; attach method and date.",
+        "failure": "Mapping fails → emit standard JSON for manual attach.",
+        "grad": {
+          "regime": "Beachhead"
+        }
+      }
+    ],
+    "invariants": [
+      "The answer is never delayed by the audit. If the audit fails, the UI reverts to looking like there is no audit layer.",
+      "The original-value map never enters the audit module. The audit asks type, never content.",
+      "When uncertain, output \"unchecked.\" Never output \"no gap.\"",
+      "Efficacy records are aggregate only, never individual. Output regardless of whether the result looks good."
+    ]
+  },
+  "partners": [
+    {
+      "name": "Shielk",
+      "priority": 1,
+      "rationale": "Owns the intercept; outbound is used, inbound is empty",
+      "ask": "Joint pilot: one domain, one customer",
+      "retain": "Gap list and efficacy-measurement protocol",
+      "risk": "If not a synchronous in-line proxy, integration degrades to rebuild"
+    },
+    {
+      "name": "Valdra",
+      "priority": 2,
+      "rationale": "Owns the risk register; lacks a control with an effectiveness number",
+      "ask": "Align the output contract as a registerable mitigation",
+      "retain": "Measurement method must be fixed externally",
+      "risk": "Read as audit, not control; counsel kills it"
+    },
+    {
+      "name": "Canuckt",
+      "priority": 3,
+      "rationale": "Content front, not a standalone SaaS",
+      "ask": "Joint publication of the efficacy study",
+      "retain": "Publish results, not the criterion set",
+      "risk": "Degrades to a free content feed"
+    }
+  ],
+  "open_questions": [
+    "Whether the three brands are three fronts of one organisation",
+    "Whether the de-identification proxy is a synchronous in-line proxy",
+    "AI Act Art. 14/50, Law 25 s.12.1, PIPEDA — counsel must confirm whether they constitute an effectiveness standard",
+    "Until clinical sign-off and task-set redesign are done, no efficacy number exists"
+  ],
+  "predictions": [
+    {
+      "id": "P1",
+      "claim": "Anchored gap-detection rate is significantly higher than sidebar",
+      "verify_by": "After data collection"
+    },
+    {
+      "id": "P2",
+      "claim": "By end of 2027 at least one governance platform ships a user-facing audit surface",
+      "verify_by": "2027-12"
+    },
+    {
+      "id": "P3",
+      "claim": "By end of 2028 a guidance or clause requires effectiveness evidence, not existence evidence",
+      "verify_by": "2028-12"
+    },
+    {
+      "id": "P4",
+      "claim": "Source-use divergence enters commercial use before domain-specific gap detection",
+      "verify_by": "2027-06"
+    },
+    {
+      "id": "P5",
+      "claim": "First commercial deploy is at an institution that already bought data-side protection",
+      "verify_by": "2028-06"
+    }
+  ],
+  "mcp_tools": [
+    "ral.audit_response",
+    "ral.field_type_query",
+    "ral.efficacy_record",
+    "ral.list_modules"
+  ]
+},
+  zh: {
+  "schema": "ral/0.1",
+  "id": "reasoning-audit-layer-b2b",
+  "title": "Reasoning Audit Layer — 效力舉證的設計空間",
+  "version": "0.1",
+  "date": "2026-08",
+  "author": "Joshua Hsiao · PrivacyUX Consulting Ltd.",
+  "confidentiality": "僅供合作洽談使用",
+  "thesis": "稽核層不是治理堆疊裡多一塊模組，是那個堆疊一直沒有的對手方——站在收到 AI 輸出的那個人旁邊。",
+  "evidence_types": [
+    {
+      "id": "T1",
+      "name": "存在性證據",
+      "medium": "清單",
+      "answers": "元件在不在",
+      "gap": "無法對應法規的效力形容詞"
+    },
+    {
+      "id": "T2",
+      "name": "程序性證據",
+      "medium": "文件",
+      "answers": "組織想過沒有",
+      "gap": "不證明使用者收到"
+    },
+    {
+      "id": "T3",
+      "name": "效力證據",
+      "medium": "實測",
+      "answers": "讀的人有沒有接收到",
+      "gap": "市場上無人生產 — 本層定位"
+    }
+  ],
+  "gates": [
+    {
+      "id": "I1",
+      "name": "入站攔截",
+      "question": "代理層的回應方向由誰處理",
+      "modules": [
+        "M1.1 Return-path Hook",
+        "M1.2 Token Re-binding",
+        "M1.3 Answer-first Streaming"
+      ],
+      "blocking": [
+        "代理層是否為同步 in-line proxy"
+      ]
+    },
+    {
+      "id": "I2",
+      "name": "缺口生成",
+      "question": "Observation 由誰在執行當下產生",
+      "modules": [
+        "M2.1 Checklist Asymmetry",
+        "M2.2 Source-Use Divergence",
+        "M2.3 Confidence Decoupling"
+      ],
+      "blocking": [
+        "臨床 sign-off",
+        "task set 重設計"
+      ]
+    },
+    {
+      "id": "I3",
+      "name": "呈現形式",
+      "question": "錨定式或側欄式何者真正被讀到",
+      "modules": [
+        "M3.1 Anchored Observation",
+        "M3.2 Review Panel",
+        "M3.3 Task Set Redesign"
+      ],
+      "blocking": [
+        "收案尚未開始 — 效力數字不存在"
+      ]
+    },
+    {
+      "id": "I4",
+      "name": "效力舉證",
+      "question": "機構為何願意部署會指出自身缺點的元件",
+      "modules": [
+        "M4.1 Mitigation Entry",
+        "M4.2 Aggregate-only Efficacy",
+        "M4.3 Claim Binding"
+      ],
+      "blocking": [
+        "Art. 14 之法律定性須由法務確認"
+      ]
+    }
+  ],
+  "spec": {
+    "rows": [
+      {
+        "n": "1",
+        "phase": "提問送出",
+        "actor": "User → Proxy",
+        "boundary": "原文只在使用者端與代理層。",
+        "failure": "代理層離線 → 依機構政策，稽核層不參與。",
+        "grad": {
+          "regime": "體制付費"
+        }
+      },
+      {
+        "n": "2",
+        "phase": "出站去識別化",
+        "actor": "Proxy",
+        "boundary": "對照表僅存於代理層。既有能力不改動。",
+        "failure": "遮罩失敗 → 既有 fail-closed，本層不介入。",
+        "grad": {
+          "regime": "體制付費"
+        }
+      },
+      {
+        "n": "3",
+        "phase": "回應返回",
+        "actor": "LLM → Proxy",
+        "boundary": "答案全文與來源清單進入代理層。",
+        "failure": "模型逾時 → 既有錯誤處理，不產生觀察。",
+        "grad": {
+          "regime": "體制付費"
+        }
+      },
+      {
+        "n": "4",
+        "phase": "缺口點名",
+        "actor": "Audit Agent",
+        "boundary": "取得答案與清單；不取得對照表，僅型別問句。",
+        "failure": "清單過期 → 輸出未檢查並標明版次，不推測。",
+        "grad": {
+          "regime": "灘頭堡"
+        }
+      },
+      {
+        "n": "5",
+        "phase": "答案先達",
+        "actor": "Proxy → HMI",
+        "boundary": "答案不等稽核。",
+        "failure": "稽核逾時 → 介面無殘留，如同無稽核層。",
+        "grad": {
+          "regime": "企業觸發器"
+        }
+      },
+      {
+        "n": "6",
+        "phase": "觀察錨定",
+        "actor": "Audit Agent → HMI",
+        "boundary": "第二串流，附 region 錨點與三態旗標。",
+        "failure": "錨點失效 → 降級面板，不錯置徽章。",
+        "grad": {
+          "regime": "企業觸發器"
+        }
+      },
+      {
+        "n": "7",
+        "phase": "使用者閱讀",
+        "actor": "User",
+        "boundary": "開啟／略過事件記錄，不含問答內容。",
+        "failure": "全數略過 → 記為零觸達，不重試打擾。",
+        "grad": {
+          "regime": "企業觸發器"
+        }
+      },
+      {
+        "n": "8",
+        "phase": "效力彙總",
+        "actor": "Audit Agent",
+        "boundary": "聚合統計，最小群體 20；綁定具體宣稱。",
+        "failure": "樣本不足 → 不輸出，不以低信心數字充數。",
+        "grad": {
+          "regime": "灘頭堡"
+        }
+      },
+      {
+        "n": "9",
+        "phase": "回寫登錄",
+        "actor": "Audit Agent → Governance",
+        "boundary": "緩解措施欄位格式，附方法與日期。",
+        "failure": "映射失敗 → 輸出標準 JSON 供人工掛載。",
+        "grad": {
+          "regime": "灘頭堡"
+        }
+      }
+    ],
+    "invariants": [
+      "答案永不因稽核而延遲；稽核失效時介面回復為無稽核層的樣子。",
+      "原值對照表永不進入稽核模組；稽核只問型別，不問內容。",
+      "不確定時輸出「未檢查」，永不輸出「無缺口」。",
+      "效力紀錄只有聚合，沒有個人；無論結果好壞皆輸出。"
+    ]
+  },
+  "partners": [
+    {
+      "name": "Shielk",
+      "priority": 1,
+      "rationale": "擁有攔截點；出站已用，入站是空的",
+      "ask": "單一領域單一客戶的共同試點",
+      "retain": "缺口清單與效力測量協定",
+      "risk": "若非同步 in-line proxy，整合退化為重建"
+    },
+    {
+      "name": "Valdra",
+      "priority": 2,
+      "rationale": "擁有風險登錄，缺帶效力數字的控制項",
+      "ask": "輸出契約對齊為可登錄的緩解措施",
+      "retain": "測量方法須外部固定",
+      "risk": "被讀成稽核而非控制，法務封殺"
+    },
+    {
+      "name": "Canuckt",
+      "priority": 3,
+      "rationale": "內容前台，非獨立 SaaS",
+      "ask": "效力研究的共同發表",
+      "retain": "發表結果不發表判準集",
+      "risk": "退化為免費內容供應"
+    }
+  ],
+  "open_questions": [
+    "三個品牌是否為同一組織的三個前台",
+    "去識別化代理是否為同步 in-line proxy",
+    "AI Act Art. 14／50、Law 25 s.12.1、PIPEDA 條文原文與現行指引，須法律專業確認是否構成效力標準",
+    "臨床 sign-off 與 task set 重設計完成前，效力數字不存在"
+  ],
+  "predictions": [
+    {
+      "id": "P1",
+      "claim": "錨定式的缺口偵測率顯著高於側欄式",
+      "verify_by": "收案完成"
+    },
+    {
+      "id": "P2",
+      "claim": "2027 年底前至少一家治理平台提供使用者側稽核呈現",
+      "verify_by": "2027-12"
+    },
+    {
+      "id": "P3",
+      "claim": "2028 年底前出現要求效力證據而非存在證據的指引或條款",
+      "verify_by": "2028-12"
+    },
+    {
+      "id": "P4",
+      "claim": "來源使用差異檢測先於領域專屬缺口偵測進入商用",
+      "verify_by": "2027-06"
+    },
+    {
+      "id": "P5",
+      "claim": "首個商業部署出現在已購買資料側防護的機構",
+      "verify_by": "2028-06"
+    }
+  ],
+  "mcp_tools": [
+    "ral.audit_response",
+    "ral.field_type_query",
+    "ral.efficacy_record",
+    "ral.list_modules"
+  ]
+}
+};
+
+/* ---------- i18n ---------- */
+const LANGTAG = {en:'en', zh:'zh-Hant'};
+var T = {};
+T.en = {
+  "page.title": "Reasoning Audit Layer — The design space for effectiveness evidence | Joshua Hsiao",
+  "nav.label": "Jump to",
+  "nav.0": "Thesis",
+  "nav.1": "Evidence",
+  "nav.2": "Gates",
+  "nav.5": "Partners",
+  "nav.8": "Ledger",
+  "kicker": "Reasoning Audit Layer · B2B adoption brief · v0.1",
+  "h1": "After the Answer Comes Back",
+  "sub": "The design space for effectiveness evidence in a reasoning audit layer",
+  "lead": "The evidence chain in governance products stops at <b>what the organisation said</b>. Nobody produces evidence of <b>what the user received</b>. The regulation actually asks for the latter — Art. 50 says <b>clear and distinguishable</b>, Law 25 says <b>informed</b>, PIPEDA says <b>meaningful</b>. Those three adjectives describe something that happens in a person's head. A checklist cannot answer that. A document cannot either.<br>This brief splits the audit layer into four insertion points in a B2B setting. Each one is a place the existing governance stack does not cover. Each one has an acceptable module candidate and a falsifiable prediction.",
+  "meta": "Joshua Hsiao · 2026-08 · v0.1 · Every prediction is dated and falsifiable — see the Prediction Ledger · Agent-readable payload in §7",
+  "s0.title": "In one sentence",
+  "s0.lead": "The audit layer is not another module in the governance stack. It is the counterparty that stack never had — standing next to the person who received the AI output.",
+  "s0.body": "Do toB first: the institution deploys, and is accountable to its own users. The first partner is <b>Shielk</b>, not because of content or marketing, but because of architecture — they already sit on the intercept between user and model, and they only use the outbound direction. <b>The inbound direction is empty.</b>",
+  "s1.title": "Reading frame · three kinds of compliance evidence",
+  "s1.note": "Who can evidence the adjectives in the regulation?",
+  "s1.p1": "Behind every compliance claim sits a type of evidence. The market only produces the first two. The regulation's test is written on the third. The commercial logic of this brief sits in that gap.",
+  "t1.h": "Existence evidence · checklist",
+  "t1.p": "Is the component on the screen. Cheap, automatable, regression-testable. Proves \"we put a disclosure there.\" Does not prove it did anything. <b>Today's UI audit tools all stop here.</b>",
+  "t2.h": "Process evidence · documents",
+  "t2.p": "PIA / ÉFVP, ROPA, Model Card, FRIA. Proves the organisation thought about it, wrote it down, and someone signed. This is what platforms like Valdra produce, and the only thing B2B procurement currently accepts.",
+  "t3.tag": "Evidence Type 3 · The gap",
+  "t3.h": "Effectiveness evidence · live measure",
+  "t3.p": "Did the reader receive it, and did it change the judgment. The only evidence type that maps onto clear / informed / meaningful. Needs subjects, counterbalancing, and a behaviour log — <b>no governance product is producing it.</b>",
+  "s1.pos": "<b>Where this layer sits:</b> it does not compete with Type 1 or Type 2. It supplies the third kind, the only one that makes those two claims stand up. For a partner, this is an <b>evidence upgrade</b> of their existing line, not a replacement.",
+  "s2.title": "Four insertion points",
+  "s2.note": "I1 → I4 · in deployment order",
+  "s2.p": "From the question going out to the evidence coming back, the audit layer has four places that must land. The first two are engineering. The third is the variable this POC is measuring. The fourth is the commercial close.",
+  "g.i1.t": "Inbound intercept",
+  "g.i1.s": "Reverse the proxy",
+  "g.i2.t": "Gap generation",
+  "g.i2.s": "Who writes the observation",
+  "g.i3.t": "Presentation",
+  "g.i3.s": "Anchored vs sidebar",
+  "g.i4.t": "Effectiveness evidence",
+  "g.i4.s": "Write back to the risk register",
+  "st.ok": "In place",
+  "st.gap": "Gap",
+  "st.chk": "To confirm",
+  "sh.scene": "Scene",
+  "sh.now": "Current state",
+  "sh.mod": "Module candidates",
+  "sh.ci": "Data flow and boundaries · Contextual Integrity",
+  "sh.fail": "Failure modes",
+  "sh.grad": "Adoption gradient",
+  "tn.h": "Structural tension",
+  "gr.paid": "Already paid",
+  "gr.beach": "Beachhead",
+  "gr.trig": "Enterprise trigger",
+  "vd.ok": "Fit",
+  "vd.no": "Breach",
+  "grad.paid": "Already paid",
+  "grad.beach": "Beachhead",
+  "grad.trig": "Enterprise trigger",
+  "acc": "Acceptance",
+  "dv": "Dependent variable",
+  "tag.test": "Under test",
+  "tag.block": "Blocking",
+  "i1.id": "I1 · Intercept",
+  "i1.h": "Inbound intercept — turn the proxy around",
+  "i1.sub": "Outbound already has an owner. The return trip does not.",
+  "i1.scene": "A de-identification proxy sits between the user and the model. Before send, it tells you which fields will be masked. When the answer comes back, nobody on that same pipe looks at it. It lands in front of the user as-is. <b>The user has to decide whether this answer can be trusted, and is holding nothing.</b>",
+  "i1.tn": "The intercept is only half used. Outbound protects the institution's data. Inbound protects the user's judgment — the latter has no owner, but they sit on the same pipe.",
+  "i1.st1": "The proxy already sits on the request path. It sees the prompt, the model output, and the token map. <b>This is the only physical location the audit layer needs.</b>",
+  "i1.st2": "Outbound already has a UI that talks to the user (the pre-send mask preview). Users have already been trained that \"this pipe will tip me off.\"",
+  "i1.st3": "Inbound does nothing. The model response passes through as-is. Nothing on that path takes a position on the reasoning's integrity.",
+  "i1.st4": "Is the proxy a synchronous in-line proxy (can intervene when the response returns), or only a pre-send preprocessor. <b>This decides whether I1 is an integration or a rebuild. Confirm it in the first technical meeting.</b>",
+  "i1.m11.n": "Return-path Hook — mount on the return path",
+  "i1.m11.p": "Mount an audit hook on the existing proxy's return path. <b>Do not touch the outbound path, do not touch the masking logic, do not add send latency</b> — that is the first condition for convincing their engineering team. The audit runs in parallel as a stream after the response returns. The answer arrives first; the observation arrives later.",
+  "i1.m11.a": "After mount, outbound p95 latency change &lt; 2%. If the audit fails, the answer still arrives (fail-open on answer, fail-closed on claim).",
+  "i1.m12.n": "Token Re-binding — the map as audit input",
+  "i1.m12.p": "The token↔original map the proxy holds is the only basis the audit layer has for asking \"did this answer use a masked key fact.\" <b>The map never enters the audit module.</b> The audit module only sends field-type questions (\"did this response cite a POLICY-class field\"); the proxy answers with a boolean.",
+  "i1.m12.a": "No original value may appear in the audit module's memory or logs. Verify with synthetic PII injection; pass rate must be 100%.",
+  "i1.m13.n": "Answer-first Streaming — answer first",
+  "i1.m13.p": "The audit never blocks the answer. Observations arrive on a second stream. The UI reserves anchors but does not reserve empty space — if the audit times out, the interface must <b>look as if the audit layer never existed</b>, not leave a loading wreck.",
+  "i1.m13.a": "On audit timeout (&gt; 2.5s), the UI has no leftover elements. In user tests, nobody can point to \"something was supposed to be here.\"",
+  "i1.ci1": "Full model output → <b>audit module</b>",
+  "i1.ci2": "De-identified prompt → <b>audit module</b>",
+  "i1.ci3": "token↔original map → <b>audit module</b>",
+  "i1.ci4": "Field-type boolean query → <b>proxy</b>, returns true/false",
+  "i1.ci4v": "Fit, and the query content must not be retained",
+  "i1.ci5": "User interaction log (open / dwell) → <b>efficacy aggregate</b>",
+  "i1.ci5v": "Fit, but must be aggregated; not traceable to a person",
+  "i1.ci6": "Original question, original answer → <b>efficacy aggregate</b>",
+  "i1.f1": "Audit latency slows the answer → users treat the whole pipe as \"the thing that got slower.\" The first thing the institution kills is this layer.",
+  "i1.f2": "The audit module restores tokens to judge integrity → turns a privacy product into a privacy incident.",
+  "i1.f3": "The observation arrives too late → the user has already scrolled away, or already acted. An audit that speaks after the fact is an audit that did not speak.",
+  "i1.g1": "Four-eyes in finance and healthcare, cross-check in aviation — regulated industries already paid the cost of \"a second pair of eyes on the same output.\"",
+  "i1.g2": "Institutions that already bought a de-identification proxy: they already admitted this pipe needs a middleman. Adding a direction is a much lower psychological bar than starting from zero.",
+  "i1.g3": "The first enterprise security questionnaire that writes \"did the user understand the limits of the AI output\" into the procurement form.",
+  "i2.id": "I2 · Generation",
+  "i2.h": "Gap generation — who writes Observation #3",
+  "i2.sub": "In the POC it is a handwritten static array. The answer to this question decides whether it is an instrument or a product.",
+  "i2.scene": "The most important observation in the POC — \"ACS family-history criteria were not checked\" / \"renal-injury risk was not raised\" — was written by a person in advance. That is fully legitimate in a research setting: <b>the gap is the experimental stimulus; it must be controllable.</b> To go into B2B deployment, the same observation must be produced by the system at runtime, and it cannot be less reliable than the model it audits.",
+  "i2.tn": "If the auditor is also a language model, it inherits the same class of failure. Using something that misses things to catch what something else missed needs an asymmetric advantage — and that advantage can only come from \"the auditor holds the list the auditee did not consult.\"",
+  "i2.st1": "The POC's four observations already have a complete structure: <b>region anchor, gap flag, title, body.</b> This is the output contract. It does not need to be redesigned.",
+  "i2.st2": "Two domain gap types have already been hand-coded: <b>single-guideline dependence</b> (should have checked two, checked one) and <b>risk-dimension omission</b> (three risks, discussed two). Both types can be formalized.",
+  "i2.st3": "No runtime generation. All four observations are static arrays, bound one-to-one to a scenario.",
+  "i2.st4": "Clinical sign-off has not been obtained. The supervisor has blocked the current task set (two pairs of near-identical tasks, learning effects). <b>Until data collection is finished, no efficacy number exists. No outbound proposal may cite expected results.</b>",
+  "i2.m21.n": "Checklist Asymmetry — the auditor's asymmetric advantage",
+  "i2.m21.p": "The auditor does not re-reason. It does one thing the model did not: <b>walk the domain's authoritative list item by item.</b> \"Which guidelines / which risk dimensions should this decision consider\" is a finite, maintainable set. \"Did those items appear in the answer\" is decidable. Reasoning stays with the model. Roll-call stays with the audit.",
+  "i2.m21.a": "Detection rate on known gaps ≥ 95%. False-positive rate on gap-free responses ≤ 5%. A false positive costs more than a miss — cry wolf once, the whole layer dies.",
+  "i2.m22.n": "Source-Use Divergence — listed vs used",
+  "i2.m22.p": "POC Observation #6 already named this type: <b>lists ten sources, applies one.</b> This is mechanically detectable — compare the source list against the citations that actually carry the conclusion. This type needs no domain knowledge. It is the first one that can land across industries.",
+  "i2.m22.a": "Set-difference of listed vs used sources, human-reviewed agreement ≥ 90% on 200 historical responses.",
+  "i2.m23.n": "Confidence Decoupling — a gap does not inherit model confidence",
+  "i2.m23.p": "If the audit layer is uncertain about a gap, it outputs <b>\"unchecked\", not \"no gap\".</b> Three states (gap / no gap / unchecked) must not be collapsed into two. \"Unchecked\" is useful information to the user. Folding it into \"all clear\" is this layer's most serious breach of trust.",
+  "i2.m23.a": "All three states have a corresponding UI. \"Unchecked\" must not be silently hidden. It must be identifiable in user tests.",
+  "i2.ci1": "Domain authority list (guidelines, risk dimensions) → <b>audit module</b>",
+  "i2.ci1v": "Fit, and should be publicly inspectable",
+  "i2.ci2": "Institution's own internal criteria → <b>audit module</b>",
+  "i2.ci2v": "Fit, but the list source must be inspectable by the user",
+  "i2.ci3": "Full answer text → <b>third-party audit model</b>",
+  "i2.ci3v": "Requires separate cross-border and outsourcing authorization",
+  "i2.ci4": "Gap statistics → <b>institution's model-improvement process</b>",
+  "i2.ci4v": "Fit — this is the part the institution will pay for",
+  "i2.f1": "False positives accumulate → users learn to skip every observation. The audit layer becomes a second cookie banner.",
+  "i2.f2": "The list goes stale → the audit layer accuses a new answer with an old guideline, and manufactures error. Lists must be versioned and the version marked on the observation.",
+  "i2.f3": "Auditor and auditee share a source → the same model's blind spots appear on both ends. The layer is a dead letter that still emits an \"already checked\" signal.",
+  "i2.g1": "Clinical decision support and drug-interaction checks have run for decades — healthcare already paid the methodological cost of \"list against output.\"",
+  "i2.g2": "Industries where the domain list already exists and has a maintainer: healthcare, tax, insurance underwriting. The list is the moat.",
+  "i2.g3": "The first claim for \"the AI assistant missed a material risk,\" and the underwriting questionnaires insurers write after it.",
+  "i3.id": "I3 · Presentation",
+  "i3.h": "Presentation — anchored vs sidebar",
+  "i3.sub": "The only insertion point that already has an experimental instrument waiting for an answer.",
+  "i3.scene": "Once the observation is generated, where does it go. <b>Format A</b> anchors each observation next to the paragraph it points at (tooltip). <b>Format B</b> folds seven of them into an expandable panel (list). The information is identical — the difference is whether the reader will encounter it, and what they are reading when they do.",
+  "i3.tn": "Anchored sits on the evidence, but it interrupts reading and occupies the page. Sidebar is clean and browsable as a batch, but it requires the user to leave the answer on purpose. <b>This is the entire distance between \"the disclosure exists\" and \"the disclosure worked,\" and it can only be answered by experiment.</b>",
+  "i3.st1": "The V4 instrument is done: four-block Latin-square counterbalancing, prev/next stepper against scenario drift, format does not covary with persona or clinical topic.",
+  "i3.st2": "Behaviour log is live: <b>which observations were opened, in what order, dwell time</b>, plus format / scenario / block-switch events, CSV export. This is the raw material of effectiveness evidence.",
+  "i3.st3": "Synthetic-data banner, researcher control bar hidden, shortcut hints moved out of participant sight — research ethics and contamination control are handled.",
+  "i3.st4": "Task set is blocked: four scenarios are actually two pairs of near-identical tasks. Learning effects cannot be repaired by counterbalancing. <b>The mechanism is content-independent. What must be replaced is the content of slots 1–4 and both persona cards.</b>",
+  "i3.m31.n": "Anchored Observation — Format A",
+  "i3.m31.p": "The observation is anchored to the content block it points at, with a badge and a connector. <b>The bet: attention does not need to be transferred. The gap hits the user when they reach that paragraph.</b> The risk is crowding and interruption, and users treating the badge as decorative footnote.",
+  "i3.m31.a": "Open rate of gap:true items, reading time before first open, rate of spontaneously mentioning the gap in think-aloud.",
+  "i3.m32.n": "Review Panel — Format B",
+  "i3.m32.p": "Seven observations sit in an \"Audit Review\" panel, expandable, readable as a batch. <b>The bet: a complete audit opinion is more persuasive than fragments, and it does not interrupt reading of the answer itself.</b> The risk is it competes with the answer for attention, and the answer always wins.",
+  "i3.m32.a": "Same as above, plus panel-expand rate — unexpanded is zero effect. That number is itself a finding.",
+  "i3.m33.n": "Task Set Redesign — four mutually exclusive tasks",
+  "i3.m33.p": "SEQ table, stepper, persona mechanism, and logging are all content-independent and correct. <b>Only the content of slots 1–4 needs replacing.</b> The four tasks must be mutually exclusive in clinical decision type (not rewrites of the same decision), and each must carry a gap type that M2.1 / M2.2 can detect.",
+  "i3.m33.a": "No two of the four tasks share a guideline source or a risk dimension. Counted participants only after clinical sign-off.",
+  "i3.ci1": "Open events, order, dwell → <b>research record</b>",
+  "i3.ci1v": "Fit (research consent obtained)",
+  "i3.ci2": "Think-aloud recording → <b>research record</b>",
+  "i3.ci2v": "Fit, must follow REB-approved retention and de-identification",
+  "i3.ci3": "Participant behaviour log → <b>partner</b>",
+  "i3.ci3v": "Breach (only aggregate stats may leave)",
+  "i3.ci4": "Live user behaviour after deployment → <b>efficacy aggregate</b>",
+  "i3.ci4v": "Fit, but requires separate notice, and must not bind to account",
+  "i3.f1": "Neither format shows a significant effect → this is a <b>publishable and commercially valuable result</b>: it falsifies the assumption that \"disclosure exists = compliant,\" which is why this layer exists. Do not treat it as failure.",
+  "i3.f2": "Data collection starts before learning effects are cleared → within-subject comparison collapses into between-subject. Sample-size demand explodes.",
+  "i3.f3": "Observations written too well → effect comes from copy quality, not position, confounding the independent variable. Copy across both formats must be identical, word for word.",
+  "i3.g1": "Mode annunciation in aviation, alert grading in clinic — safety-critical industries already paid the design cost of \"the state must be seen.\"",
+  "i3.g2": "Product teams already running usability tests: they have a participant pipeline and a process. They lack this specific dependent variable.",
+  "i3.g3": "The first supervisory guidance or procurement clause that asks for an \"effectiveness test report\" instead of a \"disclosure screenshot.\"",
+  "i4.id": "I4 · Evidence",
+  "i4.h": "Effectiveness evidence — write back to the risk register",
+  "i4.sub": "Why an institution would install something that points out its own defects.",
+  "i4.scene": "This is the most fragile link in the brief, and it has to be faced: <b>a component that tells the user, at runtime, \"this answer missed a material risk\" looks, at first glance, like it increases the institution's exposure.</b> If this objection cannot be answered, the first three insertion points — however well built — will not sell.",
+  "i4.tn": "Institutions buy governance to reduce liability, not to be honest. The audit layer must be positioned as a <b>mitigation of a known risk</b> — a control the institution chose to deploy, can enter in the register, and can later claim as duty discharged — not as an audit report that accuses itself. Those two frames produce opposite commercial outcomes.",
+  "i4.st1": "Governance platforms already have the container for this kind of control: risk register, mitigation field, Model Card, FRIA. <b>They do not need to build anything new.</b>",
+  "i4.st2": "Almost every mitigation in existing registers is procedural (training, policy, review). None of them carries an effectiveness number. The audit layer is the first thing that can fill that cell.",
+  "i4.st3": "Whether AI Act Art. 14 (human oversight) — \"enable the natural person to correctly understand the capacities and limitations of the system\" — can be partly met by this kind of runtime control. <b>This is a legal characterisation. It must be confirmed by their counsel or an external lawyer. This side cannot assert it unilaterally.</b>",
+  "i4.m41.n": "Mitigation Entry — register as a control, not an audit report",
+  "i4.m41.p": "Output format aligns with the governance platform's existing mitigation fields: control name, mapped risk, deployment scope, <b>efficacy metric</b>, review cycle. Wording is always \"this institution deployed X to mitigate Y,\" never \"this institution's interface failed to achieve Z.\" Same number. Two frames.",
+  "i4.m41.a": "Output pastes directly into the other party's mitigation field, no rewrite. Field mapping passes on the first pilot attempt.",
+  "i4.m42.n": "Aggregate-only Efficacy — aggregates only, no individuals",
+  "i4.m42.p": "Efficacy metrics are population statistics: reach rate, open rate, median dwell, stratified by format. <b>No field that can be traced to an individual user</b> — this is both a privacy requirement and a commercial one: institutions will not buy something that logs their users' every move.",
+  "i4.m42.a": "Output schema has no user-identifying field. Any metric whose minimum group size is &lt; 20 is not emitted.",
+  "i4.m43.n": "Claim Binding — bind the claim to the evidence",
+  "i4.m43.p": "Every efficacy record binds to the compliance claim it supports (which document, which section, which adjective). That is the first time the evidence chain closes: <b>the document says informed → this is the measurement of informed → this is the method and the date.</b>",
+  "i4.m43.a": "Every record points back to one concrete claim. Unbindable records are not emitted — no orphan evidence.",
+  "i4.ci1": "Aggregate efficacy metrics → <b>institution's risk register</b>",
+  "i4.ci2": "Individual user open logs → <b>institution</b>",
+  "i4.ci3": "Efficacy metrics → <b>external compliance documents</b>",
+  "i4.ci3v": "Fit, must attach method and date; must not cite the conclusion number alone",
+  "i4.ci4": "Cross-institution benchmark → <b>participating institutions</b>",
+  "i4.ci4v": "Fit, must be anonymised and n ≥ 5 institutions",
+  "i4.f1": "Read as audit, not control → counsel kills it on first contact. Wording and output fields must be control vocabulary from day one.",
+  "i4.f2": "Ugly numbers get suppressed → selective disclosure, once discovered, destroys the layer's credibility — worse than an ugly number. The output contract must include a \"regardless of result\" commitment.",
+  "i4.f3": "Becomes a rubber stamp for self-certification → if the institution can tune the metric, this layer immediately degrades to Type 1 evidence. The measurement method must be fixed externally.",
+  "i4.g1": "Post-market surveillance for drugs, clinical evaluation for devices — regulated industries already paid the institutional cost of \"you still have to evidence effectiveness after deployment.\"",
+  "i4.g2": "Institutions already being chased by enterprise procurement questionnaires, who already bought a governance platform: they are already paying to produce Type 2 evidence, and they cannot answer the effectiveness question.",
+  "i4.g3": "The first supervisory guidance that lists effectiveness measurement as a condition for recognising a mitigation; or the first fine on the grounds that \"disclosure was not sufficient to constitute notice.\"",
+  "s3.title": "Runtime flow · swimlane",
+  "s3.note": "One full round-trip · I1 → I3",
+  "s3.p": "Five swimlanes: principal, audit agent, de-identification proxy, model, product UI. <b>Red is the existing outbound path (do not touch). Blue is the inbound path this layer adds.</b>",
+  "inv.h": "Invariants · must not be violated",
+  "inv.1": "The answer is never delayed by the audit. If the audit fails, the UI reverts to looking like there is no audit layer.",
+  "inv.2": "The original-value map never enters the audit module. The audit asks type, never content.",
+  "inv.3": "When uncertain, output \"unchecked.\" Never output \"no gap.\"",
+  "inv.4": "Efficacy records are aggregate only, never individual. Output regardless of whether the result looks good.",
+  "s4.title": "Flow Spec",
+  "s4.note": "Product teams can turn this into a build spec as-is",
+  "th.phase": "Phase",
+  "th.actor": "Actor",
+  "th.bound": "Data boundary",
+  "th.fail": "Failure handling",
+  "th.grad": "Gradient",
+  "fs.1.p": "Question sent",
+  "fs.1.b": "Original text stays on the user side and the proxy. The audit module is not in yet.",
+  "fs.1.f": "Proxy offline → institution policy decides whether to pass; the audit layer does not join that decision.",
+  "fs.2.p": "Outbound de-identification",
+  "fs.2.b": "PII replaced with tokens; the map lives only on the proxy. <b>Existing capability. Do not change it.</b>",
+  "fs.2.f": "Mask fails → existing fail-closed logic. This layer does not intervene.",
+  "fs.3.p": "Response returns",
+  "fs.3.b": "Full answer + source list enter the proxy.",
+  "fs.3.f": "Model timeout → existing error handling; the audit layer produces no observation.",
+  "fs.4.p": "Gap roll-call",
+  "fs.4.b": "Gets the full answer and the domain list; <b>does not get the map</b>; queries the proxy with type questions only.",
+  "fs.4.f": "List version stale → output \"unchecked\" and mark the list version. Do not guess.",
+  "fs.5.p": "Answer first",
+  "fs.5.b": "The answer does not wait for the audit. The UI renders in full first.",
+  "fs.5.f": "Audit timeout → no leftover UI elements, as if there is no audit layer.",
+  "fs.6.p": "Observation anchored",
+  "fs.6.b": "Observations arrive on a second stream, with region anchors and a three-state flag.",
+  "fs.6.f": "Anchor dead (content changed) → degrade to panel. Do not misplace a badge.",
+  "fs.7.p": "User reads",
+  "fs.7.b": "Open / skip events logged locally; <b>no Q&amp;A content</b>.",
+  "fs.7.f": "All skipped → that session is zero reach, counted in the efficacy denominator. Do not retry or nag.",
+  "fs.8.p": "Efficacy aggregate",
+  "fs.8.b": "Aggregate stats, minimum group 20; bound to a concrete compliance claim.",
+  "fs.8.f": "Sample too small → do not emit a metric. Do not pad with a low-confidence number.",
+  "fs.9.p": "Write back to register",
+  "fs.9.b": "Output in mitigation-field format; attach method and date.",
+  "fs.9.f": "Field mapping fails → emit standard JSON for manual attach. Do not silently drop.",
+  "s5.title": "Three-party collaboration",
+  "s5.note": "Sorted by architectural fit, not by negotiation difficulty",
+  "s5.p": "Three brands look like three relationships. They are <b>one relationship, three doors</b> — the content front is not a standalone SaaS. The sort key is architectural fit: who owns the position this layer needs.",
+  "dt.own": "What they own",
+  "dt.ask": "The ask",
+  "dt.get": "What they get",
+  "dt.keep": "We keep",
+  "dt.risk": "Main risk",
+  "p1.r": "Priority 1 · Architectural fit",
+  "p1.own": "The <b>intercept</b> between user and model, and an outbound panel that already taught users to read a tip.",
+  "p1.ask": "Joint pilot: mount an inbound hook on the existing proxy (M1.1–M1.3), one domain, one customer.",
+  "p1.get": "Expand from \"protect the data\" to \"protect the judgment\" — the second half of the same intercept. A competitor cannot follow without rebuilding the pipe.",
+  "p1.keep": "The gap-generation list and method (M2.1), and the efficacy-measurement protocol. <b>The interface is joint. The method is ours.</b>",
+  "p1.risk": "If their architecture is not a synchronous in-line proxy, I1 degrades from integration to rebuild — clear this in the first technical meeting.",
+  "p2.r": "Priority 2 · Evidence close",
+  "p2.own": "Risk register, PIA / ROPA / Model Card / FRIA, and customers already being chased by procurement questionnaires.",
+  "p2.ask": "Output-contract alignment (M4.1): this layer as a <b>registerable mitigation</b>, not a report that audits their customers.",
+  "p2.get": "The first control in the register that carries an effectiveness number. The first time they have something to put on the table when asked \"how do you know the user was informed.\"",
+  "p2.keep": "The measurement method must be fixed externally. The platform or the institution cannot tune it, or it degrades to Type 1 evidence.",
+  "p2.risk": "Read as audit, not control. Get the wording wrong once, counsel kills it, and it is hard to reverse.",
+  "p3.r": "Priority 3 · Door",
+  "p3.own": "Content channel, regulatory knowledge base, SEO position. <b>Not a standalone SaaS. A front.</b>",
+  "p3.ask": "Joint publication: method and results of the efficacy study. Lowest bar. Can start before any technical collaboration.",
+  "p3.get": "The only first-hand experimental data in that content circle — cannot be bought, cannot be copied.",
+  "p3.keep": "Publish results. Do not publish the list or the criterion set. <b>The article is bait. The method is the asset.</b>",
+  "p3.risk": "Becomes a free content feed. Price it as \"one article for one technical meeting.\" No open-ended supply.",
+  "s6.title": "Open questions",
+  "s6.note": "Must be cleared before the brief goes out",
+  "s6.h": "This document contains the following independently unverified assumptions. Any one of them, if falsified, changes the structure of the brief. Confirm each before sending it out.",
+  "s6.1": "Whether the three brands are in fact three fronts of one organisation — that decides \"one relationship, three doors\" vs three separate negotiations.",
+  "s6.2": "Whether the de-identification proxy is a synchronous in-line proxy — that decides whether I1 is an integration (weeks) or a rebuild (months).",
+  "s6.3": "The actual text and current guidance of AI Act Art. 14 / Art. 50, Law 25 s.12.1, and PIPEDA consent — the adjectives this brief hangs on (clear / informed / meaningful) are load-bearing. Check them against the current statute and guidance, and have counsel confirm whether they constitute an effectiveness standard.",
+  "s6.4": "Until clinical sign-off and the task-set redesign are done, <b>no efficacy number exists</b>. Outbound proposals may cite method, not expected results.",
+  "s7.title": "Agent-readable layer",
+  "s7.note": "Same content, two readers",
+  "s7.p1": "The structured content of this document is embedded as <code>application/json</code>, id <code>#ral-proposal</code>. Any agent can read it without parsing the DOM. The schema reuses the existing pattern library's <code>spec.rows</code> contract (<code>phase / actor / boundary / failure / grad</code>), so this document can share the same retrieval and render pipeline as the Agent-based Onboarding series.",
+  "s7.p2": "Suggested MCP tool contract below. Each insertion point maps to one tool. <b><code>ral.audit_response</code> is the only one that needs a runtime deploy</b>; the other three are offline or aggregate, and can be built first to lower the technical bar of the first collaboration.",
+  "json.copy": "Copy JSON",
+  "json.copied": "Copied",
+  "json.trunc": "\n  … full payload in #ral-proposal (use Copy JSON for the rest)",
+  "mcp.c1": "// I2 + I3 — runtime: generate observations and pick the presentation",
+  "mcp.c2": "// full model output",
+  "mcp.c3": "// sources the response claims to use",
+  "mcp.c4": "// which authority list to apply",
+  "mcp.c5": "// list version, written onto the observation",
+  "mcp.c6": "// Observation — same contract as the POC static array; drop-in replacement",
+  "mcp.c7": "// I1 — boundary query: ask type, never take the original value",
+  "mcp.c8": "// I4 — aggregate efficacy, min group 20, no user-identifying fields",
+  "mcp.c9": "// Retrieve: module and criterion library; shared schema with Agent-based Onboarding",
+  "s8.title": "Prediction Ledger",
+  "s8.note": "Falsifiable · dated",
+  "p1.v": "The two presentation formats differ significantly on gap detection rate, <b>anchored above sidebar</b>. If not significant, the assumption that \"disclosure exists = compliant\" is empirically overturned — both results are valuable to this layer, but only one supports M3.1.",
+  "p1.d": "After data collection",
+  "p2.v": "By end of 2027, at least one AI governance platform will ship a <b>user-facing</b> (not org-facing) audit or explanation surface, rather than documents only.",
+  "p3.v": "By end of 2028, a first supervisory guidance, enforcement case, or mainstream enterprise procurement clause will explicitly require <b>effectiveness evidence</b> (did the user actually understand) rather than existence evidence (is the component on the screen).",
+  "p4.v": "\"Listed sources vs sources actually used\" (M2.2) will enter commercial use before domain-specific gap detection, because it <b>needs no domain knowledge and no maintained list</b>.",
+  "p5.v": "The first commercial deploy will be at an institution that <b>already bought data-side protection</b>, not one starting governance from zero — the existence of the intercept decides adoption order more than the budget does.",
+  "foot.l": "PrivacyUX Consulting Ltd. · 2026-08 · Confidential — for partnership conversations only"
+};
+T.zh = {
+  "page.title": "Reasoning Audit Layer — 效力舉證的設計空間 | Joshua Hsiao",
+  "nav.label": "跳至",
+  "nav.0": "主張",
+  "nav.1": "證據",
+  "nav.2": "介入點",
+  "nav.5": "合作方",
+  "nav.8": "Ledger",
+  "kicker": "Reasoning Audit Layer · B2B 導入簡報 · v0.1",
+  "h1": "答案回來之後",
+  "sub": "推理稽核層的效力舉證設計空間",
+  "lead": "治理產品的證據鏈停在<b>組織說了什麼</b>。沒有人產出<b>使用者收到了什麼</b>的證據。法規真正要的是後者——Art. 50 說的是<b>clear and distinguishable</b>，Law 25 說的是<b>informed</b>，PIPEDA 說的是<b>meaningful</b>。這三個形容詞描述的是一個人腦子裡發生的事。清單答不了。文件也答不了。<br>這份簡報把稽核層拆成 B2B 場景下的四個介入點。每一個都是現有治理堆疊蓋不到的位置。每一個都有可接受的模組候選，以及一條可證偽的預測。",
+  "meta": "Joshua Hsiao · 2026-08 · v0.1 · 每條預測都有日期且可證偽——見 Prediction Ledger · Agent 可讀層在 §7",
+  "s0.title": "一句話",
+  "s0.lead": "稽核層不是治理堆疊裡多一塊模組。它是那個堆疊一直沒有的對手方——站在收到 AI 輸出的那個人旁邊。",
+  "s0.body": "先做 toB：機構部署，對自己的使用者負責。第一個合作方是<b>Shielk</b>，不是因為內容或行銷，是因為架構——他們已經坐在使用者與模型之間的攔截點上，卻只用了出站方向。<b>入站方向是空的。</b>",
+  "s1.title": "閱讀框架 · 三種合規證據",
+  "s1.note": "誰能舉證法規裡的那些形容詞？",
+  "s1.p1": "每一句合規宣稱背後都有一類證據。市場只生產前兩類。法規的檢驗寫在第三類上。這份簡報的商業邏輯就卡在那個缺口。",
+  "t1.h": "存在性證據 · 清單",
+  "t1.p": "元件在不在畫面上。便宜、可自動化、可回歸測試。證明「我們放了一個揭露」。不證明它做了什麼。<b>今天的 UI 稽核工具全都停在這裡。</b>",
+  "t2.h": "程序性證據 · 文件",
+  "t2.p": "PIA / ÉFVP、ROPA、Model Card、FRIA。證明組織想過、寫下來、有人簽了。這是 Valdra 這類平台產出的東西，也是 B2B 採購目前唯一認的。",
+  "t3.tag": "Evidence Type 3 · 缺口",
+  "t3.h": "效力證據 · 實測",
+  "t3.p": "讀的人有沒有接收到，有沒有改變判斷。唯一對得上 clear / informed / meaningful 的證據類型。需要受試者、對抗平衡、行為記錄——<b>沒有治理產品在生產它。</b>",
+  "s1.pos": "<b>這一層的位置：</b>不跟 Type 1 或 Type 2 搶。它補上第三種，也是讓前兩種宣稱站得住的唯一一種。對合作方來說，這是既有產品線的<b>證據升級</b>，不是替換。",
+  "s2.title": "四個介入點",
+  "s2.note": "I1 → I4 · 依部署順序",
+  "s2.p": "從問題送出到證據回來，稽核層有四個位置必須落地。前兩個是工程。第三個是這份 POC 正在量的變項。第四個是商業收口。",
+  "g.i1.t": "入站攔截",
+  "g.i1.s": "把代理轉個方向",
+  "g.i2.t": "缺口生成",
+  "g.i2.s": "觀察由誰寫",
+  "g.i3.t": "呈現形式",
+  "g.i3.s": "錨定式 vs 側欄式",
+  "g.i4.t": "效力舉證",
+  "g.i4.s": "回寫風險登錄",
+  "st.ok": "已具備",
+  "st.gap": "缺口",
+  "st.chk": "待查證",
+  "sh.scene": "場景",
+  "sh.now": "現況",
+  "sh.mod": "模組候選",
+  "sh.ci": "資料流與邊界 · Contextual Integrity",
+  "sh.fail": "失敗模式",
+  "sh.grad": "導入梯度",
+  "tn.h": "結構張力",
+  "gr.paid": "體制已付",
+  "gr.beach": "灘頭堡",
+  "gr.trig": "企業觸發器",
+  "vd.ok": "恰當",
+  "vd.no": "違規",
+  "grad.paid": "體制付費",
+  "grad.beach": "灘頭堡",
+  "grad.trig": "企業觸發器",
+  "acc": "驗收",
+  "dv": "應變數",
+  "tag.test": "實驗中",
+  "tag.block": "阻擋中",
+  "i1.id": "I1 · 攔截點",
+  "i1.h": "入站攔截 — 把代理層轉個方向",
+  "i1.sub": "出站已經有人做了。回來的那一趟沒有。",
+  "i1.scene": "去識別化代理坐在使用者與模型之間，送出前告訴你哪些欄位會被遮罩。答案回來的時候，同一條管線上沒有任何人看它一眼，就直接落到使用者眼前。<b>使用者要判斷這個答案能不能信，手上什麼都沒有。</b>",
+  "i1.tn": "攔截點的價值目前只被用掉一半。出站方向保護的是機構的資料；入站方向保護的是使用者的判斷——後者沒有現成的擁有者，但物理位置是同一個。",
+  "i1.st1": "代理層已在請求路徑上，能同時看到 prompt、模型輸出與替換後的 token 對照。<b>這是稽核層唯一需要的物理位置。</b>",
+  "i1.st2": "出站方向已有一個對使用者說話的介面（送出前的遮罩預覽），使用者已被教育過「這條管線會提示我」。",
+  "i1.st3": "入站方向無任何處理。模型回應原樣通過，沒有任何一層對它的推理完整性表態。",
+  "i1.st4": "代理層是否為同步 in-line proxy（可在回應返回時介入），或僅為送出前的前處理服務。<b>此點決定 I1 是整合還是重建，須在第一次技術會議確認。</b>",
+  "i1.m11.n": "Return-path Hook — 回應路徑掛載",
+  "i1.m11.p": "在既有代理的回應返回段掛載稽核鉤子。<b>不改動出站路徑、不改動遮罩邏輯、不增加送出延遲</b>——這是說服對方工程團隊的第一要件。稽核在回應返回後以串流方式並行執行，答案先到、觀察後到。",
+  "i1.m11.a": "掛載後出站 p95 延遲變動 &lt; 2%；稽核失效時答案照常送達（fail-open on answer, fail-closed on claim）。",
+  "i1.m12.n": "Token Re-binding — 遮罩對照的稽核用途",
+  "i1.m12.p": "代理層持有的 token↔原值對照，是稽核層判斷「答案有沒有用到被遮罩的關鍵事實」的唯一依據。<b>對照表不進稽核模組</b>，稽核模組只送出欄位型別問句（「本回應是否引用了 POLICY 類欄位」），由代理層回答布林值。",
+  "i1.m12.a": "稽核模組的記憶體與日誌中不得出現任何原值；以合成 PII 注入測試驗證，通過率須為 100%。",
+  "i1.m13.n": "Answer-first Streaming — 答案優先",
+  "i1.m13.p": "稽核永遠不阻塞答案。觀察以第二串流抵達，介面預留錨點但不預留空白——若稽核逾時，介面必須<b>看起來像從來沒有稽核層</b>，而不是留下一個載入中的殘骸。",
+  "i1.m13.a": "稽核逾時（&gt; 2.5s）時，介面無任何殘留元素；使用者測試中無人能指出「這裡本來應該有東西」。",
+  "i1.ci1": "模型輸出全文 → <b>稽核模組</b>",
+  "i1.ci2": "去識別化後的 prompt → <b>稽核模組</b>",
+  "i1.ci3": "token↔原值對照表 → <b>稽核模組</b>",
+  "i1.ci4": "欄位型別布林查詢 → <b>代理層</b>，回傳 true/false",
+  "i1.ci4v": "恰當，且不得留存查詢內容",
+  "i1.ci5": "使用者互動記錄（開啟／停留） → <b>效力彙總</b>",
+  "i1.ci5v": "恰當，但須聚合、不可回溯個人",
+  "i1.ci6": "問題原文、答案原文 → <b>效力彙總</b>",
+  "i1.f1": "稽核延遲拖慢答案 → 使用者把整條管線當成「變慢的原因」，機構第一時間關掉的就是這一層。",
+  "i1.f2": "稽核模組為了判斷完整性而還原 token → 把一個隱私產品變成隱私事故。",
+  "i1.f3": "觀察比答案晚太久才到 → 使用者已經捲走、或已經行動，稽核在事後才發言，等於沒發言。",
+  "i1.g1": "金融與醫療的四眼原則、航空的交叉檢查——「第二雙眼睛看同一份輸出」的成本，受管制產業早就付過了。",
+  "i1.g2": "已經買了去識別化代理的機構：他們已承認這條管線需要中介，加一個方向的心理門檻遠低於從零導入。",
+  "i1.g3": "第一份把「使用者是否理解 AI 輸出的限制」寫進採購問卷的 enterprise security questionnaire。",
+  "i2.id": "I2 · 生成",
+  "i2.h": "缺口生成 — Observation #3 由誰產生",
+  "i2.sub": "POC 裡它是手寫的靜態陣列。這一題的答案決定它是儀器還是產品。",
+  "i2.scene": "POC 中最關鍵的那一條觀察——「ACS 家族史準則沒被查」「腎損傷風險沒被提」——是由人事先寫好的。它在研究情境下完全正當：<b>缺口是實驗刺激，必須可控。</b>但要進 B2B 部署，同一條觀察必須在執行當下由系統產生，而且不能比它稽核的模型更不可靠。",
+  "i2.tn": "稽核者若也是語言模型，就繼承了同一類失效。用一個會漏的東西去抓另一個東西漏了什麼，需要一個不對稱優勢——而那個優勢只能來自「稽核者手上有被稽核者沒查的那份清單」。",
+  "i2.st1": "POC 的四組觀察已具備完整結構：<b>region 錨點、gap 旗標、標題、說明文</b>。這是輸出契約，不需重新設計。",
+  "i2.st2": "兩個領域的缺口類型已被人工歸納：<b>單一指引依賴</b>（該查兩份只查一份）與<b>風險維度遺漏</b>（三大風險只談兩個）。這兩型可形式化。",
+  "i2.st3": "無執行期生成機制。目前四組觀察皆為靜態陣列，內容與情境一一綁定。",
+  "i2.st4": "臨床 sign-off 尚未取得；supervisor 已擋下現行 task set（兩對近似任務、學習效應）。<b>在收案完成前，效力數字不存在，任何對外提案不得引用預期結果。</b>",
+  "i2.m21.n": "Checklist Asymmetry — 稽核者的不對稱優勢",
+  "i2.m21.p": "稽核者不重新推理，只做一件模型沒做的事：<b>拿著該領域的權威清單逐項點名</b>。「這個決定應該考慮哪幾份指引／哪幾個風險維度」是有限且可維護的集合；「答案裡有沒有出現這幾項」是可判定的。推理留給模型，點名留給稽核。",
+  "i2.m21.a": "對已知缺口的檢出率 ≥ 95%；對無缺口回應的誤報率 ≤ 5%。誤報成本高於漏報——狼來了一次，整層失效。",
+  "i2.m22.n": "Source-Use Divergence — 列了幾個 vs 用了幾個",
+  "i2.m22.p": "POC 的 Observation #6 已經指出這型：<b>列出十個來源，實際只套用一個</b>。這是可機械檢出的——比對來源清單與答案中實際承載結論的引用。這型缺口不需要領域知識，是跨產業最先可落地的一條。",
+  "i2.m22.a": "來源清單與實際使用來源的差集計算，於 200 則歷史回應上人工複核一致率 ≥ 90%。",
+  "i2.m23.n": "Confidence Decoupling — 缺口不繼承模型信心",
+  "i2.m23.p": "稽核層對缺口的判斷若不確定，輸出<b>「未檢查」而非「無缺口」</b>。三態（有缺口／無缺口／未檢查）不可壓成兩態。「未檢查」對使用者是有價值的資訊，把它折算成「沒問題」則是這一層最嚴重的背信。",
+  "i2.m23.a": "三態於介面上皆有對應呈現；「未檢查」不得靜默隱藏，需在使用者測試中可被指認。",
+  "i2.ci1": "領域權威清單（指引、風險維度） → <b>稽核模組</b>",
+  "i2.ci1v": "恰當，且應可公開檢視",
+  "i2.ci2": "機構自訂的內部準則 → <b>稽核模組</b>",
+  "i2.ci2v": "恰當，但清單來源須對使用者可查",
+  "i2.ci3": "答案原文 → <b>第三方稽核模型</b>",
+  "i2.ci3v": "須另行取得跨境與委外授權",
+  "i2.ci4": "缺口統計 → <b>機構的模型改進流程</b>",
+  "i2.ci4v": "恰當，這是機構願意買單的部分",
+  "i2.f1": "誤報累積 → 使用者學會略過所有觀察，稽核層變成第二個 cookie banner。",
+  "i2.f2": "清單過期 → 稽核層以舊指引指控新答案，反而製造錯誤。清單需版本化並在觀察上標明版次。",
+  "i2.f3": "稽核者與被稽核者同源 → 同一個模型的盲點在兩端同時出現，整層形同虛設卻仍在發出「已檢查」訊號。",
+  "i2.g1": "臨床決策支援、藥物交互作用檢核已運行數十年——「清單對照」的方法論成本，醫療體制早已付清。",
+  "i2.g2": "領域清單本來就存在且有維護者的產業：醫療、稅務、保險核保。清單即護城河。",
+  "i2.g3": "第一起「AI 助理漏掉關鍵風險」的求償案件，與其後保險業對此類部署的核保問卷。",
+  "i3.id": "I3 · 呈現",
+  "i3.h": "呈現形式 — 錨定式 vs 側欄式",
+  "i3.sub": "唯一一個已經有實驗儀器在等答案的介入點。",
+  "i3.scene": "觀察生成出來之後，放在哪裡。<b>格式 A</b> 把每條觀察錨定在它所指的段落旁（tooltip）；<b>格式 B</b> 把七條收在一個可展開的面板裡（list）。兩者資訊量完全相同——差別只在讀的人會不會遇到它、以及遇到的時候正在讀什麼。",
+  "i3.tn": "錨定式貼著證據，但打斷閱讀且佔用版面；側欄式乾淨、可整批瀏覽，但要求使用者主動離開答案去查。<b>這正是「揭露存在」與「揭露有效」之間的整個距離，而它只能用實驗回答。</b>",
+  "i3.st1": "V4 儀器已完成：四區塊拉丁方對抗平衡、prev/next stepper 防止情境漂移、格式不與人物誌／臨床主題共變。",
+  "i3.st2": "行為記錄已上線：<b>哪幾條觀察被開啟、開啟順序、停留時間</b>，加上格式／情境／區塊切換事件，CSV 匯出。這是效力證據的原始資料。",
+  "i3.st3": "合成資料橫幅、研究者控制列隱藏、快捷鍵提示移出參與者視線——研究倫理與汙染控制已處理。",
+  "i3.st4": "task set 被擋下：四個情境實為兩對近似任務，學習效應無法靠對抗平衡修復。<b>機制與內容無關，需替換的是 slot 1–4 的內容與兩張人物誌卡。</b>",
+  "i3.m31.n": "Anchored Observation — 錨定式（格式 A）",
+  "i3.m31.p": "觀察錨定於它所指的內容區塊，以徽章＋連線指向。<b>賭注：注意力不需要被轉移，缺口在使用者讀到該段時自己撞上來。</b>風險是版面擁擠與打斷，以及使用者把徽章當成裝飾性註腳。",
+  "i3.m31.a": "缺口條目（gap:true）的開啟率、首次開啟前的閱讀時間、放聲思考中主動提及缺口的比例。",
+  "i3.m32.n": "Review Panel — 側欄式（格式 B）",
+  "i3.m32.p": "七條觀察收在「Audit Review」面板，可展開、可整批讀。<b>賭注：完整的稽核意見比片段更有說服力，且不干擾答案本身的閱讀。</b>風險是它與答案競爭注意力，而答案永遠贏。",
+  "i3.m32.a": "同上，加上面板展開率——未展開即為零效力，這個數字本身就是結論。",
+  "i3.m33.n": "Task Set Redesign — 四個互斥任務",
+  "i3.m33.p": "SEQ 表、stepper、人物誌機制與記錄皆與內容無關且正確，<b>需替換的只有 slot 1–4 的內容</b>。四個任務須在臨床決策類型上互斥（不可為同一決策的改寫），並各自承載一個可被 M2.1／M2.2 檢出的缺口型別。",
+  "i3.m33.a": "四任務兩兩之間不共用指引來源與風險維度；臨床 sign-off 取得後方可收計數參與者。",
+  "i3.ci1": "開啟事件、順序、停留時間 → <b>研究記錄</b>",
+  "i3.ci1v": "恰當（已取得研究同意）",
+  "i3.ci2": "放聲思考錄音 → <b>研究記錄</b>",
+  "i3.ci2v": "恰當，須依 REB 核准之保存與去識別程序",
+  "i3.ci3": "參與者行為記錄 → <b>合作方</b>",
+  "i3.ci3v": "違規（僅聚合統計可外流）",
+  "i3.ci4": "部署後的真實使用者行為 → <b>效力彙總</b>",
+  "i3.ci4v": "恰當，但須另行告知，且不得與帳號綁定",
+  "i3.f1": "兩種格式都沒有顯著效果 → 這是<b>可發表且有商業價值的結果</b>：它證明「揭露存在即合規」的假設不成立，而這正是本層存在的理由。不要把它當成失敗。",
+  "i3.f2": "學習效應未清除即收案 → 受試者內比較塌陷成受試者間比較，樣本量需求暴增數倍。",
+  "i3.f3": "觀察寫得太好讀 → 效力來自文案品質而非呈現位置，混淆了自變項。兩種格式的文案必須逐字相同。",
+  "i3.g1": "航空的 mode annunciation、臨床的警示分級——「狀態必須被看見」的設計成本，安全關鍵產業已付清。",
+  "i3.g2": "已在做可用性測試的產品團隊：他們有受試者管道與流程，只缺這個特定的應變數。",
+  "i3.g3": "第一份要求「揭露有效性測試報告」而非「揭露截圖」的監理指引或採購條款。",
+  "i4.id": "I4 · 舉證",
+  "i4.h": "效力舉證 — 回寫風險登錄",
+  "i4.sub": "機構為什麼願意裝一個會指出自己缺點的東西。",
+  "i4.scene": "這是整份提案最脆弱的一環，必須正面處理：<b>一個在執行當下告訴使用者「這個答案漏了關鍵風險」的元件，第一眼看起來是在增加機構的曝險。</b>如果回答不了這個反對意見，前面三個介入點做得再好也賣不掉。",
+  "i4.tn": "機構買治理是為了降低責任，不是為了誠實。稽核層必須被定位成<b>已知風險的緩解措施</b>——一項機構主動部署、可記入登錄、可在事後主張已盡義務的控制——而不是一份指控自己的稽核報告。這兩種框法的商業結果天差地遠。",
+  "i4.st1": "治理平台已有承載這類控制的容器：風險登錄、緩解措施欄位、Model Card、FRIA。<b>不需要對方建新東西。</b>",
+  "i4.st2": "現有登錄裡的緩解措施幾乎都是程序性的（訓練、政策、審查），沒有一項附帶效力數字。稽核層是第一個能填那一格的。",
+  "i4.st3": "AI Act Art. 14（人為監督）之「使該自然人能正確理解系統能力與限制」是否可由此類執行期控制部分滿足。<b>此為法律定性問題，須由對方法務或外部律師確認，不可由本方單方主張。</b>",
+  "i4.m41.n": "Mitigation Entry — 登錄為控制項，不是稽核報告",
+  "i4.m41.p": "輸出格式對齊治理平台既有的緩解措施欄位：控制名稱、對應風險、部署範圍、<b>效力指標</b>、複核週期。措辭全程為「本機構部署了 X 以緩解 Y」，永不為「本機構的介面未達成 Z」。同樣的數字，兩種框法。",
+  "i4.m41.a": "輸出可直接貼入對方平台的緩解措施欄位，無需人工改寫；欄位映射於試點中一次通過。",
+  "i4.m42.n": "Aggregate-only Efficacy — 只有聚合，沒有個人",
+  "i4.m42.p": "效力指標為群體統計：缺口觀察的觸達率、開啟率、平均停留、依格式分層。<b>不含任何可回溯到個別使用者的欄位</b>——這既是隱私要求，也是商業要求：機構不會買一個記錄自己使用者一舉一動的東西。",
+  "i4.m42.a": "輸出 schema 中無使用者識別欄位；任一指標的最小群體規模 &lt; 20 時不輸出。",
+  "i4.m43.n": "Claim Binding — 宣稱與證據綁定",
+  "i4.m43.p": "每一筆效力紀錄綁定到它所支撐的那句合規宣稱（哪份文件、哪一節、哪個形容詞）。這讓證據鏈第一次閉合：<b>文件說 informed → 這是 informed 的測量 → 這是測量的方法與日期。</b>",
+  "i4.m43.a": "每筆紀錄皆可回指至一句具體宣稱；無法綁定的紀錄不輸出，避免製造無主證據。",
+  "i4.ci1": "聚合效力指標 → <b>機構的風險登錄</b>",
+  "i4.ci2": "個別使用者的開啟紀錄 → <b>機構</b>",
+  "i4.ci3": "效力指標 → <b>對外的合規文件</b>",
+  "i4.ci3v": "恰當，須附測量方法與日期，不得只引用結論數字",
+  "i4.ci4": "跨機構的比較基準 → <b>各參與機構</b>",
+  "i4.ci4v": "恰當，須匿名化且參與機構數 ≥ 5",
+  "i4.f1": "被讀成稽核而非控制 → 機構法務第一時間封殺。措辭與輸出欄位必須從一開始就是控制項語彙。",
+  "i4.f2": "效力數字難看就不揭露 → 選擇性揭露一旦被發現，摧毀的是整層的可信度，比難看的數字嚴重得多。輸出契約須包含「無論結果」的承諾。",
+  "i4.f3": "成為機構自我認證的橡皮圖章 → 若指標可由機構自行調校，這一層立刻退化成 Type 1 證據。測量方法必須外部固定。",
+  "i4.g1": "藥品的上市後監測、醫材的臨床評估——「部署後仍須持續舉證有效」的制度成本，受管制產業已付清。",
+  "i4.g2": "正在被 enterprise 採購問卷追問、且已購買治理平台的機構：他們已經在付錢生產 Type 2 證據，卻答不出效力題。",
+  "i4.g3": "第一份把效力測量列為緩解措施認可條件的監理指引；或第一起以「揭露不足以構成告知」為由的裁罰。",
+  "s3.title": "執行期流程 · 泳道圖",
+  "s3.note": "I1 → I3 的一次完整往返",
+  "s3.p": "五條泳道：委託人、稽核代理、去識別化代理、模型、產品介面。<b>紅色為既有出站路徑（不動），藍色為本層新增的入站路徑。</b>",
+  "inv.h": "Invariants · 不可違反",
+  "inv.1": "答案永不因稽核而延遲；稽核失效時介面回復為無稽核層的樣子。",
+  "inv.2": "原值對照表永不進入稽核模組；稽核只問型別，不問內容。",
+  "inv.3": "不確定時輸出「未檢查」，永不輸出「無缺口」。",
+  "inv.4": "效力紀錄只有聚合，沒有個人；無論結果好壞皆輸出。",
+  "s4.title": "Flow Spec",
+  "s4.note": "產品團隊可直接轉為開發 Spec",
+  "th.phase": "階段",
+  "th.actor": "執行者",
+  "th.bound": "資料邊界",
+  "th.fail": "失敗處置",
+  "th.grad": "梯度",
+  "fs.1.p": "提問送出",
+  "fs.1.b": "原文只在使用者端與代理層；稽核模組此時尚未介入。",
+  "fs.1.f": "代理層離線 → 依機構政策決定是否放行；稽核層不參與此決策。",
+  "fs.2.p": "出站去識別化",
+  "fs.2.b": "PII 替換為 token；對照表僅存於代理層。<b>既有能力，不改動。</b>",
+  "fs.2.f": "遮罩失敗 → 既有 fail-closed 邏輯，本層不介入。",
+  "fs.3.p": "回應返回",
+  "fs.3.b": "答案全文＋來源清單進入代理層。",
+  "fs.3.f": "模型逾時 → 既有錯誤處理；稽核層不產生觀察。",
+  "fs.4.p": "缺口點名",
+  "fs.4.b": "取得答案全文與領域清單；<b>不取得對照表</b>，僅以型別問句查詢代理層。",
+  "fs.4.f": "清單版本過期 → 輸出「未檢查」並標明清單版次，不得推測。",
+  "fs.5.p": "答案先達",
+  "fs.5.b": "答案不等稽核；介面先完整呈現。",
+  "fs.5.f": "稽核逾時 → 介面無殘留元素，如同無稽核層。",
+  "fs.6.p": "觀察錨定",
+  "fs.6.b": "觀察以第二串流抵達，附 region 錨點與三態旗標。",
+  "fs.6.f": "錨點失效（內容已變） → 降級為面板呈現，不錯置徽章。",
+  "fs.7.p": "使用者閱讀",
+  "fs.7.b": "開啟／略過事件記錄於本地；<b>不含問答內容</b>。",
+  "fs.7.f": "全數略過 → 該次記為零觸達，計入效力分母，不重試打擾。",
+  "fs.8.p": "效力彙總",
+  "fs.8.b": "聚合統計，最小群體 20；綁定至具體合規宣稱。",
+  "fs.8.f": "樣本不足 → 不輸出指標，不以低信心數字充數。",
+  "fs.9.p": "回寫登錄",
+  "fs.9.b": "以緩解措施欄位格式輸出；附測量方法與日期。",
+  "fs.9.f": "欄位映射失敗 → 輸出標準 JSON 供人工掛載，不靜默丟棄。",
+  "s5.title": "三方合作方案",
+  "s5.note": "依架構契合度排序，非依談判難度",
+  "s5.p": "三個品牌看似三段關係，實則<b>一個關係、三個入口</b>——內容前台不是獨立 SaaS。排序依據是架構契合度：誰擁有本層需要的位置。",
+  "dt.own": "他們擁有什麼",
+  "dt.ask": "提案形式",
+  "dt.get": "他們得到",
+  "dt.keep": "我方保留",
+  "dt.risk": "主要風險",
+  "p1.r": "Priority 1 · 架構契合",
+  "p1.own": "使用者與模型之間的<b>攔截點</b>，以及一個已教會使用者閱讀提示的出站面板。",
+  "p1.ask": "共同試點：在既有代理上掛載入站鉤子（M1.1–M1.3），限一個領域、一家客戶。",
+  "p1.get": "從「保護資料」擴張為「保護判斷」，同一個攔截點的第二段價值；競品無法在不重建管線的情況下跟進。",
+  "p1.keep": "缺口生成的清單與方法（M2.1）、效力測量的協定。<b>介接歸共同，方法歸自己。</b>",
+  "p1.risk": "若其架構非同步 in-line proxy，I1 由整合退化為重建——第一次技術會議即須釐清。",
+  "p2.r": "Priority 2 · 證據閉環",
+  "p2.own": "風險登錄、PIA／ROPA／Model Card／FRIA，以及正在被採購問卷追問的客戶。",
+  "p2.ask": "輸出契約對齊（M4.1）：本層作為<b>可登錄的緩解措施</b>，不是稽核他們客戶的報告。",
+  "p2.get": "登錄裡第一項帶效力數字的控制；面對「你怎麼知道使用者被告知了」時，第一次有東西可以拿出來。",
+  "p2.keep": "測量方法必須外部固定，不可由平台或機構自行調校，否則退化為 Type 1 證據。",
+  "p2.risk": "被讀成稽核而非控制。措辭定調錯一次，法務就封殺，且很難翻案。",
+  "p3.r": "Priority 3 · 入口",
+  "p3.own": "內容通路、法規知識庫、SEO 位置。<b>不是獨立 SaaS，是前台。</b>",
+  "p3.ask": "共同發表：效力研究的方法與結果。門檻最低，可先於任何技術合作啟動。",
+  "p3.get": "該內容圈唯一的一手實驗數據——買不到、抄不走。",
+  "p3.keep": "發表結果，不發表清單與判準集。<b>文章是誘餌，方法是資產。</b>",
+  "p3.risk": "變成免費內容供應。須以「一篇換一次技術會議」為明確對價，不做開放式供稿。",
+  "s6.title": "待查證事項",
+  "s6.note": "提案送出前必須清空",
+  "s6.h": "本文件包含以下未經獨立驗證的假設。任何一項證偽都會改變提案結構，對外提出前須逐項確認。",
+  "s6.1": "三個品牌是否確為同一組織的三個前台——影響是「一個關係三個入口」還是三段獨立談判。",
+  "s6.2": "去識別化代理是否為同步 in-line proxy——決定 I1 是整合（數週）還是重建（數月）。",
+  "s6.3": "AI Act Art. 14／Art. 50、Law 25 s.12.1、PIPEDA 同意條款的具體文字與現行指引——本文引用的形容詞（clear／informed／meaningful）是整份提案的承重牆，須以現行條文與指引原文核對，並由法律專業確認其是否構成效力標準。",
+  "s6.4": "臨床 sign-off 與 task set 重設計完成前，<b>效力數字不存在</b>。對外提案不得引用預期結果，只能引用方法。",
+  "s7.title": "Agent 可讀層",
+  "s7.note": "同一份內容，兩種讀者",
+  "s7.p1": "本文件的結構化內容以 <code>application/json</code> 內嵌於頁面，識別碼 <code>#ral-proposal</code>。任何 agent 可直接讀取，無需解析 DOM。schema 沿用既有 pattern library 的 <code>spec.rows</code> 契約（<code>phase / actor / boundary / failure / grad</code>），因此本文件可與 Agent-based Onboarding 系列共用同一套檢索與渲染管線。",
+  "s7.p2": "下列為建議的 MCP 工具契約。四個介入點各自對應一個工具，<b>其中 <code>ral.audit_response</code> 是唯一需要執行期部署的</b>；其餘三個為離線或彙總用途，可先行實作以降低第一次合作的技術門檻。",
+  "json.copy": "複製 JSON",
+  "json.copied": "已複製",
+  "json.trunc": "\n  … 完整內容見 #ral-proposal（複製按鈕取得全文）",
+  "mcp.c1": "// I2 + I3 — 執行期：產生觀察並指定呈現形式",
+  "mcp.c2": "// 模型輸出全文",
+  "mcp.c3": "// 回應宣稱使用的來源",
+  "mcp.c4": "// 決定套用哪份權威清單",
+  "mcp.c5": "// 清單版次，寫入觀察",
+  "mcp.c6": "// Observation — 契約與 POC 的靜態陣列一致，可直接替換",
+  "mcp.c7": "// I1 — 邊界查詢：只問型別，不取原值",
+  "mcp.c8": "// I4 — 聚合效力，最小群體 20，無使用者識別欄位",
+  "mcp.c9": "// 檢索：模組與判準庫，與 Agent-based Onboarding 共用 schema",
+  "s8.title": "Prediction Ledger",
+  "s8.note": "可證偽 · 具檢驗日期",
+  "p1.v": "兩種呈現格式在缺口偵測率上出現顯著差異，<b>錨定式高於側欄式</b>。若不顯著，則「揭露存在即合規」的假設被實證推翻——兩種結果對本層都有價值，但只有一種支持 M3.1。",
+  "p1.d": "收案完成",
+  "p2.v": "2027 年底前，至少一家 AI 治理平台在產品中提供<b>面向使用者側</b>（而非組織側）的稽核或解釋呈現，而非僅產出文件。",
+  "p3.v": "2028 年底前，出現第一份明確要求<b>效力證據</b>（使用者是否確實理解）而非存在證據（元件是否存在）的監理指引、執法案例或主流企業採購條款。",
+  "p4.v": "「來源清單與實際使用來源的差異」（M2.2）將先於領域專屬的缺口偵測進入商用，因為它<b>不需要領域知識也不需要維護清單</b>。",
+  "p5.v": "首個商業部署將出現在<b>已購買資料側防護</b>的機構，而非從零導入治理的機構——攔截點的存在比預算更能決定導入順序。",
+  "foot.l": "PrivacyUX Consulting Ltd. · 2026-08 · Confidential — 僅供合作洽談使用"
+};
+
+var lang = 'en';
+try {
+  const saved = localStorage.getItem('auditLang');
+  if (saved === 'en' || saved === 'zh') lang = saved;
+} catch(e){}
+
+function currentProposal(){ return PROPOSAL[lang] || PROPOSAL.en; }
+
+function applyPayload(){
+  const p = currentProposal();
+  let el = document.getElementById('ral-proposal');
+  if (!el){
+    el = document.createElement('script');
+    el.type = 'application/json';
+    el.id = 'ral-proposal';
+    document.body.appendChild(el);
+  }
+  el.textContent = JSON.stringify(p);
+  const pretty = JSON.stringify(p, null, 2);
+  const dict = T[lang] || T.en;
+  const trunc = dict['json.trunc'] || '';
+  document.getElementById('jsonPreview').textContent =
+    pretty.length > 2600 ? pretty.slice(0, 2600) + trunc : pretty;
+}
+
+function setLang(next){
+  lang = next === 'zh' ? 'zh' : 'en';
+  try { localStorage.setItem('auditLang', lang); } catch(e){}
+  const dict = T[lang] || T.en;
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const val = dict[el.getAttribute('data-t')];
+    if (val != null) el.innerHTML = val;
+  });
+  if (dict['page.title']) document.title = dict['page.title'];
+  document.documentElement.lang = LANGTAG[lang] || 'en';
+  document.querySelectorAll('.lang-switch button').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  const swim = document.getElementById('swim');
+  if (swim) swim.innerHTML = renderSwimlane(FLOW, 900);
+  applyPayload();
+  const btn = document.getElementById('copyJson');
+  if (btn) btn.textContent = dict['json.copy'] || 'Copy JSON';
+}
+
+document.querySelector('.lang-switch').addEventListener('click', e => {
+  const b = e.target.closest('button[data-lang]');
+  if (b) setLang(b.getAttribute('data-lang'));
+});
+
+document.getElementById('copyJson').onclick = e => {
+  const pretty = JSON.stringify(currentProposal(), null, 2);
+  if (navigator.clipboard) navigator.clipboard.writeText(pretty);
+  const dict = T[lang] || T.en;
+  e.target.textContent = dict['json.copied'];
+  setTimeout(() => { e.target.textContent = dict['json.copy']; }, 1500);
+};
+
+setLang(lang);
+</script>
+</div>
+</div>
+</div>
+<script src="sidebar.js"></script>
+<script>renderAuditSidebar('prd');</script>
+</body>
+</html>
