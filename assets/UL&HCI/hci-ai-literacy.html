@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-t="page.title">HCI &amp; AI literacy practices | Joshua Hsiao</title>
+<meta name="description" content="A document-based analysis of Ontario's AI scribe programme against patient-facing transparency, consent, review, and correction commitments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1D1D1B;--red:#E3120B;--ox:#7a2e1f;--warm:#F5F1EB;--rule:#D4D1CB;--mid:#6B6B6B;--bg2:#f7f7f5;
+  --amber:#B7791F;--green:#2D8A56;--blue:#2471A3;
+  --bg-primary:#fff;--bg-secondary:var(--bg2);--bg-hover:#ebebea;
+  --text-primary:var(--ink);--text-secondary:var(--mid);--text-tertiary:#9b9a97;
+  --border-color:var(--rule);--accent-color:var(--red);
+  --accent-soft:rgba(227,18,11,.08);
+  --card-radius:4px;
+  --ui-font:'Inter',-apple-system,'PingFang TC','Noto Sans TC',sans-serif;
+  --sidebar-width:260px;
+}
+html,body{height:100%;overflow:hidden}
+html{background:var(--bg-primary)}
+body{
+  font-family:var(--ui-font);color:var(--ink);line-height:1.6;
+  background:var(--bg-primary);display:flex;
+}
+a{color:var(--ink)}
+a:hover{color:var(--red)}
+.body-text a,.block a,.p-body a,.fw-card a,.chart-takeaway a,.q-page-footer a{
+  color:var(--ink);text-underline-offset:2px;
+}
+b,.body-text b,.block b,.p-body b,.fw-card b,.chart-takeaway b,td b{color:var(--ink);font-weight:700}
+
+.side-nav{
+  width:var(--sidebar-width);min-width:var(--sidebar-width);height:100vh;
+  background:var(--bg-secondary);border-right:1px solid var(--border-color);
+  display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;
+}
+.side-nav-header{
+  padding:12px 14px;border-bottom:1px solid var(--border-color);
+  font-size:14px;font-weight:600;color:var(--ink);flex-shrink:0;
+}
+.side-nav-scroll{flex:1;overflow-y:auto;padding:8px 0}
+.side-nav .nav-group{
+  font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--text-tertiary);padding:8px 14px 6px;
+}
+.side-nav a{
+  display:block;color:var(--text-secondary);text-decoration:none;font-weight:500;
+  font-size:14px;padding:6px 14px;border:0;background:transparent;border-radius:0;
+}
+.side-nav a:hover{background:var(--bg-hover);color:var(--ink)}
+.side-nav a.active{background:var(--bg-hover);color:var(--ink);font-weight:600}
+.side-nav-footer{
+  padding:12px 14px;border-top:1px solid var(--border-color);flex-shrink:0;
+}
+.side-nav-footer a{
+  display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);
+  padding:0;font-weight:500;
+}
+.side-nav-footer a:hover{background:transparent;color:var(--ink)}
+
+.main-content{
+  flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;
+  border-top:3px solid var(--red);
+}
+.page-chrome{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 24px;flex-shrink:0;
+  background:var(--bg-primary);border-bottom:1px solid var(--border-color);
+}
+.chrome-right{
+  display:flex;align-items:center;gap:10px;
+}
+.lang-switch{
+  display:flex;gap:4px;align-items:center;
+}
+.lang-switch button{
+  font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.03em;
+  padding:.22rem .55rem;border:1px solid var(--border-color);
+  background:#fff;color:var(--ink);border-radius:var(--card-radius);
+  cursor:pointer;line-height:1.2;transition:all .15s ease;
+}
+.lang-switch button:hover{border-color:var(--red);color:var(--red)}
+.lang-switch button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.main-body{flex:1;overflow-y:auto;padding:40px 60px;scroll-behavior:smooth}
+.content-wrapper{max-width:1200px;margin:0 auto}
+.breadcrumbs{display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--text-tertiary)}
+.breadcrumbs a{color:var(--mid);text-decoration:none;font-weight:600}
+.breadcrumbs a:hover{color:var(--red)}
+.breadcrumbs .sep{color:var(--rule)}
+.breadcrumbs .current{color:var(--ink);font-weight:700}
+.view-only-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mid);border:1px solid var(--rule);padding:.2rem .5rem;background:#fff;
+}
+.view-only-badge i{width:12px;height:12px}
+
+.cover-label{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
+.cover-title{font-weight:800;font-size:1.78rem;letter-spacing:-.01em;margin:0 0 .15rem;line-height:1.22}
+.cover-subtitle{font-size:.9rem;color:var(--mid);width:100%;line-height:1.55}
+.cover-subtitle b{color:var(--ink)}
+.divider{height:3px;width:100%;background:var(--red);border-radius:2px;margin:.7rem 0 1.1rem}
+
+.section-header{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:2px solid var(--ink);margin:1.6rem 0 .7rem;scroll-margin-top:16px}
+.sec-num{font-size:.72rem;font-weight:800;color:var(--red);min-width:2.2rem;flex-shrink:0}
+.sec-title{font-size:1.02rem;font-weight:700;color:var(--ink)}
+.exec-box{border:2px solid var(--ink);background:var(--warm);padding:1rem 1.2rem;margin-bottom:.4rem;font-size:.87rem;line-height:1.55;scroll-margin-top:72px}
+.exec-box h5{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--ox);text-transform:uppercase;margin-bottom:.55rem}
+.exec-lead{font-weight:800;font-size:1.05rem;line-height:1.35;color:var(--ink);margin-bottom:.55rem}
+.body-text{font-size:.87rem;color:var(--mid);line-height:1.68;margin-bottom:.7rem}
+.chart-takeaway{margin:.3rem 0 .9rem;padding:.85rem 1.1rem;background:var(--warm);border-left:3px solid var(--red);font-size:.86rem;line-height:1.68;color:var(--mid)}
+.takeaway-label{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.45rem}
+.note{font-size:.76rem;color:var(--mid);margin:.2rem 0 .9rem;line-height:1.5}
+
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.2rem 0 .4rem}
+.block{border:1px solid var(--rule);padding:.85rem 1rem;background:#fff;font-size:.84rem;line-height:1.55}
+.block.wide{grid-column:1/-1}
+.block h4{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ox);margin-bottom:.45rem}
+.block p,.block li{color:var(--mid)}
+.block ul{padding-left:1.15rem}
+.block li+li{margin-top:.3rem}
+
+.table-wrap{overflow-x:auto;margin:.4rem 0 .8rem;border:1px solid var(--rule);background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{text-align:left;font-weight:700;font-size:.74rem;letter-spacing:.04em;color:var(--mid);text-transform:uppercase;padding:.55rem .75rem;border-bottom:2px solid var(--ink);background:var(--bg2);white-space:nowrap}
+td{padding:.65rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--mid);line-height:1.55}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:700;color:var(--ink)}
+
+.pattern-list{display:flex;flex-direction:column;gap:.45rem}
+details.pattern{border:1px solid var(--rule);background:var(--bg2);overflow:hidden;scroll-margin-top:96px}
+details.pattern summary{font-size:.84rem;font-weight:700;padding:.55rem .85rem;cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:8px;user-select:none;color:var(--ink)}
+details.pattern summary::-webkit-details-marker{display:none}
+details.pattern summary .p-num{font-size:.66rem;font-weight:800;color:#fff;background:var(--red);padding:.05rem .4rem;flex-shrink:0;margin-top:.15rem}
+details.pattern summary .q{flex:1}
+details.pattern summary .chev{margin-left:auto;width:14px;height:14px;color:var(--mid);flex-shrink:0;transition:transform .2s;margin-top:.15rem}
+details.pattern[open] summary .chev{transform:rotate(180deg)}
+details.pattern .p-body{font-size:.82rem;line-height:1.65;color:var(--mid);padding:.55rem .85rem .75rem;border-top:1px solid var(--rule);background:#fff}
+.q-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:.35rem}
+
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.08rem .5rem;border-radius:10px;white-space:nowrap}
+.hi{background:rgba(45,138,86,.12);color:var(--green)}
+.md{background:rgba(183,121,31,.13);color:var(--amber)}
+.lo{background:rgba(227,18,11,.10);color:var(--red)}
+
+.framework-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.4rem 0 .8rem}
+.ethics-grid{display:flex;flex-direction:column;gap:.75rem;margin:.2rem 0 .4rem}
+.ethics-sum{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--rule);margin:.2rem 0 .8rem;background:#fff}
+.ethics-sum div{padding:.7rem .85rem;border-right:1px solid var(--rule);font-size:.78rem;color:var(--mid);line-height:1.4}
+.ethics-sum div:last-child{border-right:none}
+.ethics-sum b{display:block;font-size:1.02rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:.12rem}
+.ethics-ask{font-size:.8rem;font-style:italic;color:var(--ink);margin-bottom:.45rem;line-height:1.45}
+.fw-card .ethics-ask{color:var(--ink)}
+.fw-card{border:1px solid var(--rule);padding:.85rem 1rem;background:var(--bg2);font-size:.84rem;line-height:1.55}
+.fw-card h6{font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:.3rem}
+.fw-card p{color:var(--mid);margin-bottom:.45rem}
+.fw-card p:last-child{margin-bottom:0}
+.fw-card.plan{border-left:3px solid var(--blue)}
+.fw-card.keep{border-left:3px solid var(--amber)}
+.fw-card.warn{border-left:3px solid var(--red)}
+
+.ref-list{margin:.5rem 0 1.4rem;display:flex;flex-direction:column;gap:.75rem}
+.ref-item{font-size:.82rem;line-height:1.6;color:var(--mid);padding-left:1.5rem;text-indent:-1.5rem;word-break:break-word}
+.ref-item a{color:var(--ink);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+.ref-item a:hover{color:var(--red)}
+.ref-note{display:block;margin-top:.3rem;text-indent:0;font-size:.76rem;line-height:1.6;color:var(--text-tertiary)}
+.ref-list:not(.expanded) .ref-item.ref-hidden{display:none}
+.ref-toggle{display:inline-block;margin:-.9rem 0 1.4rem;padding:.15rem 0;font-family:inherit;font-size:.78rem;font-weight:700;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--rule);cursor:pointer}
+.ref-toggle:hover{color:var(--red);border-bottom-color:var(--red)}
+.ref-toggle:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+.ai-disclosure{margin-top:1.5rem;padding-top:.85rem;border-top:1px solid var(--rule);font-size:.76rem;line-height:1.6;color:var(--text-tertiary)}
+.ai-disclosure .aid-h{display:block;font-weight:700;color:var(--mid);margin-bottom:.45rem}
+.ai-disclosure ul{list-style:none;margin:0;padding:0}
+.ai-disclosure li{padding-left:1rem;text-indent:-1rem;margin-bottom:.3rem}
+.ai-disclosure li:last-child{margin-bottom:0}
+.ai-disclosure li b{font-weight:600;color:var(--mid)}
+
+.q-page-footer{margin-top:1.6rem;padding-top:.8rem;border-top:1px solid var(--rule);font-size:.74rem;color:#9b9a97;scroll-margin-top:72px}
+.q-page-footer a{font-weight:700;color:var(--ink)}
+
+@media(max-width:900px){
+  .t-grid,.framework-grid{grid-template-columns:1fr}
+  .ethics-sum{grid-template-columns:1fr}
+  .ethics-sum div{border-right:none;border-bottom:1px solid var(--rule)}
+  .ethics-sum div:last-child{border-bottom:none}
+}
+@media(max-width:768px){
+  html,body{height:auto;overflow:auto}
+  body{flex-direction:column}
+  .side-nav{width:100%;min-width:0;height:auto;border-right:0;border-bottom:1px solid var(--border-color)}
+  .side-nav-scroll{display:flex;flex-wrap:wrap;padding:8px 8px 12px}
+  .side-nav .nav-group{width:100%;padding:8px 6px 4px}
+  .side-nav a{padding:6px 10px}
+  .main-content{border-top:0}
+  .main-body{padding:24px 16px}
+  .page-chrome{padding:12px 16px}
+}
+@media print{
+  html,body{height:auto;overflow:visible}
+  body{display:block}
+  .side-nav{display:none}
+  .page-chrome{position:static}
+  details.pattern{open:true}
+  details.pattern .p-body{display:block}
+}
+</style>
+</head>
+<body>
+
+<nav class="side-nav" aria-label="On this page">
+  <div class="side-nav-header" data-t="nav.header">HCI &amp; AI literacy</div>
+  <div class="side-nav-scroll">
+    <div class="nav-group" data-t="nav.grp_overview">Overview</div>
+    <a href="#s1" data-sec="s1" data-t="nav.s1">The question</a>
+    <div class="nav-group" data-t="nav.grp_research">Research line</div>
+    <a href="#s2" data-sec="s2" data-t="nav.s2">The mould</a>
+    <a href="#sethics" data-sec="sethics" data-t="nav.sethics">Three readings</a>
+    <a href="#s3" data-sec="s3" data-t="nav.s3">What is visible</a>
+    <a href="#s4" data-sec="s4" data-t="nav.s4">The lens</a>
+    <a href="#s5" data-sec="s5" data-t="nav.s5">Method &amp; ceiling</a>
+    <div class="nav-group" data-t="nav.grp_notes">Working notes</div>
+    <a href="#s6" data-sec="s6" data-t="nav.s6">Open questions</a>
+    <div class="nav-group" data-t="nav.grp_practice">Practice</div>
+    <a href="#s7" data-sec="s7" data-t="nav.s7_learners">Working with learners</a>
+    <a href="#s7" data-sec="s7" data-t="nav.s7_practitioners">Teaching practitioners</a>
+    <div class="nav-group" data-t="nav.grp_references">References</div>
+    <a href="#s8" data-sec="s8" data-t="nav.s8">References</a>
+    <div class="nav-group" data-t="nav.grp_archive">Archive</div>
+    <a href="../../Zotero_5C_graph_V5.html" data-t="nav.archive">Trust reasoning study</a>
+  </div>
+  <div class="side-nav-footer">
+    <a href="../../index.html" data-t="nav.back">← Back to Portfolio</a>
+  </div>
+</nav>
+
+<div class="main-content">
+<div class="page-chrome">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../../index.html" data-t="chrome.home">Home</a>
+    <span class="sep">/</span>
+    <span class="current" data-t="chrome.current">HCI &amp; AI literacy practices</span>
+  </nav>
+  <div class="chrome-right">
+    <span class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="zh">繁中</button>
+    </span>
+    <span class="view-only-badge"><i data-lucide="lock"></i> <span data-t="chrome.view_only">View Only</span></span>
+  </div>
+</div>
+<div class="main-body">
+<div class="content-wrapper">
+
+<div class="cover-label" data-t="cover.label">HCI &amp; AI literacy practices</div>
+<h1 class="cover-title" data-t="cover.title">The programme counted 17,415 visits to show that doctors saved time. It asked six patients what it felt like. That gap is the point of this page.</h1>
+<p class="cover-subtitle" data-t="cover.subtitle">This page reads the public documents on Ontario's AI scribe deployment. Patients were promised they would be told, asked for consent, and able to check or correct what was written. The question is what the public record actually shows.</p>
+<div class="divider"></div>
+
+<main>
+    <div class="exec-box" id="s0">
+      <h5 data-t="s0.tag">Positioning</h5>
+      <div class="exec-lead" data-t="s0.lead">Paris, Moon and Guo argue that checking a system does not remove the need to trust someone. It moves that trust to a third party (FAccT '26, p. 5359). Here, trust was moved onto two labels: "qualified on the vendor list" and "the doctor will review." Literacy means having an actual record you can inspect; when that record is missing, the capacity has nowhere to work.</div>
+      <p class="body-text" style="margin:0" data-t="s0.body">This study reads public records rather than running user testing. The goal is to examine how an institution decided which evidence to produce, and whose interests were made measurable.</p>
+    </div>
+
+    <div class="section-header" id="s1">
+      <span class="sec-num">S1</span>
+      <span class="sec-title" data-t="s1.title">The question</span>
+    </div>
+    <p class="body-text" data-t="s1.p1">An AI scribe listens to a doctor–patient visit, creates a transcript, and drafts a clinical note for the electronic medical record. In Ontario, the Ministry of Health told CBC in May 2026 that roughly 5,000 physicians were using one — a ministry figure, not an audited programme statistic. The products come from <a href='https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/' target='_blank' rel='noopener'>Supply Ontario's Vendor of Record arrangement</a> (Tender-20123), which lists 30 qualified vendors after a second intake; 20 were approved when it was awarded in April 2025.</p>
+    <p class="body-text" data-t="s1.p2">The programme's <a href='https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf' target='_blank' rel='noopener'>evaluation report</a> measured clinician benefits in detail. Between March 18 and July 5, 2024, 152 primary care providers logged 17,415 encounters; in the lab, documentation time fell 69.5% across nine simulated encounters (Table 1), and in routine practice providers self-reported about three hours less administrative work per week (Figure 2). The number most often quoted in public — 70% to 90% less time on paperwork — is not in that report. It comes from <a href='https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx' target='_blank' rel='noopener'>OntarioMD's news release</a>. For patient experience, the same evaluation relied on semi-structured interviews with six patients (n = 6).</p>
+    <div class="chart-takeaway">
+      <span class="takeaway-label" data-t="s1.takeaway_label">The Asymmetry</span>
+      <span data-t="s1.takeaway_body">The evaluation produced clear numbers for administrative relief, but only a six-person qualitative sketch for the people being recorded. The figure that travelled furthest was not even the measured one. This project asks whether the public record provides patients with meaningful transparency, consent, review, and correction opportunities.</span>
+    </div>
+
+    <div class="section-header" id="s2">
+      <span class="sec-num">S2</span>
+      <span class="sec-title" data-t="s2.title">The mould</span>
+    </div>
+    <p class="body-text" data-t="s2.lead">Three instruments set the expectations: CPSO's <i>Advice to the Profession: AI Scribes in Clinical Practice</i> (June 2024), Ontario's health privacy law (PHIPA), and the Information and Privacy Commissioner's <a href='https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector' target='_blank' rel='noopener'>AI Scribes: Key Considerations for the Health Sector</a> (January 28, 2026). CPSO advice is companion guidance to a policy — <a href='https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation' target='_blank' rel='noopener'>Medical Records Documentation</a> — rather than a free-standing rule, which is itself part of what makes this mould hard to test:</p>
+    <div class="t-grid">
+      <div class="block">
+        <h4 data-t="s2.b1_h">Informed Communication</h4>
+        <p data-t="s2.b1_p">Physicians are expected to tell patients how the AI scribe will be used for documentation, in language the patient can act on.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s2.b2_h">Explicit Consent</h4>
+        <p data-t="s2.b2_p">Consent must be obtained before recording an encounter. The IPC treats express consent recorded in the chart as best practice, and says a patient who declines must receive the same standard of care.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s2.b3_h">Substantive Review</h4>
+        <p data-t="s2.b3_p">Physicians must review all generated notes for accuracy and completeness before saving them to the chart.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s2.b4_h">Privacy Protection</h4>
+        <p data-t="s2.b4_p">Systems must safeguard personal health information across storage, transfer, and any cross-border processing.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s2.b5_h">Bias &amp; Suitability</h4>
+        <p data-t="s2.b5_p">Procurement required solutions to handle diverse accents, multiple speakers and clinical acronyms; professional guidance asks physicians to stay alert to bias and to whether a tool suits their patient population.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s2.b6_h">Continuing Responsibility</h4>
+        <p data-t="s2.b6_p">AI assists but never replaces professional clinical judgement; the physician remains solely accountable for the record.</p>
+      </div>
+    </div>
+
+    <div class="section-header" id="sethics">
+      <span class="sec-num">S3</span>
+      <span class="sec-title" data-t="sethics.title">Three ethical readings</span>
+    </div>
+    <p class="body-text" data-t="sethics.lead">The same public facts can be read as a benefit, a use of persons, or a habit of character. The three theories do not need a new dataset. They need a different unit of moral concern: the sum, the person, the character being formed.</p>
+    <div class="ethics-sum" aria-label="Shared facts for the three readings">
+      <div><b data-t="sethics.n1">69.5%</b><span data-t="sethics.n1_l">lab documentation time cut (9 simulated encounters)</span></div>
+      <div><b data-t="sethics.n2">17,415</b><span data-t="sethics.n2_l">encounters used to evidence clinician relief</span></div>
+      <div><b data-t="sethics.n3">n = 6</b><span data-t="sethics.n3_l">patients asked what it felt like</span></div>
+    </div>
+    <div class="ethics-grid">
+      <div class="fw-card plan">
+        <h6 data-t="sethics.c1_h">Utilitarianism</h6>
+        <p class="ethics-ask" data-t="sethics.c1_q">Which action produces the most good for the most people?</p>
+        <p data-t="sethics.c1_p">The programme already ran half of that sum. Lab documentation time fell 69.5%; in the field, providers self-reported about three hours less a week over 17,415 visits. That is real good — for clinicians, and possibly for patients who get the time back as attention. It is not a completed calculation. Patient-side utility rests on six interviews. Treating "69.5% versus n=6" as a single ratio is rhetoric, not arithmetic: one number is a lab time cut, the other is a field sketch. A utilitarian still has to count later harms that reach anyone — fabricated detail, a wrong drug, a missed mental-health line. The honest claim is narrower: one stakeholder was instrumented; the other was not. The theory does not forbid the scribe. It forbids declaring the case closed while a column is empty.</p>
+      </div>
+      <div class="fw-card warn">
+        <h6 data-t="sethics.c2_h">Kantian ethics</h6>
+        <p class="ethics-ask" data-t="sethics.c2_q">Are persons treated as ends, or only as means?</p>
+        <p data-t="sethics.c2_p">Kant's formula of humanity: a person may be used as a means — a clinical encounter always is — but never <i>merely</i> as a means. They must also be able to know, refuse, and have a say in what is made of them. The evaluation turned those encounters into the evidence that doctors saved time. Six of the people in the room were asked what it felt like. The rest of the recorded patients functioned as the generation mechanism for an efficiency statistic. That is the charge: not that efficiency was measured, but that the persons whose speech was captured were not treated as ends in the same act that used them as data. "The doctor will review" does not restore that status. It is a label held by a third party. A Kantian programme could still cut documentation time. It would have to make refusal costless, the note inspectable, and correction possible — otherwise the patient remains a means of producing relief for someone else.</p>
+      </div>
+      <div class="fw-card keep">
+        <h6 data-t="sethics.c3_h">Virtue ethics</h6>
+        <p class="ethics-ask" data-t="sethics.c3_q">What kind of physician is this practice forming?</p>
+        <p data-t="sethics.c3_p">The virtue at stake is not speed. It is remaining the author of the record: conscientiousness about what one has actually read, honesty about what one has not. CPSO requires substantive review before the note enters the chart. Under back-to-back appointments that duty can shrink to a formal signature — and none of the approved systems required an attestation step (Auditor General, p. 24). This is not evidence that physicians are rubber-stamping. It is evidence that the workflow makes the signing physician easier to become than the reading one. The hours the 69.5% freed are also the hours a certain kind of physician would spend staying the author. The same question sits one level up. An institution that instruments clinician hours and leaves patient safeguards as principle is becoming a particular kind of steward.</p>
+      </div>
+    </div>
+    <div class="chart-takeaway">
+      <span class="takeaway-label" data-t="sethics.takeaway_label">Where they split</span>
+      <span data-t="sethics.takeaway_body">The three theories do not pick the same next action. A utilitarian wants the missing column filled, then a net decision. A Kantian wants the patient restored as an end, even if the net still looks good. A virtue ethicist wants review to remain an act of authorship, not the signature that protects the time-saving. They converge on one diagnosis: the public record completed the case for one party.</span>
+    </div>
+
+    <div class="section-header" id="s3">
+      <span class="sec-num">S4</span>
+      <span class="sec-title" data-t="s3.title">What is visible in the public record</span>
+    </div>
+    <p class="body-text" data-t="s3.lead">Comparing the public evaluation against what remains unverified reveals a consistent pattern:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30%" data-t="s3.th1">Publicly visible</th>
+            <th style="width:35%" data-t="s3.th2">Less clear in public materials</th>
+            <th style="width:35%" data-t="s3.th3">Finding it supports</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-t="s3.r1_c1">152 providers, 17,415 encounters, 69.5% less documentation time in the lab, about three hours a week self-reported, satisfaction surveys</td>
+            <td data-t="s3.r1_c2">Error and omission rates across diverse accents, languages, multi-speaker visits, or sensitive conditions</td>
+            <td data-t="s3.r1_c3">Efficiency and workload relief are far more visible than clinical safety or equity data.</td>
+          </tr>
+          <tr>
+            <td data-t="s3.r2_c1">Official statements that the qualified vendors meet provincial privacy and security standards</td>
+            <td data-t="s3.r2_c2">Specific test criteria, pass thresholds, exception policies, and ongoing audit procedures</td>
+            <td data-t="s3.r2_c3">Procurement qualification claims cannot be independently verified by patients or external researchers.</td>
+          </tr>
+          <tr>
+            <td data-t="s3.r3_c1">Professional guidance requiring informed patient consent and mandatory doctor review</td>
+            <td data-t="s3.r3_c2">How consent is recorded in practice, refusal rates, and whether rushed workflows permit thorough note checks</td>
+            <td data-t="s3.r3_c3">A formal rule that "doctors review" does not guarantee that thorough error-checking happens during busy clinic hours.</td>
+          </tr>
+          <tr>
+            <td data-t="s3.r4_c1">Accuracy testing of 20 systems, run by procurement evaluators in 2024 and made public only by the Auditor General's special report of May 12, 2026</td>
+            <td data-t="s3.r4_c2">Routine monitoring by vendors or the programme to catch fabricated detail before a note enters the chart; no approved system required a physician attestation step</td>
+            <td data-t="s3.r4_c3">The accuracy evidence existed inside the procurement two years before the public saw it, and reached them through an external audit rather than routine reporting.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-header" id="s4">
+      <span class="sec-num">S5</span>
+      <span class="sec-title" data-t="s4.title">Analytical lens · Four misabstractions</span>
+    </div>
+    <p class="body-text" data-t="s4.lead">Paris, Moon and Guo (FAccT '26, pp. 5348–5370, <a href="https://doi.org/10.1145/3805689.3812373" target="_blank" rel="noopener">DOI: 10.1145/3805689.3812373</a>) examine how technical verification often relies on flawed assumptions. Applying their four misabstractions (p. 5356) clarifies why formal checks can fail patients:</p>
+    <div class="framework-grid">
+      <div class="fw-card plan">
+        <h6 data-t="s4.c1_h">1. Non-Contextual Claims</h6>
+        <p data-t="s4.c1_p">Compressing complex patient protections into simple labels like "privacy qualified" hides how differently tools operate across clinics and patient populations (p. 5356).</p>
+      </div>
+      <div class="fw-card keep">
+        <h6 data-t="s4.c2_h">2. Sequence of Computations</h6>
+        <p data-t="s4.c2_p">Assuming that because speech-to-text and summarisation work separately, the combined documentation system will always produce accurate clinical notes (p. 5356).</p>
+      </div>
+      <div class="fw-card keep">
+        <h6 data-t="s4.c3_h">3. Trustless Fallacy</h6>
+        <p data-t="s4.c3_p">Assuming patients can independently verify vendor practices without relying on intermediate institutions, when they have no access to the underlying logs (p. 5356, p. 5359).</p>
+      </div>
+      <div class="fw-card warn">
+        <h6 data-t="s4.c4_h">4. Narrow Threat Fallacy</h6>
+        <p data-t="s4.c4_p">Focusing solely on transcription errors while overlooking broader institutional pressures, such as time constraints on doctor review or unequal consent dynamics (p. 5356).</p>
+      </div>
+    </div>
+
+    <div class="section-header" id="s5">
+      <span class="sec-num">S6</span>
+      <span class="sec-title" data-t="s5.title">Method &amp; bounded finding</span>
+    </div>
+    <div class="t-grid">
+      <div class="block">
+        <h4 data-t="s5.b1_h">Approach</h4>
+        <p data-t="s5.b1_p">Document-based analysis of publicly available materials: the WIHV/CDHE clinical evaluation report (July 31, 2024), the Supply Ontario Tender-20123 record, CPSO advice and the Medical Records Documentation policy, the IPC's AI scribe guidance (January 28, 2026), OntarioMD programme material, and the Auditor General's <i>Use of Artificial Intelligence in the Ontario Government</i> (May 12, 2026). Full list in the references.</p>
+      </div>
+      <div class="block">
+        <h4 data-t="s5.b2_h">Evidence Coding</h4>
+        <p data-t="s5.b2_p">Each patient-facing commitment in the governing framework is evaluated against the public record and coded into one of three categories: <b>evidenced</b> (supported by public data), <b>asserted</b> (stated as policy without verification data), or <b>absent</b> (no public documentation).</p>
+      </div>
+      <div class="block wide">
+        <h4 data-t="s5.b3_h">What This Project Is Not</h4>
+        <p data-t="s5.b3_p">This project does not conduct clinical trials or evaluate proprietary model code. It does not argue that AI scribes are ineffective or that doctors should not use them. The focus is strictly on the shape of the public evidence base.</p>
+      </div>
+      <div class="block wide">
+        <h4 data-t="s5.b4_h">The Bounded Finding</h4>
+        <p data-t="s5.b4_p"><b>The programme built a measurable case for efficiency, while patient protections remained principles.</b><br><br>The public record shows clear, quantified evidence that AI scribes reduce clinician administrative burden, gathered across a deployment of 17,415 encounters. For patient-facing commitments — transparency, consent, review, and correction — the public record largely contains assertions rather than operational evidence. This does not mean patients were harmed; it shows that the programme was designed to measure provider success, not patient safeguards.</p>
+      </div>
+    </div>
+
+    <div class="section-header" id="s6">
+      <span class="sec-num">S7</span>
+      <span class="sec-title" data-t="s6.title">Open questions</span>
+    </div>
+    <p class="body-text" data-t="s6.lead">Open research questions arising from the visibility gap between provider efficiency and patient safeguards:</p>
+    <div class="pattern-list">
+      <details class="pattern" open>
+        <summary>
+          <span class="p-num">01</span>
+          <span class="q" data-t="s6.q1_t">Is physician review a substantive safeguard, or does clinic time pressure turn it into a formal signature?</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </summary>
+        <div class="p-body">
+          <span data-t="s6.q1_b">Physicians reported that they always reviewed, proofread and edited notes before saving them to the chart. When appointments run back-to-back, whether clinicians reliably catch a subtle omission or a wrong drug name remains unmeasured — and the Auditor General found that none of the approved systems required a formal attestation step before a note is entered.</span>
+          <div class="q-meta"><span class="pill md" data-t="s6.pill_gov">governance</span></div>
+        </div>
+      </details>
+      <details class="pattern">
+        <summary>
+          <span class="p-num">02</span>
+          <span class="q" data-t="s6.q2_t">What can a patient actually find out before, during, and after an AI-assisted visit?</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </summary>
+        <div class="p-body">
+          <span data-t="s6.q2_b">Patient notices rarely clarify whether audio is processed in real time or stored, whether data crosses borders, or how long recordings are kept. A patient who wishes to decline may find no practical alternative documented.</span>
+          <div class="q-meta"><span class="pill hi" data-t="s6.pill_evi">evidence</span></div>
+        </div>
+      </details>
+      <details class="pattern">
+        <summary>
+          <span class="p-num">03</span>
+          <span class="q" data-t="s6.q3_t">What specific technical and clinical criteria does provincial vendor qualification verify?</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </summary>
+        <div class="p-body">
+          <span data-t="s6.q3_b">Public announcements confirm that products meet provincial standards, but specific test benchmarks, error thresholds, and post-deployment monitoring requirements are not publicly disclosed.</span>
+          <div class="q-meta"><span class="pill md" data-t="s6.pill_gov">governance</span></div>
+        </div>
+      </details>
+      <details class="pattern">
+        <summary>
+          <span class="p-num">04</span>
+          <span class="q" data-t="s6.q4_t">If verification only checks what we plan to look for, what unknown risks remain invisible?</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </summary>
+        <div class="p-body">
+          <span data-t="s6.q4_b">Paris, Moon and Guo note that verification confirms only specific test claims (FAccT '26, p. 5361). In this deployment, focusing on paperwork reduction leaves systemic risks — like error propagation in shared health records — outside the scope of measurement.</span>
+          <div class="q-meta"><span class="pill lo" data-t="s6.pill_lens">lens</span></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="section-header" id="s7">
+      <span class="sec-num">S8</span>
+      <span class="sec-title" data-t="s7.title">Practice</span>
+    </div>
+    <p class="body-text" data-t="s7.lead">Community literacy work is where you see that everyday people face complex forms, consent dialogues, and institutional notices — not abstract AI models. Teaching feeds this inquiry into how public evidence is communicated.</p>
+    <div class="framework-grid">
+      <div class="fw-card plan">
+        <h6 data-t="s7.c1_h">Working with learners</h6>
+        <p data-t="s7.c1_p1"><b>Literacy Unlimited</b> (Pointe-Claire, QC) — adult English literacy. Volunteering beginning in 2026. <span class="pill md">Beginning 2026 · arrangement in progress</span></p>
+        <p data-t="s7.c1_p2">Their definition of literacy includes understanding health documentation and navigating official forms. In PIAAC 2022, 22% of Quebec adults aged 16–65 read at Level 1 or below (<a href='https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/' target='_blank' rel='noopener'>Fondation pour l'alphabétisation</a>), against 19% for Canada as a whole (<a href='https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm' target='_blank' rel='noopener'>Statistics Canada</a>) — the readers who meet multi-step instructions and official paperwork with the least margin.</p>
+        <p data-t="s7.c1_p3"><b>Community engagement context; no research participants are recruited from this organisation.</b></p>
+      </div>
+      <div class="fw-card keep">
+        <h6 data-t="s7.c2_h">Teaching practitioners</h6>
+        <p data-t="s7.c2_p1">Long-term exploration of AI literacy, privacy experience, and emerging research gaps in intelligent systems:</p>
+        <p data-t="s7.c2_p2">UX For AI Reading Group — a 6-week cohort with 228 cumulative participants (bilingual EN/ZH). AI/UX book co-creation: <i>AI Literacy Formation Journey</i> (22 chapters, bilingual EN/ZH).</p>
+        <p data-t="s7.c2_p3">Columns: <a href="https://privacyux.substack.com/" target="_blank" rel="noopener">AI Literacy and Privacy Experience</a> · <a href="https://agenticux.substack.com/" target="_blank" rel="noopener">Agentic UX: Research Gap Finder</a>. Reference: <a href="../../index.html#experience">Co-Creation on portfolio</a>.</p>
+      </div>
+    </div>
+
+
+    <div class="section-header" id="s8">
+      <span class="sec-num">S9</span>
+      <span class="sec-title" data-t="s8.title">References</span>
+    </div>
+    <p class="note" data-t="s8.note">All figures on this page were re-checked against the primary sources on 3 September 2026. Where a number is widely quoted but does not appear in the document it is attributed to, the discrepancy is stated in the text rather than smoothed over. Page-level citations to Paris, Moon and Guo are given as recorded by the author and should be read against the article's own pagination, pp. 5348&ndash;5370.</p>
+    <div class="ref-list" id="refList" data-t="s8.list">
+      <div class="ref-item">Centre for Digital Health Evaluation, WIHV, Women's College Hospital. <i>Clinical Evaluation of Artificial Intelligence and Automation Technology to Reduce Administrative Burden in Primary Care.</i> Commissioned by OntarioMD, July 31, 2024. <a href="https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf" target="_blank" rel="noopener">PDF</a><span class="ref-note">The programme's own evidence base, and the source of every clinician-side number here: 152 providers and 17,415 encounters (&sect;3.3), the 69.5% lab result (Table 1, p. 7) and the three-hour self-report (Figure 2, p. 8). &sect;2.3 lists all data-collection activities, including the six patient interviews on which this page turns.</span></div>
+      <div class="ref-item">Ha, E. et al. <i>Evaluating the impact of artificial intelligence scribes on clinical documentation in primary care: a simulation study.</i> JAMIA Open. <a href="https://academic.oup.com/jamiaopen/article/9/4/ooag101/8726639" target="_blank" rel="noopener">academic.oup.com</a><span class="ref-note">The peer-reviewed publication of the same lab component. It reports a 69.1% reduction where the commissioned report gives 69.5%; cite whichever you use, but know the two exist.</span></div>
+      <div class="ref-item">OntarioMD. <i>AI scribes show promising results in helping family doctors and nurse practitioners spend more time with patients and less time on paperwork.</i> News release, September 11, 2024. <a href="https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx" target="_blank" rel="noopener">ontariomd.ca</a><span class="ref-note">Where the 70&ndash;90% figure actually originates. Listed because that number is routinely attributed to the evaluation report, which does not contain it &mdash; the gap between the measured result and the travelling one is part of this page's argument.</span></div>
+      <div class="ref-item">Supply Ontario. <i>Tender-20123 &mdash; Artificial Intelligent Solutions &ndash; AI Scribe.</i> Vendor of Record arrangement, April 27, 2025 to April 27, 2028. <a href="https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/" target="_blank" rel="noopener">supplyontario.ca</a> &middot; <a href="https://www.supplyontario.ca/wp-content/uploads/Vendor-Feature-Matrix-Tender-20123-V2.pdf" target="_blank" rel="noopener">vendor feature matrix (PDF)</a><span class="ref-note">The qualified vendor list and the published clinical, privacy and security criteria &mdash; what the procurement asked for, stated in the procurer's own words. The feature matrix is the only side-by-side comparison of these products in the public record. Twenty vendors were approved at award; thirty are listed after a second intake.</span></div>
+      <div class="ref-item">Office of the Auditor General of Ontario. <i>Use of Artificial Intelligence in the Ontario Government.</i> Special report, May 12, 2026. <a href="https://www.auditor.on.ca/en/content/specialreports/specialaudits/en2026/AR_2026_AI_EN.html" target="_blank" rel="noopener">landing page</a> &middot; <a href="https://www.auditor.on.ca/en/content/specialreports/specialreports/en26/2026_AI_EN.pdf" target="_blank" rel="noopener">full report (PDF)</a> &middot; <a href="https://www.auditor.on.ca/en/content/news/26_newsreleases/nr_AR_en26-01.pdf" target="_blank" rel="noopener">news release (PDF)</a><span class="ref-note">&sect;4.3 (pp. 20&ndash;28) is the AI scribe chapter. Figure 6 (p. 21) gives the scoring weights &mdash; accuracy 4%, bias controls 2%, domestic presence 30%, with no minimum passing score on any of them. Figure 7 (p. 23) gives the error counts. Page 24 records that doctors were not required to confirm their review through a sign-off feature in the systems, and Recommendation 6 asks that one be built. Note that the accuracy testing was Supply Ontario's, conducted during procurement; the audit reviewed the evaluators' comments.</span></div>
+      <div class="ref-item ref-hidden">Information and Privacy Commissioner of Ontario. <i>AI Scribes: Key Considerations for the Health Sector</i>, with companion checklist. January 28, 2026. <a href="https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector" target="_blank" rel="noopener">ipc.on.ca</a><span class="ref-note">The newest and most operational instrument in the mould, and the one that speaks most directly to patients: express consent recorded in the chart as best practice, and the same standard of care for anyone who declines. The checklist covers vendor assessment, contractual safeguards and ongoing monitoring.</span></div>
+      <div class="ref-item ref-hidden">College of Physicians and Surgeons of Ontario. <i>Advice to the Profession: AI Scribes in Clinical Practice</i> (last updated June 2024), companion to the <a href="https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation" target="_blank" rel="noopener">Medical Records Documentation</a> policy. See also CPSO <i>Dialogue</i>, <a href="https://dialogue.cpso.on.ca/articles/using-ai-scribes-in-your-practice" target="_blank" rel="noopener">Using AI Scribes in Your Practice</a>.<span class="ref-note">The professional obligation, and the reason S2 describes advice rather than rule. Its four headings are accuracy, accountability, data protection and transparency; the enforceable duty sits in the policy it accompanies. The <i>Dialogue</i> article is the plain-language version physicians actually read.</span></div>
+      <div class="ref-item ref-hidden">Statistics Canada. <i>Literacy, numeracy and adaptive problem-solving skills of Canadians: Results from the 2022 Programme for the International Assessment of Adult Competencies.</i> The Daily, December 10, 2024. <a href="https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm" target="_blank" rel="noopener">Infographic 2</a><span class="ref-note">Infographic 2 carries the proficiency distribution behind the 19% national figure. Note that "Level 1 or below" and "below Level 2" describe the same population; the page uses them interchangeably for that reason.</span></div>
+      <div class="ref-item ref-hidden">Fondation pour l'alphabétisation. <i>Surveys and statistics</i> &mdash; PIAAC 2022 results for Quebec. <a href="https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/" target="_blank" rel="noopener">fondationalphabetisation.org</a><span class="ref-note">Source of the 22% Quebec figure. One trap: the 19% appearing alongside it in this document is Quebec in 2013, not Canada. The national 19% comes from Statistics Canada, and the two coinciding is a coincidence worth stating whenever the comparison is made.</span></div>
+      <div class="ref-item ref-hidden">Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). <i>Don't Trust the Process: When Verifiability Undermines AI Accountability.</i> FAccT '26, 5348&ndash;5370. <a href="https://doi.org/10.1145/3805689.3812373" target="_blank" rel="noopener">doi.org/10.1145/3805689.3812373</a><span class="ref-note">Source of the four misabstractions in S5 and of the positioning in S0. The DOI and the page span are confirmed; the interior page citations are as recorded by the author and should be checked against the article PDF before publication.</span></div>
+      <div class="ref-item ref-hidden">Mackay, W. E., &amp; McGrenere, J. (2025). <i>Comparative Structured Observation.</i> ACM Transactions on Computer-Human Interaction, 32(2), Article 14, 1&ndash;27. <a href="https://doi.org/10.1145/3711838" target="_blank" rel="noopener">doi.org/10.1145/3711838</a><span class="ref-note">The method behind the prior study cited in the footer. CSO borrows the structure of a controlled experiment to produce comparable experiences of two or more design variants, then studies what participants say about each &mdash; a comparison without a correct answer, which is why it suits a trust-reasoning question.</span></div>
+    </div>
+    <button type="button" class="ref-toggle" id="refToggle" aria-controls="refList" aria-expanded="false" onclick="toggleRefs()"></button>
+
+    <div class="q-page-footer" id="s9">
+      <div style="margin-bottom:.35rem;font-weight:700;color:var(--ink);font-size:.82rem;" data-t="footer.tag">Prior Study · Trust Reasoning in AI Health Recommendations</div>
+      <p style="font-size:.82rem;line-height:1.6;color:var(--mid);margin-bottom:.55rem;" data-t="footer.abstract">
+        <b>Abstract &amp; RQ:</b> How do different replay formats shape how users notice, refer to, and draw on proxy audit evidence when they reason about trust in an AI health recommendation? Grounded in Comparative Structured Observation (CSO; <a href='https://doi.org/10.1145/3711838' target='_blank' rel='noopener'>Mackay &amp; McGrenere, 2025</a>) and reflexive thematic analysis, this qualitative study investigates alternative interface presentations (e.g., inline tooltips vs. persistent lists) to describe the paths and textures of user trust reasoning without presupposing a single "correct" trust score.
+      </p>
+      <a href="../../Zotero_5C_graph_V5.html" data-t="footer.link">5C literature relation graph &amp; study apparatus →</a>
+    </div>
+    <div class="ai-disclosure" data-t="disclosure.body"><span class="aid-h">Declaration of Generative AI &amp; Tool Assistance</span><ul><li><b>Information retrieval &amp; literature search:</b> Perplexity was used for initial news discovery. Claude was employed to cross-check factual consistency and retrieve related academic citations.</li><li><b>Web development &amp; structuring:</b> Cursor was utilized to adapt the HTML/CSS template structure and maintain cross-page linking.</li><li><b>Editing &amp; polishing:</b> Grammarly was used for sentence fluency and grammatical correction.</li><li><b>Intellectual content:</b> All research questions, analytical matrices, theoretical framing, and core critical arguments were conceived, structured, and authored entirely by the human researcher.</li></ul></div>
+</main>
+</div>
+</div>
+</div>
+
+<script>
+if (window.lucide) lucide.createIcons();
+
+var T = {
+  en: {
+    "page.title": "HCI & AI literacy practices | Joshua Hsiao",
+    "chrome.home": "Home",
+    "chrome.current": "HCI & AI literacy practices",
+    "chrome.view_only": "View Only",
+    "nav.header": "HCI & AI literacy",
+    "nav.grp_overview": "Overview",
+    "nav.s1": "The question",
+    "nav.grp_research": "Research line",
+    "nav.s2": "The mould",
+    "nav.sethics": "Three readings",
+    "nav.s3": "What is visible",
+    "nav.s4": "The lens",
+    "nav.s5": "Method & ceiling",
+    "nav.grp_notes": "Working notes",
+    "nav.s6": "Open questions",
+    "nav.grp_practice": "Practice",
+    "nav.s7_learners": "Working with learners",
+    "nav.s7_practitioners": "Teaching practitioners",
+    "nav.grp_references": "References",
+    "nav.s8": "References",
+    "nav.grp_archive": "Archive",
+    "nav.archive": "Trust reasoning study",
+    "nav.back": "← Back to Portfolio",
+
+    "cover.label": "HCI & AI literacy practices",
+    "cover.title": "The programme counted 17,415 visits to show that doctors saved time. It asked six patients what it felt like. That gap is the point of this page.",
+    "cover.subtitle": "This page reads the public documents on Ontario's AI scribe deployment. Patients were promised they would be told, asked for consent, and able to check or correct what was written. The question is what the public record actually shows.",
+
+    "s0.tag": "Positioning",
+    "s0.lead": "Paris, Moon and Guo argue that checking a system does not remove the need to trust someone. It moves that trust to a third party (FAccT '26, p. 5359). Here, trust was moved onto two labels: \"qualified on the vendor list\" and \"the doctor will review.\" Literacy means having an actual record you can inspect; when that record is missing, the capacity has nowhere to work.",
+    "s0.body": "This study reads public records rather than running user testing. The goal is to examine how an institution decided which evidence to produce, and whose interests were made measurable.",
+
+    "s1.title": "The question",
+    "s1.p1": "An AI scribe listens to a doctor–patient visit, creates a transcript, and drafts a clinical note for the electronic medical record. In Ontario, the Ministry of Health told CBC in May 2026 that roughly 5,000 physicians were using one — a ministry figure, not an audited programme statistic. The products come from <a href='https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/' target='_blank' rel='noopener'>Supply Ontario's Vendor of Record arrangement</a> (Tender-20123), which lists 30 qualified vendors after a second intake; 20 were approved when it was awarded in April 2025.",
+    "s1.p2": "The programme's <a href='https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf' target='_blank' rel='noopener'>evaluation report</a> measured clinician benefits in detail. Between March 18 and July 5, 2024, 152 primary care providers logged 17,415 encounters; in the lab, documentation time fell 69.5% across nine simulated encounters (Table 1), and in routine practice providers self-reported about three hours less administrative work per week (Figure 2). The number most often quoted in public — 70% to 90% less time on paperwork — is not in that report. It comes from <a href='https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx' target='_blank' rel='noopener'>OntarioMD's news release</a>. For patient experience, the same evaluation relied on semi-structured interviews with six patients (n = 6).",
+    "s1.takeaway_label": "The Asymmetry",
+    "s1.takeaway_body": "The evaluation produced clear numbers for administrative relief, but only a six-person qualitative sketch for the people being recorded. The figure that travelled furthest was not even the measured one. This project asks whether the public record provides patients with meaningful transparency, consent, review, and correction opportunities.",
+
+    "s2.title": "The mould",
+    "s2.lead": "Three instruments set the expectations: CPSO's <i>Advice to the Profession: AI Scribes in Clinical Practice</i> (June 2024), Ontario's health privacy law (PHIPA), and the Information and Privacy Commissioner's <a href='https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector' target='_blank' rel='noopener'>AI Scribes: Key Considerations for the Health Sector</a> (January 28, 2026). CPSO advice is companion guidance to a policy — <a href='https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation' target='_blank' rel='noopener'>Medical Records Documentation</a> — rather than a free-standing rule, which is itself part of what makes this mould hard to test:",
+    "s2.b1_h": "Informed Communication",
+    "s2.b1_p": "Physicians are expected to tell patients how the AI scribe will be used for documentation, in language the patient can act on.",
+    "s2.b2_h": "Explicit Consent",
+    "s2.b2_p": "Consent must be obtained before recording an encounter. The IPC treats express consent recorded in the chart as best practice, and says a patient who declines must receive the same standard of care.",
+    "s2.b3_h": "Substantive Review",
+    "s2.b3_p": "Physicians must review all generated notes for accuracy and completeness before saving them to the chart.",
+    "s2.b4_h": "Privacy Protection",
+    "s2.b4_p": "Systems must safeguard personal health information across storage, transfer, and any cross-border processing.",
+    "s2.b5_h": "Bias & Suitability",
+    "s2.b5_p": "Procurement required solutions to handle diverse accents, multiple speakers and clinical acronyms; professional guidance asks physicians to stay alert to bias and to whether a tool suits their patient population.",
+    "s2.b6_h": "Continuing Responsibility",
+    "s2.b6_p": "AI assists but never replaces professional clinical judgement; the physician remains solely accountable for the record.",
+
+    "sethics.title": "Three ethical readings",
+    "sethics.lead": "The same public facts can be read as a benefit, a use of persons, or a habit of character. The three theories do not need a new dataset. They need a different unit of moral concern: the sum, the person, the character being formed.",
+    "sethics.n1": "69.5%",
+    "sethics.n1_l": "lab documentation time cut (9 simulated encounters)",
+    "sethics.n2": "17,415",
+    "sethics.n2_l": "encounters used to evidence clinician relief",
+    "sethics.n3": "n = 6",
+    "sethics.n3_l": "patients asked what it felt like",
+    "sethics.c1_h": "Utilitarianism",
+    "sethics.c1_q": "Which action produces the most good for the most people?",
+    "sethics.c1_p": "The programme already ran half of that sum. Lab documentation time fell 69.5%; in the field, providers self-reported about three hours less a week over 17,415 visits. That is real good — for clinicians, and possibly for patients who get the time back as attention. It is not a completed calculation. Patient-side utility rests on six interviews. Treating \"69.5% versus n=6\" as a single ratio is rhetoric, not arithmetic: one number is a lab time cut, the other is a field sketch. A utilitarian still has to count later harms that reach anyone — fabricated detail, a wrong drug, a missed mental-health line. The honest claim is narrower: one stakeholder was instrumented; the other was not. The theory does not forbid the scribe. It forbids declaring the case closed while a column is empty.",
+    "sethics.c2_h": "Kantian ethics",
+    "sethics.c2_q": "Are persons treated as ends, or only as means?",
+    "sethics.c2_p": "Kant's formula of humanity: a person may be used as a means — a clinical encounter always is — but never <i>merely</i> as a means. They must also be able to know, refuse, and have a say in what is made of them. The evaluation turned those encounters into the evidence that doctors saved time. Six of the people in the room were asked what it felt like. The rest of the recorded patients functioned as the generation mechanism for an efficiency statistic. That is the charge: not that efficiency was measured, but that the persons whose speech was captured were not treated as ends in the same act that used them as data. \"The doctor will review\" does not restore that status. It is a label held by a third party. A Kantian programme could still cut documentation time. It would have to make refusal costless, the note inspectable, and correction possible — otherwise the patient remains a means of producing relief for someone else.",
+    "sethics.c3_h": "Virtue ethics",
+    "sethics.c3_q": "What kind of physician is this practice forming?",
+    "sethics.c3_p": "The virtue at stake is not speed. It is remaining the author of the record: conscientiousness about what one has actually read, honesty about what one has not. CPSO requires substantive review before the note enters the chart. Under back-to-back appointments that duty can shrink to a formal signature — and none of the approved systems required an attestation step (Auditor General, p. 24). This is not evidence that physicians are rubber-stamping. It is evidence that the workflow makes the signing physician easier to become than the reading one. The hours the 69.5% freed are also the hours a certain kind of physician would spend staying the author. The same question sits one level up. An institution that instruments clinician hours and leaves patient safeguards as principle is becoming a particular kind of steward.",
+    "sethics.takeaway_label": "Where they split",
+    "sethics.takeaway_body": "The three theories do not pick the same next action. A utilitarian wants the missing column filled, then a net decision. A Kantian wants the patient restored as an end, even if the net still looks good. A virtue ethicist wants review to remain an act of authorship, not the signature that protects the time-saving. They converge on one diagnosis: the public record completed the case for one party.",
+
+    "s3.title": "What is visible in the public record",
+    "s3.lead": "Comparing the public evaluation against what remains unverified reveals a consistent pattern:",
+    "s3.th1": "Publicly visible",
+    "s3.th2": "Less clear in public materials",
+    "s3.th3": "Finding it supports",
+    "s3.r1_c1": "152 providers, 17,415 encounters, 69.5% less documentation time in the lab, about three hours a week self-reported, satisfaction surveys",
+    "s3.r1_c2": "Error and omission rates across diverse accents, languages, multi-speaker visits, or sensitive conditions",
+    "s3.r1_c3": "Efficiency and workload relief are far more visible than clinical safety or equity data.",
+    "s3.r2_c1": "Official statements that the qualified vendors meet provincial privacy and security standards",
+    "s3.r2_c2": "Specific test criteria, pass thresholds, exception policies, and ongoing audit procedures",
+    "s3.r2_c3": "Procurement qualification claims cannot be independently verified by patients or external researchers.",
+    "s3.r3_c1": "Professional guidance requiring informed patient consent and mandatory doctor review",
+    "s3.r3_c2": "How consent is recorded in practice, refusal rates, and whether rushed workflows permit thorough note checks",
+    "s3.r3_c3": "A formal rule that \"doctors review\" does not guarantee that thorough error-checking happens during busy clinic hours.",
+    "s3.r4_c1": "Accuracy testing of 20 systems, run by procurement evaluators in 2024 and made public only by the Auditor General's special report of May 12, 2026",
+    "s3.r4_c2": "Routine monitoring by vendors or the programme to catch fabricated detail before a note enters the chart; no approved system required a physician attestation step",
+    "s3.r4_c3": "The accuracy evidence existed inside the procurement two years before the public saw it, and reached them through an external audit rather than routine reporting.",
+
+    "s4.title": "Analytical lens · Four misabstractions",
+    "s4.lead": "Paris, Moon and Guo (FAccT '26, pp. 5348–5370, <a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">DOI: 10.1145/3805689.3812373</a>) examine how technical verification often relies on flawed assumptions. Applying their four misabstractions (p. 5356) clarifies why formal checks can fail patients:",
+    "s4.c1_h": "1. Non-Contextual Claims",
+    "s4.c1_p": "Compressing complex patient protections into simple labels like \"privacy qualified\" hides how differently tools operate across clinics and patient populations (p. 5356).",
+    "s4.c2_h": "2. Sequence of Computations",
+    "s4.c2_p": "Assuming that because speech-to-text and summarisation work separately, the combined documentation system will always produce accurate clinical notes (p. 5356).",
+    "s4.c3_h": "3. Trustless Fallacy",
+    "s4.c3_p": "Assuming patients can independently verify vendor practices without relying on intermediate institutions, when they have no access to the underlying logs (p. 5356, p. 5359).",
+    "s4.c4_h": "4. Narrow Threat Fallacy",
+    "s4.c4_p": "Focusing solely on transcription errors while overlooking broader institutional pressures, such as time constraints on doctor review or unequal consent dynamics (p. 5356).",
+
+    "s5.title": "Method & bounded finding",
+    "s5.b1_h": "Approach",
+    "s5.b1_p": "Document-based analysis of publicly available materials: the WIHV/CDHE clinical evaluation report (July 31, 2024), the Supply Ontario Tender-20123 record, CPSO advice and the Medical Records Documentation policy, the IPC's AI scribe guidance (January 28, 2026), OntarioMD programme material, and the Auditor General's <i>Use of Artificial Intelligence in the Ontario Government</i> (May 12, 2026). Full list in the references.",
+    "s5.b2_h": "Evidence Coding",
+    "s5.b2_p": "Each patient-facing commitment in the governing framework is evaluated against the public record and coded into one of three categories: <b>evidenced</b> (supported by public data), <b>asserted</b> (stated as policy without verification data), or <b>absent</b> (no public documentation).",
+    "s5.b3_h": "What This Project Is Not",
+    "s5.b3_p": "This project does not conduct clinical trials or evaluate proprietary model code. It does not argue that AI scribes are ineffective or that doctors should not use them. The focus is strictly on the shape of the public evidence base.",
+    "s5.b4_h": "The Bounded Finding",
+    "s5.b4_p": "<b>The programme built a measurable case for efficiency, while patient protections remained principles.</b><br><br>The public record shows clear, quantified evidence that AI scribes reduce clinician administrative burden, gathered across a deployment of 17,415 encounters. For patient-facing commitments — transparency, consent, review, and correction — the public record largely contains assertions rather than operational evidence. This does not mean patients were harmed; it shows that the programme was designed to measure provider success, not patient safeguards.",
+
+    "s6.title": "Open questions",
+    "s6.lead": "Open research questions arising from the visibility gap between provider efficiency and patient safeguards:",
+    "s6.q1_t": "Is physician review a substantive safeguard, or does clinic time pressure turn it into a formal signature?",
+    "s6.q1_b": "Physicians reported that they always reviewed, proofread and edited notes before saving them to the chart. When appointments run back-to-back, whether clinicians reliably catch a subtle omission or a wrong drug name remains unmeasured — and the Auditor General found that none of the approved systems required a formal attestation step before a note is entered.",
+    "s6.pill_gov": "governance",
+    "s6.q2_t": "What can a patient actually find out before, during, and after an AI-assisted visit?",
+    "s6.q2_b": "Patient notices rarely clarify whether audio is processed in real time or stored, whether data crosses borders, or how long recordings are kept. A patient who wishes to decline may find no practical alternative documented.",
+    "s6.pill_evi": "evidence",
+    "s6.q3_t": "What specific technical and clinical criteria does provincial vendor qualification verify?",
+    "s6.q3_b": "Public announcements confirm that products meet provincial standards, but specific test benchmarks, error thresholds, and post-deployment monitoring requirements are not publicly disclosed.",
+    "s6.q4_t": "If verification only checks what we plan to look for, what unknown risks remain invisible?",
+    "s6.q4_b": "Paris, Moon and Guo note that verification confirms only specific test claims (FAccT '26, p. 5361). In this deployment, focusing on paperwork reduction leaves systemic risks — like error propagation in shared health records — outside the scope of measurement.",
+    "s6.pill_lens": "lens",
+
+    "s7.title": "Practice",
+    "s7.lead": "Community literacy work is where you see that everyday people face complex forms, consent dialogues, and institutional notices — not abstract AI models. Teaching feeds this inquiry into how public evidence is communicated.",
+    "s7.c1_h": "Working with learners",
+    "s7.c1_p1": "<b>Literacy Unlimited</b> (Pointe-Claire, QC) — adult English literacy. Volunteering beginning in 2026. <span class=\"pill md\">Beginning 2026 · arrangement in progress</span>",
+    "s7.c1_p2": "Their definition of literacy includes understanding health documentation and navigating official forms. In PIAAC 2022, 22% of Quebec adults aged 16–65 read at Level 1 or below (<a href='https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/' target='_blank' rel='noopener'>Fondation pour l'alphabétisation</a>), against 19% for Canada as a whole (<a href='https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm' target='_blank' rel='noopener'>Statistics Canada</a>) — the readers who meet multi-step instructions and official paperwork with the least margin.",
+    "s7.c1_p3": "<b>Community engagement context; no research participants are recruited from this organisation.</b>",
+    "s7.c2_h": "Teaching practitioners",
+    "s7.c2_p1": "Long-term exploration of AI literacy, privacy experience, and emerging research gaps in intelligent systems:",
+    "s7.c2_p2": "UX For AI Reading Group — a 6-week cohort with 228 cumulative participants (bilingual EN/ZH). AI/UX book co-creation: <i>AI Literacy Formation Journey</i> (22 chapters, bilingual EN/ZH).",
+    "s7.c2_p3": "Columns: <a href=\"https://privacyux.substack.com/\" target=\"_blank\" rel=\"noopener\">AI Literacy and Privacy Experience</a> · <a href=\"https://agenticux.substack.com/\" target=\"_blank\" rel=\"noopener\">Agentic UX: Research Gap Finder</a>. Reference: <a href=\"../../index.html#experience\">Co-Creation on portfolio</a>.",
+
+    "s8.title": "References",
+    "s8.note": "All figures on this page were re-checked against the primary sources on 3 September 2026. Where a number is widely quoted but does not appear in the document it is attributed to, the discrepancy is stated in the text rather than smoothed over. Page-level citations to Paris, Moon and Guo are given as recorded by the author and should be read against the article's own pagination, pp. 5348&ndash;5370.",
+    "s8.list": "<div class=\"ref-item\">Centre for Digital Health Evaluation, WIHV, Women's College Hospital. <i>Clinical Evaluation of Artificial Intelligence and Automation Technology to Reduce Administrative Burden in Primary Care.</i> Commissioned by OntarioMD, July 31, 2024. <a href=\"https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf\" target=\"_blank\" rel=\"noopener\">PDF</a><span class=\"ref-note\">The programme's own evidence base, and the source of every clinician-side number here: 152 providers and 17,415 encounters (&sect;3.3), the 69.5% lab result (Table 1, p. 7) and the three-hour self-report (Figure 2, p. 8). &sect;2.3 lists all data-collection activities, including the six patient interviews on which this page turns.</span></div> <div class=\"ref-item\">Ha, E. et al. <i>Evaluating the impact of artificial intelligence scribes on clinical documentation in primary care: a simulation study.</i> JAMIA Open. <a href=\"https://academic.oup.com/jamiaopen/article/9/4/ooag101/8726639\" target=\"_blank\" rel=\"noopener\">academic.oup.com</a><span class=\"ref-note\">The peer-reviewed publication of the same lab component. It reports a 69.1% reduction where the commissioned report gives 69.5%; cite whichever you use, but know the two exist.</span></div> <div class=\"ref-item\">OntarioMD. <i>AI scribes show promising results in helping family doctors and nurse practitioners spend more time with patients and less time on paperwork.</i> News release, September 11, 2024. <a href=\"https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx\" target=\"_blank\" rel=\"noopener\">ontariomd.ca</a><span class=\"ref-note\">Where the 70&ndash;90% figure actually originates. Listed because that number is routinely attributed to the evaluation report, which does not contain it &mdash; the gap between the measured result and the travelling one is part of this page's argument.</span></div> <div class=\"ref-item\">Supply Ontario. <i>Tender-20123 &mdash; Artificial Intelligent Solutions &ndash; AI Scribe.</i> Vendor of Record arrangement, April 27, 2025 to April 27, 2028. <a href=\"https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/\" target=\"_blank\" rel=\"noopener\">supplyontario.ca</a> &middot; <a href=\"https://www.supplyontario.ca/wp-content/uploads/Vendor-Feature-Matrix-Tender-20123-V2.pdf\" target=\"_blank\" rel=\"noopener\">vendor feature matrix (PDF)</a><span class=\"ref-note\">The qualified vendor list and the published clinical, privacy and security criteria &mdash; what the procurement asked for, stated in the procurer's own words. The feature matrix is the only side-by-side comparison of these products in the public record. Twenty vendors were approved at award; thirty are listed after a second intake.</span></div> <div class=\"ref-item\">Office of the Auditor General of Ontario. <i>Use of Artificial Intelligence in the Ontario Government.</i> Special report, May 12, 2026. <a href=\"https://www.auditor.on.ca/en/content/specialreports/specialaudits/en2026/AR_2026_AI_EN.html\" target=\"_blank\" rel=\"noopener\">landing page</a> &middot; <a href=\"https://www.auditor.on.ca/en/content/specialreports/specialreports/en26/2026_AI_EN.pdf\" target=\"_blank\" rel=\"noopener\">full report (PDF)</a> &middot; <a href=\"https://www.auditor.on.ca/en/content/news/26_newsreleases/nr_AR_en26-01.pdf\" target=\"_blank\" rel=\"noopener\">news release (PDF)</a><span class=\"ref-note\">&sect;4.3 (pp. 20&ndash;28) is the AI scribe chapter. Figure 6 (p. 21) gives the scoring weights &mdash; accuracy 4%, bias controls 2%, domestic presence 30%, with no minimum passing score on any of them. Figure 7 (p. 23) gives the error counts. Page 24 records that doctors were not required to confirm their review through a sign-off feature in the systems, and Recommendation 6 asks that one be built. Note that the accuracy testing was Supply Ontario's, conducted during procurement; the audit reviewed the evaluators' comments.</span></div> <div class=\"ref-item ref-hidden\">Information and Privacy Commissioner of Ontario. <i>AI Scribes: Key Considerations for the Health Sector</i>, with companion checklist. January 28, 2026. <a href=\"https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector\" target=\"_blank\" rel=\"noopener\">ipc.on.ca</a><span class=\"ref-note\">The newest and most operational instrument in the mould, and the one that speaks most directly to patients: express consent recorded in the chart as best practice, and the same standard of care for anyone who declines. The checklist covers vendor assessment, contractual safeguards and ongoing monitoring.</span></div> <div class=\"ref-item ref-hidden\">College of Physicians and Surgeons of Ontario. <i>Advice to the Profession: AI Scribes in Clinical Practice</i> (last updated June 2024), companion to the <a href=\"https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation\" target=\"_blank\" rel=\"noopener\">Medical Records Documentation</a> policy. See also CPSO <i>Dialogue</i>, <a href=\"https://dialogue.cpso.on.ca/articles/using-ai-scribes-in-your-practice\" target=\"_blank\" rel=\"noopener\">Using AI Scribes in Your Practice</a>.<span class=\"ref-note\">The professional obligation, and the reason S2 describes advice rather than rule. Its four headings are accuracy, accountability, data protection and transparency; the enforceable duty sits in the policy it accompanies. The <i>Dialogue</i> article is the plain-language version physicians actually read.</span></div> <div class=\"ref-item ref-hidden\">Statistics Canada. <i>Literacy, numeracy and adaptive problem-solving skills of Canadians: Results from the 2022 Programme for the International Assessment of Adult Competencies.</i> The Daily, December 10, 2024. <a href=\"https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm\" target=\"_blank\" rel=\"noopener\">Infographic 2</a><span class=\"ref-note\">Infographic 2 carries the proficiency distribution behind the 19% national figure. Note that \"Level 1 or below\" and \"below Level 2\" describe the same population; the page uses them interchangeably for that reason.</span></div> <div class=\"ref-item ref-hidden\">Fondation pour l'alphabétisation. <i>Surveys and statistics</i> &mdash; PIAAC 2022 results for Quebec. <a href=\"https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/\" target=\"_blank\" rel=\"noopener\">fondationalphabetisation.org</a><span class=\"ref-note\">Source of the 22% Quebec figure. One trap: the 19% appearing alongside it in this document is Quebec in 2013, not Canada. The national 19% comes from Statistics Canada, and the two coinciding is a coincidence worth stating whenever the comparison is made.</span></div> <div class=\"ref-item ref-hidden\">Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). <i>Don't Trust the Process: When Verifiability Undermines AI Accountability.</i> FAccT '26, 5348&ndash;5370. <a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3805689.3812373</a><span class=\"ref-note\">Source of the four misabstractions in S5 and of the positioning in S0. The DOI and the page span are confirmed; the interior page citations are as recorded by the author and should be checked against the article PDF before publication.</span></div> <div class=\"ref-item ref-hidden\">Mackay, W. E., &amp; McGrenere, J. (2025). <i>Comparative Structured Observation.</i> ACM Transactions on Computer-Human Interaction, 32(2), Article 14, 1&ndash;27. <a href=\"https://doi.org/10.1145/3711838\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3711838</a><span class=\"ref-note\">The method behind the prior study cited in the footer. CSO borrows the structure of a controlled experiment to produce comparable experiences of two or more design variants, then studies what participants say about each &mdash; a comparison without a correct answer, which is why it suits a trust-reasoning question.</span></div>",
+
+    "footer.tag": "Prior Study · Trust Reasoning in AI Health Recommendations",
+    "footer.abstract": "<b>Abstract &amp; RQ:</b> How do different replay formats shape how users notice, refer to, and draw on proxy audit evidence when they reason about trust in an AI health recommendation? Grounded in Comparative Structured Observation (CSO; <a href='https://doi.org/10.1145/3711838' target='_blank' rel='noopener'>Mackay &amp; McGrenere, 2025</a>) and reflexive thematic analysis, this qualitative study investigates alternative interface presentations (e.g., inline tooltips vs. persistent lists) to describe the paths and textures of user trust reasoning without presupposing a single \"correct\" trust score.",
+    "footer.link": "5C literature relation graph &amp; study apparatus →",
+    "disclosure.body": "<span class=\"aid-h\">Declaration of Generative AI &amp; Tool Assistance</span><ul><li><b>Information retrieval &amp; literature search:</b> Perplexity was used for initial news discovery. Claude was employed to cross-check factual consistency and retrieve related academic citations.</li><li><b>Web development &amp; structuring:</b> Cursor was utilized to adapt the HTML/CSS template structure and maintain cross-page linking.</li><li><b>Editing &amp; polishing:</b> Grammarly was used for sentence fluency and grammatical correction.</li><li><b>Intellectual content:</b> All research questions, analytical matrices, theoretical framing, and core critical arguments were conceived, structured, and authored entirely by the human researcher.</li></ul>"
+  },
+  zh: {
+    "page.title": "HCI 與 AI 識讀實踐 | Joshua Hsiao",
+    "chrome.home": "首頁",
+    "chrome.current": "HCI 與 AI 識讀實踐",
+    "chrome.view_only": "僅供檢視",
+    "nav.header": "HCI 與 AI 識讀",
+    "nav.grp_overview": "總覽",
+    "nav.s1": "核心提問",
+    "nav.grp_research": "研究脈絡",
+    "nav.s2": "規範框架",
+    "nav.sethics": "三種讀法",
+    "nav.s3": "公開可見性",
+    "nav.s4": "分析透鏡",
+    "nav.s5": "方法與結論界線",
+    "nav.grp_notes": "研究隨筆",
+    "nav.s6": "待解問題",
+    "nav.grp_practice": "實踐連結",
+    "nav.s7_learners": "與學習者同行",
+    "nav.s7_practitioners": "實務專業者教學",
+    "nav.grp_references": "參考文獻",
+    "nav.s8": "參考文獻",
+    "nav.grp_archive": "文檔庫",
+    "nav.archive": "信任推理研究",
+    "nav.back": "← 返回作品集",
+
+    "cover.label": "HCI 與 AI 識讀實踐",
+    "cover.title": "這項公費計畫用 17,415 次看診證明醫師省下了時間，但只訪談了 6 位病人詢問感受。這個落差就是本頁的核心。",
+    "cover.subtitle": "這份研究以公開文件檢視安大略省 AI 聽寫員（AI scribe）的導入。專業與隱私規範承諾病人享有知情、同意、檢視與更正權；本頁探討公開紀錄中究竟留下了哪些可供檢驗的證據。",
+
+    "s0.tag": "研究定位",
+    "s0.lead": "Paris、Moon 與 Guo 指出：技術驗證並未消除信任需求，只是把信任轉移給第三方（FAccT '26，p. 5359）。在本案中，信任被轉嫁給兩張標籤：「通過採購清單資格審查」與「醫師會負責審閱」。頁名中的「識讀（literacy）」指涉的是：若缺乏可查核的公開紀錄，任何批判檢視的能力都無從施展。",
+    "s0.body": "本研究以公開文件為分析對象，而非受試者測試。核心在於檢驗機構如何決定生產哪些證據，以及誰的利益被納入可測量的範疇。",
+
+    "s1.title": "核心提問",
+    "s1.p1": "AI 聽寫員能即時監聽醫病對話、轉錄逐字稿，並自動生成病歷草稿供醫師存入電子病歷系統。在安大略省，衛生廳於 2026 年 5 月向 CBC 表示約有 5,000 位醫師正在使用——這是行政部門提供的數字，並非經稽核的計畫統計。產品來自 <a href='https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/' target='_blank' rel='noopener'>Supply Ontario 的合格供應商名單</a>（Tender-20123）：2025 年 4 月首度授予時通過 20 家，第二輪徵集後目前列有 30 家。",
+    "s1.p2": "官方<a href='https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf' target='_blank' rel='noopener'>評估報告</a>詳盡記錄了醫師端的效益。2024 年 3 月 18 日至 7 月 5 日間，152 位基層照護提供者累計 17,415 次看診；在實驗室情境中，9 場模擬看診的文書時間減少 69.5%（表 1），而在實際診間，醫師自陳每週行政工作約減少 3 小時（圖 2）。公開場合最常被引用的「文書時間減少 70–90%」並不在這份報告裡，而是出自 <a href='https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx' target='_blank' rel='noopener'>OntarioMD 的新聞稿</a>。但在病患體驗方面，同一份評估僅依賴對 6 位病人的半結構化訪談（n = 6）。",
+    "s1.takeaway_label": "核心不對稱",
+    "s1.takeaway_body": "評估報告為行政減負建立了詳盡的量化數據，卻只為被錄音的對象留下 6 人的質性描述。而傳播得最遠的那個數字，甚至不是實際測量出來的那一個。本研究探討公開紀錄是否為病人提供了實質的知情、同意、檢視與更正機會。",
+
+    "s2.title": "規範框架",
+    "s2.lead": "設定期待的規範共有三份：CPSO 的《<i>Advice to the Profession: AI Scribes in Clinical Practice</i>》（2024 年 6 月）、該省健康隱私法（PHIPA），以及資訊與隱私專員公署的 <a href='https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector' target='_blank' rel='noopener'>AI Scribes: Key Considerations for the Health Sector</a>（2026 年 1 月 28 日）。CPSO 的 Advice 屬於<a href='https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation' target='_blank' rel='noopener'>《Medical Records Documentation》</a>政策的配套指引，而非獨立可執行的規則——這件事本身，正是這套規範難以被檢驗的原因之一：",
+    "s2.b1_h": "知情說明",
+    "s2.b1_p": "醫師應主動告知病患 AI 聽寫員將如何用於病歷記錄，且說明方式必須讓病患足以據以判斷。",
+    "s2.b2_h": "明確同意",
+    "s2.b2_p": "錄音前必須取得病患同意。資訊與隱私專員公署將「於病歷中載明的明示同意」視為最佳實務，並指出拒絕使用的病患必須獲得同等品質的照護。",
+    "s2.b3_h": "實質審閱",
+    "s2.b3_p": "醫師在將 AI 生成的病歷草稿存入病歷前，必須親自審閱其準確性與完整性。",
+    "s2.b4_h": "隱私防護",
+    "s2.b4_p": "系統在資料儲存、傳輸及任何跨境處理過程中，必須嚴格保護個人健康隱私資訊。",
+    "s2.b5_h": "偏誤與適用性",
+    "s2.b5_p": "採購條件要求產品能處理不同口音、多位說話者與臨床縮寫；專業指引則要求醫師持續警覺偏誤，並判斷工具是否適用於自己的病患族群。",
+    "s2.b6_h": "專業問責",
+    "s2.b6_p": "AI 僅作為輔助工具，絕不可取代專業臨床判斷；醫師對最終病歷與醫療決策負完全責任。",
+
+    "sethics.title": "三種倫理讀法",
+    "sethics.lead": "同一組公開數字，可以讀成效益、讀成對人的使用、或讀成一種正在養成的品格。三種理論不需要新數據，需要的是不同的道德單位：總和、那個人、正在被形塑的性格。",
+    "sethics.n1": "69.5%",
+    "sethics.n1_l": "實驗室文書時間減少（9 場模擬看診）",
+    "sethics.n2": "17,415",
+    "sethics.n2_l": "被用來證明醫師減負的看診次數",
+    "sethics.n3": "n = 6",
+    "sethics.n3_l": "被問到「感覺如何」的病人",
+    "sethics.c1_h": "效益主義",
+    "sethics.c1_q": "哪個行動能為最多人帶來最大的善？",
+    "sethics.c1_p": "這項計畫其實已經算過半本帳。實驗室文書時間減少 69.5%；實務上，提供者自陳每週約少做三小時行政工作，樣本是 17,415 次看診。這是真的善——對醫師，也可能對拿回那些時間的病人。但它不是算完的效益帳。病人端效用只靠六次訪談。把「69.5% 對上 n=6」寫成同一個比率，是修辭，不是算術：一個是實驗室的時間切減，一個是現場的素描。效益主義者仍須把後續傷害算進去——虛構細節、錯藥、漏掉的精神健康紀錄——只要它們落到任何人身上。誠實的主張更窄：一方被儀器化了，另一方沒有。理論不禁止聽寫員。它禁止在一欄還空著的時候宣布結案。",
+    "sethics.c2_h": "康德義務論",
+    "sethics.c2_q": "人是被當作目的，還是僅僅被當作手段？",
+    "sethics.c2_p": "康德的人性公式：人可以被當作手段——臨床遭遇本來就是——但不可<i>僅僅</i>被當作手段。他們必須也能知道、拒絕、對自己被做成什麼有發言權。評估把那些看診變成「醫師省了時間」的證據。房間裡的人，只有六位被問到感覺如何。其餘被錄音的病人，成了效率數據的產生機制。指控點在這裡：不是不該量效率，而是被擷取語音的那些人，在被當成數據的同一動作裡，沒有同時被當成目的。「醫師會審閱」不能恢復這個地位。那是第三方握著的標籤。康德式的計畫仍然可以減少文書時間。它必須讓拒絕沒有代價、病歷可被檢視、錯誤可被更正——否則病人就只是在為別人的減負充當手段。",
+    "sethics.c3_h": "德行倫理",
+    "sethics.c3_q": "這套實務正在養成什麼樣的醫師？",
+    "sethics.c3_p": "這裡的德行不是速度，是仍然做病歷的作者：對自己真正讀過的東西誠實，對沒讀過的東西也不裝。CPSO 要求存檔前做實質審閱。連續看診之下，這項義務可以縮成形式簽名——而通過名單的系統均未要求確認步驟（審計長，p. 24）。這不是「醫師都在蓋章」的證據，是工作流讓「簽名的醫師」比「讀過的醫師」更容易養成。69.5% 省下的那些小時，也是某種醫師會用來繼續當作者的小時。上一層也是同一題。一個把醫師工時儀器化、把病人保障留在原則裡的機構，正在變成某一種管家。",
+    "sethics.takeaway_label": "它們在哪裡分開",
+    "sethics.takeaway_body": "三種理論不會選同一個下一步。效益主義要先把空欄填滿，再做淨值判斷。康德要病人被恢復為目的，哪怕淨值看起來仍然划算。德行倫理要審閱仍是作者行為，而不是用來保住省時數字的簽名。它們收斂到同一個診斷：公開紀錄只把一方的案子做完了。",
+
+    "s3.title": "公開紀錄的可見性分析",
+    "s3.lead": "將公開的評估報告與未獲證實的環節進行對照，呈現出一致的結構：",
+    "s3.th1": "公開可見項目",
+    "s3.th2": "公開材料中未明之處",
+    "s3.th3": "所支持的分析發現",
+    "s3.r1_c1": "152 位照護提供者、17,415 次看診、實驗室情境文書時間減少 69.5%、自陳每週約省 3 小時、滿意度調查",
+    "s3.r1_c2": "不同口音、語言、多人對話或敏感病況下的錯誤與遺漏率",
+    "s3.r1_c3": "行政效率與減負證據的能見度，遠高於臨床安全或公平性數據。",
+    "s3.r2_c1": "官方聲明名單上的合格供應商皆符合全省隱私與資安標準",
+    "s3.r2_c2": "具體測試指標、合格門檻、豁免條款與後續持續稽核流程",
+    "s3.r2_c3": "採購合格聲明難以被病患或外部研究者獨立查證。",
+    "s3.r3_c1": "專業指引明訂必須取得病人知情同意且醫師必須審閱",
+    "s3.r3_c2": "實務中如何記錄同意、拒絕路徑、以及看診時間壓力下是否容許逐行核對",
+    "s3.r3_c3": "形式上的「醫師審閱」要求，無法保證緊湊門診中具備實質的除錯品管。",
+    "s3.r4_c1": "20 套系統的準確度測試：2024 年由採購評審執行，直到 2026 年 5 月 12 日審計長專案報告才對外公開",
+    "s3.r4_c2": "廠商或計畫內部是否具備在病歷存檔前攔截虛構資訊的常態監控；審計長指出，通過名單的系統均未要求醫師簽署確認步驟",
+    "s3.r4_c3": "準確度證據早在兩年前的採購階段就已存在，卻是透過外部稽核而非常態揭露，才抵達公眾眼前。",
+
+    "s4.title": "分析透鏡 · 四大抽象謬誤",
+    "s4.lead": "Paris、Moon 與 Guo（FAccT '26，pp. 5348–5370，<a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">DOI: 10.1145/3805689.3812373</a>）探討了技術驗證如何常落入有缺陷的假設。套用其提出的四種抽象謬誤（p. 5356），有助於釐清為何形式上的保障無法實質保護病人：",
+    "s4.c1_h": "1. 非脈絡化主張謬誤",
+    "s4.c1_p": "將複雜的病患保護簡化為「通過隱私驗證」等單一標籤，掩蓋了不同診所與病患族群間巨大的實務落差（p. 5356）。",
+    "s4.c2_h": "2. 計算序列謬誤",
+    "s4.c2_p": "以為語音轉文字與摘要各環節單獨運作無誤，整套自動病歷產出流程就必然具備系統層級的安全與準確（p. 5356）。",
+    "s4.c3_h": "3. 無信任謬誤",
+    "s4.c3_p": "假設病患可以在不依賴第三方機構的情況下自行檢驗廠商行為，但病患實際上根本無從取得底層系統日誌（p. 5356, p. 5359）。",
+    "s4.c4_h": "4. 窄化威脅謬誤",
+    "s4.c4_p": "僅關注逐字稿本身的準確率，卻忽略了門診時間壓迫導致草率審閱、或醫病權力不對等導致難以拒絕等結構性因素（p. 5356）。",
+
+    "s5.title": "研究方法與結論界線",
+    "s5.b1_h": "研究途徑",
+    "s5.b1_p": "以公開文件為基礎的系統性分析，資料來源包含：WIHV/CDHE 臨床評估報告（2024 年 7 月 31 日）、Supply Ontario Tender-20123 採購紀錄、CPSO 的 Advice 與《Medical Records Documentation》政策、資訊與隱私專員公署的 AI 聽寫員指引（2026 年 1 月 28 日）、OntarioMD 計畫文件，以及審計長《<i>Use of Artificial Intelligence in the Ontario Government</i>》（2026 年 5 月 12 日）。完整清單見文末參考文獻。",
+    "s5.b2_h": "證據編碼方式",
+    "s5.b2_p": "針對規範框架中各項病患權益承諾，對照公開紀錄進行三級編碼：<b>具體實證（evidenced）</b>（有公開數據支持）、<b>單純宣稱（asserted）</b>（僅有政策宣示而無驗證數據）、或<b>缺乏紀錄（absent）</b>（無相關公開文件）。",
+    "s5.b3_h": "本研究的明確邊界",
+    "s5.b3_p": "本研究不涉及臨床試驗或商業模型源碼測試，亦非主張 AI 聽寫員無效或反對醫師使用。研究範疇嚴格聚焦於公開證據體系的結構。",
+    "s5.b4_h": "結論的界線",
+    "s5.b4_p": "<b>計畫建立了精確量化的效率證據，而病患保護則停留在原則宣示。</b><br><br>公開紀錄清楚呈現了量化證據：在一場涵蓋 17,415 次看診的導入中，AI 聽寫員有效減輕了醫師的行政負擔。但在透明度、同意權、審閱與更正等病患承諾上，公開材料大多停留在原則宣稱而非可驗證的營運數據。這並不代表病患受到了傷害，而是揭示了該計畫在架構設計上使行政效益可被精準衡量，卻未將病患保護納入可驗證的衡量體系。",
+
+    "s6.title": "待解問題",
+    "s6.lead": "源自行政效率與病患保障間能見度落差的待解研究提問：",
+    "s6.q1_t": "「醫師審閱」是實質品管保障，還是看診時間壓力下的形式簽名？",
+    "s6.q1_b": "臨床醫師自陳存檔前皆會審閱、校對與編輯病歷。在連續看診的緊湊節奏下，醫師是否能穩定察覺細微遺漏或藥名誤植，仍缺乏客觀測量數據；而審計長亦發現，通過名單的系統均未要求醫師在病歷存檔前完成正式確認步驟。",
+    "s6.pill_gov": "治理機制",
+    "s6.q2_t": "病患在 AI 輔助就診前、中、後究竟能掌握哪些資訊？",
+    "s6.q2_b": "病患通知書鮮少說明音訊是即時處理或留存、資料是否跨境傳輸、或錄音保存期限。有意拒絕使用 AI 的病患，通常在公開指引中找不到替代看診路徑的說明。",
+    "s6.pill_evi": "證據鏈",
+    "s6.q3_t": "全省採購合格名單具體驗證了哪些技術與臨床指標？",
+    "s6.q3_b": "官方公告強調合格產品皆符合全省標準，但具體的測試基準、錯誤容忍門檻以及導入後的持續監控機制，皆未對外公開。",
+    "s6.q4_t": "若驗證機制僅檢驗我們預先設定的項目，哪些未知的系統性風險會被遺漏？",
+    "s6.q4_b": "Paris、Moon 與 Guo 指出：技術驗證往往只能確認特定被測試的主張（FAccT '26，p. 5361）。在此部署中，過度聚焦於文書減負，導致跨系統病歷錯誤擴散等潛在風險被排除在衡量範圍之外。",
+    "s6.pill_lens": "理論透鏡",
+
+    "s7.title": "實踐連結",
+    "s7.lead": "在社區識讀的實務中，可以清楚看到大眾實際面對的是繁複的表單、知情對話與機構公告，而非抽象的模型演算法。教學實踐持續為這項關於公共證據傳達的研究提供養分。",
+    "s7.c1_h": "與學習者同行",
+    "s7.c1_p1": "<b>Literacy Unlimited</b>（魁北克 Pointe-Claire）— 成人英語識讀志工服務，於 2026 年展開。<span class=\"pill md\">2026 年展開 · 接洽中</span>",
+    "s7.c1_p2": "該機構對識讀能力的定義涵蓋理解健康文件與填寫官方表單。依 PIAAC 2022，魁北克 16 至 65 歲成人中有 22% 落在 Level 1 或以下（<a href='https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/' target='_blank' rel='noopener'>Fondation pour l'alphabétisation</a>），全加拿大則為 19%（<a href='https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm' target='_blank' rel='noopener'>加拿大統計局</a>）——這正是面對多步驟指引與官方文件時，餘裕最少的一群讀者。",
+    "s7.c1_p3": "<b>此為社區服務實踐；本研究不在該機構招募受試者。</b>",
+    "s7.c2_h": "實務專業者教學與研究",
+    "s7.c2_p1": "研究者長期專注於 AI 素養、隱私體驗，並持續在實務工作流中探索相關研究缺口（Research Gap）：",
+    "s7.c2_p2": "UX For AI 讀書會 — 6 週共學計畫，累計 228 位參與者（中英文雙語）。AI/UX 專書共創：《AI 識讀養成之旅》（22 章，中英文雙語）。",
+    "s7.c2_p3": "每週專欄：<a href=\"https://privacyux.substack.com/\" target=\"_blank\" rel=\"noopener\">AI 識讀與隱私體驗</a> · <a href=\"https://agenticux.substack.com/\" target=\"_blank\" rel=\"noopener\">Agentic UX: Research Gap Finder</a>。相關紀錄見 <a href=\"../../index.html#experience\">作品集共創專區</a>。",
+
+    "s8.title": "參考文獻",
+    "s8.note": "本頁所有數據已於 2026 年 9 月 3 日重新對照第一手來源查核。若某個數字流傳甚廣、卻不存在於其被歸屬的文件中，本頁選擇在正文中直接指出落差，而非略過。引用 Paris、Moon 與 Guo 的頁碼為作者原始紀錄，請對照該文自身的頁碼範圍 pp. 5348&ndash;5370 檢視。",
+    "s8.list": "<div class=\"ref-item\">Centre for Digital Health Evaluation, WIHV, Women's College Hospital. <i>Clinical Evaluation of Artificial Intelligence and Automation Technology to Reduce Administrative Burden in Primary Care.</i> 受 OntarioMD 委託，2024 年 7 月 31 日。<a href=\"https://www.ontariomd.ca/documents/ai%20scribe/ai%20scribe%20evaluation_final%20report_vf.pdf\" target=\"_blank\" rel=\"noopener\">PDF</a><span class=\"ref-note\">計畫自身的證據基礎，也是本頁所有醫師端數字的出處：152 位提供者與 17,415 次看診（&sect;3.3）、實驗室 69.5%（表 1，p. 7）、每週 3 小時自陳（圖 2，p. 8）。&sect;2.3 列出全部資料蒐集方式，含本頁論點所繫的 6 位病人訪談。</span></div> <div class=\"ref-item\">Ha, E. et al. <i>Evaluating the impact of artificial intelligence scribes on clinical documentation in primary care: a simulation study.</i> JAMIA Open. <a href=\"https://academic.oup.com/jamiaopen/article/9/4/ooag101/8726639\" target=\"_blank\" rel=\"noopener\">academic.oup.com</a><span class=\"ref-note\">同一實驗室環節的同儕審查版本。此處報告減少 69.1%，委託報告則為 69.5%；引用任一皆可，但需知道兩者並存。</span></div> <div class=\"ref-item\">OntarioMD. <i>AI scribes show promising results in helping family doctors and nurse practitioners spend more time with patients and less time on paperwork.</i> 新聞稿，2024 年 9 月 11 日。<a href=\"https://www.ontariomd.ca/pages/ai-scribes-promising-results.aspx\" target=\"_blank\" rel=\"noopener\">ontariomd.ca</a><span class=\"ref-note\">70&ndash;90% 這個數字的真正出處。列出是因為它經常被歸給評估報告，而報告裡並沒有這個數字——被測量的結果與被傳播的結果之間的落差，正是本頁論點的一部分。</span></div> <div class=\"ref-item\">Supply Ontario. <i>Tender-20123 &mdash; Artificial Intelligent Solutions &ndash; AI Scribe.</i> 合格供應商名單，2025 年 4 月 27 日至 2028 年 4 月 27 日。<a href=\"https://www.supplyontario.ca/vor/software/tender-20123-artificial-intelligent-solutions-ai-scribe/\" target=\"_blank\" rel=\"noopener\">supplyontario.ca</a> &middot; <a href=\"https://www.supplyontario.ca/wp-content/uploads/Vendor-Feature-Matrix-Tender-20123-V2.pdf\" target=\"_blank\" rel=\"noopener\">廠商功能比較表（PDF）</a><span class=\"ref-note\">合格廠商清單與公開的臨床、隱私、資安評選標準——採購方以自己的語言說明它要求了什麼。功能比較表是公開紀錄中唯一的產品逐項對照。授予時通過 20 家，第二輪徵集後名列 30 家。</span></div> <div class=\"ref-item\">Office of the Auditor General of Ontario. <i>Use of Artificial Intelligence in the Ontario Government.</i> 專案報告，2026 年 5 月 12 日。<a href=\"https://www.auditor.on.ca/en/content/specialreports/specialaudits/en2026/AR_2026_AI_EN.html\" target=\"_blank\" rel=\"noopener\">報告頁</a> &middot; <a href=\"https://www.auditor.on.ca/en/content/specialreports/specialreports/en26/2026_AI_EN.pdf\" target=\"_blank\" rel=\"noopener\">完整報告（PDF）</a> &middot; <a href=\"https://www.auditor.on.ca/en/content/news/26_newsreleases/nr_AR_en26-01.pdf\" target=\"_blank\" rel=\"noopener\">新聞稿（PDF）</a><span class=\"ref-note\">&sect;4.3（pp. 20&ndash;28）為 AI 聽寫員專章。圖 6（p. 21）列出評分權重——準確度 4%、偏誤控制 2%、本地存在 30%，且各項皆無最低及格分。圖 7（p. 23）為錯誤統計。p. 24 記載醫師並未被要求透過系統內的簽核功能確認已審閱，建議 6 則要求建置此功能。須注意：準確度測試是 Supply Ontario 於採購期間所做，稽核調閱的是評審意見。</span></div> <div class=\"ref-item ref-hidden\">Information and Privacy Commissioner of Ontario. <i>AI Scribes: Key Considerations for the Health Sector</i>，含配套檢核表。2026 年 1 月 28 日。<a href=\"https://www.ipc.on.ca/en/resources/ai-scribes-key-considerations-health-sector\" target=\"_blank\" rel=\"noopener\">ipc.on.ca</a><span class=\"ref-note\">規範框架中最新、也最具操作性的一份，且最直接談到病人：於病歷載明的明示同意為最佳實務，拒絕者須獲同等照護。檢核表涵蓋廠商評估、契約保障與持續監控。</span></div> <div class=\"ref-item ref-hidden\">College of Physicians and Surgeons of Ontario. <i>Advice to the Profession: AI Scribes in Clinical Practice</i>（最後更新 2024 年 6 月），為 <a href=\"https://www.cpso.on.ca/physicians/policies-guidance/policies/medical-records-documentation\" target=\"_blank\" rel=\"noopener\">Medical Records Documentation</a> 政策的配套指引。另見 CPSO <i>Dialogue</i> 專文 <a href=\"https://dialogue.cpso.on.ca/articles/using-ai-scribes-in-your-practice\" target=\"_blank\" rel=\"noopener\">Using AI Scribes in Your Practice</a>。<span class=\"ref-note\">專業義務的來源，也是 S2 寫「建議」而非「規則」的理由。其四個標題為準確性、問責、資料保護與透明度；可執行的義務落在它所配套的政策上。<i>Dialogue</i> 專文則是醫師實際會讀的白話版。</span></div> <div class=\"ref-item ref-hidden\">Statistics Canada. <i>Literacy, numeracy and adaptive problem-solving skills of Canadians: Results from the 2022 Programme for the International Assessment of Adult Competencies.</i> The Daily，2024 年 12 月 10 日。<a href=\"https://www150.statcan.gc.ca/n1/daily-quotidien/241210/g-a002-eng.htm\" target=\"_blank\" rel=\"noopener\">Infographic 2</a><span class=\"ref-note\">資訊圖表 2 呈現 19% 這個全國數字背後的能力分布。須注意「Level 1 或以下」與「低於 Level 2」指的是同一群人，本頁因此交替使用。</span></div> <div class=\"ref-item ref-hidden\">Fondation pour l'alphabétisation. 《Surveys and statistics》&mdash; PIAAC 2022 魁北克結果。<a href=\"https://fondationalphabetisation.org/en/illiteracy/surveys-and-statistics/\" target=\"_blank\" rel=\"noopener\">fondationalphabetisation.org</a><span class=\"ref-note\">魁北克 22% 的出處。一個陷阱：該文件中與之並列的 19% 是魁北克 2013 年的數字，不是加拿大。全國的 19% 來自加拿大統計局，兩者恰好相同純屬巧合，每次做此對照時都應說明。</span></div> <div class=\"ref-item ref-hidden\">Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). <i>Don't Trust the Process: When Verifiability Undermines AI Accountability.</i> FAccT '26, 5348&ndash;5370. <a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3805689.3812373</a><span class=\"ref-note\">S5 四大抽象謬誤與 S0 研究定位的出處。DOI 與頁碼範圍已確認；內文的單頁頁碼為作者原始紀錄，發表前應對照該文 PDF 核實。</span></div> <div class=\"ref-item ref-hidden\">Mackay, W. E., &amp; McGrenere, J. (2025). <i>Comparative Structured Observation.</i> ACM Transactions on Computer-Human Interaction, 32(2), Article 14, 1&ndash;27. <a href=\"https://doi.org/10.1145/3711838\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3711838</a><span class=\"ref-note\">文末前導研究所採用的方法。CSO 借用受控實驗的結構，產生兩個以上設計變體的可比較經驗，再研究參與者對各變體的陳述——一種沒有標準答案的比較，因此適合信任推理這類提問。</span></div>",
+
+    "footer.tag": "前導研究摘要 · 醫療健康 AI 建議中的信任推理",
+    "footer.abstract": "<b>研究提問與摘要：</b>代理稽核證據（Proxy Audit Evidence）的不同重播呈現形式（如即時浮動提示 vs. 常駐列表），如何影響使用者在醫療決策情境中對 AI 建議的感知、參照與信任推理（Trust Reasoning）路徑？本研究採用比較結構化觀察法（CSO；<a href='https://doi.org/10.1145/3711838' target='_blank' rel='noopener'>Mackay &amp; McGrenere, 2025</a>）與反身性主題分析，著重描繪信任推理的具體質地與動態路徑，而非預設單一的「正確信任分數」。",
+    "footer.link": "前往 5C 文獻關係圖與研究紀錄 →",
+    "disclosure.body": "<span class=\"aid-h\">AI 與輔助工具使用聲明</span><ul><li><b>資訊檢索與文獻查核：</b>使用 Perplexity 進行初步新聞檢索；使用 Claude 交叉驗證新聞真實性與查詢關聯學術文獻。</li><li><b>網頁架構與開發：</b>使用 Cursor 基於既有研究網頁模板進行版面結構調整與超連結維護。</li><li><b>文字潤飾：</b>使用 Grammarly 輔助文法檢查與語句修飾。</li><li><b>原創性聲明：</b>本研究之核心提問、分析表格、理論透鏡與論點框架，均由研究者獨立構思、撰寫與論證。</li></ul>"
+  }
+};
+
+var lang = 'en';
+try {
+  var saved = localStorage.getItem('hciLang');
+  if (saved === 'en' || saved === 'zh') lang = saved;
+} catch (e) {}
+
+function setLang(next) {
+  lang = next === 'zh' ? 'zh' : 'en';
+  try { localStorage.setItem('hciLang', lang); } catch (e) {}
+  var dict = T[lang] || T.en;
+
+  document.querySelectorAll('[data-t]').forEach(function (el) {
+    var key = el.getAttribute('data-t');
+    var val = dict[key];
+    if (val != null) {
+      el.innerHTML = val;
+    }
+  });
+
+  if (dict['page.title']) document.title = dict['page.title'];
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+
+  document.querySelectorAll('.lang-switch button').forEach(function (b) {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+
+  if (window.lucide) lucide.createIcons();
+  syncRefToggle();
+}
+
+/* References collapse. The list itself is re-rendered on every language
+   switch, so the button lives outside it and its label is set from here
+   rather than from a data-t key. */
+var REF_LABELS = {
+  en: { show: 'Show all %d references', hide: 'Show first %d' },
+  zh: { show: '展開全部 %d 筆參考文獻', hide: '收合為前 %d 筆' }
+};
+function syncRefToggle() {
+  var list = document.getElementById('refList');
+  var btn = document.getElementById('refToggle');
+  if (!list || !btn) return;
+  var total = list.querySelectorAll('.ref-item').length;
+  var shown = total - list.querySelectorAll('.ref-item.ref-hidden').length;
+  var open = list.classList.contains('expanded');
+  var L = REF_LABELS[lang] || REF_LABELS.en;
+  btn.textContent = open ? L.hide.replace('%d', shown) : L.show.replace('%d', total);
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function toggleRefs() {
+  var list = document.getElementById('refList');
+  if (!list) return;
+  list.classList.toggle('expanded');
+  syncRefToggle();
+}
+syncRefToggle();
+
+document.querySelector('.lang-switch').addEventListener('click', function (e) {
+  var b = e.target.closest('button[data-lang]');
+  if (b) setLang(b.getAttribute('data-lang'));
+});
+
+// Initialise language if previously saved as zh
+if (lang === 'zh') {
+  setLang('zh');
+}
+
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side-nav a[data-sec]'));
+  var ids = ['s1','s2','sethics','s3','s4','s5','s6','s7','s8'];
+  var secs = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var scroller = document.querySelector('.main-body');
+
+  function setActive(id) {
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('data-sec') === id);
+    });
+  }
+
+  function sectionTop(el) {
+    if (!scroller) return el.offsetTop;
+    return el.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+  }
+
+  function onScroll() {
+    var y = (scroller ? scroller.scrollTop : window.scrollY) + 90;
+    var current = ids[0];
+    secs.forEach(function (el) {
+      if (sectionTop(el) <= y) current = el.id;
+    });
+    setActive(current);
+  }
+
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.getElementById(a.getAttribute('data-sec'));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  (scroller || window).addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
