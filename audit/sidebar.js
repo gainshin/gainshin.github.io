@@ -2,13 +2,26 @@
  * Shared series nav for audit/*.html
  * Literacy-shell chrome; does not write :root tokens (pages own --ink etc).
  */
-const AUDIT_PAGES = [
-  { id: 'prd', href: 'Audit_PRD.html', label: 'PRD' },
-  { id: 'method', href: 'Audit_method.html', label: 'Method' },
-  { id: 'console', href: 'Audit_interface_console.html', label: 'Console' },
-  { id: 'result', href: 'rejara-iesult_sample.html', label: 'Result sample' },
-  { id: 'workbench', href: 'audit-workbench.html', label: 'Workbench' },
+const AUDIT_GROUPS = [
+  {
+    label: 'Case study 1',
+    pages: [
+      { id: 'prd', href: 'Audit_PRD.html', label: 'PRD' },
+      { id: 'method', href: 'Audit_method.html', label: 'Method' },
+      { id: 'console', href: 'Audit_interface_console.html', label: 'Console' },
+      { id: 'result', href: 'rejara-iesult_sample.html', label: 'Result sample' },
+      { id: 'workbench', href: 'audit-workbench.html', label: 'Workbench' },
+    ],
+  },
+  {
+    label: 'Case study 2',
+    pages: [
+      { id: 'varbridge', href: 'VarBridge Workbench.html', label: 'VarBridge Workbench' },
+    ],
+  },
 ];
+
+const AUDIT_PAGES = AUDIT_GROUPS.flatMap(g => g.pages);
 
 const AUDIT_SIDEBAR_CSS = `
 html,body{height:100%;overflow:hidden}
@@ -31,6 +44,7 @@ body{display:flex;margin:0}
   font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
   color:var(--sn-ter);padding:8px 14px 6px;
 }
+.side-nav .nav-group:not(:first-child){margin-top:10px;padding-top:14px}
 .side-nav a{
   display:block;color:var(--sn-mid);text-decoration:none;font-weight:500;
   font-size:14px;padding:6px 14px;border:0;background:transparent;border-radius:0;
@@ -125,14 +139,16 @@ function renderAuditSidebar(activePageId) {
   injectAuditSidebarCSS();
   const nav = document.getElementById('audit-sidebar');
   if (nav) {
-    const links = AUDIT_PAGES.map(p =>
-      `<a href="${p.href}"${p.id === activePageId ? ' class="active" aria-current="page"' : ''}>${p.label}</a>`
-    ).join('');
+    const groups = AUDIT_GROUPS.map(g => {
+      const links = g.pages.map(p =>
+        `<a href="${encodeURI(p.href)}"${p.id === activePageId ? ' class="active" aria-current="page"' : ''}>${p.label}</a>`
+      ).join('');
+      return `<div class="nav-group">${g.label}</div>${links}`;
+    }).join('');
     nav.innerHTML = `
-      <div class="side-nav-header">Interface Audit</div>
+      <div class="side-nav-header">AI prototypes</div>
       <div class="side-nav-scroll">
-        <div class="nav-group">Pages</div>
-        ${links}
+        ${groups}
       </div>
       <div class="side-nav-footer">
         <a href="../index.html#products">← Back to Portfolio</a>

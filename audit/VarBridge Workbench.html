@@ -1,0 +1,1461 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>VarBridge Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>
+:root{
+  --ground:#EDEFF3; --surface:#FFFFFF; --surface-2:#F6F7FA;
+  --ink:#15181F; --muted:#5C6476; --line:#D8DCE5; --line-strong:#BFC6D2;
+  --accent:#8C2F39; --accent-soft:#F3E3E5;
+  --ia:#2F5A8A; --ia-bg:#E2EAF4;
+  --ux:#8C2F39; --ux-bg:#F3E3E5;
+  --std:#8A5A0C; --std-bg:#F6EBD6;
+  --shadow:0 1px 2px rgba(21,24,31,.06), 0 8px 24px -12px rgba(21,24,31,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#101319; --surface:#171B23; --surface-2:#1E232D;
+    --ink:#E7EAF0; --muted:#98A1B3; --line:#2A303D; --line-strong:#3B4354;
+    --accent:#E28A93; --accent-soft:#3A2227;
+    --ia:#8DB4E6; --ia-bg:#1B2636;
+    --ux:#E28A93; --ux-bg:#3A2227;
+    --std:#DDB067; --std-bg:#2C2517;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#101319; --surface:#171B23; --surface-2:#1E232D;
+  --ink:#E7EAF0; --muted:#98A1B3; --line:#2A303D; --line-strong:#3B4354;
+  --accent:#E28A93; --accent-soft:#3A2227;
+  --ia:#8DB4E6; --ia-bg:#1B2636;
+  --ux:#E28A93; --ux-bg:#3A2227;
+  --std:#DDB067; --std-bg:#2C2517;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans","Noto Sans TC","PingFang TC",-apple-system,system-ui,sans-serif;
+  font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased}
+.wrap{max-width:1260px; margin:0 auto; padding-block:40px 72px; padding-inline:24px; display:flex; flex-direction:column; gap:28px}
+@media (max-width:600px){.wrap{padding-inline:16px}}
+
+.topline{display:flex; align-items:flex-start; justify-content:space-between; gap:16px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 12px}
+h1{font-family:"Newsreader","Songti TC",serif; font-weight:500; font-size:clamp(30px,4.6vw,48px); line-height:1.14; letter-spacing:-.01em; margin:0; text-wrap:balance}
+.lede{max-width:66ch; color:var(--muted); margin:14px 0 0; font-size:16px}
+.lede b{color:var(--ink); font-weight:600}
+.lang-switch{display:flex; border:1px solid var(--line); border-radius:3px; overflow:hidden; flex:none}
+.lang-switch button{background:transparent; color:var(--muted); border:0; border-right:1px solid var(--line);
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; padding:6px 11px; cursor:pointer}
+.lang-switch button:last-child{border-right:0}
+.lang-switch button.active{background:var(--ink); color:var(--surface)}
+
+/* pain → lens strip */
+.pains{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+.pain{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:14px 16px; display:flex; flex-direction:column; gap:6px}
+.pain .tag{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.pain h4{margin:0; font-size:14px; font-weight:600}
+.pain p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.55}
+.pain .arrow{font-size:12.5px; color:var(--ink); border-top:1px dashed var(--line-strong); padding-top:8px; margin-top:2px}
+.lens{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:1px 7px; border-radius:2px; font-weight:500}
+.lens.ia{background:var(--ia-bg); color:var(--ia)} .lens.ux{background:var(--ux-bg); color:var(--ux)} .lens.std{background:var(--std-bg); color:var(--std)}
+@media (max-width:820px){.pains{grid-template-columns:1fr}}
+
+/* scoreboard */
+.scores{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)) auto; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.score{background:var(--surface); padding:16px 20px}
+.score .k{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.score .v{font-family:"Newsreader",serif; font-size:34px; line-height:1.1; margin-top:4px; font-variant-numeric:tabular-nums}
+.score .n{font-size:12.5px; color:var(--muted)}
+.score.act{display:flex; flex-direction:column; justify-content:center; gap:8px}
+.filters{display:flex; gap:6px; flex-wrap:wrap}
+.fchip{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-strong); background:transparent; color:var(--muted); padding:4px 9px; border-radius:2px; cursor:pointer}
+.fchip[aria-pressed="true"].ia{background:var(--ia-bg); color:var(--ia); border-color:var(--ia)}
+.fchip[aria-pressed="true"].ux{background:var(--ux-bg); color:var(--ux); border-color:var(--ux)}
+.fchip[aria-pressed="true"].std{background:var(--std-bg); color:var(--std); border-color:var(--std)}
+@media (max-width:820px){.scores{grid-template-columns:1fr 1fr 1fr} .score.act{grid-column:1/-1}}
+@media (max-width:480px){.scores{grid-template-columns:1fr}}
+
+/* console */
+.console{display:grid; grid-template-columns:230px minmax(0,1fr) 340px; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.pane{background:var(--surface); min-width:0}
+.pane-h{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); padding:13px 16px 11px; border-bottom:1px solid var(--line)}
+.stagebtn{display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--line); padding:13px 16px; color:var(--ink); font:inherit; font-size:13.5px; cursor:pointer}
+.stagebtn:hover{background:var(--surface-2)}
+.stagebtn[aria-current="true"]{background:var(--accent-soft); box-shadow:inset 3px 0 0 var(--accent)}
+.stagebtn .sid{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--muted); letter-spacing:.04em}
+.stagebtn .sn{display:block; margin-top:2px; font-weight:500; line-height:1.4}
+.stagebtn .ag{display:flex; flex-wrap:wrap; gap:4px; margin-top:8px}
+.agchip{font-family:"IBM Plex Mono",monospace; font-size:9.5px; padding:1px 6px; border:1px solid var(--line-strong); border-radius:2px; color:var(--muted)}
+.railnote{padding:14px 16px; font-size:12px; color:var(--muted); line-height:1.55}
+
+.userbox{margin:16px; padding:12px 15px; border-left:2px solid var(--accent); background:var(--accent-soft); border-radius:0 3px 3px 0}
+.userbox .k{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:3px}
+.userbox p{margin:0; font-size:13.5px; line-height:1.6}
+.stagewrap{padding:0 16px 18px; overflow-x:auto}
+.stage{position:relative; margin:0 auto; max-width:580px; min-width:340px}
+
+/* hotspots */
+.hs{position:absolute; width:22px; height:22px; border-radius:50%; border:2px solid var(--surface); color:#fff;
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; display:grid; place-items:center; cursor:pointer; padding:0;
+  transform:translate(-50%,-50%); z-index:5; transition:transform .2s, opacity .2s; box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.hs.ia{background:#2F5A8A} .hs.ux{background:#8C2F39} .hs.std{background:#8A5A0C}
+.hs.hot{transform:translate(-50%,-50%) scale(1.3)}
+.hs.dim{opacity:.12; pointer-events:none}
+.outline-hot{outline:2px dashed #8C2F39; outline-offset:2px; border-radius:4px}
+@media (prefers-reduced-motion: reduce){.hs{transition:none}}
+
+/* annotations pane */
+.ann{border-bottom:1px solid var(--line); padding:12px 16px; cursor:default}
+.ann:hover,.ann.hot{background:var(--surface-2)}
+.ann.dim{opacity:.35}
+.ann-h{display:flex; gap:9px; align-items:baseline}
+.num{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); flex:none; width:14px}
+.ann-h p{margin:0; font-size:13px; line-height:1.5; font-weight:500; flex:1}
+.ann .meta{display:flex; gap:6px; margin:7px 0 0 23px; flex-wrap:wrap}
+.painchip{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--muted); border:1px solid var(--line); padding:1px 6px; border-radius:2px}
+.ann .why{margin:6px 0 0 23px; font-size:12.2px; color:var(--muted); line-height:1.55}
+.trace{border-top:1px solid var(--line); background:var(--surface-2)}
+.trace-h{display:flex; justify-content:space-between; align-items:center; padding:11px 16px 9px}
+.trace-h span{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.trace-h button{background:none; border:1px solid var(--line-strong); color:var(--ink); font:inherit; font-size:11px; padding:3px 9px; border-radius:3px; cursor:pointer}
+.trace pre{margin:0; padding:0 16px 16px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; line-height:1.65; color:var(--muted); overflow-x:auto; white-space:pre}
+.trace pre b{color:var(--ink); font-weight:500}
+@media (max-width:1060px){.console{grid-template-columns:1fr}}
+
+/* ============ mock world (fixed light, reads as a screen) ============ */
+.mock{--mk-bg:#FFFFFF; --mk-alt:#F4F5F7; --mk-ink:#1B1D22; --mk-mut:#6E7380; --mk-line:#E3E5EA; --mk-brand:#2D4F7C; --mk-soft:#EAF0F7;
+  background:var(--mk-bg); color:var(--mk-ink); border:1px solid var(--line-strong); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); font-size:12px; line-height:1.55}
+.mk-top{background:var(--mk-brand); color:#fff; padding:10px 14px; display:flex; align-items:center; gap:10px; justify-content:space-between}
+.mk-top .lg{font-weight:600; font-size:13px}
+.mk-top .sl{font-size:10.5px; opacity:.85; font-family:"IBM Plex Mono",monospace}
+.mk-tabs{display:flex; gap:2px; background:var(--mk-alt); border-bottom:1px solid var(--mk-line); padding:0 8px; overflow-x:auto}
+.mk-tab{font-size:11px; padding:7px 10px; color:var(--mk-mut); border-bottom:2px solid transparent; white-space:nowrap}
+.mk-tab.on{color:var(--mk-ink); border-bottom-color:var(--mk-brand); font-weight:600}
+.mk-body{padding:13px 14px; display:flex; flex-direction:column; gap:11px}
+.mk-label{font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--mk-mut); font-family:"IBM Plex Mono",monospace}
+.mk-meta{font-size:10px; color:var(--mk-mut); font-family:"IBM Plex Mono",monospace}
+.mk-foot{border-top:1px solid var(--mk-line); padding:8px 14px; font-size:10px; color:var(--mk-mut); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.bub{max-width:86%; padding:8px 11px; border-radius:11px; font-size:11.5px}
+.bub.u{align-self:flex-end; background:var(--mk-alt)}
+.bub.a{align-self:flex-start; background:var(--mk-soft); border:1px solid #D5E0EE}
+.who{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut); display:block; margin-bottom:2px}
+.mk-card{border:1px solid var(--mk-line); border-radius:8px; padding:10px 11px}
+.mk-card h5{margin:0 0 6px; font-size:12px; font-weight:600}
+.xw{width:100%; border-collapse:collapse; font-size:11px}
+.xw td{padding:5px 4px; border-top:1px solid var(--mk-line); vertical-align:top}
+.xw td:nth-child(2){color:var(--mk-mut); width:14px; text-align:center}
+.code-i{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--mk-alt); padding:0 4px; border-radius:3px}
+.mk-btns{display:flex; gap:7px; flex-wrap:wrap}
+.mk-b{flex:1; text-align:center; padding:7px 8px; border-radius:6px; font-size:11px; font-weight:500; background:var(--mk-brand); color:#fff; border:0; font-family:inherit; cursor:pointer}
+.mk-b.sec{background:var(--mk-alt); color:var(--mk-ink)}
+.mk-b.q{background:#fff; color:var(--mk-brand); border:1px solid var(--mk-brand)}
+.thr{display:flex; gap:6px; flex-wrap:wrap}
+.thr span{font-family:"IBM Plex Mono",monospace; font-size:10.5px; border:1px solid var(--mk-line); background:#fff; border-radius:5px; padding:3px 7px}
+.thr span b{font-weight:600}
+.pill{display:inline-block; font-size:9.5px; font-family:"IBM Plex Mono",monospace; padding:1px 6px; border-radius:9px; background:#FBEFD9; color:#7A4D06}
+.pill.ok{background:#E3EFE9; color:#1E6B4B}
+.pill.info{background:var(--mk-soft); color:var(--mk-brand)}
+
+/* sheet diff */
+.sheetwrap{overflow-x:auto; border:1px solid var(--mk-line); border-radius:6px}
+.sheet{border-collapse:collapse; font-size:10.5px; width:100%; min-width:430px}
+.sheet th{text-align:left; font-weight:600; font-size:9.5px; background:var(--mk-alt); padding:6px 6px; border-bottom:1px solid var(--mk-line); white-space:nowrap}
+.sheet th small{display:block; font-weight:400; color:var(--mk-mut); font-family:"IBM Plex Mono",monospace; font-size:8.5px}
+.sheet td{padding:5px 6px; border-bottom:1px solid var(--mk-line); font-family:"IBM Plex Mono",monospace; white-space:nowrap}
+.sheet tr:last-child td{border-bottom:0}
+.old{color:#A33322; text-decoration:line-through; opacity:.75; margin-right:4px}
+.new{color:#1E6B4B}
+.flag{background:#FBEFD9}
+.req{color:#A33322}
+
+.genes{width:100%; border-collapse:collapse; font-size:10.5px}
+.genes th{text-align:left; font-size:9px; color:var(--mk-mut); font-weight:500; text-transform:uppercase; letter-spacing:.06em; padding:4px}
+.genes td{padding:4px; border-top:1px solid var(--mk-line); font-variant-numeric:tabular-nums}
+.genes td.id{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut)}
+.dlog{list-style:none; margin:0; padding:0; font-size:10.5px}
+.dlog li{display:flex; gap:8px; padding:4px 0; border-top:1px solid var(--mk-line)}
+.dlog li:first-child{border-top:0}
+.dlog .by{font-family:"IBM Plex Mono",monospace; font-size:9px; flex:none; width:74px; color:var(--mk-mut)}
+.caveat{font-size:10.5px; color:#6B4A0A; background:#FBF3E2; border:1px solid #EFDDB7; border-radius:6px; padding:7px 9px}
+
+/* footer */
+.notes{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; border-top:1px solid var(--line); padding-top:24px}
+.note h4{margin:0 0 6px; font-size:13.5px; font-weight:600}
+.note p{margin:0; font-size:13px; color:var(--muted); line-height:1.6}
+.note code{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink)}
+button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ---- VarBridge additions ---- */
+.pill.no{background:#ECEEF2; color:#5B6272}
+.pill.bad{background:#F6E1DE; color:#A33322}
+.pill.lic{background:#EDE6F5; color:#5B3E86}
+.kv{width:100%; border-collapse:collapse; font-size:11px}
+.kv td{padding:5px 4px; border-top:1px solid var(--mk-line); vertical-align:top}
+.kv tr:first-child td{border-top:0}
+.kv td:first-child{color:var(--mk-mut); width:34%; font-size:10.5px}
+.kv .miss{background:#FBF3E2}
+.qchips{display:flex; gap:5px; flex-wrap:wrap}
+.qchips span{font-size:10.5px; border:1px solid #C9D6E8; background:var(--mk-soft); color:var(--mk-brand); border-radius:12px; padding:2px 9px}
+.chk{display:flex; flex-direction:column; gap:3px; font-size:10.5px}
+.chk div{display:flex; justify-content:space-between; gap:8px; border-top:1px solid var(--mk-line); padding-top:4px}
+.chk div:first-child{border-top:0; padding-top:0}
+.vaf{display:inline-flex; align-items:center; gap:5px}
+.vaf i{display:inline-block; width:42px; height:5px; background:#E6E9EF; border-radius:3px; position:relative; overflow:hidden}
+.vaf i b{position:absolute; inset:0 auto 0 0; background:var(--mk-brand); border-radius:3px}
+.sheet tr.sel td{background:var(--mk-soft)}
+.xw5 td:first-child{font-family:"IBM Plex Mono",monospace; font-size:10.5px}
+.xw5 td:last-child{color:var(--mk-mut); font-size:10px; text-align:right}
+.srcx td{white-space:normal; font-family:inherit; font-size:10.5px; vertical-align:top}
+.srcx td.s{font-weight:600; white-space:nowrap}
+.srcx td.d{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut); white-space:normal; min-width:62px}
+.srcx{min-width:470px}
+.legend{display:flex; gap:10px; flex-wrap:wrap; font-size:10px; color:var(--mk-mut)}
+.banner{font-size:10.5px; background:#F6E1DE; border:1px solid #EBC3BD; color:#7C2A1F; border-radius:6px; padding:7px 9px}
+.sugg{border:1px dashed #9FB3CF; border-radius:8px; padding:9px 10px; background:#F7FAFD}
+.tierrow{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:6px; align-items:center; font-size:10.8px; padding:6px 0; border-top:1px solid var(--mk-line)}
+.tierrow:first-of-type{border-top:0}
+.tierrow .g{font-weight:600}
+.tierrow .p{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut); display:block; font-weight:400}
+.mini{font-size:10px; padding:3px 8px; border-radius:5px; border:1px solid var(--mk-line); background:#fff; color:var(--mk-ink); font-family:inherit; cursor:pointer}
+.mini.acc{border-color:#1E6B4B; color:#1E6B4B}
+.ovr{font-size:10.5px; background:#FBF3E2; border-left:2px solid #C98A1B; padding:6px 8px; border-radius:0 5px 5px 0}
+.report{border:1px solid var(--mk-line); border-radius:8px; padding:10px 11px; font-size:11px; line-height:1.6}
+.report h5{margin:0 0 4px; font-size:11.5px}
+.report p{margin:0 0 5px}
+.report p:last-child{margin:0}
+
+/* ---- page tabs ---- */
+[hidden]{display:none!important}
+.pagebar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.owner{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0}
+.tabs{display:flex; gap:0; border-bottom:1px solid var(--line-strong); overflow-x:auto}
+.tab{background:none; border:0; border-bottom:2px solid transparent; margin-bottom:-1px; padding:10px 18px 11px 0; margin-right:22px;
+  font:inherit; color:var(--muted); cursor:pointer; text-align:left; display:flex; flex-direction:column; gap:1px; flex:none}
+.tab .tn{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase}
+.tab .tl{font-size:14.5px; font-weight:500}
+.tab[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+.tab[aria-selected="true"] .tn{color:var(--accent)}
+.tab:hover{color:var(--ink)}
+.panel{display:flex; flex-direction:column; gap:28px}
+
+/* ---- tab 1: study document ---- */
+.doc{gap:0; max-width:860px}
+.doc-head{display:flex; flex-direction:column; gap:10px; padding-bottom:22px; border-bottom:1px solid var(--line)}
+.doc-meta{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.cover-label{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+.status-badge{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--std); background:var(--std-bg); padding:2px 8px; border-radius:2px}
+.cover-title{font-family:"Newsreader","Songti TC",serif; font-weight:500; font-size:clamp(26px,3.6vw,38px); line-height:1.2; letter-spacing:-.005em; margin:0; text-wrap:balance}
+.cover-subtitle{margin:0; color:var(--muted); font-size:16px; max-width:68ch}
+.doc-sup{margin:0; font-size:13px; color:var(--ink); border-left:2px solid var(--accent); padding-left:10px}
+.exec-box{margin-top:22px; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:16px 20px}
+.exec-box h5{margin:0 0 6px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.exec-box p{margin:0; font-size:14.5px; line-height:1.7}
+.doc-toc{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:18px; font-size:13px}
+.doc-toc a{color:var(--muted); text-decoration:none; border-bottom:1px dashed var(--line-strong)}
+.doc-toc a:hover{color:var(--ink); border-bottom-color:var(--ink)}
+.doc-sec{scroll-margin-top:16px}
+.sec-h{display:flex; align-items:baseline; gap:12px; margin:36px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line-strong);
+  font-family:"Newsreader","Songti TC",serif; font-weight:500; font-size:23px; line-height:1.25}
+.sec-num{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--accent); letter-spacing:.06em; flex:none}
+.sub-h{margin:22px 0 6px; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+.body-text{margin:0 0 12px; font-size:15px; line-height:1.75; color:var(--muted); max-width:70ch}
+.body-text b{color:var(--ink); font-weight:600}
+.rq-box{margin:6px 0 16px; padding:14px 18px; background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:0 3px 3px 0;
+  font-family:"Newsreader","Songti TC",serif; font-size:19px; line-height:1.45; color:var(--ink); max-width:70ch}
+.body-list{margin:0 0 14px; padding-left:20px; color:var(--muted); font-size:15px; line-height:1.7; max-width:68ch}
+.body-list li{margin-bottom:4px}
+.body-list li::marker{color:var(--accent)}
+.table-wrap{overflow-x:auto; margin:6px 0 16px; background:var(--surface); border:1px solid var(--line); border-radius:3px}
+.doc-table{width:100%; border-collapse:collapse; font-size:14px; min-width:520px}
+.doc-table th{text-align:left; font-family:"IBM Plex Mono",monospace; font-weight:500; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  padding:10px 14px; border-bottom:1px solid var(--line-strong); background:var(--surface-2); white-space:nowrap}
+.doc-table td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted); line-height:1.6}
+.doc-table tr:last-child td{border-bottom:0}
+.doc-table td:first-child{color:var(--ink); font-weight:600; white-space:nowrap}
+.ref-list{display:flex; flex-direction:column; gap:8px}
+.ref-item{display:flex; flex-direction:column; gap:3px; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:12px 16px; font-size:14px; line-height:1.6}
+.ref-tag{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+.ref-cite{color:var(--ink); font-weight:500}
+.ref-role{color:var(--muted)}
+.q-page-footer{margin-top:36px; padding-top:14px; border-top:1px solid var(--line-strong)}
+.foot-course{font-size:13px; font-weight:600; color:var(--ink)}
+
+/* ---- tab 3: interaction variants ---- */
+.q3{align-self:flex-end; max-width:86%; padding:7px 11px; border-radius:11px; background:var(--mk-alt); font-size:11.5px}
+.split{position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:34px; align-items:start}
+.split svg.links{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:0}
+.ans3{display:flex; flex-direction:column; gap:7px; position:relative; z-index:1}
+.cl{font-size:11.3px; line-height:1.5; padding:5px 7px; border-radius:6px; background:#fff; border:1px solid var(--mk-line); cursor:default; transition:background .15s}
+.cl b{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut); font-weight:500; margin-right:4px}
+.cl.lit{background:var(--mk-soft); border-color:#B9CBE3}
+.cl.orphan{border-style:dashed; border-color:#D9A0A0}
+.srcs3{display:flex; flex-direction:column; gap:7px; position:relative; z-index:1}
+.scard{border:1px solid var(--mk-line); border-radius:6px; padding:6px 8px; background:#fff}
+.scard h6{margin:0 0 3px; font-size:10.5px; font-weight:600}
+.scard h6 span{font-family:"IBM Plex Mono",monospace; font-weight:500; color:var(--mk-mut); font-size:9.5px; margin-right:4px}
+.scard.unused{opacity:.6}
+.psg{font-size:10.3px; line-height:1.45; color:var(--mk-mut); padding:3px 5px; border-radius:4px; margin-top:3px}
+.psg.on{background:#FFF4CF; color:var(--mk-ink)}
+.cover3{display:flex; align-items:center; gap:8px; font-size:10.5px; color:var(--mk-mut)}
+.cover3 i{flex:1; height:5px; background:#E6E9EF; border-radius:3px; position:relative; overflow:hidden; max-width:160px}
+.cover3 i b{position:absolute; inset:0 auto 0 0; width:75%; background:var(--mk-brand); border-radius:3px}
+.map3{border:1px solid var(--mk-line); border-radius:8px; background:#F7F8FB; padding:6px}
+.map3 svg{display:block; width:100%; height:auto}
+.legend3{display:flex; gap:12px; flex-wrap:wrap; font-size:10px; color:var(--mk-mut); padding:2px 4px 0}
+.legend3 span{display:inline-flex; align-items:center; gap:5px}
+.legend3 svg{width:22px; height:6px; display:inline-block}
+.filt{border-left:2px solid var(--mk-brand); padding-left:8px; display:flex; flex-direction:column; gap:5px}
+.draft{border:1px solid var(--mk-line); border-radius:6px; padding:8px 10px; font-size:11px; line-height:1.55; background:#fff; color:var(--mk-ink)}
+.draft .caret{display:inline-block; width:1px; height:12px; background:var(--mk-brand); vertical-align:-2px; margin-left:2px}
+.gate{border:1px solid #B9CBE3; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px -10px rgba(45,79,124,.45)}
+.gate-h{background:var(--mk-soft); padding:7px 10px; font-size:11px; font-weight:600; display:flex; justify-content:space-between; gap:8px}
+.gate-h span{font-weight:400; color:var(--mk-mut); font-size:10px}
+.grows{display:flex; flex-direction:column}
+.grow{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px 10px; align-items:center; padding:7px 10px; border-top:1px solid var(--mk-line); font-size:10.8px}
+.grow:first-child{border-top:0}
+.grow .ct b{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--mk-mut); font-weight:500; margin-right:4px}
+.grow .act{display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end}
+.grow.warn{background:#FDF3F2}
+.grow .ack{grid-column:1 / -1; display:flex; align-items:center; gap:6px; font-size:10.3px; color:#7C2A1F}
+.grow .ack i{display:inline-block; width:11px; height:11px; border:1px solid #C27A72; border-radius:2px; background:#fff; flex:none}
+.mini.off{opacity:.45; cursor:not-allowed}
+.gate-f{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 10px; border-top:1px solid var(--mk-line); background:#FAFBFC; font-size:10px; color:var(--mk-mut)}
+.gate-f .mk-b{flex:none; padding:5px 10px}
+.mk-b.off{opacity:.5; cursor:not-allowed}
+.ledger{font-family:"IBM Plex Mono",monospace; font-size:9.6px; color:var(--mk-mut); line-height:1.6; border:1px dashed var(--mk-line); border-radius:6px; padding:6px 8px; white-space:pre-wrap}
+.vschip{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--muted); border:1px solid var(--line); padding:1px 6px; border-radius:2px}
+@media (prefers-reduced-motion: reduce){.cl{transition:none}}
+
+/* ---- stage 5: mobile layouts ---- */
+.phones{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; min-width:520px}
+.phwrap{display:flex; flex-direction:column; gap:6px; min-width:0}
+.phone{position:relative; background:#fff; color:#1B1D22; border:1px solid var(--line-strong); border-radius:20px; overflow:hidden; height:390px; display:flex; flex-direction:column; box-shadow:var(--shadow); font-size:10px; line-height:1.45}
+.ph-bar{display:flex; justify-content:space-between; padding:6px 12px 4px; font-family:"IBM Plex Mono",monospace; font-size:8.5px; color:#6E7380}
+.ph-head{padding:4px 10px 6px; font-weight:600; font-size:10.5px; display:flex; justify-content:space-between; gap:6px; border-bottom:1px solid #E3E5EA}
+.ph-head span{font-weight:400; color:#7A4D06; font-size:9.5px}
+.ph-body{flex:1; padding:8px; display:flex; flex-direction:column; gap:6px; min-height:0; overflow:hidden}
+.ph-card{border:1px solid #E3E5EA; border-radius:10px; padding:8px; display:flex; flex-direction:column; gap:6px; box-shadow:0 4px 10px -8px rgba(0,0,0,.3)}
+.ph-g{font-weight:600; font-size:11px}
+.ph-g span{font-family:"IBM Plex Mono",monospace; font-weight:400; font-size:9px; color:#6E7380; display:block}
+.ph-row{display:flex; gap:4px; flex-wrap:wrap}
+.ph-chips{display:flex; gap:3px; flex-wrap:wrap}
+.ph-chips span{font-family:"IBM Plex Mono",monospace; font-size:8.5px; background:#F4F5F7; border:1px solid #E3E5EA; border-radius:4px; padding:0 4px}
+.ph-why{margin:0; font-size:9.5px; color:#4F5667}
+.ph-acts{display:flex; gap:4px}
+.ph-acts .mini{flex:1}
+.ph-dots{display:flex; justify-content:center; gap:4px; margin-top:auto}
+.ph-dots i{width:5px; height:5px; border-radius:50%; background:#D5DAE3}
+.ph-dots i.on{background:#2D4F7C}
+.ph-note{margin:0; text-align:center; font-size:8.8px; color:#8A909C}
+.ph-pin{padding:5px 10px; background:#EAF0F7; font-size:9.8px; border-bottom:1px solid #D5E0EE}
+.ph-pin span{display:block; font-family:"IBM Plex Mono",monospace; font-size:8.5px; color:#6E7380}
+.ph-thread{gap:5px}
+.ph-sys{align-self:center; font-family:"IBM Plex Mono",monospace; font-size:8.3px; color:#6E7380; background:#F4F5F7; border-radius:8px; padding:1px 6px}
+.ph-msg{background:#F7F8FA; border:1px solid #E7E9EE; border-radius:9px; padding:5px 7px; font-size:9.6px}
+.ph-msg .role{display:block; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:.04em; text-transform:uppercase; margin-bottom:1px}
+.role.tech{color:#2F5A8A} .role.md{color:#8A5A0C} .role.path{color:#8C2F39}
+.ph-input{margin:6px; padding:6px 9px; border:1px solid #D5DAE3; border-radius:14px; color:#8A909C; font-size:9.5px; display:flex; justify-content:space-between; gap:4px}
+.ph-input span{font-family:"IBM Plex Mono",monospace; font-size:8px; color:#A33322}
+.ph-list{gap:0; padding:4px 8px}
+.ph-li{display:flex; justify-content:space-between; align-items:center; padding:6px 2px; border-bottom:1px solid #EEF0F3; font-weight:500}
+.ph-li.hot{background:#EAF0F7; margin:0 -8px; padding:6px 10px}
+.ph-sheet{position:absolute; left:0; right:0; bottom:0; background:#fff; border-top:1px solid #D5DAE3; border-radius:14px 14px 0 0; padding:6px 10px 10px; display:flex; flex-direction:column; gap:5px; box-shadow:0 -8px 18px -10px rgba(0,0,0,.35)}
+.ph-grab{align-self:center; width:28px; height:3px; border-radius:2px; background:#C9CFDA}
+.ph-src{display:flex; gap:3px}
+.ph-src i{flex:1; height:6px; border-radius:2px}
+.ph-src i.ok{background:#8CC3A8} .ph-src i.no{background:#C7CBD3} .ph-src i.lic{background:#C3B2DC}
+.ph-sheet .mk-b{flex:none; padding:5px 6px; font-size:9.5px}
+.ph-cap{margin:0; font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.06em; color:var(--muted); text-align:center}
+</style>
+
+<nav class="side-nav" id="audit-sidebar" aria-label="Audit pages"></nav>
+<div class="main-content">
+<div class="page-chrome" id="audit-chrome"></div>
+<div class="main-body is-app">
+<div class="wrap">
+<div class="pagebar">
+  <p class="owner" data-t="owner"></p>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="zh">繁中</button>
+  </div>
+</div>
+<div class="tabs" role="tablist" aria-label="Pages">
+  <button type="button" class="tab" role="tab" id="tab-ecse" data-tab="ecse" aria-controls="panel-ecse"><span class="tn" data-t="tab1n"></span><span class="tl" data-t="tab1l"></span></button>
+  <button type="button" class="tab" role="tab" id="tab-var" data-tab="var" aria-controls="panel-var"><span class="tn" data-t="tab2n"></span><span class="tl" data-t="tab2l"></span></button>
+  <button type="button" class="tab" role="tab" id="tab-alt" data-tab="alt" aria-controls="panel-alt"><span class="tn" data-t="tab3n"></span><span class="tl" data-t="tab3l"></span></button>
+</div>
+<section class="panel doc" id="panel-ecse" role="tabpanel" aria-labelledby="tab-ecse">
+  <div class="doc-head">
+    <div class="doc-meta">
+      <span class="cover-label" data-e="cover.label"></span>
+      <span class="status-badge" data-e="chrome.status"></span>
+    </div>
+    <h2 class="cover-title" data-e="cover.title"></h2>
+    <p class="cover-subtitle" data-e="cover.subtitle"></p>
+    <p class="doc-sup" data-e="doc.sup"></p>
+  </div>
+
+  <div class="exec-box">
+    <h5 data-e="s0.tag"></h5>
+    <p data-e="s0.body"></p>
+  </div>
+
+  <nav class="doc-toc" aria-label="Sections">
+    <a href="#e-s1" data-e="nav.s1"></a><a href="#e-s2" data-e="nav.s2"></a><a href="#e-s3" data-e="nav.s3"></a><a href="#e-s4" data-e="nav.s4"></a><a href="#e-s5" data-e="nav.s5"></a><a href="#e-s6" data-e="nav.s6"></a><a href="#e-s7" data-e="nav.s7"></a>
+  </nav>
+
+  <div class="doc-sec" id="e-s1">
+    <h3 class="sec-h"><span class="sec-num">01</span><span data-e="s1.title"></span></h3>
+    <p class="body-text" data-e="s1.p1"></p>
+    <p class="body-text" data-e="s1.p2"></p>
+    <p class="body-text" data-e="s1.p3"></p>
+    <p class="body-text" data-e="s1.p4"></p>
+    <div class="rq-box" data-e="s1.rq"></div>
+    <p class="body-text" data-e="s1.p5"></p>
+  </div>
+
+  <div class="doc-sec" id="e-s2">
+    <h3 class="sec-h"><span class="sec-num">02</span><span data-e="s2.title"></span></h3>
+    <p class="body-text" data-e="s2.lead"></p>
+    <div class="table-wrap">
+      <table class="doc-table">
+        <thead><tr><th data-e="s2.th1"></th><th data-e="s2.th2"></th><th data-e="s2.th3"></th></tr></thead>
+        <tbody>
+          <tr><td data-e="s2.r1a"></td><td data-e="s2.r1b"></td><td data-e="s2.r1c"></td></tr>
+          <tr><td data-e="s2.r2a"></td><td data-e="s2.r2b"></td><td data-e="s2.r2c"></td></tr>
+          <tr><td data-e="s2.r3a"></td><td data-e="s2.r3b"></td><td data-e="s2.r3c"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body-text" data-e="s2.p1"></p>
+    <p class="body-text" data-e="s2.p2"></p>
+  </div>
+
+  <div class="doc-sec" id="e-s3">
+    <h3 class="sec-h"><span class="sec-num">03</span><span data-e="s3.title"></span></h3>
+    <p class="body-text" data-e="s3.lead"></p>
+    <p class="body-text" data-e="s3.p1"></p>
+    <h4 class="sub-h" data-e="s3.h1"></h4>
+    <p class="body-text" data-e="s3.p2"></p>
+    <h4 class="sub-h" data-e="s3.h2"></h4>
+    <ul class="body-list"><li data-e="s3.a1"></li><li data-e="s3.a2"></li><li data-e="s3.a3"></li><li data-e="s3.a4"></li></ul>
+    <h4 class="sub-h" data-e="s3.h3"></h4>
+    <p class="body-text" data-e="s3.p3"></p>
+    <ul class="body-list"><li data-e="s3.o1"></li><li data-e="s3.o2"></li><li data-e="s3.o3"></li><li data-e="s3.o4"></li><li data-e="s3.o5"></li></ul>
+    <h4 class="sub-h" data-e="s3.h4"></h4>
+    <p class="body-text" data-e="s3.p4"></p>
+    <p class="body-text" data-e="s3.p5"></p>
+  </div>
+
+  <div class="doc-sec" id="e-s4">
+    <h3 class="sec-h"><span class="sec-num">04</span><span data-e="s4.title"></span></h3>
+    <p class="body-text" data-e="s4.p1"></p>
+    <ul class="body-list"><li data-e="s4.e1"></li><li data-e="s4.e2"></li><li data-e="s4.e3"></li></ul>
+    <p class="body-text" data-e="s4.p2"></p>
+    <p class="body-text" data-e="s4.p3"></p>
+  </div>
+
+  <div class="doc-sec" id="e-s5">
+    <h3 class="sec-h"><span class="sec-num">05</span><span data-e="s5.title"></span></h3>
+    <div class="table-wrap">
+      <table class="doc-table">
+        <thead><tr><th data-e="s5.th1"></th><th data-e="s5.th2"></th></tr></thead>
+        <tbody>
+          <tr><td data-e="s5.m1a"></td><td data-e="s5.m1b"></td></tr>
+          <tr><td data-e="s5.m2a"></td><td data-e="s5.m2b"></td></tr>
+          <tr><td data-e="s5.m3a"></td><td data-e="s5.m3b"></td></tr>
+          <tr><td data-e="s5.m4a"></td><td data-e="s5.m4b"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="doc-sec" id="e-s6">
+    <h3 class="sec-h"><span class="sec-num">06</span><span data-e="s6.title"></span></h3>
+    <p class="body-text" data-e="s6.p1"></p>
+    <p class="body-text" data-e="s6.p2"></p>
+  </div>
+
+  <div class="doc-sec" id="e-s7">
+    <h3 class="sec-h"><span class="sec-num">07</span><span data-e="s7.title"></span></h3>
+    <div class="ref-list">
+      <div class="ref-item"><span class="ref-tag" data-e="s7.t1"></span><span class="ref-cite" data-e="s7.c1"></span><span class="ref-role" data-e="s7.r1"></span></div>
+      <div class="ref-item"><span class="ref-tag" data-e="s7.t2"></span><span class="ref-cite" data-e="s7.c2"></span><span class="ref-role" data-e="s7.r2"></span></div>
+      <div class="ref-item"><span class="ref-tag" data-e="s7.t3"></span><span class="ref-cite" data-e="s7.c3"></span><span class="ref-role" data-e="s7.r3"></span></div>
+      <div class="ref-item"><span class="ref-tag" data-e="s7.t4"></span><span class="ref-cite" data-e="s7.c4"></span><span class="ref-role" data-e="s7.r4"></span></div>
+      <div class="ref-item"><span class="ref-tag" data-e="s7.t5"></span><span class="ref-cite" data-e="s7.c5"></span><span class="ref-role" data-e="s7.r5"></span></div>
+    </div>
+  </div>
+
+  <footer class="q-page-footer">
+    <div class="foot-course" data-e="footer.course"></div>
+  </footer>
+</section>
+
+<section class="panel" id="panel-var" role="tabpanel" aria-labelledby="tab-var" hidden>
+<header>
+  <div class="topline">
+    <p class="eyebrow" data-t="eyebrow"></p>
+  </div>
+  <h1 data-t="h1"></h1>
+  <p class="lede" data-t="lede"></p>
+</header>
+
+<section class="pains" id="pains"></section>
+
+<section class="scores">
+  <div class="score"><div class="k" data-t="k1"></div><div class="v">5</div><div class="n" data-t="n1"></div></div>
+  <div class="score"><div class="k" data-t="k2"></div><div class="v">8</div><div class="n" data-t="n2"></div></div>
+  <div class="score"><div class="k" data-t="k3"></div><div class="v" id="annCount">—</div><div class="n" data-t="n3"></div></div>
+  <div class="score act">
+    <div class="k" data-t="filterK"></div>
+    <div class="filters" id="filters">
+      <button type="button" class="fchip ia" data-lens="ia" aria-pressed="true">IA</button>
+      <button type="button" class="fchip ux" data-lens="ux" aria-pressed="true">HCI/UX</button>
+      <button type="button" class="fchip std" data-lens="std" aria-pressed="true" data-t="stdChip"></button>
+    </div>
+  </div>
+</section>
+
+<section class="console">
+  <div class="pane">
+    <div class="pane-h" data-t="paneStages"></div>
+    <div id="rail"></div>
+    <div class="railnote" data-t="railNote"></div>
+  </div>
+  <div class="pane">
+    <div class="pane-h" id="screenName"></div>
+    <div class="userbox"><div class="k" data-t="userK"></div><p id="userText"></p></div>
+    <div class="stagewrap"><div class="stage" id="stage"></div></div>
+  </div>
+  <div class="pane">
+    <div class="pane-h" id="annHead"></div>
+    <div id="annList"></div>
+    <div class="trace">
+      <div class="trace-h"><span data-t="traceH"></span><button type="button" id="copyTrace" data-t="copy"></button></div>
+      <pre id="traceBody"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="note"><h4 data-t="f1h"></h4><p data-t="f1p"></p></div>
+  <div class="note"><h4 data-t="f2h"></h4><p data-t="f2p"></p></div>
+  <div class="note"><h4 data-t="f3h"></h4><p data-t="f3p"></p></div>
+</section>
+</section>
+
+<section class="panel" id="panel-alt" role="tabpanel" aria-labelledby="tab-alt" hidden>
+<header>
+  <div class="topline">
+    <p class="eyebrow" data-v="eyebrow"></p>
+  </div>
+  <h1 data-v="h1"></h1>
+  <p class="lede" data-v="lede"></p>
+</header>
+
+<section class="console">
+  <div class="pane">
+    <div class="pane-h" data-v="paneRail"></div>
+    <div id="rail3"></div>
+    <div class="railnote" data-v="railNote"></div>
+  </div>
+  <div class="pane">
+    <div class="pane-h" id="screenName3"></div>
+    <div class="userbox"><div class="k" data-v="userK"></div><p id="userText3"></p></div>
+    <div class="stagewrap"><div class="stage" id="stage3"></div></div>
+  </div>
+  <div class="pane">
+    <div class="pane-h" id="annHead3"></div>
+    <div id="annList3"></div>
+    <div class="trace">
+      <div class="trace-h"><span data-v="traceH"></span><button type="button" id="copyTrace3" data-v="copy"></button></div>
+      <pre id="traceBody3"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="note"><h4 data-v="n1h"></h4><p data-v="n1p"></p></div>
+  <div class="note"><h4 data-v="n2h"></h4><p data-v="n2p"></p></div>
+  <div class="note"><h4 data-v="n3h"></h4><p data-v="n3p"></p></div>
+</section>
+</section>
+</div>
+
+<script>
+const ECSE = {
+  zh: {
+    "page.title": "ECSE 542 專題提案 — 回看引用紀錄 | Joshua Hsiao",
+    "nav.header": "ECSE 542 · Milestone 0",
+    "nav.grp_overview": "概覽", "nav.s1": "研究背景與問題",
+    "nav.grp_design": "研究設計", "nav.s2": "介面條件", "nav.s3": "研究方法",
+    "nav.grp_outcome": "產出", "nav.s4": "預期產出",
+    "nav.grp_plan": "規劃", "nav.s5": "里程碑", "nav.s6": "後續研究",
+    "nav.grp_refs": "文獻", "nav.s7": "參考文獻",
+    "nav.back": "← 回作品集",
+    "chrome.home": "首頁", "chrome.course": "ECSE 542", "chrome.current": "專題提案",
+    "chrome.status": "準備提交 REB",
+    "doc.sup": "研究所課程研究 · 授課教授 Prof. Jeremy R. Cooperstock（工程學院）· 準備提交 REB",
+
+    "cover.label": "ECSE 542 · Milestone 0 · 專題提案",
+    "cover.title": "回看引用紀錄：不同來源呈現方式如何影響使用者查核 AI 回答",
+    "cover.subtitle": "本研究比較 AI 研究助理中兩種來源資訊呈現方式：一種是在每個主張旁即時顯示來源摘要的提示框；另一種則是在側邊欄集中列出本次對話使用過的來源，並標示各來源支持哪些主張。",
+
+    "s0.tag": "研究定位",
+    "s0.body": "研究採用 Comparative Structured Observation（比較式結構化觀察）方法，目的不是判定哪一種介面「勝出」，而是理解不同呈現方式在何種情境下較能支持使用者查核 AI 回答，並據此提出後續介面設計建議。",
+
+    "s1.title": "研究背景與問題",
+    "s1.p1": "AI 研究助理通常會在回答中附上引用，但「有引用」不等於使用者真的會查核。使用者是否願意打開來源、閱讀原文並判斷引用是否真正支持某項主張，與來源資訊在介面中如何呈現有直接關係。",
+    "s1.p2": "本研究關注的不是模型答案本身是否正確，而是：<b>當系統提供相同答案與相同來源時，來源資訊的呈現方式會不會改變使用者的查核行為？</b>",
+    "s1.p3": "Amershi 等人提出，AI 系統應讓使用者了解系統能力的限制，也應說明系統為何產生某項結果。這兩項要求不能只靠在畫面某處放上一個引用符號來滿足；使用者還需要能夠理解該來源與主張之間的關係。Deng 等人的研究亦指出，歷史紀錄、比較工具等介面支援會影響使用者如何檢視與評估生成式 AI 的輸出。",
+    "s1.p4": "因此，本研究想回答的核心問題是：",
+    "s1.rq": "當 AI 系統重新呈現其回答所依據的來源紀錄時，不同的呈現方式如何影響使用者查核主張、判斷可信度，以及決定是否採用該回答？",
+    "s1.p5": "次要問題是：當使用者決定要不要查核某個主張時，他們在意的是哪些線索，例如主張的重要性、具體程度、來源類型，或是答案看起來是否可疑。",
+
+    "s2.title": "介面條件",
+    "s2.lead": "系統在生成回答時，會記錄每一項主張所對應的來源片段；之後再以不同介面形式將這些資訊呈現給使用者。三個條件皆採受試者內設計，每位參與者都會體驗全部條件。",
+    "s2.th1": "條件", "s2.th2": "來源呈現方式", "s2.th3": "特點",
+    "s2.r1a": "A．基準組", "s2.r1b": "NotebookLM 原有的編號引用，點擊後開啟來源面板", "s2.r1c": "接近現有產品的做法",
+    "s2.r2a": "B．提示框組", "s2.r2b": "在個別主張旁顯示短暫的來源提示框", "s2.r2c": "聚焦單一主張、即時但暫時",
+    "s2.r3a": "C．清單組", "s2.r3b": "在固定側邊欄列出本次使用的所有來源，並連結到相關主張", "s2.r3c": "提供整體脈絡、可持續查看",
+    "s2.p1": "B 與 C 將以低擬真原型實作。為了避免答案內容影響比較結果，三種條件使用的 AI 回答將保持一致：回答會先以 NotebookLM 生成，再在原型中重播。因此，研究中主要改變的是來源資訊的呈現方式，而不是答案內容或模型能力。",
+    "s2.p2": "每個任務會刻意加入一項無法由提供資料支持的主張。這讓研究者可以觀察參與者是否實際發現問題，而不只依賴他們事後表示「自己會查核」。研究結束後會向參與者說明這項安排，相關的告知與事後說明程序也會納入 REB 申請。",
+
+    "s3.title": "研究方法",
+    "s3.lead": "本研究採用 Comparative Structured Observation。這是一種用於比較設計概念的質性方法：參與者會在有結構的安排下使用多個設計版本，研究者同時觀察其行為，並在事後訪談中引導他們比較不同版本的經驗。",
+    "s3.p1": "這個方法適合本研究，因為本研究不打算檢驗「提示框一定比清單好」之類的效果假設，也不只想收集一般可用性意見。研究重點是理解：不同來源呈現方式如何改變使用者的查核策略，以及這些差異對後續設計有何啟示。",
+    "s3.h1": "參與者",
+    "s3.p2": "招募 9 名研究生。人數設為 9 而非 8，是為了讓三種條件順序各分配 3 人，維持 Latin square 的平衡。",
+    "s3.h2": "研究安排",
+    "s3.a1": "每位參與者會體驗三個條件。",
+    "s3.a2": "條件順序以 Latin square 方式平衡，降低先後順序造成的影響。",
+    "s3.a3": "三個條件搭配主題與資料內容相近、但並不完全相同的來源語料，以降低參與者因熟悉任務而產生的學習效果。",
+    "s3.a4": "參與者需要根據提供的資料完成一項簡短的文獻整理或研究摘要任務，並產出一段他們願意具名負責的文字。",
+    "s3.h3": "資料蒐集",
+    "s3.p3": "研究者會進行現場觀察，並錄製螢幕與語音。僅依賴訪談不足以判斷使用者實際做了什麼，因此本研究會把操作行為與事後說法分開分析。觀察重點包括：",
+    "s3.o1": "參與者是否點開來源或查看原文。",
+    "s3.o2": "他們是否在某些主張上停留更久。",
+    "s3.o3": "他們何時決定查核、何時直接接受回答。",
+    "s3.o4": "他們是否發現研究中安排的無支持主張。",
+    "s3.o5": "不同介面是否影響其在寫作前、寫作中或寫作後查看來源的方式。",
+    "s3.h4": "訪談與分析",
+    "s3.p4": "完成三個條件後，參與者會接受半結構式訪談，並比較三種來源呈現方式。訪談將詢問他們偏好的介面、偏好的原因，以及各種呈現方式在哪些情境下較有用。",
+    "s3.p5": "分析將採 reflexive thematic analysis。初始編碼會參考 Amershi 等人關於 AI 系統能力說明與決策理由說明的設計原則，以及 Deng 等人提出的使用者檢視與評估生成式 AI 輸出的過程；同時保留開放式編碼，以捕捉研究中出現的新模式。行為次數等描述性資料會作為輔助證據，而不是用來做統計顯著性推論。",
+
+    "s4.title": "預期產出",
+    "s4.p1": "本研究的目標不是在提示框與清單之間選出唯一最佳方案，而是整理出一套較完整的來源查核介面設計原則。例如，研究可能發現：",
+    "s4.e1": "當使用者需要立即判斷某句話是否可信時，主張旁的來源提示較方便。",
+    "s4.e2": "當使用者準備整合多個主張、撰寫摘要或回顧整段對話時，集中式來源清單較能幫助他們理解整體證據分布。",
+    "s4.e3": "某些任務可能需要同時提供局部與整體的來源視圖，而不是只採用其中一種。",
+    "s4.p2": "最後產出會是一個根據觀察結果整合出的第三版設計。每一項設計決定都需要能追溯到研究中觀察到的行為或參與者回饋；若沒有足夠證據支持，就不納入設計建議。",
+    "s4.p3": "這個整合版設計不會在本階段作為第四個實驗條件進行測試，而是作為下一輪研究的起點。",
+
+    "s5.title": "里程碑",
+    "s5.th1": "里程碑", "s5.th2": "交付內容",
+    "s5.m1a": "M1", "s5.m1b": "REB 摘要與課程提供的知情同意書範本（依本研究修改）、訪談腳本、螢幕與語音錄製及資料保存說明、事後告知程序、三個條件的初步草圖，以及一份 1–2 段的 README 說明設計工作的脈絡",
+    "s5.m2a": "M2", "s5.m2b": "包含三種來源呈現方式的低擬真原型，以及一份 1–2 段的 README，說明進度、設計物件與後續步驟",
+    "s5.m3a": "M3", "s5.m3b": "兩名參與者的試行研究及其產出（逐字稿、觀察筆記），以及一份 1–2 段的 README，說明進度與後續評估的時程安排",
+    "s5.m4a": "期末報告", "s5.m4b": "完整研究執行、質性分析，以及由研究結果推導出的整合式介面設計，以會議論文格式撰寫",
+
+    "s6.title": "後續研究",
+    "s6.p1": "本階段聚焦於個人使用 AI 研究助理時的來源查核行為。後續可將整合後的設計帶入需要他人協助的情境，例如高齡使用者與家人、照護者或支援人員共同閱讀 AI 提供的資料。",
+    "s6.p2": "在這類情境中，來源紀錄不只是讓單一使用者自行查閱的資訊，也可能成為不同人之間溝通、解釋與共同判斷的工具。不過，透過機構招募高齡參與者涉及較複雜的研究倫理與招募安排，因此這部分會明確列為下一階段，而不納入本學期的研究範圍。",
+
+    "s7.title": "參考文獻",
+    "s7.t1": "研究方法",
+    "s7.c1": "Mackay, W. E. &amp; McGrenere, J. (2025). Comparative Structured Observation. <i>ACM TOCHI</i> 32(2), Article 14.",
+    "s7.r1": "本研究方法的主要依據。說明比較多個設計版本時，質性研究需要具備哪些條件才算嚴謹；本研究的安排是依照這些條件設計的。",
+    "s7.t2": "設計原則",
+    "s7.c2": "Amershi, S. et al. (2019). Guidelines for Human-AI Interaction. <i>CHI '19</i>.",
+    "s7.r2": "提供本研究要檢視的設計要求：系統應說明自己能力的限制，也應說明為何產生某項結果。這兩點同時作為分析時的初始編碼來源。",
+    "s7.t3": "相關研究",
+    "s7.c3": "Deng, W. H. et al. (2025). WeAudit: Scaffolding User Auditors and AI Practitioners in Auditing Generative AI. <i>PACM HCI (CSCW)</i> 9(7), Article CSCW521.",
+    "s7.r3": "顯示介面上的輔助設計（例如歷史紀錄側欄、比較工具）會改變使用者檢視生成式 AI 輸出的方式。本研究借用其中的介面輔助概念，但不涵蓋該研究的協作與社群功能，因為個人查核是更基本的行為；協作情境留待後續研究。",
+    "s7.t4": "問題背景",
+    "s7.c4": "Paris, T., Moon, A. &amp; Guo, J. L. C. (2026). Don't Trust the Process: When Verifiability Undermines AI Accountability. <i>FAccT '26</i>.",
+    "s7.r4": "說明「可以被查核」在制度層面上為何仍可能失效。本研究把類似的問題放到介面層面來觀察。",
+    "s7.t5": "後續研究依據",
+    "s7.c5": "Tanprasert, T., Dai, J. &amp; McGrenere, J. (2024). HelpCall: Designing Informal Technology Assistance for Older Adults via Videoconferencing. <i>CHI '24</i>.",
+    "s7.r5": "後續研究的參考：高齡使用者常在他人協助下使用數位工具，這正是來源紀錄可能被多人共同閱讀與討論的情境。",
+
+    "footer.course": "ECSE 542 — Human-Computer Interaction · Prof. Jeremy R. Cooperstock · 麥基爾大學"
+  },
+
+  en: {
+    "page.title": "ECSE 542 Project Pitch — Looking Back at the Source Record | Joshua Hsiao",
+    "nav.header": "ECSE 542 · Milestone 0",
+    "nav.grp_overview": "Overview", "nav.s1": "Background and question",
+    "nav.grp_design": "Study design", "nav.s2": "Interface conditions", "nav.s3": "Method",
+    "nav.grp_outcome": "Outcome", "nav.s4": "Expected outcome",
+    "nav.grp_plan": "Plan", "nav.s5": "Milestones", "nav.s6": "Next stage",
+    "nav.grp_refs": "References", "nav.s7": "References",
+    "nav.back": "← Back to Portfolio",
+    "chrome.home": "Home", "chrome.course": "ECSE 542", "chrome.current": "Project Pitch",
+    "chrome.status": "Preparing REB submission",
+    "doc.sup": "Graduate course research · course instructor: Prof. Jeremy R. Cooperstock (Faculty of Engineering) · preparing REB submission",
+
+    "cover.label": "ECSE 542 · Milestone 0 · Project Pitch",
+    "cover.title": "Looking Back at the Source Record: How Different Ways of Showing Sources Affect Whether Users Check AI Answers",
+    "cover.subtitle": "This study compares two ways of showing source information in an AI research assistant. In the first, a small box appears next to each statement and gives a short summary of the source. In the second, a side panel lists all the sources used in the session and shows which statements each source supports.",
+
+    "s0.tag": "Positioning",
+    "s0.body": "The study uses Comparative Structured Observation. The aim is not to decide which interface &ldquo;wins&rdquo;. It is to understand in which situations each way of showing sources helps users check the AI's answers, and to use that understanding to suggest how the interface should be designed next.",
+
+    "s1.title": "Background and question",
+    "s1.p1": "AI research assistants usually add citations to their answers, but having a citation does not mean that users really check it. Whether users open a source, read the original text, and judge whether it truly supports a statement is directly related to how the source information is presented in the interface.",
+    "s1.p2": "This study is not about whether the model's answer is correct. The question is: <b>when the system gives the same answer and the same sources, does the way the source information is presented change how users check it?</b>",
+    "s1.p3": "Amershi and colleagues argue that an AI system should help users understand the limits of what it can do, and should also explain why it produced a particular result. These two requirements cannot be met simply by putting a citation mark somewhere on the screen. Users also need to be able to understand the relationship between the source and the statement. Deng and colleagues found that interface support such as history records and comparison tools affects how users review and evaluate the output of generative AI.",
+    "s1.p4": "The main question of this study is therefore:",
+    "s1.rq": "When an AI system shows the record of the sources behind its answer again, how do different ways of presenting that record affect whether users check the statements, how they judge reliability, and whether they decide to use the answer?",
+    "s1.p5": "The secondary question is: when users decide whether to check a statement, which cues do they pay attention to — for example how important the statement is, how specific it is, what type of source it comes from, or whether the answer looks doubtful.",
+
+    "s2.title": "Interface conditions",
+    "s2.lead": "While the system generates an answer, it records which part of a source each statement comes from. This information is then shown to the user in different interface forms. All three conditions use a within-participant design, so every participant experiences all of them.",
+    "s2.th1": "Condition", "s2.th2": "How sources are shown", "s2.th3": "Character",
+    "s2.r1a": "A. Baseline", "s2.r1b": "The numbered citations that NotebookLM already uses; clicking one opens a source panel", "s2.r1c": "Close to what current products do",
+    "s2.r2a": "B. Tooltip", "s2.r2b": "A short-lived box next to an individual statement shows its source", "s2.r2c": "Focused on one statement; immediate but temporary",
+    "s2.r3a": "C. List", "s2.r3b": "A fixed side panel lists every source used in the session and links to the related statements", "s2.r3c": "Gives the overall picture; stays available",
+    "s2.p1": "B and C will be built as low-fidelity prototypes. To stop the content of the answer from affecting the comparison, the AI answers will be the same in all three conditions: they will first be generated with NotebookLM and then replayed in the prototype. What mainly changes in the study is therefore the way source information is presented, not the content of the answer or the ability of the model.",
+    "s2.p2": "Each task will include, on purpose, one statement that the material provided does not support. This lets the researcher see whether participants actually notice the problem, instead of relying only on them saying afterwards that they &ldquo;would check&rdquo;. Participants will be told about this arrangement at the end of the study, and the related disclosure and debriefing procedures will be included in the REB application.",
+
+    "s3.title": "Method",
+    "s3.lead": "This study uses Comparative Structured Observation. It is a qualitative method for comparing design ideas: participants use several versions of a design in a planned order, the researcher observes what they do, and an interview afterwards guides them to compare their experience of each version.",
+    "s3.p1": "The method suits this study because the study does not set out to test an effect hypothesis such as &ldquo;tooltips are better than lists&rdquo;, and it does not only collect general usability opinions. The focus is on understanding how different ways of showing sources change the way users check information, and what those differences mean for later design.",
+    "s3.h1": "Participants",
+    "s3.p2": "Nine graduate students will be recruited. The number is nine rather than eight so that each of the three condition orders is used by three participants, which keeps the Latin square balanced.",
+    "s3.h2": "Study arrangement",
+    "s3.a1": "Each participant experiences all three conditions.",
+    "s3.a2": "The order of the conditions is balanced with a Latin square, to reduce the effect of order.",
+    "s3.a3": "The three conditions use source material that is similar in topic and content but not identical, to reduce the learning effect that comes from becoming familiar with the task.",
+    "s3.a4": "Participants complete a short literature review or research summary task using the material provided, and produce a piece of text they are willing to put their name on.",
+    "s3.h3": "Data collection",
+    "s3.p3": "The researcher observes the session and records the screen and the audio. Interviews alone are not enough to tell what users actually did, so this study analyses behaviour and later self-report separately. The main things observed are:",
+    "s3.o1": "Whether participants open a source or look at the original text.",
+    "s3.o2": "Whether they stay longer on certain statements.",
+    "s3.o3": "When they decide to check, and when they simply accept the answer.",
+    "s3.o4": "Whether they notice the unsupported statement placed in the task.",
+    "s3.o5": "Whether the interface changes when they look at sources — before, during, or after writing.",
+    "s3.h4": "Interview and analysis",
+    "s3.p4": "After finishing all three conditions, participants take part in a semi-structured interview and compare the three ways of showing sources. The interview asks which interface they prefer, why they prefer it, and in which situations each form is more useful.",
+    "s3.p5": "The analysis uses reflexive thematic analysis. The initial codes draw on Amershi and colleagues' design principles about explaining what an AI system can do and why it produced a result, and on Deng and colleagues' account of how users review and evaluate generative AI output. Open coding is also kept, so that new patterns appearing during the study can be recorded. Descriptive data such as how often a behaviour occurs is used as supporting evidence, not to draw conclusions about statistical significance.",
+
+    "s4.title": "Expected outcome",
+    "s4.p1": "The goal of this study is not to choose one best option between the tooltip and the list. It is to put together a fuller set of design principles for interfaces that support source checking. For example, the study may find that:",
+    "s4.e1": "When users need to judge immediately whether a sentence is reliable, a source shown next to the statement is more convenient.",
+    "s4.e2": "When users are combining several statements, writing a summary, or looking back over the whole session, a central source list helps them understand how the evidence is distributed.",
+    "s4.e3": "Some tasks may need both a local and an overall view of the sources, rather than only one of them.",
+    "s4.p2": "The final output will be a third design, put together from what was observed. Every design decision must be traceable to behaviour observed in the study or to feedback from participants. If there is not enough evidence to support a decision, it will not be included in the design recommendations.",
+    "s4.p3": "This combined design will not be tested as a fourth condition at this stage. It will be the starting point for the next round of research.",
+
+    "s5.title": "Milestones",
+    "s5.th1": "Milestone", "s5.th2": "What is delivered",
+    "s5.m1a": "M1", "s5.m1b": "REB summary and the course consent form template edited for this study, interview scripts, a description of screen and audio recording and data storage, the debriefing procedure, first sketches of the three conditions, and a one- to two-paragraph README giving the context of the design work",
+    "s5.m2a": "M2", "s5.m2b": "A low-fidelity prototype containing all three ways of showing sources, and a one- to two-paragraph README explaining progress, the design artifacts, and the next steps",
+    "s5.m3a": "M3", "s5.m3b": "A pilot study with two participants and its outputs (transcripts, observation notes), and a one- to two-paragraph README explaining progress and the schedule for the rest of the evaluation",
+    "s5.m4a": "Final report", "s5.m4b": "The complete study, the qualitative analysis, and the combined interface design derived from the results, written up as a conference-style paper",
+
+    "s6.title": "Next stage",
+    "s6.p1": "This stage focuses on how individual users check sources when they use an AI research assistant. Later, the combined design can be taken into situations where help from another person is involved — for example older adults reading AI-provided material together with family members, carers, or support workers.",
+    "s6.p2": "In these situations, the source record is not only information for one user to look at alone. It may also become a tool that different people use to communicate, explain, and reach a judgement together. However, recruiting older participants through an organisation involves more complex research ethics and recruitment arrangements, so this part is listed clearly as the next stage and is not included in this term's study.",
+
+    "s7.title": "References",
+    "s7.t1": "Method",
+    "s7.c1": "Mackay, W. E. &amp; McGrenere, J. (2025). Comparative Structured Observation. <i>ACM TOCHI</i> 32(2), Article 14.",
+    "s7.r1": "The main basis for the method used here. It sets out what a qualitative study needs in order to compare several design versions rigorously; this study is arranged according to those conditions.",
+    "s7.t2": "Design principles",
+    "s7.c2": "Amershi, S. et al. (2019). Guidelines for Human-AI Interaction. <i>CHI '19</i>.",
+    "s7.r2": "Provides the design requirements this study examines: a system should explain the limits of what it can do, and should explain why it produced a result. These two points also serve as initial codes in the analysis.",
+    "s7.t3": "Related work",
+    "s7.c3": "Deng, W. H. et al. (2025). WeAudit: Scaffolding User Auditors and AI Practitioners in Auditing Generative AI. <i>PACM HCI (CSCW)</i> 9(7), Article CSCW521.",
+    "s7.r3": "Shows that interface support such as a history sidebar or comparison tools changes how users review generative AI output. This study borrows the interface support, but not the collaborative and community features of that work, because individual checking is the more basic behaviour; collaborative settings are left to the next stage.",
+    "s7.t4": "Problem background",
+    "s7.c4": "Paris, T., Moon, A. &amp; Guo, J. L. C. (2026). Don't Trust the Process: When Verifiability Undermines AI Accountability. <i>FAccT '26</i>.",
+    "s7.r4": "Explains why something that &ldquo;can be checked&rdquo; may still fail at the institutional level. This study looks at a similar problem at the interface level.",
+    "s7.t5": "Basis for the next stage",
+    "s7.c5": "Tanprasert, T., Dai, J. &amp; McGrenere, J. (2024). HelpCall: Designing Informal Technology Assistance for Older Adults via Videoconferencing. <i>CHI '24</i>.",
+    "s7.r5": "A reference for the next stage: older adults often use digital tools with help from other people, and that is exactly the situation in which a source record may be read and discussed by more than one person.",
+
+    "footer.course": "ECSE 542 — Human-Computer Interaction · Prof. Jeremy R. Cooperstock · McGill University"
+  }
+};;
+
+let lang = "en";
+let tab = "ecse";
+const T = (en, zh) => lang === "zh" ? zh : en;
+const L = v => (v && typeof v === "object") ? (v[lang] || v.en) : v;
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+const UI = {
+  en:{
+    owner:"Joshua Hsiao · McGill University", tab1n:"01 · ECSE 542 · REB in preparation", tab1l:"Source-record checking study", tab2n:"02 · Practicum concept", tab2l:"VarBridge variant workbench", tab3n:"03 · Design exploration", tab3l:"Beyond tooltip and list",
+    title:"VarBridge Workbench", eyebrow:"Practicum concept · annotated prototype · molecular pathology",
+    h1:"The physician asks one question.<br>The evidence sits in eight tabs.",
+    lede:"A hemato-oncology panel returns a handful of variants. To interpret each one, staff open gnomAD, ClinVar, CKB, COSMIC, OncoKB, CIViC, in-silico predictors and the literature, then write a report that answers the physician's request. This prototype aggregates that evidence around the request itself, keeps every source's provenance visible, and puts a <b>human decision</b> wherever an automated score or summary could change the result. Each numbered marker explains one design decision and the lens it comes from.",
+    k1:"Stages", n1:"Request → variants → evidence → review → mobile",
+    k2:"Sources", n2:"gnomAD · ClinVar · CKB · COSMIC · OncoKB · CIViC · in-silico · PubMed",
+    k3:"Annotations", n3:"Numbered on the screen, explained on the right",
+    filterK:"Show lens", stdChip:"Standards",
+    paneStages:"Stages", railNote:"Demo request DEMO-0417. Patient, physician, dates and allele fractions are fictitious; the variants are public examples. Licensed sources are mock slots. Not for clinical use.",
+    userK:"What the lab reviewer does here", traceH:"Evidence trace · this stage", copy:"Copy", copied:"Copied",
+    screen:"Screen · ", annH:"Annotations",
+    f1h:"Where the design decisions come from",
+    f1p:"Information architecture supplies the source inventory, the identifier crosswalk and the empty-state vocabulary. HCI/UX decides where the system asks, flags or waits for a person. Standards (HGVS, MANE Select, AMP/ASCO/CAP somatic tiers, ISO 15189 traceability) make each decision checkable after the fact.",
+    f2h:"What the prototype does not do",
+    f2p:"It uses no patient data, does not connect to the LIS, and does not call licensed databases. It does not train models, tune algorithms, or audit the performance of the tools it draws on; it only records the decisions people make. It suggests tiers but never signs out a result; a pathologist does. It is a design concept for discussion, not a validated clinical tool.",
+    f3h:"Next: test it with MPC staff",
+    f3p:"Practicum plan (100 h): build the source comparison matrix, run 2–3 short needs sessions with technologists and pathologists, then walk through this prototype with them. Measure time to assemble evidence for one variant, conflicts noticed, and whether override reasons are complete enough to audit.",
+    pains:[
+      {tag:"Pain 1 · Sources", h:"Evidence is scattered", p:"Eight or more databases, each with its own identifiers, licence and update cycle. The same picture is rebuilt tab by tab for every variant.", lens:"ia", a:"One source matrix with provenance per row"},
+      {tag:"Pain 2 · Request", h:"The request gets lost", p:"The requisition says what the physician needs, but interpretation starts from a variant list. A blank clinical-history field is easy to miss.", lens:"std", a:"Structured request context, checked at intake"},
+      {tag:"Pain 3 · Automation", h:"Scores look final", p:"In-silico counts and AI summaries appear with the same weight as curated evidence, and nobody can later see who decided what.", lens:"ux", a:"Marked suggestions, recorded overrides"}
+    ]
+  },
+  zh:{
+    owner:"Joshua Hsiao · 麥基爾大學", tab1n:"01 · ECSE 542 · 準備提交 REB", tab1l:"來源紀錄查核研究", tab2n:"02 · Practicum 概念", tab2l:"VarBridge 變異判讀工作台", tab3n:"03 · 設計探索", tab3l:"提示框與清單之外",
+    title:"VarBridge 工作台", eyebrow:"Practicum 概念 · annotated prototype · 分子病理",
+    h1:"醫師只問了一個問題。<br>證據卻散在八個分頁。",
+    lede:"一次血液腫瘤 panel 會回傳幾個變異。判讀每一個變異時，人員要分別打開 gnomAD、ClinVar、CKB、COSMIC、OncoKB、CIViC、in-silico 預測工具與文獻，最後寫出回應醫師申請的報告。這個原型把證據聚合在「申請」本身周圍，讓每個來源的出處都看得見，並在任何自動分數或摘要可能改變結果的地方，放一個<b>人工決定點</b>。畫面上每個編號標記說明一個設計決策，以及它來自哪個視角。",
+    k1:"階段", n1:"申請 → 變異 → 證據 → 覆核 → 手機",
+    k2:"資料來源", n2:"gnomAD · ClinVar · CKB · COSMIC · OncoKB · CIViC · in-silico · PubMed",
+    k3:"註解", n3:"畫面上編號，右欄說明",
+    filterK:"顯示視角", stdChip:"標準",
+    paneStages:"階段 / Stages", railNote:"示範申請 DEMO-0417。病人、醫師、日期與 VAF 皆為虛構；變異為公開範例。付費來源以模擬欄位呈現。不可用於臨床。",
+    userK:"實驗室覆核者在這一步做什麼", traceH:"證據紀錄 · 本階段", copy:"複製", copied:"已複製",
+    screen:"受測畫面 · ", annH:"設計註解 / Annotations",
+    f1h:"設計決策從哪來",
+    f1p:"資訊架構（IA）提供來源清單、識別碼對照與「空值狀態」的詞彙；HCI/UX 決定系統何時提問、標記或停下等人；標準（HGVS、MANE Select、AMP/ASCO/CAP 體細胞分級、ISO 15189 可追溯性）讓每個決定事後都能被核對。",
+    f2h:"原型不做的事",
+    f2p:"不使用病人資料、不連接 LIS、不呼叫付費資料庫。不訓練模型、不調整演算法，也不稽核所引用工具的效能；它只記錄人所做的決定。它會建議分級，但從不簽發結果，簽發的是病理醫師。這是一個供討論的設計概念，不是經過驗證的臨床工具。",
+    f3h:"下一步：與 MPC 人員一起測試",
+    f3p:"Practicum 計畫（100 小時）：建立來源比較矩陣，與技術員及病理醫師進行 2–3 次簡短需求訪談，再帶他們走一遍這個原型。衡量整理單一變異證據所需時間、被發現的衝突數，以及覆寫理由是否完整到可以稽核。",
+    pains:[
+      {tag:"痛點 1 · 來源", h:"證據分散", p:"八個以上的資料庫，各有自己的識別碼、授權與更新週期。每個變異都要一個分頁一個分頁重新拼出全貌。", lens:"ia", a:"一張來源矩陣，每列附出處"},
+      {tag:"痛點 2 · 申請", h:"申請的脈絡遺失", p:"申請單寫著醫師需要什麼，但判讀是從變異清單開始。臨床病史欄空白很容易被忽略。", lens:"std", a:"結構化申請脈絡，在收件時檢查"},
+      {tag:"痛點 3 · 自動化", h:"分數看起來像定論", p:"in-silico 計數和 AI 摘要與人工整理的證據同等顯示，事後也沒人看得出是誰做的決定。", lens:"ux", a:"標示建議、記錄覆寫"}
+    ]
+  }
+};
+const u = k => UI[lang][k];
+const PAIN = {src:{en:"Sources",zh:"證據分散"}, req:{en:"Request",zh:"申請脈絡"}, auto:{en:"Automation",zh:"自動化"}};
+const LENS = {ia:"IA", ux:"HCI/UX", std:{en:"Standards",zh:"標準"}};
+
+/* ---------- screens ---------- */
+const TOP = (right) => `<div class="mk-top"><span class="lg">VarBridge</span><span class="sl">${right}</span></div>`;
+
+const SCREENS = {
+request: () => `
+<div class="mock">
+  ${TOP("MPC · DEMO-0417 · " + T("request","申請"))}
+  <div class="mk-tabs"><span class="mk-tab on">${T("Request","申請")}</span><span class="mk-tab">${T("Variants","變異")}</span><span class="mk-tab">${T("Evidence","證據")}</span><span class="mk-tab">${T("Review","覆核")}</span></div>
+  <div class="mk-body">
+    <div class="mk-card" data-a="r1">
+      <h5>${T("Hemato-Oncology requisition","血液腫瘤檢驗申請單")} <span class="mk-meta">v2025_01_03</span></h5>
+      <table class="kv">
+        <tr><td>${T("Requesting physician","申請醫師")}</td><td>Dr. A. Demo · ${T("licence","執照")} <span class="pill ok">✓</span></td></tr>
+        <tr><td>${T("Test requested","申請項目")}</td><td>NGS-AML/MDS Panel <span class="mk-meta">(13 ${T("genes","基因")})</span></td></tr>
+        <tr><td>${T("Specimen","檢體")}</td><td>${T("Bone marrow · 1 lavender EDTA-K2","骨髓 · 1 支紫頭 EDTA-K2")}</td></tr>
+        <tr class="miss" data-a="r2"><td>${T("Clinical history","臨床病史")}</td><td><span class="pill">${T("empty","空白")}</span> ${T("not required on the form, needed to scope interpretation","表單未強制，但判讀範圍需要它")}</td></tr>
+      </table>
+    </div>
+    <div class="mk-card" style="background:#FBF3E2;border-color:#EFDDB7">
+      <h5>${T("Clinical history is missing","缺少臨床病史")}</h5>
+      <p style="margin:0 0 8px;font-size:11px">${T("The panel covers both AML and MDS genes. Suspected diagnosis changes which evidence matters and how the report is framed.","這個 panel 同時涵蓋 AML 與 MDS 基因。疑似診斷不同，需要的證據與報告寫法也不同。")}</p>
+      <div class="mk-btns">
+        <button class="mk-b q" type="button">${T("Ask the requesting physician","詢問申請醫師")}</button>
+        <button class="mk-b sec" type="button">${T("Proceed, note the limit","繼續，並註明限制")}</button>
+      </div>
+    </div>
+    <div class="mk-card" data-a="r3">
+      <h5>${T("Pre-analytic checks (from the form's own rules)","檢驗前檢查（依表單本身的規則）")}</h5>
+      <div class="chk">
+        <div><span>${T("Tube type: lavender EDTA-K2","管別：紫頭 EDTA-K2")}</span><span class="pill ok">${T("pass","通過")}</span></div>
+        <div><span>${T("Volume ≥ 1 ml (bone marrow)","量 ≥ 1 ml（骨髓）")}</span><span class="pill ok">${T("pass","通過")}</span></div>
+        <div><span>${T("Received within 24 h · 09:10 → 13:45","24 小時內收件 · 09:10 → 13:45")}</span><span class="pill ok">4 h 35 min</span></div>
+      </div>
+    </div>
+    <div data-a="r4">
+      <div class="mk-label" style="margin-bottom:5px">${T("The question this report must answer","這份報告必須回答的問題")}</div>
+      <div class="qchips"><span>${T("diagnostic classification","診斷分類")}</span><span>${T("prognostic markers","預後標記")}</span><span>${T("targetable variants","可標靶變異")}</span></div>
+    </div>
+  </div>
+  <div class="mk-foot"><span>${T("Request context attached to every variant downstream","申請脈絡附在下游每一個變異上")}</span><span>OPTILAB Montréal-CUSM</span></div>
+</div>`,
+
+variants: () => `
+<div class="mock">
+  ${TOP("NGS-AML/MDS · run 2026-09-22 · GRCh38")}
+  <div class="mk-tabs"><span class="mk-tab">${T("Request","申請")}</span><span class="mk-tab on">${T("Variants (4)","變異（4）")}</span><span class="mk-tab">${T("Evidence","證據")}</span><span class="mk-tab">${T("Review","覆核")}</span></div>
+  <div class="mk-body">
+    <div class="sheetwrap">
+      <table class="sheet">
+        <thead><tr>
+          <th>${T("Gene","基因")}</th>
+          <th data-a="v1">HGVS c.<small>MANE Select</small></th>
+          <th>HGVS p.</th>
+          <th data-a="v3">VAF<small>${T("depth","深度")}</small></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>NPM1</td><td>NM_002520.7:c.860_863dup</td><td>p.(Trp288CysfsTer12)</td><td><span class="vaf"><i><b style="width:38%"></b></i>38%</span> <span class="mk-meta">1,240×</span></td></tr>
+          <tr><td>DNMT3A</td><td>NM_022552.5:c.2645G&gt;A</td><td>p.(Arg882His)</td><td><span class="vaf"><i><b style="width:41%"></b></i>41%</span> <span class="mk-meta">980×</span></td></tr>
+          <tr><td>IDH2</td><td>NM_002168.4:c.419G&gt;A</td><td>p.(Arg140Gln)</td><td><span class="vaf"><i><b style="width:36%"></b></i>36%</span> <span class="mk-meta">1,105×</span></td></tr>
+          <tr class="sel"><td>TP53</td><td>NM_000546.6:c.875A&gt;T</td><td>p.(Lys292Ile)</td><td><span class="vaf"><i><b style="width:4%"></b></i>4%</span> <span class="mk-meta">612×</span> <span class="pill">${T("low VAF","低 VAF")}</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mk-card" data-a="v2">
+      <h5>${T("TP53 K292I · one variant, five names","TP53 K292I · 同一個變異，五種寫法")}</h5>
+      <table class="xw xw5">
+        <tr><td>chr17:g.7673745T&gt;A</td><td></td><td>${T("genomic, GRCh38","基因體座標，GRCh38")}</td></tr>
+        <tr><td>NM_000546.6:c.875A&gt;T</td><td></td><td>${T("transcript (MANE Select)","轉錄本（MANE Select）")}</td></tr>
+        <tr><td>p.(Lys292Ile)</td><td></td><td>HGVS protein</td></tr>
+        <tr><td>K292I</td><td></td><td>${T("CKB / OncoKB style","CKB / OncoKB 寫法")}</td></tr>
+        <tr><td>TP53 exon 8</td><td></td><td>${T("CKB category path","CKB 類別路徑")}</td></tr>
+      </table>
+    </div>
+    <div class="caveat" data-a="v4">${T("Order: genes named on the requisition first, then by VAF. TP53 at 4% is near the assay's limit of detection; a confirmation rule applies before it can be reported as significant.","排序：先列申請單上點名的基因，再依 VAF。TP53 的 4% 接近檢測極限；在能以「具意義」報告之前，需先套用確認規則。")}</div>
+  </div>
+  <div class="mk-foot"><span>${T("Other transcripts available on click","其他轉錄本可點開")}</span><span>${T("Selected: TP53","已選：TP53")}</span></div>
+</div>`,
+
+evidence: () => `
+<div class="mock">
+  ${TOP("TP53 p.(Lys292Ile) · " + T("evidence","證據"))}
+  <div class="mk-tabs"><span class="mk-tab">${T("Request","申請")}</span><span class="mk-tab">${T("Variants","變異")}</span><span class="mk-tab on">${T("Evidence (8 sources)","證據（8 個來源）")}</span><span class="mk-tab">${T("Review","覆核")}</span></div>
+  <div class="mk-body">
+    <div class="banner" data-a="e4">${T("Somatic context (bone marrow, VAF 4%). ClinVar entries are mostly germline assertions and are shown as context, not as the classification.","體細胞情境（骨髓，VAF 4%）。ClinVar 條目多為生殖細胞系判讀，此處僅作為脈絡，不作為分類依據。")}</div>
+    <div class="sheetwrap">
+      <table class="sheet srcx">
+        <thead><tr>
+          <th>${T("Source","來源")}</th>
+          <th>${T("Evidence type","證據類型")}</th>
+          <th data-a="e2">${T("Result","結果")}</th>
+          <th data-a="e1">${T("Retrieved","取得")}<small>${T("version · date","版本 · 日期")}</small></th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="s">gnomAD</td><td>${T("Population frequency","族群頻率")}</td><td><span class="pill ok">${T("data","有資料")}</span> ${T("not observed","未觀察到")}</td><td class="d">v4.1 · 09-22</td></tr>
+          <tr data-a="e3"><td class="s">ClinVar</td><td>${T("Clinical significance (germline)","臨床意義（生殖細胞系）")}</td><td><span class="pill bad">${T("conflicting","衝突")}</span> 2 LP · 1 VUS · ★☆☆☆</td><td class="d">2026-09 · 09-22</td></tr>
+          <tr><td class="s">JAX CKB</td><td>${T("Protein effect · therapy","蛋白效應 · 治療")}</td><td><span class="pill ok">${T("data","有資料")}</span> ${T("gain of function, predicted · 0 variant-level therapy entries","功能增強（預測）· 變異層級治療條目 0")}</td><td class="d">core · 09-22</td></tr>
+          <tr><td class="s">CIViC</td><td>${T("Clinical evidence items","臨床證據條目")}</td><td><span class="pill no">${T("no data","無資料")}</span></td><td class="d">09-22</td></tr>
+          <tr><td class="s">COSMIC</td><td>${T("Somatic occurrence","體細胞出現頻率")}</td><td><span class="pill lic">${T("no access","無權限")}</span> ${T("licence required","需授權")}</td><td class="d">—</td></tr>
+          <tr><td class="s">OncoKB</td><td>${T("Oncogenicity · therapy level","致癌性 · 治療等級")}</td><td><span class="pill lic">${T("no access","無權限")}</span> ${T("mock slot","模擬欄位")}</td><td class="d">—</td></tr>
+          <tr data-a="e5"><td class="s">${T("In-silico","In-silico")}</td><td>${T("Computational prediction","計算預測")}</td><td><span class="pill info">${T("supporting only","僅作輔助")}</span> 18 ${T("damaging","有害")} · 4 ${T("tolerated","可容忍")}</td><td class="d">${T("via VarSome","經 VarSome")} · 09-22</td></tr>
+          <tr><td class="s">PubMed</td><td>${T("Literature","文獻")}</td><td><span class="pill ok">${T("data","有資料")}</span> PMID 22713868 · 15781620</td><td class="d">${T("via CKB","經 CKB")}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend"><span><span class="pill ok">${T("data","有資料")}</span> ${T("found","有結果")}</span><span><span class="pill no">${T("no data","無資料")}</span> ${T("queried, nothing","查了，沒有")}</span><span><span class="pill lic">${T("no access","無權限")}</span> ${T("not queried","未查詢")}</span><span><span class="pill bad">${T("conflicting","衝突")}</span> ${T("sources disagree","來源不一致")}</span></div>
+  </div>
+  <div class="mk-foot"><span>${T("Snapshot kept with the report","快照隨報告保存")}</span><span>${T("In-silico and literature counts are illustrative","In-silico 與文獻數量為示意")}</span></div>
+</div>`,
+
+mobile: () => `
+<div class="phones">
+  <div class="phwrap">
+    <div class="phone" data-a="p4">
+      <div class="ph-bar"><span>9:41</span><span>DEMO-0417</span></div>
+      <div class="ph-head">${T("Review · 4 tiers","覆核 · 4 個分級")}<span>${T("1 pending","1 待決定")}</span></div>
+      <div class="ph-body">
+        <div class="ph-card">
+          <div class="ph-g">TP53 <span>p.(Lys292Ile)</span></div>
+          <div class="ph-row"><span class="pill info">${T("suggested II","建議 II")}</span><span class="pill">${T("overridden → III","已覆寫 → III")}</span></div>
+          <div class="ph-chips"><span>VAF 4%</span><span>ClinVar ${T("conflicting","衝突")}</span><span>CKB ${T("predicted","預測")}</span></div>
+          <p class="ph-why">${T("Reason: VAF near limit of detection; effect predicted only.","理由：VAF 接近檢測極限；效應僅為預測。")}</p>
+          <div class="ph-acts"><button class="mini" type="button">${T("Ask","提問")}</button><button class="mini" type="button">${T("Comment","留言")}</button></div>
+        </div>
+        <div class="ph-dots"><i></i><i></i><i></i><i class="on"></i></div>
+        <p class="ph-note">${T("Swipe for the next variant","滑動看下一個變異")}</p>
+      </div>
+    </div>
+    <p class="ph-cap">M1 · ${T("Card per variant","一卡一變異")}</p>
+  </div>
+
+  <div class="phwrap">
+    <div class="phone" data-a="p2">
+      <div class="ph-bar"><span>9:41</span><span>DEMO-0417</span></div>
+      <div class="ph-pin">TP53 p.(Lys292Ile) · <b>Tier III</b><span>${T("evidence snapshot 09-22","證據快照 09-22")}</span></div>
+      <div class="ph-body ph-thread">
+        <div class="ph-sys">${T("Tier changed II → III · 10:42","分級改為 II → III · 10:42")}</div>
+        <div class="ph-msg" data-a="p3"><span class="role tech">${T("Technologist","檢驗師")}</span>${T("Downgraded: 4% VAF at 612×. Recommend confirmation.","已降級：612× 下 VAF 4%。建議確認。")}</div>
+        <div class="ph-msg"><span class="role md">${T("Ordering physician","申請醫師")}</span>${T("Suspected MDS. Should we repeat on a new sample?","疑似 MDS。需要重新採檢嗎？")}</div>
+        <div class="ph-msg"><span class="role path">${T("Pathologist","病理醫師")}</span>${T("Yes, repeat in 4–6 weeks; noted in report.","是，4–6 週後重驗；已寫入報告。")}</div>
+      </div>
+      <div class="ph-input">${T("Comment on this variant…","對此變異留言…")}<span>${T("comments only","僅限留言")}</span></div>
+    </div>
+    <p class="ph-cap">M2 · ${T("Thread per variant","一變異一討論串")}</p>
+  </div>
+
+  <div class="phwrap">
+    <div class="phone" data-a="p5">
+      <div class="ph-bar"><span>9:41</span><span>DEMO-0417</span></div>
+      <div class="ph-head">${T("NGS-AML/MDS · 4 variants","NGS-AML/MDS · 4 個變異")}</div>
+      <div class="ph-body ph-list">
+        <div class="ph-li"><span>NPM1</span><span class="pill ok">I</span></div>
+        <div class="ph-li"><span>DNMT3A</span><span class="pill ok">II</span></div>
+        <div class="ph-li hot"><span>IDH2</span><span class="pill">${T("pending","待決定")}</span></div>
+        <div class="ph-li"><span>TP53</span><span class="pill">${T("III · 2 notes","III · 2 則留言")}</span></div>
+      </div>
+      <div class="ph-sheet">
+        <div class="ph-grab"></div>
+        <div class="ph-g">IDH2 <span>p.(Arg140Gln)</span></div>
+        <div class="ph-src"><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="no"></i><i class="lic"></i><i class="lic"></i><i class="ok"></i><i class="ok"></i></div>
+        <p class="ph-note">${T("8 sources · 5 data · 1 no data · 2 no access","8 個來源 · 5 有資料 · 1 無資料 · 2 無權限")}</p>
+        <button class="mk-b q" type="button">${T("Request clarification","請求說明")}</button>
+      </div>
+    </div>
+    <p class="ph-cap">M3 · ${T("Summary + bottom sheet","總覽 + 底部抽屜")}</p>
+  </div>
+</div>
+<div class="caveat" data-a="p1" style="margin-top:12px">${T("On the phone: view, ask, comment. Changing a tier and signing out stay on the lab desktop.","手機上只能檢視、提問、留言。修改分級與簽發報告留在實驗室電腦上。")}</div>
+<div class="caveat" data-a="p6" style="margin-top:8px">${T("Request ID only; no patient identifiers on the device. Any real deployment would follow the hospital's mobile-device and privacy policies.","只顯示申請編號，裝置上沒有可識別病人的資料。實際導入須遵守醫院的行動裝置與隱私規範。")}</div>
+`,
+
+review: () => `
+<div class="mock">
+  ${TOP("DEMO-0417 · " + T("review and report","覆核與報告"))}
+  <div class="mk-tabs"><span class="mk-tab">${T("Request","申請")}</span><span class="mk-tab">${T("Variants","變異")}</span><span class="mk-tab">${T("Evidence","證據")}</span><span class="mk-tab on">${T("Review","覆核")}</span></div>
+  <div class="mk-body">
+    <div class="sugg" data-a="h1">
+      <div class="mk-label" style="margin-bottom:4px">${T("Suggested tiers · rules engine + AI summary · not yet reviewed","建議分級 · 規則引擎 + AI 摘要 · 尚未覆核")}</div>
+      <div class="tierrow"><span class="g">NPM1<span class="p">p.(Trp288CysfsTer12)</span></span><span class="pill info">Tier I ${T("suggested","建議")}</span><span class="pill ok">${T("accepted","已接受")}</span></div>
+      <div class="tierrow"><span class="g">DNMT3A<span class="p">p.(Arg882His)</span></span><span class="pill info">Tier II ${T("suggested","建議")}</span><span class="pill ok">${T("accepted","已接受")}</span></div>
+      <div class="tierrow"><span class="g">IDH2<span class="p">p.(Arg140Gln)</span></span><span class="pill info">Tier I ${T("suggested","建議")}</span><span class="mk-btns" style="flex:none"><button class="mini acc" type="button">${T("Accept","接受")}</button><button class="mini" type="button">${T("Override","覆寫")}</button></span></div>
+      <div class="tierrow"><span class="g">TP53<span class="p">p.(Lys292Ile)</span></span><span class="pill info">Tier II ${T("suggested","建議")}</span><span class="pill">${T("overridden → III","已覆寫 → III")}</span></div>
+    </div>
+    <div class="ovr" data-a="h2"><b>${T("Override · TP53","覆寫 · TP53")}</b> — ${T("VAF 4% near limit of detection; CKB effect is predicted only; ClinVar is germline and conflicting. Report as VUS, recommend confirmation.","VAF 4% 接近檢測極限；CKB 效應僅為預測；ClinVar 屬生殖細胞系且有衝突。以 VUS 報告，建議確認。")}<div class="mk-meta" style="margin-top:3px">${T("reviewer","覆核者")} · 2026-09-23 10:42</div></div>
+    <div class="report" data-a="h3">
+      <h5>${T("Draft for the requesting physician","給申請醫師的草稿")}</h5>
+      <p>${T("NGS-AML/MDS panel on bone marrow collected 2026-09-21. Three variants of clinical significance were detected (NPM1, DNMT3A, IDH2). One TP53 variant of uncertain significance was found at low allele fraction; confirmation is recommended.","2026-09-21 採集之骨髓，NGS-AML/MDS panel。偵測到三個具臨床意義的變異（NPM1、DNMT3A、IDH2）。另有一個低 VAF 的 TP53 意義未明變異，建議確認。")}</p>
+      <p><b>${T("Limitation:","限制：")}</b> ${T("clinical history was not provided; interpretation assumes a suspected myeloid neoplasm.","未提供臨床病史；判讀以疑似骨髓性腫瘤為前提。")}</p>
+    </div>
+    <div class="mk-card" data-a="h4">
+      <h5>${T("Decision log","決策紀錄")}</h5>
+      <ul class="dlog">
+        <li><span class="by">rules</span><span>${T("Tiers suggested from 8-source snapshot 2026-09-22","依 2026-09-22 八來源快照建議分級")}</span></li>
+        <li><span class="by">AI summary</span><span>${T("Evidence summary drafted; marked as unreviewed","草擬證據摘要；標為未覆核")}</span></li>
+        <li><span class="by">${T("reviewer","覆核者")}</span><span>${T("Accepted NPM1, DNMT3A · overrode TP53 with reason","接受 NPM1、DNMT3A · 附理由覆寫 TP53")}</span></li>
+      </ul>
+    </div>
+    <div class="caveat" data-a="h5">${T("VarBridge suggests. A pathologist reviews and signs out the report.","VarBridge 只提供建議。報告由病理醫師覆核並簽發。")}</div>
+  </div>
+  <div class="mk-foot"><span>${T("1 of 4 tiers still needs a decision","4 個分級中還有 1 個待決定")}</span><span>${T("Sign-out locked until all are reviewed","全部覆核前無法簽發")}</span></div>
+</div>`
+};
+
+/* ---------- stages ---------- */
+const STAGES = [
+  { id:"request", sid:"1 · Request", name:{en:"Read the physician's request",zh:"讀懂醫師的申請"}, agents:["requisition","intake rules"],
+    screen:{en:"Requisition turned into request context",zh:"申請單轉成申請脈絡"},
+    user:{en:"Checks the structured requisition, sees the missing clinical history, and either asks the physician or proceeds with the limit noted.",zh:"檢查結構化後的申請單，看到缺少的臨床病史，選擇詢問醫師，或註明限制後繼續。"},
+    ann:[
+      {id:"r1", lens:"ia", pain:"req", t:{en:"The paper form becomes structured request context",zh:"紙本申請單變成結構化的申請脈絡"}, f:{en:"Physician, test, specimen and history are captured as fields, using the requisition's own labels. Every later screen can refer back to them instead of a scanned PDF.",zh:"醫師、檢驗項目、檢體與病史用申請單原本的欄名存成欄位。之後每個畫面都能回指這些欄位，而不是一張掃描 PDF。"}},
+      {id:"r2", lens:"ux", pain:"req", t:{en:"A missing field is flagged with its consequence",zh:"缺漏欄位連同後果一起標出"}, f:{en:"Clinical history is not starred as mandatory, so it is often blank. The flag says what it affects, and the reviewer chooses: ask the physician, or proceed and carry the limitation into the report.",zh:"臨床病史不是必填欄，所以常常空白。標記說明它會影響什麼，由覆核者選擇：詢問醫師，或繼續並把限制帶進報告。"}},
+      {id:"r3", lens:"std", pain:"req", t:{en:"Pre-analytic rules come from the form itself",zh:"檢驗前規則直接取自表單"}, f:{en:"Tube type, minimum volume and the 24-hour receipt window are printed on the requisition. Checking them at intake makes an incomplete or non-conforming request visible before it is refused.",zh:"管別、最低量與 24 小時收件期限都印在申請單上。在收件時就檢查，不完整或不合規的申請在被退件前就看得見。"}},
+      {id:"r4", lens:"ia", pain:"req", t:{en:"The test ordered defines the question",zh:"申請的檢驗項目定義了問題"}, f:{en:"An AML/MDS panel implies classification, prognosis and targetable variants. Stating that question up front scopes which evidence is relevant in the next stages.",zh:"AML/MDS panel 意味著診斷分類、預後與可標靶變異。先把問題寫出來，後面的階段才知道哪些證據相關。"}}
+    ],
+    trace:{stage:"request", request_id:"DEMO-0417", test:"NGS-AML/MDS Panel", specimen:{type:"bone marrow", tube:"EDTA-K2", received_within_h:4.6}, clinical_question:["classification","prognosis","targetable"], flags:["clinical_history missing"], needs_human:["ask physician or proceed with limitation"]}
+  },
+  { id:"variants", sid:"2 · Variants", name:{en:"Normalize the variant list",zh:"整理變異清單"}, agents:["HGVS","MANE Select","QC"],
+    screen:{en:"Variant list with identifier crosswalk",zh:"變異清單與識別碼對照"},
+    user:{en:"Scans four variants on one transcript set, checks allele fraction and depth, and opens TP53 to see its names across sources.",zh:"在同一組轉錄本上掃讀四個變異，檢查 VAF 與深度，並點開 TP53 看它在各來源的寫法。"},
+    ann:[
+      {id:"v1", lens:"std", pain:"src", t:{en:"One reference transcript for everything",zh:"所有變異使用同一組參考轉錄本"}, f:{en:"Variants are written in HGVS on the MANE Select transcript, with versions. Sources that use another transcript are mapped to it, so c. and p. numbering never silently shifts.",zh:"變異以 HGVS 寫在 MANE Select 轉錄本上，並附版本。使用其他轉錄本的來源都對應回來，c. 與 p. 的編號就不會悄悄偏移。"}},
+      {id:"v2", lens:"ia", pain:"src", t:{en:"A crosswalk of every name the variant goes by",zh:"變異所有別名的對照表"}, f:{en:"Genomic, transcript, HGVS protein, one-letter shorthand and a CKB category path all refer to the same change. Showing them together is what lets eight databases be searched as one.",zh:"基因體座標、轉錄本、HGVS 蛋白、單字母簡寫與 CKB 類別路徑指的是同一個改變。把它們並列，八個資料庫才能被當成一個來查。"}},
+      {id:"v3", lens:"ux", pain:"auto", t:{en:"Allele fraction and depth stay beside the call",zh:"VAF 與深度緊貼在變異旁"}, f:{en:"A 4% TP53 call at 612× reads very differently from 38% at 1,240×. Keeping quality next to the name stops a low-confidence call from gaining weight as it travels.",zh:"612× 下 4% 的 TP53 和 1,240× 下 38% 的意義很不一樣。把品質指標放在名稱旁，低信心的判讀在傳遞中就不會被放大。"}},
+      {id:"v4", lens:"ia", pain:"req", t:{en:"Ordered by the request, not by chromosome",zh:"依申請排序，而不是依染色體"}, f:{en:"Genes named on the requisition come first, then by allele fraction. The list reads in the order the report will need, and the note states the confirmation rule for the low-VAF call.",zh:"申請單上點名的基因排前面，再依 VAF 排序。清單順序就是報告需要的順序，並註明低 VAF 判讀要套用的確認規則。"}}
+    ],
+    trace:{stage:"variants", reference:"GRCh38 / MANE Select", variants:[{gene:"NPM1",c:"c.860_863dup",vaf:0.38},{gene:"DNMT3A",c:"c.2645G>A",vaf:0.41},{gene:"IDH2",c:"c.419G>A",vaf:0.36},{gene:"TP53",c:"c.875A>T",vaf:0.04,depth:612}], flags:["TP53 VAF near limit of detection"], needs_human:["apply confirmation rule to TP53"]}
+  },
+  { id:"evidence", sid:"3 · Evidence", name:{en:"Aggregate external evidence",zh:"聚合外部證據"}, agents:["8 sources","snapshot"],
+    screen:{en:"Source matrix for one variant",zh:"單一變異的來源矩陣"},
+    user:{en:"Reads eight sources on one screen, sees which disagree and which were never queried, and notes the somatic context before weighing ClinVar.",zh:"在同一個畫面讀八個來源，看出哪些不一致、哪些根本沒查，並在參考 ClinVar 前先注意體細胞情境。"},
+    ann:[
+      {id:"e1", lens:"std", pain:"src", t:{en:"Every row carries version and retrieval date",zh:"每一列都附版本與取得日期"}, f:{en:"Databases change monthly. Recording which release was read, and when, lets a reviewer reproduce the evidence later, and the snapshot is stored with the report.",zh:"資料庫每月都在變。記下讀的是哪個版本、在何時讀的，覆核者之後才能重現證據；快照會隨報告保存。"}},
+      {id:"e2", lens:"ia", pain:"src", t:{en:"Four empty states that are never merged",zh:"四種空值狀態，絕不合併"}, f:{en:"“No data”, “no access”, “not queried” and “conflicting” mean different things. Collapsing them into a blank cell is how a missing COSMIC lookup gets read as a negative result.",zh:"「無資料」「無權限」「未查詢」「衝突」意義不同。把它們都變成空白格，就是 COSMIC 沒查到被誤讀成陰性結果的原因。"}},
+      {id:"e3", lens:"ux", pain:"auto", t:{en:"Conflicts are shown, not averaged",zh:"衝突要攤開，不要平均"}, f:{en:"ClinVar shows the split (2 LP, 1 VUS) and its review stars. There is no blended score across sources; the reviewer sees the disagreement and decides.",zh:"ClinVar 顯示分歧（2 LP、1 VUS）與審查星等。不同來源之間沒有混合分數；覆核者看到分歧並自己決定。"}},
+      {id:"e4", lens:"ia", pain:"src", t:{en:"Evidence is framed by the clinical question",zh:"證據依臨床問題分框"}, f:{en:"A bone-marrow panel is a somatic question. Germline-oriented sources stay visible as context, and the banner says so, because their labels do not map onto somatic tiers.",zh:"骨髓 panel 問的是體細胞問題。偏生殖細胞系的來源仍可見，但只作為脈絡，橫幅會明講，因為它們的標籤無法直接對應體細胞分級。"}},
+      {id:"e5", lens:"ux", pain:"auto", t:{en:"Computational scores are labelled as supporting",zh:"計算分數標示為輔助"}, f:{en:"In-silico predictors are shown as a count of tools, labelled “supporting only”. The design keeps a tally of algorithms from reading like a verdict.",zh:"In-silico 預測以「工具數量」呈現，並標為「僅作輔助」。設計上避免一串演算法計數被讀成定論。"}}
+    ],
+    trace:{stage:"evidence", variant:"TP53 NM_000546.6:c.875A>T", context:"somatic", sources:{gnomAD:"not observed",ClinVar:"conflicting (germline)",CKB:"gain of function, predicted",CIViC:"no data",COSMIC:"no access",OncoKB:"no access",in_silico:"18/22 damaging (supporting)",PubMed:["22713868","15781620"]}, snapshot:"2026-09-22", flags:["ClinVar conflicting","2 sources not queried"]}
+  },
+  { id:"review", sid:"4 · Review", name:{en:"Review, decide, report",zh:"覆核、決定、報告"}, agents:["reviewer","audit log"],
+    screen:{en:"Suggested tiers, overrides and report draft",zh:"建議分級、覆寫與報告草稿"},
+    user:{en:"Accepts or overrides each suggested tier with a reason, reads the draft written for the physician, and checks the decision log before sign-out.",zh:"逐一接受或附理由覆寫建議分級，閱讀寫給醫師的草稿，並在簽發前檢查決策紀錄。"},
+    ann:[
+      {id:"h1", lens:"ux", pain:"auto", t:{en:"Suggestions look different from decisions",zh:"建議與決定在外觀上不同"}, f:{en:"Rule- and AI-derived tiers sit in a dashed box marked “suggested”. Each needs an explicit accept or override, and sign-out stays locked until none are left.",zh:"規則與 AI 產生的分級放在虛線框中，標為「建議」。每一個都需要明確接受或覆寫，全部處理完之前無法簽發。"}},
+      {id:"h2", lens:"ux", pain:"auto", t:{en:"An override needs a reason",zh:"覆寫必須附理由"}, f:{en:"Downgrading TP53 records why (low VAF, predicted-only effect, germline conflict), who, and when. The reason is short, but it is the part an auditor or colleague will need.",zh:"把 TP53 降級時要記下原因（低 VAF、效應僅為預測、生殖細胞系衝突）、由誰、在何時。理由很短，但這正是稽核者或同事需要的部分。"}},
+      {id:"h3", lens:"ia", pain:"req", t:{en:"The report answers the request and states its limits",zh:"報告回答申請，並寫明限制"}, f:{en:"The draft follows the question set at intake and carries forward the missing clinical history as a stated limitation, so the physician knows what the interpretation assumed.",zh:"草稿依收件時設定的問題撰寫，並把缺少的臨床病史寫成明確限制，讓醫師知道判讀的前提是什麼。"}},
+      {id:"h4", lens:"std", pain:"src", t:{en:"A decision log with who decided",zh:"標明由誰決定的決策紀錄"}, f:{en:"Rules, AI summary and reviewer actions are listed separately and tied to the evidence snapshot. That traceability is what ISO 15189-accredited labs are asked to show.",zh:"規則、AI 摘要與覆核者的動作分開列出，並連到證據快照。這種可追溯性正是 ISO 15189 認證實驗室被要求呈現的。"}},
+      {id:"h5", lens:"ux", pain:"auto", t:{en:"The tool states its scope on the screen",zh:"工具在畫面上說明自己的範圍"}, f:{en:"It suggests; a pathologist signs out. Saying so where the decision happens keeps a well-formatted suggestion from being mistaken for a finished result.",zh:"它只提供建議；簽發的是病理醫師。在做決定的地方明講，避免排版整齊的建議被誤認為最終結果。"}}
+    ],
+    trace:{stage:"review", tiers:{NPM1:"I (accepted)",DNMT3A:"II (accepted)",IDH2:"I (pending)",TP53:"III (overridden)"}, override:{variant:"TP53", from:"II", to:"III", reason:"VAF 4% near LoD; predicted effect only; ClinVar germline conflict", by:"reviewer", at:"2026-09-23T10:42"}, report_limitations:["clinical history not provided"], checkpoint:{status:"waiting", ask:"decide IDH2 tier"}, scope:"suggests only; pathologist signs out"}
+  },
+  { id:"mobile", sid:"5 · Mobile", name:{en:"Discuss on the phone",zh:"在手機上討論"}, agents:["view","comment","no sign-out"],
+    screen:{en:"Three phone layouts for the review step",zh:"覆核步驟的三種手機版面"},
+    user:{en:"A technologist or the ordering physician opens one case on the phone, reads the suggested and decided tiers, and leaves a question or comment tied to one variant. Changing a tier and signing out stay on the desktop.",zh:"檢驗師或申請醫師在手機上打開一個案例，查看建議與已決定的分級，並針對某個變異提問或留言。修改分級與簽發報告留在電腦上。"},
+    ann:[
+      {id:"p1", lens:"ux", pain:"auto", t:{en:"The phone is for discussion, not decisions",zh:"手機用來討論，不用來決定"}, f:{en:"Viewing, asking and commenting work on the phone. Changing a tier and signing out stay in the lab's desktop workflow, so the accountable decision is not made on a small screen between other tasks.",zh:"手機上可以檢視、提問、留言。修改分級與簽發報告留在實驗室的電腦流程裡，負責任的決定不會在小螢幕上、在其他工作之間草草做出。"}},
+      {id:"p2", lens:"ia", pain:"src", t:{en:"Comments attach to a variant and its evidence snapshot",zh:"留言掛在變異與其證據快照上"}, f:{en:"Each thread is pinned to one variant and the snapshot date. A question stays tied to what it was about, even after the databases update.",zh:"每個討論串都釘在一個變異與快照日期上。即使資料庫更新了，問題仍然連結到它當初問的內容。"}},
+      {id:"p3", lens:"std", pain:"auto", t:{en:"Every message carries a role",zh:"每則訊息都標示角色"}, f:{en:"Technologist, pathologist and ordering physician are labelled. Physician comments are recorded in the decision log but cannot change a tier, which keeps the trail clear for audit.",zh:"檢驗師、病理醫師、申請醫師分別標示。醫師留言會寫入決策紀錄，但不能修改分級，稽核時責任清楚。"}},
+      {id:"p4", lens:"ux", pain:"req", t:{en:"M1 · One variant per card",zh:"M1 · 一張卡片一個變異"}, f:{en:"Fits a physician on call: one variant at a time with its tier, reason and three evidence chips. Good for quick reading; weak for seeing the whole case.",zh:"適合值班醫師：一次看一個變異，附分級、理由與三個證據標籤。快速閱讀很好；但看不到整個案例。"}},
+      {id:"p5", lens:"ia", pain:"req", t:{en:"M3 · The whole case stays in view",zh:"M3 · 整個案例一直在視野內"}, f:{en:"A list of all variants with status, plus a bottom sheet for the one in focus. The pending tier and the variant with open comments are visible without scrolling. M2 suits a back-and-forth; M3 suits a first look.",zh:"所有變異與狀態列成清單，聚焦的那一個用底部抽屜展開。待決定的分級與有留言的變異不用捲動就看得到。M2 適合來回討論；M3 適合第一眼總覽。"}},
+      {id:"p6", lens:"std", pain:"src", t:{en:"No patient identifiers on the device",zh:"裝置上沒有可識別病人的資料"}, f:{en:"Only the request ID appears. Identifiable data stays in the LIS; any real deployment would need the hospital's mobile-device and privacy approval.",zh:"只出現申請編號。可識別資料留在 LIS；任何實際導入都需要醫院的行動裝置與隱私核准。"}}
+    ],
+    trace:{stage:"mobile", layouts:["M1 card per variant","M2 thread per variant","M3 summary + bottom sheet"], roles:{technologist:"propose, explain", pathologist:"decide, sign out (desktop only)", ordering_physician:"view, ask, comment"}, mobile_cannot:["change tier","sign out"], comments_linked_to:"variant + evidence snapshot 2026-09-22", privacy:"request ID only; subject to hospital policy"}
+  }
+];
+
+const TOTAL = STAGES.reduce((n,s)=>n+s.ann.length,0);
+const lensOn = {ia:true, ux:true, std:true};
+let active = STAGES[0];
+
+const $ = id => document.getElementById(id);
+const stage = $("stage"), annList = $("annList");
+
+function applyChrome(){
+  const d = UI[lang];
+  document.querySelectorAll("[data-t]").forEach(el=>{ const v=d[el.dataset.t]; if(v!=null) el.innerHTML=v; });
+  const e = ECSE[lang];
+  if(typeof V3!=="undefined") document.querySelectorAll("[data-v]").forEach(el=>{ const v=V3[lang][el.dataset.v]; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll("[data-e]").forEach(el=>{ const v=e[el.dataset.e]; if(v!=null) el.innerHTML=v; });
+  document.title = d.title; document.documentElement.lang = lang==="zh"?"zh-Hant":"en";
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.toggle("active", b.dataset.lang===lang));
+  $("pains").innerHTML = d.pains.map(p=>`<div class="pain"><span class="tag">${p.tag}</span><h4>${p.h}</h4><p>${p.p}</p>
+    <div class="arrow">→ <span class="lens ${p.lens}">${L(LENS[p.lens])}</span> ${p.a}</div></div>`).join("");
+  $("annCount").textContent = TOTAL;
+}
+
+function render(){
+  $("rail").innerHTML = STAGES.map(s=>`<button type="button" class="stagebtn" data-id="${s.id}" aria-current="${s===active}">
+    <span class="sid">${s.sid}</span><span class="sn">${L(s.name)}</span>
+    <span class="ag">${s.agents.map(a=>`<span class="agchip">${a}</span>`).join("")}</span></button>`).join("");
+  $("rail").querySelectorAll(".stagebtn").forEach(b=>b.onclick=()=>{ active=STAGES.find(s=>s.id===b.dataset.id); render(); });
+
+  $("screenName").textContent = u("screen") + L(active.screen);
+  $("userText").textContent = L(active.user);
+  stage.innerHTML = SCREENS[active.id]();
+
+  active.ann.forEach((a,i)=>{
+    const h=document.createElement("button"); h.type="button";
+    h.className="hs "+a.lens+(lensOn[a.lens]?"":" dim"); h.textContent=i+1; h.dataset.i=i;
+    h.setAttribute("aria-label", `${i+1}: ${L(a.t)}`);
+    h.onmouseenter=()=>hot(i,true); h.onmouseleave=()=>hot(i,false); h.onfocus=()=>hot(i,true); h.onblur=()=>hot(i,false);
+    stage.appendChild(h);
+  });
+
+  $("annHead").textContent = u("annH") + " · " + active.ann.length;
+  annList.innerHTML = active.ann.map((a,i)=>`<div class="ann${lensOn[a.lens]?"":" dim"}" data-i="${i}">
+    <div class="ann-h"><span class="num">${i+1}</span><p>${L(a.t)}</p></div>
+    <div class="meta"><span class="lens ${a.lens}">${L(LENS[a.lens])}</span><span class="painchip">${L(PAIN[a.pain])}</span></div>
+    <p class="why">${L(a.f)}</p></div>`).join("");
+  annList.querySelectorAll(".ann").forEach(el=>{ const i=+el.dataset.i; el.onmouseenter=()=>hot(i,true); el.onmouseleave=()=>hot(i,false); });
+
+  const json = JSON.stringify(active.trace,null,2);
+  $("traceBody").innerHTML = esc(json).replace(/("needs_human"|"flags"|"checkpoint"|"scope"|"override")/g,"<b>$1</b>");
+  $("copyTrace").onclick = e=>{
+    const done=()=>{ e.target.textContent=u("copied"); setTimeout(()=>e.target.textContent=u("copy"),1400); };
+    try{ navigator.clipboard.writeText(json).then(done).catch(selectTrace); }catch(err){ selectTrace(); }
+  };
+  requestAnimationFrame(layout);
+}
+function selectTrace(){ const r=document.createRange(); r.selectNodeContents($("traceBody")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+function layout(){
+  const sr = stage.getBoundingClientRect();
+  stage.querySelectorAll(".hs").forEach(h=>{
+    const a = active.ann[+h.dataset.i], el = stage.querySelector(`[data-a="${a.id}"]`);
+    if(!el){ h.hidden=true; return; }
+    const r = el.getBoundingClientRect();
+    const x = Math.min(sr.width-8, Math.max(8, r.right - sr.left - 6));
+    const y = Math.max(8, r.top - sr.top + 6);
+    h.style.left = x+"px"; h.style.top = y+"px";
+  });
+}
+function hot(i,on){
+  const h=stage.querySelector(`.hs[data-i="${i}"]`), c=annList.querySelector(`.ann[data-i="${i}"]`);
+  const el=stage.querySelector(`[data-a="${active.ann[i].id}"]`);
+  h&&h.classList.toggle("hot",on); c&&c.classList.toggle("hot",on); el&&el.classList.toggle("outline-hot",on);
+}
+
+$("filters").addEventListener("click",e=>{ const b=e.target.closest("[data-lens]"); if(!b) return;
+  lensOn[b.dataset.lens]=!lensOn[b.dataset.lens]; b.setAttribute("aria-pressed",lensOn[b.dataset.lens]); render(); });
+document.querySelector(".lang-switch").addEventListener("click",e=>{ const b=e.target.closest("[data-lang]"); if(!b) return;
+  lang=b.dataset.lang; try{localStorage.setItem("varbridgeLang",lang);}catch(err){} applyChrome(); render(); render3(); });
+try{ const s=localStorage.getItem("varbridgeLang"); if(s==="en"||s==="zh") lang=s; }catch(err){}
+new ResizeObserver(()=>layout()).observe(stage);
+window.addEventListener("resize", layout);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+
+/* ================= Tab 3 · interaction variants ================= */
+const V3 = {
+  en:{
+    eyebrow:"Design exploration · ECSE 542 follow-up",
+    h1:"Beyond the tooltip and the list:<br>three more ways to show the source record.",
+    lede:"The ECSE 542 study compares a tooltip (local, temporary) with a list (overall, persistent). The three variants below change something else: <b>whether the link is drawn by default, whether the evidence has a visible shape, and when the user is asked to decide</b>. All three use the same example answer: four claims, three sources, and one planted unsupported claim. They are candidates for a later round of research, not added conditions in this term's study.",
+    paneRail:"Variants", railNote:"Example answer on AI scribes in primary care. Claims and passages are paraphrased from public Ontario documents; claim 4 is the planted unsupported claim. Illustrative only.",
+    userK:"What the participant does here", traceH:"Study log · this variant", copy:"Copy", copied:"Copied", screen:"Screen · ", annH:"Annotations",
+    n1h:"How they relate to A, B and C",
+    n1p:"D keeps the local view of the tooltip but makes it permanent. E keeps the overview of the list but gives it structure. F changes timing rather than layout, so it could sit on top of any of the others.",
+    n2h:"What each one risks",
+    n2p:"D: line clutter as the number of claims grows. E: some users do not read graphs. F: gate fatigue, where people click through every chip. These are exactly the behaviours a structured observation would watch for.",
+    n3h:"Status",
+    n3p:"Exploration only. These variants are not part of the REB application or the current Latin-square design. If the study's findings point toward one of them, it would be tested in a later round."
+  },
+  zh:{
+    eyebrow:"設計探索 · ECSE 542 延伸",
+    h1:"提示框與清單之外：<br>呈現來源紀錄的另外三種方式。",
+    lede:"ECSE 542 研究比較的是提示框（局部、暫時）與清單（整體、持續）。下面三個變體改變的是另外幾件事：<b>連結是否預設畫出、證據是否有看得見的形狀，以及何時要求使用者做決定</b>。三者使用同一個範例答案：四個主張、三個來源，其中一個是刻意安排的無支持主張。它們是下一輪研究的候選設計，不會加入本學期的實驗條件。",
+    paneRail:"變體 / Variants", railNote:"範例答案：基層醫療中的 AI 抄寫員。主張與原文段落改寫自安大略省的公開文件；主張 4 是刻意安排的無支持主張。僅供示意。",
+    userK:"參與者在這一步做什麼", traceH:"研究紀錄 · 本變體", copy:"複製", copied:"已複製", screen:"受測畫面 · ", annH:"設計註解 / Annotations",
+    n1h:"與 A、B、C 的關係",
+    n1p:"D 保留提示框的局部視角，但讓它常駐；E 保留清單的整體視角，但賦予結構；F 改變的是時機而不是版面，所以可以疊加在任何一種之上。",
+    n2h:"各自的風險",
+    n2p:"D：主張一多，連線就會雜亂。E：有些使用者不習慣讀圖。F：關卡疲勞，使用者可能每個標籤都直接點過。這些正是結構化觀察要留意的行為。",
+    n3h:"狀態",
+    n3p:"僅為設計探索。這些變體不在 REB 申請與目前的 Latin square 設計之內。如果研究結果指向其中某一種，會在下一輪研究中測試。"
+  }
+};
+const v3 = k => V3[lang][k];
+const LENS3 = {ia:"IA", ux:"HCI/UX", std:{en:"Evidence",zh:"證據"}};
+const VS3 = {tooltip:{en:"vs tooltip",zh:"對照提示框"}, list:{en:"vs list",zh:"對照清單"}, both:{en:"vs both",zh:"對照兩者"}};
+
+const CL3 = {
+  q:{en:"What does the evidence say about AI scribes in primary care?",zh:"關於基層醫療使用 AI 抄寫員，證據怎麼說？"},
+  c1:{en:"In a lab evaluation, AI scribes cut documentation time by about 70%.",zh:"在實驗室評估中，AI 抄寫員把文書時間減少約 70%。"},
+  c2:{en:"Clinicians reported saving around three hours a week.",zh:"醫師自述每週約省下三小時。"},
+  c3:{en:"Accuracy varied widely between products in independent testing.",zh:"在獨立測試中，各產品的準確度差異很大。"},
+  c4:{en:"Patients said their visits felt more personal.",zh:"病人表示看診感覺更有人情味。"},
+  s1:{en:"Clinical evaluation report (2024)",zh:"臨床評估報告（2024）"},
+  s2:{en:"Auditor General report (2026)",zh:"審計長報告（2026）"},
+  s3:{en:"Privacy guidance (2026)",zh:"隱私指引（2026）"},
+  p1a:{en:"…documentation time fell by 69.5% in the lab setting…",zh:"……實驗室情境下文書時間減少 69.5%……"},
+  p1b:{en:"…participants self-reported saving about 3 hours per week…",zh:"……參與者自述每週約節省 3 小時……"},
+  p2a:{en:"…error counts differed substantially across the systems tested…",zh:"……受測系統之間的錯誤數差異相當大……"},
+  p3a:{en:"…consent should be obtained before recording…",zh:"……錄音前應取得同意……"}
+};
+const c3 = k => L(CL3[k]);
+const TOP3 = right => `<div class="mk-top"><span class="lg">${T("Research assistant","研究助理")}</span><span class="sl">${right}</span></div>`;
+
+const SCREENS3 = {
+link: () => `
+<div class="mock">
+  ${TOP3(T("D · linked margin","D · 連線邊欄"))}
+  <div class="mk-body">
+    <div class="q3">${c3("q")}</div>
+    <div class="split" id="split3" data-a="d1">
+      <svg class="links" id="links3" aria-hidden="true"></svg>
+      <div class="ans3">
+        <div class="mk-label">${T("Answer","回答")}</div>
+        <div class="cl" id="d-c1" data-link="d-p1a"><b>1</b>${c3("c1")}</div>
+        <div class="cl" id="d-c2" data-link="d-p1b"><b>2</b>${c3("c2")}</div>
+        <div class="cl" id="d-c3" data-link="d-p2a"><b>3</b>${c3("c3")}</div>
+        <div class="cl orphan" id="d-c4" data-a="d2"><b>4</b>${c3("c4")}</div>
+      </div>
+      <div class="srcs3">
+        <div class="mk-label">${T("Sources · paraphrased excerpts","來源 · 改寫摘錄")}</div>
+        <div class="scard"><h6><span>S1</span>${c3("s1")}</h6>
+          <div class="psg on" id="d-p1a" data-a="d3">${c3("p1a")}</div>
+          <div class="psg on" id="d-p1b">${c3("p1b")}</div></div>
+        <div class="scard"><h6><span>S2</span>${c3("s2")}</h6>
+          <div class="psg on" id="d-p2a">${c3("p2a")}</div></div>
+        <div class="scard unused"><h6><span>S3</span>${c3("s3")}</h6>
+          <div class="psg">${c3("p3a")}</div></div>
+      </div>
+    </div>
+    <div class="cover3" data-a="d4"><span>${T("3 of 4 claims linked","4 個主張中有 3 個有連結")}</span><i><b></b></i><span class="pill bad">${T("claim 4 · no source","主張 4 · 無來源")}</span></div>
+  </div>
+  <div class="mk-foot"><span>${T("Hover a claim to light its passage","滑過主張即可亮起對應段落")}</span><span>${T("solid = measured · dashed = self-report","實線＝測量 · 虛線＝自陳")}</span></div>
+</div>`,
+
+map: () => {
+  const cl = [["c1",T("1 · 70% less documentation time","1 · 文書時間少 70%")],["c2",T("2 · ~3 h/week saved","2 · 每週約省 3 小時")],["c3",T("3 · accuracy varies","3 · 準確度不一")],["c4",T("4 · visits feel more personal","4 · 看診更有人情味")]];
+  const sr = [["s1","S1 · "+T("Evaluation 2024","評估報告 2024")],["s2","S2 · "+T("Audit 2026","審計報告 2026")],["s3","S3 · "+T("Privacy guidance","隱私指引")]];
+  const cy = i => 30+i*46, sy = i => 41+i*54, cx = 8, cw = 212, sx = 336, sw = 176;
+  const edge = (ci,si,dash,hot) => { const x1=cx+cw, y1=cy(ci)+12, x2=sx, y2=sy(si)+12, m=(x2-x1)/2;
+    return `<path d="M${x1},${y1} C${x1+m},${y1} ${x2-m},${y2} ${x2},${y2}" fill="none" stroke="${hot?"#2D4F7C":"#9AA6B8"}" stroke-width="${hot?1.8:1.3}" ${dash?'stroke-dasharray="4 3"':''}/>`; };
+  let s = `<svg viewBox="0 0 520 210" role="img" aria-label="${T("Claim to source map","主張與來源關係圖")}">`;
+  s += edge(0,0,false,true) + edge(1,0,true,true) + edge(2,1,false,false);
+  cl.forEach(([id,t],i)=>{ const orphan=id==="c4", sel=id==="c1"||id==="c2";
+    s += `<g ${orphan?'data-a="e1"':''}><rect x="${cx}" y="${cy(i)}" width="${cw}" height="24" rx="5" fill="${orphan?"#FDF3F2":sel?"#EAF0F7":"#fff"}" stroke="${orphan?"#C27A72":sel?"#2D4F7C":"#D5DAE3"}" ${orphan?'stroke-dasharray="3 2"':''}/><text x="${cx+8}" y="${cy(i)+16}" font-size="10.5" fill="#1B1D22">${esc(t)}</text></g>`;
+    if(orphan) s += `<text x="${cx+cw+10}" y="${cy(i)+16}" font-size="9.5" fill="#A33322" font-family="IBM Plex Mono,monospace">${T("no source","無來源")}</text>`; });
+  sr.forEach(([id,t],i)=>{ const unused=id==="s3", hot=id==="s1";
+    s += `<g ${id==="s1"?'data-a="e2"':id==="s3"?'data-a="e5"':''}><rect x="${sx}" y="${sy(i)}" width="${sw}" height="24" rx="12" fill="${hot?"#2D4F7C":unused?"#F1F2F5":"#fff"}" stroke="${hot?"#2D4F7C":"#C9CFDA"}" ${unused?'stroke-dasharray="3 2"':''}/><text x="${sx+12}" y="${sy(i)+16}" font-size="10.5" fill="${hot?"#fff":unused?"#8A909C":"#1B1D22"}">${esc(t)}</text></g>`;
+    if(unused) s += `<text x="${sx+sw-4}" y="${sy(i)+38}" font-size="9.5" text-anchor="end" fill="#8A909C" font-family="IBM Plex Mono,monospace">${T("read, not used","有讀，未使用")}</text>`; });
+  s += `</svg>`;
+  return `
+<div class="mock">
+  ${TOP3(T("E · evidence map","E · 證據地圖"))}
+  <div class="mk-body">
+    <div class="q3">${c3("q")}</div>
+    <div class="map3">
+      ${s}
+      <div class="legend3" data-a="e3"><span><svg viewBox="0 0 22 6"><line x1="0" y1="3" x2="22" y2="3" stroke="#2D4F7C" stroke-width="1.8"/></svg>${T("measured result","測量結果")}</span><span><svg viewBox="0 0 22 6"><line x1="0" y1="3" x2="22" y2="3" stroke="#2D4F7C" stroke-width="1.8" stroke-dasharray="4 3"/></svg>${T("self-report","自陳")}</span><span>${T("2 of 4 claims rest on S1","4 個主張中有 2 個只靠 S1")}</span></div>
+    </div>
+    <div class="filt" data-a="e4">
+      <div class="mk-label">${T("Filtered by S1 · 2 of 4 claims","依 S1 篩選 · 4 個主張中的 2 個")}</div>
+      <div class="cl lit"><b>1</b>${c3("c1")}</div>
+      <div class="cl lit"><b>2</b>${c3("c2")} <span class="pill">${T("self-report","自陳")}</span></div>
+      <div class="psg on">${c3("p1a")}</div>
+    </div>
+  </div>
+  <div class="mk-foot"><span>${T("Click a node to filter the answer","點選節點即可篩選答案")}</span><span>${T("Clear filter","清除篩選")}</span></div>
+</div>`; },
+
+gate: () => `
+<div class="mock">
+  <div class="mk-top"><span class="lg">${T("Your draft","你的草稿")}</span><span class="sl">summary.docx · ${T("F · verify-to-use","F · 用前查核")}</span></div>
+  <div class="mk-body">
+    <div class="draft">${T("AI scribes are being adopted quickly in primary care. The evidence so far suggests","AI 抄寫員在基層醫療的採用速度很快。目前的證據顯示")}<span class="caret"></span></div>
+    <div class="gate">
+      <div class="gate-h" data-a="f1">${T("Before inserting 4 claims into your draft","把 4 個主張插入草稿之前")}<span>${T("decide each one","逐一決定")}</span></div>
+      <div class="grows" data-a="f2">
+        <div class="grow"><span class="ct"><b>1</b>${c3("c1")}</span><span class="pill ok">${T("checked · opened S1","已查核 · 開過 S1")}</span></div>
+        <div class="grow" data-a="f3"><span class="ct"><b>2</b>${c3("c2")}</span><span class="pill">${T("kept, not checked","保留，未查核")}</span></div>
+        <div class="grow"><span class="ct"><b>3</b>${c3("c3")}</span><span class="act"><button class="mini acc" type="button">${T("Open source","開啟來源")}</button><button class="mini" type="button">${T("Keep unchecked","不查核保留")}</button><button class="mini" type="button">${T("Remove","移除")}</button></span></div>
+        <div class="grow warn" data-a="f4"><span class="ct"><b>4</b>${c3("c4")}</span><span class="pill bad">${T("no source found","找不到來源")}</span>
+          <span class="ack"><i></i>${T("I understand this claim has no source in the material","我了解這個主張在資料中沒有來源")}</span>
+          <span class="act" style="grid-column:1/-1; justify-content:flex-start"><button class="mini off" type="button" aria-disabled="true">${T("Keep anyway","仍然保留")}</button><button class="mini" type="button">${T("Remove","移除")}</button></span></div>
+      </div>
+      <div class="gate-f"><span>${T("2 decided · 2 pending","已決定 2 · 待決定 2")}</span><button class="mk-b off" type="button" aria-disabled="true">${T("Insert into draft","插入草稿")}</button></div>
+    </div>
+    <div class="ledger" data-a="f5">${T("source record · saved with draft\n14:02  claim 1  checked        S1 opened 38 s\n14:03  claim 2  kept unchecked\n—      claim 3  pending\n—      claim 4  pending · no source","來源紀錄 · 隨草稿保存\n14:02  主張 1  已查核      開啟 S1 38 秒\n14:03  主張 2  未查核保留\n—      主張 3  待決定\n—      主張 4  待決定 · 無來源")}</div>
+  </div>
+  <div class="mk-foot"><span>${T("Reading is never gated; inserting is","閱讀不設關卡；插入才設")}</span><span>${T("Ledger editable by the user","使用者可編輯紀錄")}</span></div>
+</div>`
+};
+
+const STAGES3 = [
+  { id:"link", sid:"D · Linked margin", name:{en:"Draw the link",zh:"把連結畫出來"}, tags:["brushing & linking","split view"],
+    screen:{en:"Answer and sources side by side, joined by lines",zh:"答案與來源並排，用線相連"},
+    user:{en:"Reads the answer while every claim's line runs to the exact passage behind it. Hovers a claim to light up its passage, and notices the claim whose line goes nowhere.",zh:"閱讀答案時，每個主張都有一條線連到背後的原文段落。滑過主張就會亮起對應段落，也會注意到那條沒有接到任何地方的線。"},
+    ann:[
+      {id:"d1", lens:"ux", vs:"both", t:{en:"Support is visible before anyone clicks",zh:"還沒點擊，支持關係就看得見"}, f:{en:"The tooltip and the list both hide the claim–source relation until the user acts. Here it is drawn by default, so checking starts from seeing rather than from deciding to look.",zh:"提示框與清單都要使用者先動作，才看得到主張與來源的關係。這裡預設就畫出來，查核從「看見」開始，而不是從「決定要看」開始。"}},
+      {id:"d2", lens:"ia", vs:"tooltip", t:{en:"A missing link is drawn as a gap",zh:"缺少的連結畫成一個缺口"}, f:{en:"Claim 4's line ends in an open circle with no source. Absence becomes a visible object, the same rule as “no data is not the same as not queried” in VarBridge.",zh:"主張 4 的線停在一個空心圓，沒有接到來源。缺席變成看得見的東西，和 VarBridge「無資料不等於未查詢」是同一條規則。"}},
+      {id:"d3", lens:"std", vs:"list", t:{en:"Links land on the passage, not the document",zh:"連線落在段落，而不是整份文件"}, f:{en:"Each line ends on a highlighted excerpt, so the user judges the exact words behind a claim instead of a whole report.",zh:"每條線都落在被標示的摘錄上，使用者判斷的是主張背後的確切文字，而不是整份報告。"}},
+      {id:"d4", lens:"ux", vs:"list", t:{en:"Coverage is counted for the reader",zh:"替讀者算好覆蓋率"}, f:{en:"“3 of 4 claims linked” gives the overall judgment the list offered, without leaving the reading view.",zh:"「4 個主張中有 3 個有連結」提供清單原本的整體判斷，但不必離開閱讀畫面。"}}
+    ],
+    trace:{variant:"D linked margin", grounding:"brushing and linking (Becker & Cleveland, 1987)", logged_events:["hover_claim(id, ms)","follow_link(claim -> passage)","open_source(full)"], observe:["Is claim 4's empty link noticed without prompting?","Do participants read the passages, or only follow the lines?"], risk:"line clutter beyond about 6 claims"}
+  },
+  { id:"map", sid:"E · Evidence map", name:{en:"See the shape of the evidence",zh:"看見證據的形狀"}, tags:["overview first","claim–source graph"],
+    screen:{en:"Claim–source map above the answer",zh:"答案上方的主張—來源關係圖"},
+    user:{en:"Scans the map before reading: which claims rest on one source, which source carries most of the answer, which claim stands alone. Clicks a node to filter the answer.",zh:"閱讀前先掃一眼關係圖：哪些主張只靠一個來源、哪個來源撐起大部分答案、哪個主張孤立無援。點選節點即可篩選答案。"},
+    ann:[
+      {id:"e1", lens:"ia", vs:"both", t:{en:"An orphan claim stands apart",zh:"孤立的主張一眼可見"}, f:{en:"Claim 4 has no edge and sits alone in the map. The user can see it before reading a single sentence of the answer.",zh:"主張 4 沒有任何連線，在圖上孤零零的。使用者還沒讀答案的任何一句話就看得到。"}},
+      {id:"e2", lens:"ia", vs:"list", t:{en:"Concentration shows as a fan",zh:"依賴集中，畫成一把扇子"}, f:{en:"Two claims fan out from Source 1. A reader can see that much of the answer depends on one report, which neither the tooltip nor the list makes obvious.",zh:"兩條線從來源 1 分出去。讀者看得出答案有一大部分依賴同一份報告，這是提示框和清單都不容易呈現的。"}},
+      {id:"e3", lens:"std", vs:"both", t:{en:"Line style encodes the kind of support",zh:"線條樣式代表支持的類型"}, f:{en:"Solid for a measured result, dashed for self-report. The difference between “measured 70%” and “clinicians said three hours” stays visible.",zh:"實線代表測量結果，虛線代表自陳。「測得 70%」和「醫師說省了三小時」的差別一直看得見。"}},
+      {id:"e4", lens:"ux", vs:"list", t:{en:"Overview first, details on demand",zh:"先看全貌，需要時再看細節"}, f:{en:"Clicking a node filters the answer to the claims it touches, then opens the passage. The map is the entry point, not a separate page.",zh:"點選節點會把答案篩選到相關主張，再打開原文段落。關係圖是入口，不是另一個頁面。"}},
+      {id:"e5", lens:"ia", vs:"list", t:{en:"Unused sources are shown too",zh:"沒用上的來源也畫出來"}, f:{en:"Source 3 supports nothing in this answer. Showing it tells the user what the assistant read but left out.",zh:"來源 3 在這個答案中沒有支持任何主張。把它也畫出來，讓使用者知道助理讀了什麼卻沒用上。"}}
+    ],
+    trace:{variant:"E evidence map", grounding:"overview first, zoom and filter, details on demand (Shneiderman, 1996)", logged_events:["map_dwell(ms)","click_node(claim | source)","filter_answer","open_passage"], observe:["Is the orphan claim found from the map or from the text?","Does single-source concentration change trust in claims 1 and 2?"], risk:"graph literacy; layout breaks down with many sources"}
+  },
+  { id:"gate", sid:"F · Verify-to-use", name:{en:"Decide at the moment of use",zh:"在使用的那一刻做決定"}, tags:["cognitive forcing","decision ledger"],
+    screen:{en:"Inserting the answer into the participant's draft",zh:"把答案插入參與者的草稿"},
+    user:{en:"Tries to insert the answer into their summary. Each claim needs a decision: checked, kept without checking, or removed. Claim 4 cannot be kept until its missing source is acknowledged.",zh:"嘗試把答案插入自己的摘要。每個主張都需要決定：已查核、不查核但保留，或移除。主張 4 必須先確認它沒有來源，才能保留。"},
+    ann:[
+      {id:"f1", lens:"ux", vs:"both", t:{en:"Friction moves to the moment of use",zh:"把阻力移到使用的那一刻"}, f:{en:"Reading stays fast. A check is asked for only when text enters something the participant will sign, which is where an unchecked claim costs the most.",zh:"閱讀維持流暢。只有在文字要進入參與者會具名的成品時才要求查核，因為那正是未查核主張代價最高的時刻。"}},
+      {id:"f2", lens:"ux", vs:"both", t:{en:"One decision per claim, not one per answer",zh:"每個主張各自決定，而非整份一次決定"}, f:{en:"Accepting the whole answer at once is not offered. Each claim gets its own choice, so “I would check” becomes behaviour the researcher can observe.",zh:"不提供「整份接受」。每個主張各自選擇，讓「我會查核」變成研究者觀察得到的行為。"}},
+      {id:"f3", lens:"ia", vs:"tooltip", t:{en:"Keeping an unchecked claim is allowed, and recorded",zh:"可以不查核就保留，但會被記錄"}, f:{en:"The participant can still keep a claim without checking it. The choice is labelled and stays in the draft's record, so the design respects autonomy while leaving a trace.",zh:"參與者仍可不查核就保留主張；這個選擇會被標示並留在草稿紀錄裡。設計尊重自主，同時留下痕跡。"}},
+      {id:"f4", lens:"std", vs:"both", t:{en:"An unsupported claim needs an explicit acknowledgment",zh:"無支持的主張需要明確確認"}, f:{en:"Claim 4 shows “no source found”, and “Keep anyway” stays disabled until the user ticks the acknowledgment. This is the cognitive forcing step.",zh:"主張 4 顯示「找不到來源」，使用者勾選確認之前，「仍然保留」都無法點選。這就是 cognitive forcing 的那一步。"}},
+      {id:"f5", lens:"ia", vs:"list", t:{en:"The ledger is a source record written by the user",zh:"紀錄本身就是使用者寫下的來源紀錄"}, f:{en:"Decisions are saved with the draft. Looking back later, the user sees what they checked and what they took on trust, which is the study's own theme of looking back at the source record.",zh:"決定與草稿一起保存。日後回看，使用者看得到自己查了什麼、又憑信任接受了什麼，這正是本研究「回看來源紀錄」的主題。"}}
+    ],
+    trace:{variant:"F verify-to-use", grounding:"cognitive forcing functions (Buçinca, Malaya & Gajos, 2021)", logged_events:["insert_attempt","claim_decision(id, checked | kept_unchecked | removed)","open_source_from_gate","ack_unsupported(id)"], observe:["Does a forced choice increase checking, or produce rubber-stamping?","How often is 'keep unchecked' chosen, and for which claims?"], risk:"gate fatigue; participants may click through"}
+  }
+];
+
+let active3 = STAGES3[0];
+const stage3 = $("stage3"), annList3 = $("annList3");
+
+function render3(){
+  $("rail3").innerHTML = STAGES3.map(s=>`<button type="button" class="stagebtn" data-id="${s.id}" aria-current="${s===active3}">
+    <span class="sid">${s.sid}</span><span class="sn">${L(s.name)}</span>
+    <span class="ag">${s.tags.map(a=>`<span class="agchip">${a}</span>`).join("")}</span></button>`).join("");
+  $("rail3").querySelectorAll(".stagebtn").forEach(b=>b.onclick=()=>{ active3=STAGES3.find(s=>s.id===b.dataset.id); render3(); });
+  $("screenName3").textContent = v3("screen") + L(active3.screen);
+  $("userText3").textContent = L(active3.user);
+  stage3.innerHTML = SCREENS3[active3.id]();
+  stage3.querySelectorAll(".cl[data-link]").forEach(c=>{
+    const p = ()=>$(c.dataset.link);
+    c.onmouseenter=()=>{ c.classList.add("lit"); const e=p(); e&&e.classList.add("outline-hot"); };
+    c.onmouseleave=()=>{ c.classList.remove("lit"); const e=p(); e&&e.classList.remove("outline-hot"); };
+  });
+  active3.ann.forEach((a,i)=>{
+    const h=document.createElement("button"); h.type="button";
+    h.className="hs "+a.lens; h.textContent=i+1; h.dataset.i=i;
+    h.setAttribute("aria-label", `${i+1}: ${L(a.t)}`);
+    h.onmouseenter=()=>hot3(i,true); h.onmouseleave=()=>hot3(i,false); h.onfocus=()=>hot3(i,true); h.onblur=()=>hot3(i,false);
+    stage3.appendChild(h);
+  });
+  $("annHead3").textContent = v3("annH") + " · " + active3.ann.length;
+  annList3.innerHTML = active3.ann.map((a,i)=>`<div class="ann" data-i="${i}">
+    <div class="ann-h"><span class="num">${i+1}</span><p>${L(a.t)}</p></div>
+    <div class="meta"><span class="lens ${a.lens}">${L(LENS3[a.lens])}</span><span class="vschip">${L(VS3[a.vs])}</span></div>
+    <p class="why">${L(a.f)}</p></div>`).join("");
+  annList3.querySelectorAll(".ann").forEach(el=>{ const i=+el.dataset.i; el.onmouseenter=()=>hot3(i,true); el.onmouseleave=()=>hot3(i,false); });
+  const json = JSON.stringify(active3.trace,null,2);
+  $("traceBody3").innerHTML = esc(json).replace(/("observe"|"risk"|"logged_events")/g,"<b>$1</b>");
+  $("copyTrace3").onclick = e=>{
+    const done=()=>{ e.target.textContent=v3("copied"); setTimeout(()=>e.target.textContent=v3("copy"),1400); };
+    const sel=()=>{ const r=document.createRange(); r.selectNodeContents($("traceBody3")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try{ navigator.clipboard.writeText(json).then(done).catch(sel); }catch(err){ sel(); }
+  };
+  requestAnimationFrame(layout3);
+}
+function drawLinks3(){
+  const sp=$("split3"), svg=$("links3"); if(!sp||!svg) return;
+  const c=sp.getBoundingClientRect();
+  svg.setAttribute("viewBox",`0 0 ${c.width} ${c.height}`);
+  const seg=(a,b,dash)=>{ const A=$(a).getBoundingClientRect(), B=$(b).getBoundingClientRect();
+    const x1=A.right-c.left, y1=A.top+A.height/2-c.top, x2=B.left-c.left, y2=B.top+B.height/2-c.top, m=(x2-x1)/2;
+    return `<path d="M${x1},${y1} C${x1+m},${y1} ${x2-m},${y2} ${x2},${y2}" fill="none" stroke="#5B7BA6" stroke-width="1.4" ${dash?'stroke-dasharray="4 3"':''}/><circle cx="${x1}" cy="${y1}" r="2.4" fill="#5B7BA6"/><circle cx="${x2}" cy="${y2}" r="2.4" fill="#5B7BA6"/>`; };
+  const o=$("d-c4").getBoundingClientRect(), ox=o.right-c.left, oy=o.top+o.height/2-c.top;
+  svg.innerHTML = seg("d-c1","d-p1a",false)+seg("d-c2","d-p1b",true)+seg("d-c3","d-p2a",false)
+    + `<line x1="${ox}" y1="${oy}" x2="${ox+16}" y2="${oy}" stroke="#C27A72" stroke-width="1.4" stroke-dasharray="2 2"/><circle cx="${ox+20}" cy="${oy}" r="4" fill="#fff" stroke="#C27A72" stroke-width="1.4"/>`;
+}
+function layout3(){
+  if($("panel-alt").hidden) return;
+  drawLinks3();
+  const sr = stage3.getBoundingClientRect();
+  stage3.querySelectorAll(".hs").forEach(h=>{
+    const a = active3.ann[+h.dataset.i], el = stage3.querySelector(`[data-a="${a.id}"]`);
+    if(!el){ h.hidden=true; return; }
+    const r = el.getBoundingClientRect();
+    h.style.left = Math.min(sr.width-8, Math.max(8, r.right - sr.left - 6))+"px";
+    h.style.top = Math.max(8, r.top - sr.top + 6)+"px";
+  });
+}
+function hot3(i,on){
+  const h=stage3.querySelector(`.hs[data-i="${i}"]`), c=annList3.querySelector(`.ann[data-i="${i}"]`);
+  const el=stage3.querySelector(`[data-a="${active3.ann[i].id}"]`);
+  h&&h.classList.toggle("hot",on); c&&c.classList.toggle("hot",on); el&&el.classList.toggle("outline-hot",on);
+}
+new ResizeObserver(()=>layout3()).observe(stage3);
+window.addEventListener("resize", layout3);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout3);
+
+function showTab(t){
+  tab = ["ecse","var","alt"].includes(t) ? t : "ecse";
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===tab));
+  $("panel-ecse").hidden = tab!=="ecse";
+  $("panel-var").hidden = tab!=="var";
+  $("panel-alt").hidden = tab!=="alt";
+  if(tab==="var") requestAnimationFrame(layout);
+  if(tab==="alt") requestAnimationFrame(layout3);
+}
+const HASH = {ecse:"ecse542", var:"varbridge", alt:"variants"};
+document.querySelector(".tabs").addEventListener("click",ev=>{ const b=ev.target.closest("[data-tab]"); if(!b) return;
+  showTab(b.dataset.tab); try{ history.replaceState(null,"","#"+HASH[tab]); }catch(err){} });
+document.querySelector(".doc-toc").addEventListener("click",ev=>{ const a=ev.target.closest("a"); if(!a) return;
+  ev.preventDefault(); const el=document.querySelector(a.getAttribute("href")); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); });
+applyChrome(); render(); render3();
+showTab(location.hash==="#varbridge" ? "var" : location.hash==="#variants" ? "alt" : "ecse");
+</script>
+</div>
+</div>
+<script src="sidebar.js"></script>
+<script>renderAuditSidebar('varbridge');</script>
+</body></html>
