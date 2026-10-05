@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-t="page.title">HCI &amp; AI literacy practices | Joshua Hsiao</title>
-<meta name="description" content="A document-based analysis of Ontario's AI scribe programme against patient-facing transparency, consent, review, and correction commitments.">
+<meta name="description" content="A document-based comparison of Ontario's and Québec's AI scribe governance against six patient-facing commitments, with findings to 5 October 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -232,6 +232,7 @@ details.pattern .p-body{font-size:.82rem;line-height:1.65;color:var(--mid);paddi
 .table-wrap.arch td:first-child{font-weight:400;color:var(--mid)}
 .table-wrap.arch td b{color:var(--ink)}
 .table-wrap.arch table{min-width:640px}
+.refs{padding-left:1.1rem}.refs li{margin-bottom:.6rem;font-size:.88rem;line-height:1.55}.refs-h{margin:1.2rem 0 .4rem;font-size:.9rem}#view-find .p-body p{margin:0 0 .6rem}
 </style>
 </head>
 <body>
@@ -239,7 +240,24 @@ details.pattern .p-body{font-size:.82rem;line-height:1.65;color:var(--mid);paddi
 <nav class="side-nav" aria-label="On this page">
   <div class="side-nav-header" data-t="nav.header">HCI &amp; AI literacy</div>
   <div class="side-nav-scroll">
-    <div class="nav-set" data-view="scope">
+    <div class="nav-set" data-view="find">
+      <div class="nav-group" data-t="f3.nav_grp_arg">The argument</div>
+      <a href="#f1" data-sec="f1" data-t="f3.nav_m1">Macro: institutions</a>
+      <a href="#f2" data-sec="f2" data-t="f3.nav_m2">Meso: governance</a>
+      <a href="#f3" data-sec="f3" data-t="f3.nav_m3">Micro: verification</a>
+      <div class="nav-group" data-t="f3.nav_grp_talk">For the conversation</div>
+      <a href="#f4" data-sec="f4" data-t="f3.nav_m4">Questions for Tamara</a>
+      <a href="#f5" data-sec="f5" data-t="f3.nav_m5">What is still open</a>
+      <a href="#f6" data-sec="f6" data-t="f3.nav_m6">Sources &amp; references</a>
+      <div class="nav-group" data-t="f3.nav_grp_app">Evidence</div>
+      <a href="#a1" data-sec="a1" data-t="f3.nav_a1">The coding rule</a>
+      <a href="#a2" data-sec="a2" data-t="f3.nav_a2">Ontario: expected vs coded</a>
+      <a href="#a3" data-sec="a3" data-t="f3.nav_a3">What procurement produces</a>
+      <a href="#a4" data-sec="a4" data-t="f3.nav_a4">Draft answers to the RQs</a>
+      <div class="nav-group" data-t="nav.grp_archive">Archive</div>
+      <a href="../../Zotero_5C_graph_V5.html" data-t="nav.archive">Trust reasoning study</a>
+    </div>
+    <div class="nav-set" data-view="scope" hidden>
       <div class="nav-group" data-t="v3.nav_grp_scope">Revised scope</div>
       <a href="#n1" data-sec="n1" data-t="v3.nav_n1">The scope decision</a>
       <a href="#n2" data-sec="n2" data-t="v3.nav_n2">Two governance machines</a>
@@ -299,9 +317,13 @@ details.pattern .p-body{font-size:.82rem;line-height:1.65;color:var(--mid);paddi
 <div class="content-wrapper">
 
 <div class="view-tabs" role="tablist" aria-label="Project scope versions">
-  <button type="button" role="tab" data-view="scope" class="active" aria-selected="true" aria-controls="view-scope">
+  <button type="button" role="tab" data-view="find" class="active" aria-selected="true" aria-controls="view-find">
+    <span data-t="tabs.find">Findings &amp; questions &middot; V3</span>
+    <span class="tab-badge" data-t="tabs.find_badge">current &middot; 5 Oct</span>
+  </button>
+  <button type="button" role="tab" data-view="scope" aria-selected="false" aria-controls="view-scope">
     <span data-t="tabs.scope">Revised scope &middot; Ontario &times; Qu&eacute;bec</span>
-    <span class="tab-badge" data-t="tabs.scope_badge">current</span>
+    <span class="tab-badge muted" data-t="tabs.scope_badge">archived 18 Sep</span>
   </button>
   <button type="button" role="tab" data-view="orig" aria-selected="false" aria-controls="view-orig">
     <span data-t="tabs.orig">Original pitch &middot; V2</span>
@@ -309,7 +331,256 @@ details.pattern .p-body{font-size:.82rem;line-height:1.65;color:var(--mid);paddi
   </button>
 </div>
 
-<div class="view-pane" id="view-scope">
+<div class="view-pane" id="view-find">
+
+<div class="cover-label" data-t="f3.cover_label">Findings so far &middot; notes for a conversation with Tamara Paris &middot; 5 October 2026</div>
+<h1 class="cover-title" data-t="f3.cover_title">Where can a patient still check an AI scribe? Mostly through rules that medicine already had, not through the new AI governance layer.</h1>
+<p class="cover-subtitle" data-t="f3.cover_subtitle">We coded six patient-facing commitments in Ontario (procurement) and Québec (certification). This tab sets out what we found at three levels: institutions, governance arrangements, and verification techniques. It ends with the questions we would like to discuss with Tamara Paris. Gainshin Hsiao coded Ontario; Eamon Leonard coded Québec. Points that are not settled are marked as open.</p>
+<div class="divider"></div>
+
+<main>
+  <div class="exec-box" id="f0">
+    <h5 data-t="f3.f0_tag">In short</h5>
+    <div class="exec-lead" data-t="f3.f0_lead">Both provinces make the same six promises to patients. The difference is not whether evidence exists, but who is allowed to see it.</div>
+    <div class="body-text" style="margin:0" data-t="f3.f0_list"><ul><li><b>Macro &middot; institutions.</b> The two things an Ontario patient can check &mdash; correction and complaints &mdash; come from PHIPA and CPSO policy, which belong to medicine as an institution. The governance made for AI scribes moves the right to check towards the buyer.</li><li><b>Meso &middot; governance.</b> Verification moves trust to third parties. In Ontario it moves to the procurer; in Québec, to the buyer and the certification office. Our <i>checkable_by</i> column shows this row by row.</li><li><b>Micro &middot; verification.</b> All four fallacies named by Paris, Moon and Guo appear in the documents, even though their paper is about computational methods.</li><li><b>Our question.</b> RQ2 has no column for who <i>produces</i> the evidence (the prover). In our data it is mostly the vendor being checked. Should we add it?</li></ul></div>
+  </div>
+
+  <div class="section-header" id="f1">
+    <span class="sec-num">F1</span>
+    <span class="sec-title" data-t="f3.m1_title">Macro: institutions</span>
+  </div>
+  <p class="body-text" data-t="f3.m1_lead">Hartzog and Silbey (2026) make a useful distinction between an <i>organisation</i> and an <i>institution</i>. An organisation is a body such as a hospital or a ministry. An institution is the wider set of rules, roles and shared expectations that holds a field like medicine together and keeps it answerable over time. They argue that AI can wear institutions down in three ways: it weakens human expertise, it shortens the steps where decisions are made and explained, and it isolates people, so there are fewer moments where someone can question a decision.</p>
+  <div class="block wide" data-t="f3.m1_body"><p>Read through this lens, our coding shows a pattern.</p><ul><li><b>Ontario.</b> The two commitments that reach <i>evidenced</i> &mdash; correcting the record (C5) and complaining (C6) &mdash; come from PHIPA and CPSO policy. These are rules of medicine as an institution; they existed before AI scribes. The governance made for AI scribes, the Vendor of Record, names evidence only for security.</li><li><b>Québec.</b> Correction also rests on the general health-information statute. Certification adds two things anyone can check: a plain-language AI privacy policy (IA2) and a public complaints process (P16.04). For consent, review and accuracy, however, the evidence goes to the buyer, or to nobody outside.</li></ul></div>
+  <div class="chart-takeaway">
+    <span class="takeaway-label" data-t="f3.m1_takeaway_label">The macro claim</span>
+    <span data-t="f3.m1_takeaway_body">Accountability is still alive where the institution already was, not in the AI governance layer added on top. Québec is a partial exception (IA2, P16.04), and that is worth discussing. This is our reading: Hartzog and Silbey write about institutions in general and mention medicine only in passing.</span>
+  </div>
+
+  <div class="section-header" id="f2">
+    <span class="sec-num">F2</span>
+    <span class="sec-title" data-t="f3.m2_title">Meso: governance arrangements</span>
+  </div>
+  <p class="body-text" data-t="f3.m2_lead">Paris, Moon and Guo write: &ldquo;verification does not eliminate the need for trust; it transfers it from the actor to third parties&rdquo; (p.&nbsp;5359, &sect;4.3). In &sect;3.1 they add that what one party can verify, another party may not be able to verify, for example because of differences in knowledge or access (p.&nbsp;5354). Our <i>checkable_by</i> column and the &ldquo;for whom&rdquo; part of RQ3 turn these two points into data:</p>
+  <div class="block wide" data-t="f3.m2_list"><ul><li><b>Ontario:</b> trust moves to the procurer, Supply Ontario.</li><li><b>Québec:</b> trust moves to the buyer and the certification office.</li><li><b>The patient:</b> what patients can check for themselves rests on general health law.</li></ul></div>
+  <p class="body-text" data-t="f3.m2_table_lead">The table gives the current code for each commitment and, in brackets, the widest group that can check the evidence without asking permission. Québec rows are Eamon Leonard's coding; final codes are still to be entered.</p>
+  <div class="table-wrap arch">
+    <table>
+      <thead><tr><th style="width:18%" data-t="f3.f3_th1">Commitment</th><th style="width:30%" data-t="f3.f3_th2">Ontario &middot; procurement</th><th data-t="f3.f3_th3">Québec &middot; certification</th></tr></thead>
+      <tbody>
+<tr><td data-t="f3.f2_c1"><b>Transparency</b><br>the patient is told</td><td><span class="pill md">asserted</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_none">nobody outside</span>)</span></td><td><span class="pill hi">evidenced</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_any">anyone</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q1">Certification criterion IA2 requires a plain-language AI privacy policy on the company website. 9 of 10 certified suppliers publish one.</span></td></tr>
+<tr><td data-t="f3.f2_c2"><b>Consent</b><br>and refusal without penalty</td><td><span class="pill md">asserted</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_none">nobody outside</span>)</span></td><td><span class="pill md">not publicly verifiable</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_buyer">buyer</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q2">The product must record the clinician's attestation that consent was obtained (P06.04). Only the buying organisation holds that record.</span></td></tr>
+<tr><td data-t="f3.f2_c3"><b>Clinician review</b><br>before the chart</td><td><span class="pill md">asserted</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_buyer">buyer</span>)</span></td><td><span class="pill md">not publicly verifiable</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_buyer">buyer</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q3">The product must log clinician approvals and edits for the buyer to extract (IA52). Nothing requires anyone to look at the log.</span></td></tr>
+<tr><td data-t="f3.f2_c4"><b>Record accuracy</b></td><td><span class="pill md">asserted</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_clin">clinician</span>)</span></td><td><span class="pill md">not publicly verifiable</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_none">nobody outside</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q4">Test reports are required (IA10–IA12), but none is public and no minimum level is set.</span></td></tr>
+<tr><td data-t="f3.f2_c5"><b>Correction</b><br>when the record is wrong</td><td><span class="pill hi">evidenced</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_pat">patient</span>)</span></td><td><span class="pill hi">evidenced</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_pat">patient</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q5">The right comes from the health-information statute (LRSSS art. 19), as in Ontario.</span></td></tr>
+<tr><td data-t="f3.f2_c6"><b>Complaints</b><br>where, and to whom</td><td><span class="pill hi">evidenced</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_any">anyone</span>)</span></td><td><span class="pill hi">evidenced</span> <span style="font-size:.78rem;color:var(--mid)">(<span data-t="f3.cb_any">anyone</span>)</span><br><span style="font-size:.82rem" data-t="f3.f3_q6">The complaints process must be public (P16.04). In practice, only 1 of 10 certified suppliers publishes a described process.</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-takeaway">
+    <span class="takeaway-label" data-t="f3.f3_takeaway_label">The governance form, in one line</span>
+    <span data-t="f3.f3_takeaway_body">Procurement produces almost no evidence about patient-facing promises. Certification produces evidence, but hands the right to check it to the <b>buyer</b>, not to the <b>patient</b>.</span>
+  </div>
+
+  <div class="section-header" id="f3">
+    <span class="sec-num">F3</span>
+    <span class="sec-title" data-t="f3.m3_title">Micro: verification techniques</span>
+  </div>
+  <p class="body-text" data-t="f3.m3_lead">Paris, Moon and Guo name four fallacies that make technical verification look stronger than it is. We use them here as a lens on the current evidence. One caution: their paper is about computational methods such as zero-knowledge proofs, and &sect;3.1 sets general audits and assessments outside its focus. Using the fallacies for procurement and certification is our extension.</p>
+  <div class="table-wrap arch">
+    <table>
+      <thead><tr><th style="width:19%" data-t="f3.m3_th1">Fallacy</th><th style="width:25%" data-t="f3.m3_th2">In short</th><th data-t="f3.m3_th3">What our evidence shows</th></tr></thead>
+      <tbody>
+<tr><td data-t="f3.m3_f1"><b>&sect;4.1 Non-contextual claim</b></td><td data-t="f3.m3_d1">Who turns the forum's expectations into a claim, and who can challenge it?</td><td data-t="f3.m3_e1"><b>Ontario:</b> the procurer set its own evaluation criteria and weights; we found no published scores. <b>Québec:</b> the certification office wrote 69 AI criteria with no minimum level, and outsiders cannot even see when the criteria took effect (enquiry S-QC-009, no reply yet).</td></tr>
+<tr><td data-t="f3.m3_f2"><b>&sect;4.2 Sequence of computations</b></td><td data-t="f3.m3_d2">Checking parts one by one is taken as a guarantee for the whole system.</td><td data-t="f3.m3_e2">For review (C3), the tool only has to <i>let</i> a clinician review; 14 of 29 vendors offer direct posting to the chart. Québec keeps a review log, but nobody is required to read it. Accuracy is tested once, before certification, and the annual self-declaration does not go back to it.</td></tr>
+<tr><td data-t="f3.m3_f3"><b>&sect;4.3 Trustless</b></td><td data-t="f3.m3_d3">Assumes the forum can carry out the verification on its own.</td><td data-t="f3.m3_e3"><b>Our core finding.</b> The patient cannot check most commitments. Trust moves to the buyer, the certification office and the procurer.</td></tr>
+<tr><td data-t="f3.m3_f4"><b>&sect;4.4 Narrow threat</b></td><td data-t="f3.m3_d4">Underestimates the actor's power to get around the check from outside the system.</td><td data-t="f3.m3_e4">Vendors' own descriptions are published on a government page (DOC-ON-VOR-003). Vendors submit their own test reports (IA10). The Auditor General found that vendors were approved without the required reports. Heidi shows its version number only inside a settings page, so it is hard for an outsider to tell which version is in use.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-header" id="f4">
+    <span class="sec-num">F4</span>
+    <span class="sec-title" data-t="f3.m4_title">Questions for Tamara</span>
+  </div>
+  <div class="pattern-list">
+    <details class="pattern" open>
+      <summary>
+        <span class="p-num">Q1</span>
+        <span class="q" data-t="f3.m4_q1_t">Should RQ2 record who produces the evidence (the prover)?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <div data-t="f3.m4_q1_b"><p>Her Table 1 has three roles: the claim, the verifier and the prover. Our RQ2 has four columns: claim, criterion, evidence and verifier. It has no column for who <i>produces</i> the evidence.</p><p>In our data, the evidence is mostly produced by the vendor that is being checked: the test reports (IA10), the review log (IA52), the AI privacy policy (IA2), and the profiles on the Ontario vendor page. Table 1 notes that the prover and the adversary are often the actor itself (p.&nbsp;5355), and &sect;3.2.2 asks who the provers are and how they relate to the forum.</p><p><b>Our question:</b> should we add a <i>prover</i> column (for example vendor, clinician, buyer, regulator, independent third party)? It would show where the prover and the actor are the same party.</p></div>
+      </div>
+    </details>
+    <details class="pattern" open>
+      <summary>
+        <span class="p-num">Q2</span>
+        <span class="q" data-t="f3.m4_q2_t">Is it fair to apply the four fallacies to procurement and certification?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <div data-t="f3.m4_q2_b"><p>Her paper focuses on computational verification, and &sect;3.1 puts broader assessments outside its focus. Procurement and certification are closer to those broader assessments. Yet all four fallacies appear clearly in our documents.</p><p><b>Our question:</b> does she see this as a fair extension of the framework, or should we present the fallacies only as an analogy?</p></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="section-header" id="f5">
+    <span class="sec-num">F5</span>
+    <span class="sec-title" data-t="f3.m5_title">What is still open</span>
+  </div>
+  <div class="block wide" data-t="f3.m5_scribe"><p><b>The Scribe MD suspension.</b> On 18 September this was called the strongest reason to choose Québec. We found no dated primary record of a status change (DOC-QC-CERT-005, closed as a documented absence). The only archived snapshot from the period (9 July 2026) shows Scribe MD as <i>Oui/Oui</i>. So the enforcement claim is out of the argument for now. The Québec case still stands, because it rests on the product list and the criteria, not on an enforcement event. An enquiry to the Bureau de certification was sent on 30 September.</p></div>
+  <p class="body-text" data-t="f3.m5_lead2">Coding decisions that still need one shared rule:</p>
+  <div class="pattern-list">
+    <details class="pattern">
+      <summary>
+        <span class="p-num">01</span>
+        <span class="q" data-t="f3.f7_q1_t">Does a patient's access request count as &ldquo;asking permission&rdquo;?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <span data-t="f3.f7_q1_b">If yes, the correction row (C5) in <i>both</i> provinces falls from evidenced to not publicly verifiable. The Ontario and Québec coders currently read this differently, so one rule is needed.</span>
+        <div class="q-meta"><span class="pill md" data-t="f3.f7_q1_p">both coders</span></div>
+      </div>
+    </details>
+    <details class="pattern">
+      <summary>
+        <span class="p-num">02</span>
+        <span class="q" data-t="f3.f7_q2_t">Clinician review (C3): does &ldquo;before use&rdquo; cover entry into the chart?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <span data-t="f3.f7_q2_b">Read strictly, there is no Ontario rule (asserted). Read broadly, the IPC duty counts, and the row becomes not publicly verifiable. This is the only Ontario row whose code would depend on the new coding rule. The Québec C3 row also needs to be checked against the current definition (C3 v2).</span>
+        <div class="q-meta"><span class="pill md" data-t="f3.f7_q2_p">both coders</span></div>
+      </div>
+    </details>
+    <details class="pattern">
+      <summary>
+        <span class="p-num">03</span>
+        <span class="q" data-t="f3.f7_q3_t">Record accuracy (C4): is the chart itself the evidence?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <span data-t="f3.f7_q3_b">Currently no: the chart is what the claim is about, not proof that accuracy was checked. If the team decides otherwise, Ontario C4 becomes evidenced, and Québec C4 needs the same treatment.</span>
+        <div class="q-meta"><span class="pill md" data-t="f3.f7_q3_p">both coders</span></div>
+      </div>
+    </details>
+    <details class="pattern">
+      <summary>
+        <span class="p-num">04</span>
+        <span class="q" data-t="f3.f7_q4_t">Add the IPC case on an AI-scribe breach to the corpus?</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <span data-t="f3.f7_q4_b">The IPC's April 2026 Case of Note (HR24-00691) is the first public IPC outcome about an AI scribe. It supports the complaints row, but it is a breach reported by a hospital, not a patient complaint. It must be captured and registered before it is cited.</span>
+        <div class="q-meta"><span class="pill hi" data-t="f3.f7_q4_p">Gainshin</span></div>
+      </div>
+    </details>
+    <details class="pattern">
+      <summary>
+        <span class="p-num">05</span>
+        <span class="q" data-t="f3.f7_q5_t">Finish the searches that are only partly done</span>
+        <i data-lucide="chevron-down" class="chev"></i>
+      </summary>
+      <div class="p-body">
+        <span data-t="f3.f7_q5_b">The IPC website search is behind a CAPTCHA, and the OntarioMD site search was not run. These searches support the &ldquo;not found&rdquo; notes, but they do not change any code.</span>
+        <div class="q-meta"><span class="pill lo" data-t="f3.f7_q5_p">method</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="section-header" id="f6">
+    <span class="sec-num">F6</span>
+    <span class="sec-title" data-t="f3.m6_title">Sources and references</span>
+  </div>
+  <p class="body-text" data-t="f3.m6_body">Every finding here is about the public record at its capture date (25 September &ndash; 5 October 2026), not about clinical performance. All Ontario quotes were checked word for word against the captured PDFs; 12 annotated copies of the Ontario sources are kept with SHA-256 hashes. The coding, the corpus register and the search log are in one working spreadsheet:</p>
+  <p class="body-text"><a href="https://docs.google.com/spreadsheets/d/1UyOMJ0JJ5ve7IvmgPCT53kSPEqpxU0ea5cTtvJRJpUE/edit?gid=669881776#gid=669881776" target="_blank" rel="noopener" data-t="f3.f8_link">ECSE 557 Corpus Register V2 — Google Sheets (coding, register, search log)</a><br><span style="font-size:.78rem;color:var(--mid);word-break:break-all">https://docs.google.com/spreadsheets/d/1UyOMJ0JJ5ve7IvmgPCT53kSPEqpxU0ea5cTtvJRJpUE/edit?gid=669881776#gid=669881776</span></p>
+  <h6 class="refs-h" data-t="f3.m6_ref_h">References</h6>
+  <div class="body-text" data-t="f3.m6_refs"><ul class="refs"><li>Hartzog, W., &amp; Silbey, J. (2026). How AI destroys institutions. <i>UC Law Journal, 77</i>, 727. <a href="https://scholarship.law.bu.edu/faculty_scholarship/4179" target="_blank" rel="noopener">scholarship.law.bu.edu/faculty_scholarship/4179</a> &mdash; used as a lens only and paraphrased in our own words; not coded and not in the corpus register.</li><li>Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). Don&rsquo;t trust the process: When verifiability undermines AI accountability. In <i>Proceedings of FAccT &rsquo;26</i> (pp. 5348&ndash;5370). ACM. <a href="https://doi.org/10.1145/3805689.3812373" target="_blank" rel="noopener">doi.org/10.1145/3805689.3812373</a></li></ul></div>
+
+  <div class="divider"></div>
+  <p class="body-text" style="color:var(--mid)" data-t="f3.app_note">The sections below hold the detailed evidence behind the argument above.</p>
+
+  <div class="section-header" id="a1">
+    <span class="sec-num">A1</span>
+    <span class="sec-title" data-t="f3.f1_title">The coding rule</span>
+  </div>
+  <p class="body-text" data-t="f3.f1_lead">The 18 September plan used three codes: evidenced, asserted, absent. Québec showed that this was not enough. Its certification requires evidence to exist, but does not publish it. With three codes, every Québec row would read <i>evidenced</i>, and the finding would turn upside down. So a fourth value was added. The agreed rule (CODE v1.1, 30 September) is:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:26%" data-t="f3.f1_th1">Code</th><th data-t="f3.f1_th2">When it applies</th></tr></thead>
+      <tbody>
+<tr><td><span class="pill lo">unchecked</span></td><td data-t="f3.f1_r1">The commitment has not yet been searched to the end.</td></tr>
+<tr><td><span class="pill lo">absent</span></td><td data-t="f3.f1_r2">Searched, and no claim in the public record. Needs a Search Log entry.</td></tr>
+<tr><td><span class="pill md">asserted</span></td><td data-t="f3.f1_r3">A claim is stated, but a criterion, an evidence artefact or a named verifier is missing.</td></tr>
+<tr><td><span class="pill md">not publicly verifiable</span></td><td data-t="f3.f1_r4">All four are present, but only the clinician, the buyer, a regulator or nobody outside can reach the evidence.</td></tr>
+<tr><td><span class="pill hi">evidenced</span></td><td data-t="f3.f1_r5">All four are present, and the patient (for their own record) or anyone (public record) can reach the evidence without asking permission.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-takeaway">
+    <span class="takeaway-label" data-t="f3.f1_takeaway_label">Why this matters</span>
+    <span data-t="f3.f1_takeaway_body">The new value records <b>who</b> can check, not only whether checking is possible. This is the &ldquo;for whom&rdquo; in RQ3. Under the new rule, no Ontario row changed its code; the rule matters for Québec.</span>
+  </div>
+
+  <div class="section-header" id="a2">
+    <span class="sec-num">A2</span>
+    <span class="sec-title" data-t="f3.f2_title">Ontario: what was expected, and what was found</span>
+  </div>
+  <p class="body-text" data-t="f3.f2_lead">The revised scope carried Ontario codes from the earlier analysis. The new coding read eight Ontario documents line by line: the Vendor of Record page, feature matrix and vendor profiles; two CPSO documents and a CPSO <i>Dialogue</i> article; and the IPC guidance and checklist. Every quote was checked word for word against the captured PDF.</p>
+  <div class="table-wrap arch">
+    <table>
+      <thead><tr><th style="width:17%" data-t="f3.f2_th1">Commitment</th><th style="width:15%" data-t="f3.f2_th2">Expected (18 Sep)</th><th style="width:15%" data-t="f3.f2_th3">Coded (5 Oct)</th><th data-t="f3.f2_th4">What the documents show</th></tr></thead>
+      <tbody>
+<tr><td data-t="f3.f2_c1"><b>Transparency</b><br>the patient is told</td><td><span class="pill md">asserted</span></td><td><span class="pill md">asserted</span></td><td data-t="f3.f2_r1">IPC guidance, restating PHIPA, says the patient must know that an AI scribe is used. A posted notice is only optional (&ldquo;may&rdquo;), so there is nothing a patient can check later.</td></tr>
+<tr><td data-t="f3.f2_c2"><b>Consent</b><br>and refusal without penalty</td><td><span class="pill md">asserted</span></td><td><span class="pill md">asserted</span></td><td data-t="f3.f2_r2">Refusal without penalty is required. Recording the consent in the chart is only &ldquo;a best practice&rdquo;, so no record exists that the patient could check.</td></tr>
+<tr><td data-t="f3.f2_c3"><b>Clinician review</b><br>before the chart</td><td><span class="pill md">asserted</span></td><td><span class="pill md">asserted</span></td><td data-t="f3.f2_r3"><b>The expected premise did not hold.</b> No Ontario rule requires review <i>before</i> the note enters the chart. The IPC requires review before the record is used or disclosed; review before entry is a best practice. 14 of 29 vendors offer direct chart posting.</td></tr>
+<tr><td data-t="f3.f2_c4"><b>Record accuracy</b></td><td><span class="pill lo">absent</span> <span style="font-size:.78rem;color:var(--mid)">at deployment</span></td><td><span class="pill md">asserted</span></td><td data-t="f3.f2_r4">There is a requirement after all: CPSO policy says the record must be accurate, and the tender says the product must transcribe accurately. But no accuracy test, metric or result is published.</td></tr>
+<tr><td data-t="f3.f2_c5"><b>Correction</b><br>when the record is wrong</td><td><span class="pill lo">absent</span></td><td><span class="pill hi">evidenced</span></td><td data-t="f3.f2_r5"><b>Opposite of the expectation.</b> CPSO policy requires a visible correction trail in the patient's own record, a notice to the patient, and a statement of disagreement if the correction is refused. The IPC adds that this covers &ldquo;contesting the accuracy of notes enabled by the use of AI scribes&rdquo;.</td></tr>
+<tr><td data-t="f3.f2_c6"><b>Complaints</b><br>where, and to whom</td><td><span class="pill lo" data-t="f3.not_in_plan">not in the plan</span></td><td><span class="pill hi">evidenced</span></td><td data-t="f3.f2_r6">New commitment. Every custodian must publish a statement that says how to complain to the IPC, and IPC decisions are public. The IPC has already published one outcome about an AI scribe (a hospital privacy breach, April 2026).</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-takeaway">
+    <span class="takeaway-label" data-t="f3.f2_takeaway_label">Where the evidence comes from</span>
+    <span data-t="f3.f2_takeaway_body">Both Ontario rows that reach <i>evidenced</i> come from general health law and the medical college. None comes from the AI scribe procurement.</span>
+  </div>
+
+  <div class="section-header" id="a3">
+    <span class="sec-num">A3</span>
+    <span class="sec-title" data-t="f3.f4_title">What Ontario's procurement does and does not produce</span>
+  </div>
+  <div class="framework-grid">
+    <div class="fw-card plan">
+      <h6 data-t="f3.f4_c1_h">What it names</h6>
+      <p data-t="f3.f4_c1_p">The only evidence artefacts the Vendor of Record names are about security: SOC 2 Type II, ISO 27001, HITRUST r2, and threat-risk and privacy-impact assessments. None of them touches the six patient-facing commitments. Clinician review appears only as a capability: &ldquo;Clinicians must be able to review/edit these notes&rdquo;.</p>
+    </div>
+    <div class="fw-card warn">
+      <h6 data-t="f3.f4_c2_h">What it leaves out</h6>
+      <p data-t="f3.f4_c2_p">There is no public rule for removing or suspending a qualified vendor. The January 2026 refresh is open to new vendors only; awarded vendors are not re-assessed. The Auditor General found that 11 of 20 approved vendors did not submit the required security reports, and 5 did not submit TRA/PIA, yet they were still approved.</p>
+    </div>
+  </div>
+  <div class="chart-takeaway">
+    <span class="takeaway-label" data-t="f3.f4_takeaway_label">Hypothesis confirmed</span>
+    <span data-t="f3.f4_takeaway_body">The working hypothesis of 26 September holds: for patient-facing commitments, Ontario's procurement names no evidence. Even the evidence it does name (security) was not enforced at award.</span>
+  </div>
+
+  <div class="section-header" id="a4">
+    <span class="sec-num">A4</span>
+    <span class="sec-title" data-t="f3.f6_title">Draft answers to the research questions</span>
+  </div>
+  <div class="block wide" data-t="f3.f6_rq1"><p><b>RQ1 — What commitments are stated?</b></p><p>Both provinces state all six: the patient is told, is asked and can refuse, a clinician reviews, the record is accurate, it can be corrected, and there is a place to complain. In Ontario, most of them are stated in professional advice and privacy guidance rather than in binding policy or in the procurement.</p></div>
+  <div class="block wide" data-t="f3.f6_rq2"><p><b>RQ2 — Claim, criterion, evidence, verifier?</b></p><p>Ontario usually has a claim and often a criterion, but rarely a named evidence artefact. Québec usually has all four, because certification criteria require an artefact and name the Bureau as verifier.</p></div>
+  <div class="block wide" data-t="f3.f6_rq3"><p><b>RQ3 — What is checkable, for whom, and when?</b></p><p><b>For whom:</b> in Ontario, what a patient can check comes from statute and the college. In Québec, certification makes more things checkable, but mostly for the buyer. <b>When:</b> Québec checks once, before certification, and the annual self-declaration revisits none of the AI criteria. Ontario's patient routes work only after the fact, through a correction request or a complaint.</p></div>
+
+  <div class="q-page-footer">
+    <div style="margin-bottom:.35rem;font-weight:700;color:var(--ink);font-size:.82rem;" data-t="f3.footer_tag">Revision provenance</div>
+    <p style="font-size:.82rem;line-height:1.6;color:var(--mid);margin-bottom:.55rem;" data-t="f3.footer_body">This tab adds findings and discussion questions to the revised scope of 18 September 2026; it does not replace the design. The revised scope and the original V2 pitch remain unchanged in their own tabs.</p>
+  </div>
+</main>
+</div>
+
+<div class="view-pane" id="view-scope" hidden>
 
 <div class="cover-label" data-t="v3.cover_label">Revised scope · 18 September 2026</div>
 <h1 class="cover-title" data-t="v3.cover_title">Ontario qualifies vendors through a procurement list. Québec certifies products one by one, in public, and can suspend one. The same patient-facing promises pass through two different machines.</h1>
@@ -954,6 +1225,166 @@ if (window.lucide) lucide.createIcons();
 
 var T = {
   en: {
+    "tabs.find": "Findings &amp; questions &middot; V3",
+    "tabs.find_badge": "current &middot; 5 Oct",
+    "tabs.scope_badge": "archived 18 Sep",
+    "f3.nav_grp_find": "Findings",
+    "f3.nav_f1": "The coding rule",
+    "f3.nav_f2": "Ontario: expected vs found",
+    "f3.nav_f3": "Two provinces side by side",
+    "f3.nav_f4": "What procurement produces",
+    "f3.nav_f5": "The Scribe MD test",
+    "f3.nav_grp_answer": "Answers",
+    "f3.nav_f6": "Draft answers to the RQs",
+    "f3.nav_f7": "Open decisions",
+    "f3.nav_f8": "Sources &amp; working files",
+    "f3.cover_label": "Findings so far &middot; notes for a conversation with Tamara Paris &middot; 5 October 2026",
+    "f3.cover_title": "Where can a patient still check an AI scribe? Mostly through rules that medicine already had, not through the new AI governance layer.",
+    "f3.cover_subtitle": "We coded six patient-facing commitments in Ontario (procurement) and Québec (certification). This tab sets out what we found at three levels: institutions, governance arrangements, and verification techniques. It ends with the questions we would like to discuss with Tamara Paris. Gainshin Hsiao coded Ontario; Eamon Leonard coded Québec. Points that are not settled are marked as open.",
+    "f3.f0_tag": "In short",
+    "f3.f0_lead": "Both provinces make the same six promises to patients. The difference is not whether evidence exists, but who is allowed to see it.",
+    "f3.f0_list": "<ul><li><b>Macro &middot; institutions.</b> The two things an Ontario patient can check &mdash; correction and complaints &mdash; come from PHIPA and CPSO policy, which belong to medicine as an institution. The governance made for AI scribes moves the right to check towards the buyer.</li><li><b>Meso &middot; governance.</b> Verification moves trust to third parties. In Ontario it moves to the procurer; in Québec, to the buyer and the certification office. Our <i>checkable_by</i> column shows this row by row.</li><li><b>Micro &middot; verification.</b> All four fallacies named by Paris, Moon and Guo appear in the documents, even though their paper is about computational methods.</li><li><b>Our question.</b> RQ2 has no column for who <i>produces</i> the evidence (the prover). In our data it is mostly the vendor being checked. Should we add it?</li></ul>",
+    "f3.f1_title": "The coding rule",
+    "f3.f1_lead": "The 18 September plan used three codes: evidenced, asserted, absent. Québec showed that this was not enough. Its certification requires evidence to exist, but does not publish it. With three codes, every Québec row would read <i>evidenced</i>, and the finding would turn upside down. So a fourth value was added. The agreed rule (CODE v1.1, 30 September) is:",
+    "f3.f1_th1": "Code",
+    "f3.f1_th2": "When it applies",
+    "f3.f1_r1": "The commitment has not yet been searched to the end.",
+    "f3.f1_r2": "Searched, and no claim in the public record. Needs a Search Log entry.",
+    "f3.f1_r3": "A claim is stated, but a criterion, an evidence artefact or a named verifier is missing.",
+    "f3.f1_r4": "All four are present, but only the clinician, the buyer, a regulator or nobody outside can reach the evidence.",
+    "f3.f1_r5": "All four are present, and the patient (for their own record) or anyone (public record) can reach the evidence without asking permission.",
+    "f3.f1_takeaway_label": "Why this matters",
+    "f3.f1_takeaway_body": "The new value records <b>who</b> can check, not only whether checking is possible. This is the &ldquo;for whom&rdquo; in RQ3. Under the new rule, no Ontario row changed its code; the rule matters for Québec.",
+    "f3.f2_title": "Ontario: what was expected, and what was found",
+    "f3.f2_lead": "The revised scope carried Ontario codes from the earlier analysis. The new coding read eight Ontario documents line by line: the Vendor of Record page, feature matrix and vendor profiles; two CPSO documents and a CPSO <i>Dialogue</i> article; and the IPC guidance and checklist. Every quote was checked word for word against the captured PDF.",
+    "f3.f2_th1": "Commitment",
+    "f3.f2_th2": "Expected (18 Sep)",
+    "f3.f2_th3": "Coded (5 Oct)",
+    "f3.f2_th4": "What the documents show",
+    "f3.f2_r1": "IPC guidance, restating PHIPA, says the patient must know that an AI scribe is used. A posted notice is only optional (&ldquo;may&rdquo;), so there is nothing a patient can check later.",
+    "f3.f2_r2": "Refusal without penalty is required. Recording the consent in the chart is only &ldquo;a best practice&rdquo;, so no record exists that the patient could check.",
+    "f3.f2_r3": "<b>The expected premise did not hold.</b> No Ontario rule requires review <i>before</i> the note enters the chart. The IPC requires review before the record is used or disclosed; review before entry is a best practice. 14 of 29 vendors offer direct chart posting.",
+    "f3.f2_r4": "There is a requirement after all: CPSO policy says the record must be accurate, and the tender says the product must transcribe accurately. But no accuracy test, metric or result is published.",
+    "f3.f2_r5": "<b>Opposite of the expectation.</b> CPSO policy requires a visible correction trail in the patient's own record, a notice to the patient, and a statement of disagreement if the correction is refused. The IPC adds that this covers &ldquo;contesting the accuracy of notes enabled by the use of AI scribes&rdquo;.",
+    "f3.f2_r6": "New commitment. Every custodian must publish a statement that says how to complain to the IPC, and IPC decisions are public. The IPC has already published one outcome about an AI scribe (a hospital privacy breach, April 2026).",
+    "f3.f2_c1": "<b>Transparency</b><br>the patient is told",
+    "f3.f2_c2": "<b>Consent</b><br>and refusal without penalty",
+    "f3.f2_c3": "<b>Clinician review</b><br>before the chart",
+    "f3.f2_c4": "<b>Record accuracy</b>",
+    "f3.f2_c5": "<b>Correction</b><br>when the record is wrong",
+    "f3.f2_c6": "<b>Complaints</b><br>where, and to whom",
+    "f3.not_in_plan": "not in the plan",
+    "f3.f2_takeaway_label": "Where the evidence comes from",
+    "f3.f2_takeaway_body": "Both Ontario rows that reach <i>evidenced</i> come from general health law and the medical college. None comes from the AI scribe procurement.",
+    "f3.f3_title": "Two provinces side by side",
+    "f3.f3_lead": "The table gives the current code and, in brackets, the widest group that can check the evidence. Québec rows are Eamon Leonard's coding; their final codes are still to be entered.",
+    "f3.f3_th1": "Commitment",
+    "f3.f3_th2": "Ontario &middot; procurement",
+    "f3.f3_th3": "Québec &middot; certification",
+    "f3.f3_q1": "Certification criterion IA2 requires a plain-language AI privacy policy on the company website. 9 of 10 certified suppliers publish one.",
+    "f3.f3_q2": "The product must record the clinician's attestation that consent was obtained (P06.04). Only the buying organisation holds that record.",
+    "f3.f3_q3": "The product must log clinician approvals and edits for the buyer to extract (IA52). Nothing requires anyone to look at the log.",
+    "f3.f3_q4": "Test reports are required (IA10–IA12), but none is public and no minimum level is set.",
+    "f3.f3_q5": "The right comes from the health-information statute (LRSSS art. 19), as in Ontario.",
+    "f3.f3_q6": "The complaints process must be public (P16.04). In practice, only 1 of 10 certified suppliers publishes a described process.",
+    "f3.cb_none": "nobody outside",
+    "f3.cb_buyer": "buyer",
+    "f3.cb_clin": "clinician",
+    "f3.cb_pat": "patient",
+    "f3.cb_any": "anyone",
+    "f3.f3_takeaway_label": "The governance form, in one line",
+    "f3.f3_takeaway_body": "Procurement produces almost no evidence about patient-facing promises. Certification produces evidence, but hands the right to check it to the <b>buyer</b>, not to the <b>patient</b>.",
+    "f3.f4_title": "What Ontario's procurement does and does not produce",
+    "f3.f4_c1_h": "What it names",
+    "f3.f4_c1_p": "The only evidence artefacts the Vendor of Record names are about security: SOC 2 Type II, ISO 27001, HITRUST r2, and threat-risk and privacy-impact assessments. None of them touches the six patient-facing commitments. Clinician review appears only as a capability: &ldquo;Clinicians must be able to review/edit these notes&rdquo;.",
+    "f3.f4_c2_h": "What it leaves out",
+    "f3.f4_c2_p": "There is no public rule for removing or suspending a qualified vendor. The January 2026 refresh is open to new vendors only; awarded vendors are not re-assessed. The Auditor General found that 11 of 20 approved vendors did not submit the required security reports, and 5 did not submit TRA/PIA, yet they were still approved.",
+    "f3.f4_takeaway_label": "Hypothesis confirmed",
+    "f3.f4_takeaway_body": "The working hypothesis of 26 September holds: for patient-facing commitments, Ontario's procurement names no evidence. Even the evidence it does name (security) was not enforced at award.",
+    "f3.f5_title": "The Scribe MD test",
+    "f3.f5_lead": "On 18 September the suspension of Scribe MD was called &ldquo;the single strongest reason to prefer Québec&rdquo;, and also the least documented. The rule was: confirm it with a dated primary record, or drop it from the argument.",
+    "f3.f5_body": "<ul><li>No dated primary record of a status change was found (register entry DOC-QC-CERT-005, closed as a documented absence).</li><li>The only archived snapshot in the period (9 July 2026) shows Scribe MD with status <i>Oui/Oui</i>.</li><li>An enquiry to the Bureau de certification was sent on 30 September; no reply yet.</li></ul>",
+    "f3.f5_takeaway_label": "Consequence",
+    "f3.f5_takeaway_body": "The enforcement claim comes out of the abstract and the framing. The Québec case still stands: it rests on the published product list and the certification criteria, not on an enforcement event. If the Bureau replies with a dated record, the claim can return.",
+    "f3.f6_title": "Draft answers to the research questions",
+    "f3.f6_rq1": "<p><b>RQ1 — What commitments are stated?</b></p><p>Both provinces state all six: the patient is told, is asked and can refuse, a clinician reviews, the record is accurate, it can be corrected, and there is a place to complain. In Ontario, most of them are stated in professional advice and privacy guidance rather than in binding policy or in the procurement.</p>",
+    "f3.f6_rq2": "<p><b>RQ2 — Claim, criterion, evidence, verifier?</b></p><p>Ontario usually has a claim and often a criterion, but rarely a named evidence artefact. Québec usually has all four, because certification criteria require an artefact and name the Bureau as verifier.</p>",
+    "f3.f6_rq3": "<p><b>RQ3 — What is checkable, for whom, and when?</b></p><p><b>For whom:</b> in Ontario, what a patient can check comes from statute and the college. In Québec, certification makes more things checkable, but mostly for the buyer. <b>When:</b> Québec checks once, before certification, and the annual self-declaration revisits none of the AI criteria. Ontario's patient routes work only after the fact, through a correction request or a complaint.</p>",
+    "f3.f6_takeaway_label": "The contribution, revised",
+    "f3.f6_takeaway_body": "Paris, Moon and Guo show that verification can move trust without earning it. This comparison shows where it moves: in Ontario, to a vendor list that checks security; in Québec, to a buyer who holds the evidence. In both, the patient's own reach depends mostly on general health law.",
+    "f3.f7_title": "Open decisions",
+    "f3.f7_q1_t": "Does a patient's access request count as &ldquo;asking permission&rdquo;?",
+    "f3.f7_q1_b": "If yes, the correction row (C5) in <i>both</i> provinces falls from evidenced to not publicly verifiable. The Ontario and Québec coders currently read this differently, so one rule is needed.",
+    "f3.f7_q1_p": "both coders",
+    "f3.f7_q2_t": "Clinician review (C3): does &ldquo;before use&rdquo; cover entry into the chart?",
+    "f3.f7_q2_b": "Read strictly, there is no Ontario rule (asserted). Read broadly, the IPC duty counts, and the row becomes not publicly verifiable. This is the only Ontario row whose code would depend on the new coding rule. The Québec C3 row also needs to be checked against the current definition (C3 v2).",
+    "f3.f7_q2_p": "both coders",
+    "f3.f7_q3_t": "Record accuracy (C4): is the chart itself the evidence?",
+    "f3.f7_q3_b": "Currently no: the chart is what the claim is about, not proof that accuracy was checked. If the team decides otherwise, Ontario C4 becomes evidenced, and Québec C4 needs the same treatment.",
+    "f3.f7_q3_p": "both coders",
+    "f3.f7_q4_t": "Add the IPC case on an AI-scribe breach to the corpus?",
+    "f3.f7_q4_b": "The IPC's April 2026 Case of Note (HR24-00691) is the first public IPC outcome about an AI scribe. It supports the complaints row, but it is a breach reported by a hospital, not a patient complaint. It must be captured and registered before it is cited.",
+    "f3.f7_q4_p": "Gainshin",
+    "f3.f7_q5_t": "Finish the searches that are only partly done",
+    "f3.f7_q5_b": "The IPC website search is behind a CAPTCHA, and the OntarioMD site search was not run. These searches support the &ldquo;not found&rdquo; notes, but they do not change any code.",
+    "f3.f7_q5_p": "method",
+    "f3.f8_title": "Sources and working files",
+    "f3.f8_body": "Every finding on this tab is a finding about the public record at its capture date (25 September – 5 October 2026), not about clinical performance. All Ontario quotes were checked word for word against the captured PDFs, with page and section; 12 annotated copies of the Ontario sources are kept with SHA-256 hashes. The coding, the corpus register and the search log are in one working spreadsheet:",
+    "f3.f8_link": "ECSE 557 Corpus Register V2 — Google Sheets (coding, register, search log)",
+    "f3.footer_tag": "Revision provenance",
+    "f3.footer_body": "This tab adds findings and discussion questions to the revised scope of 18 September 2026; it does not replace the design. The revised scope and the original V2 pitch remain unchanged in their own tabs.",
+    "f3.nav_grp_arg": "The argument",
+    "f3.nav_m1": "Macro: institutions",
+    "f3.nav_m2": "Meso: governance",
+    "f3.nav_m3": "Micro: verification",
+    "f3.nav_grp_talk": "For the conversation",
+    "f3.nav_m4": "Questions for Tamara",
+    "f3.nav_m5": "What is still open",
+    "f3.nav_m6": "Sources &amp; references",
+    "f3.nav_grp_app": "Evidence",
+    "f3.nav_a1": "The coding rule",
+    "f3.nav_a2": "Ontario: expected vs coded",
+    "f3.nav_a3": "What procurement produces",
+    "f3.nav_a4": "Draft answers to the RQs",
+    "f3.m1_title": "Macro: institutions",
+    "f3.m1_lead": "Hartzog and Silbey (2026) make a useful distinction between an <i>organisation</i> and an <i>institution</i>. An organisation is a body such as a hospital or a ministry. An institution is the wider set of rules, roles and shared expectations that holds a field like medicine together and keeps it answerable over time. They argue that AI can wear institutions down in three ways: it weakens human expertise, it shortens the steps where decisions are made and explained, and it isolates people, so there are fewer moments where someone can question a decision.",
+    "f3.m1_body": "<p>Read through this lens, our coding shows a pattern.</p><ul><li><b>Ontario.</b> The two commitments that reach <i>evidenced</i> &mdash; correcting the record (C5) and complaining (C6) &mdash; come from PHIPA and CPSO policy. These are rules of medicine as an institution; they existed before AI scribes. The governance made for AI scribes, the Vendor of Record, names evidence only for security.</li><li><b>Québec.</b> Correction also rests on the general health-information statute. Certification adds two things anyone can check: a plain-language AI privacy policy (IA2) and a public complaints process (P16.04). For consent, review and accuracy, however, the evidence goes to the buyer, or to nobody outside.</li></ul>",
+    "f3.m1_takeaway_label": "The macro claim",
+    "f3.m1_takeaway_body": "Accountability is still alive where the institution already was, not in the AI governance layer added on top. Québec is a partial exception (IA2, P16.04), and that is worth discussing. This is our reading: Hartzog and Silbey write about institutions in general and mention medicine only in passing.",
+    "f3.m2_title": "Meso: governance arrangements",
+    "f3.m2_lead": "Paris, Moon and Guo write: &ldquo;verification does not eliminate the need for trust; it transfers it from the actor to third parties&rdquo; (p.&nbsp;5359, &sect;4.3). In &sect;3.1 they add that what one party can verify, another party may not be able to verify, for example because of differences in knowledge or access (p.&nbsp;5354). Our <i>checkable_by</i> column and the &ldquo;for whom&rdquo; part of RQ3 turn these two points into data:",
+    "f3.m2_list": "<ul><li><b>Ontario:</b> trust moves to the procurer, Supply Ontario.</li><li><b>Québec:</b> trust moves to the buyer and the certification office.</li><li><b>The patient:</b> what patients can check for themselves rests on general health law.</li></ul>",
+    "f3.m2_table_lead": "The table gives the current code for each commitment and, in brackets, the widest group that can check the evidence without asking permission. Québec rows are Eamon Leonard's coding; final codes are still to be entered.",
+    "f3.m3_title": "Micro: verification techniques",
+    "f3.m3_lead": "Paris, Moon and Guo name four fallacies that make technical verification look stronger than it is. We use them here as a lens on the current evidence. One caution: their paper is about computational methods such as zero-knowledge proofs, and &sect;3.1 sets general audits and assessments outside its focus. Using the fallacies for procurement and certification is our extension.",
+    "f3.m3_th1": "Fallacy",
+    "f3.m3_th2": "In short",
+    "f3.m3_th3": "What our evidence shows",
+    "f3.m3_f1": "&sect;4.1 Non-contextual claim",
+    "f3.m3_d1": "Who turns the forum's expectations into a claim, and who can challenge it?",
+    "f3.m3_e1": "<b>Ontario:</b> the procurer set its own evaluation criteria and weights; we found no published scores. <b>Québec:</b> the certification office wrote 69 AI criteria with no minimum level, and outsiders cannot even see when the criteria took effect (enquiry S-QC-009, no reply yet).",
+    "f3.m3_f2": "&sect;4.2 Sequence of computations",
+    "f3.m3_d2": "Checking parts one by one is taken as a guarantee for the whole system.",
+    "f3.m3_e2": "For review (C3), the tool only has to <i>let</i> a clinician review; 14 of 29 vendors offer direct posting to the chart. Québec keeps a review log, but nobody is required to read it. Accuracy is tested once, before certification, and the annual self-declaration does not go back to it.",
+    "f3.m3_f3": "&sect;4.3 Trustless",
+    "f3.m3_d3": "Assumes the forum can carry out the verification on its own.",
+    "f3.m3_e3": "<b>Our core finding.</b> The patient cannot check most commitments. Trust moves to the buyer, the certification office and the procurer.",
+    "f3.m3_f4": "&sect;4.4 Narrow threat",
+    "f3.m3_d4": "Underestimates the actor's power to get around the check from outside the system.",
+    "f3.m3_e4": "Vendors' own descriptions are published on a government page (DOC-ON-VOR-003). Vendors submit their own test reports (IA10). The Auditor General found that vendors were approved without the required reports. Heidi shows its version number only inside a settings page, so it is hard for an outsider to tell which version is in use.",
+    "f3.m4_title": "Questions for Tamara",
+    "f3.m4_q1_t": "Should RQ2 record who produces the evidence (the prover)?",
+    "f3.m4_q1_b": "<p>Her Table 1 has three roles: the claim, the verifier and the prover. Our RQ2 has four columns: claim, criterion, evidence and verifier. It has no column for who <i>produces</i> the evidence.</p><p>In our data, the evidence is mostly produced by the vendor that is being checked: the test reports (IA10), the review log (IA52), the AI privacy policy (IA2), and the profiles on the Ontario vendor page. Table 1 notes that the prover and the adversary are often the actor itself (p.&nbsp;5355), and &sect;3.2.2 asks who the provers are and how they relate to the forum.</p><p><b>Our question:</b> should we add a <i>prover</i> column (for example vendor, clinician, buyer, regulator, independent third party)? It would show where the prover and the actor are the same party.</p>",
+    "f3.m4_q2_t": "Is it fair to apply the four fallacies to procurement and certification?",
+    "f3.m4_q2_b": "<p>Her paper focuses on computational verification, and &sect;3.1 puts broader assessments outside its focus. Procurement and certification are closer to those broader assessments. Yet all four fallacies appear clearly in our documents.</p><p><b>Our question:</b> does she see this as a fair extension of the framework, or should we present the fallacies only as an analogy?</p>",
+    "f3.m5_title": "What is still open",
+    "f3.m5_scribe": "<p><b>The Scribe MD suspension.</b> On 18 September this was called the strongest reason to choose Québec. We found no dated primary record of a status change (DOC-QC-CERT-005, closed as a documented absence). The only archived snapshot from the period (9 July 2026) shows Scribe MD as <i>Oui/Oui</i>. So the enforcement claim is out of the argument for now. The Québec case still stands, because it rests on the product list and the criteria, not on an enforcement event. An enquiry to the Bureau de certification was sent on 30 September.</p>",
+    "f3.m5_lead2": "Coding decisions that still need one shared rule:",
+    "f3.m6_title": "Sources and references",
+    "f3.m6_body": "Every finding here is about the public record at its capture date (25 September &ndash; 5 October 2026), not about clinical performance. All Ontario quotes were checked word for word against the captured PDFs; 12 annotated copies of the Ontario sources are kept with SHA-256 hashes. The coding, the corpus register and the search log are in one working spreadsheet:",
+    "f3.m6_ref_h": "References",
+    "f3.m6_refs": "<ul class=\"refs\"><li>Hartzog, W., &amp; Silbey, J. (2026). How AI destroys institutions. <i>UC Law Journal, 77</i>, 727. <a href=\"https://scholarship.law.bu.edu/faculty_scholarship/4179\" target=\"_blank\" rel=\"noopener\">scholarship.law.bu.edu/faculty_scholarship/4179</a> &mdash; used as a lens only and paraphrased in our own words; not coded and not in the corpus register.</li><li>Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). Don&rsquo;t trust the process: When verifiability undermines AI accountability. In <i>Proceedings of FAccT &rsquo;26</i> (pp. 5348&ndash;5370). ACM. <a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3805689.3812373</a></li></ul>",
+    "f3.app_note": "The sections below hold the detailed evidence behind the argument above.",
     "page.title": "HCI & AI literacy practices | Joshua Hsiao",
     "chrome.home": "Home",
     "chrome.current": "HCI & AI literacy practices",
@@ -1131,7 +1562,6 @@ var T = {
     "disclosure.body": "<span class=\"aid-h\">Declaration of Generative AI &amp; Tool Assistance</span><ul><li><b>Information retrieval &amp; literature search:</b> Perplexity was used for initial news discovery. Claude was employed to cross-check factual consistency and retrieve related academic citations.</li><li><b>Web development &amp; structuring:</b> Cursor was utilized to adapt the HTML/CSS template structure and maintain cross-page linking.</li><li><b>Editing &amp; polishing:</b> Grammarly was used for sentence fluency and grammatical correction.</li><li><b>Intellectual content:</b> All research questions, analytical matrices, theoretical framing, and core critical arguments were conceived, structured, and authored entirely by the human researcher.</li></ul>",
 
     "tabs.scope": "Revised scope &middot; Ontario &times; Qu&eacute;bec",
-    "tabs.scope_badge": "current",
     "tabs.orig": "Original pitch &middot; V2",
     "tabs.orig_badge": "archived 16 Sep",
     "v3.nav_grp_scope": "Revised scope",
@@ -1280,6 +1710,166 @@ var T = {
     "v3.footer_body": "This tab supersedes the four-program design of 16 September 2026. Nothing from that version has been deleted: its research questions, case-study architecture, fallacy mapping, ethical readings and full reference list remain under <b>Original pitch · V2</b>. Corpus register V1 (37 documents, captured 16 September 2026) is unchanged; the Québec captures listed in S6 will extend it.",
   },
   zh: {
+    "tabs.find": "發現與提問 &middot; V3",
+    "tabs.find_badge": "現行 &middot; 10/5",
+    "tabs.scope_badge": "已封存 9/18",
+    "f3.nav_grp_find": "發現",
+    "f3.nav_f1": "編碼規則",
+    "f3.nav_f2": "安大略：預期與結果",
+    "f3.nav_f3": "兩省並列",
+    "f3.nav_f4": "採購產出了什麼",
+    "f3.nav_f5": "Scribe MD 的檢驗",
+    "f3.nav_grp_answer": "回答",
+    "f3.nav_f6": "研究提問的初步回答",
+    "f3.nav_f7": "待決事項",
+    "f3.nav_f8": "來源與工作檔",
+    "f3.cover_label": "目前發現 &middot; 與 Tamara Paris 交流的筆記 &middot; 2026 年 10 月 5 日",
+    "f3.cover_title": "病人還能在哪裡查核 AI scribe？主要是透過醫療本來就有的規則，而不是新加上去的 AI 治理層。",
+    "f3.cover_subtitle": "我們在安大略（採購）與魁北克（認證）各編碼了六項面向病人的承諾。本分頁從三個層次整理發現：制度、治理安排、驗證技術，最後列出想與 Tamara Paris 討論的問題。安大略由 Gainshin Hsiao 編碼，魁北克由 Eamon Leonard 編碼。尚未定案的地方都已標明。",
+    "f3.f0_tag": "重點",
+    "f3.f0_lead": "兩省對病人做出的六項承諾大致相同。差別不在於有沒有證據，而在於誰看得到證據。",
+    "f3.f0_list": "<ul><li><b>宏觀 &middot; 制度。</b>安大略病人查得到的兩件事——更正與申訴——來自 PHIPA 與 CPSO 政策，屬於醫療這個制度本身。專為 AI scribe 建立的治理，則把查證權移向買方。</li><li><b>中觀 &middot; 治理安排。</b>驗證把信任移轉給第三方：在安大略移給採購單位；在魁北克移給買方與認證單位。我們的 <i>checkable_by</i> 欄位逐列呈現這一點。</li><li><b>微觀 &middot; 驗證技術。</b>Paris、Moon 與 Guo 指出的四個謬誤都出現在文件中，即使她們的論文談的是計算性方法。</li><li><b>我們的問題。</b>RQ2 沒有記錄「誰產生證據」（prover）的欄位。在我們的資料裡，證據多半由被查核的廠商自己產生。是否應該補上？</li></ul>",
+    "f3.f1_title": "編碼規則",
+    "f3.f1_lead": "9 月 18 日的計畫用三級代碼：evidenced、asserted、absent。魁北克顯示這不夠：它的認證要求證據存在，卻不公開證據。若只用三級，魁北克每一列都會是 <i>evidenced</i>，結論就會反過來。因此加入第四個值。經雙方同意的規則（CODE v1.1，9 月 30 日）如下：",
+    "f3.f1_th1": "代碼",
+    "f3.f1_th2": "適用情況",
+    "f3.f1_r1": "尚未搜尋完畢。",
+    "f3.f1_r2": "已搜尋，公開紀錄中沒有這項主張。需有 Search Log 紀錄。",
+    "f3.f1_r3": "有主張，但缺少標準、證據物件或指名的查核者。",
+    "f3.f1_r4": "四項都有，但只有醫師、買方、主管機關看得到證據，或外部無人看得到。",
+    "f3.f1_r5": "四項都有，而且病人（限本人紀錄）或任何人（公開紀錄）不需請求許可即可取得證據。",
+    "f3.f1_takeaway_label": "為何重要",
+    "f3.f1_takeaway_body": "新的值記錄的是<b>誰</b>能查，而不只是能不能查——這正是 RQ3 的「為誰」。新規則下，安大略沒有任何一列改變代碼；這條規則主要影響魁北克。",
+    "f3.f2_title": "安大略：預期與結果",
+    "f3.f2_lead": "修訂範圍沿用了先前分析的安大略代碼。這次重新逐行閱讀八份安大略文件：VOR 頁面、功能矩陣與廠商簡介；兩份 CPSO 文件與一篇 CPSO <i>Dialogue</i> 文章；以及 IPC 的指引與檢核表。每段引文都已對照擷取的 PDF 逐字核對。",
+    "f3.f2_th1": "承諾",
+    "f3.f2_th2": "預期（9/18）",
+    "f3.f2_th3": "編碼結果（10/5）",
+    "f3.f2_th4": "文件顯示",
+    "f3.f2_r1": "IPC 指引重述 PHIPA：病人必須知道有使用 AI scribe。張貼告示只是選擇性的（may），病人事後沒有任何可查的東西。",
+    "f3.f2_r2": "拒絕不得影響照護是硬性要求；但把同意記入病歷只是 best practice，因此沒有病人可查的紀錄。",
+    "f3.f2_r3": "<b>原本的前提不成立。</b>安大略沒有任何規定要求在筆記寫入病歷<i>之前</i>審閱。IPC 要求的是在使用或揭露前審閱；寫入前審閱只是 best practice。29 家廠商中有 14 家提供直接寫入病歷的功能。",
+    "f3.f2_r4": "其實有要求：CPSO 政策規定病歷必須準確，招標也要求產品必須準確轉錄。但沒有公開任何準確度測試、指標或結果。",
+    "f3.f2_r5": "<b>與預期相反。</b>CPSO 政策要求更正必須在病人本人的病歷中留下可見紀錄、通知病人，若拒絕更正，病人可附上不同意聲明。IPC 並指明這包括質疑 AI scribe 筆記的準確性。",
+    "f3.f2_r6": "新增的承諾。每個健康資訊保管者都必須公開聲明如何向 IPC 申訴，IPC 的決定也是公開的。IPC 已公開一件與 AI scribe 有關的處理結果（醫院個資外洩，2026 年 4 月）。",
+    "f3.f2_c1": "<b>透明</b><br>告知病人",
+    "f3.f2_c2": "<b>同意</b><br>與拒絕無懲罰",
+    "f3.f2_c3": "<b>醫師審閱</b><br>寫入病歷前",
+    "f3.f2_c4": "<b>病歷準確</b>",
+    "f3.f2_c5": "<b>更正</b><br>紀錄有誤時",
+    "f3.f2_c6": "<b>申訴</b><br>向何處、向誰",
+    "f3.not_in_plan": "原計畫未列",
+    "f3.f2_takeaway_label": "證據從何而來",
+    "f3.f2_takeaway_body": "安大略達到 <i>evidenced</i> 的兩列，都來自一般健康法規與醫師學院，沒有一列來自 AI scribe 的採購。",
+    "f3.f3_title": "兩省並列",
+    "f3.f3_lead": "表中列出目前的代碼，括號內是能查核證據的最廣群體。魁北克各列為 Eamon Leonard 的編碼，最終代碼尚待填入。",
+    "f3.f3_th1": "承諾",
+    "f3.f3_th2": "安大略 &middot; 採購",
+    "f3.f3_th3": "魁北克 &middot; 認證",
+    "f3.f3_q1": "認證準則 IA2 要求在公司網站公開白話的 AI 隱私政策；10 家已認證廠商中有 9 家已公開。",
+    "f3.f3_q2": "產品必須記錄醫師「已取得同意」的確認（P06.04），但只有買方持有這份紀錄。",
+    "f3.f3_q3": "產品必須記錄醫師的核可與修改，供買方匯出（IA52）。但沒有任何規定要求有人去看這份紀錄。",
+    "f3.f3_q4": "要求提出測試報告（IA10–IA12），但都不公開，也沒有設定最低標準。",
+    "f3.f3_q5": "權利來自健康資訊法（LRSSS 第 19 條），與安大略相同。",
+    "f3.f3_q6": "申訴流程必須公開（P16.04）。實際上 10 家已認證廠商中只有 1 家公開了完整流程。",
+    "f3.cb_none": "外部無人",
+    "f3.cb_buyer": "買方",
+    "f3.cb_clin": "醫師",
+    "f3.cb_pat": "病人",
+    "f3.cb_any": "任何人",
+    "f3.f3_takeaway_label": "一句話說明治理形式的差異",
+    "f3.f3_takeaway_body": "採購幾乎不產生與病人承諾有關的證據；認證會產生證據，但把查證的權利交給<b>買方</b>，而不是<b>病人</b>。",
+    "f3.f4_title": "安大略的採購產出了什麼、沒有產出什麼",
+    "f3.f4_c1_h": "它指定了什麼",
+    "f3.f4_c1_p": "VOR 唯一指定的證據物件都與資安有關：SOC 2 Type II、ISO 27001、HITRUST r2，以及威脅風險評估與隱私影響評估。沒有一項涉及六項面向病人的承諾。醫師審閱只以「功能」的形式出現：「醫師必須能夠審閱或編輯這些筆記」。",
+    "f3.f4_c2_h": "它遺漏了什麼",
+    "f3.f4_c2_p": "沒有任何移除或停權合格廠商的公開規則。2026 年 1 月的擴充只開放給新廠商，已得標的廠商不會重新評估。審計長發現，20 家獲准廠商中有 11 家沒有提交規定的資安報告、5 家沒有提交 TRA/PIA，但仍然獲准。",
+    "f3.f4_takeaway_label": "假設成立",
+    "f3.f4_takeaway_body": "9 月 26 日的工作假設成立：對面向病人的承諾，安大略的採購沒有指定任何證據。即使是它指定的證據（資安），在得標時也沒有落實。",
+    "f3.f5_title": "Scribe MD 的檢驗",
+    "f3.f5_lead": "9 月 18 日時，Scribe MD 停權被稱為「選擇魁北克最強的理由」，同時也是證據最少的一點。當時訂的規則是：以有日期的一手紀錄證實它，否則從論述中移除。",
+    "f3.f5_body": "<ul><li>找不到任何有日期的狀態變更一手紀錄（登錄項目 DOC-QC-CERT-005，以「documented absence」結案）。</li><li>該期間唯一的存檔快照（2026 年 7 月 9 日）顯示 Scribe MD 的狀態為 <i>Oui/Oui</i>。</li><li>9 月 30 日已去信認證單位詢問，尚未回覆。</li></ul>",
+    "f3.f5_takeaway_label": "影響",
+    "f3.f5_takeaway_body": "執法事件的主張要從摘要與論述框架中移除。魁北克個案仍然成立：它立足於公開的產品清單與認證準則，而不是執法事件。若認證單位回覆了有日期的紀錄，這項主張可以再放回來。",
+    "f3.f6_title": "研究提問的初步回答",
+    "f3.f6_rq1": "<p><b>RQ1——說了哪些承諾？</b></p><p>兩省都提出了全部六項：告知病人、詢問並可拒絕、醫師審閱、病歷準確、可以更正、有申訴管道。在安大略，大多數承諾寫在專業建議與隱私指引中，而不是在有約束力的政策或採購文件裡。</p>",
+    "f3.f6_rq2": "<p><b>RQ2——主張、標準、證據、查核者？</b></p><p>安大略通常有主張，也常有標準，但很少指定證據物件。魁北克通常四項齊全，因為認證準則要求證據物件，並指定認證單位為查核者。</p>",
+    "f3.f6_rq3": "<p><b>RQ3——什麼可查、為誰、在哪個階段？</b></p><p><b>為誰：</b>在安大略，病人查得到的東西來自法規與醫師學院；在魁北克，認證讓更多事情可查，但主要是給買方。<b>何時：</b>魁北克在認證前檢查一次，年度自我申報不會重新檢視任何 AI 準則；安大略病人的管道只在事後有效，透過更正請求或申訴。</p>",
+    "f3.f6_takeaway_label": "修訂後的貢獻",
+    "f3.f6_takeaway_body": "Paris、Moon 與 Guo 指出，查核可以在未曾贏得信任的情況下移轉信任。本比較顯示信任移往何處：在安大略，移往只查資安的供應商名單；在魁北克，移往持有證據的買方。兩省病人自己能查到多少，主要取決於一般健康法規。",
+    "f3.f7_title": "待決事項",
+    "f3.f7_q1_t": "病人申請調閱本人病歷，算不算「請求許可」？",
+    "f3.f7_q1_b": "若算，兩省的更正（C5）都會從 evidenced 降為 not publicly verifiable。目前兩位編碼者的解讀不同，需要訂出一致的規則。",
+    "f3.f7_q1_p": "雙方",
+    "f3.f7_q2_t": "醫師審閱（C3）：「使用前」是否涵蓋寫入病歷？",
+    "f3.f7_q2_b": "嚴格解讀，安大略沒有相關規則（asserted）；寬鬆解讀，IPC 的義務可以算數，這一列會變成 not publicly verifiable。這是安大略唯一會因新規則而改變代碼的一列。魁北克的 C3 也需要確認是否依現行定義（C3 v2）編碼。",
+    "f3.f7_q2_p": "雙方",
+    "f3.f7_q3_t": "病歷準確（C4）：病歷本身算不算證據？",
+    "f3.f7_q3_b": "目前判定為不算：病歷是主張的對象，不是準確度經過查核的證明。若團隊決定改採另一種解讀，安大略 C4 會變成 evidenced，魁北克 C4 也要比照處理。",
+    "f3.f7_q3_p": "雙方",
+    "f3.f7_q4_t": "是否將 IPC 的 AI scribe 外洩案收入語料？",
+    "f3.f7_q4_b": "IPC 2026 年 4 月的 Case of Note（HR24-00691）是第一份與 AI scribe 有關的 IPC 公開處理結果，可支持申訴一列；但它是醫院通報的外洩事件，不是病人申訴。引用前必須先擷取並登錄。",
+    "f3.f7_q4_p": "Gainshin",
+    "f3.f7_q5_t": "完成部分完成的搜尋",
+    "f3.f7_q5_b": "IPC 網站的站內搜尋有 CAPTCHA，OntarioMD 的站內搜尋尚未執行。這些搜尋用來支持「找不到」的備註，但不會改變任何代碼。",
+    "f3.f7_q5_p": "方法",
+    "f3.f8_title": "來源與工作檔",
+    "f3.f8_body": "本分頁的每一項發現，都是針對擷取日期（2026 年 9 月 25 日至 10 月 5 日）當時公開紀錄的發現，不涉及臨床表現。所有安大略引文都已對照擷取的 PDF 逐字核對頁碼與章節；12 份安大略來源的標註版均保留 SHA-256 雜湊值。編碼、語料登錄與搜尋紀錄都在同一份工作試算表中：",
+    "f3.f8_link": "ECSE 557 Corpus Register V2 — Google 試算表（編碼、登錄、搜尋紀錄）",
+    "f3.footer_tag": "改版來源說明",
+    "f3.footer_body": "本分頁在 2026 年 9 月 18 日修訂範圍的基礎上加入研究發現與討論問題，並未取代研究設計。修訂範圍與原始 V2 提案都保留在各自的分頁中，未作更動。",
+    "f3.nav_grp_arg": "論述",
+    "f3.nav_m1": "宏觀：制度",
+    "f3.nav_m2": "中觀：治理安排",
+    "f3.nav_m3": "微觀：驗證技術",
+    "f3.nav_grp_talk": "交流",
+    "f3.nav_m4": "給 Tamara 的問題",
+    "f3.nav_m5": "尚未定案",
+    "f3.nav_m6": "來源與參考文獻",
+    "f3.nav_grp_app": "證據",
+    "f3.nav_a1": "編碼規則",
+    "f3.nav_a2": "安大略：預期與結果",
+    "f3.nav_a3": "採購產出了什麼",
+    "f3.nav_a4": "研究提問的初步回答",
+    "f3.m1_title": "宏觀：制度",
+    "f3.m1_lead": "Hartzog 與 Silbey（2026）區分了<i>組織</i>與<i>制度</i>。組織是像醫院或衛生部這樣的單位；制度則是更廣的一套規則、角色與共同期待，讓醫療這樣的領域得以運作，並長期保持可被問責。他們主張，AI 會從三方面侵蝕制度：削弱人的專業、縮短做出並說明決策的環節，以及讓人彼此孤立，使人能對決策提出異議的時刻越來越少。",
+    "f3.m1_body": "<p>用這個角度來讀，我們的編碼呈現出一個模式。</p><ul><li><b>安大略。</b>達到 <i>evidenced</i> 的兩項承諾——更正病歷（C5）與申訴（C6）——來自 PHIPA 與 CPSO 政策。這些是醫療這個制度本身的規則，在 AI scribe 出現之前就已存在。專為 AI scribe 建立的治理（VOR）只對資安指定了證據。</li><li><b>魁北克。</b>更正同樣依靠一般健康資訊法。認證另外加入了兩項任何人都能查的東西：白話的 AI 隱私政策（IA2）與公開的申訴流程（P16.04）。但在同意、審閱與準確度上，證據交給了買方，或外部無人看得到。</li></ul>",
+    "f3.m1_takeaway_label": "宏觀層次的主張",
+    "f3.m1_takeaway_body": "問責還活著的地方，是既有的制度，而不是新加上去的 AI 治理層。魁北克是部分例外（IA2、P16.04），值得討論。這是我們的解讀：Hartzog 與 Silbey 談的是一般的制度，只是順帶提到醫療。",
+    "f3.m2_title": "中觀：治理安排",
+    "f3.m2_lead": "Paris、Moon 與 Guo 寫道：&ldquo;verification does not eliminate the need for trust; it transfers it from the actor to third parties&rdquo;（p.&nbsp;5359，&sect;4.3）。她們在 &sect;3.1 也指出，同一件事對某一方可驗證，對另一方卻未必，例如因為知識或取得管道不同（p.&nbsp;5354）。我們的 <i>checkable_by</i> 欄位與 RQ3 的「為誰」，正是把這兩點變成實證資料：",
+    "f3.m2_list": "<ul><li><b>安大略：</b>信任移轉到採購單位 Supply Ontario。</li><li><b>魁北克：</b>信任移轉到買方與認證單位。</li><li><b>病人：</b>病人自己查得到的，靠的是一般健康法規。</li></ul>",
+    "f3.m2_table_lead": "下表列出每項承諾目前的代碼，括號內是不需請求許可即可查核證據的最廣群體。魁北克各列為 Eamon Leonard 的編碼，最終代碼尚待填入。",
+    "f3.m3_title": "微觀：驗證技術",
+    "f3.m3_lead": "Paris、Moon 與 Guo 提出四個謬誤，說明技術性驗證為何看起來比實際更可靠。我們在這裡用它們來對照目前的證據。需要注意：她們的論文談的是零知識證明等計算性方法，&sect;3.1 也把一般的稽核與評估排除在焦點之外。把這些謬誤套用到採購與認證，是我們的延伸。",
+    "f3.m3_th1": "謬誤",
+    "f3.m3_th2": "簡述",
+    "f3.m3_th3": "目前的證據",
+    "f3.m3_f1": "&sect;4.1 非情境化的主張",
+    "f3.m3_d1": "誰把 forum 的期待轉成主張？誰能挑戰它？",
+    "f3.m3_e1": "<b>安大略：</b>採購單位自己訂定評選準則與權重，我們找不到公開的分數。<b>魁北克：</b>認證單位訂了 69 條 AI 準則，沒有最低標準，外界連準則何時生效都查不到（詢問 S-QC-009，尚未回覆）。",
+    "f3.m3_f2": "&sect;4.2 計算序列",
+    "f3.m3_d2": "逐一檢查元件，被當成對整個系統的保證。",
+    "f3.m3_e2": "在審閱（C3）上，工具只需<i>能讓</i>醫師審閱；29 家廠商中有 14 家可直接寫入病歷。魁北克有審閱紀錄，卻沒有人被要求去看。準確度只在認證前測一次，年度自我申報不會回頭檢查。",
+    "f3.m3_f3": "&sect;4.3 無需信任",
+    "f3.m3_d3": "假設 forum 能自己完成驗證。",
+    "f3.m3_e3": "<b>核心發現。</b>病人查不到大多數承諾，信任移轉到買方、認證單位和採購單位。",
+    "f3.m3_f4": "&sect;4.4 狹隘威脅",
+    "f3.m3_d4": "低估了 actor 在系統之外規避查核的能力。",
+    "f3.m3_e4": "廠商的自我描述刊在政府網頁上（DOC-ON-VOR-003）。測試報告由廠商自己提交（IA10）。審計長發現廠商沒交規定的報告仍然獲准。Heidi 的版本號只出現在設定頁裡，外人很難知道使用中的是哪個版本。",
+    "f3.m4_title": "給 Tamara 的問題",
+    "f3.m4_q1_t": "RQ2 是否應該記錄誰產生證據（prover）？",
+    "f3.m4_q1_b": "<p>她的 Table 1 有三個角色：主張（claim）、查核者（verifier）與 prover。我們的 RQ2 有四欄：主張、標準、證據、查核者，但沒有「誰<i>產生</i>證據」這一欄。</p><p>在我們的資料裡，證據多半由被查核的廠商自己產生：測試報告（IA10）、審閱紀錄（IA52）、AI 隱私政策（IA2），以及安大略供應商頁面上的簡介。Table 1 指出 prover 和 adversary 常常就是 actor 本身（p.&nbsp;5355），&sect;3.2.2 也問到 prover 是誰、與 forum 是什麼關係。</p><p><b>我們的問題：</b>是否要補上 <i>prover</i> 欄位（例如廠商、醫師、買方、主管機關、獨立第三方）？這樣可以直接看出 prover 與 actor 是否為同一方。</p>",
+    "f3.m4_q2_t": "把四個謬誤套用到採購與認證，是否合理？",
+    "f3.m4_q2_b": "<p>她的論文聚焦於計算性驗證，&sect;3.1 把更廣的評估排除在焦點之外。採購與認證比較接近那些更廣的評估，但四個謬誤在我們的文件裡都清楚出現。</p><p><b>我們的問題：</b>她認為這是對框架合理的延伸，還是我們只應把這些謬誤當作類比來呈現？</p>",
+    "f3.m5_title": "尚未定案",
+    "f3.m5_scribe": "<p><b>Scribe MD 停權。</b>9 月 18 日時，這被視為選擇魁北克最強的理由。我們找不到任何有日期的狀態變更一手紀錄（DOC-QC-CERT-005，以 documented absence 結案）。該期間唯一的存檔快照（2026 年 7 月 9 日）顯示 Scribe MD 為 <i>Oui/Oui</i>。因此執法事件的主張暫時移出論述。魁北克個案仍然成立，因為它立足於產品清單與準則，而不是執法事件。9 月 30 日已去信認證單位詢問。</p>",
+    "f3.m5_lead2": "仍需訂出一致規則的編碼判斷：",
+    "f3.m6_title": "來源與參考文獻",
+    "f3.m6_body": "這裡的每一項發現，都是針對擷取日期（2026 年 9 月 25 日至 10 月 5 日）當時公開紀錄的發現，不涉及臨床表現。所有安大略引文都已對照擷取的 PDF 逐字核對；12 份安大略來源的標註版都保留了 SHA-256 雜湊值。編碼、語料登錄與搜尋紀錄都在同一份工作試算表中：",
+    "f3.m6_ref_h": "參考文獻",
+    "f3.m6_refs": "<ul class=\"refs\"><li>Hartzog, W., &amp; Silbey, J. (2026). How AI destroys institutions. <i>UC Law Journal, 77</i>, 727. <a href=\"https://scholarship.law.bu.edu/faculty_scholarship/4179\" target=\"_blank\" rel=\"noopener\">scholarship.law.bu.edu/faculty_scholarship/4179</a>——僅作為分析視角，以我們自己的話轉述；不編碼，也不列入語料登錄。</li><li>Paris, T., Moon, A., &amp; Guo, J. L. C. (2026). Don&rsquo;t trust the process: When verifiability undermines AI accountability. In <i>Proceedings of FAccT &rsquo;26</i> (pp. 5348&ndash;5370). ACM. <a href=\"https://doi.org/10.1145/3805689.3812373\" target=\"_blank\" rel=\"noopener\">doi.org/10.1145/3805689.3812373</a></li></ul>",
+    "f3.app_note": "以下各節是上述論述背後的詳細證據。",
     "page.title": "HCI 與 AI 識讀實踐 | Joshua Hsiao",
     "chrome.home": "首頁",
     "chrome.current": "HCI 與 AI 識讀實踐",
@@ -1457,7 +2047,6 @@ var T = {
     "disclosure.body": "<span class=\"aid-h\">AI 與輔助工具使用聲明</span><ul><li><b>資訊檢索與文獻查核：</b>使用 Perplexity 進行初步新聞檢索；使用 Claude 交叉驗證新聞真實性與查詢關聯學術文獻。</li><li><b>網頁架構與開發：</b>使用 Cursor 基於既有研究網頁模板進行版面結構調整與超連結維護。</li><li><b>文字潤飾：</b>使用 Grammarly 輔助文法檢查與語句修飾。</li><li><b>原創性聲明：</b>本研究之核心提問、分析表格、理論透鏡與論點框架，均由研究者獨立構思、撰寫與論證。</li></ul>",
 
     "tabs.scope": "更新後範圍 · 安大略 × 魁北克",
-    "tabs.scope_badge": "現行",
     "tabs.orig": "原始提案 · V2",
     "tabs.orig_badge": "9/16 存檔",
     "v3.nav_grp_scope": "更新後範圍",
@@ -1721,16 +2310,16 @@ var refreshSpy;
   refreshSpy();
 })();
 
-/* ---- View tabs: revised scope (default) vs archived V2 pitch ------ */
-var view = 'scope';
+/* ---- View tabs: findings V3 (default), revised scope, archived V2 pitch ---- */
+var view = 'find';
 try {
-  var savedView = localStorage.getItem('hciView');
-  if (savedView === 'scope' || savedView === 'orig') view = savedView;
+  var savedView = localStorage.getItem('hciViewV3');
+  if (savedView === 'find' || savedView === 'scope' || savedView === 'orig') view = savedView;
 } catch (e) {}
 
 function setView(next) {
-  view = (next === 'orig') ? 'orig' : 'scope';
-  try { localStorage.setItem('hciView', view); } catch (e) {}
+  view = (next === 'orig' || next === 'scope') ? next : 'find';
+  try { localStorage.setItem('hciViewV3', view); } catch (e) {}
 
   document.querySelectorAll('.view-pane').forEach(function (p) {
     p.hidden = (p.id !== 'view-' + view);
